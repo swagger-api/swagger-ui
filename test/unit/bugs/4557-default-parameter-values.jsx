@@ -1,7 +1,7 @@
-/* eslint-env mocha */
+
 import React from "react"
 import { List, fromJS } from "immutable"
-import expect, { createSpy } from "expect"
+
 import { render } from "enzyme"
 import ParameterRow from "components/parameter-row"
 
@@ -24,7 +24,7 @@ describe("bug #4557: default parameter values", function(){
       },
       fn: {},
       operation: {get: ()=>{}},
-      onChange: createSpy(),
+      onChange: jest.fn(),
       param: paramValue,
       rawParam: paramValue,
       onChangeConsumes: () => {},
@@ -61,7 +61,7 @@ describe("bug #4557: default parameter values", function(){
       },
       fn: {},
       operation: {get: ()=>{}},
-      onChange: createSpy(),
+      onChange: jest.fn(),
       param: paramValue,
       rawParam: paramValue,
       onChangeConsumes: () => {},

@@ -1,7 +1,5 @@
-/* eslint-env mocha */
 import React from "react"
 import { fromJSOrdered } from "core/utils"
-import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
 import Curl from "components/curl"
 import LiveResponse from "components/live-response"
@@ -50,8 +48,8 @@ describe("<LiveResponse/>", function(){
         duration: 50
       })
 
-      let mutatedRequestForSpy = createSpy().andReturn(mutatedRequest)
-      let requestForSpy = createSpy().andReturn(request) 
+      let mutatedRequestForSpy = jest.fn.mockImplementation((mutatedRequest) => mutatedRequest)
+      let requestForSpy = jest.fn.mockImplementation((request) => request) 
 
       let components = {
         curl: Curl,

@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { authorizeRequest, authorizeAccessCodeWithFormParams } from "corePlugins/auth/actions";
+
+import { authorizeRequest, authorizeAccessCodeWithFormParams } from "corePlugins/auth/actions"
 
 describe("auth plugin - actions", () => {
 

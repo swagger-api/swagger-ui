@@ -1,12 +1,7 @@
-/* eslint-env mocha */
 import React from "react"
-import expect from "expect"
-import { configure, render } from "enzyme"
-import Adapter from "enzyme-adapter-react-15"
+import { render } from "enzyme"
 import Markdown from "components/providers/markdown"
 import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markdown.jsx"
-
-configure({ adapter: new Adapter() })
 
 describe("Markdown Link Anchor Safety", function () {
   describe("Swagger 2.0", function () {
@@ -18,8 +13,8 @@ describe("Markdown Link Anchor Safety", function () {
 
       expect(anchor.attr("href")).toEqual("http://google.com/")
       expect(anchor.attr("target")).toEqual("_blank")
-      expect(anchor.attr("rel") || "").toInclude("noopener")
-      expect(anchor.attr("rel") || "").toInclude("noreferrer")
+      expect(anchor.attr("rel") || "").toMatch("noopener")
+      expect(anchor.attr("rel") || "").toMatch("noreferrer")
     })
 
     it("sanitizes raw HTML links", function () {
@@ -29,8 +24,8 @@ describe("Markdown Link Anchor Safety", function () {
       const anchor = wrapper.find("a")
 
       expect(anchor.attr("href")).toEqual("http://google.com/")
-      expect(anchor.attr("rel") || "").toInclude("noopener")
-      expect(anchor.attr("rel") || "").toInclude("noreferrer")
+      expect(anchor.attr("rel") || "").toMatch("noopener")
+      expect(anchor.attr("rel") || "").toMatch("noreferrer")
     })
   })
 
@@ -43,8 +38,8 @@ describe("Markdown Link Anchor Safety", function () {
 
       expect(anchor.attr("href")).toEqual("http://google.com/")
       expect(anchor.attr("target")).toEqual("_blank")
-      expect(anchor.attr("rel") || "").toInclude("noopener")
-      expect(anchor.attr("rel") || "").toInclude("noreferrer")
+      expect(anchor.attr("rel") || "").toMatch("noopener")
+      expect(anchor.attr("rel") || "").toMatch("noreferrer")
     })
 
     it("sanitizes raw HTML links", function () {
@@ -54,8 +49,8 @@ describe("Markdown Link Anchor Safety", function () {
       const anchor = wrapper.find("a")
 
       expect(anchor.attr("href")).toEqual("http://google.com/")
-      expect(anchor.attr("rel") || "").toInclude("noopener")
-      expect(anchor.attr("rel") || "").toInclude("noreferrer")
+      expect(anchor.attr("rel") || "").toMatch("noopener")
+      expect(anchor.attr("rel") || "").toMatch("noreferrer")
     })
   })
 })

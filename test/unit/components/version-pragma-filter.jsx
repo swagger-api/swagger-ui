@@ -1,8 +1,5 @@
-/* eslint-env mocha */
 import React from "react"
-import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
-import { fromJS, Map } from "immutable"
 import VersionPragmaFilter from "components/version-pragma-filter"
 
 describe("<VersionPragmaFilter/>", function(){

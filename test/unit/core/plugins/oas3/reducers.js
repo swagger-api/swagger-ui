@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { fromJS } from "immutable";
+
+import { fromJS } from "immutable"
 import reducer from "corePlugins/oas3/reducers"
 
 describe("oas3 plugin - reducer", function () {

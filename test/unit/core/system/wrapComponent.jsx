@@ -1,5 +1,5 @@
 import React from "react"
-import expect from "expect"
+
 import { render } from "enzyme"
 import System from "core/system"
 

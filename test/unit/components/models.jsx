@@ -1,6 +1,4 @@
-/* eslint-env mocha */
 import React from "react"
-import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
 import { fromJS, Map } from "immutable"
 import Models from "components/models"
@@ -29,7 +27,7 @@ describe("<Models/>", function(){
       specResolvedSubtree: () => {}
     },
     layoutSelectors: {
-      isShown: createSpy()
+      isShown: jest.fn()
     },
     layoutActions: {},
     getConfigs: () => ({

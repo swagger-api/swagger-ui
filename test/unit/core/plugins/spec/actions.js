@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { fromJS } from "immutable";
+
+import { fromJS } from "immutable"
 import { execute, executeRequest, changeParamByIdentity, updateEmptyParamInclusion } from "corePlugins/spec/actions"
 
 describe("spec plugin - actions", function(){

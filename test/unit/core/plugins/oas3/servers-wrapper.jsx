@@ -1,7 +1,5 @@
 
-/* eslint-env mocha */
 import React from "react"
-import expect from "expect"
 import { mount } from "enzyme"
 import { fromJS } from "immutable"
 import ServersContainer from "core/plugins/oas3/components/servers-container"

@@ -1,6 +1,4 @@
-/* eslint-env mocha */
 import React from "react"
-import expect from "expect"
 import { shallow } from "enzyme"
 import { fromJS } from "immutable"
 import PrimitiveModel from "components/primitive-model"

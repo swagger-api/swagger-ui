@@ -1,6 +1,4 @@
-/* eslint-env mocha */
 import React from "react"
-import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
 import Operation from "components/operation"
 
@@ -16,7 +14,7 @@ describe("<Operation/>", function(){
       shown: true,
       showOpId: "",
       showOpIdPrefix: "",
-      toggleCollapse: createSpy()
+      toggleCollapse: jest.fn()
     }
 
     let wrapper = shallow(<Operation {...props}/>)

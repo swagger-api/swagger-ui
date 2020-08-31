@@ -1,6 +1,4 @@
-/* eslint-env mocha */
 import React from "react"
-import expect from "expect"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
 import DeepLink from "components/deep-link"

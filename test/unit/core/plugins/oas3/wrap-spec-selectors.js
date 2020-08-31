@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { Map, fromJS } from "immutable";
+
+import { fromJS } from "immutable"
 import {
   definitions
 } from "corePlugins/oas3/spec-extensions/wrap-selectors"

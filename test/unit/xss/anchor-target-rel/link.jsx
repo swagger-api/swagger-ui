@@ -1,12 +1,6 @@
-/* eslint-env mocha */
 import React from "react"
-import expect from "expect"
-import { configure, render } from "enzyme"
-import Adapter from "enzyme-adapter-react-15"
-import { fromJS } from "immutable"
+import { render } from "enzyme"
 import { Link } from "components/layout-utils"
-
-configure({ adapter: new Adapter() })
 
 describe("<Link/> Anchor Target Safety", function () {
   const dummyComponent = () => null
@@ -26,8 +20,8 @@ describe("<Link/> Anchor Target Safety", function () {
     const anchor = wrapper.find("a")
 
     expect(anchor.attr("href")).toEqual("http://google.com/")
-    expect(anchor.attr("rel") || "").toInclude("noopener")
-    expect(anchor.attr("rel") || "").toInclude("noreferrer")
+    expect(anchor.attr("rel") || "").toMatch("noopener")
+    expect(anchor.attr("rel") || "").toMatch("noreferrer")
   })
 
   it("enforces `noreferrer` and `noopener` on target=_blank links", function () {
@@ -41,7 +35,7 @@ describe("<Link/> Anchor Target Safety", function () {
 
     expect(anchor.attr("href")).toEqual("http://google.com/")
     expect(anchor.attr("target")).toEqual("_blank")
-    expect(anchor.attr("rel") || "").toInclude("noopener")
-    expect(anchor.attr("rel") || "").toInclude("noreferrer")
+    expect(anchor.attr("rel") || "").toMatch("noopener")
+    expect(anchor.attr("rel") || "").toMatch("noreferrer")
   })
 })

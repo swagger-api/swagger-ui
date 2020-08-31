@@ -1,6 +1,6 @@
-/* eslint-env mocha */
+
 import React, { PureComponent } from "react"
-import expect from "expect"
+
 import System from "core/system"
 import { fromJS } from "immutable"
 import { render } from "enzyme"
@@ -755,10 +755,10 @@ describe("bound system", function(){
 
 
       // When
-      expect(function() {
+      expect(() => {
         system.register([ThrowyPlugin])
         // let resSystem = system.getSystem()
-      }).toNotThrow()
+      }).not.toThrow()
     })
 
     it("should encapsulate thrown errors in an action creator", function(){
@@ -779,10 +779,10 @@ describe("bound system", function(){
 
       })
 
-      expect(function() {
+      expect(() => {
         // TODO: fix existing action error catcher that creates THROWN ERR actions
         system.getSystem().throwActions.func()
-      }).toNotThrow()
+      }).not.toThrow()
     })
 
     it("should encapsulate thrown errors in a reducer", function(){
@@ -811,9 +811,9 @@ describe("bound system", function(){
 
       })
 
-      expect(function() {
+      expect(() => {
         system.getSystem().throwActions.func()
-      }).toNotThrow()
+      }).not.toThrow()
     })
 
     it("should encapsulate thrown errors in a selector", function(){
@@ -834,7 +834,7 @@ describe("bound system", function(){
 
       })
 
-      expect(system.getSystem().throwSelectors.func).toNotThrow()
+      expect(system.getSystem().throwSelectors.func).not.toThrow()
     })
 
     it("should encapsulate thrown errors in a complex selector", function(){
@@ -855,7 +855,7 @@ describe("bound system", function(){
 
       })
 
-      expect(system.getSystem().throwSelectors.func).toNotThrow()
+      expect(system.getSystem().throwSelectors.func).not.toThrow()
     })
 
     it("should encapsulate thrown errors in a wrapAction", function(){
@@ -884,7 +884,7 @@ describe("bound system", function(){
 
       })
 
-      expect(system.getSystem().throwActions.func).toNotThrow()
+      expect(system.getSystem().throwActions.func).not.toThrow()
     })
 
     it("should encapsulate thrown errors in a wrapSelector", function(){
@@ -910,7 +910,7 @@ describe("bound system", function(){
 
       })
 
-      expect(system.getSystem().throwSelectors.func).toNotThrow()
+      expect(system.getSystem().throwSelectors.func).not.toThrow()
     })
 
     describe("components", function() {

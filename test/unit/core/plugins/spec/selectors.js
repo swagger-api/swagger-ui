@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { fromJS } from "immutable";
+
+import { fromJS } from "immutable"
 import { fromJSOrdered } from "core/utils"
 import {
   definitions,

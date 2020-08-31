@@ -1,6 +1,4 @@
-/* eslint-env mocha */
 import React from "react"
-import expect from "expect"
 import { render } from "enzyme"
 import Markdown from "components/providers/markdown"
 

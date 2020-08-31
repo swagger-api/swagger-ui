@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { downloadConfig } from "corePlugins/configs/spec-actions";
+
+import { downloadConfig } from "corePlugins/configs/spec-actions"
 
 describe("configs plugin - actions", () => {
 

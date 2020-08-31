@@ -1,5 +1,4 @@
 import React from "react"
-import expect from "expect"
 import { shallow } from "enzyme"
 import ResponseBody from "components/response-body"
 

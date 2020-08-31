@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { Map, fromJS } from "immutable";
+
+import { fromJS } from "immutable"
 import {
   definitionsToAuthorize
 } from "corePlugins/oas3/auth-extensions/wrap-selectors"

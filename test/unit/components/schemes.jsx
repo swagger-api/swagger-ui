@@ -1,7 +1,4 @@
-
-/* eslint-env mocha */
 import React from "react"
-import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
 import { fromJS } from "immutable"
 import Schemes from "components/schemes"
@@ -9,7 +6,7 @@ import Schemes from "components/schemes"
 describe("<Schemes/>", function(){
   it("calls props.specActions.setScheme() when no currentScheme is selected", function(){
 
-    let setSchemeSpy = createSpy()
+    let setSchemeSpy = jest.fn()
 
     // Given
     let props = {
@@ -43,7 +40,7 @@ describe("<Schemes/>", function(){
 
   it("doesn't call props.specActions.setScheme() when schemes hasn't changed", function(){
 
-    let setSchemeSpy = createSpy()
+    let setSchemeSpy = jest.fn()
 
     // Given
     let props = {
@@ -61,12 +58,12 @@ describe("<Schemes/>", function(){
     let wrapper = shallow(<Schemes {...props}/>)
 
     // Should be called initially, to set the global state
-    expect(setSchemeSpy.calls.length).toEqual(1)
+    expect(setSchemeSpy.mock.calls.length).toEqual(1)
 
     // After an update
     wrapper.instance().componentWillReceiveProps(props)
 
     // Should not be called again, since `currentScheme` is in schemes
-    expect(setSchemeSpy.calls.length).toEqual(1)
+    expect(setSchemeSpy.mock.calls.length).toEqual(1)
   })
 })

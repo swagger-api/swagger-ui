@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { fromJS } from "immutable";
+
+import { fromJS } from "immutable"
 import { preauthorizeBasic, preauthorizeApiKey } from "corePlugins/auth"
 import { authorize } from "corePlugins/auth/actions"
 

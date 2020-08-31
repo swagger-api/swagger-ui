@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+
 import { Map, fromJS } from "immutable"
 import {
   mapToList,

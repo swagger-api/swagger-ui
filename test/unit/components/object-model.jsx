@@ -1,14 +1,13 @@
 import React from "react"
-import expect from "expect"
 import { shallow } from "enzyme"
-import { fromJS, List } from "immutable"
+import { List } from "immutable"
 import ObjectModel from "components/object-model"
-import ModelExample from "components/model-example"
+// import ModelExample from "components/model-example"
 import Immutable from "immutable"
 import Model from "components/model"
 import ModelCollapse from "components/model-collapse"
 import Property from "components/property"
-import { inferSchema } from "corePlugins/samples/fn"
+// import { inferSchema } from "corePlugins/samples/fn"
 
 describe("<ObjectModel />", function() {
     const dummyComponent = () => null

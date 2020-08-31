@@ -1,14 +1,9 @@
-/* eslint-env mocha */
 import React from "react"
-import expect from "expect"
-import { configure, render } from "enzyme"
-import Adapter from "enzyme-adapter-react-15"
+import { render } from "enzyme"
 import { fromJS } from "immutable"
 import Info, { InfoUrl } from "components/info"
 import { Link } from "components/layout-utils"
 import Markdown from "components/providers/markdown"
-
-configure({ adapter: new Adapter() })
 
 describe("<Info/> Anchor Target Safety", function(){
 	const dummyComponent = () => null
@@ -38,8 +33,8 @@ describe("<Info/> Anchor Target Safety", function(){
 
 		expect(anchor.html()).toEqual("http://google.com/")
 		expect(anchor.attr("target")).toEqual("_blank")
-		expect(anchor.attr("rel") || "").toInclude("noopener")
-		expect(anchor.attr("rel") || "").toInclude("noreferrer")
+		expect(anchor.attr("rel") || "").toMatch("noopener")
+		expect(anchor.attr("rel") || "").toMatch("noreferrer")
 	})
 
 	it("renders Contact links with safe `rel` attributes", function () {
@@ -57,8 +52,8 @@ describe("<Info/> Anchor Target Safety", function(){
 
 		expect(anchor.attr("href")).toEqual("http://google.com/")
 		expect(anchor.attr("target")).toEqual("_blank")
-		expect(anchor.attr("rel") || "").toInclude("noopener")
-		expect(anchor.attr("rel") || "").toInclude("noreferrer")
+		expect(anchor.attr("rel") || "").toMatch("noopener")
+		expect(anchor.attr("rel") || "").toMatch("noreferrer")
 	})
 
 	it("renders License links with safe `rel` attributes", function () {
@@ -75,8 +70,8 @@ describe("<Info/> Anchor Target Safety", function(){
 
 		expect(anchor.attr("href")).toEqual("http://mit.edu/")
 		expect(anchor.attr("target")).toEqual("_blank")
-		expect(anchor.attr("rel") || "").toInclude("noopener")
-		expect(anchor.attr("rel") || "").toInclude("noreferrer")
+		expect(anchor.attr("rel") || "").toMatch("noopener")
+		expect(anchor.attr("rel") || "").toMatch("noreferrer")
 	})
 
 	it("renders termsOfService links with safe `rel` attributes", function () {
@@ -91,8 +86,8 @@ describe("<Info/> Anchor Target Safety", function(){
 
 		expect(anchor.attr("href")).toEqual("http://smartbear.com/")
 		expect(anchor.attr("target")).toEqual("_blank")
-		expect(anchor.attr("rel") || "").toInclude("noopener")
-		expect(anchor.attr("rel") || "").toInclude("noreferrer")
+		expect(anchor.attr("rel") || "").toMatch("noopener")
+		expect(anchor.attr("rel") || "").toMatch("noreferrer")
 	})
 
 	it("renders definition URL links with safe `rel` attributes", function () {
@@ -105,7 +100,7 @@ describe("<Info/> Anchor Target Safety", function(){
 
 		expect(anchor.attr("href")).toEqual("http://petstore.swagger.io/v2/petstore.json")
 		expect(anchor.attr("target")).toEqual("_blank")
-		expect(anchor.attr("rel") || "").toInclude("noopener")
-		expect(anchor.attr("rel") || "").toInclude("noreferrer")
+		expect(anchor.attr("rel") || "").toMatch("noopener")
+		expect(anchor.attr("rel") || "").toMatch("noreferrer")
 	})
 })

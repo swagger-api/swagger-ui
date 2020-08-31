@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import win from "core/window";
+
+import win from "core/window"
 import oauth2Authorize from "core/oauth2-authorize"
 import * as utils from "core/utils"
 

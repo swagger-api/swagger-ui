@@ -1,5 +1,5 @@
-/* eslint-env mocha */
-import { execute } from "corePlugins/auth/spec-wrap-actions";
+
+import { execute } from "corePlugins/auth/spec-wrap-actions"
 
 describe("spec plugin - actions", function(){
 

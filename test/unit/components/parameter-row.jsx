@@ -1,7 +1,5 @@
-/* eslint-env mocha */
 import React from "react"
 import { fromJS } from "immutable"
-import expect from "expect"
 import { render } from "enzyme"
 import ParameterRow from "components/parameter-row"
 
