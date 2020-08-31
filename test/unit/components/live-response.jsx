@@ -48,8 +48,8 @@ describe("<LiveResponse/>", function(){
         duration: 50
       })
 
-      let mutatedRequestForSpy = jest.fn.mockImplementation((mutatedRequest) => mutatedRequest)
-      let requestForSpy = jest.fn.mockImplementation((request) => request) 
+      let mutatedRequestForSpy = jest.fn().mockImplementation(function(mutatedRequest) { return mutatedRequest })
+      let requestForSpy = jest.fn().mockImplementation(function(request) { return request }) 
 
       let components = {
         curl: Curl,
