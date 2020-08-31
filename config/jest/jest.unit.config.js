@@ -4,17 +4,19 @@ module.exports = {
   rootDir: path.join(__dirname, '..', '..'),
   testEnvironment: 'jsdom',
   testMatch: [
-    '**/test/unit/*.js',
-    '**/test/unit/**/*.js',
-    '**/test/unit/core/system/*.jsx',
-    '**/test/unit/xss/*.jsx'
+    '**/test/unit/*.js?(x)',
+    '**/test/unit/**/*.js?(x)',
   ],
   // testMatch: ['**/test/unit/core/plugins/auth/selectors.js'],
+  // testMatch: ['**/test/unit/core/plugins/auth/actions.js'],
   // testMatch: [ '**/test/unit/xss/anchor-target-rel/*.jsx'],
   setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/build-artifacts/',
     '<rootDir>/test/unit/setup.js',
+    '<rootDir>/test/unit/xss/anchor-target-rel/online-validator-badge.js',
+    '<rootDir>/test/unit/components/online-validator-badge.js',
+    '<rootDir>/test/unit/components/live-response.jsx',
   ],
 };
