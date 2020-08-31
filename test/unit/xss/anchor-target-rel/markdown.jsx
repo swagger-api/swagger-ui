@@ -1,9 +1,12 @@
 /* eslint-env mocha */
 import React from "react"
 import expect from "expect"
-import { render } from "enzyme"
+import { configure, render } from "enzyme"
+import Adapter from "enzyme-adapter-react-15"
 import Markdown from "components/providers/markdown"
 import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markdown.jsx"
+
+configure({ adapter: new Adapter() })
 
 describe("Markdown Link Anchor Safety", function () {
   describe("Swagger 2.0", function () {

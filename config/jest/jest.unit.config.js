@@ -4,17 +4,17 @@ module.exports = {
   rootDir: path.join(__dirname, '..', '..'),
   testEnvironment: 'jsdom',
   testMatch: [
-    '**/test/mocha/*.js',
-    '**/test/mocha/**/*.js',
-    '**/test/mocha/core/system/*.jsx',
-    '**/test/mocha/xss/*.jsx'
+    '**/test/unit/*.js',
+    '**/test/unit/**/*.js',
+    '**/test/unit/core/system/*.jsx',
+    '**/test/unit/xss/*.jsx'
   ],
-  // testMatch: ['**/test/mocha/core/plugins/auth/selectors.js'],
-  // testMatch: [ '**/test/mocha/xss/**/*.jsx'],
-  setupFilesAfterEnv: ['<rootDir>/test/mocha/setup.js'],
+  // testMatch: ['**/test/unit/core/plugins/auth/selectors.js'],
+  // testMatch: [ '**/test/unit/xss/anchor-target-rel/*.jsx'],
+  setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/build-artifacts/',
-    '<rootDir>/test/mocha/setup.js',
+    '<rootDir>/test/unit/setup.js',
   ],
 };

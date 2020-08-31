@@ -1,9 +1,12 @@
 /* eslint-env mocha */
 import React from "react"
 import expect, { createSpy } from "expect"
-import { mount } from "enzyme"
+import { configure, mount } from "enzyme"
+import Adapter from "enzyme-adapter-react-15"
 import { fromJS, Map } from "immutable"
 import OnlineValidatorBadge from "components/online-validator-badge"
+
+configure({ adapter: new Adapter() })
 
 describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
   it("should render a validator link with safe `rel` attributes", function () {
