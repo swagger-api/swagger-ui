@@ -14,7 +14,7 @@ module.exports = {
     '<rootDir>/test/build-artifacts/',
     '<rootDir>/test/mocha',
     '<rootDir>/test/unit/setup.js',
-    '<rootDir>/test/unit/xss/anchor-target-rel/online-validator-badge.js',
+    '<rootDir>/test/unit/xss/anchor-target-rel/online-validator-badge.jsx',
     '<rootDir>/test/unit/components/online-validator-badge.jsx',
     '<rootDir>/test/unit/components/live-response.jsx',
   ],
