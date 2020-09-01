@@ -1,8 +1,5 @@
-/* eslint-env mocha */
 import React from "react"
-import expect, { createSpy } from "expect"
 import { mount } from "enzyme"
-import { fromJS, Map } from "immutable"
 import OnlineValidatorBadge from "components/online-validator-badge"
 
 describe("<OnlineValidatorBadge/>", function () {
@@ -16,7 +13,7 @@ describe("<OnlineValidatorBadge/>", function () {
       }
     }
     const wrapper = mount(
-      <OnlineValidatorBadge {...props} />
+     <OnlineValidatorBadge {...props} />
     )
 
     // Then

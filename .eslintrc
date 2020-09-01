@@ -4,6 +4,7 @@ env:
   node: true
   es6: true
   jest: true
+  jest/globals: true
 parserOptions:
   ecmaFeatures:
     jsx: true
@@ -14,6 +15,7 @@ plugins:
   - react
   - mocha
   - import
+  - jest
 settings:
   react:
     pragma: React
