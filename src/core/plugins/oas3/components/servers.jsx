@@ -109,7 +109,8 @@ export default class Servers extends React.Component {
               ( server ) =>
               <option
                 value={ server.get("url") }
-                key={ server.get("url") }>
+                key={ server.get("url") }
+                selected={ currentServer === server.get("url") }>
                 { server.get("url") }
                 { server.get("description") && ` - ${server.get("description")}` }
               </option>
