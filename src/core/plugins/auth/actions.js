@@ -9,7 +9,7 @@ export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
 export const VALIDATE = "validate"
 export const CONFIGURE_AUTH = "configure_auth"
-export const CONFIGURE_PRESERVATION = "configure_preservation"
+export const RESTORE_AUTHORIZATION = "restore_authorization"
 
 const scopeSeparator = " "
 
@@ -27,11 +27,21 @@ export function authorize(payload) {
   }
 }
 
+export const wrappedAuthorize = (payload) => ( { authActions } ) => {
+  authActions.authorize(payload)
+  authActions.persistAuthorizationIfNeeded()  
+}
+
 export function logout(payload) {
   return {
     type: LOGOUT,
     payload: payload
   }
+}
+
+export const wrappedLogout = (payload) => ( { authActions } ) => {
+  authActions.logout(payload)
+  authActions.persistAuthorizationIfNeeded()  
 }
 
 export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } ) => {
@@ -61,14 +71,21 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
     return
   }
 
-  authActions.authorizeOauth2({ auth, token })
+  authActions.wrappedAuthorizeOauth2({ auth, token })
 }
+
 
 export function authorizeOauth2(payload) {
   return {
     type: AUTHORIZE_OAUTH2,
     payload: payload
   }
+}
+
+
+export const wrappedAuthorizeOauth2 = (payload) => ( { authActions } ) => {
+  authActions.authorizeOauth2(payload)
+  authActions.persistAuthorizationIfNeeded()  
 }
 
 export const authorizePassword = ( auth ) => ( { authActions } ) => {
@@ -209,7 +226,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
       return
     }
 
-    authActions.authorizeOauth2({ auth, token})
+    authActions.wrappedAuthorizeOauth2({ auth, token})
   })
   .catch(e => {
     let err = new Error(e)
@@ -246,9 +263,18 @@ export function configureAuth(payload) {
   }
 }
 
-export function configurePreservation(payload) {
+export function restoreAuthorization(payload) {
   return {
-    type: CONFIGURE_PRESERVATION,
+    type: RESTORE_AUTHORIZATION,
     payload: payload
+  }
+}
+
+export const persistAuthorizationIfNeeded = () => ( { authSelectors, getConfigs } ) => {
+  const configs = getConfigs()
+  if (configs.persistAuthorization)
+  {
+    const authorized = authSelectors.authorized()
+    localStorage.setItem("authorized", JSON.stringify(authorized.toJS()))
   }
 }

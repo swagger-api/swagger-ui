@@ -7,7 +7,7 @@ import {
   AUTHORIZE_OAUTH2,
   LOGOUT,
   CONFIGURE_AUTH,
-  CONFIGURE_PRESERVATION
+  RESTORE_AUTHORIZATION
 } from "./actions"
 
 export default {
@@ -40,10 +40,6 @@ export default {
         map = map.setIn([key, "schema"], security.get("schema"))
       }
     })
-    
-    if(state.get("preserveAuthorization")) {
-      localStorage.setItem("authorized", JSON.stringify(map.toJS()))
-    }   
 
     return state.set( "authorized", map )
   },
@@ -57,10 +53,6 @@ export default {
 
     let map = state.get("authorized") || Map()
     map = map.set(parsedAuth.get("name"), parsedAuth)
-
-    if(state.get("preserveAuthorization")) {
-      localStorage.setItem("authorized", JSON.stringify(map.toJS()))
-    }
     
     return state.set( "authorized", map )
   },
@@ -72,10 +64,6 @@ export default {
         })
       })
 
-    if(state.get("preserveAuthorization")) {
-      localStorage.setItem("authorized", JSON.stringify(result.toJS()))
-    }   
-
     return state.set("authorized", result)
   },
 
@@ -83,11 +71,7 @@ export default {
     return state.set("configs", payload)
   },
 
-  [CONFIGURE_PRESERVATION]: (state, { payload } ) =>{
-    if(payload.preserve && payload.authorized)
-    {      
-      state = state.set("authorized", fromJS(payload.authorized))
-    }
-    return state.set("preserveAuthorization", payload.preserve)
+  [RESTORE_AUTHORIZATION]: (state, { payload } ) =>{    
+    return state.set("authorized", fromJS(payload.authorized))
   },
 }

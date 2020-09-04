@@ -10,8 +10,6 @@ export default function() {
       this.rootInjects.initOAuth = system.authActions.configureAuth
       this.rootInjects.preauthorizeApiKey = preauthorizeApiKey.bind(null, system)
       this.rootInjects.preauthorizeBasic = preauthorizeBasic.bind(null, system)
-
-      checkAuthorizationPreservation(system)      
     },
     statePlugins: {
       auth: {
@@ -23,22 +21,6 @@ export default function() {
         wrapActions: specWrapActionReplacements
       }
     }
-  }
-}
-
-function checkAuthorizationPreservation(system) {
-
-  const configs = system.getConfigs()
-  
-  if (configs.preserveAuthorization) {     
-
-    const authorized = localStorage.getItem("authorized")
-
-    system.authActions.configurePreservation({
-      preserve: configs.preserveAuthorization,
-      authorized: authorized ? JSON.parse(authorized) : null
-    })                
-
   }
 }
 
