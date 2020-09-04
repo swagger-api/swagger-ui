@@ -1,5 +1,13 @@
-
-import { authorizeRequest, authorizeAccessCodeWithFormParams } from "corePlugins/auth/actions"
+import expect, { createSpy, spyOn } from "expect"
+import { fromJS, Map } from "immutable"
+import {
+  authorizeRequest,
+  authorizeAccessCodeWithFormParams,  
+  wrappedAuthorize,
+  wrappedAuthorizeOauth2,
+  wrappedLogout,
+  persistAuthorizationIfNeeded
+} from "corePlugins/auth/actions"
 
 describe("auth plugin - actions", () => {
 
@@ -183,5 +191,127 @@ describe("auth plugin - actions", () => {
       expect(actualArgument.body).toContain("code_verifier=" + data.auth.codeVerifier)
       expect(actualArgument.body).toContain("grant_type=authorization_code")
     })
+  })
+
+  describe("persistAuthorization", () => {
+    describe("wrapped functions", () => {
+      it("should wrap `authorize` action and persist data if needed", () => {
+
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({}),
+          authActions: {
+            authorize: createSpy(),
+            persistAuthorizationIfNeeded: createSpy()
+          }
+        }
+  
+        // When
+        wrappedAuthorize(data)(system)
+  
+        // Then
+        expect(system.authActions.authorize.calls.length).toEqual(1)  
+        expect(system.authActions.authorize.calls[0].arguments[0]).toMatch(data)
+        expect(system.authActions.persistAuthorizationIfNeeded.calls.length).toEqual(1)
+      })
+
+      it("should wrap `oauth2Authorize` action and persist data if needed", () => {
+
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({}),
+          authActions: {
+            authorizeOauth2: createSpy(),
+            persistAuthorizationIfNeeded: createSpy()
+          }
+        }
+  
+        // When
+        wrappedAuthorizeOauth2(data)(system)
+  
+        // Then
+        expect(system.authActions.authorizeOauth2.calls.length).toEqual(1)  
+        expect(system.authActions.authorizeOauth2.calls[0].arguments[0]).toMatch(data)
+        expect(system.authActions.persistAuthorizationIfNeeded.calls.length).toEqual(1)
+      })
+
+      it("should wrap `logout` action and persist data if needed", () => {
+
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({}),
+          authActions: {
+            logout: createSpy(),
+            persistAuthorizationIfNeeded: createSpy()
+          }
+        }
+  
+        // When
+        wrappedLogout(data)(system)
+  
+        // Then
+        expect(system.authActions.logout.calls.length).toEqual(1)  
+        expect(system.authActions.logout.calls[0].arguments[0]).toMatch(data)
+        expect(system.authActions.persistAuthorizationIfNeeded.calls.length).toEqual(1)
+      })
+    })    
+
+    describe("persistAuthorizationIfNeeded", () => {
+      beforeEach(() => {
+        localStorage.clear()
+      })
+      it("should skip if `persistAuthorization` is turned off", () => {
+        // Given        
+        const system = {          
+          getConfigs: () => ({
+            persistAuthorization: false
+          }),          
+          authSelectors: {
+            authorized: createSpy()
+          }
+        }
+  
+        // When
+        persistAuthorizationIfNeeded()(system)
+  
+        // Then
+        expect(system.authSelectors.authorized.calls.length).toEqual(0)          
+      })
+      it("should persist authorization data to localStorage", () => {
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({
+            persistAuthorization: true
+          }),          
+          authSelectors: {
+            authorized: createSpy().andReturn(
+              Map(data)
+            )
+          }
+        }
+        const localStorageSetSpy = spyOn(localStorage, "setItem")      
+
+        // When
+        persistAuthorizationIfNeeded()(system)
+
+        expect(localStorageSetSpy.calls.length).toEqual(1)
+        expect(localStorageSetSpy.calls[0].arguments[0]).toEqual("authorized")
+        expect(localStorageSetSpy.calls[0].arguments[1]).toEqual(JSON.stringify(data))
+  
+      })
+    })
+
   })
 })
