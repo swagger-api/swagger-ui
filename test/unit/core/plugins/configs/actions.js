@@ -1,4 +1,3 @@
-import expect, { createSpy, spyOn } from "expect"
 import { downloadConfig } from "corePlugins/configs/spec-actions"
 import { loaded } from "corePlugins/configs/actions"
 
@@ -26,7 +25,7 @@ describe("configs plugin - actions", () => {
   })
 
   describe("loaded hook", () => {
-    describe("`preserveAuthorization` config and authorization data restoration", () => {
+    describe("authorization data restoration", () => {
       beforeEach(() => {
         localStorage.clear()
       })    
@@ -39,11 +38,10 @@ describe("configs plugin - actions", () => {
 
           }
         }
-        const localStorageGetSpy = spyOn(localStorage, "getItem")      
+        jest.spyOn(Object.getPrototypeOf(window.localStorage), "getItem")
         loaded()(system)            
-        expect(localStorageGetSpy.calls.length).toEqual(1)
-        expect(localStorageGetSpy.calls[0].arguments[0]).toMatch("authorized")
-        localStorageGetSpy.restore()    
+        expect(localStorage.getItem).toHaveBeenCalled()
+        expect(localStorage.getItem).toHaveBeenCalledWith("authorized")        
       })
       it("restore authorization data when a value exists", () => {            
         const system = {        
@@ -51,16 +49,16 @@ describe("configs plugin - actions", () => {
             persistAuthorization: true
           }),        
           authActions: {
-            restoreAuthorization: createSpy()
+            restoreAuthorization: jest.fn(() => {})
           }
         }
         const mockData = {"api_key": {}}
         localStorage.setItem("authorized", JSON.stringify(mockData))      
         loaded()(system)
-        expect(system.authActions.restoreAuthorization.calls.length).toEqual(1)
-        expect(system.authActions.restoreAuthorization.calls[0].arguments[0]).toMatch({
+        expect(system.authActions.restoreAuthorization).toHaveBeenCalled()
+        expect(system.authActions.restoreAuthorization).toHaveBeenCalledWith({
           authorized: mockData
-        })        
+        })
       })
     })
   })

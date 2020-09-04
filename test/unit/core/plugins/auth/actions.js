@@ -1,5 +1,4 @@
-import expect, { createSpy, spyOn } from "expect"
-import { fromJS, Map } from "immutable"
+import { Map } from "immutable"
 import {
   authorizeRequest,
   authorizeAccessCodeWithFormParams,  
@@ -204,8 +203,8 @@ describe("auth plugin - actions", () => {
         const system = {          
           getConfigs: () => ({}),
           authActions: {
-            authorize: createSpy(),
-            persistAuthorizationIfNeeded: createSpy()
+            authorize: jest.fn(()=>{}),
+            persistAuthorizationIfNeeded: jest.fn(()=>{})
           }
         }
   
@@ -213,9 +212,9 @@ describe("auth plugin - actions", () => {
         wrappedAuthorize(data)(system)
   
         // Then
-        expect(system.authActions.authorize.calls.length).toEqual(1)  
-        expect(system.authActions.authorize.calls[0].arguments[0]).toMatch(data)
-        expect(system.authActions.persistAuthorizationIfNeeded.calls.length).toEqual(1)
+        expect(system.authActions.authorize).toHaveBeenCalled()
+        expect(system.authActions.authorize).toHaveBeenCalledWith(data)
+        expect(system.authActions.persistAuthorizationIfNeeded).toHaveBeenCalled()
       })
 
       it("should wrap `oauth2Authorize` action and persist data if needed", () => {
@@ -227,8 +226,8 @@ describe("auth plugin - actions", () => {
         const system = {          
           getConfigs: () => ({}),
           authActions: {
-            authorizeOauth2: createSpy(),
-            persistAuthorizationIfNeeded: createSpy()
+            authorizeOauth2: jest.fn(()=>{}),
+            persistAuthorizationIfNeeded: jest.fn(()=>{})
           }
         }
   
@@ -236,9 +235,9 @@ describe("auth plugin - actions", () => {
         wrappedAuthorizeOauth2(data)(system)
   
         // Then
-        expect(system.authActions.authorizeOauth2.calls.length).toEqual(1)  
-        expect(system.authActions.authorizeOauth2.calls[0].arguments[0]).toMatch(data)
-        expect(system.authActions.persistAuthorizationIfNeeded.calls.length).toEqual(1)
+        expect(system.authActions.authorizeOauth2).toHaveBeenCalled()
+        expect(system.authActions.authorizeOauth2).toHaveBeenCalledWith(data)
+        expect(system.authActions.persistAuthorizationIfNeeded).toHaveBeenCalled()
       })
 
       it("should wrap `logout` action and persist data if needed", () => {
@@ -250,8 +249,8 @@ describe("auth plugin - actions", () => {
         const system = {          
           getConfigs: () => ({}),
           authActions: {
-            logout: createSpy(),
-            persistAuthorizationIfNeeded: createSpy()
+            logout: jest.fn(()=>{}),
+            persistAuthorizationIfNeeded: jest.fn(()=>{})
           }
         }
   
@@ -259,9 +258,9 @@ describe("auth plugin - actions", () => {
         wrappedLogout(data)(system)
   
         // Then
-        expect(system.authActions.logout.calls.length).toEqual(1)  
-        expect(system.authActions.logout.calls[0].arguments[0]).toMatch(data)
-        expect(system.authActions.persistAuthorizationIfNeeded.calls.length).toEqual(1)
+        expect(system.authActions.logout).toHaveBeenCalled()
+        expect(system.authActions.logout).toHaveBeenCalledWith(data)
+        expect(system.authActions.persistAuthorizationIfNeeded).toHaveBeenCalled()
       })
     })    
 
@@ -276,7 +275,7 @@ describe("auth plugin - actions", () => {
             persistAuthorization: false
           }),          
           authSelectors: {
-            authorized: createSpy()
+            authorized: jest.fn(()=>{})
           }
         }
   
@@ -284,7 +283,7 @@ describe("auth plugin - actions", () => {
         persistAuthorizationIfNeeded()(system)
   
         // Then
-        expect(system.authSelectors.authorized.calls.length).toEqual(0)          
+        expect(system.authSelectors.authorized).not.toHaveBeenCalled()
       })
       it("should persist authorization data to localStorage", () => {
         // Given
@@ -296,19 +295,16 @@ describe("auth plugin - actions", () => {
             persistAuthorization: true
           }),          
           authSelectors: {
-            authorized: createSpy().andReturn(
-              Map(data)
-            )
+            authorized: jest.fn(()=>Map(data))
           }
-        }
-        const localStorageSetSpy = spyOn(localStorage, "setItem")      
+        }        
+        jest.spyOn(Object.getPrototypeOf(window.localStorage), "setItem")
 
         // When
         persistAuthorizationIfNeeded()(system)
 
-        expect(localStorageSetSpy.calls.length).toEqual(1)
-        expect(localStorageSetSpy.calls[0].arguments[0]).toEqual("authorized")
-        expect(localStorageSetSpy.calls[0].arguments[1]).toEqual(JSON.stringify(data))
+        expect(localStorage.setItem).toHaveBeenCalled()
+        expect(localStorage.setItem).toHaveBeenCalledWith("authorized", JSON.stringify(data))        
   
       })
     })
