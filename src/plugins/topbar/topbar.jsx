@@ -7,7 +7,7 @@ import {parseSearch, serializeSearch} from "../../core/utils"
 import { getCurrentTheme, ThemeStorage } from "css-theming"
 
 export default class Topbar extends React.Component {
-  _themeStorage = new ThemeStorage("swagger-ui-theme", "default");
+  _themeStorage = new ThemeStorage("swagger-ui-theme");
 
   static propTypes = {
     layoutActions: PropTypes.object.isRequired
@@ -120,7 +120,7 @@ export default class Topbar extends React.Component {
     const classNames = ["download-url-input"]
     if (isFailed) classNames.push("failed")
     if (isLoading) classNames.push("loading")
-    
+
     const { urls } = getConfigs()
     let control = []
     let formOnSubmit = null
