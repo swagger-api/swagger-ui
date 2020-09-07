@@ -71,6 +71,10 @@ const standardVariables = {
     type: "boolean",
     name: "showCommonExtensions"
   },
+  USE_UNSAFE_MARKDOWN: {
+    type: "boolean",
+    name: "useUnsafeMarkdown"
+  },
   OAUTH2_REDIRECT_URL: {
     type: "string",
     name: "oauth2RedirectUrl"

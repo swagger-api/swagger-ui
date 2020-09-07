@@ -195,7 +195,7 @@ function RequestBodyPrimitiveTestCases({
       .click()
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Switch to Try-It-Out
       .get(".try-out__btn")
       .click()
@@ -221,7 +221,7 @@ function RequestBodyPrimitiveTestCases({
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Switch to Try-It-Out
       .get(".try-out__btn")
       .click()
@@ -263,7 +263,7 @@ function RequestBodyPrimitiveTestCases({
       .click()
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
   })
 
   it("should return the dropdown entry for an example when manually returning to its value", () => {
@@ -273,7 +273,7 @@ function RequestBodyPrimitiveTestCases({
       .click()
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Switch to Try-It-Out
       .get(".try-out__btn")
       .click()
@@ -294,7 +294,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the dropdown value returning to the example value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleA.summary)
+      .should("include.text", exampleA.summary)
   })
 
   it("should retain choosing a member in static docs when changing the media type", () => {
@@ -310,7 +310,7 @@ function RequestBodyPrimitiveTestCases({
       .select(secondaryMediaType)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Switch to Try-It-Out
       .get(".try-out__btn")
       .click()
@@ -336,7 +336,7 @@ function RequestBodyPrimitiveTestCases({
       .select(secondaryMediaType)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Switch to Try-It-Out
       .get(".try-out__btn")
       .click()
@@ -362,44 +362,44 @@ function RequestBodyPrimitiveTestCases({
       .select(secondaryMediaType)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleA.summary)
+      .should("include.text", exampleA.summary)
 
       // Choose exampleB
       .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleB.summary)
+      .should("include.text", exampleB.summary)
 
       // Change the media type
       .get(".opblock-section-request-body .content-type")
       .select(primaryMediaType)
       // Assert that the static docs value didn't change
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Assert that the dropdown value didn't change
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleB.summary)
+      .should("include.text", exampleB.summary)
 
       // Choose exampleA
       .get(".opblock-section-request-body .examples-select > select")
       .select(exampleA.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleA.summary)
+      .should("include.text", exampleA.summary)
   })
 
   it("Try-It-Out toggling: mediaType -> example -> mediaType -> example", () => {
@@ -415,44 +415,44 @@ function RequestBodyPrimitiveTestCases({
       .select(secondaryMediaType)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleA.summary)
+      .should("include.text", exampleA.summary)
 
       // Choose exampleB
       .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleB.summary)
+      .should("include.text", exampleB.summary)
 
       // Change the media type
       .get(".opblock-section-request-body .content-type")
       .select(primaryMediaType)
       // Assert that the static docs value didn't change
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Assert that the dropdown value didn't change
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleB.summary)
+      .should("include.text", exampleB.summary)
 
       // Choose exampleA
       .get(".opblock-section-request-body .examples-select > select")
       .select(exampleA.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleA.summary)
+      .should("include.text", exampleA.summary)
   })
 
   it("Try-It-Out toggling and execution with modified values: mediaType -> modified value -> example -> mediaType -> example", () => {
@@ -468,11 +468,11 @@ function RequestBodyPrimitiveTestCases({
       .select(secondaryMediaType)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleA.summary)
+      .should("include.text", exampleA.summary)
 
       // Modify the value
       .get(`.opblock-section-request-body textarea`)
@@ -497,11 +497,11 @@ function RequestBodyPrimitiveTestCases({
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleB.summary)
+      .should("include.text", exampleB.summary)
       // Fire the operation
       .get(".execute")
       .click()
@@ -519,11 +519,11 @@ function RequestBodyPrimitiveTestCases({
       .select(primaryMediaType)
       // Assert that the static docs value didn't change
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleB.value)
+      .should("include.text", exampleB.value)
       // Assert that the dropdown value didn't change
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleB.summary)
+      .should("include.text", exampleB.summary)
       // Fire the operation
       .get(".execute")
       .click()
@@ -541,11 +541,11 @@ function RequestBodyPrimitiveTestCases({
       .select(exampleA.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
-      .should("have.text", exampleA.value)
+      .should("include.text", exampleA.value)
       // Assert on the dropdown value
       .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
-      .should("have.text", exampleA.summary)
+      .should("include.text", exampleA.summary)
       // Fire the operation
       .get(".execute")
       .click()
@@ -592,9 +592,9 @@ function ResponsePrimitiveTestCases({
       .within(() => {
         cy.get(".examples-select > select")
           .find(":selected")
-          .should("have.text", exampleA.summary)
+          .should("include.text", exampleA.summary)
           .get(".microlight")
-          .should("have.text", exampleA.value)
+          .should("include.text", exampleA.value)
       })
   })
   it("should render the second example", () => {
@@ -606,9 +606,9 @@ function ResponsePrimitiveTestCases({
         cy.get(".examples-select > select")
           .select(exampleB.key)
           .find(":selected")
-          .should("have.text", exampleB.summary)
+          .should("include.text", exampleB.summary)
           .get(".microlight")
-          .should("have.text", exampleB.value)
+          .should("include.text", exampleB.value)
       })
   })
 
@@ -624,10 +624,10 @@ function ResponsePrimitiveTestCases({
           .select(exampleB.key)
           // Assert against dropdown value
           .find(":selected")
-          .should("have.text", exampleB.summary)
+          .should("include.text", exampleB.summary)
           // Assert against example value
           .get(".microlight")
-          .should("have.text", exampleB.value)
+          .should("include.text", exampleB.value)
 
           // Change media types
           .get(".content-type")
@@ -635,10 +635,10 @@ function ResponsePrimitiveTestCases({
           // Assert against dropdown value
           .get(".examples-select > select")
           .find(":selected")
-          .should("have.text", exampleB.summary)
+          .should("include.text", exampleB.summary)
           // Assert against example value
           .get(".microlight")
-          .should("have.text", exampleB.value)
+          .should("include.text", exampleB.value)
       })
   })
   ;(exampleC ? it : it.skip)(
@@ -658,10 +658,10 @@ function ResponsePrimitiveTestCases({
             .select(exampleC.key)
             // Assert against dropdown value
             .find(":selected")
-            .should("have.text", exampleC.summary || exampleC.key)
+            .should("include.text", exampleC.summary || exampleC.key)
             // Assert against example value
             .get(".microlight")
-            .should("have.text", exampleC.value)
+            .should("include.text", exampleC.value)
 
             // Change media types
             .get(".content-type")
@@ -669,10 +669,10 @@ function ResponsePrimitiveTestCases({
             // Assert against dropdown value
             .get(".examples-select > select")
             .find(":selected")
-            .should("have.text", exampleA.summary)
+            .should("include.text", exampleA.summary)
             // Assert against example value
             .get(".microlight")
-            .should("have.text", exampleA.value)
+            .should("include.text", exampleA.value)
         })
     }
   )
