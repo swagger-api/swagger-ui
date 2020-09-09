@@ -134,7 +134,7 @@ const RequestBody = ({
       <table>
         <tbody>
           {
-            bodyProperties.entrySeq().map(([key, prop]) => {
+             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
               let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
               const type = prop.get("type")
