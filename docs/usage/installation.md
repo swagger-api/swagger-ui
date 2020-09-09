@@ -10,7 +10,7 @@ We publish two modules to npm: **`swagger-ui`** and **`swagger-ui-dist`**.
 
 ```javascript
 import SwaggerUI from 'swagger-ui'
-// or use require, if you prefer
+// or use require if you prefer
 const SwaggerUI = require('swagger-ui')
 
 SwaggerUI({
@@ -25,7 +25,7 @@ In contrast, **`swagger-ui-dist`** is meant for server-side projects that need a
 _Note: we suggest using `swagger-ui` when your tooling makes it possible, as `swagger-ui-dist`
 will result in more code going across the wire._
 
-The module's contents mirrors the `dist` folder you see in the Git repository. The most useful file is `swagger-ui-bundle.js`, which is a build of Swagger UI that includes all the code it needs to run in one file. The folder also has an `index.html` asset, to make it easy to serve Swagger UI like so:
+The module's contents mirror the `dist` folder you see in the Git repository. The most useful file is `swagger-ui-bundle.js`, which is a build of Swagger UI that includes all the code it needs to run in one file. The folder also has an `index.html` asset, to make it easy to serve Swagger UI like so:
 
 ```javascript
 const express = require('express')
@@ -90,7 +90,7 @@ For more information on controlling Swagger UI through the Docker image, see the
 You can embed Swagger UI's code directly in your HTML by using unpkg's interface:
 
 ```html
-<script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+<script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js" charset="UTF-8"></script>
 <!-- `SwaggerUIBundle` is now available on the page -->
 ```
 

@@ -17,7 +17,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "Swagger UI %s Released!",
+    "releaseName": "Swagger UI v${version} Released!",
     "draft": true
   },
   "plugins": {

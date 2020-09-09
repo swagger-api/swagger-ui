@@ -30,9 +30,9 @@ export default class Servers extends React.Component {
       servers,
       setServerVariableValue,
       getServerVariable
-    } = this.props
+    } = nextProps
 
-    if(this.props.currentServer !== nextProps.currentServer) {
+    if (this.props.currentServer !== nextProps.currentServer || this.props.servers !== nextProps.servers) {
       // Server has changed, we may need to set default values
       let currentServerDefinition = servers
         .find(v => v.get("url") === nextProps.currentServer)
@@ -109,7 +109,8 @@ export default class Servers extends React.Component {
               ( server ) =>
               <option
                 value={ server.get("url") }
-                key={ server.get("url") }>
+                key={ server.get("url") }
+                selected={ currentServer === server.get("url") }>
                 { server.get("url") }
                 { server.get("description") && ` - ${server.get("description")}` }
               </option>

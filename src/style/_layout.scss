@@ -300,6 +300,12 @@
 
     }
 
+    .opblock-summary-path
+    {
+        flex-shrink: 0;
+        max-width: calc(100% - 110px - 15rem);
+    }
+
     .opblock-summary-path__deprecated
     {
         text-decoration: line-through;
@@ -929,7 +935,7 @@ span
 
     &.token-not-formatted
     {
-        color: #555; 
+        color: #555;
         font-weight: bold;
     }
 }

@@ -7,7 +7,7 @@ import Curl from "components/curl"
 import LiveResponse from "components/live-response"
 import ResponseBody from "components/response-body"
 
-describe("<LiveResponse/>", function(){
+describe("<LiveResponse/>", function () {
   let request = fromJSOrdered({
     credentials: "same-origin",
     headers: {
@@ -35,8 +35,8 @@ describe("<LiveResponse/>", function(){
     { showMutatedRequest: false, expected: { request: "request", requestForCalls: 1, mutatedRequestForCalls: 0 } }
   ]
 
-  tests.forEach(function(test) {
-    it("passes " + test.expected.request + " to Curl when showMutatedRequest = " + test.showMutatedRequest, function() {
+  tests.forEach(function (test) {
+    it("passes " + test.expected.request + " to Curl when showMutatedRequest = " + test.showMutatedRequest, function () {
 
       // Given
 
@@ -51,7 +51,7 @@ describe("<LiveResponse/>", function(){
       })
 
       let mutatedRequestForSpy = createSpy().andReturn(mutatedRequest)
-      let requestForSpy = createSpy().andReturn(request) 
+      let requestForSpy = createSpy().andReturn(request)
 
       let components = {
         curl: Curl,
@@ -59,12 +59,12 @@ describe("<LiveResponse/>", function(){
       }
 
       let props = {
-        response: response, 
+        response: response,
         specSelectors: {
           mutatedRequestFor: mutatedRequestForSpy,
           requestFor: requestForSpy,
         },
-        pathMethod: [ "/one", "get" ],
+        pathMethod: ["/one", "get"],
         getComponent: (c) => {
           return components[c]
         },
@@ -73,7 +73,7 @@ describe("<LiveResponse/>", function(){
       }
 
       // When
-      let wrapper = shallow(<LiveResponse {...props}/>)
+      let wrapper = shallow(<LiveResponse {...props} />)
 
       // Then
       expect(mutatedRequestForSpy.calls.length).toEqual(test.expected.mutatedRequestForCalls)

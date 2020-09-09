@@ -325,13 +325,13 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
 
 export const validateMaximum = ( val, max ) => {
   if (val > max) {
-    return "Value must be less than Maximum"
+    return `Value must be less than ${max}`
   }
 }
 
 export const validateMinimum = ( val, min ) => {
   if (val < min) {
-    return "Value must be greater than Minimum"
+    return `Value must be greater than ${min}`
   }
 }
 
@@ -380,13 +380,13 @@ export const validateGuid = (val) => {
 
 export const validateMaxLength = (val, max) => {
   if (val.length > max) {
-      return "Value must be less than MaxLength"
+      return `Value must be no longer than ${max} character${max !== 1 ? "s" : ""}`
   }
 }
 
 export const validateMinLength = (val, min) => {
   if (val.length < min) {
-      return "Value must be greater than MinLength"
+      return `Value must be at least ${min} character${min !== 1 ? "s" : ""}`
   }
 }
 
@@ -399,7 +399,7 @@ export const validatePattern = (val, rxPattern) => {
 
 // validation of parameters before execute
 export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
-  
+
   let errors = []
 
   let paramRequired = param.get("required")
@@ -436,7 +436,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     let objectStringCheck = type === "object" && typeof value === "string" && value
 
     const allChecks = [
-      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck, 
+      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck,
       booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
     ]
 
@@ -639,7 +639,6 @@ export function sanitizeUrl(url) {
 
   return braintreeSanitizeUrl(url)
 }
-
 
 export function requiresValidationURL(uri) {
   if (!uri || uri.indexOf("localhost") >= 0 || uri.indexOf("127.0.0.1") >= 0 || uri === "none") {
