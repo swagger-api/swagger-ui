@@ -121,7 +121,7 @@
     "copy-webpack-plugin": "^6.0.0",
     "cors": "^2.8.5",
     "cross-env": "=7.0.2",
-    "css-loader": "^3.5.3",
+    "css-loader": "^4.0.0",
     "cssnano": "=4.1.10",
     "cypress": "=4.12.1",
     "dedent": "^0.7.0",
