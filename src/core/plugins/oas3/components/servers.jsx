@@ -104,13 +104,12 @@ export default class Servers extends React.Component {
     return (
       <div className="servers">
         <label htmlFor="servers">
-          <select onChange={ this.onServerChange }>
+          <select onChange={ this.onServerChange } value={currentServer}>
             { servers.valueSeq().map(
               ( server ) =>
               <option
                 value={ server.get("url") }
-                key={ server.get("url") }
-                selected={ currentServer === server.get("url") }>
+                key={ server.get("url") }>
                 { server.get("url") }
                 { server.get("description") && ` - ${server.get("description")}` }
               </option>
