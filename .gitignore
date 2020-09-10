@@ -11,6 +11,7 @@ selenium-debug.log
 chromedriver.log
 test/e2e/db.json
 docs/_book
+dev-helpers/examples
 
 # dist
 flavors/**/dist/*
