@@ -27,7 +27,7 @@ export default function curl( request ){
     for( let p of request.get("headers").entries() ){
       let [ h,v ] = p
       curlified.push( "-H " )
-      curlified.push( `"${h}: ${v.replace("$", "\\$")}"` )
+      curlified.push( `"${h}: ${v.replace(/\$/g, "\\$")}"` )
       isMultipartFormDataRequest = isMultipartFormDataRequest || /^content-type$/i.test(h) && /^multipart\/form-data$/i.test(v)
     }
   }
@@ -47,7 +47,7 @@ export default function curl( request ){
       curlified.push( "-d" )
       let reqBody = request.get("body")
       if (!Map.isMap(reqBody)) {
-        curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "").replace("$", "\\$") )
+        curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "").replace(/\$/g, "\\$") )
       } else {
         let curlifyToJoin = []
         for (let [k, v] of request.get("body").entrySeq()) {
