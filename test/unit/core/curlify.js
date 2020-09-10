@@ -351,4 +351,17 @@ describe("curlify", function () {
 
     expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"X-DOLLAR: token/123\\$\" -d \"CREATE (\\$props)\"")
   })
+
+  it("should escape multiple dollar signs", function () {
+    let req = {
+      url: "http://example.com",
+      method: "POST",
+      headers: { },
+      body: "RETURN $x + $y"
+    }
+
+    let curlified = curl(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl -X POST \"http://example.com\" -d \"RETURN \\$x + \\$y\"")
+  })
 })
