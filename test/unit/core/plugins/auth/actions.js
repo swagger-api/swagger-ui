@@ -2,9 +2,9 @@ import { Map } from "immutable"
 import {
   authorizeRequest,
   authorizeAccessCodeWithFormParams,  
-  wrappedAuthorize,
-  wrappedAuthorizeOauth2,
-  wrappedLogout,
+  authorizeWithPersistOption,
+  authorizeOauth2WithPersistOption,
+  logoutWithPersistOption,
   persistAuthorizationIfNeeded
 } from "corePlugins/auth/actions"
 
@@ -193,7 +193,7 @@ describe("auth plugin - actions", () => {
   })
 
   describe("persistAuthorization", () => {
-    describe("wrapped functions", () => {
+    describe("wrapped functions with persist option", () => {
       it("should wrap `authorize` action and persist data if needed", () => {
 
         // Given
@@ -209,7 +209,7 @@ describe("auth plugin - actions", () => {
         }
   
         // When
-        wrappedAuthorize(data)(system)
+        authorizeWithPersistOption(data)(system)
   
         // Then
         expect(system.authActions.authorize).toHaveBeenCalled()
@@ -232,7 +232,7 @@ describe("auth plugin - actions", () => {
         }
   
         // When
-        wrappedAuthorizeOauth2(data)(system)
+        authorizeOauth2WithPersistOption(data)(system)
   
         // Then
         expect(system.authActions.authorizeOauth2).toHaveBeenCalled()
@@ -255,7 +255,7 @@ describe("auth plugin - actions", () => {
         }
   
         // When
-        wrappedLogout(data)(system)
+        logoutWithPersistOption(data)(system)
   
         // Then
         expect(system.authActions.logout).toHaveBeenCalled()

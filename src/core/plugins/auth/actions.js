@@ -27,7 +27,7 @@ export function authorize(payload) {
   }
 }
 
-export const wrappedAuthorize = (payload) => ( { authActions } ) => {
+export const authorizeWithPersistOption = (payload) => ( { authActions } ) => {
   authActions.authorize(payload)
   authActions.persistAuthorizationIfNeeded()  
 }
@@ -39,7 +39,7 @@ export function logout(payload) {
   }
 }
 
-export const wrappedLogout = (payload) => ( { authActions } ) => {
+export const logoutWithPersistOption = (payload) => ( { authActions } ) => {
   authActions.logout(payload)
   authActions.persistAuthorizationIfNeeded()  
 }
@@ -71,7 +71,7 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
     return
   }
 
-  authActions.wrappedAuthorizeOauth2({ auth, token })
+  authActions.authorizeOauth2WithPersistOption({ auth, token })
 }
 
 
@@ -83,7 +83,7 @@ export function authorizeOauth2(payload) {
 }
 
 
-export const wrappedAuthorizeOauth2 = (payload) => ( { authActions } ) => {
+export const authorizeOauth2WithPersistOption = (payload) => ( { authActions } ) => {
   authActions.authorizeOauth2(payload)
   authActions.persistAuthorizationIfNeeded()  
 }
@@ -226,7 +226,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
       return
     }
 
-    authActions.wrappedAuthorizeOauth2({ auth, token})
+    authActions.authorizeOauth2WithPersistOption({ auth, token})
   })
   .catch(e => {
     let err = new Error(e)
