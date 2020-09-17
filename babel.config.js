@@ -44,8 +44,8 @@ module.exports = {
           "@babel/plugin-transform-runtime",
           {
             "absoluteRuntime": false,
-            "corejs": 2,
-            "version": "^7.10.4"
+            "corejs": 3,
+            "version": "^7.11.2"
           }
         ],
         "@babel/proposal-class-properties",
@@ -67,8 +67,8 @@ module.exports = {
                 "not dead"
               ]
             },
-            "useBuiltIns": "entry",
-            "corejs": "2"
+            "useBuiltIns": false,
+            "corejs": { version: 3 }
           }
         ],
         "@babel/preset-react"
@@ -77,9 +77,9 @@ module.exports = {
         [
           "@babel/plugin-transform-runtime",
           {
-            "corejs": "2",
+            "corejs": 3,
             "absoluteRuntime": false,
-            "version": "7.10.4"
+            "version": "^7.11.2"
           }
         ],
         "@babel/plugin-proposal-class-properties",
@@ -117,8 +117,8 @@ module.exports = {
             "targets": {
               "node": "10"
             },
-            "useBuiltIns": "entry",
-            "corejs": "2"
+            "useBuiltIns": false,
+            "corejs": { version: 3 }
           }
         ],
         "@babel/preset-react"
@@ -127,9 +127,9 @@ module.exports = {
         [
           "@babel/plugin-transform-runtime",
           {
-            "corejs": "2",
+            "corejs": 3,
             "absoluteRuntime": false,
-            "version": "7.10.4"
+            "version": "^7.11.2"
           }
         ],
         "@babel/plugin-proposal-class-properties",

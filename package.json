@@ -58,7 +58,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.10.4",
+    "@babel/runtime-corejs3": "^7.11.2",
     "@braintree/sanitize-url": "^4.0.0",
     "@kyleshockey/object-assign-deep": "^0.4.2",
     "@kyleshockey/xml": "^1.0.2",
@@ -92,7 +92,7 @@
     "reselect": "^4.0.0",
     "serialize-error": "^2.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "=3.10.13",
+    "swagger-client": "=3.11.0",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
