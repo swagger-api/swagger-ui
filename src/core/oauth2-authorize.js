@@ -52,10 +52,17 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
   query.push("redirect_uri=" + encodeURIComponent(redirectUrl))
 
-  if (Array.isArray(scopes) && 0 < scopes.length) {
+  let scopesArray = []
+  if (Array.isArray(scopes)) {
+    scopesArray = scopes
+  } else if (typeof scopes.toArray !== 'undefined') {
+    scopesArray = scopes.toArray()
+  }
+
+  if (0 < scopesArray.length)  {
     let scopeSeparator = authConfigs.scopeSeparator || " "
 
-    query.push("scope=" + encodeURIComponent(scopes.join(scopeSeparator)))
+    query.push("scope=" + encodeURIComponent(scopesArray.join(scopeSeparator)))
   }
 
   let state = btoa(new Date())
