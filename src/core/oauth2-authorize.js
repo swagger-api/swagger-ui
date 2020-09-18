@@ -55,7 +55,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let scopesArray = []
   if (Array.isArray(scopes)) {
     scopesArray = scopes
-  } else if (typeof scopes.toArray !== 'undefined') {
+  } else if (typeof scopes.toArray === 'function') {
     scopesArray = scopes.toArray()
   }
 
