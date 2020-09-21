@@ -1,0 +1,13 @@
+openapi: 3.0.2
+info:
+  title: OAS 3.0 sample with multiple servers
+  version: 0.1.0
+servers:
+  - url: http://testserver1.com
+  - url: http://testserver2.com
+paths:
+  /test/:
+    get:
+      responses:
+        '200':
+          description: Successful Response
