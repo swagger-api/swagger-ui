@@ -97,11 +97,13 @@ SwaggerUI.propTypes = {
   showMutatedRequest: PropTypes.bool,
   defaultModelExpandDepth: PropTypes.number,
   presets: PropTypes.arrayOf(PropTypes.func),
+  deepLinking:PropTypes.bool
 }
 
 SwaggerUI.defaultProps = {
   supportedSubmitMethods: ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'],
   docExpansion: "list",
   defaultModelsExpandDepth: 1,
-  presets: []
+  presets: [],
+  deepLinking: false
 }
