@@ -80,7 +80,7 @@ export default class SwaggerUI extends React.Component {
 }
 
 SwaggerUI.propTypes = {
-  spec: PropTypes.oneOf([
+  spec: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
   ]),
