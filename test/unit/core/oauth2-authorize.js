@@ -1,5 +1,6 @@
 
 import win from "core/window"
+import Im from "immutable"
 import oauth2Authorize from "core/oauth2-authorize"
 import * as utils from "core/utils"
 
@@ -11,10 +12,18 @@ describe("oauth2", () => {
   }
 
   let authConfig = {
-    auth: { schema: { get: (key)=> mockSchema[key] } }, 
-    authActions: {}, 
-    errActions: {}, 
-    configs: { oauth2RedirectUrl: "" }, 
+    auth: { schema: { get: (key)=> mockSchema[key] }, scopes: ["scope1", "scope2"] },
+    authActions: {},
+    errActions: {},
+    configs: { oauth2RedirectUrl: "" },
+    authConfigs: {}
+  }
+
+  let authConfig2 = {
+    auth: { schema: { get: (key)=> mockSchema[key] }, scopes: Im.List(["scope2","scope3"]) },
+    authActions: {},
+    errActions: {},
+    configs: { oauth2RedirectUrl: "" },
     authConfigs: {}
   }
 
@@ -27,7 +36,7 @@ describe("oauth2", () => {
       const windowOpenSpy = jest.spyOn(win, "open")
       oauth2Authorize(authConfig)
       expect(windowOpenSpy.mock.calls.length).toEqual(1)
-      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&state=")
+      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
 
       windowOpenSpy.mockReset()
     })
@@ -37,8 +46,8 @@ describe("oauth2", () => {
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
       oauth2Authorize(authConfig)
       expect(windowOpenSpy.mock.calls.length).toEqual(1)
-      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&state=")
-      
+      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
+
       windowOpenSpy.mockReset()
     })
 
@@ -48,7 +57,7 @@ describe("oauth2", () => {
 
       const expectedCodeVerifier = "mock_code_verifier"
       const expectedCodeChallenge = "mock_code_challenge"
-      
+
       const generateCodeVerifierSpy = jest.spyOn(utils, "generateCodeVerifier").mockImplementation(() => expectedCodeVerifier)
       const createCodeChallengeSpy = jest.spyOn(utils, "createCodeChallenge").mockImplementation(() => expectedCodeChallenge)
 
@@ -72,6 +81,17 @@ describe("oauth2", () => {
       windowOpenSpy.mockReset()
       generateCodeVerifierSpy.mockReset()
       createCodeChallengeSpy.mockReset()
-    })    
+    })
+
+    it("should add list of scopes to authorizeUrl", () => {
+      const windowOpenSpy = jest.spyOn(win, "open")
+      mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
+
+      oauth2Authorize(authConfig2)
+      expect(windowOpenSpy.mock.calls.length).toEqual(1)
+      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope2%20scope3&state=")
+
+      windowOpenSpy.mockReset()
+    })
   })
 })
