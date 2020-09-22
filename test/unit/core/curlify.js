@@ -364,4 +364,30 @@ describe("curlify", function () {
 
     expect(curlified).toEqual("curl -X POST \"http://example.com\" -d \"RETURN \\$x + \\$y\"")
   })
+
+  it("should include curlOptions from the request in the curl command", function () {
+    let req = {
+      url: "http://example.com",
+      method: "GET",
+      headers: { "X-DOLLAR": "token/123$" },
+      curlOptions: ["-g"]
+    }
+
+    let curlified = curl(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl -g -X GET \"http://example.com\" -H  \"X-DOLLAR: token/123\\$\"")
+  })
+
+  it("should include multiple curlOptions from the request in the curl command", function () {
+    let req = {
+      url: "http://example.com",
+      method: "GET",
+      headers: { "X-DOLLAR": "token/123$" },
+      curlOptions: ["-g", "--limit-rate 20k"]
+    }
+
+    let curlified = curl(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl -g --limit-rate 20k -X GET \"http://example.com\" -H  \"X-DOLLAR: token/123\\$\"")
+  })
 })

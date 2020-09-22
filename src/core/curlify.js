@@ -20,6 +20,11 @@ export default function curl( request ){
   let isMultipartFormDataRequest = false
   let headers = request.get("headers")
   curlified.push( "curl" )
+
+  if (request.get("curlOptions")) {
+    curlified.push(...request.get("curlOptions"))
+  }
+
   curlified.push( "-X", request.get("method") )
   curlified.push( `"${request.get("url")}"`)
 
