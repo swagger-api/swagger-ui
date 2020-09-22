@@ -1,4 +1,5 @@
 import win from "core/window"
+import Im from "immutable"
 import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
@@ -55,11 +56,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let scopesArray = []
   if (Array.isArray(scopes)) {
     scopesArray = scopes
-  } else if (typeof scopes !== "undefined" && typeof scopes.toArray === "function") {
+  } else if (Im.List.isList(scopes)) {
     scopesArray = scopes.toArray()
   }
 
-  if (0 < scopesArray.length)  {
+  if (scopesArray.length > 0)  {
     let scopeSeparator = authConfigs.scopeSeparator || " "
 
     query.push("scope=" + encodeURIComponent(scopesArray.join(scopeSeparator)))
