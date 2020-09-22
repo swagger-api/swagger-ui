@@ -21,4 +21,17 @@ export function toggle(configName) {
 
 
 // Hook
-export const loaded = () => () => {}
+export const loaded = () => ({getConfigs, authActions}) => {
+  // check if we should restore authorization data from localStorage
+  const configs = getConfigs()
+  if (configs.persistAuthorization)
+  { 
+    const authorized = localStorage.getItem("authorized")                
+    if(authorized)
+    {      
+      authActions.restoreAuthorization({      
+        authorized: JSON.parse(authorized)
+      })                
+    }
+  }
+}

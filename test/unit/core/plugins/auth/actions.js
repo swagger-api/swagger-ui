@@ -1,5 +1,12 @@
-
-import { authorizeRequest, authorizeAccessCodeWithFormParams } from "corePlugins/auth/actions"
+import { Map } from "immutable"
+import {
+  authorizeRequest,
+  authorizeAccessCodeWithFormParams,  
+  authorizeWithPersistOption,
+  authorizeOauth2WithPersistOption,
+  logoutWithPersistOption,
+  persistAuthorizationIfNeeded
+} from "corePlugins/auth/actions"
 
 describe("auth plugin - actions", () => {
 
@@ -183,5 +190,124 @@ describe("auth plugin - actions", () => {
       expect(actualArgument.body).toContain("code_verifier=" + data.auth.codeVerifier)
       expect(actualArgument.body).toContain("grant_type=authorization_code")
     })
+  })
+
+  describe("persistAuthorization", () => {
+    describe("wrapped functions with persist option", () => {
+      it("should wrap `authorize` action and persist data if needed", () => {
+
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({}),
+          authActions: {
+            authorize: jest.fn(()=>{}),
+            persistAuthorizationIfNeeded: jest.fn(()=>{})
+          }
+        }
+  
+        // When
+        authorizeWithPersistOption(data)(system)
+  
+        // Then
+        expect(system.authActions.authorize).toHaveBeenCalled()
+        expect(system.authActions.authorize).toHaveBeenCalledWith(data)
+        expect(system.authActions.persistAuthorizationIfNeeded).toHaveBeenCalled()
+      })
+
+      it("should wrap `oauth2Authorize` action and persist data if needed", () => {
+
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({}),
+          authActions: {
+            authorizeOauth2: jest.fn(()=>{}),
+            persistAuthorizationIfNeeded: jest.fn(()=>{})
+          }
+        }
+  
+        // When
+        authorizeOauth2WithPersistOption(data)(system)
+  
+        // Then
+        expect(system.authActions.authorizeOauth2).toHaveBeenCalled()
+        expect(system.authActions.authorizeOauth2).toHaveBeenCalledWith(data)
+        expect(system.authActions.persistAuthorizationIfNeeded).toHaveBeenCalled()
+      })
+
+      it("should wrap `logout` action and persist data if needed", () => {
+
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({}),
+          authActions: {
+            logout: jest.fn(()=>{}),
+            persistAuthorizationIfNeeded: jest.fn(()=>{})
+          }
+        }
+  
+        // When
+        logoutWithPersistOption(data)(system)
+  
+        // Then
+        expect(system.authActions.logout).toHaveBeenCalled()
+        expect(system.authActions.logout).toHaveBeenCalledWith(data)
+        expect(system.authActions.persistAuthorizationIfNeeded).toHaveBeenCalled()
+      })
+    })    
+
+    describe("persistAuthorizationIfNeeded", () => {
+      beforeEach(() => {
+        localStorage.clear()
+      })
+      it("should skip if `persistAuthorization` is turned off", () => {
+        // Given        
+        const system = {          
+          getConfigs: () => ({
+            persistAuthorization: false
+          }),          
+          authSelectors: {
+            authorized: jest.fn(()=>{})
+          }
+        }
+  
+        // When
+        persistAuthorizationIfNeeded()(system)
+  
+        // Then
+        expect(system.authSelectors.authorized).not.toHaveBeenCalled()
+      })
+      it("should persist authorization data to localStorage", () => {
+        // Given
+        const data = {
+          "api_key": {}
+        }
+        const system = {          
+          getConfigs: () => ({
+            persistAuthorization: true
+          }),          
+          authSelectors: {
+            authorized: jest.fn(()=>Map(data))
+          }
+        }        
+        jest.spyOn(Object.getPrototypeOf(window.localStorage), "setItem")
+
+        // When
+        persistAuthorizationIfNeeded()(system)
+
+        expect(localStorage.setItem).toHaveBeenCalled()
+        expect(localStorage.setItem).toHaveBeenCalledWith("authorized", JSON.stringify(data))        
+  
+      })
+    })
+
   })
 })

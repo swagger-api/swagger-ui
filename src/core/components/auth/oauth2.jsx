@@ -96,7 +96,7 @@ export default class Oauth2 extends React.Component {
     let { authActions, errActions, name } = this.props
 
     errActions.clear({authId: name, type: "auth", source: "auth"})
-    authActions.logout([ name ])
+    authActions.logoutWithPersistOption([ name ])
   }
 
   render() {

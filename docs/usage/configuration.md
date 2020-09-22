@@ -84,6 +84,12 @@ Parameter name | Docker variable | Description
 <a name="modelPropertyMacro"></a>`modelPropertyMacro` | _Unavailable_ | `Function`. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 <a name="parameterMacro"></a>`parameterMacro` | _Unavailable_ | `Function`. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
 
+##### Authorization
+
+Parameter name | Docker variable | Description
+--- | --- | -----
+<a name="persistAuthorization"></a>`persistAuthorization` | _Unavailable_ | `Boolean=false`. If set to `true`, it persists authorization data and it would not be lost on browser close/refresh
+
 ### Instance methods
 
 **💡 Take note! These are methods, not parameters**.

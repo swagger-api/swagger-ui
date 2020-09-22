@@ -1494,7 +1494,7 @@ describe("utils", () => {
       Date = oriDate
     })
     
-    it("should not unnecessarily stringify non-object values", () => {
+    it("should stringify string values", () => {
       // Given
       const res = getSampleSchema({
         type: "string",
@@ -1502,7 +1502,17 @@ describe("utils", () => {
       })
       
       // Then
-      expect(res).toEqual(new Date().toISOString())
+      expect(res).toEqual(JSON.stringify(new Date().toISOString()))
+    })
+
+    it("should not unnecessarily stringify non-object values", () => {
+      // Given
+      const res = getSampleSchema({
+        type: "number"
+      })
+      
+      // Then
+      expect(res).toEqual(0)
     })
   })
   
