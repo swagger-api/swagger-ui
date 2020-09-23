@@ -541,16 +541,6 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
   return errors
 }
 
-export const getSampleSchema = (schema, contentType="", config={}) => {
-  if (/xml/.test(contentType)) {
-    return getXmlSampleSchema(schema, config)
-  } else if (contentType !== "text/plain") {
-    return getTextPlainSampleForSchema(schema, config)
-  } else {
-    return getJsonSampleForSchema(schema, config)
-  }
-}
-
 const getXmlSampleSchema = (schema, config) => {
   if (!schema.xml || !schema.xml.name) {
     schema.xml = schema.xml || {}
@@ -566,21 +556,32 @@ const getXmlSampleSchema = (schema, config) => {
   }
   return memoizedCreateXMLExample(schema, config)
 }
+
+const getStringifiedSampleForSchema = (schema, config, shouldStringifyFn) => {
+  const res = memoizedSampleFromSchema(schema, config)
+  return shouldStringifyFn(res)
+    ? JSON.stringify(res, null, 2)
+    : res
+}
+
 const getTextPlainSampleForSchema = (schema, config) => getStringifiedSampleForSchema(
-    schema,
-    config,
-    typeof res === "object");
+  schema,
+  config,
+  res => typeof res === "object")
 
 const getJsonSampleForSchema = (schema, config) => getStringifiedSampleForSchema(
-    schema,
-    config,
-    typeof res === "object" || typeof res === "string");
+  schema,
+  config,
+  res => typeof res === "object" || typeof res === "string")
 
-const getStringifiedSampleForSchema = (schema, config, shouldStringify) => {
-  const res = memoizedSampleFromSchema(schema, config)
-  return shouldStringify
-    ? JSON.stringify(res, null, 2) 
-    : res
+export const getSampleSchema = (schema, contentType="", config={}) => {
+  if (/xml/.test(contentType)) {
+    return getXmlSampleSchema(schema, config)
+  } else if (contentType === "text/plain") {
+    return getTextPlainSampleForSchema(schema, config)
+  } else {
+    return getJsonSampleForSchema(schema, config)
+  }
 }
 
 export const parseSearch = () => {
