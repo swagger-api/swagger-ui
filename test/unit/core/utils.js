@@ -1505,6 +1505,17 @@ describe("utils", () => {
       expect(res).toEqual(JSON.stringify(new Date().toISOString()))
     })
 
+    it("should not unnecessarily stringify string values for text/plain", () => {
+      // Given
+      const res = getSampleSchema({
+        type: "string",
+        format: "date-time"
+      }, "text/plain")
+      
+      // Then
+      expect(res).toEqual(new Date().toISOString())
+    })
+
     it("should not unnecessarily stringify non-object values", () => {
       // Given
       const res = getSampleSchema({
