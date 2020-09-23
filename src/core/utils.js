@@ -559,8 +559,14 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
   }
 
   const res = memoizedSampleFromSchema(schema, config)
+  
+  let shouldStringify = typeof res === "object"
+  if (contentType !== "text/plain")
+  {
+    shouldStringify = shouldStringify || typeof res === "string" 
+  }
 
-  return typeof res === "object" || typeof res === "string" 
+  return shouldStringify
     ? JSON.stringify(res, null, 2) 
     : res
 }
