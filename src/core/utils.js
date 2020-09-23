@@ -543,29 +543,41 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 
 export const getSampleSchema = (schema, contentType="", config={}) => {
   if (/xml/.test(contentType)) {
-    if (!schema.xml || !schema.xml.name) {
-      schema.xml = schema.xml || {}
+    return getXmlSampleSchema(schema, config)
+  } else if (contentType !== "text/plain") {
+    return getTextPlainSampleForSchema(schema, config)
+  } else {
+    return getJsonSampleForSchema(schema, config)
+  }
+}
 
-      if (schema.$$ref) {
-        let match = schema.$$ref.match(/\S*\/(\S+)$/)
-        schema.xml.name = match[1]
-      } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
-      } else {
-        return null
-      }
+const getXmlSampleSchema = (schema, config) => {
+  if (!schema.xml || !schema.xml.name) {
+    schema.xml = schema.xml || {}
+
+    if (schema.$$ref) {
+      let match = schema.$$ref.match(/\S*\/(\S+)$/)
+      schema.xml.name = match[1]
+    } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
+      return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
+    } else {
+      return null
     }
-    return memoizedCreateXMLExample(schema, config)
   }
+  return memoizedCreateXMLExample(schema, config)
+}
+const getTextPlainSampleForSchema = (schema, config) => getStringifiedSampleForSchema(
+    schema,
+    config,
+    typeof res === "object");
 
+const getJsonSampleForSchema = (schema, config) => getStringifiedSampleForSchema(
+    schema,
+    config,
+    typeof res === "object" || typeof res === "string");
+
+const getStringifiedSampleForSchema = (schema, config, shouldStringify) => {
   const res = memoizedSampleFromSchema(schema, config)
-  
-  let shouldStringify = typeof res === "object"
-  if (contentType !== "text/plain")
-  {
-    shouldStringify = shouldStringify || typeof res === "string" 
-  }
-
   return shouldStringify
     ? JSON.stringify(res, null, 2) 
     : res
