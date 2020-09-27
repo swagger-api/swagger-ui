@@ -1494,23 +1494,23 @@ describe("utils", () => {
       Date = oriDate
     })
     
-    it("should stringify string values", () => {
+    it("should stringify string values if json content-type", () => {
       // Given
       const res = getSampleSchema({
         type: "string",
         format: "date-time"
-      })
+      }, "text/json")
       
       // Then
       expect(res).toEqual(JSON.stringify(new Date().toISOString()))
     })
 
-    it("should not unnecessarily stringify string values for text/plain", () => {
+    it("should not unnecessarily stringify string values for other content-types", () => {
       // Given
       const res = getSampleSchema({
         type: "string",
         format: "date-time"
-      }, "text/plain")
+      })
       
       // Then
       expect(res).toEqual(new Date().toISOString())
@@ -1521,6 +1521,16 @@ describe("utils", () => {
       const res = getSampleSchema({
         type: "number"
       })
+      
+      // Then
+      expect(res).toEqual(0)
+    })
+
+    it("should not unnecessarily stringify non-object values if content-type is json", () => {
+      // Given
+      const res = getSampleSchema({
+        type: "number"
+      }, "application/json")
       
       // Then
       expect(res).toEqual(0)

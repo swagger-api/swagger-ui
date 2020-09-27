@@ -557,31 +557,34 @@ const getXmlSampleSchema = (schema, config) => {
   return memoizedCreateXMLExample(schema, config)
 }
 
-const getStringifiedSampleForSchema = (schema, config, shouldStringifyFn) => {
+const shouldStringifyTypesConfig = [
+  {
+    when: /json/,
+    shouldStringifyTypes: [
+      "string"
+    ]
+  }
+]
+
+const getStringifiedSampleForSchema = (schema, config, contentType) => {
   const res = memoizedSampleFromSchema(schema, config)
-  return shouldStringifyFn(res)
+  const resType = typeof res
+  const stringifyConfig = shouldStringifyTypesConfig.find(c => c.when.test(contentType))
+  const additionalTypesToStringify = !stringifyConfig
+    ? []
+    : stringifyConfig.shouldStringifyTypes
+
+    return resType === "object" || additionalTypesToStringify.some(x => x === resType)
     ? JSON.stringify(res, null, 2)
     : res
 }
 
-const getTextPlainSampleForSchema = (schema, config) => getStringifiedSampleForSchema(
-  schema,
-  config,
-  res => typeof res === "object")
-
-const getJsonSampleForSchema = (schema, config) => getStringifiedSampleForSchema(
-  schema,
-  config,
-  res => typeof res === "object" || typeof res === "string")
-
 export const getSampleSchema = (schema, contentType="", config={}) => {
   if (/xml/.test(contentType)) {
     return getXmlSampleSchema(schema, config)
-  } else if (contentType === "text/plain") {
-    return getTextPlainSampleForSchema(schema, config)
-  } else {
-    return getJsonSampleForSchema(schema, config)
   }
+
+  return getStringifiedSampleForSchema(schema, config, contentType)
 }
 
 export const parseSearch = () => {
