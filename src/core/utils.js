@@ -560,21 +560,23 @@ const getXmlSampleSchema = (schema, config) => {
 const shouldStringifyTypesConfig = [
   {
     when: /json/,
-    shouldStringifyTypes: [
-      "string"
-    ]
+    shouldStringifyTypes: ["string"]
   }
 ]
+
+const defaultStringifyTypes = ["object"]
 
 const getStringifiedSampleForSchema = (schema, config, contentType) => {
   const res = memoizedSampleFromSchema(schema, config)
   const resType = typeof res
-  const stringifyConfig = shouldStringifyTypesConfig.find(c => c.when.test(contentType))
-  const additionalTypesToStringify = !stringifyConfig
-    ? []
-    : stringifyConfig.shouldStringifyTypes
 
-    return resType === "object" || additionalTypesToStringify.some(x => x === resType)
+  const typesToStringify = shouldStringifyTypesConfig.reduce(
+    (types, nextConfig) => nextConfig.when.test(contentType)
+      ? [...types, ...nextConfig.shouldStringifyTypes]
+      : types,
+    defaultStringifyTypes)
+
+  return some(typesToStringify, x => x === resType)
     ? JSON.stringify(res, null, 2)
     : res
 }
