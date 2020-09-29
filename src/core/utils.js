@@ -541,28 +541,52 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
   return errors
 }
 
+const getXmlSampleSchema = (schema, config) => {
+  if (!schema.xml || !schema.xml.name) {
+    schema.xml = schema.xml || {}
+
+    if (schema.$$ref) {
+      let match = schema.$$ref.match(/\S*\/(\S+)$/)
+      schema.xml.name = match[1]
+    } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
+      return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
+    } else {
+      return null
+    }
+  }
+  return memoizedCreateXMLExample(schema, config)
+}
+
+const shouldStringifyTypesConfig = [
+  {
+    when: /json/,
+    shouldStringifyTypes: ["string"]
+  }
+]
+
+const defaultStringifyTypes = ["object"]
+
+const getStringifiedSampleForSchema = (schema, config, contentType) => {
+  const res = memoizedSampleFromSchema(schema, config)
+  const resType = typeof res
+
+  const typesToStringify = shouldStringifyTypesConfig.reduce(
+    (types, nextConfig) => nextConfig.when.test(contentType)
+      ? [...types, ...nextConfig.shouldStringifyTypes]
+      : types,
+    defaultStringifyTypes)
+
+  return some(typesToStringify, x => x === resType)
+    ? JSON.stringify(res, null, 2)
+    : res
+}
+
 export const getSampleSchema = (schema, contentType="", config={}) => {
   if (/xml/.test(contentType)) {
-    if (!schema.xml || !schema.xml.name) {
-      schema.xml = schema.xml || {}
-
-      if (schema.$$ref) {
-        let match = schema.$$ref.match(/\S*\/(\S+)$/)
-        schema.xml.name = match[1]
-      } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
-      } else {
-        return null
-      }
-    }
-    return memoizedCreateXMLExample(schema, config)
+    return getXmlSampleSchema(schema, config)
   }
 
-  const res = memoizedSampleFromSchema(schema, config)
-
-  return typeof res === "object" || typeof res === "string" 
-    ? JSON.stringify(res, null, 2) 
-    : res
+  return getStringifiedSampleForSchema(schema, config, contentType)
 }
 
 export const parseSearch = () => {
