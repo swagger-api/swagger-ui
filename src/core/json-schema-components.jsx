@@ -320,18 +320,16 @@ export class JsonSchema_boolean extends Component {
     let { getComponent, value, errors, schema, required, disabled } = this.props
     errors = errors.toJS ? errors.toJS() : []
     let enumValue = schema && schema.get ? schema.get("enum") : null
-    if (!enumValue) {
-      // in case schema.get() also returns undefined/null
-      enumValue = fromJS(["true", "false"])
-    }
+    let allowEmptyValue = !enumValue || !required
+    let booleanValue = !enumValue && fromJS(["true", "false"])
     const Select = getComponent("Select")
 
     return (<Select className={ errors.length ? "invalid" : ""}
                     title={ errors.length ? errors : ""}
                     value={ String(value) }
                     disabled={ disabled }
-                    allowedValues={ enumValue }
-                    allowEmptyValue={ !required }
+                    allowedValues={ enumValue || booleanValue }
+                    allowEmptyValue={ allowEmptyValue }
                     onChange={ this.onEnumChange }/>)
   }
 }
