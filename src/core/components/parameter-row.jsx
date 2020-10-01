@@ -369,6 +369,7 @@ export default class ParameterRow extends Component {
                   oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
                 ])}
                 getComponent={getComponent}
+                getConfigs={getConfigs}
               />
             ) : null
           }

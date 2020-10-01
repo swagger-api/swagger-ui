@@ -250,6 +250,7 @@ const RequestBody = ({
           example={
             <HighlightCode
               className="body-param__example"
+              getConfigs={getConfigs}
               value={stringify(requestBodyValue) || getDefaultRequestBodyValue(
                 requestBody,
                 contentType,
@@ -266,6 +267,7 @@ const RequestBody = ({
         <Example
           example={examplesForMediaType.get(activeExamplesKey)}
           getComponent={getComponent}
+          getConfigs={getConfigs}
         />
       ) : null
     }
