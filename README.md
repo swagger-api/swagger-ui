@@ -15,7 +15,7 @@
 **🕰️ Looking for the older version of Swagger UI?** Refer to the [*2.x* branch](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
 
-This repository publishes to three different NPM modules:
+This repository publishes three different NPM modules:
 
 * [swagger-ui](https://www.npmjs.com/package/swagger-ui) is a traditional npm module intended for use in single-page applications that are capable of resolving dependencies (via Webpack, Browserify, etc).
 * [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) is a dependency-free module that includes everything you need to serve Swagger UI in a server-side project, or a single-page application that can't resolve npm module dependencies.
@@ -65,7 +65,7 @@ https://nightwatchjs.org/gettingstarted/#selenium-server-setup
 Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
 
 ### Browser support
-Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
+Swagger UI works in the latest versions of Chrome, Safari, Firefox, and Edge.
 
 ### Known Issues
 

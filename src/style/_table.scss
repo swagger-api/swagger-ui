@@ -38,6 +38,12 @@ table
 
             @include text_code();
         }
+
+        .header-example 
+        {
+            color: #999; 
+            font-style: italic;
+        }
     }
 
     tbody
@@ -52,7 +58,6 @@ table
 
                 &:first-of-type
                 {
-                    max-width: 20%;
                     min-width: 6em;
                     padding: 10px 0;
                 }
@@ -112,6 +117,11 @@ table
     {
         font-weight: bold;
 
+        span
+        {
+            color: red;
+        }
+
         &:after
         {
             font-size: 10px;
@@ -146,6 +156,7 @@ table
 }
 
 .parameter__empty_value_toggle {
+    display: block;
     font-size: 13px;
     padding-top: 5px;
     padding-bottom: 12px;

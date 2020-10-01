@@ -8,10 +8,16 @@ npm-debug.log*
 .eslintcache
 *.iml
 selenium-debug.log
+chromedriver.log
 test/e2e/db.json
 docs/_book
+dev-helpers/examples
 
+# dist
 flavors/**/dist/*
+/lib
+/es
+dist/log*
 
 # Cypress
 test/e2e-cypress/screenshots
