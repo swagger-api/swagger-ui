@@ -123,6 +123,8 @@ export default class Response extends React.Component {
       const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
 
       const getSchemaFromExample = (targetExample) => {
+        if(targetExample == undefined)
+          return schema
         const sampleSchema = { ...schema }
         sampleSchema.example = typeof targetExample.toJS === "function"
           ? targetExample.toJS()
