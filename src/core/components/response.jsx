@@ -226,6 +226,7 @@ export default class Response extends React.Component {
               <Example
                 example={examplesForMediaType.get(this.getTargetExamplesKey(), Map({}))}
                 getComponent={getComponent}
+                getConfigs={getConfigs}
                 omitValue={true}
               />
           ) : null}

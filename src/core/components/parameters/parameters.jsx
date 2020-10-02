@@ -107,6 +107,7 @@ export default class Parameters extends Component {
     const isExecute = tryItOutEnabled && allowTryItOut
     const isOAS3 = specSelectors.isOAS3()
 
+
     const requestBody = operation.get("requestBody")
     return (
       <div className="opblock-section">
@@ -200,6 +201,7 @@ export default class Parameters extends Component {
                 requestBodyInclusionSetting={oas3Selectors.requestBodyInclusionSetting(...pathMethod)}
                 requestBodyErrors={oas3Selectors.requestBodyErrors(...pathMethod)}
                 isExecute={isExecute}
+                getConfigs={getConfigs}
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
                   "requestBody",
