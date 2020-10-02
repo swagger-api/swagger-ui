@@ -122,22 +122,33 @@ export default class Response extends React.Component {
     if(isOAS3) {
       const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
 
+      const getSchemaFromExample = (targetExample) => {
+        const sampleSchema = { ...schema }
+        sampleSchema.example = typeof targetExample.toJS === "function"
+          ? targetExample.toJS()
+          : targetExample
+        return sampleSchema
+      }
+
+      let targetExample;
+      let useoas3Schema = true;
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
-        const targetExample = examplesForMediaType.get(targetExamplesKey, Map({}))
-        const sampleSchema = {...schema, example: targetExample.get("value").toJS()}
-        sampleResponse = getSampleSchema(sampleSchema, this.state.responseContentType, {
-          includeReadOnly: true
-        })
+        targetExample = examplesForMediaType
+          .get(targetExamplesKey, Map({}))
+          .get("value")
+        useoas3Schema = false;
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
-        sampleResponse = stringify(activeMediaType.get("example"))
-      } else {
-        // use an example value generated based on the schema
-        sampleResponse = getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
-          includeReadOnly: true
-        })
+        targetExample = activeMediaType.get("example")
+        useoas3Schema = false;
       }
+      const sampleSchema = useoas3Schema 
+        ? oas3SchemaForContentType.toJS()
+        : getSchemaFromExample(targetExample)
+      sampleResponse = getSampleSchema(sampleSchema, this.state.responseContentType, {
+        includeReadOnly: true
+      })
     } else {
       if(response.getIn(["examples", activeContentType])) {
         sampleResponse = response.getIn(["examples", activeContentType])
