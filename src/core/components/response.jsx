@@ -125,7 +125,10 @@ export default class Response extends React.Component {
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
         const targetExample = examplesForMediaType.get(targetExamplesKey, Map({}))
-        sampleResponse = stringify(targetExample.get("value"))
+        const sampleSchema = {...schema, example: targetExample.get("value").toJS()}
+        sampleResponse = getSampleSchema(sampleSchema, this.state.responseContentType, {
+          includeReadOnly: true
+        })
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
         sampleResponse = stringify(activeMediaType.get("example"))
