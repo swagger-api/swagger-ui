@@ -197,7 +197,7 @@ const RequestBody = ({
                               onChange={(value) => onChangeIncludeEmpty(key, value)}
                               isIncluded={requestBodyInclusionSetting.get(key) || false}
                               isIncludedOptions={setIsIncludedOptions(key)}
-                              isDisabled={!isEmptyValue(currentValue)}
+                              isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
                             />
                           )}
                         </div> : null }
