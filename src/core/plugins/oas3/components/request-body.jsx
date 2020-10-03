@@ -145,10 +145,14 @@ const RequestBody = ({
 
               let initialValue = prop.get("default") || prop.get("example") || ""
 
-              if (initialValue === "" && type === "object") {
-                initialValue = getSampleSchema(prop, false, {
-                  includeWriteOnly: true
-                })
+              if (initialValue === "") {
+                if(type === "object") {
+                  initialValue = getSampleSchema(prop, false, {
+                    includeWriteOnly: true
+                  })
+                } else if(type === "array") {
+                  initialValue = []
+                }
               }
 
               if (typeof initialValue !== "string" && type === "object") {

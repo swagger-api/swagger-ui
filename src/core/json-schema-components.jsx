@@ -4,7 +4,7 @@ import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
-import { stringify } from "core/utils"
+import { stringify, getSampleSchema } from "core/utils"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -125,12 +125,15 @@ export class JsonSchema_array extends PureComponent {
 
   constructor(props, context) {
     super(props, context)
-    this.state = { value: valueOrEmptyList(props.value) }
+    this.state = { value: valueOrEmptyList(props.value), schema: props.schema}
   }
 
   componentWillReceiveProps(props) {
     if(props.value !== this.state.value)
       this.setState({ value: props.value })
+
+    if(props.schema !== this.state.schema)
+      this.setState({ schema: props.schema })
   }
 
   onChange = () => {
@@ -152,7 +155,9 @@ export class JsonSchema_array extends PureComponent {
   addItem = () => {
     let newValue = valueOrEmptyList(this.state.value)
     this.setState(() => ({
-      value: newValue.push("")
+      value: newValue.push(getSampleSchema(this.state.schema.get("items"), false, {
+        includeWriteOnly: true
+      }))
     }), this.onChange)
   }
 
@@ -181,6 +186,7 @@ export class JsonSchema_array extends PureComponent {
     } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}`)
     }
+    debugger;
     // if ArrayItemsComponent not assigned or does not exist,
     // use default schemaItemsType === "string" & JsonSchemaArrayItemText component
     if (!ArrayItemsComponent && !isArrayItemFile) {
