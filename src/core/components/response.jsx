@@ -132,18 +132,18 @@ export default class Response extends React.Component {
         return sampleSchema
       }
 
-      let targetExample;
-      let useoas3Schema = true;
+      let targetExample
+      let useoas3Schema = true
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
         targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
           .get("value")
-        useoas3Schema = false;
+        useoas3Schema = false
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
         targetExample = activeMediaType.get("example")
-        useoas3Schema = false;
+        useoas3Schema = false
       }
       const sampleSchema = useoas3Schema 
         ? oas3SchemaForContentType.toJS()
