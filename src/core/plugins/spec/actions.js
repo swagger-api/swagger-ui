@@ -416,7 +416,7 @@ export const executeRequest = (req) =>
             }
           )
           .filter(
-            (value, key) => !isEmptyValue(value) || requestBodyInclusionSetting.get(key)
+            (value, key) => (Array.isArray(value) ? value.length !== 0 : !isEmptyValue(value)) || requestBodyInclusionSetting.get(key)
           )
           .toJS()
       } else{
