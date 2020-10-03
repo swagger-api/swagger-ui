@@ -186,7 +186,6 @@ export class JsonSchema_array extends PureComponent {
     } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}`)
     }
-    debugger;
     // if ArrayItemsComponent not assigned or does not exist,
     // use default schemaItemsType === "string" & JsonSchemaArrayItemText component
     if (!ArrayItemsComponent && !isArrayItemFile) {
