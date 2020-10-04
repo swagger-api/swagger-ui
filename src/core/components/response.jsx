@@ -100,7 +100,6 @@ export default class Response extends React.Component {
     const Example = getComponent("Example")
 
 
-    var sampleResponse
     var schema, specPathWithPossibleSchema
 
     const activeContentType = this.state.responseContentType || contentType
@@ -118,55 +117,52 @@ export default class Response extends React.Component {
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
     }
 
+    const overrideSchemaExample = (oldSchema, newExample) => {
+      if(!oldSchema)
+        return null
+      oldSchema.example = typeof newExample.toJS === "function"
+        ? newExample.toJS()
+        : newExample
+      return oldSchema
+    }
+    let mediaTypeExample
+    let shouldOverrideSchemaExample = false
+    let sampleSchema
+    let sampleGenConfig = {
+      includeReadOnly: true
+    }
+
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
-      const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
-
-      const overrideSchemaExample = (oldSchema, newExample) => {
-        if(newExample == undefined)
-          return oldSchema
-        oldSchema.example = typeof newExample.toJS === "function"
-          ? newExample.toJS()
-          : newExample
-        return oldSchema
-      }
-
-      let mediaTypeExample
-      let shouldOverrideSchemaExample = true
-
+      sampleSchema = activeMediaType.get("schema", Map({})).toJS()
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
         mediaTypeExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
           .get("value")
-        shouldOverrideSchemaExample = false
+        shouldOverrideSchemaExample = true
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
         mediaTypeExample = activeMediaType.get("example")
-        shouldOverrideSchemaExample = false
+        shouldOverrideSchemaExample = true
       }
-
-      const schemaJS = oas3SchemaForContentType.toJS();
-      const schemaForSampleGeneration = shouldOverrideSchemaExample 
-        ? schemaJS
-        : overrideSchemaExample(schemaJS, mediaTypeExample)
-      sampleResponse = getSampleSchema(schemaForSampleGeneration, activeContentType, {
-        includeReadOnly: true
-      })
     } else {
-      if(response.getIn(["examples", activeContentType])) {
-        sampleResponse = response.getIn(["examples", activeContentType])
-      } else {
-        sampleResponse = schema ? getSampleSchema(
-          schema.toJS(),
-          activeContentType,
-          {
-            includeReadOnly: true,
-            includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
-          }
-        ) : null
+      sampleSchema = schema
+      sampleGenConfig = {...sampleGenConfig, includeWriteOnly: true}
+      const oldOASMediaTypeExample = response.getIn(["examples", activeContentType])
+      if(oldOASMediaTypeExample) {
+        mediaTypeExample = oldOASMediaTypeExample
+        shouldOverrideSchemaExample = true
       }
     }
+
+    const schemaForSampleGeneration = shouldOverrideSchemaExample
+        ? overrideSchemaExample(sampleSchema, mediaTypeExample)
+        : sampleSchema
+
+    const sampleResponse = schemaForSampleGeneration
+      ? getSampleSchema(schemaForSampleGeneration, activeContentType, sampleGenConfig)
+      : null
 
     let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
 
