@@ -150,7 +150,7 @@ export default class Response extends React.Component {
       const schemaForSampleGeneration = shouldOverrideSchemaExample 
         ? schemaJS
         : overrideSchemaExample(schemaJS, mediaTypeExample)
-      sampleResponse = getSampleSchema(schemaForSampleGeneration, this.state.responseContentType, {
+      sampleResponse = getSampleSchema(schemaForSampleGeneration, activeContentType, {
         includeReadOnly: true
       })
     } else {
