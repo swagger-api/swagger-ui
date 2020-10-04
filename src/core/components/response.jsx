@@ -122,33 +122,35 @@ export default class Response extends React.Component {
     if(isOAS3) {
       const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
 
-      const getSchemaFromExample = (targetExample) => {
-        if(targetExample == undefined)
+      const overrideSchemaExample = (oldSchema, newExample) => {
+        if(newExample == undefined)
           return schema
-        const sampleSchema = { ...schema }
-        sampleSchema.example = typeof targetExample.toJS === "function"
-          ? targetExample.toJS()
-          : targetExample
-        return sampleSchema
+        oldSchema.example = typeof newExample.toJS === "function"
+          ? newExample.toJS()
+          : newExample
+        return oldSchema
       }
 
-      let targetExample
-      let useoas3Schema = true
+      let mediaTypeExample
+      let shouldOverrideSchemaExample = true
+
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
-        targetExample = examplesForMediaType
+        mediaTypeExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
           .get("value")
-        useoas3Schema = false
+        shouldOverrideSchemaExample = false
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
-        targetExample = activeMediaType.get("example")
-        useoas3Schema = false
+        mediaTypeExample = activeMediaType.get("example")
+        shouldOverrideSchemaExample = false
       }
-      const sampleSchema = useoas3Schema 
-        ? oas3SchemaForContentType.toJS()
-        : getSchemaFromExample(targetExample)
-      sampleResponse = getSampleSchema(sampleSchema, this.state.responseContentType, {
+
+      const schemaJS = oas3SchemaForContentType.toJS();
+      const schemaForSampleGeneration = shouldOverrideSchemaExample 
+        ? schemaJS
+        : overrideSchemaExample(schemaJS, mediaTypeExample)
+      sampleResponse = getSampleSchema(schemaForSampleGeneration, this.state.responseContentType, {
         includeReadOnly: true
       })
     } else {
