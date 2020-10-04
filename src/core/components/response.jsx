@@ -124,7 +124,7 @@ export default class Response extends React.Component {
 
       const overrideSchemaExample = (oldSchema, newExample) => {
         if(newExample == undefined)
-          return schema
+          return oldSchema
         oldSchema.example = typeof newExample.toJS === "function"
           ? newExample.toJS()
           : newExample
