@@ -118,10 +118,12 @@ export default class Response extends React.Component {
     }
 
     const overrideSchemaExample = (oldSchema, newExample) => {
-      if(!oldSchema)
-        return null
       if(newExample === undefined)
         return oldSchema
+
+      if(!oldSchema)
+        oldSchema = { }
+
       oldSchema.example = typeof newExample.toJS === "function"
         ? newExample.toJS()
         : newExample
@@ -162,8 +164,8 @@ export default class Response extends React.Component {
     }
 
     const schemaForSampleGeneration = shouldOverrideSchemaExample
-        ? overrideSchemaExample(sampleSchema, mediaTypeExample)
-        : sampleSchema
+      ? overrideSchemaExample(sampleSchema, mediaTypeExample)
+      : sampleSchema
 
     const sampleResponse = schemaForSampleGeneration
       ? getSampleSchema(schemaForSampleGeneration, activeContentType, sampleGenConfig)
