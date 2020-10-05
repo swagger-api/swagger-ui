@@ -142,6 +142,9 @@ export default class Response extends React.Component {
         mediaTypeExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
           .get("value")
+        if(mediaTypeExample === undefined) {
+          mediaTypeExample = examplesForMediaType.values().next().value
+        }
         shouldOverrideSchemaExample = true
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
