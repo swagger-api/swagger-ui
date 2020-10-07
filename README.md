@@ -10,6 +10,8 @@
 ![monthly packagist installs](https://img.shields.io/packagist/dm/swagger-api/swagger-ui.svg?label=packagist%20installs)
 ![gzip size](https://img.shields.io/bundlephobia/minzip/swagger-ui.svg?label=gzip%20size)
 
+* Read this file in portuguese-BR [here](/README.md/README-Portuguese-BR)
+
 **👉🏼 Want to score an easy open-source contribution?** Check out our [Good first issue](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+issue%22) label.
 
 **🕰️ Looking for the older version of Swagger UI?** Refer to the [*2.x* branch](https://github.com/swagger-api/swagger-ui/tree/2.x).
@@ -80,3 +82,79 @@ To help with the migration, here are the currently known issues with 3.X. This l
 ## Security contact
 
 Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
+
+
+
+
+## README Portuguese-BR
+
+**👉🏼 Quer conseguir uma contribuição open-source fácil?** Dê uma olha na nossa [Bom primeiro issue](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+issue%22) etiqueta.
+
+**🕰️ Procurando pela versão mais antiga do Swagger UI?** Refira-se para a [*2.x* branch](https://github.com/swagger-api/swagger-ui/tree/2.x).
+
+Esse repositório publica três módulos NPM diferentes:
+
+* [swagger-ui](https://www.npmjs.com/package/swagger-ui) é um módulo NPM tradicional para uso em aplicações de página única que são capazes de resolver dependências (via Webpack, Browserify, etc).
+* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) é um módulo livre de dependência que inclui tudo que você precisa para usar Swagger UI em um projeto server-side, ou uma aplicação de página única que não consegue resolver dependências de módulos NPM.
+* [swagger-ui-react](https://www.npmjs.com/package/swagger-ui-react) É o Swagger UI empacotado como um componente de React para uso em aplicações React.
+
+Nós fortemente sugerimos que você use `swagger-ui` ao invés de `swagger-ui-dist` se você está construindo uma aplicação de página única, pois `swagger-ui-dist` é um pouco mais extenso.
+
+
+## Compatibilidade
+A OpenAPI Specification passou por 5 revisões desde sua criação em 2010. Compatibilidade entre Swagger UI e a OpenAPI Specification é a seguinte:
+
+Versão do Swagger UI | Data de lançamento | OpenAPI Spec compatibilidade | Notas
+------------------ | ------------ | -------------------------- | -----
+3.18.3 | 2018-08-03 | 2.0, 3.0 | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3)
+3.0.21 | 2017-07-26 | 2.0 | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21)
+2.2.10 | 2017-01-04 | 1.1, 1.2, 2.0 | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10)
+2.1.5 | 2016-07-20 | 1.1, 1.2, 2.0 | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)
+2.0.24 | 2014-09-12 | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24)
+1.0.13 | 2013-03-08 | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13)
+1.0.1 | 2011-10-11 | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)
+
+
+## Documentation
+
+#### Uso
+- [Instalação](docs/usage/installation.md)
+- [Configuração](docs/usage/configuration.md)
+- [CORS](docs/usage/cors.md)
+- [OAuth2](docs/usage/oauth2.md)
+- [Deep Linking](docs/usage/deep-linking.md)
+- [Limitações](docs/usage/limitations.md)
+- [Detecção de versão](docs/usage/version-detection.md)
+
+#### Customização
+- [Visão geral](docs/customization/overview.md)
+- [Plugin API](docs/customization/plugin-api.md)
+- [Layout customizado](docs/customization/custom-layout.md)
+
+#### Desenvolvimento
+- [Começando](docs/development/setting-up.md)
+- [Scripts](docs/development/scripts.md)
+
+##### Testes de integração
+
+Será preciso o JDK na versão 7 ou maior, como mostra aqui
+https://nightwatchjs.org/gettingstarted/#selenium-server-setup
+
+Testes de integração podem ser executados localmente com `npm run e2e` - se certifique que não está rodando um servidor dev quando for testar!
+
+### Suporte de navegador
+Swagger UI funciona nas últimas versões do Chrome, Safari, Firefox e Edge.
+
+### Problemas conhecidos
+
+Para ajudar com a migração, aqui estão os atuais problemas com 3.X. Essa lista vai ser atualizada regularmente, e não vai incluir recursos que não foram implementados em versões anteriores.
+
+- Apenas parte dos parâmetros previamente suportados estão disponíveis.
+- O JSON Form Editor (Editor de formulário JSON) não está implementado.
+- Suporte para `collectionFormat` é parcial.
+- l10n (traduções) não está implementado.
+- Suporte para caminho relativo para arquivos externos não está implementado.
+
+## Contato de segurança
+
+Por favor compartilhe qualquer problema ou vulnerabilidade relacionada à segurança mandando um email para [security@swagger.io](mailto:security@swagger.io), ao invés de usar o rastreador público de problemas.
