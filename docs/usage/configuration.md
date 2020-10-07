@@ -160,3 +160,11 @@ Example:
 ```sh
 SPEC="{ \"openapi\": \"3.0.0\" }"
 ```
+
+### Docker-Compose
+
+#### .env file example encoding
+```sh
+SUPPORTED_SUBMIT_METHODS=['get', 'post']
+URLS=[ { url: 'http://petstore.swagger.io/v2/swagger.json', name: 'Petstore' } ]
+```
