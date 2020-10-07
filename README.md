@@ -10,7 +10,7 @@
 ![monthly packagist installs](https://img.shields.io/packagist/dm/swagger-api/swagger-ui.svg?label=packagist%20installs)
 ![gzip size](https://img.shields.io/bundlephobia/minzip/swagger-ui.svg?label=gzip%20size)
 
-* Read this file in portuguese-BR :brazil: [here](README.md#Portuguese_BR)
+* Read this file in Portuguese-BR [here](README.md#Portuguese_BR)
 
 **👉🏼 Want to score an easy open-source contribution?** Check out our [Good first issue](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+issue%22) label.
 
@@ -88,7 +88,7 @@ Please disclose any security-related issues or vulnerabilities by emailing [secu
 
 # Portuguese_BR
 
-**👉🏼 Quer conseguir uma contribuição open-source fácil?** Dê uma olha na nossa [Bom primeiro issue](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+issue%22) etiqueta.
+**👉🏼 Quer conseguir uma contribuição open-source fácil?** Dê uma olha na nossa etiqueta [Bom primeiro issue](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+issue%22) .
 
 **🕰️ Procurando pela versão mais antiga do Swagger UI?** Refira-se para a [*2.x* branch](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
