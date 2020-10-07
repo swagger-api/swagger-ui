@@ -145,10 +145,14 @@ const RequestBody = ({
 
               let initialValue = prop.get("default") || prop.get("example") || ""
 
-              if (initialValue === "" && type === "object") {
-                initialValue = getSampleSchema(prop, false, {
-                  includeWriteOnly: true
-                })
+              if (initialValue === "") {
+                if(type === "object") {
+                  initialValue = getSampleSchema(prop, false, {
+                    includeWriteOnly: true
+                  })
+                } else if(type === "array") {
+                  initialValue = []
+                }
               }
 
               if (typeof initialValue !== "string" && type === "object") {
@@ -193,7 +197,7 @@ const RequestBody = ({
                               onChange={(value) => onChangeIncludeEmpty(key, value)}
                               isIncluded={requestBodyInclusionSetting.get(key) || false}
                               isIncludedOptions={setIsIncludedOptions(key)}
-                              isDisabled={!isEmptyValue(currentValue)}
+                              isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
                             />
                           )}
                         </div> : null }
