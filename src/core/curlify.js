@@ -1,4 +1,5 @@
 import win from "./window"
+import { Map } from "immutable"
 
 /**
  * if duplicate key name existed from FormData entries,
@@ -19,6 +20,11 @@ export default function curl( request ){
   let isMultipartFormDataRequest = false
   let headers = request.get("headers")
   curlified.push( "curl" )
+
+  if (request.get("curlOptions")) {
+    curlified.push(...request.get("curlOptions"))
+  }
+
   curlified.push( "-X", request.get("method") )
   curlified.push( `"${request.get("url")}"`)
 
@@ -26,7 +32,7 @@ export default function curl( request ){
     for( let p of request.get("headers").entries() ){
       let [ h,v ] = p
       curlified.push( "-H " )
-      curlified.push( `"${h}: ${v}"` )
+      curlified.push( `"${h}: ${v.replace(/\$/g, "\\$")}"` )
       isMultipartFormDataRequest = isMultipartFormDataRequest || /^content-type$/i.test(h) && /^multipart\/form-data$/i.test(v)
     }
   }
@@ -44,7 +50,21 @@ export default function curl( request ){
       }
     } else {
       curlified.push( "-d" )
-      curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "") )
+      let reqBody = request.get("body")
+      if (!Map.isMap(reqBody)) {
+        curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "").replace(/\$/g, "\\$") )
+      } else {
+        let curlifyToJoin = []
+        for (let [k, v] of request.get("body").entrySeq()) {
+          let extractedKey = extractKey(k)
+          if (v instanceof win.File) {
+            curlifyToJoin.push(`"${extractedKey}":{"name":"${v.name}"${v.type ? `,"type":"${v.type}"` : ""}}`)
+          } else {
+            curlifyToJoin.push(`"${extractedKey}":${JSON.stringify(v).replace(/\\n/g, "").replace("$", "\\$")}`)
+          }
+        }
+        curlified.push(`{${curlifyToJoin.join()}}`)
+      }
     }
   } else if(!request.get("body") && request.get("method") === "POST") {
     curlified.push( "-d" )

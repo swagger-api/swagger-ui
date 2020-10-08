@@ -26,4 +26,4 @@ function makeWindow() {
   return win
 }
 
-module.exports = makeWindow()
+export default makeWindow()

@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor from "./swagger-ui"
-
+import swaggerUIConstructor, {presets} from "./swagger-ui"
 export default class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
@@ -14,6 +13,8 @@ export default class SwaggerUI extends React.Component {
       plugins: this.props.plugins,
       spec: this.props.spec,
       url: this.props.url,
+      defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
+      presets: [presets.apis,...this.props.presets],
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
@@ -21,6 +22,8 @@ export default class SwaggerUI extends React.Component {
       supportedSubmitMethods: this.props.supportedSubmitMethods,
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
       displayOperationId: this.props.displayOperationId,
+      showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
+      deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
     })
 
     this.system = ui
@@ -77,7 +80,7 @@ export default class SwaggerUI extends React.Component {
 }
 
 SwaggerUI.propTypes = {
-  spec: PropTypes.oneOf([
+  spec: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
   ]),
@@ -88,12 +91,19 @@ SwaggerUI.propTypes = {
   docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
   supportedSubmitMethods: PropTypes.arrayOf(
     PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'])
-  ),
-  defaultModelExpandDepth: PropTypes.number,
+    ),
   plugins: PropTypes.arrayOf(PropTypes.object),
   displayOperationId: PropTypes.bool,
+  showMutatedRequest: PropTypes.bool,
+  defaultModelExpandDepth: PropTypes.number,
+  presets: PropTypes.arrayOf(PropTypes.func),
+  deepLinking: PropTypes.bool,
 }
 
 SwaggerUI.defaultProps = {
   supportedSubmitMethods: ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'],
+  docExpansion: "list",
+  defaultModelsExpandDepth: 1,
+  presets: [],
+  deepLinking: false,
 }

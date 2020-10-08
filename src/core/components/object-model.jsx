@@ -5,7 +5,7 @@ import ImPropTypes from "react-immutable-proptypes"
 
 const braceOpen = "{"
 const braceClose = "}"
-const propStyle = { color: "#6b6b6b", fontStyle: "italic" }
+const propClass = "property"
 
 export default class ObjectModel extends Component {
   static propTypes = {
@@ -42,7 +42,8 @@ export default class ObjectModel extends Component {
     let title = schema.get("title") || displayName || name
     let requiredProperties = schema.get("required")
     let infoProperties = schema
-      .filter( ( v, key) => ["nullable"].indexOf(key) !== -1 )
+      .filter( ( v, key) => ["maxProperties", "minProperties", "nullable", "example"].indexOf(key) !== -1 )
+    let deprecated = schema.get("deprecated")
 
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent("Markdown", true)
@@ -91,6 +92,18 @@ export default class ObjectModel extends Component {
                       <Markdown source={ description } />
                     </td>
                   </tr>
+              }
+              {
+                !deprecated ? null :
+                  <tr className={"property"}>
+                    <td>
+                      deprecated:
+                    </td>
+                    <td>
+                      true
+                    </td>
+                  </tr>
+               
               }
               {
                 !(properties && properties.size) ? null : properties.entrySeq().filter(
@@ -222,7 +235,7 @@ export default class ObjectModel extends Component {
         <span className="brace-close">{ braceClose }</span>
       </ModelCollapse>
       {
-        infoProperties.size ? infoProperties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
+        infoProperties.size ? infoProperties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
       }
     </span>
   }

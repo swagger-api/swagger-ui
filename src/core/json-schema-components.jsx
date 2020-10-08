@@ -4,7 +4,7 @@ import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
-import { stringify } from "core/utils"
+import { stringify, getSampleSchema } from "core/utils"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -125,12 +125,15 @@ export class JsonSchema_array extends PureComponent {
 
   constructor(props, context) {
     super(props, context)
-    this.state = { value: valueOrEmptyList(props.value) }
+    this.state = { value: valueOrEmptyList(props.value), schema: props.schema}
   }
 
   componentWillReceiveProps(props) {
     if(props.value !== this.state.value)
       this.setState({ value: props.value })
+
+    if(props.schema !== this.state.schema)
+      this.setState({ schema: props.schema })
   }
 
   onChange = () => {
@@ -152,7 +155,9 @@ export class JsonSchema_array extends PureComponent {
   addItem = () => {
     let newValue = valueOrEmptyList(this.state.value)
     this.setState(() => ({
-      value: newValue.push("")
+      value: newValue.push(getSampleSchema(this.state.schema.get("items"), false, {
+        includeWriteOnly: true
+      }))
     }), this.onChange)
   }
 
@@ -320,18 +325,16 @@ export class JsonSchema_boolean extends Component {
     let { getComponent, value, errors, schema, required, disabled } = this.props
     errors = errors.toJS ? errors.toJS() : []
     let enumValue = schema && schema.get ? schema.get("enum") : null
-    if (!enumValue) {
-      // in case schema.get() also returns undefined/null
-      enumValue = fromJS(["true", "false"])
-    }
+    let allowEmptyValue = !enumValue || !required
+    let booleanValue = !enumValue && fromJS(["true", "false"])
     const Select = getComponent("Select")
 
     return (<Select className={ errors.length ? "invalid" : ""}
                     title={ errors.length ? errors : ""}
                     value={ String(value) }
                     disabled={ disabled }
-                    allowedValues={ enumValue }
-                    allowEmptyValue={ !required }
+                    allowedValues={ enumValue || booleanValue }
+                    allowEmptyValue={ allowEmptyValue }
                     onChange={ this.onEnumChange }/>)
   }
 }

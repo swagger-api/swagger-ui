@@ -37,6 +37,7 @@ export default function SwaggerUI(opts) {
     filter: null,
     validatorUrl: "https://validator.swagger.io/validator",
     oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
+    persistAuthorization: false,
     configs: {},
     custom: {},
     displayOperationId: false,
@@ -78,6 +79,11 @@ export default function SwaggerUI(opts) {
     // Inline Plugin
     fn: { },
     components: { },
+
+    syntaxHighlight: {
+      activated: true,
+      theme: "agate"
+    }
   }
 
   let queryConfig = parseSearch()

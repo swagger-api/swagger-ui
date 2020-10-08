@@ -314,7 +314,6 @@ export const parameterWithMetaByIdentity = (state, pathMethod, param) => {
       hashKeyedMeta
     )
   })
-
   return mergedParams.find(curr => curr.get("in") === param.get("in") && curr.get("name") === param.get("name"), OrderedMap())
 }
 
@@ -327,7 +326,6 @@ export const parameterInclusionSettingFor = (state, pathMethod, paramName, param
 export const parameterWithMeta = (state, pathMethod, paramName, paramIn) => {
   const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], OrderedMap())
   const currentParam = opParams.find(param => param.get("in") === paramIn && param.get("name") === paramName, OrderedMap())
-
   return parameterWithMetaByIdentity(state, pathMethod, currentParam)
 }
 
@@ -364,7 +362,6 @@ export const hasHost = createSelector(
 // Get the parameter values, that the user filled out
 export function parameterValues(state, pathMethod, isXml) {
   pathMethod = pathMethod || []
-  // let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   let paramValues = operationWithMeta(state, ...pathMethod).get("parameters", List())
   return paramValues.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
@@ -493,6 +490,28 @@ export const validateBeforeExecute = ( state, pathMethod ) => {
   })
 
   return isValid
+}
+
+export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {
+  let requiredObj = {
+    requestBody: false,
+    requestContentType: {}
+  }
+  let requestBody = state.getIn(["resolvedSubtrees", "paths", ...pathMethod, "requestBody"], fromJS([]))
+  if (requestBody.size < 1) {
+    return requiredObj
+  }
+  if (requestBody.getIn(["required"])) {
+    requiredObj.requestBody = requestBody.getIn(["required"])
+  }
+  requestBody.getIn(["content"]).entrySeq().forEach((contentType) => { // e.g application/json
+    const key = contentType[0]
+    if (contentType[1].getIn(["schema", "required"])) {
+      const val = contentType[1].getIn(["schema", "required"]).toJS()
+      requiredObj.requestContentType[key] = val
+    }
+  })
+  return requiredObj
 }
 
 function returnSelfOrNewMap(obj) {

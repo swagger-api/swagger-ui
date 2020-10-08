@@ -300,6 +300,12 @@
 
     }
 
+    .opblock-summary-path
+    {
+        flex-shrink: 0;
+        max-width: calc(100% - 110px - 15rem);
+    }
+
     .opblock-summary-path__deprecated
     {
         text-decoration: line-through;
@@ -642,10 +648,12 @@
 
     overflow-wrap: break-word;
     @include text_code($opblock-body-font-color);
-    span
-    {
-        color: $opblock-body-font-color !important;
-    }
+
+    // disabled to have syntax highliting with react-syntax-highlight
+    // span
+    // {
+    //     color: $opblock-body-font-color !important;
+    // }
 
     .headerline
     {
@@ -661,6 +669,9 @@
     max-height: 400px;
     min-height: 6em;
   }
+}
+.curl-command {
+  position: relative;
 }
 
 .download-contents {
@@ -924,7 +935,7 @@ span
 
     &.token-not-formatted
     {
-        color: #555; 
+        color: #555;
         font-weight: bold;
     }
 }

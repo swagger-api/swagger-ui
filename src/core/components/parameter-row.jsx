@@ -3,7 +3,7 @@ import { Map, List } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getSampleSchema, getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
+import { getSampleSchema, getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
 import getParameterSchema from "../../helpers/get-parameter-schema.js"
 
 export default class ParameterRow extends Component {
@@ -119,17 +119,26 @@ export default class ParameterRow extends Component {
       //// Find an initial value
 
       if (specSelectors.isSwagger2()) {
-        initialValue = paramWithMeta.get("x-example")
-          || paramWithMeta.getIn(["schema", "example"])
-          || (schema && schema.getIn(["default"]))
+        initialValue =
+          paramWithMeta.get("x-example") !== undefined
+          ? paramWithMeta.get("x-example")
+          : paramWithMeta.getIn(["schema", "example"]) !== undefined
+          ? paramWithMeta.getIn(["schema", "example"])
+          : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-        initialValue = paramWithMeta.getIn(["examples", currentExampleKey, "value"])
-          || paramWithMeta.getIn(["content", parameterMediaType, "example"])
-          || paramWithMeta.get("example")
-          || (schema && schema.get("example"))
-          || (schema && schema.get("default"))
-          || paramWithMeta.get("default") // ensures support for `parameterMacro`
+        initialValue = 
+          paramWithMeta.getIn(["examples", currentExampleKey, "value"]) !== undefined
+          ? paramWithMeta.getIn(["examples", currentExampleKey, "value"])
+          : paramWithMeta.getIn(["content", parameterMediaType, "example"]) !== undefined
+          ? paramWithMeta.getIn(["content", parameterMediaType, "example"])
+          : paramWithMeta.get("example") !== undefined
+          ? paramWithMeta.get("example")
+          : (schema && schema.get("example")) !== undefined
+          ? (schema && schema.get("example"))
+          : (schema && schema.get("default")) !== undefined
+          ? (schema && schema.get("default"))
+          : paramWithMeta.get("default") // ensures support for `parameterMacro`
       }
 
       //// Process the initial value
@@ -191,6 +200,7 @@ export default class ParameterRow extends Component {
     let inType = param.get("in")
     let bodyParam = inType !== "body" ? null
       : <ParamBody getComponent={getComponent}
+                   getConfigs={ getConfigs }
                    fn={fn}
                    param={param}
                    consumes={ specSelectors.consumesOptionsFor(pathMethod) }
@@ -343,12 +353,11 @@ export default class ParameterRow extends Component {
           }
 
           {
-            !bodyParam && isExecute ?
+            !bodyParam && isExecute && param.get("allowEmptyValue") ?
             <ParameterIncludeEmpty
               onChange={this.onChangeIncludeEmpty}
               isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
-              isDisabled={value && value.size !== 0}
-              param={param} />
+              isDisabled={!isEmptyValue(value)} />
             : null
           }
 
@@ -360,6 +369,7 @@ export default class ParameterRow extends Component {
                   oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
                 ])}
                 getComponent={getComponent}
+                getConfigs={getConfigs}
               />
             ) : null
           }

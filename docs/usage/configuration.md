@@ -61,6 +61,9 @@ Parameter name | Docker variable | Description
 <a name="tagSorter"></a>`tagsSorter` | _Unavailable_ | `Function=(a => a)`. Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger UI.
 <a name="useUnsafeMarkdown"></a>`useUnsafeMarkdown` | `USE_UNSAFE_MARKDOWN` | `Boolean=false`. When enabled, sanitizer will leave `style`, `class` and `data-*` attributes untouched on all HTML Elements declared inside markdown strings. This parameter is **Deprecated** and will be removed in `4.0.0`.
 <a name="onComplete"></a>`onComplete` | _Unavailable_ | `Function=NOOP`. Provides a mechanism to be notified when Swagger UI has finished rendering a newly provided definition.
+<a name="syntaxHighlight"></a>`syntaxHighlight` | _Unavailable_ | Set to `false` to deactivate syntax highlighting of payloads and cURL command, can be otherwise an object with the `activate` and `theme` properties.
+<a name="syntaxHighlight.activate"></a>`syntaxHighlight.activate` | _Unavailable_ | `Boolean=true`. Whether syntax highlighting should be activated or not.
+<a name="syntaxHighlight.theme"></a>`syntaxHighlight.theme` | _Unavailable_ | `String=["agate"*, "arta", "monokai", "nord", "obsidian", "tomorrow-night"]`. [Highlight.js](https://highlightjs.org/static/demo/) syntax coloring theme to use. (Only these 6 styles are available.)
 
 ##### Network
 
@@ -68,6 +71,7 @@ Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="oauth2RedirectUrl"></a>`oauth2RedirectUrl` | `OAUTH2_REDIRECT_URL` | `String`. OAuth redirect URL.
 <a name="requestInterceptor"></a>`requestInterceptor` | _Unavailable_ | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, "Try it out", and OAuth 2.0 requests.  Accepts one argument requestInterceptor(request) and must return the modified request, or a Promise that resolves to the modified request.
+<a name="request.curlOptions"></a>`request.curlOptions` | _Unavailable_ | `Array`.  If set, MUST be an array of command line options available to the `curl` command.  This can be set on the mutated request in the `requestInterceptor` function. For example `request.curlOptions = ["-g", "--limit-rate 20k"]`
 <a name="responseInterceptor"></a>`responseInterceptor` | _Unavailable_ | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, "Try it out", and OAuth 2.0 responses.  Accepts one argument responseInterceptor(response) and must return the modified response, or a Promise that resolves to the modified response.
 <a name="showMutatedRequest"></a>`showMutatedRequest` | `SHOW_MUTATED_REQUEST` | `Boolean=true`. If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
 <a name="supportedSubmitMethods"></a>`supportedSubmitMethods` | `SUPPORTED_SUBMIT_METHODS` | `Array=["get", "put", "post", "delete", "options", "head", "patch", "trace"]`. List of HTTP methods that have the "Try it out" feature enabled. An empty array disables "Try it out" for all operations. This does not filter the operations from the display.
@@ -80,6 +84,12 @@ Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="modelPropertyMacro"></a>`modelPropertyMacro` | _Unavailable_ | `Function`. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 <a name="parameterMacro"></a>`parameterMacro` | _Unavailable_ | `Function`. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
+
+##### Authorization
+
+Parameter name | Docker variable | Description
+--- | --- | -----
+<a name="persistAuthorization"></a>`persistAuthorization` | _Unavailable_ | `Boolean=false`. If set to `true`, it persists authorization data and it would not be lost on browser close/refresh
 
 ### Instance methods
 
@@ -149,4 +159,12 @@ Example:
 
 ```sh
 SPEC="{ \"openapi\": \"3.0.0\" }"
+```
+
+### Docker-Compose
+
+#### .env file example encoding
+```sh
+SUPPORTED_SUBMIT_METHODS=['get', 'post']
+URLS=[ { url: 'http://petstore.swagger.io/v2/swagger.json', name: 'Petstore' } ]
 ```
