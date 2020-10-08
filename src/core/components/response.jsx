@@ -4,6 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import { isFunc } from "../utils"
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
   if (
@@ -124,7 +125,10 @@ export default class Response extends React.Component {
       if(!oldSchema)
         oldSchema = { }
 
-      oldSchema.example = typeof newExample.toJS === "function"
+      if(isFunc(oldSchema.toJS))
+        oldSchema = oldSchema.toJS()
+
+      oldSchema.example = newExample && isFunc(newExample.toJS)
         ? newExample.toJS()
         : newExample
       return oldSchema
@@ -157,6 +161,7 @@ export default class Response extends React.Component {
       sampleSchema = schema
       sampleGenConfig = {...sampleGenConfig, includeWriteOnly: true}
       const oldOASMediaTypeExample = response.getIn(["examples", activeContentType])
+      debugger
       if(oldOASMediaTypeExample) {
         mediaTypeExample = oldOASMediaTypeExample
         shouldOverrideSchemaExample = true
