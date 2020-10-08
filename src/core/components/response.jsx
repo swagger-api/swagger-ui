@@ -161,7 +161,6 @@ export default class Response extends React.Component {
       sampleSchema = schema
       sampleGenConfig = {...sampleGenConfig, includeWriteOnly: true}
       const oldOASMediaTypeExample = response.getIn(["examples", activeContentType])
-      debugger
       if(oldOASMediaTypeExample) {
         mediaTypeExample = oldOASMediaTypeExample
         shouldOverrideSchemaExample = true
