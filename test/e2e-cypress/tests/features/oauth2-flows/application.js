@@ -6,6 +6,17 @@ describe("OAuth2 Application flow", function() {
       method: "POST"
     }).as("tokenRequest")
   })
+  
+  // https://github.com/swagger-api/swagger-ui/issues/6395
+  it("should have first authorization input autofocused", () => {
+    cy
+      .visit("/?url=http://localhost:3231/swagger.yaml")
+      .get(".btn.authorize")
+      .click()
+
+    cy.focused()
+      .should("have.id", "client_id")
+  })
 
   it("should make an application flow Authorization header request", () => {
     cy
@@ -51,15 +62,5 @@ describe("OAuth2 Application flow", function() {
 
       .get(".live-responses-table .response-col_status")
       .contains("200")
-  })
-  
-  it("should have first authorization input autofocused", () => {
-    cy
-      .visit("/?url=http://localhost:3231/swagger.yaml")
-      .get(".btn.authorize")
-      .click()
-
-    cy.focused()
-      .should("have.id", "client_id")
   })
 })
