@@ -117,7 +117,7 @@
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
     "body-parser": "^1.19.0",
     "bundlesize": "^0.18.0",
-    "chromedriver": "^85.0.0",
+    "chromedriver": "^86.0.0",
     "copy-webpack-plugin": "^6.0.0",
     "cors": "^2.8.5",
     "cross-env": "=7.0.2",
