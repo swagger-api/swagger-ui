@@ -59,6 +59,7 @@ describe("OAuth2 Application flow", function() {
       .get(".btn.authorize")
       .click()
 
-      cy.focused().should("have.id", "client_id")
+    cy.focused()
+      .should("have.id", "client_id")
   })
 })
