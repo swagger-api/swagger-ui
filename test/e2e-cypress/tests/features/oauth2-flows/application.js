@@ -6,7 +6,7 @@ describe("OAuth2 Application flow", function() {
       method: "POST"
     }).as("tokenRequest")
   })
-  
+
   // https://github.com/swagger-api/swagger-ui/issues/6395
   it("should have first authorization input autofocused", () => {
     cy
@@ -15,7 +15,7 @@ describe("OAuth2 Application flow", function() {
       .click()
 
     cy.focused()
-      .should("have.id", "client_id")
+      .should("have.id", "oauth_username")
   })
 
   it("should make an application flow Authorization header request", () => {
