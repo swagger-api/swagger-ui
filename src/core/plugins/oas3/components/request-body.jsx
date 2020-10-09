@@ -135,6 +135,8 @@ const RequestBody = ({
         <tbody>
           {
              Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
+              if (prop.get("readOnly")) return
+
               let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
               const type = prop.get("type")
