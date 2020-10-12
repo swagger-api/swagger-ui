@@ -10,6 +10,7 @@ import {
   UPDATE_RESPONSE_CONTENT_TYPE,
   SET_REQUEST_BODY_VALIDATE_ERROR,
   CLEAR_REQUEST_BODY_VALIDATE_ERROR,
+  RESET_REQUEST_BODY_VALUE,
 } from "./actions"
 
 export default {
@@ -94,4 +95,8 @@ export default {
       }, bodyValues)
     })
   },
+  [RESET_REQUEST_BODY_VALUE]: (state, { payload: { pathMethod }}) => {
+    let [path, method] = pathMethod
+    return state.setIn(["requestData", path, method, "bodyValue"], Map())
+  }
 }
