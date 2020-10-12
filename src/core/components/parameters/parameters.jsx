@@ -188,7 +188,11 @@ export default class Parameters extends Component {
                   contentTypes={ requestBody.get("content", List()).keySeq() }
                   onChange={(value) => {
                     oas3Actions.setRequestContentType({ value, pathMethod })
+                    oas3Actions.resetRequestBodyValue({ pathMethod })
                     oas3Actions.initRequestBodyValidateError({ pathMethod })
+                    specActions.clearResponse(...pathMethod)
+                    specActions.clearRequest(...pathMethod)
+                    specActions.clearValidateParams(pathMethod)
                   }}
                   className="body-param-content-type" />
               </label>
