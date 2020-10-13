@@ -505,7 +505,7 @@ describe("oas3 plugin - reducer", function () {
   })
 
   describe("CLEAR_REQUEST_BODY_VALUE", function () {
-    const clearRequestBodyValue = reducer["oas3_reset_request_body_value"]
+    const clearRequestBodyValue = reducer["oas3_clear_request_body_value"]
     describe("when requestBodyValue is a String", () => {
       it("should clear requestBodyValue with empty Map (not a typo)", () => {
         const state = fromJS({
