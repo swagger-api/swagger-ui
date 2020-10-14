@@ -1,5 +1,6 @@
 // https://github.com/swagger-api/swagger-ui/issues/6201
 // https://github.com/swagger-api/swagger-ui/issues/6250
+// https://github.com/swagger-api/swagger-ui/issues/6476
 
 describe("OpenAPI 3.0 Multiple Media Types with different schemas", () => {
   const mediaTypeFormData = "multipart/form-data"
@@ -27,9 +28,8 @@ describe("OpenAPI 3.0 Multiple Media Types with different schemas", () => {
   // - expect final cURL command result doees not contain unexpected artifacts from other content-type schemas
   describe("multipart/form-data (only 'bar')", () => {
     it("should execute multipart/form-data", () => {
-      // page inits with "mediaTypeFormData", so we don't re-select it and break test
-      // cy.get("@selectMediaType")
-      //   .select(mediaTypeFormData)
+      cy.get("@selectMediaType")
+        .select(mediaTypeFormData)
       cy.get("@executeBtn")
         .click()
       // cURL component
@@ -87,9 +87,8 @@ describe("OpenAPI 3.0 Multiple Media Types with different schemas", () => {
         .should("not.contains.text", "bar")
     })
     it("should execute multipart/form-data THEN execute application/x-www-form-urlencoded", () => {
-      // page inits with "mediaTypeFormData", so we don't re-select it and break test
-      // cy.get("@selectMediaType")
-      //   .select(mediaTypeFormData)
+      cy.get("@selectMediaType")
+        .select(mediaTypeFormData)
       cy.get("@executeBtn")
         .click()
       cy.get("@selectMediaType")
@@ -139,9 +138,8 @@ describe("OpenAPI 3.0 Multiple Media Types with different schemas", () => {
         .should("contains.text", "bar")
     })
     it("should execute multipart/form-data THEN execute application/json", () => {
-      // page inits with "mediaTypeFormData", so we don't re-select it and break test
-      // cy.get("@selectMediaType")
-      //   .select(mediaTypeFormData)
+      cy.get("@selectMediaType")
+        .select(mediaTypeFormData)
       cy.get("@executeBtn")
         .click()
       cy.get("@selectMediaType")
