@@ -81,13 +81,9 @@ export default class Parameters extends Component {
     let { specSelectors, specActions, oas3Selectors, oas3Actions } = this.props
     let targetMediaType = value
     let currentMediaType = oas3Selectors.requestContentType(...pathMethod)
-    let result = specSelectors.isMediaTypeSchemaPropertiesEqual(pathMethod, currentMediaType, targetMediaType)
-    console.log("onChangeMediaType currentMediaType:", currentMediaType)
-    console.log("onChangeMediaType targetMediaType:", targetMediaType)
-    console.log("onChangeMediaType result:", result)
-    if (!result) {
-      // reset stuff
-      oas3Actions.clearRequestBodyValue({ pathMethod }) // should only do this if different
+    let schemaPropertiesMatch = specSelectors.isMediaTypeSchemaPropertiesEqual(pathMethod, currentMediaType, targetMediaType)
+    if (!schemaPropertiesMatch) {
+      oas3Actions.clearRequestBodyValue({ pathMethod })
       specActions.clearResponse(...pathMethod)
       specActions.clearRequest(...pathMethod)
       specActions.clearValidateParams(pathMethod)
@@ -206,12 +202,6 @@ export default class Parameters extends Component {
                   value={oas3Selectors.requestContentType(...pathMethod)}
                   contentTypes={ requestBody.get("content", List()).keySeq() }
                   onChange={(value) => {
-                    // oas3Actions.setRequestContentType({ value, pathMethod })
-                    // oas3Actions.initRequestBodyValidateError({ pathMethod })
-                    // oas3Actions.clearRequestBodyValue({ pathMethod }) // should only do this if different
-                    // specActions.clearResponse(...pathMethod)
-                    // specActions.clearRequest(...pathMethod)
-                    // specActions.clearValidateParams(pathMethod)
                     this.onChangeMediaType({ value, pathMethod })
                   }}
                   className="body-param-content-type" />
