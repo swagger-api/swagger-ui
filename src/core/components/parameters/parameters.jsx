@@ -77,6 +77,25 @@ export default class Parameters extends Component {
     }
   }
 
+  onChangeMediaType = ( { value, pathMethod } ) => {
+    let { specSelectors, specActions, oas3Selectors, oas3Actions } = this.props
+    let targetMediaType = value
+    let currentMediaType = oas3Selectors.requestContentType(...pathMethod)
+    let result = specSelectors.isMediaTypeSchemaPropertiesEqual(pathMethod, currentMediaType, targetMediaType)
+    console.log("onChangeMediaType currentMediaType:", currentMediaType)
+    console.log("onChangeMediaType targetMediaType:", targetMediaType)
+    console.log("onChangeMediaType result:", result)
+    if (!result) {
+      // reset stuff
+      oas3Actions.clearRequestBodyValue({ pathMethod }) // should only do this if different
+      specActions.clearResponse(...pathMethod)
+      specActions.clearRequest(...pathMethod)
+      specActions.clearValidateParams(pathMethod)
+    }
+    oas3Actions.setRequestContentType({ value, pathMethod })
+    oas3Actions.initRequestBodyValidateError({ pathMethod })
+  }
+
   render(){
 
     let {
@@ -187,12 +206,13 @@ export default class Parameters extends Component {
                   value={oas3Selectors.requestContentType(...pathMethod)}
                   contentTypes={ requestBody.get("content", List()).keySeq() }
                   onChange={(value) => {
-                    oas3Actions.setRequestContentType({ value, pathMethod })
-                    oas3Actions.resetRequestBodyValue({ pathMethod })
-                    oas3Actions.initRequestBodyValidateError({ pathMethod })
-                    specActions.clearResponse(...pathMethod)
-                    specActions.clearRequest(...pathMethod)
-                    specActions.clearValidateParams(pathMethod)
+                    // oas3Actions.setRequestContentType({ value, pathMethod })
+                    // oas3Actions.initRequestBodyValidateError({ pathMethod })
+                    // oas3Actions.clearRequestBodyValue({ pathMethod }) // should only do this if different
+                    // specActions.clearResponse(...pathMethod)
+                    // specActions.clearRequest(...pathMethod)
+                    // specActions.clearValidateParams(pathMethod)
+                    this.onChangeMediaType({ value, pathMethod })
                   }}
                   className="body-param-content-type" />
               </label>
