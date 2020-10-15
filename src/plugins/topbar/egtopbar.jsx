@@ -113,7 +113,7 @@ export default class EgTopbar extends React.Component {
   async componentDidMount() {
     await this.fetchUrls()
 
-    const {urls, currentRepository, currentBranch} = this.state
+    const {urls} = this.state
 
     const [defaultRepository] = Object.keys(urls)
 
@@ -142,34 +142,28 @@ export default class EgTopbar extends React.Component {
     if (isFailed) classNames.push("failed")
     if (isLoading) classNames.push("loading")
     
-    const { urls } = this.state
+    const { urls, currentBranch, currentRepository } = this.state
     let control = []
     let formOnSubmit = null
 
-    if(urls) {
-      const repos = []
-      const branches = []
+    const repos = Object.keys(urls).map(repo => <option key={repo} value={repo}>{repo}</option>)
+    const branches = urls[currentRepository].map(branch => <option key={branch} value={branch}>{branch}</option>)
 
-      for (const repository of Object.keys(urls)) {
+    control.push(
+      <label className="select-label" htmlFor="select-repo"><span>Select a repository</span>
+        <select id="select-repo" disabled={isLoading} onChange={ this.onRepositoryChange } value={currentRepository}>
+          {repos}
+        </select>
+      </label>
+    )
 
-      }
-      urls.forEach((link, i) => {
-        repos.push(<option key={i} value={link.url}>{link.name}</option>)
-      })
-
-      control.push(
-        <label className="select-label" htmlFor="select"><span>Select a definition</span>
-          <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
-            {repos}
-          </select>
-        </label>
-      )
-    }
-    else {
-      formOnSubmit = this.downloadUrl
-      control.push(<input className={classNames.join(" ")} type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} />)
-      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
-    }
+    control.push(
+      <label className="select-label" htmlFor="select-branch"><span>Select a branch</span>
+        <select id="select-branch" disabled={isLoading} onChange={ this.onBranchChange } value={currentBranch}>
+          {branches}
+        </select>
+      </label>
+    )
 
     return (
       <div className="topbar">
