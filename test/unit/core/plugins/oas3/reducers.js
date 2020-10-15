@@ -504,4 +504,79 @@ describe("oas3 plugin - reducer", function () {
     })
   })
 
+  describe("CLEAR_REQUEST_BODY_VALUE", function () {
+    const clearRequestBodyValue = reducer["oas3_clear_request_body_value"]
+    describe("when requestBodyValue is a String", () => {
+      it("should clear requestBodyValue with empty String", () => {
+        const state = fromJS({
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: "some random string",
+                requestContentType: "application/json"
+              }
+            }
+          }
+        })
+  
+        const result = clearRequestBodyValue(state, {
+          payload: {
+            pathMethod: ["/pet", "post"],
+          }
+        })
+  
+        const expectedResult = {
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: "",
+                requestContentType: "application/json",
+              }
+            }
+          }
+        }
+  
+        expect(result.toJS()).toEqual(expectedResult)
+      })
+    })
+
+    describe("when requestBodyValue is a Map", () => {
+      it("should clear requestBodyValue with empty Map", () => {
+        const state = fromJS({
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "10",
+                  },
+                },
+                requestContentType: "application/x-www-form-urlencoded"
+              }
+            }
+          }
+        })
+  
+        const result = clearRequestBodyValue(state, {
+          payload: {
+            pathMethod: ["/pet", "post"],
+          }
+        })
+  
+        const expectedResult = {
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {},
+                requestContentType: "application/x-www-form-urlencoded",
+              }
+            }
+          }
+        }
+  
+        expect(result.toJS()).toEqual(expectedResult)
+      })
+    })
+  })
+
 })
