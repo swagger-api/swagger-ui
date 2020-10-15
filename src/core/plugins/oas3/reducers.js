@@ -10,6 +10,7 @@ import {
   UPDATE_RESPONSE_CONTENT_TYPE,
   SET_REQUEST_BODY_VALIDATE_ERROR,
   CLEAR_REQUEST_BODY_VALIDATE_ERROR,
+  CLEAR_REQUEST_BODY_VALUE,
 } from "./actions"
 
 export default {
@@ -94,4 +95,15 @@ export default {
       }, bodyValues)
     })
   },
+  [CLEAR_REQUEST_BODY_VALUE]: (state, { payload: { pathMethod }}) => {
+    let [path, method] = pathMethod
+    const requestBodyValue = state.getIn(["requestData", path, method, "bodyValue"])
+    if (!requestBodyValue) {
+      return state
+    }
+    if (!Map.isMap(requestBodyValue)) {
+      return state.setIn(["requestData", path, method, "bodyValue"], "")
+    }
+    return state.setIn(["requestData", path, method, "bodyValue"], Map())
+  }
 }

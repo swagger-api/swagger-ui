@@ -154,23 +154,23 @@ export const validateBeforeExecute = validateRequestBodyIsRequired(
   (state, pathMethod) => validateRequestBodyValueExists(state, pathMethod)
 )
 
-export const validateShallowRequired = ( state, {oas3RequiredRequestBodyContentType, oas3RequestBodyValue} ) => {
+export const validateShallowRequired = (state, { oas3RequiredRequestBodyContentType, oas3RequestContentType, oas3RequestBodyValue} ) => {
   let missingRequiredKeys = []
-  // context: json => String; urlencoded => Map
+  // context: json => String; urlencoded, form-data => Map
   if (!Map.isMap(oas3RequestBodyValue)) {
     return missingRequiredKeys
   }
   let requiredKeys = []
-  // We intentionally cycle through list of contentTypes for defined requiredKeys
-  // instead of assuming first contentType will accurately list all expected requiredKeys
-  // Alternatively, we could try retrieving the contentType first, and match exactly. This would be a more accurate representation of definition
+  // Cycle through list of possible contentTypes for matching contentType and defined requiredKeys
   Object.keys(oas3RequiredRequestBodyContentType.requestContentType).forEach((contentType) => {
-    let contentTypeVal = oas3RequiredRequestBodyContentType.requestContentType[contentType]
-    contentTypeVal.forEach((requiredKey) => {
-      if (requiredKeys.indexOf(requiredKey) < 0 ) {
-        requiredKeys.push(requiredKey)
-      }
-    })
+    if (contentType === oas3RequestContentType) {
+      let contentTypeVal = oas3RequiredRequestBodyContentType.requestContentType[contentType]
+      contentTypeVal.forEach((requiredKey) => {
+        if (requiredKeys.indexOf(requiredKey) < 0 ) {
+          requiredKeys.push(requiredKey)
+        }
+      })
+    }
   })
   requiredKeys.forEach((key) => {
     let requiredKeyValue = oas3RequestBodyValue.getIn([key, "value"])
