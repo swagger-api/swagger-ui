@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: Switching between multiple content-type test
+  version: 1.0.0
+servers:
+  - url: https://httpbin.org
+paths:
+  /post:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Bar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Foo'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FooBar'
+      responses:
+        '200':
+          description: ok
+
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        foo:
+          type: string
+          example: ''
+    Bar:
+      type: object
+      required: [bar]
+      properties:
+        bar:
+          type: integer
+          example: 1
+    FooBar:
+      type: object
+      required:
+        - bar
+      properties:
+        foo:
+          type: string
+          example: ''
+        bar:
+          type: integer
+          example: 1
