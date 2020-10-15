@@ -97,6 +97,8 @@ describe("OpenAPI 3.0 Allow Empty Values in Request Body", () => {
       // add item to pass required validation
       .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) > .parameters-col_description button")
       .click()
+      .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) input")
+      .clear()
       // Execute
       .get(".execute.opblock-control__btn")
       .click()
@@ -127,6 +129,8 @@ describe("OpenAPI 3.0 Allow Empty Values in Request Body", () => {
       // add item to pass required validation
       .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) > .parameters-col_description button")
       .click()
+      .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) input")
+      .clear()
       // Execute
       .get(".execute.opblock-control__btn")
       .click()

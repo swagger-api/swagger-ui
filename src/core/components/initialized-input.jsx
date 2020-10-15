@@ -26,7 +26,7 @@ export default class InitializedInput extends React.Component {
     // Filter out `value` and `defaultValue`, since we have our own
     // `initialValue` interface that we provide.
     // eslint-disable-next-line no-unused-vars, react/prop-types
-    const { value, defaultValue, ...otherProps } = this.props
+    const { value, defaultValue, initialValue, ...otherProps } = this.props
     return <input {...otherProps} ref={c => this.inputRef = c} />
   }
 }

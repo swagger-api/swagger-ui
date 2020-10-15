@@ -149,7 +149,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .should("have.value", "doggie")
         .should("not.have.class", "invalid")
         .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) > .parameters-col_description input")
-        .should("have.value", "")
+        .should("have.value", "string")
         .should("not.have.class", "invalid")
         // cURL component should exist
         .get(".responses-wrapper .curl-command")
