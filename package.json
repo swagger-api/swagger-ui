@@ -171,7 +171,7 @@
     "url-loader": "^2.3.0",
     "webpack": "^4.43.0",
     "webpack-bundle-size-analyzer": "^3.1.0",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-stats-plugin": "=0.3.2"
   },
