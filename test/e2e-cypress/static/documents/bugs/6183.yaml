@@ -1,0 +1,37 @@
+swagger: "2.0"
+info:
+  title: Response headers test
+  version: 1.0.0
+host: httpbin.org
+schemes: [https]
+paths:
+  /response-headers:
+    get:
+      summary: Run the request using the default parameter values
+      parameters:
+        - in: query
+          name: X-Header1
+          type: string
+          x-example: 'value1,value2'
+          required: true
+        - in: query
+          name: X-Header2
+          type: string
+          x-example: 'value3, value4'
+          required: true
+        - in: query
+          name: X-Header3
+          type: array
+          items:
+            type: string
+          x-example: [value5, value6]
+          collectionFormat: multi
+          required: true
+        - in: query
+          name: Access-Control-Expose-Headers
+          type: string
+          x-example: 'X-Header1, X-Header2, X-Header3, Access-Control-Expose-Headers'
+          required: true
+      responses:
+        200:
+          description: ok

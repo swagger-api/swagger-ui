@@ -65,7 +65,8 @@ export default class LiveResponse extends React.Component {
     const Curl = getComponent("curl")
     const ResponseBody = getComponent("responseBody")
     const returnObject = headersKeys.map(key => {
-      return <span className="headerline" key={key}> {key}: {headers[key]} </span>
+      var joinedHeaders = Array.isArray(headers[key]) ? headers[key].join() : headers[key]
+      return <span className="headerline" key={key}> {key}: {joinedHeaders} </span>
     })
     const hasHeaders = returnObject.length !== 0
 
