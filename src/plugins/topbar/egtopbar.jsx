@@ -182,7 +182,7 @@ export default class EgTopbar extends React.Component {
   }
 }
 
-Topbar.propTypes = {
+EgTopbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
