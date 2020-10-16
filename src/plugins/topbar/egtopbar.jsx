@@ -1,9 +1,8 @@
 import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
-//import "./topbar.less"
 import Logo from "./logo_small.svg"
-import {parseSearch, serializeSearch} from "../../core/utils"
+import { parseSearch, serializeSearch } from "../../core/utils"
 
 export default class EgTopbar extends React.Component {
 
@@ -20,10 +19,6 @@ export default class EgTopbar extends React.Component {
         currentRepository: null,
         currentBranch: null,
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ url: nextProps.specSelectors.url() })
   }
 
   onUrlChange =(e)=> {
@@ -131,8 +126,7 @@ export default class EgTopbar extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, getConfigs } = this.props
-    const Button = getComponent("Button")
+    let { getComponent, specSelectors } = this.props
     const Link = getComponent("Link")
 
     let isLoading = specSelectors.loadingStatus() === "loading"
@@ -143,6 +137,7 @@ export default class EgTopbar extends React.Component {
     if (isLoading) classNames.push("loading")
     
     const { urls, currentBranch, currentRepository } = this.state
+
     let control = []
     let formOnSubmit = null
 
@@ -170,7 +165,7 @@ export default class EgTopbar extends React.Component {
         <div className="wrapper">
           <div className="topbar-wrapper">
             <Link>
-              <img height="40" src={ Logo } alt="Swagger UI"/>
+              <img height="40" src={ Logo } alt="Swagger UI (Easygenerator)"/>
             </Link>
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}
