@@ -4,6 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import { isFunc } from "../utils"
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
   if (
@@ -100,7 +101,6 @@ export default class Response extends React.Component {
     const Example = getComponent("Example")
 
 
-    var sampleResponse
     var schema, specPathWithPossibleSchema
 
     const activeContentType = this.state.responseContentType || contentType
@@ -118,37 +118,62 @@ export default class Response extends React.Component {
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
     }
 
+    const overrideSchemaExample = (oldSchema, newExample) => {
+      if(newExample === undefined)
+        return oldSchema
+
+      if(!oldSchema)
+        oldSchema = { }
+
+      if(isFunc(oldSchema.toJS))
+        oldSchema = oldSchema.toJS()
+
+      oldSchema.example = newExample && isFunc(newExample.toJS)
+        ? newExample.toJS()
+        : newExample
+      return oldSchema
+    }
+    let mediaTypeExample
+    let shouldOverrideSchemaExample = false
+    let sampleSchema
+    let sampleGenConfig = {
+      includeReadOnly: true
+    }
+
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
-      const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
-
+      sampleSchema = activeMediaType.get("schema", Map({})).toJS()
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
-        const targetExample = examplesForMediaType.get(targetExamplesKey, Map({}))
-        sampleResponse = stringify(targetExample.get("value"))
+        mediaTypeExample = examplesForMediaType
+          .get(targetExamplesKey, Map({}))
+          .get("value")
+        if(mediaTypeExample === undefined) {
+          mediaTypeExample = examplesForMediaType.values().next().value
+        }
+        shouldOverrideSchemaExample = true
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
-        sampleResponse = stringify(activeMediaType.get("example"))
-      } else {
-        // use an example value generated based on the schema
-        sampleResponse = getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
-          includeReadOnly: true
-        })
+        mediaTypeExample = activeMediaType.get("example")
+        shouldOverrideSchemaExample = true
       }
     } else {
-      if(response.getIn(["examples", activeContentType])) {
-        sampleResponse = response.getIn(["examples", activeContentType])
-      } else {
-        sampleResponse = schema ? getSampleSchema(
-          schema.toJS(),
-          activeContentType,
-          {
-            includeReadOnly: true,
-            includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
-          }
-        ) : null
+      sampleSchema = schema
+      sampleGenConfig = {...sampleGenConfig, includeWriteOnly: true}
+      const oldOASMediaTypeExample = response.getIn(["examples", activeContentType])
+      if(oldOASMediaTypeExample) {
+        mediaTypeExample = oldOASMediaTypeExample
+        shouldOverrideSchemaExample = true
       }
     }
+
+    const schemaForSampleGeneration = shouldOverrideSchemaExample
+      ? overrideSchemaExample(sampleSchema, mediaTypeExample)
+      : sampleSchema
+
+    const sampleResponse = schemaForSampleGeneration
+      ? getSampleSchema(schemaForSampleGeneration, activeContentType, sampleGenConfig)
+      : null
 
     let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
 
