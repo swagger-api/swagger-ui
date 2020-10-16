@@ -1,0 +1,43 @@
+describe("#6276: Query parameter filter=true is filtering by the value 'true'", () => {
+  describe("With filter=true", () => {
+    it("should display the filter bar", () => {
+      cy.visit("/?url=/documents/petstore.swagger.yaml&filter=true")
+        .get(".operation-filter-input")
+        .should("exist")
+        .should("be.empty")
+        .get(".opblock-tag[data-tag='pet']")
+        .should("exist")
+        .get(".opblock-tag[data-tag='store']")
+        .should("exist")
+        .get(".opblock-tag[data-tag='user']")
+        .should("exist")
+    })
+  })
+  describe("With filter=false", () => {
+    it("should not display the filter bar", () => {
+      cy.visit("/?url=/documents/petstore.swagger.yaml&filter=false")
+        .get(".operation-filter-input")
+        .should("not.exist")
+        .get(".opblock-tag[data-tag='pet']")
+        .should("exist")
+        .get(".opblock-tag[data-tag='store']")
+        .should("exist")
+        .get(".opblock-tag[data-tag='user']")
+        .should("exist")
+    })
+  })
+  describe("With filter=pet", () => {
+    it("should display the filter bar and only show the operations tagged with pet", () => {
+      cy.visit("/?url=/documents/petstore.swagger.yaml&filter=pet")
+        .get(".operation-filter-input")
+        .should("exist")
+        .should("have.value", "pet")
+        .get(".opblock-tag[data-tag='pet']")
+        .should("exist")
+        .get(".opblock-tag[data-tag='store']")
+        .should("not.exist")
+        .get(".opblock-tag[data-tag='user']")
+        .should("not.exist")
+    })
+  })
+})

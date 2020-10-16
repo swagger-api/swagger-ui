@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: "Swagger Test"
+  version: "1.0.0"
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /users:
+    get:
+      tags:
+      - User
+      summary: Get Users
+      responses:
+        200:
+          description: User List
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+      - User
+      summary: Create a user
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Created successfully
+    put:
+      tags:
+      - User
+      summary: Update user
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Created successfully
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+      required:
+        - name

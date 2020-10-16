@@ -76,7 +76,7 @@ export default class ModelExample extends React.Component {
         {
           this.state.activeTab === "example" ? (
             example ? example : (
-              <HighlightCode value="(no example available)" />
+              <HighlightCode value="(no example available)" getConfigs={ getConfigs } />
             )
           ) : null
         }

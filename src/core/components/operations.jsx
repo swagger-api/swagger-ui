@@ -48,7 +48,7 @@ export default class Operations extends React.Component {
     let filter = layoutSelectors.currentFilter()
 
     if (filter) {
-      if (filter !== true) {
+      if (filter !== true && filter !== "true" && filter !== "false") {
         taggedOps = fn.opsFilter(taggedOps, filter)
       }
     }
