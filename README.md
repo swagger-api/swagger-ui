@@ -40,22 +40,22 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ## Documentation
 
 #### Usage
-- [Installation](docs/usage/installation.md)
-- [Configuration](docs/usage/configuration.md)
-- [CORS](docs/usage/cors.md)
-- [OAuth2](docs/usage/oauth2.md)
-- [Deep Linking](docs/usage/deep-linking.md)
-- [Limitations](docs/usage/limitations.md)
-- [Version detection](docs/usage/version-detection.md)
+- [Installation](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/installation.md)
+- [Configuration](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md)
+- [CORS](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/cors.md)
+- [OAuth2](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/oauth2.md)
+- [Deep Linking](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/deep-linking.md)
+- [Limitations](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/limitations.md)
+- [Version detection](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/version-detection.md)
 
 #### Customization
-- [Overview](docs/customization/overview.md)
-- [Plugin API](docs/customization/plugin-api.md)
-- [Custom layout](docs/customization/custom-layout.md)
+- [Overview](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/overview.md)
+- [Plugin API](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plugin-api.md)
+- [Custom layout](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/custom-layout.md)
 
 #### Development
-- [Setting up](docs/development/setting-up.md)
-- [Scripts](docs/development/scripts.md)
+- [Setting up](https://github.com/swagger-api/swagger-ui/blob/master/docs/development/setting-up.md)
+- [Scripts](https://github.com/swagger-api/swagger-ui/blob/master/docs/development/scripts.md)
 
 ##### Integration Tests
 
