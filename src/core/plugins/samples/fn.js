@@ -31,17 +31,20 @@ const primitive = (schema) => {
 }
 
 
-export const sampleFromSchema = (schema, config={}) => {
+export const sampleFromSchema = (schema, config={}, exampleOverride = undefined) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
+  // do a couple of quick sanity tests to ensure the value
+  // looks like a $$ref that swagger-client generates.
+  const sanitizeRef = (value) => deeplyStripKey(value, "$$ref", (val) =>
+    typeof val === "string" && val.indexOf("#") > -1)
 
+  if(exampleOverride !== undefined) {
+    return sanitizeRef(exampleOverride)
+  }
   if(example !== undefined) {
-    return deeplyStripKey(example, "$$ref", (val) => {
-      // do a couple of quick sanity tests to ensure the value
-      // looks like a $$ref that swagger-client generates.
-      return typeof val === "string" && val.indexOf("#") > -1
-    })
+    return sanitizeRef(example)
   }
 
   if(!type) {
@@ -120,7 +123,7 @@ export const inferSchema = (thing) => {
 }
 
 
-export const sampleXmlFromSchema = (schema, config={}) => {
+export const sampleXmlFromSchema = (schema, config={}, exampleOverride = undefined) => {
   let objectifySchema = deepAssign({}, objectify(schema))
   let { type, properties, additionalProperties, items, example } = objectifySchema
   let { includeReadOnly, includeWriteOnly } = config
