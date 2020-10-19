@@ -17,6 +17,9 @@ describe("<Response />", function () {
   }
   const props = {
     getComponent: c => components[c],
+    getConfigs: () => {
+      return {}
+    },
     specSelectors: {
       isOAS3() {
         return false
