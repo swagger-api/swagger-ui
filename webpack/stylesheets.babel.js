@@ -8,7 +8,6 @@
 import path from "path"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import IgnoreAssetsPlugin from "ignore-assets-webpack-plugin"
-import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin"
 
 export default {
   mode: "production",
@@ -33,7 +32,7 @@ export default {
             loader: "postcss-loader",
             options: {
               sourceMap: true,
-              plugins: loader => [
+              plugins: [
                 require("cssnano")(),
                 require("autoprefixer")(),
               ],

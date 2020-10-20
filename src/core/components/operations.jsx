@@ -16,6 +16,7 @@ export default class Operations extends React.Component {
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    oas3Selectors: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
@@ -28,6 +29,7 @@ export default class Operations extends React.Component {
     let {
       specSelectors,
       getComponent,
+      oas3Selectors,
       layoutSelectors,
       layoutActions,
       getConfigs,
@@ -46,7 +48,7 @@ export default class Operations extends React.Component {
     let filter = layoutSelectors.currentFilter()
 
     if (filter) {
-      if (filter !== true) {
+      if (filter !== true && filter !== "true" && filter !== "false") {
         taggedOps = fn.opsFilter(taggedOps, filter)
       }
     }
@@ -65,10 +67,12 @@ export default class Operations extends React.Component {
                   key={"operation-" + tag}
                   tagObj={tagObj}
                   tag={tag}
+                  oas3Selectors={oas3Selectors}
                   layoutSelectors={layoutSelectors}
                   layoutActions={layoutActions}
                   getConfigs={getConfigs}
-                  getComponent={getComponent}>
+                  getComponent={getComponent}
+                  specUrl={specSelectors.url()}>
                   {
                     operations.map( op => {
                       const path = op.get("path")

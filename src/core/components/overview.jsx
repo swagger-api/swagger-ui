@@ -97,7 +97,7 @@ export class OperationLink extends React.Component {
     let { id, method, shown, href } = this.props
 
     return (
-      <Link href={ href } style={{fontWeight: shown ? "bold" : "normal"}} onClick={this.onClick} className="block opblock-link">
+      <Link href={ href } onClick={this.onClick} className={`block opblock-link ${shown ? "shown" : ""}`}>
         <div>
           <small className={`bold-label-${method}`}>{method.toUpperCase()}</small>
           <span className="bold-label" >{id}</span>

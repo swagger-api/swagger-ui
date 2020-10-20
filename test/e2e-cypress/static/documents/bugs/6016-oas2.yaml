@@ -1,0 +1,28 @@
+swagger: "2.0"
+info:
+  description: "OAS2 sample with entries as property name"
+  version: "0.0.1"
+  title: "Swagger Sample"
+paths:
+  /pet:
+    post:
+      summary: "Add a new pet to the store"
+      description: ""
+      parameters:
+      - in: "body"
+        name: "body"
+        schema:
+          $ref: "#/definitions/Pet"
+      responses:
+        "405":
+          description: "Invalid input"
+definitions:
+  Pet:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      entries: # <-- evaluate
+        type: "array"
+        items:
+          type: "string"

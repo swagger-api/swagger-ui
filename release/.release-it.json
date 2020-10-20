@@ -11,13 +11,13 @@
   "git": {
     "requireUpstream": false,
     "changelog": "./release/get-changelog.sh",
-    "commitMessage": "release: v${version}",
+    "commitMessage": "chore(release): cut the v${version} release",
     "tagName": "v${version}",
     "push": false
   },
   "github": {
     "release": true,
-    "releaseName": "Swagger UI %s Released!",
+    "releaseName": "Swagger UI v${version} Released!",
     "draft": true
   },
   "plugins": {

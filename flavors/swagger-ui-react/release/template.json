@@ -26,7 +26,8 @@
     "$remove": true
   },
   "name": "swagger-ui-react",
-  "main": "index.js",
+  "main": "commonjs.js",
+  "module": "index.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
     "(in alphabetical order)",

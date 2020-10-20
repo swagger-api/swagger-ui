@@ -44,7 +44,7 @@ export default class ApiKeyAuth extends React.Component {
     const Row = getComponent("Row")
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     const JumpToPath = getComponent("JumpToPath", true)
     let value = this.getValue()
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
@@ -70,7 +70,7 @@ export default class ApiKeyAuth extends React.Component {
           <label>Value:</label>
           {
             value ? <code> ****** </code>
-                  : <Col><Input type="text" onChange={ this.onChange }/></Col>
+                  : <Col><Input type="text" onChange={ this.onChange } autoFocus/></Col>
           }
         </Row>
         {

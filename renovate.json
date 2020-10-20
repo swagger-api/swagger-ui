@@ -40,5 +40,6 @@
     }
   ],
   "ignorePaths": ["swagger-ui-dist-package/package.json"],
+  "ignoreDeps": ["release-it", "@release-it/conventional-changelog"],
   "prConcurrentLimit": 3
 }

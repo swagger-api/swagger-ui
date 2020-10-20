@@ -2,6 +2,14 @@
 {
     margin: 50px 0;
 
+    &.failed-config
+    { 
+        max-width: 880px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center
+    }
+
     hgroup.main
     {
         margin: 0 0 20px 0;
@@ -78,6 +86,11 @@
 
             border-radius: 57px;
             background: $info-title-small-background-color;
+            
+            &.version-stamp
+            {
+                background-color: #89bf04;
+            }
 
             pre
             {

@@ -7,9 +7,13 @@ const errorTransformers = [
   ParameterOneOf
 ]
 
-export default function transformErrors (errors, system) {
+export default function transformErrors (errors) {
+  // Dev note: unimplemented artifact where
+  // jsSpec: system.specSelectors.specJson().toJS()
+  // regardless, to be compliant with redux@4, instead of calling the store method here,
+  // jsSpec should be pass down as an argument,
   let inputs = {
-    jsSpec: system.specSelectors.specJson().toJS()
+    jsSpec: {}
   }
 
   let transformedErrors = reduce(errorTransformers, (result, transformer) => {

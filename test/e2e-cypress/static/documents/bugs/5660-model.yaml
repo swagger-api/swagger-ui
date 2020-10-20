@@ -1,0 +1,14 @@
+openapi: 3.0.2
+info:
+  title: test
+  description: Nullable model itself
+  version: '1.0'
+paths: {}
+components:
+  schemas:
+    SomeObject:
+      type: object
+      properties:
+        name:
+          type: string
+      nullable: true

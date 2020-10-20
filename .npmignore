@@ -6,6 +6,10 @@
 !dist/swagger-ui.js.map
 !dist/swagger-ui-standalone-preset.js
 !dist/swagger-ui-standalone-preset.js.map
+!dist/swagger-ui-es-bundle.js
+!dist/swagger-ui-es-bundle.js.map
+!dist/swagger-ui-es-bundle-core.js
+!dist/swagger-ui-es-bundle-core.js.map
 !dist/swagger-ui.css
 !dist/swagger-ui.css.map
 !dist/oauth2-redirect.html

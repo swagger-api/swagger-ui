@@ -1,6 +1,6 @@
 import Callbacks from "./callbacks"
 import RequestBody from "./request-body"
-import OperationLink from "./operation-link.jsx"
+import OperationLink from "./operation-link"
 import Servers from "./servers"
 import ServersContainer from "./servers-container"
 import RequestBodyEditor from "./request-body-editor"

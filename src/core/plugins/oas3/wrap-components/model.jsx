@@ -10,7 +10,9 @@ class ModelComponent extends Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    expandDepth: PropTypes.number
+    expandDepth: PropTypes.number,
+    includeReadOnly: PropTypes.bool,
+    includeWriteOnly: PropTypes.bool,
   }
 
   render(){

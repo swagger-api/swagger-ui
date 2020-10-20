@@ -16,7 +16,7 @@ describe("<OnlineValidatorBadge/>", function () {
       }
     }
     const wrapper = mount(
-     <OnlineValidatorBadge {...props} />
+      <OnlineValidatorBadge {...props} />
     )
 
     // Then

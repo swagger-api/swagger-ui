@@ -390,7 +390,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .click()
           // Check HighlightCode value
           .get(".opblock-section-request-body .highlight-code")
-          .should("have.text", JSON.stringify(["a", "b", "c"], null, 2))
+          .should("include.text", JSON.stringify(["a", "b", "c"], null, 2))
           // Check dropdown value
           .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
@@ -415,7 +415,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".opblock-section-request-body .examples-select > select")
           .select("ArrayExampleB")
           .get(".opblock-section-request-body .highlight-code")
-          .should("have.text", JSON.stringify([1, 2, 3, 4], null, 2))
+          .should("include.text", JSON.stringify([1, 2, 3, 4], null, 2))
           .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of numbers")
@@ -424,7 +424,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .click()
           // Check textarea value
           .get(".opblock-section-request-body textarea")
-          .should("have.text", JSON.stringify([1, 2, 3, 4], null, 2))
+          .should("include.text", JSON.stringify([1, 2, 3, 4], null, 2))
           // Check dropdown value
           .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
@@ -451,7 +451,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "[Modified value]")
           // Check textarea value
           .get(".opblock-section-request-body textarea")
-          .should("have.text", JSON.stringify([1, 2, 3, 4, 5], null, 2))
+          .should("include.text", JSON.stringify([1, 2, 3, 4, 5], null, 2))
       })
 
       it("should retain a modified value, and support returning to it", () => {
@@ -475,7 +475,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "[Modified value]")
           // Check textarea value
           .get(".opblock-section-request-body textarea")
-          .should("have.text", JSON.stringify([1, 2, 3, 4, 5], null, 2))
+          .should("include.text", JSON.stringify([1, 2, 3, 4, 5], null, 2))
           // Choose the second example
           .get(".opblock-section-request-body .examples-select > select")
           .select("ArrayExampleB")
@@ -485,13 +485,13 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "A lowly array of numbers")
           // Check textarea value
           .get(".opblock-section-request-body textarea")
-          .should("have.text", JSON.stringify([1, 2, 3, 4], null, 2))
+          .should("include.text", JSON.stringify([1, 2, 3, 4], null, 2))
           // Switch back to the modified value
           .get(".opblock-section-request-body .examples-select > select")
           .select("__MODIFIED__VALUE__")
           // Check textarea value
           .get(".opblock-section-request-body textarea")
-          .should("have.text", JSON.stringify([1, 2, 3, 4, 5], null, 2))
+          .should("include.text", JSON.stringify([1, 2, 3, 4, 5], null, 2))
       })
     })
     describe("in a Response", () => {
@@ -507,7 +507,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "A lowly array of strings")
           // Assert on the example value
           .get(".example.microlight")
-          .should("have.text", JSON.stringify(["a", "b", "c"], null, 2))
+          .should("include.text", JSON.stringify(["a", "b", "c"], null, 2))
       })
       it("should render and apply the second value when chosen", () => {
         cy.visit(
@@ -522,7 +522,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "A lowly array of numbers")
           // Assert on the example value
           .get(".example.microlight")
-          .should("have.text", JSON.stringify([1, 2, 3, 4], null, 2))
+          .should("include.text", JSON.stringify([1, 2, 3, 4], null, 2))
       })
     })
   })

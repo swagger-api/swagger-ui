@@ -5,7 +5,7 @@ import serializeError from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
-import { isJSONObject, paramToValue } from "core/utils"
+import { isJSONObject, paramToValue, isEmptyValue } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -401,11 +401,27 @@ export const executeRequest = (req) =>
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
       req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
       const requestBody = oas3Selectors.requestBodyValue(pathName, method)
+      const requestBodyInclusionSetting = oas3Selectors.requestBodyInclusionSetting(pathName, method)
 
       if(isJSONObject(requestBody)) {
         req.requestBody = JSON.parse(requestBody)
       } else if(requestBody && requestBody.toJS) {
-        req.requestBody = requestBody.toJS()
+        req.requestBody = requestBody
+          .map(
+            (val) => {
+              if (Map.isMap(val)) {
+                return val.get("value")
+              }
+              return val
+            }
+          )
+          .filter(
+            (value, key) => (Array.isArray(value) 
+              ? value.length !== 0 
+              : !isEmptyValue(value)
+            ) || requestBodyInclusionSetting.get(key)
+          )
+          .toJS()
       } else{
         req.requestBody = requestBody
       }
@@ -416,8 +432,8 @@ export const executeRequest = (req) =>
 
     specActions.setRequest(req.pathName, req.method, parsedRequest)
 
-    let requestInterceptorWrapper = function(r) {
-      let mutatedRequest = requestInterceptor.apply(this, [r])
+    let requestInterceptorWrapper = async (r) => {
+      let mutatedRequest = await requestInterceptor.apply(this, [r])
       let parsedMutatedRequest = Object.assign({}, mutatedRequest)
       specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
       return mutatedRequest

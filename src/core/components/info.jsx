@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import { sanitizeUrl } from "core/utils"
+import { buildUrl } from "core/utils/url"
 
 
 export class InfoBasePath extends React.Component {
@@ -26,13 +26,16 @@ export class InfoBasePath extends React.Component {
 class Contact extends React.Component {
   static propTypes = {
     data: PropTypes.object,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    specSelectors: PropTypes.object.isRequired,
+    selectedServer: PropTypes.string,
+    url: PropTypes.string.isRequired,
   }
 
   render(){
-    let { data, getComponent } = this.props
+    let { data, getComponent, selectedServer, url: specUrl} = this.props
     let name = data.get("name") || "the developer"
-    let url = data.get("url")
+    let url = buildUrl(data.get("url"), specUrl, {selectedServer})
     let email = data.get("email")
 
     const Link = getComponent("Link")
@@ -53,17 +56,18 @@ class Contact extends React.Component {
 class License extends React.Component {
   static propTypes = {
     license: PropTypes.object,
-    getComponent: PropTypes.func.isRequired
-
+    getComponent: PropTypes.func.isRequired,
+    specSelectors: PropTypes.object.isRequired,
+    selectedServer: PropTypes.string,
+    url: PropTypes.string.isRequired,
   }
 
   render(){
-    let { license, getComponent } = this.props
+    let { license, getComponent, selectedServer, url: specUrl } = this.props
 
     const Link = getComponent("Link")
-  
-    let name = license.get("name") || "License"
-    let url = license.get("url")
+    let name = license.get("name") || "License"  
+    let url = buildUrl(license.get("url"), specUrl, {selectedServer})
 
     return (
       <div className="info__license">
@@ -82,13 +86,13 @@ export class InfoUrl extends React.PureComponent {
     getComponent: PropTypes.func.isRequired
   }
 
-  
+
   render() {
     const { url, getComponent } = this.props
 
     const Link = getComponent("Link")
 
-    return <Link target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></Link>
+    return <Link target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url }</span></Link>
   }
 }
 
@@ -100,19 +104,23 @@ export default class Info extends React.Component {
     basePath: PropTypes.string,
     externalDocs: ImPropTypes.map,
     getComponent: PropTypes.func.isRequired,
+    oas3selectors: PropTypes.func,
+    selectedServer: PropTypes.string,
   }
 
   render() {
-    let { info, url, host, basePath, getComponent, externalDocs } = this.props
+    let { info, url, host, basePath, getComponent, externalDocs, selectedServer, url: specUrl } = this.props
     let version = info.get("version")
     let description = info.get("description")
     let title = info.get("title")
-    let termsOfService = info.get("termsOfService")
+    let termsOfServiceUrl = buildUrl(info.get("termsOfService"), specUrl, {selectedServer})
     let contact = info.get("contact")
     let license = info.get("license")
-    const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
+    let rawExternalDocsUrl = externalDocs && externalDocs.get("url")
+    let externalDocsUrl = buildUrl(rawExternalDocsUrl, specUrl, {selectedServer})
+    let externalDocsDescription = externalDocs && externalDocs.get("description")
 
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const Link = getComponent("Link")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
@@ -133,14 +141,14 @@ export default class Info extends React.Component {
         </div>
 
         {
-          termsOfService && <div className="info__tos">
-            <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
+          termsOfServiceUrl && <div className="info__tos">
+            <Link target="_blank" href={ sanitizeUrl(termsOfServiceUrl) }>Terms of service</Link>
           </div>
         }
 
-        {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } /> : null }
-        {license && license.size ? <License getComponent={getComponent} license={ license } /> : null }
-        { externalDocsUrl ?
+        {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } selectedServer={selectedServer} url={url} /> : null }
+        {license && license.size ? <License getComponent={getComponent} license={ license } selectedServer={selectedServer} url={url}/> : null }
+        { externalDocs ?
             <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
         : null }
 

@@ -19,13 +19,13 @@ let DEFAULT_ERROR_STRUCTURE = {
   message: "Unknown error"
 }
 
-export default function(system) {
+export default function() {
   return {
     [NEW_THROWN_ERR]: (state, { payload }) => {
       let error = Object.assign(DEFAULT_ERROR_STRUCTURE, payload, {type: "thrown"})
       return state
         .update("errors", errors => (errors || List()).push( fromJS( error )) )
-        .update("errors", errors => transformErrors(errors, system.getSystem()))
+        .update("errors", errors => transformErrors(errors))
     },
 
     [NEW_THROWN_ERR_BATCH]: (state, { payload }) => {
@@ -34,7 +34,7 @@ export default function(system) {
       })
       return state
         .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
-        .update("errors", errors => transformErrors(errors, system.getSystem()))
+        .update("errors", errors => transformErrors(errors))
     },
 
     [NEW_SPEC_ERR]: (state, { payload }) => {
@@ -42,7 +42,7 @@ export default function(system) {
       error = error.set("type", "spec")
       return state
         .update("errors", errors => (errors || List()).push( fromJS(error)).sortBy(err => err.get("line")) )
-        .update("errors", errors => transformErrors(errors, system.getSystem()))
+        .update("errors", errors => transformErrors(errors))
     },
 
     [NEW_SPEC_ERR_BATCH]: (state, { payload }) => {
@@ -50,8 +50,8 @@ export default function(system) {
         return fromJS(Object.assign(DEFAULT_ERROR_STRUCTURE, err, { type: "spec" }))
       })
       return state
-      .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
-      .update("errors", errors => transformErrors(errors, system.getSystem()))
+        .update("errors", errors => (errors || List()).concat(fromJS(payload)))
+        .update("errors", errors => transformErrors(errors))
     },
 
     [NEW_AUTH_ERR]: (state, { payload }) => {
@@ -60,7 +60,7 @@ export default function(system) {
       error = error.set("type", "auth")
       return state
         .update("errors", errors => (errors || List()).push( fromJS(error)) )
-        .update("errors", errors => transformErrors(errors, system.getSystem()))
+        .update("errors", errors => transformErrors(errors))
     },
 
     [CLEAR]: (state, { payload }) => {

@@ -1,13 +1,13 @@
 // from https://github.com/pedroetb/node-oauth2-server-example
 
-var Http = require("http")
-var path = require("path")
-var express = require("express")
-var bodyParser = require("body-parser")
-var oauthserver = require("oauth2-server")
-var cors = require("cors")
+let Http = require("http")
+let path = require("path")
+let express = require("express")
+let bodyParser = require("body-parser")
+let oauthserver = require("oauth2-server")
+let cors = require("cors")
 
-var app = express()
+let app = express()
 
 app.use(cors())
 
@@ -34,7 +34,7 @@ app.get("*", app.oauth.authorise(), function (req, res) {
 app.use(app.oauth.errorHandler())
 
 function startServer() {
-  var httpServer = Http.createServer(app)
+  let httpServer = Http.createServer(app)
   httpServer.listen("3231")
 
   return function stopServer() {

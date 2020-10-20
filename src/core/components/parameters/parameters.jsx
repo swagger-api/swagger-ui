@@ -77,6 +77,21 @@ export default class Parameters extends Component {
     }
   }
 
+  onChangeMediaType = ( { value, pathMethod } ) => {
+    let { specSelectors, specActions, oas3Selectors, oas3Actions } = this.props
+    let targetMediaType = value
+    let currentMediaType = oas3Selectors.requestContentType(...pathMethod)
+    let schemaPropertiesMatch = specSelectors.isMediaTypeSchemaPropertiesEqual(pathMethod, currentMediaType, targetMediaType)
+    if (!schemaPropertiesMatch) {
+      oas3Actions.clearRequestBodyValue({ pathMethod })
+      specActions.clearResponse(...pathMethod)
+      specActions.clearRequest(...pathMethod)
+      specActions.clearValidateParams(pathMethod)
+    }
+    oas3Actions.setRequestContentType({ value, pathMethod })
+    oas3Actions.initRequestBodyValidateError({ pathMethod })
+  }
+
   render(){
 
     let {
@@ -106,6 +121,7 @@ export default class Parameters extends Component {
 
     const isExecute = tryItOutEnabled && allowTryItOut
     const isOAS3 = specSelectors.isOAS3()
+
 
     const requestBody = operation.get("requestBody")
     return (
@@ -186,7 +202,7 @@ export default class Parameters extends Component {
                   value={oas3Selectors.requestContentType(...pathMethod)}
                   contentTypes={ requestBody.get("content", List()).keySeq() }
                   onChange={(value) => {
-                    oas3Actions.setRequestContentType({ value, pathMethod })
+                    this.onChangeMediaType({ value, pathMethod })
                   }}
                   className="body-param-content-type" />
               </label>
@@ -196,7 +212,10 @@ export default class Parameters extends Component {
                 specPath={specPath.slice(0, -1).push("requestBody")}
                 requestBody={requestBody}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
+                requestBodyInclusionSetting={oas3Selectors.requestBodyInclusionSetting(...pathMethod)}
+                requestBodyErrors={oas3Selectors.requestBodyErrors(...pathMethod)}
                 isExecute={isExecute}
+                getConfigs={getConfigs}
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
                   "requestBody",
@@ -221,6 +240,13 @@ export default class Parameters extends Component {
                     })
                   }
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
+                }}
+                onChangeIncludeEmpty={(name, value) => {
+                  oas3Actions.setRequestBodyInclusion({
+                    pathMethod,
+                    value,
+                    name,
+                  })
                 }}
                 contentType={oas3Selectors.requestContentType(...pathMethod)}/>
             </div>

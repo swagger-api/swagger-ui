@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: Example Swagger
+  version: '1.0'
+servers:
+  - url: /api/v1
+paths:
+  /xmlTest:
+    get:
+      summary: subscribes to a siri vm stream
+      operationId: xmlTest
+      parameters: []
+      responses:
+        '200':
+          description: Simple example
+          content:
+            application/xml:
+              schema:
+                type: object
+                xml:
+                  name: root
+                properties:
+                  x:
+                    type: string
+                example: 
+                  x: what the f
+              examples:
+                x2:
+                  summary: "xml not rendered via 'examples' keyword"
+                  value:
+                    x: should be xml
+  /xmlTest2:
+    get:
+      summary: subscribes to a siri vm stream
+      operationId: xmlTest2
+      parameters: []
+      responses:
+        '200':
+          description: Simple example
+          content:
+            application/xml:
+              schema:
+                type: object
+                xml:
+                  name: root
+                properties:
+                  x:
+                    type: string
+                example: 
+                  x: what the f
+              example:
+                x: should be xml

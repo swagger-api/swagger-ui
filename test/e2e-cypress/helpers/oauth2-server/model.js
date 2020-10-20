@@ -1,6 +1,6 @@
 // from https://github.com/pedroetb/node-oauth2-server-example
 
-var config = {
+let config = {
   clients: [{
     clientId: "application",
     clientSecret: "secret"
@@ -21,7 +21,7 @@ var config = {
  * Dump the memory storage content (for debug).
  */
 
-var dump = function () {
+let dump = function () {
 
   console.log("clients", config.clients)
   console.log("confidentialClients", config.confidentialClients)
@@ -33,9 +33,9 @@ var dump = function () {
  * Methods used by all grant types.
  */
 
-var getAccessToken = function (bearerToken, callback) {
+let getAccessToken = function (bearerToken, callback) {
 
-  var tokens = config.tokens.filter(function (token) {
+  let tokens = config.tokens.filter(function (token) {
 
     return token.accessToken === bearerToken
   })
@@ -43,14 +43,14 @@ var getAccessToken = function (bearerToken, callback) {
   return callback(false, tokens[0])
 }
 
-var getClient = function (clientId, clientSecret, callback) {
+let getClient = function (clientId, clientSecret, callback) {
 
-  var clients = config.clients.filter(function (client) {
+  let clients = config.clients.filter(function (client) {
 
     return client.clientId === clientId && client.clientSecret === clientSecret
   })
 
-  var confidentialClients = config.confidentialClients.filter(function (client) {
+  let confidentialClients = config.confidentialClients.filter(function (client) {
 
     return client.clientId === clientId && client.clientSecret === clientSecret
   })
@@ -58,9 +58,9 @@ var getClient = function (clientId, clientSecret, callback) {
   callback(false, clients[0] || confidentialClients[0])
 }
 
-var grantTypeAllowed = function (clientId, grantType, callback) {
+let grantTypeAllowed = function (clientId, grantType, callback) {
 
-  var clientsSource,
+  let clientsSource,
     clients = []
 
   if (grantType === "password") {
@@ -79,7 +79,7 @@ var grantTypeAllowed = function (clientId, grantType, callback) {
   callback(false, clients.length)
 }
 
-var saveAccessToken = function (accessToken, clientId, expires, user, callback) {
+let saveAccessToken = function (accessToken, clientId, expires, user, callback) {
 
   config.tokens.push({
     accessToken: accessToken,
@@ -95,9 +95,9 @@ var saveAccessToken = function (accessToken, clientId, expires, user, callback) 
  * Method used only by password grant type.
  */
 
-var getUser = function (username, password, callback) {
+let getUser = function (username, password, callback) {
 
-  var users = config.users.filter(function (user) {
+  let users = config.users.filter(function (user) {
 
     return user.username === username && user.password === password
   })
@@ -109,14 +109,14 @@ var getUser = function (username, password, callback) {
  * Method used only by client_credentials grant type.
  */
 
-var getUserFromClient = function (clientId, clientSecret, callback) {
+let getUserFromClient = function (clientId, clientSecret, callback) {
 
-  var clients = config.confidentialClients.filter(function (client) {
+  let clients = config.confidentialClients.filter(function (client) {
 
     return client.clientId === clientId && client.clientSecret === clientSecret
   })
 
-  var user
+  let user
 
   if (clients.length) {
     user = {

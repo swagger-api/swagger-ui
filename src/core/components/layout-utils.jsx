@@ -73,10 +73,14 @@ export class Col extends React.Component {
       }
     }
 
+    if (hide) {
+      classesAr.push("hidden")
+    }
+
     let classes = xclass(rest.className, ...classesAr)
 
     return (
-      <section {...rest} style={{display: hide ? "none": null}} className={classes}/>
+      <section {...rest} className={classes}/>
     )
   }
 
@@ -213,7 +217,7 @@ Link.propTypes = {
   className: PropTypes.string
 }
 
-const NoMargin = ({children}) => <div style={{height: "auto", border: "none", margin: 0, padding: 0}}> {children} </div>
+const NoMargin = ({children}) => <div className="no-margin"> {children} </div>
 
 NoMargin.propTypes = {
   children: PropTypes.node

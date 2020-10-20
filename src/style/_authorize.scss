@@ -65,7 +65,19 @@
 
         border-radius: 4px;
 
+        background-color: #ffeeee;
+
+        color: red;
+        
+        margin: 1em;
+
         @include text_code();
+
+        b
+        {
+            text-transform: capitalize;
+            margin-right: 1em;
+        }
     }
 }
 
@@ -76,6 +88,15 @@
         font-size: 14px;
 
         @include text_headline();
+
+        a
+        {
+          font-size: 12px;
+          color: $auth-select-all-none-link-font-color;
+          cursor: pointer;
+          padding-left: 10px;
+          text-decoration: underline;
+        }
     }
 }
 

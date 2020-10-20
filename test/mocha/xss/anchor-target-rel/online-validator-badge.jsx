@@ -16,7 +16,7 @@ describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
       }
     }
     const wrapper = mount(
-     <OnlineValidatorBadge {...props} />
+      <OnlineValidatorBadge {...props} />
     )
 
     const anchor = wrapper.find("a")

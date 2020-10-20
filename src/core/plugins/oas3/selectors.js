@@ -1,6 +1,5 @@
-import { OrderedMap } from "immutable"
+import { OrderedMap, Map } from "immutable"
 import { isOAS3 as isOAS3Helper } from "./helpers"
-
 
 // Helpers
 
@@ -15,6 +14,35 @@ function onlyOAS3(selector) {
   }
 }
 
+function validateRequestBodyIsRequired(selector) {
+  return (...args) => (system) => {
+    const specJson = system.getSystem().specSelectors.specJson()
+    const argsList = [...args]
+    // expect argsList[0] = state
+    let pathMethod = argsList[1] || []
+    let isOas3RequestBodyRequired = specJson.getIn(["paths", ...pathMethod, "requestBody", "required"])
+
+    if (isOas3RequestBodyRequired) {
+      return selector(...args)
+    } else {
+      // validation pass b/c not required
+      return true
+    }
+  }
+}
+
+const validateRequestBodyValueExists = (state, pathMethod) => {
+  pathMethod = pathMethod || []
+  let oas3RequestBodyValue = state.getIn(["requestData", ...pathMethod, "bodyValue"])
+  // context: bodyValue can be a String, or a Map
+  if (!oas3RequestBodyValue) {
+    return false
+  }
+  // validation pass if String is not empty, or if Map exists
+  return true
+}
+
+
 export const selectedServer = onlyOAS3((state, namespace) => {
     const path = namespace ? [namespace, "selectedServer"] : ["selectedServer"]
     return state.getIn(path) || ""
@@ -23,6 +51,16 @@ export const selectedServer = onlyOAS3((state, namespace) => {
 
 export const requestBodyValue = onlyOAS3((state, path, method) => {
     return state.getIn(["requestData", path, method, "bodyValue"]) || null
+  }
+)
+
+export const requestBodyInclusionSetting = onlyOAS3((state, path, method) => {
+    return state.getIn(["requestData", path, method, "bodyInclusion"]) || Map()
+  }
+)
+
+export const requestBodyErrors = onlyOAS3((state, path, method) => {
+    return state.getIn(["requestData", path, method, "errors"]) || null
   }
 )
 
@@ -111,3 +149,34 @@ export const serverEffectiveValue = onlyOAS3((state, locationData) => {
     return str
   }
 )
+
+export const validateBeforeExecute = validateRequestBodyIsRequired(
+  (state, pathMethod) => validateRequestBodyValueExists(state, pathMethod)
+)
+
+export const validateShallowRequired = (state, { oas3RequiredRequestBodyContentType, oas3RequestContentType, oas3RequestBodyValue} ) => {
+  let missingRequiredKeys = []
+  // context: json => String; urlencoded, form-data => Map
+  if (!Map.isMap(oas3RequestBodyValue)) {
+    return missingRequiredKeys
+  }
+  let requiredKeys = []
+  // Cycle through list of possible contentTypes for matching contentType and defined requiredKeys
+  Object.keys(oas3RequiredRequestBodyContentType.requestContentType).forEach((contentType) => {
+    if (contentType === oas3RequestContentType) {
+      let contentTypeVal = oas3RequiredRequestBodyContentType.requestContentType[contentType]
+      contentTypeVal.forEach((requiredKey) => {
+        if (requiredKeys.indexOf(requiredKey) < 0 ) {
+          requiredKeys.push(requiredKey)
+        }
+      })
+    }
+  })
+  requiredKeys.forEach((key) => {
+    let requiredKeyValue = oas3RequestBodyValue.getIn([key, "value"])
+    if (!requiredKeyValue) {
+      missingRequiredKeys.push(key)
+    }
+  })
+  return missingRequiredKeys
+}

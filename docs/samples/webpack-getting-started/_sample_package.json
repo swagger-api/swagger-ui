@@ -1,0 +1,26 @@
+{
+  "name": "swagger-ui-webpack-getting-started",
+  "version": "0.0.1",
+  "description": "A simple setup of Swagger UI with Webpack",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
+  },
+  "author": "Shaun Luttin",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "clean-webpack-plugin": "^1.0.1",
+    "copy-webpack-plugin": "^4.6.0",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "css-loader": "^2.1.0",
+    "json-loader": "^0.5.7",
+    "style-loader": "^0.23.1",
+    "swagger-ui": "^3.20.7",
+    "yaml-loader": "^0.5.0"
+  }
+}

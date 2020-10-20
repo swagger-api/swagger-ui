@@ -300,6 +300,12 @@
 
     }
 
+    .opblock-summary-path
+    {
+        flex-shrink: 0;
+        max-width: calc(100% - 110px - 15rem);
+    }
+
     .opblock-summary-path__deprecated
     {
         text-decoration: line-through;
@@ -416,6 +422,19 @@
         padding: 10px 10px;
 
         border: 2px solid $operational-filter-input-border-color;
+    }
+}
+
+.filter, .download-url-wrapper
+{
+    .failed
+    {
+        color: red;
+    }
+
+    .loading
+    {
+        color: #aaa;
     }
 }
 
@@ -553,6 +572,11 @@
 
         @include text_body();
     }
+
+    .curl
+    {
+        white-space: normal;
+    }
 }
 
 .response-col_status
@@ -582,6 +606,16 @@
         font-size: 11px;
 
         @include text_code($response-col-links-font-color);
+    }
+
+    .operation-link
+    {
+        margin-bottom: 1.5em;
+
+        .description
+        {
+            margin-bottom: 0.5em;
+        }
     }
 }
 
@@ -614,10 +648,12 @@
 
     overflow-wrap: break-word;
     @include text_code($opblock-body-font-color);
-    span
-    {
-        color: $opblock-body-font-color !important;
-    }
+
+    // disabled to have syntax highliting with react-syntax-highlight
+    // span
+    // {
+    //     color: $opblock-body-font-color !important;
+    // }
 
     .headerline
     {
@@ -633,6 +669,9 @@
     max-height: 400px;
     min-height: 6em;
   }
+}
+.curl-command {
+  position: relative;
 }
 
 .download-contents {
@@ -793,6 +832,35 @@
     }
 }
 
+.hidden
+{
+    display: none;
+}
+
+.no-margin
+{
+    height: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.float-right
+{
+    float: right;
+}
+
+img.full-width
+{
+    width: 100%;
+}
+
+.svg-assets
+{
+    position: absolute;
+    width: 0;
+    height: 0;
+}
 
 section
 {
@@ -813,6 +881,12 @@ a.nostyle {
     color: inherit;
     cursor: pointer;
   }
+}
+
+.fallback
+{
+    padding: 1em;
+    color: #aaa;
 }
 
 .version-pragma {
@@ -840,4 +914,28 @@ a.nostyle {
       white-space: pre;
     }
   }
+}
+
+.opblock-link
+{
+    font-weight: normal;
+
+    &.shown
+    {
+        font-weight: bold;
+    }
+}
+
+span
+{
+    &.token-string
+    {
+        color: #555;
+    }
+
+    &.token-not-formatted
+    {
+        color: #555;
+        font-weight: bold;
+    }
 }
