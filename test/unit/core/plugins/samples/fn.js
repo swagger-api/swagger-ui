@@ -1357,7 +1357,7 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with additional props =true", function () {
-      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp>Anything can be here</additionalProp>\n</animals>"
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp1>string</additionalProp1>\n\t<additionalProp2>string</additionalProp2>\n\t<additionalProp3>string</additionalProp3>\n</animals>"
       let definition = {
         type: "object",
         properties: {
