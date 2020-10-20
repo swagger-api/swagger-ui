@@ -59,7 +59,10 @@ export const sampleFromSchema = (schema, config={}, exampleOverride = undefined)
   if(type === "object") {
     let props = objectify(properties)
     let obj = {}
-    for (var name in props) {
+    for (let name in props) {
+      if (!props.hasOwnProperty(name)) {
+        continue
+      }
       if ( props[name] && props[name].deprecated ) {
         continue
       }
