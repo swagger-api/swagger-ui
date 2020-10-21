@@ -514,6 +514,17 @@ export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {
   return requiredObj
 }
 
+export const isMediaTypeSchemaPropertiesEqual = ( state, pathMethod, currentMediaType, targetMediaType) => {
+  let requestBodyContent = state.getIn(["resolvedSubtrees", "paths", ...pathMethod, "requestBody", "content"], fromJS([]))
+  if (requestBodyContent.size < 2 || !currentMediaType || !targetMediaType) {
+    // nothing to compare
+    return false
+  }
+  let currentMediaTypeSchemaProperties = requestBodyContent.getIn([currentMediaType, "schema", "properties"], fromJS([]))
+  let targetMediaTypeSchemaProperties = requestBodyContent.getIn([targetMediaType, "schema", "properties"], fromJS([]))
+  return currentMediaTypeSchemaProperties.equals(targetMediaTypeSchemaProperties) ? true: false
+}
+
 function returnSelfOrNewMap(obj) {
   // returns obj if obj is an Immutable map, else returns a new Map
   return Map.isMap(obj) ? obj : new Map()

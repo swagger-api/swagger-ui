@@ -74,7 +74,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
   }
 
-  if (flow === "authorizationCode" && authConfigs.usePkceWithAuthorizationCodeGrant) {
+  if ((flow === "authorizationCode" || flow === "accessCode") && authConfigs.usePkceWithAuthorizationCodeGrant) {
       const codeVerifier = generateCodeVerifier()
       const codeChallenge = createCodeChallenge(codeVerifier)
 

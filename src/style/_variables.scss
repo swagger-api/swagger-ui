@@ -1,4 +1,4 @@
-  // Base Colours
+// Base Colours
 $black: #000 !default;
 $white: #fff !default;
 $gray-50: lighten($black, 92%) !default; //ebebeb
@@ -13,6 +13,7 @@ $gray-800: lighten($black, 25%) !default; // #404040
 $gray-900: lighten($black, 18.75%) !default; // #303030
 
 $cod-gray: #1b1b1b !default;
+$agate-gray: #333333 !default;
 $bright-gray: #3b4151 !default;
 $mako-gray: #41444e !default;
 $waterloo-gray: #7d8492 !default;
@@ -144,7 +145,7 @@ $response-col-status-undocumented-font-color: $gray-300 !default;
 
 $response-col-links-font-color: $gray-300 !default;
 
-$opblock-body-background-color: $mako-gray !default;
+$opblock-body-background-color: $agate-gray !default;
 $opblock-body-font-color: $white !default;
 
 $scheme-container-background-color: $white !default;
