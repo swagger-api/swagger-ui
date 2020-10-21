@@ -32,7 +32,7 @@ export default class EgTopbar extends React.Component {
     this.setState({
       currentRepository: repository,
       currentBranch: this.state.urls[repository][0]
-    })
+    }, this.loadLocalSpec)
   }
 
   onBranchChange = e => {
@@ -40,7 +40,7 @@ export default class EgTopbar extends React.Component {
 
     this.setState({
       currentBranch: branch,
-    })
+    }, this.loadLocalSpec)
   }
 
   fetchUrls = async () => {
@@ -115,9 +115,7 @@ export default class EgTopbar extends React.Component {
     this.setState({
       currentRepository: defaultRepository,
       currentBranch: urls[defaultRepository][0]
-    })
-
-    this.loadLocalSpec()
+    }, this.loadLocalSpec)
   }
 
   onFilterChange =(e) => {
@@ -138,11 +136,12 @@ export default class EgTopbar extends React.Component {
     
     const { urls, currentBranch, currentRepository } = this.state
 
-    if (!Object.keys(urls).length) return (<span>No urls found.</span>)
+    if (!Object.keys(urls).length) return <span>No urls found.</span>
+    if (!currentRepository || !currentBranch) return <span>Not initialized.</span>
 
     let control = []
     let formOnSubmit = null
-    
+
 
     const repos = Object.keys(urls).map(repo => <option key={repo} value={repo}>{repo}</option>)
     const branches = urls[currentRepository].map(branch => <option key={branch} value={branch}>{branch}</option>)
