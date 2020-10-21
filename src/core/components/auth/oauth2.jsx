@@ -11,6 +11,7 @@ export default class Oauth2 extends React.Component {
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
     getConfigs: PropTypes.any
@@ -51,12 +52,19 @@ export default class Oauth2 extends React.Component {
   }
 
   authorize =() => {
-    let { authActions, errActions, getConfigs, authSelectors } = this.props
+    let { authActions, errActions, getConfigs, authSelectors, oas3Selectors } = this.props
     let configs = getConfigs()
     let authConfigs = authSelectors.getConfigs()
 
     errActions.clear({authId: name,type: "auth", source: "auth"})
-    oauth2Authorize({auth: this.state, authActions, errActions, configs, authConfigs })
+    oauth2Authorize({
+      auth: this.state,
+      currentServer: oas3Selectors.serverEffectiveValue(oas3Selectors.selectedServer()),
+      authActions,
+      errActions,
+      configs,
+      authConfigs
+    })
   }
 
   onScopeChange =(e) => {
