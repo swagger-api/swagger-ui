@@ -1,0 +1,15 @@
+swagger: "2.0"
+
+paths:
+  /:
+    get:
+      operationId: "myOperation"
+      tags: ["myTag"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
+        '404':
+          x-error: true
+          x-error-codes: [NOT_FOUND]
+          description: Not found
