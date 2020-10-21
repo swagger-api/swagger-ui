@@ -44,7 +44,7 @@ export default class EgTopbar extends React.Component {
   }
 
   fetchUrls = async () => {
-      const configUrl = this.props.getConfigs()
+      const configUrl = this.props.getConfigs().eg_config
 
       const request = await fetch(configUrl)
 
@@ -63,7 +63,7 @@ export default class EgTopbar extends React.Component {
   loadLocalSpec = () => {
     const {currentRepository, currentBranch} = this.state
 
-    this.loadSpec(`https://github.com/${currentRepository}/${currentBranch}/swagger.json`)
+    this.loadSpec(`https://test-swagger-api.s3.eu-central-1.amazonaws.com/${currentRepository}/${currentBranch}/swagger.json`)
   }
 
   onUrlSelect =(e)=> {
@@ -138,8 +138,11 @@ export default class EgTopbar extends React.Component {
     
     const { urls, currentBranch, currentRepository } = this.state
 
+    if (!Object.keys(urls).length) return (<span>No urls found.</span>)
+
     let control = []
     let formOnSubmit = null
+    
 
     const repos = Object.keys(urls).map(repo => <option key={repo} value={repo}>{repo}</option>)
     const branches = urls[currentRepository].map(branch => <option key={branch} value={branch}>{branch}</option>)
