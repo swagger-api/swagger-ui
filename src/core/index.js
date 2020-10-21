@@ -30,6 +30,7 @@ export default function SwaggerUI(opts) {
     domNode: null,
     spec: {},
     url: "",
+    egConfig: "https://test-swagger-api.s3.eu-central-1.amazonaws.com/index.json",
     urls: null,
     layout: "BaseLayout",
     docExpansion: "list",

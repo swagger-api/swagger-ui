@@ -36,9 +36,9 @@ export default class EgTopbar extends React.Component {
   }
 
   fetchUrls = async () => {
-      const configUrl = this.props.getConfigs().eg_config
+      const egConfig = this.props.getConfigs().egConfig
 
-      const request = await fetch(configUrl)
+      const request = await fetch(egConfig)
 
       if (!request.ok) throw new Error(request.status)
 
