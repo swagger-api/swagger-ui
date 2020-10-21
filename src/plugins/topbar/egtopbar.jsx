@@ -12,8 +12,6 @@ export default class EgTopbar extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-        url: props.specSelectors.url(),
-        selectedIndex: 0,
         urls: {},
         currentRepository: null,
         currentBranch: null,
