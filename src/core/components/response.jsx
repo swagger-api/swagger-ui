@@ -93,7 +93,7 @@ export default class Response extends React.Component {
     let extensions = showExtensions ? getExtensions(response) : null
     let headers = response.get("headers")
     let links = response.get("links")
-    const ResponseExt = getComponent("ResponseExt")
+    const ResponseExtension = getComponent("ResponseExtension")
     const Headers = getComponent("headers")
     const HighlightCode = getComponent("highlightCode")
     const ModelExample = getComponent("modelExample")
@@ -191,7 +191,7 @@ export default class Response extends React.Component {
             <Markdown source={ response.get( "description" ) } />
           </div>
 
-          { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ResponseExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
+          { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ResponseExtension key={`${key}-${v}`} xKey={key} xVal={v} /> )}
 
           {isOAS3 && response.get("content") ? (
             <section className="response-controls">

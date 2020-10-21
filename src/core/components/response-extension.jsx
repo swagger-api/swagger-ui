@@ -1,12 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export const ResponseExt = ({ xKey, xVal }) => {
+export const ResponseExtension = ({ xKey, xVal }) => {
     return <div className="response__extension">{ xKey }: { String(xVal) }</div>
 }
-ResponseExt.propTypes = {
+ResponseExtension.propTypes = {
   xKey: PropTypes.string,
   xVal: PropTypes.any
 }
 
-export default ResponseExt
+export default ResponseExtension
