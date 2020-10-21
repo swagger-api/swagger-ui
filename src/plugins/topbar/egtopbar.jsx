@@ -2,7 +2,6 @@ import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
 import Logo from "./logo_small.svg"
-import { parseSearch, serializeSearch } from "../../core/utils"
 
 export default class EgTopbar extends React.Component {
 
@@ -19,11 +18,6 @@ export default class EgTopbar extends React.Component {
         currentRepository: null,
         currentBranch: null,
     }
-  }
-
-  onUrlChange =(e)=> {
-    let {target: {value}} = e
-    this.setState({url: value})
   }
 
   onRepositoryChange = e => {
@@ -66,45 +60,6 @@ export default class EgTopbar extends React.Component {
     this.loadSpec(`https://test-swagger-api.s3.eu-central-1.amazonaws.com/${currentRepository}/${currentBranch}/swagger.json`)
   }
 
-  onUrlSelect =(e)=> {
-    let url = e.target.value || e.target.href
-    this.loadSpec(url)
-    this.setSelectedUrl(url)
-    e.preventDefault()
-  }
-
-  downloadUrl = (e) => {
-    this.loadSpec(this.state.url)
-    e.preventDefault()
-  }
-
-  setSearch = (spec) => {
-    let search = parseSearch()
-    search["urls.primaryName"] = spec.name
-    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
-    if(window && window.history && window.history.pushState) {
-      window.history.replaceState(null, "", `${newUrl}?${serializeSearch(search)}`)
-    }
-  }
-
-  setSelectedUrl = (selectedUrl) => {
-    const configs = this.props.getConfigs()
-    const urls = configs.urls || []
-
-    if(urls && urls.length) {
-      if(selectedUrl)
-      {
-        urls.forEach((spec, i) => {
-          if(spec.url === selectedUrl)
-            {
-              this.setState({selectedIndex: i})
-              this.setSearch(spec)
-            }
-        })
-      }
-    }
-  }
-
   async componentDidMount() {
     await this.fetchUrls()
 
@@ -116,11 +71,6 @@ export default class EgTopbar extends React.Component {
       currentRepository: defaultRepository,
       currentBranch: urls[defaultRepository][0]
     }, this.loadLocalSpec)
-  }
-
-  onFilterChange =(e) => {
-    let {target: {value}} = e
-    this.props.layoutActions.updateFilter(value)
   }
 
   render() {
