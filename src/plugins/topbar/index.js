@@ -1,4 +1,4 @@
-import Topbar from "./topbar"
+import Topbar from "./egtopbar"
 
 export default function () {
   return {
