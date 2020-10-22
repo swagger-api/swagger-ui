@@ -184,3 +184,11 @@ table
 .response-col_links {
     min-width: 6em;
 }
+
+.response__extension
+{
+    font-size: 12px;
+    font-style: italic;
+
+    @include text_code($table-parameter-in-font-color);
+}
