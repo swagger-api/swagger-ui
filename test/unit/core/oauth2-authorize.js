@@ -41,6 +41,27 @@ describe("oauth2", () => {
       windowOpenSpy.mockReset()
     })
 
+    it("should build authorize url relative", function () {
+      const windowOpenSpy = jest.spyOn(win, "open")
+      let relativeMockSchema = {
+        flow: "accessCode",
+        authorizationUrl: "/testAuthorizationUrl"
+      }
+      let relativeAuthConfig = {
+        auth: { schema: { get: (key) => relativeMockSchema[key] } },
+        authActions: {},
+        errActions: {},
+        configs: { oauth2RedirectUrl: "" },
+        authConfigs: {},
+        currentServer: "https://currentserver"
+      }
+      oauth2Authorize(relativeAuthConfig)
+      expect(windowOpenSpy.mock.calls.length).toEqual(1)
+      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://currentserver/testAuthorizationUrl?response_type=code&redirect_uri=&state=")
+
+      windowOpenSpy.mockReset()
+    })
+
     it("should append query parameters to authorizeUrl with query parameters", () => {
       const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
