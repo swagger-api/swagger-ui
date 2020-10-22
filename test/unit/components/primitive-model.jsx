@@ -8,7 +8,8 @@ describe("<PrimitiveModel/>", function () {
     const dummyComponent = () => null
     const components = {
       Markdown: dummyComponent,
-      EnumModel: dummyComponent
+      EnumModel: dummyComponent,
+      Property: dummyComponent,
     }
     const props = {
       getComponent: c => components[c],

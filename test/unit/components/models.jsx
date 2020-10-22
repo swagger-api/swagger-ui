@@ -2,14 +2,16 @@ import React from "react"
 import { shallow } from "enzyme"
 import { fromJS, Map } from "immutable"
 import Models from "components/models"
-import ModelCollpase from "components/model-collapse"
+import ModelCollapse from "components/model-collapse"
 import ModelComponent from "components/model-wrapper"
 
 describe("<Models/>", function(){
+  const dummyComponent = () => null
   // Given
   let components = {
-    Collapse: ModelCollpase,
-    ModelWrapper: ModelComponent
+    Collapse: ModelCollapse,
+    ModelWrapper: ModelComponent,
+    JumpToPath: dummyComponent,
   }
   let props = {
     getComponent: (c) => {
