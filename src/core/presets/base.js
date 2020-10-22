@@ -43,6 +43,7 @@ import OperationExtRow from "core/components/operation-extension-row"
 import HighlightCode from "core/components/highlight-code"
 import Responses from "core/components/responses"
 import Response from "core/components/response"
+import ResponseExtension from "core/components/response-extension"
 import ResponseBody from "core/components/response-body"
 import { Parameters } from "core/components/parameters"
 import ParameterExt from "core/components/parameter-extension"
@@ -119,6 +120,7 @@ export default function() {
       highlightCode: HighlightCode,
       responses: Responses,
       response: Response,
+      ResponseExtension: ResponseExtension,
       responseBody: ResponseBody,
       parameters: Parameters,
       parameterRow: ParameterRow,

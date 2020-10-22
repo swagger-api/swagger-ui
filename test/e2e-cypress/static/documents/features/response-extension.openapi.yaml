@@ -1,0 +1,19 @@
+openapi: "3.0.0"
+
+paths:
+  /:
+    get:
+      operationId: "myOperation"
+      tags: ["myTag"]
+      summary: an operation
+      responses:
+        '200':
+          description: a pet to be returned
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          x-error: true
+          x-error-codes: [NOT_FOUND]
+          description: Not found

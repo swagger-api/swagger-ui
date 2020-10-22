@@ -29,7 +29,6 @@ describe("<ResponseBody />", function() {
   it("renders ResponseBody as 'image/svg'", function() {
     props.contentType = "image/svg"
     const wrapper = shallow(<ResponseBody {...props}/>)
-    console.warn(wrapper.debug())
     expect(wrapper.find("highlightCodeComponent").length).toEqual(0)
   })
 
@@ -37,7 +36,6 @@ describe("<ResponseBody />", function() {
     props.contentType = "text/plain"
     props.content = "test text"
     const wrapper = shallow(<ResponseBody {...props}/>)
-    console.warn(wrapper.debug())
     expect(wrapper.find("highlightCodeComponent[canCopy]").length).toEqual(1)
   })
 })

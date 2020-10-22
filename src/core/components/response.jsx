@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
-import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
 import { isFunc } from "../utils"
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
@@ -88,9 +88,12 @@ export default class Response extends React.Component {
 
     let { inferSchema } = fn
     let isOAS3 = specSelectors.isOAS3()
+    const { showExtensions } = getConfigs()
 
+    let extensions = showExtensions ? getExtensions(response) : null
     let headers = response.get("headers")
     let links = response.get("links")
+    const ResponseExtension = getComponent("ResponseExtension")
     const Headers = getComponent("headers")
     const HighlightCode = getComponent("highlightCode")
     const ModelExample = getComponent("modelExample")
@@ -187,6 +190,8 @@ export default class Response extends React.Component {
           <div className="response-col_description__inner">
             <Markdown source={ response.get( "description" ) } />
           </div>
+
+          { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ResponseExtension key={`${key}-${v}`} xKey={key} xVal={v} /> )}
 
           {isOAS3 && response.get("content") ? (
             <section className="response-controls">
