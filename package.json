@@ -165,7 +165,7 @@
     "sass-loader": "^7.1.0",
     "selenium-server-standalone-jar": "^3.141.5",
     "source-map-support": "^0.5.19",
-    "standard": "^11.0.1",
+    "standard": "^15.0.0",
     "tachyons-sass": "^4.9.5",
     "terser-webpack-plugin": "^4.0.0",
     "url-loader": "^2.3.0",
