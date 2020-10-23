@@ -128,9 +128,14 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
   // check for plain value and if found use it to generate sample from it
   if(usePlainValue) {
-    let sample = sanitizeRef(exampleOverride !== undefined && exampleOverride
-      || example !== undefined && example
-      || schema.default)
+    let sample
+    if(exampleOverride !== undefined) {
+      sample = sanitizeRef(exampleOverride)
+    } else if(example !== undefined) {
+      sample = sanitizeRef(example)
+    } else {
+      sample = sanitizeRef(schema.default)
+    }
 
     // if json just return
     if(!respectXML) {
