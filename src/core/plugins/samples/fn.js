@@ -73,6 +73,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(respectXML) {
     res[displayName] = []
   }
+  const usePlainValue = exampleOverride !== undefined || example !== undefined || schema.default !== undefined
 
   // try recover missing type
   if(schema && !type) {
@@ -80,7 +81,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       type = "object"
     } else if(items) {
       type = "array"
-    } else {
+    } else if(!usePlainValue){
       return
     }
   }
@@ -120,7 +121,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   }
 
   // check for example override
-  if(exampleOverride !== undefined || example !== undefined || schema.default !== undefined) {
+  if(usePlainValue) {
     let sample = exampleOverride !== undefined
       ? sanitizeRef(exampleOverride)
       : sanitizeRef(example !== undefined ? example : schema.default)
