@@ -96,7 +96,9 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         props[propName].xml = props[propName].xml || {}
 
         if (props[propName].xml.attribute) {
-          const enumAttrVal = Array.isArray(props[propName].enum) && props[propName].enum[0]
+          const enumAttrVal = Array.isArray(props[propName].enum)
+            ? props[propName].enum[0]
+            : undefined
           const attrExample = props[propName].example
           const attrDefault = props[propName].default
 
