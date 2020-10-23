@@ -48,11 +48,6 @@ const liftSampleHelper = (oldSchema, target) => {
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
-  if(schema && isFunc(schema.toJS))
-    schema = schema.toJS()
-  if(exampleOverride && isFunc(exampleOverride.toJS))
-    exampleOverride = exampleOverride.toJS()
-
   const _attr = {}
   let { xml, type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config

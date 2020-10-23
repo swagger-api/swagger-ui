@@ -542,7 +542,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 }
 
 const getXmlSampleSchema = (schema, config, exampleOverride) => {
-  if (!schema.xml || !schema.xml.name) {
+  if (schema && (!schema.xml || !schema.xml.name)) {
     schema.xml = schema.xml || {}
 
     if (schema.$$ref) {
@@ -582,6 +582,11 @@ const getStringifiedSampleForSchema = (schema, config, contentType, exampleOverr
 }
 
 export const getSampleSchema = (schema, contentType="", config={}, exampleOverride = undefined) => {
+  if(schema && isFunc(schema.toJS))
+    schema = schema.toJS()
+  if(exampleOverride && isFunc(exampleOverride.toJS))
+    exampleOverride = exampleOverride.toJS()
+
   if (/xml/.test(contentType)) {
     return getXmlSampleSchema(schema, config, exampleOverride)
   }
