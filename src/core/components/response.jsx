@@ -4,7 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
-import { isFunc } from "../utils"
+
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
   if (
