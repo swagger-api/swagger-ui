@@ -107,7 +107,7 @@
     "@babel/preset-env": "=7.12.1",
     "@babel/preset-react": "=7.12.1",
     "@babel/register": "=7.12.1",
-    "@jest/globals": "=26.6.0",
+    "@jest/globals": "=26.6.1",
     "@release-it/conventional-changelog": "=1.1.4",
     "autoprefixer": "^9.0.0",
     "babel-eslint": "^10.0.0",
