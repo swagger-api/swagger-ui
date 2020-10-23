@@ -78,7 +78,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     res[displayName] = []
   }
 
-  const usePlainValue = exampleOverride !== undefined || example !== undefined || schema.default !== undefined
+  const usePlainValue = exampleOverride !== undefined || example !== undefined || schema && schema.default !== undefined
 
   // try recover missing type
   if(schema && !type) {
@@ -288,12 +288,14 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   }
 
   let value
-  if (Array.isArray(schema.enum)) {
+  if (schema && Array.isArray(schema.enum)) {
     //display enum first value
     value = normalizeArray(schema.enum)[0]
-  } else {
+  } else if(schema) {
     // display schema default
     value = primitive(schema)
+  } else {
+    return
   }
   if (type === "file") {
     return
