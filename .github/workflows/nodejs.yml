@@ -29,3 +29,15 @@ jobs:
       run: npm test
       env:
         CI: true
+
+  release:
+    if: contains(github.ref, 'master')
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
