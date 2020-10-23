@@ -53,12 +53,13 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(exampleOverride && isFunc(exampleOverride.toJS))
     exampleOverride = exampleOverride.toJS()
 
+  const _attr = {}
   let { xml, type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
-  let _attr = {}
   xml = xml || {}
   let { name, prefix, namespace } = xml
   let displayName
+  let res = {}
 
   // set xml naming and attributes
   if(respectXML) {
@@ -72,8 +73,6 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
   }
 
-  // init response sample obj
-  let res = {}
   // init xml default response sample obj
   if(respectXML) {
     res[displayName] = []
@@ -93,7 +92,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   }
 
   // add to result helper init for xml or json
-  let props = objectify(properties)
+  const props = objectify(properties)
   let addPropertyToResult
   if(respectXML) {
     addPropertyToResult = (propName, overrideE = undefined) => {
@@ -102,13 +101,20 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         props[propName].xml = props[propName].xml || {}
 
         if (props[propName].xml.attribute) {
-          let enumAttrVal = Array.isArray(props[propName].enum) && props[propName].enum[0]
-          let attrExample = props[propName].example
-          let attrDefault = props[propName].default
-          _attr[props[propName].xml.name || propName] = attrExample!== undefined && attrExample
-            || attrDefault !== undefined && attrDefault
-            || enumAttrVal
-            || primitive(props[propName])
+          const enumAttrVal = Array.isArray(props[propName].enum) && props[propName].enum[0]
+          const attrExample = props[propName].example
+          const attrDefault = props[propName].default
+
+          if(attrExample !== undefined) {
+            _attr[props[propName].xml.name || propName] = attrExample
+          } else if(attrDefault !== undefined) {
+            _attr[props[propName].xml.name || propName] = attrDefault
+          } else if(enumAttrVal !== undefined) {
+            _attr[props[propName].xml.name || propName] = enumAttrVal
+          } else {
+            _attr[props[propName].xml.name || propName] = primitive(props[propName])
+          }
+
           return
         }
         props[propName].xml.name = props[propName].xml.name || propName
