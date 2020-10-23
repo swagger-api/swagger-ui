@@ -1,6 +1,7 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import XML from "@kyleshockey/xml"
 import memoizee from "memoizee"
+import isEmpty from "lodash/isEmpty"
 
 const primitives = {
   "string": () => "string",
@@ -47,9 +48,8 @@ const liftSampleHelper = (oldSchema, target) => {
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
-  let { type, example, properties, additionalProperties, items } = objectify(schema)
+  let { xml, type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
-  let { xml } = schema
   let _attr = {}
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -73,6 +73,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(respectXML) {
     res[displayName] = []
   }
+
   const usePlainValue = exampleOverride !== undefined || example !== undefined || schema.default !== undefined
 
   // try recover missing type
@@ -88,9 +89,9 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
   // add to result helper init for xml or json
   let props = objectify(properties)
-  let addResult
+  let addPropertyToResult
   if(respectXML) {
-    addResult = (propName, overrideE = undefined) => {
+    addPropertyToResult = (propName, overrideE = undefined) => {
       if(schema) {
         // case it is an xml attribute
         props[propName].xml = props[propName].xml || {}
@@ -116,24 +117,26 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
     }
   } else {
-    addResult = (propName, overrideE) =>
+    addPropertyToResult = (propName, overrideE) =>
       res[propName] = sampleFromSchemaGeneric(props[propName], config, overrideE, respectXML)
   }
 
-  // check for example override
+  // check for plain value and if found use it to generate sample from it
   if(usePlainValue) {
-    let sample = exampleOverride !== undefined
-      ? sanitizeRef(exampleOverride)
-      : sanitizeRef(example !== undefined ? example : schema.default)
+    let sample = sanitizeRef(exampleOverride !== undefined && exampleOverride
+      || example !== undefined && example
+      || schema.default)
 
     // if json just return
     if(!respectXML) {
       return sample
     }
+
     // recover missing type
     if(!schema) {
       type = Array.isArray(sample) ? "array" : typeof sample
     }
+
     // generate xml sample recursively for array case
     if(type === "array") {
       if (!Array.isArray(sample)) {
@@ -150,7 +153,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         .map(s => sampleFromSchemaGeneric(itemSchema, config, s, respectXML))
       if(xml.wrapped) {
         res[displayName] = itemSamples
-        if (_attr) {
+        if (!isEmpty(_attr)) {
           res[displayName].push({_attr: _attr})
         }
       }
@@ -176,20 +179,20 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
           _attr[props[propName].xml.name || propName] = example[propName]
           continue
         }
-        addResult(propName, sample[propName])
+        addPropertyToResult(propName, sample[propName])
       }
-      if (_attr) {
+      if (!isEmpty(_attr)) {
         res[displayName].push({_attr: _attr})
       }
 
       return res
     }
 
-    res[displayName] = _attr ? [{_attr: _attr}, sample] : sample
+    res[displayName] = !isEmpty(_attr) ? [{_attr: _attr}, sample] : sample
     return res
   }
 
-
+  // use schema to generate sample
 
   if(type === "object") {
     for (let propName in props) {
@@ -205,7 +208,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       if ( props[propName] && props[propName].writeOnly && !includeWriteOnly ) {
         continue
       }
-      addResult(propName)
+      addPropertyToResult(propName)
     }
 
     if ( additionalProperties === true ) {
@@ -217,7 +220,6 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     } else if ( additionalProperties ) {
       const additionalProps = objectify(additionalProperties)
       const additionalPropSample = sampleFromSchemaGeneric(additionalProps, config, undefined, respectXML)
-
 
       if(respectXML && additionalProps.xml && additionalProps.xml.name && additionalProps.xml.name !== "notagname")
       {
@@ -261,7 +263,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
     if(respectXML && xml.wrapped) {
       res[displayName] = sampleArray
-      if (_attr) {
+      if (!isEmpty(_attr)) {
         res[displayName].push({_attr: _attr})
       }
       return res
@@ -282,7 +284,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   }
 
   if(respectXML) {
-    res[displayName] = _attr ? [{_attr: _attr}, value] : value
+    res[displayName] = !isEmpty(_attr) ? [{_attr: _attr}, value] : value
     return res
   }
 
@@ -306,9 +308,10 @@ export const createXMLExample = (schema, config={}, o) => {
 
   return XML(json, { declaration: true, indent: "\t" })
 }
-export const sampleFromSchema = (schema, config={}, o) => {
-  return sampleFromSchemaGeneric(schema, config, o, false)
-}
+
+export const sampleFromSchema = (schema, config={}, o) =>
+  sampleFromSchemaGeneric(schema, config, o, false)
+
 export const memoizedCreateXMLExample = memoizee(createXMLExample)
 
 export const memoizedSampleFromSchema = memoizee(sampleFromSchema)
