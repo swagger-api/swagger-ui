@@ -2,10 +2,24 @@ import React from "react"
 import PropTypes from "prop-types"
 
 export default class AuthorizationPopup extends React.Component {
-  close =() => {
+  close = () => {
     let { authActions } = this.props
 
     authActions.showDefinitions(false)
+  }
+
+  componentDidMount = () => {
+    // prevent background scroll when modal open
+    document.body.style.top = `-${window.scrollY}px`
+    document.body.style.position = "fixed"
+  }
+
+  componentWillUnmount = () => {
+    // restore body scroll
+    const scrollY = document.body.style.top
+    document.body.style.position = ""
+    document.body.style.top = ""
+    window.scrollTo(0, parseInt(scrollY || "0") * -1)
   }
 
   render() {
@@ -15,7 +29,7 @@ export default class AuthorizationPopup extends React.Component {
 
     return (
       <div className="dialog-ux">
-        <div className="backdrop-ux"></div>
+        <div className="backdrop-ux"/>
         <div className="modal-ux">
           <div className="modal-dialog-ux">
             <div className="modal-ux-inner">
