@@ -29,6 +29,8 @@ jobs:
       run: npm test
       env:
         CI: true
+    - name: Build and Run all artifact tests
+      run: npm run test:artifact
 
   release:
     if: contains(github.ref, 'master')
