@@ -25,6 +25,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: npm ci
+    - name: Lint code for errors only
+      run: npm run lint-errors
     - name: Run all tests
       run: npm test
       env:
