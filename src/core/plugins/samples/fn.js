@@ -75,6 +75,15 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
   const usePlainValue = exampleOverride !== undefined || example !== undefined || schema && schema.default !== undefined
 
+  const hasOneOf = !usePlainValue && schema && schema.oneOf && schema.oneOf.length > 0
+  const hasAnyOf = !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
+  if(!usePlainValue && (hasOneOf || hasAnyOf)) {
+    const someSchema = hasOneOf
+      ? schema.oneOf[0]
+      : schema.anyOf[0]
+    return sampleFromSchemaGeneric(someSchema, config, undefined, respectXML)
+  }
+
   // try recover missing type
   if(schema && !type) {
     if(properties || additionalProperties) {
@@ -290,6 +299,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     value = normalizeArray(schema.enum)[0]
   } else if(schema) {
     // display schema default
+    debugger;
     value = primitive(schema)
   } else {
     return
