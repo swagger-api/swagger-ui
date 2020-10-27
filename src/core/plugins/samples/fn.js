@@ -273,7 +273,8 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(type === "array") {
     let sampleArray
     if(respectXML) {
-      items.xml = items.xml || {}
+      items.xml = items.xml || schema.xml || {}
+      items.xml.name = items.xml.name || xml.name
     }
     if(Array.isArray(items.anyOf)) {
       sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i), config, undefined, respectXML))
