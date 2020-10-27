@@ -129,7 +129,7 @@ export default class Servers extends React.Component {
             <table>
               <tbody>
                 {
-                  currentServerVariableDefs.map((val, name) => {
+                  currentServerVariableDefs.entrySeq().map(([name, val]) => {
                     return <tr key={name}>
                       <td>{name}</td>
                       <td>
