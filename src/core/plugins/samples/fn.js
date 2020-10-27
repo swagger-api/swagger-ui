@@ -45,6 +45,10 @@ const liftSampleHelper = (oldSchema, target) => {
   if(target.enum === undefined && oldSchema.enum !== undefined) {
     target.enum = oldSchema.enum
   }
+  if(target.xml === undefined && oldSchema.xml !== undefined) {
+    target.xml = oldSchema.xml
+  }
+  return target;
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
@@ -81,6 +85,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     const someSchema = hasOneOf
       ? schema.oneOf[0]
       : schema.anyOf[0]
+    liftSampleHelper(schema, someSchema)
     return sampleFromSchemaGeneric(someSchema, config, undefined, respectXML)
   }
 
@@ -268,16 +273,12 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(type === "array") {
     let sampleArray
     if(respectXML) {
-      items.xml = items.xml || xml || {}
-      items.xml.name = items.xml.name || xml.name
+      items.xml = items.xml || {}
     }
-
     if(Array.isArray(items.anyOf)) {
-      liftSampleHelper(items, items.anyOf)
-      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(i, config, undefined, respectXML))
+      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i), config, undefined, respectXML))
     } else if(Array.isArray(items.oneOf)) {
-      liftSampleHelper(items, items.oneOf)
-      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(i, config, undefined, respectXML))
+      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i), config, undefined, respectXML))
     } else if(!respectXML || respectXML && xml.wrapped) {
       sampleArray = [sampleFromSchemaGeneric(items, config, undefined, respectXML)]
     } else {
@@ -299,7 +300,6 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     value = normalizeArray(schema.enum)[0]
   } else if(schema) {
     // display schema default
-    debugger;
     value = primitive(schema)
   } else {
     return
