@@ -48,7 +48,7 @@ const liftSampleHelper = (oldSchema, target) => {
   if(target.xml === undefined && oldSchema.xml !== undefined) {
     target.xml = oldSchema.xml
   }
-  return target;
+  return target
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
