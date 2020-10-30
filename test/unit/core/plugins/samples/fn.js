@@ -512,6 +512,26 @@ describe("sampleFromSchema", () => {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
   })
+
+  it("should use overrideExample when defined", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string"
+        }
+      },
+      example: {
+        foo: null
+      }
+    }
+
+    const expected = {
+      foo: "override"
+    }
+
+    expect(sampleFromSchema(definition, {}, expected)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
@@ -1405,6 +1425,35 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition)).toEqual(expected)
+    })
+
+
+    it("should use overrideExample when defined", () => {
+      const expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bar>\n\t<foo>override</foo>\n</bar>"
+
+      const definition = {
+        type: "object",
+        properties: {
+          foo: {
+            type: "string",
+            xml: {
+              name: "foo"
+            }
+          }
+        },
+        example: {
+          foo: null
+        },
+        xml: {
+          name: "bar"
+        }
+      }
+
+      const overrideExample = {
+        foo: "override"
+      }
+
+      expect(sut(definition, {}, overrideExample)).toEqual(expected)
     })
   })
 })
