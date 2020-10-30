@@ -21,6 +21,34 @@
 1. npm run build
 2. replace `urls: [...]` -> `egConfig: '...'` in index.html (line 43)
 
+## egConfig json file format (Easygenerator)
+
+### TypeScript definition
+
+```
+{
+    [key: string]: string[]
+}
+```
+
+### Structure
+
+```
+{
+    "repository1": ["branch1", "branch2", ...],
+    "repository2": ["branch3", "branch4", ...],
+    ...
+}
+```
+
+### Example
+
+```
+{
+    "easygenerator/auth-service": [ "branch1", "branch2", "branch3" ],
+    "easygenerator/learn-service": [ "branch1", "branch2", "branch3" ]
+}
+```
 
 **👉🏼 Want to score an easy open-source contribution?** Check out our [Good first issue](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+issue%22) label.
 
