@@ -13,6 +13,7 @@
 ## How to use (Easygenerator)
 
 1. Specify egConfig url in dist/index.html
+2. Specify egTemplate url in dist/index.json
 2. Host dist/ directory
 3. (optional) Remove \*.map files
 
@@ -20,6 +21,7 @@
 
 1. npm run build
 2. replace `urls: [...]` -> `egConfig: '...'` in index.html (line 43)
+3. add `egTemplate` url after `egConfig` using `$repository` and `$branch` markers
 
 ## egConfig json file format (Easygenerator)
 

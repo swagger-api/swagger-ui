@@ -43,7 +43,8 @@
       // Build a system
       const ui = SwaggerUIBundle({
         url: "",
-        egConfig: "https://test-swagger-api.s3.eu-central-1.amazonaws.com/index.json",
+        egConfig: 'https://test-swagger-api.s3.eu-central-1.amazonaws.com/index.json',
+        egTemplate: 'https://test-swagger-api.s3.eu-central-1.amazonaws.com/$repository/$branch/swagger.json',
         dom_id: '#swagger-ui',
         presets: [
           SwaggerUIBundle.presets.apis,

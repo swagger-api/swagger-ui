@@ -53,9 +53,10 @@ export default class EgTopbar extends React.Component {
   }
 
   loadLocalSpec = () => {
+    const template = this.props.getConfigs().egTemplate
     const {currentRepository, currentBranch} = this.state
 
-    this.loadSpec(`https://test-swagger-api.s3.eu-central-1.amazonaws.com/${currentRepository}/${currentBranch}/swagger.json`)
+    this.loadSpec(template.replace(/\$repository/g, currentRepository).replace(/\$branch/g, currentBranch))
   }
 
   async componentDidMount() {
