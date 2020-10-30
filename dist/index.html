@@ -40,7 +40,7 @@
       // Begin Swagger UI call region
       const ui = SwaggerUIBundle({
         url: '',
-        urls: [{name:"Test", url: "https://petstore.swagger.io/v2/swagger.json"}],
+        egConfig: 'https://test-swagger-api.s3.eu-central-1.amazonaws.com/index.json',
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
