@@ -20,9 +20,6 @@ paths:
         '200':
           description: Returns response
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/test'
             application/xml:
               schema:
                 $ref: '#/components/schemas/test'
