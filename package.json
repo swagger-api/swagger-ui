@@ -177,7 +177,7 @@
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
-    "webpack-stats-plugin": "=1.0.1"
+    "webpack-stats-plugin": "=1.0.2"
   },
   "config": {
     "deps_check_dir": ".deps_check"
