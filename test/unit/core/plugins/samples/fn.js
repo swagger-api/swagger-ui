@@ -512,6 +512,26 @@ describe("sampleFromSchema", () => {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
   })
+
+  it("should use overrideExample when defined", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string"
+        }
+      },
+      example: {
+        foo: null
+      }
+    }
+
+    const expected = {
+      foo: "override"
+    }
+
+    expect(sampleFromSchema(definition, {}, expected)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
@@ -1337,7 +1357,7 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with additional props", function () {
-      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp>string</additionalProp>\n</animals>"
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp1>string</additionalProp1>\n\t<additionalProp2>string</additionalProp2>\n\t<additionalProp3>string</additionalProp3>\n</animals>"
       let definition = {
         type: "object",
         properties: {
@@ -1394,7 +1414,7 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with additional props with no type passed", function () {
-      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp>string</additionalProp>\n</animals>"
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp1>string</additionalProp1>\n\t<additionalProp2>string</additionalProp2>\n\t<additionalProp3>string</additionalProp3>\n</animals>"
       let definition = {
         additionalProperties: {
           type: "string"
@@ -1405,6 +1425,35 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition)).toEqual(expected)
+    })
+
+
+    it("should use overrideExample when defined", () => {
+      const expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bar>\n\t<foo>override</foo>\n</bar>"
+
+      const definition = {
+        type: "object",
+        properties: {
+          foo: {
+            type: "string",
+            xml: {
+              name: "foo"
+            }
+          }
+        },
+        example: {
+          foo: null
+        },
+        xml: {
+          name: "bar"
+        }
+      }
+
+      const overrideExample = {
+        foo: "override"
+      }
+
+      expect(sut(definition, {}, overrideExample)).toEqual(expected)
     })
   })
 })

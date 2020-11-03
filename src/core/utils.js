@@ -1,4 +1,4 @@
-/* 
+/*
   ATTENTION! This file (but not the functions within) is deprecated.
 
   You should probably add a new file to `./helpers/` instead of adding a new
@@ -133,7 +133,7 @@ export function createObjWithHashedKeys (fdObj) {
       trackKeys[pair[0]].length += 1
       let hashedKeyCurrent = `${pair[0]}${hashIdx}${trackKeys[pair[0]].length}`
       newObj[hashedKeyCurrent] = pair[1]
-    } 
+    }
   }
   return newObj
 }
@@ -263,13 +263,13 @@ export function extractFileNameFromContentDispositionHeader(value){
     /filename="([^;]*);?"/i,
     /filename=([^;]*);?/i
   ]
-  
+
   let responseFilename
   patterns.some(regex => {
     responseFilename = regex.exec(value)
     return responseFilename !== null
   })
-    
+
   if (responseFilename !== null && responseFilename.length > 1) {
     try {
       return decodeURIComponent(responseFilename[1])
@@ -541,8 +541,8 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
   return errors
 }
 
-const getXmlSampleSchema = (schema, config) => {
-  if (!schema.xml || !schema.xml.name) {
+const getXmlSampleSchema = (schema, config, exampleOverride) => {
+  if (schema && (!schema.xml || !schema.xml.name)) {
     schema.xml = schema.xml || {}
 
     if (schema.$$ref) {
@@ -554,7 +554,7 @@ const getXmlSampleSchema = (schema, config) => {
       return null
     }
   }
-  return memoizedCreateXMLExample(schema, config)
+  return memoizedCreateXMLExample(schema, config, exampleOverride)
 }
 
 const shouldStringifyTypesConfig = [
@@ -566,8 +566,8 @@ const shouldStringifyTypesConfig = [
 
 const defaultStringifyTypes = ["object"]
 
-const getStringifiedSampleForSchema = (schema, config, contentType) => {
-  const res = memoizedSampleFromSchema(schema, config)
+const getStringifiedSampleForSchema = (schema, config, contentType, exampleOverride) => {
+  const res = memoizedSampleFromSchema(schema, config, exampleOverride)
   const resType = typeof res
 
   const typesToStringify = shouldStringifyTypesConfig.reduce(
@@ -581,12 +581,17 @@ const getStringifiedSampleForSchema = (schema, config, contentType) => {
     : res
 }
 
-export const getSampleSchema = (schema, contentType="", config={}) => {
+export const getSampleSchema = (schema, contentType="", config={}, exampleOverride = undefined) => {
+  if(schema && isFunc(schema.toJS))
+    schema = schema.toJS()
+  if(exampleOverride && isFunc(exampleOverride.toJS))
+    exampleOverride = exampleOverride.toJS()
+
   if (/xml/.test(contentType)) {
-    return getXmlSampleSchema(schema, config)
+    return getXmlSampleSchema(schema, config, exampleOverride)
   }
 
-  return getStringifiedSampleForSchema(schema, config, contentType)
+  return getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
 }
 
 export const parseSearch = () => {
@@ -766,7 +771,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   }
   const paramName = param.get("name")
   const paramIn = param.get("in")
-  
+
   let generatedIdentifiers = []
 
   // Generate identifiers in order of most to least specificity
@@ -774,7 +779,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   if (param && param.hashCode && paramIn && paramName && allowHashes) {
     generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
   }
-  
+
   if(paramIn && paramName) {
     generatedIdentifiers.push(`${paramIn}.${paramName}`)
   }

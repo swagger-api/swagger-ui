@@ -4,7 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
-import { isFunc } from "../utils"
+
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
   if (
@@ -121,21 +121,6 @@ export default class Response extends React.Component {
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
     }
 
-    const overrideSchemaExample = (oldSchema, newExample) => {
-      if(newExample === undefined)
-        return oldSchema
-
-      if(!oldSchema)
-        oldSchema = { }
-
-      if(isFunc(oldSchema.toJS))
-        oldSchema = oldSchema.toJS()
-
-      oldSchema.example = newExample && isFunc(newExample.toJS)
-        ? newExample.toJS()
-        : newExample
-      return oldSchema
-    }
     let mediaTypeExample
     let shouldOverrideSchemaExample = false
     let sampleSchema
@@ -170,13 +155,12 @@ export default class Response extends React.Component {
       }
     }
 
-    const schemaForSampleGeneration = shouldOverrideSchemaExample
-      ? overrideSchemaExample(sampleSchema, mediaTypeExample)
-      : sampleSchema
-
-    const sampleResponse = schemaForSampleGeneration
-      ? getSampleSchema(schemaForSampleGeneration, activeContentType, sampleGenConfig)
-      : null
+    const sampleResponse = getSampleSchema(
+      sampleSchema,
+      activeContentType,
+      sampleGenConfig,
+      shouldOverrideSchemaExample ? mediaTypeExample : undefined
+    )
 
     let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
 

@@ -57,6 +57,9 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 - [Setting up](docs/development/setting-up.md)
 - [Scripts](docs/development/scripts.md)
 
+#### Contributing
+- [Contributing](https://github.com/swagger-api/.github/blob/master/CONTRIBUTING.md)
+
 ##### Integration Tests
 
 You will need JDK of version 7 or higher as instructed here

@@ -60,7 +60,9 @@ export default class OperationTag extends React.Component {
     let tagExternalDocsUrl
     if (isFunc(oas3Selectors) && isFunc(oas3Selectors.selectedServer)) {
       tagExternalDocsUrl = buildUrl( rawTagExternalDocsUrl, specUrl, { selectedServer: oas3Selectors.selectedServer() } )
-    }    
+    } else {
+      tagExternalDocsUrl = rawTagExternalDocsUrl
+    }
 
     let isShownKey = ["operations-tag", tag]
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")

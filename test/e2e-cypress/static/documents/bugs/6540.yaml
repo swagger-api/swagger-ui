@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  description: Test API
+  version: v1
+  title: Test API
+tags:
+  - name: Test
+    description: Test API
+servers:
+  - url: /v1
+paths:
+  /test:
+    post:
+      tags:
+        - Test
+      summary: Test endpoint
+      description: Test
+      operationId: postTest
+      responses:
+        '200':
+          description: Returns response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/test'
+components:
+  schemas:
+    test:
+      type: object
+      properties:
+        a:
+          type: string
+        b:
+          type: integer
+        c:
+          type: array
+          items:
+            $ref: '#/components/schemas/Things'
+        d:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/TextObject'
+              - $ref: '#/components/schemas/ImageObject'
+
+
+    Things:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/TextObject'
+        - $ref: '#/components/schemas/ImageObject'
+
+    TextObject:
+      required:
+        - data
+      type: object
+      properties:
+        objectType:
+          type: string
+          example: Text
+          xml:
+            name: ObjectType
+        data:
+          type: string
+          example: This is a text
+          xml:
+            name: Data
+      description: Contains a text
+
+    ImageObject:
+      required:
+        - data
+      type: object
+      properties:
+        objectType:
+          type: string
+          example: image
+          xml:
+            name: ObjectType
+        data:
+          type: string
+          example: This is a image
+          xml:
+            name: Data
+      description: Contains a image
