@@ -31,6 +31,7 @@ export default class Execute extends Component {
     let oas3RequiredRequestBodyContentType = specSelectors.getOAS3RequiredRequestBodyContentType([path, method])
     let oas3RequestBodyValue = oas3Selectors.requestBodyValue(path, method)
     let oas3ValidateBeforeExecuteSuccess = oas3Selectors.validateBeforeExecute([path, method])
+    let oas3RequestContentType = oas3Selectors.requestContentType(path, method)
 
     if (!oas3ValidateBeforeExecuteSuccess) {
       validationErrors.missingBodyValue = true
@@ -40,7 +41,11 @@ export default class Execute extends Component {
     if (!oas3RequiredRequestBodyContentType) {
       return true
     }
-    let missingRequiredKeys = oas3Selectors.validateShallowRequired({ oas3RequiredRequestBodyContentType, oas3RequestBodyValue })
+    let missingRequiredKeys = oas3Selectors.validateShallowRequired({
+      oas3RequiredRequestBodyContentType,
+      oas3RequestContentType,
+      oas3RequestBodyValue
+    })
     if (!missingRequiredKeys || missingRequiredKeys.length < 1) {
       return true
     }

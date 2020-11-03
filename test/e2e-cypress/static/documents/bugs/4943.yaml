@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  description: Test API
+  version: v1
+  title: Test API
+tags:
+  - name: Test
+    description: Test API
+servers:
+  - url: /v1
+paths:
+  /test:
+    post:
+      tags:
+        - Test
+      summary: Test endpoint
+      description: Test
+      operationId: postTest
+      responses:
+        '200':
+          description: Returns response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/test'
+components:
+  schemas:
+    test:
+      type: object
+      properties:
+        a:
+          type: string
+        b:
+          type: integer
+        c:
+          oneOf:
+            - type: object
+            - type: array
+              items:
+                type: string
+            - type: boolean
+            - type: integer
+            - type: number

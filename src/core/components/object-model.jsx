@@ -42,7 +42,7 @@ export default class ObjectModel extends Component {
     let title = schema.get("title") || displayName || name
     let requiredProperties = schema.get("required")
     let infoProperties = schema
-      .filter( ( v, key) => ["maxProperties", "minProperties", "nullable"].indexOf(key) !== -1 )
+      .filter( ( v, key) => ["maxProperties", "minProperties", "nullable", "example"].indexOf(key) !== -1 )
     let deprecated = schema.get("deprecated")
 
     const JumpToPath = getComponent("JumpToPath", true)

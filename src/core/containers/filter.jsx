@@ -29,7 +29,7 @@ export default class FilterContainer extends React.Component {
 
     return (
       <div>
-        {filter === null || filter === false ? null :
+        {filter === null || filter === false || filter === "false" ? null :
           <div className="filter-container">
             <Col className="filter wrapper" mobile={12}>
               <input className={classNames.join(" ")} placeholder="Filter by tag" type="text"

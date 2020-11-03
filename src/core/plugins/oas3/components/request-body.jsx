@@ -135,6 +135,8 @@ const RequestBody = ({
         <tbody>
           {
              Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
+              if (prop.get("readOnly")) return
+
               let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
               const type = prop.get("type")
@@ -145,10 +147,14 @@ const RequestBody = ({
 
               let initialValue = prop.get("default") || prop.get("example") || ""
 
-              if (initialValue === "" && type === "object") {
-                initialValue = getSampleSchema(prop, false, {
-                  includeWriteOnly: true
-                })
+              if (initialValue === "") {
+                if(type === "object") {
+                  initialValue = getSampleSchema(prop, false, {
+                    includeWriteOnly: true
+                  })
+                } else if(type === "array") {
+                  initialValue = []
+                }
               }
 
               if (typeof initialValue !== "string" && type === "object") {
@@ -193,7 +199,7 @@ const RequestBody = ({
                               onChange={(value) => onChangeIncludeEmpty(key, value)}
                               isIncluded={requestBodyInclusionSetting.get(key) || false}
                               isIncludedOptions={setIsIncludedOptions(key)}
-                              isDisabled={!isEmptyValue(currentValue)}
+                              isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
                             />
                           )}
                         </div> : null }
@@ -250,6 +256,7 @@ const RequestBody = ({
           example={
             <HighlightCode
               className="body-param__example"
+              getConfigs={getConfigs}
               value={stringify(requestBodyValue) || getDefaultRequestBodyValue(
                 requestBody,
                 contentType,
@@ -266,6 +273,7 @@ const RequestBody = ({
         <Example
           example={examplesForMediaType.get(activeExamplesKey)}
           getComponent={getComponent}
+          getConfigs={getConfigs}
         />
       ) : null
     }

@@ -1,36 +1,37 @@
-  // Base Colours
-$black: #000;
-$white: #fff;
-$gray-50: lighten($black, 92%); //ebebeb
-$gray-200: lighten($black, 62.75%); // #a0a0a0
-$gray-300: lighten($black, 56.5%); // #909090
-$gray-400: lighten($black, 50%); // #808080
-$gray-500: lighten($black, 43.75%); // #707070
-$gray-600: lighten($black, 37.5%); // #606060
-$gray-650: lighten($black, 33.3%); // #555555
-$gray-700: lighten($black, 31.25%); // #505050
-$gray-800: lighten($black, 25%); // #404040
-$gray-900: lighten($black, 18.75%); // #303030
+// Base Colours
+$black: #000 !default;
+$white: #fff !default;
+$gray-50: lighten($black, 92%) !default; //ebebeb
+$gray-200: lighten($black, 62.75%) !default; // #a0a0a0
+$gray-300: lighten($black, 56.5%) !default; // #909090
+$gray-400: lighten($black, 50%) !default; // #808080
+$gray-500: lighten($black, 43.75%) !default; // #707070
+$gray-600: lighten($black, 37.5%) !default; // #606060
+$gray-650: lighten($black, 33.3%) !default; // #555555
+$gray-700: lighten($black, 31.25%) !default; // #505050
+$gray-800: lighten($black, 25%) !default; // #404040
+$gray-900: lighten($black, 18.75%) !default; // #303030
 
-$cod-gray: #1b1b1b;
-$bright-gray: #3b4151;
-$mako-gray: #41444e;
-$waterloo-gray: #7d8492;
-$alto-gray: #d9d9d9;
-$mercury-gray: #e4e4e4;
-$concrete-gray: #e8e8e8;
-$alabaster: #f7f7f7;
-$apple-green: #62a03f;
-$green-haze: #009d77;
-$japanese-laurel: #008000;
-$persian-green: #00a0a7;
-$geyser-blue: #d8dde7;
-$dodger-blue: #1391ff;
-$endeavour-blue: #005dae;
-$scampi-purple: #55a;
-$electric-violet: #7300e5;
-$persian-red: #cf3030;
-$mango-tango: #e97500;
+$cod-gray: #1b1b1b !default;
+$agate-gray: #333333 !default;
+$bright-gray: #3b4151 !default;
+$mako-gray: #41444e !default;
+$waterloo-gray: #7d8492 !default;
+$alto-gray: #d9d9d9 !default;
+$mercury-gray: #e4e4e4 !default;
+$concrete-gray: #e8e8e8 !default;
+$alabaster: #f7f7f7 !default;
+$apple-green: #62a03f !default;
+$green-haze: #009d77 !default;
+$japanese-laurel: #008000 !default;
+$persian-green: #00a0a7 !default;
+$geyser-blue: #d8dde7 !default;
+$dodger-blue: #1391ff !default;
+$endeavour-blue: #005dae !default;
+$scampi-purple: #55a !default;
+$electric-violet: #7300e5 !default;
+$persian-red: #cf3030 !default;
+$mango-tango: #e97500 !default;
 
 // Theme
 
@@ -144,7 +145,7 @@ $response-col-status-undocumented-font-color: $gray-300 !default;
 
 $response-col-links-font-color: $gray-300 !default;
 
-$opblock-body-background-color: $mako-gray !default;
+$opblock-body-background-color: $agate-gray !default;
 $opblock-body-font-color: $white !default;
 
 $scheme-container-background-color: $white !default;
