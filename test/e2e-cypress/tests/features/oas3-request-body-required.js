@@ -41,6 +41,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         // Execute
         .get(".execute.opblock-control__btn")
         .click()
+        .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(1) > .parameters-col_description input")
         .should("not.have.class", "invalid")
         // cURL component should exist
         .get(".responses-wrapper .curl-command")
