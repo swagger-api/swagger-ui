@@ -99,3 +99,13 @@ See [unpkg's main page](https://unpkg.com/) for more information on how to use u
 ### Static files without HTTP or HTML
 
 Once swagger-ui has successfully generated the `/dist` directory, you can copy this to your own file system and host from there. 
+
+## Plain old HTML/CSS/JS (Standalone)
+
+The folder `/dist` includes all the HTML, CSS and JS files needed to run SwaggerUI on a static website or CMS, without requiring NPM.
+
+1. Download the [latest release](https://github.com/swagger-api/swagger-ui/releases/latest).
+1. Copy the contents of the `/dist` folder to your server.
+1. Open `index.html` in your HTML editor and replace "https://petstore.swagger.io/v2/swagger.json" with the URL for your OpenAPI 3.0 spec.
+
+
