@@ -13,7 +13,7 @@ env:
   SWAGGER_BUCKET: "apidocs.internal.easygenerator.com"
 
 jobs:
-  updateSwagger:
+  uploadSwaggerToS3Bucket:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
