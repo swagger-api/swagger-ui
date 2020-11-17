@@ -1,0 +1,36 @@
+name: Upload swagger files to s3 bucket
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '**'
+      
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  SWAGGER_BUCKET: "apidocs.internal.easygenerator.com"
+
+jobs:
+  updateSwagger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: prepare files befode upload
+        run: |
+          # move index.html to the root
+          mv dist/index.html .
+          # remove link to default config
+          sed -i "s|https://petstore.swagger.io/v2/swagger.json||g" index.html
+          # now we've got line "url: ''," in index.html after command above
+          # set links to our own configs:
+          sed -i "/url: '',/a \        egConfig: 'http://$SWAGGER_BUCKET/jsons/index.json," index.html
+          sed -i "/url: '',/a \        egTemplate: 'http://$SWAGGER_BUCKET/jsons/$repository/$branch/swagger.json'," index.html          
+          # Fix references in index.html
+          sed -i "s|href=\"./|href=\"dist/|g" index.html
+          sed -i "s|src=\"./|src=\"dist/|g" index.html
+      - name: upload swagger files to bucket
+        run: |
+          aws s3 sync --exclude * --include index.html . "s3://SWAGGER_BUCKET"
+          aws s3 sync --delete dist/ "s3://SWAGGER_BUCKET/dist"
