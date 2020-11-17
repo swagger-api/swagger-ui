@@ -32,5 +32,5 @@ jobs:
           sed -i "s|src=\"./|src=\"dist/|g" index.html
       - name: upload swagger files to bucket
         run: |
-          aws s3 sync --exclude * --include index.html . "s3://SWAGGER_BUCKET"
-          aws s3 sync --delete dist/ "s3://SWAGGER_BUCKET/dist"
+          aws s3 sync --exclude * --include index.html . "s3://$SWAGGER_BUCKET"
+          aws s3 sync --delete dist/ "s3://$SWAGGER_BUCKET/dist"
