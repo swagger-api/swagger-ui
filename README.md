@@ -23,6 +23,8 @@ This repository publishes three different NPM modules:
 
 We strongly suggest that you use `swagger-ui` instead of `swagger-ui-dist` if you're building a single-page application, since `swagger-ui-dist` is significantly larger.
 
+If you are looking for plain ol' HTML/JS/CSS, [download the latest release](https://github.com/swagger-api/swagger-ui/releases/latest) and copy the contents of the `/dist` folder to your server.
+
 
 ## Compatibility
 The OpenAPI Specification has undergone 5 revisions since initial creation in 2010.  Compatibility between Swagger UI and the OpenAPI Specification is as follows:
