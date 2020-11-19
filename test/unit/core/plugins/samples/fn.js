@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { createXMLExample, sampleFromSchema } from "corePlugins/samples/fn"
+import { createXMLExample, sampleFromSchema, memoizedCreateXMLExample, memoizedSampleFromSchema } from "corePlugins/samples/fn"
 
 describe("sampleFromSchema", () => {
   it("handles Immutable.js objects for nested schemas", function () {
@@ -1455,5 +1455,66 @@ describe("createXMLExample", function () {
 
       expect(sut(definition, {}, overrideExample)).toEqual(expected)
     })
+  })
+})
+
+describe("memoizedSampleFromSchema", () => {
+  it("should sequentially update memoized overrideExample", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string"
+        }
+      },
+      example: {
+        foo: null
+      }
+    }
+
+    const expected = {
+      foo: "override"
+    }
+    expect(memoizedSampleFromSchema(definition, {}, expected)).toEqual(expected)
+
+    const updatedExpected = {
+      foo: "cat"
+    }
+    expect(memoizedSampleFromSchema(definition, {}, updatedExpected)).toEqual(updatedExpected)
+  })
+})
+
+describe("memoizedCreateXMLExample", () => {
+  it("should sequentially update memoized overrideExample", () => {
+    const expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bar>\n\t<foo>override</foo>\n</bar>"
+
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string",
+          xml: {
+            name: "foo"
+          }
+        }
+      },
+      example: {
+        foo: null
+      },
+      xml: {
+        name: "bar"
+      }
+    }
+
+    const overrideExample = {
+      foo: "override"
+    }
+    expect(memoizedCreateXMLExample(definition, {}, overrideExample)).toEqual(expected)
+
+    const updatedOverrideExample = {
+      foo: "cat"
+    }
+    const updatedExpected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bar>\n\t<foo>cat</foo>\n</bar>"
+    expect(memoizedCreateXMLExample(definition, {}, updatedOverrideExample)).toEqual(updatedExpected)
   })
 })
