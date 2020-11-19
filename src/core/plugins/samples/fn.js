@@ -332,14 +332,14 @@ export const inferSchema = (thing) => {
   return thing // Hopefully this will have something schema like in it... `type` for example
 }
 
-export const createXMLExample = (schema, config={}, o) => {
+export const createXMLExample = (schema, config, o) => {
   const json = sampleFromSchemaGeneric(schema, config, o, true)
   if (!json) { return }
 
   return XML(json, { declaration: true, indent: "\t" })
 }
 
-export const sampleFromSchema = (schema, config={}, o) =>
+export const sampleFromSchema = (schema, config, o) =>
   sampleFromSchemaGeneric(schema, config, o, false)
 
 export const memoizedCreateXMLExample = memoizee(createXMLExample)
