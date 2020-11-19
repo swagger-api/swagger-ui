@@ -13,6 +13,7 @@ export default class SwaggerUI extends React.Component {
       plugins: this.props.plugins,
       spec: this.props.spec,
       url: this.props.url,
+      layout: this.props.layout,
       defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
       presets: [presets.apis,...this.props.presets],
       requestInterceptor: this.requestInterceptor,
@@ -85,23 +86,26 @@ SwaggerUI.propTypes = {
     PropTypes.object,
   ]),
   url: PropTypes.string,
+  layout: PropTypes.string,
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
-  docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
+  docExpansion: PropTypes.oneOf(["list", "full", "none"]),
   supportedSubmitMethods: PropTypes.arrayOf(
-    PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'])
+    PropTypes.oneOf(["get", "put", "post", "delete", "options", "head", "patch", "trace"])
     ),
   plugins: PropTypes.arrayOf(PropTypes.object),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
   defaultModelExpandDepth: PropTypes.number,
+  defaultModelsExpandDepth: PropTypes.number,
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
 }
 
 SwaggerUI.defaultProps = {
-  supportedSubmitMethods: ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'],
+  layout: "BaseLayout",
+  supportedSubmitMethods: ["get", "put", "post", "delete", "options", "head", "patch", "trace"],
   docExpansion: "list",
   defaultModelsExpandDepth: 1,
   presets: [],
