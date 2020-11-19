@@ -43,6 +43,12 @@ Remote URL to an OpenAPI document that Swagger UI will fetch, parse, and display
 
 ⚠️ Don't use this in conjunction with `spec` - unpredictable behavior may occur.
 
+#### `layout`: PropTypes.string
+
+The name of a component available via the plugin system to use as the top-level layout for Swagger UI. The default value is `BaseLayout`.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 #### `onComplete`: PropTypes.func
 
 > `(system) => void`
