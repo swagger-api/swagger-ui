@@ -25,8 +25,8 @@ jobs:
           sed -i "s|https://petstore.swagger.io/v2/swagger.json||g" index.html
           # now we've got line "url: ''," in index.html after command above
           # set links to our own configs:
-          sed -i "/url: '',/a \        egConfig: 'http://$SWAGGER_BUCKET/jsons/index.json'," index.html
-          sed -i "/url: '',/a \        egTemplate: 'http://$SWAGGER_BUCKET/jsons/\$repository/\$branch/swagger.json'," index.html          
+          sed -i "/url: .+,/a \        egConfig: 'http://$SWAGGER_BUCKET/jsons/index.json'," index.html
+          sed -i "/url: .+,/a \        egTemplate: 'http://$SWAGGER_BUCKET/jsons/\$repository/\$branch/swagger.json'," index.html          
           # Fix references in index.html
           sed -i "s|href=\"./|href=\"dist/|g" index.html
           sed -i "s|src=\"./|src=\"dist/|g" index.html
