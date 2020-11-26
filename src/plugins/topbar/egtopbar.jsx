@@ -18,12 +18,16 @@ export default class EgTopbar extends React.Component {
     }
   }
 
+  defaultBranch(repository) {
+    return repository.includes("master") ? "master" : repository[0]
+  }
+
   onRepositoryChange = e => {
     const repository = e.target.value
 
     this.setState({
       currentRepository: repository,
-      currentBranch: this.state.urls[repository][0]
+      currentBranch: this.defaultBranch(this.state.urls[repository])
     }, this.loadLocalSpec)
   }
 
@@ -68,7 +72,7 @@ export default class EgTopbar extends React.Component {
 
     this.setState({
       currentRepository: defaultRepository,
-      currentBranch: urls[defaultRepository][0]
+      currentBranch: this.defaultBranch(urls[defaultRepository])
     }, this.loadLocalSpec)
   }
 
