@@ -8,10 +8,13 @@ import { isOAS3 as isOAS3Helper } from "../helpers"
 const state = state => state
 
 function onlyOAS3(selector) {
-  return (ori, system) => (state, ...args) => {
+  return (ori, system) => (...args) => {
     const spec = system.getSystem().specSelectors.specJson()
     if(isOAS3Helper(spec)) {
-      return selector(system, ...args)
+      // Pass the spec plugin state to Reselect to trigger on securityDefinitions update
+      let resolvedSchemes = system.getState().getIn(["spec", "resolvedSubtrees",
+        "components", "securitySchemes"])
+      return selector(system, resolvedSchemes, ...args)
     } else {
       return ori(...args)
     }
@@ -56,6 +59,32 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
           list = list.push(new Map({
             [defName]: definition
           }))
+        }
+        if(type === "openIdConnect" && definition.get("openIdConnectData")) {
+          let oidcData = definition.get("openIdConnectData")
+          let grants = oidcData.get("grant_types_supported") || ["authorization_code", "implicit"]
+          grants.forEach((grant) => {
+            // Convert from OIDC list of scopes to the OAS-style map with empty descriptions
+            let translatedScopes = oidcData.get("scopes_supported") &&
+              oidcData.get("scopes_supported").reduce((acc, cur) => acc.set(cur, ""), new Map())
+
+            let translatedDef = fromJS({
+              flow: grant,
+              authorizationUrl: oidcData.get("authorization_endpoint"),
+              tokenUrl: oidcData.get("token_endpoint"),
+              scopes: translatedScopes,
+              type: "oauth2",
+              openIdConnectUrl: definition.get("openIdConnectUrl")
+            })
+
+            list = list.push(new Map({
+              [defName]: translatedDef.filter((v) => {
+                // filter out unset values, sometimes `authorizationUrl`
+                // and `tokenUrl` come out as `undefined` in the data
+                return v !== undefined
+              })
+            }))
+          })
         }
       })
 
