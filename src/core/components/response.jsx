@@ -175,7 +175,7 @@ export default class Response extends React.Component {
             <Markdown source={ response.get( "description" ) } />
           </div>
 
-          { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ResponseExtension key={`${key}-${v}`} xKey={key} xVal={v} /> )}
+          { !showExtensions || !extensions.size ? null : extensions.entrySeq().map(([key, v]) => <ResponseExtension key={`${key}-${v}`} xKey={key} xVal={v} /> )}
 
           {isOAS3 && response.get("content") ? (
             <section className="response-controls">
@@ -255,7 +255,7 @@ export default class Response extends React.Component {
         </td>
         {isOAS3 ? <td className="response-col_links">
           { links ?
-            links.toSeq().map((link, key) => {
+            links.toSeq().entrySeq().map(([key, link]) => {
               return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
             })
           : <i>No links</i>}
