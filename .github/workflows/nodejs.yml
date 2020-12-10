@@ -16,7 +16,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    needs: [ build, commonjs-artifacts-test ]
+    needs: [ build, artifact-bundle ]
 
     strategy:
       matrix:
