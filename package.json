@@ -164,7 +164,7 @@
     "prettier": "^2.0.0",
     "raw-loader": "^4.0.0",
     "react-test-renderer": "^15.5.4",
-    "release-it": "=13.6.5",
+    "release-it": "=13.7.1",
     "rimraf": "^3.0.0",
     "sass-loader": "^7.1.0",
     "selenium-server-standalone-jar": "^3.141.5",
