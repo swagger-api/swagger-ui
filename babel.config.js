@@ -26,6 +26,21 @@ module.exports = {
         "@babel/proposal-class-properties",
         "@babel/proposal-object-rest-spread",
         "@babel/plugin-proposal-optional-chaining",
+        [
+          "babel-plugin-module-resolver",
+          {
+            "alias": {
+              "root": ".",
+              "components": "./src/core/components",
+              "containers": "./src/core/containers",
+              "core": "./src/core",
+              "plugins": "./src/plugins",
+              "img": "./src/img",
+              "corePlugins": "./src/core/plugins",
+              "less": "./src/less"
+            }
+          }
+        ]
       ]
     },
     "es": {
