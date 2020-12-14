@@ -77,7 +77,7 @@
     "randombytes": "^2.1.0",
     "react": "=15.7.0",
     "react-copy-to-clipboard": "5.0.1",
-    "react-debounce-input": "^3.2.0",
+    "react-debounce-input": "^3.2.3",
     "react-dom": "=15.7.0",
     "react-immutable-proptypes": "2.1.0",
     "react-immutable-pure-component": "^1.1.1",
