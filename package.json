@@ -69,7 +69,7 @@
     "dompurify": "^2.2.3",
     "ieee754": "^1.1.13",
     "immutable": "^3.x.x",
-    "js-file-download": "^0.4.1",
+    "js-file-download": "^0.4.12",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.19",
     "memoizee": "^0.4.12",
