@@ -6,12 +6,12 @@ import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
 
 
-const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
+const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs, getComponent ) => {
   if (
     sampleResponse !== undefined &&
     sampleResponse !== null
   ) { return <div>
-      <HighlightCode className="example" getConfigs={ getConfigs } value={ stringify(sampleResponse) } />
+      <HighlightCode getComponent={getComponent} className="example" getConfigs={ getConfigs } value={ stringify(sampleResponse) } />
     </div>
   }
   return null
@@ -162,7 +162,7 @@ export default class Response extends React.Component {
       shouldOverrideSchemaExample ? mediaTypeExample : undefined
     )
 
-    let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
+    let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs, getComponent )
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>

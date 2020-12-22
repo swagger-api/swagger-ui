@@ -54,6 +54,7 @@ export default class OperationSummary extends PureComponent {
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn")
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
     const OperationSummaryPath = getComponent("OperationSummaryPath")
+    const Copy = getComponent("Copy")
     const JumpToPath = getComponent("JumpToPath", true)
 
     return (
@@ -80,6 +81,7 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
+        <Copy text={`${method.toUpperCase()} ${specPath.get(1)}`} />
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
       </div>
     )

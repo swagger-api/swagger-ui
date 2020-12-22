@@ -257,6 +257,7 @@ const RequestBody = ({
             <HighlightCode
               className="body-param__example"
               getConfigs={getConfigs}
+              getComponent={getComponent}
               value={stringify(requestBodyValue) || getDefaultRequestBodyValue(
                 requestBody,
                 contentType,

@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import {SyntaxHighlighter, getStyle} from "core/syntax-highlighting"
 import get from "lodash/get"
 import saveAs from "js-file-download"
-import { CopyToClipboard } from "react-copy-to-clipboard"
 
 export default class HighlightCode extends Component {
   static propTypes = {
@@ -12,7 +11,8 @@ export default class HighlightCode extends Component {
     className: PropTypes.string,
     downloadable: PropTypes.bool,
     fileName: PropTypes.string,
-    canCopy: PropTypes.bool
+    canCopy: PropTypes.bool,
+    getComponent: PropTypes.func.isRequired
   }
 
   downloadText = () => {
@@ -39,7 +39,7 @@ export default class HighlightCode extends Component {
   }
 
   render () {
-    let { value, className, downloadable, getConfigs, canCopy } = this.props
+    let { value, className, downloadable, getConfigs, canCopy, getComponent } = this.props
 
     const config = getConfigs ? getConfigs() : {syntaxHighlight: {activated: true, theme: "agate"}}
 
@@ -55,6 +55,8 @@ export default class HighlightCode extends Component {
         </SyntaxHighlighter>
       : <pre onWheel={this.preventYScrollingBeyondElement} className={className + " microlight"}>{value}</pre>
 
+    const Copy = getComponent("Copy")
+
     return (
       <div className="highlight-code">
         { !downloadable ? null :
@@ -64,9 +66,7 @@ export default class HighlightCode extends Component {
         }
 
         { !canCopy ? null :
-          <div className="copy-to-clipboard">
-            <CopyToClipboard text={value}><button/></CopyToClipboard>
-          </div>
+          <Copy text={value} />
         }
 
         { codeBlock }
