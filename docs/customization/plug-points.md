@@ -30,7 +30,7 @@ For example, you can implement a multiple-phrase filter:
 const MultiplePhraseFilterPlugin = function() {
   return {
     fn: {
-      opsFilter: (taggedOps, phrase) => {
+      opsFilter: (taggedOps, phrase, filterConfig) => {
         const phrases = phrase.split(", ")
 
         return taggedOps.filter((val, key) => {
