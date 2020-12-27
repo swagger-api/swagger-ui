@@ -3,7 +3,8 @@ import {
   UPDATE_LAYOUT,
   UPDATE_FILTER,
   UPDATE_MODE,
-  SHOW
+  SHOW,
+  UPDATE_FILTER_CONFIG,
 } from "./actions"
 
 export default {
@@ -11,6 +12,8 @@ export default {
   [UPDATE_LAYOUT]: (state, action) => state.set("layout", action.payload),
 
   [UPDATE_FILTER]: (state, action) => state.set("filter", action.payload),
+
+  [UPDATE_FILTER_CONFIG]: (state, action) => state.set("filterConfig", action.payload),
 
   [SHOW]: (state, action) => {
     const isShown = action.payload.shown
@@ -27,6 +30,6 @@ export default {
     let thing = action.payload.thing
     let mode = action.payload.mode
     return state.setIn(["modes"].concat(thing), (mode || "") + "")
-  }
+  },
 
 }

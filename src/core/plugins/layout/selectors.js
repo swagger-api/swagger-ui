@@ -7,6 +7,7 @@ const state = state => state
 export const current = state => state.get("layout")
 
 export const currentFilter = state => state.get("filter")
+export const currentFilterConfig = state => state.get("filterConfig")
 
 export const isShown = (state, thing, def) => {
   thing = normalizeArray(thing)

@@ -35,6 +35,11 @@ export default function SwaggerUI(opts) {
     docExpansion: "list",
     maxDisplayedTags: null,
     filter: null,
+    filterConfig: {
+      isRegexFilter: false,
+      matchCase: true,
+      matchWords: false,
+    },
     validatorUrl: "https://validator.swagger.io/validator",
     oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
     persistAuthorization: false,
@@ -101,7 +106,8 @@ export default function SwaggerUI(opts) {
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
-        filter: constructorConfig.filter
+        filter: constructorConfig.filter,
+        filterConfig: constructorConfig.filterConfig,
       },
       spec: {
         spec: "",
