@@ -53,6 +53,13 @@ describe("<Operations/>", function(){
         currentFilter() {
           return null
         },
+        currentFilterConfig() {
+          return {
+            isRegexFilter: false,
+            matchCase: true,
+            matchWords: false,
+          }
+        },
         isShown() {
           return true
         },
@@ -107,6 +114,13 @@ describe("<Operations/>", function(){
       layoutSelectors: {
         currentFilter() {
           return null
+        },
+        currentFilterConfig() {
+          return {
+            isRegexFilter: false,
+            matchCase: true,
+            matchWords: false,
+          }
         },
         isShown() {
           return true

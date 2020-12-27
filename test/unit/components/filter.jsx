@@ -10,7 +10,8 @@ describe("<FilterContainer/>", function(){
       loadingStatus() {}
     },
     layoutSelectors: {
-      currentFilter() {}
+      currentFilter() {},
+      currentFilterConfig() {}
     },
     getComponent: () => {return Col}
   }
@@ -21,6 +22,11 @@ describe("<FilterContainer/>", function(){
     let props = {...mockedProps}
     props.layoutSelectors = {...mockedProps.specSelectors}
     props.layoutSelectors.currentFilter = function() {return true}
+    props.layoutSelectors.currentFilterConfig = function() {return {
+      isRegexFilter: false,
+      matchCase: true,
+      matchWords: false,
+    }}
 
     // When
     let wrapper = mount(<FilterContainer {...props}/>)
@@ -36,6 +42,11 @@ describe("<FilterContainer/>", function(){
     let props = {...mockedProps}
     props.layoutSelectors = {...mockedProps.specSelectors}
     props.layoutSelectors.currentFilter = function() {return null}
+    props.layoutSelectors.currentFilterConfig = function() {return {
+      isRegexFilter: false,
+      matchCase: true,
+      matchWords: false,
+    }}
 
     // When
     let wrapper = mount(<FilterContainer {...props}/>)
@@ -51,6 +62,11 @@ describe("<FilterContainer/>", function(){
     let props = {...mockedProps}
     props.layoutSelectors = {...mockedProps.specSelectors}
     props.layoutSelectors.currentFilter = function() {return false}
+    props.layoutSelectors.currentFilterConfig = function() {return {
+      isRegexFilter: false,
+      matchCase: true,
+      matchWords: false,
+    }}
 
     // When
     let wrapper = mount(<FilterContainer {...props}/>)
