@@ -31,7 +31,7 @@ describe("#6276: Query parameter filter=true is filtering by the value 'true'", 
       cy.visit("/?url=/documents/petstore.swagger.yaml&filter=pet")
         .get(".operation-filter-input")
         .should("exist")
-        .should("have.value", "pet")
+        .should("have.text", "pet")
         .get(".opblock-tag[data-tag='pet']")
         .should("exist")
         .get(".opblock-tag[data-tag='store']")
