@@ -421,6 +421,11 @@
         padding: 10px 10px;
         border: 2px solid $operational-filter-input-border-color;
     }
+  [contenteditable][placeholder]:empty:before {
+    content: attr(placeholder);
+    color: gray;
+    background-color: transparent;
+  }
 }
 
 .filter, .download-url-wrapper
