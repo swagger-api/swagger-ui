@@ -39,6 +39,7 @@ export default function SwaggerUI(opts) {
       isRegexFilter: false,
       matchCase: true,
       matchWords: false,
+      searchLocation: "tag",
     },
     validatorUrl: "https://validator.swagger.io/validator",
     oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,

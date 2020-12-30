@@ -4,10 +4,12 @@ export default function(taggedOps, phrase, filterConfig = {
   isRegexFilter: false,
   matchCase: true,
   matchWords: false,
+  searchLocation: "tag"
 }) {
   if(isFunc(filterConfig.toJS)) {
     filterConfig = filterConfig.toJS()
   }
+  filterConfig.searchLocation ??= "tag"
   if(phrase === "") {
     return taggedOps
   }
@@ -24,7 +26,19 @@ export default function(taggedOps, phrase, filterConfig = {
       // noop
     }
     if (expr) {
-      return taggedOps.filter((tagObj, tag) => expr.test(tag))
+      switch (filterConfig.searchLocation) {
+        case "tag":
+          return taggedOps.filter((tagObj, tag) => expr.test(tag))
+        case "route":
+          return taggedOps.mapEntries(([k,v]) => {
+            const newValue = v.set(
+              "operations",
+              v.get("operations")
+                .filter(op => expr.test(op.get("path")))
+            )
+            return [k, newValue]
+          }).filter((tagObj) => tagObj.get("operations").size !== 0)
+      }
     }
   }
   let isMatch = (tag) => tag.indexOf(phrase) !== -1
@@ -41,8 +55,22 @@ export default function(taggedOps, phrase, filterConfig = {
   if (!filterConfig.matchCase) {
     phrase = phrase.toLowerCase()
   }
-  return taggedOps
-    .filter((tagObj, tag) => isMatch(!filterConfig.matchCase
-      ? tag.toLowerCase()
-      : tag))
+  switch (filterConfig.searchLocation) {
+    case "tag":
+      return taggedOps
+        .filter((tagObj, tag) => isMatch(!filterConfig.matchCase
+          ? tag.toLowerCase()
+          : tag))
+    case "route":
+      return taggedOps.mapEntries(([k,v]) => {
+        const newValue = v.set(
+          "operations",
+          v.get("operations")
+            .filter(op => isMatch(!filterConfig.matchCase
+              ? op.get("path").toLowerCase()
+              : op.get("path")))
+        )
+        return [k, newValue]
+      }).filter((tagObj) => tagObj.get("operations").size !== 0)
+  }
 }

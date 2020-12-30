@@ -66,7 +66,7 @@ export default class FilterContainer extends React.Component {
   restoreInputFocus() {
     this.inputRef.focus()
     if (this.state.savedCursorOffset !== undefined) {
-      document.getSelection().collapse(this.inputRef, this.state.savedCursorOffset)
+      document.getSelection().collapse(this.inputRef.firstChild, this.state.savedCursorOffset)
     }
   }
 
@@ -78,11 +78,21 @@ export default class FilterContainer extends React.Component {
     })
     this.restoreInputFocus()
   }
+
   onMatchWordsToggle = () => {
     const currentFilterConfig = this.getFilterConfig()
     this.props.layoutActions.updateFilterConfig({
       ...currentFilterConfig,
       matchWords: !currentFilterConfig.matchWords,
+    })
+    this.restoreInputFocus()
+  }
+
+  onSearchLocationChange = (locationOption) => {
+    const currentFilterConfig = this.getFilterConfig()
+    this.props.layoutActions.updateFilterConfig({
+      ...currentFilterConfig,
+      searchLocation: locationOption.target.value,
     })
     this.restoreInputFocus()
   }
@@ -93,7 +103,7 @@ export default class FilterContainer extends React.Component {
       // IE9+ and other browsers
       sel = win.getSelection()
       if (sel.rangeCount > 0) {
-        const textNode = sel.focusNode
+        const textNode = this.inputRef.firstChild
         const newOffset = sel.focusOffset + charCount
         sel.collapse(textNode, Math.min(textNode.length, newOffset))
       }
@@ -124,6 +134,7 @@ export default class FilterContainer extends React.Component {
       border: "1px solid grey",
       margin: "20px 0",
       background: "white",
+      padding: "5px",
     }
 
     const inputStyle = {
@@ -198,7 +209,7 @@ export default class FilterContainer extends React.Component {
                   </div>
                 )}
                 <span ref={(r) => this.getRef(r)} role={"textbox"} contentEditable={!isLoading} style={inputStyle}
-                      className={classNames.join(" ")} placeholder="Filter by tag"
+                      className={classNames.join(" ")} placeholder={`Filter by ${filterConfig.searchLocation}`}
                       onClick={() => this.setState({ savedCursorOffset: document.getSelection().focusOffset })}
                       onFocus={() => this.setState({ savedCursorOffset: document.getSelection().focusOffset })}
                       onInput={this.onFilterChange} />
@@ -222,6 +233,10 @@ export default class FilterContainer extends React.Component {
                         type="button"
                         className={btnClassNames.join(" ")}>.*
                 </button>
+                <select className="location-select" value={filterConfig.searchLocation} onChange={this.onSearchLocationChange}>
+                  <option value="tag">tag</option>
+                  <option value="route">route</option>
+                </select>
               </form>
             </Col>
           </div>
