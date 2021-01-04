@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+ title: Example Swagger
+ version: '1.0'
+servers:
+ - url: /api/v1
+paths:
+ /xmlTest/examples:
+   post:
+     summary: sample issues
+     operationId: xmlTest_examples
+     parameters: []
+     requestBody:
+       description: Simple Test xml examples
+       content:
+           application/xml:
+              schema:
+               $ref: "#/components/schemas/Test"
+              examples:
+                test:
+                  value:
+                    x: should be xml
+     responses:
+       '200':
+         description:  Simple Test xml examples
+         content: {}
+ /xmlTest/example:
+   post:
+     summary: sample issues
+     operationId: xmlTest_example
+     parameters: []
+     requestBody:
+       description: Simple Test xml example
+       content:
+           application/xml:
+              schema:
+               $ref: "#/components/schemas/Test"
+              example:
+                x: should be xml
+     responses:
+       '200':
+         description: Simple Test xml example
+         content: {}
+components:
+  schemas:
+    Test:
+      type: object
+      xml:
+        name: root
+      properties:
+        x:
+          type: string
+        other:
+          type: string
+          format: email
+      example:
+        x: what the f

@@ -5,31 +5,28 @@ import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify, isEmptyValue } from "core/utils"
 
 function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
-  let mediaTypeValue = requestBody.getIn(["content", mediaType])
-  let schema = mediaTypeValue.get("schema").toJS()
-  let example =
-    mediaTypeValue.get("example") !== undefined
-      ? stringify(mediaTypeValue.get("example"))
-      : null
-  let currentExamplesValue = mediaTypeValue.getIn([
-    "examples",
-    activeExamplesKey,
-    "value"
-  ])
+  const mediaTypeValue = requestBody.getIn(["content", mediaType])
+  const schema = mediaTypeValue.get("schema").toJS()
 
-  if (mediaTypeValue.get("examples")) {
-    // the media type DOES have examples
-    return stringify(currentExamplesValue) || ""
-  } else {
-    // the media type DOES NOT have examples
-    return stringify(
-      example ||
-        getSampleSchema(schema, mediaType, {
-          includeWriteOnly: true
-        }) ||
-        ""
-    )
-  }
+  const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
+  const exampleSchema = mediaTypeValue.get("example")
+  const mediaTypeExample = hasExamplesKey
+    ? mediaTypeValue.getIn([
+      "examples",
+      activeExamplesKey,
+      "value"
+    ])
+    : exampleSchema
+
+  const exampleValue = getSampleSchema(
+    schema,
+    mediaType,
+    {
+      includeWriteOnly: true
+    },
+    mediaTypeExample
+  )
+  return stringify(exampleValue)
 }
 
 
@@ -212,6 +209,12 @@ const RequestBody = ({
     </div>
   }
 
+  const sampleRequestBody = getDefaultRequestBodyValue(
+    requestBody,
+    contentType,
+    activeExamplesKey,
+  )
+
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
@@ -235,11 +238,7 @@ const RequestBody = ({
           <RequestBodyEditor
             value={requestBodyValue}
             errors={requestBodyErrors}
-            defaultValue={getDefaultRequestBodyValue(
-              requestBody,
-              contentType,
-              activeExamplesKey,
-            )}
+            defaultValue={sampleRequestBody}
             onChange={onChange}
             getComponent={getComponent}
           />
@@ -257,11 +256,7 @@ const RequestBody = ({
             <HighlightCode
               className="body-param__example"
               getConfigs={getConfigs}
-              value={stringify(requestBodyValue) || getDefaultRequestBodyValue(
-                requestBody,
-                contentType,
-                activeExamplesKey,
-              )}
+              value={stringify(requestBodyValue) || sampleRequestBody}
             />
           }
           includeWriteOnly={true}
