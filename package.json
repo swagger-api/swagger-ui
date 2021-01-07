@@ -162,7 +162,7 @@
     "postcss-preset-env": "=6.7.0",
     "prettier": "^2.0.0",
     "raw-loader": "^4.0.0",
-    "react-test-renderer": "^15.5.4",
+    "react-test-renderer": "^15.7.0",
     "release-it": "=13.7.1",
     "rimraf": "^3.0.0",
     "sass-loader": "^7.1.0",
