@@ -83,7 +83,7 @@
     "react-immutable-pure-component": "^1.1.1",
     "react-inspector": "^2.3.0",
     "react-motion": "^0.5.2",
-    "react-redux": "=4.4.10",
+    "react-redux": "=5.1.2",
     "react-syntax-highlighter": "^15.4.3",
     "redux": "=3.7.2",
     "redux-immutable": "3.1.0",
