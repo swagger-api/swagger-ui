@@ -170,7 +170,7 @@
     "source-map-support": "^0.5.19",
     "tachyons-sass": "^4.9.5",
     "terser-webpack-plugin": "^4.0.0",
-    "url-loader": "^2.3.0",
+    "url-loader": "^4.1.1",
     "webpack": "^4.43.0",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^3.3.11",
