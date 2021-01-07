@@ -103,7 +103,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "=7.12.1",
     "@babel/plugin-proposal-optional-chaining": "=7.12.7",
     "@babel/plugin-transform-runtime": "=7.12.10",
-    "@babel/preset-env": "=7.12.10",
+    "@babel/preset-env": "=7.12.11",
     "@babel/preset-react": "=7.12.10",
     "@babel/register": "=7.12.10",
     "@commitlint/cli": "^11.0.0",
