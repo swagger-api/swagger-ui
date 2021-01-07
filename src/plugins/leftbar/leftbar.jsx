@@ -1,8 +1,7 @@
-import React from "react"
+import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
-import Logo from "./logo_small.svg"
 import { parseSearch, serializeSearch } from "../../core/utils"
 
 export default class Topbar extends React.Component {
@@ -95,7 +94,6 @@ export default class Topbar extends React.Component {
   render() {
     let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
-    const Link = getComponent("Link")
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
@@ -106,6 +104,7 @@ export default class Topbar extends React.Component {
 
     const { urls } = getConfigs()
     let control = []
+    let formOnSubmit = null
 
     if (urls) {
       let rows = []
@@ -122,17 +121,18 @@ export default class Topbar extends React.Component {
       )
     }
     else {
-      control.push(<input className={classNames.join(" ")} type="text" onChange={this.onUrlChange} value={this.state.url} disabled={isLoading} />)
-      control.push(<Button className="download-url-button" onClick={this.downloadUrl}>Explore</Button>)
+      formOnSubmit = this.downloadUrl
+      control.push(<div><input className={classNames.join(" ")} type="text" onChange={this.onUrlChange} value={this.state.url} disabled={isLoading} /></div>)
+      control.push(<div><Button className="load-url-button" onClick={this.downloadUrl}>Load</Button></div>)
     }
 
     return (
-      <div className="topbar" style={{ backgroundColor: "#f60" }}>
+      <div className="leftbar">
         <div className="wrapper">
           <div className="topbar-wrapper">
-            <Link>
-              <img height="40" src={Logo} alt="Swagger UI" />
-            </Link>
+            <form className="load-url-wrapper" onSubmit={formOnSubmit}>
+              {control.map((el, i) => cloneElement(el, { key: i }))}
+            </form>
           </div>
         </div>
       </div>

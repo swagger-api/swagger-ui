@@ -1,16 +1,16 @@
 <!-- HTML for dev server -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Swagger UI</title>
-  <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
+  <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
   <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
   <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
   <style>
-    html
-    {
+    html {
       box-sizing: border-box;
       overflow: -moz-scrollbars-vertical;
       overflow-y: scroll;
@@ -18,16 +18,15 @@
 
     *,
     *:before,
-    *:after
-    {
+    *:after {
       box-sizing: inherit;
     }
 
-    body
-    {
-      margin:0;
+    body {
+      margin: 0;
       background: #fafafa;
     }
+
   </style>
 </head>
 
@@ -37,7 +36,7 @@
   <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
   <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
   <script>
-    window.onload = function() {
+    window.onload = function () {
       window["SwaggerUIBundle"] = window["swagger-ui-bundle"]
       window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
       // Build a system

@@ -10,12 +10,12 @@ export class Container extends React.Component {
     let { fullscreen, full, ...rest } = this.props
     // Normal element
 
-    if(fullscreen)
-      return <section {...rest}/>
+    if (fullscreen)
+      return <section {...rest} />
 
     let containerClass = "swagger-container" + (full ? "-full" : "")
     return (
-      <section {...rest} className={xclass(rest.className, containerClass)}/>
+      <section {...rest} className={xclass(rest.className, containerClass)} />
     )
   }
 }
@@ -50,8 +50,8 @@ export class Col extends React.Component {
       ...rest
     } = this.props
 
-    if(hide && !keepContents)
-      return <span/>
+    if (hide && !keepContents)
+      return <span />
 
     let classesAr = []
 
@@ -60,10 +60,10 @@ export class Col extends React.Component {
         continue
       }
       let deviceClass = DEVICES[device]
-      if(device in this.props) {
+      if (device in this.props) {
         let val = this.props[device]
 
-        if(val < 1) {
+        if (val < 1) {
           classesAr.push("none" + deviceClass)
           continue
         }
@@ -80,7 +80,7 @@ export class Col extends React.Component {
     let classes = xclass(rest.className, ...classesAr)
 
     return (
-      <section {...rest} className={classes}/>
+      <section {...rest} className={classes} />
     )
   }
 
@@ -167,37 +167,37 @@ export class Select extends React.Component {
 
     if (multiple) {
       value = options.filter(function (option) {
-          return option.selected
-        })
-        .map(function (option){
+        return option.selected
+      })
+        .map(function (option) {
           return option.value
         })
     } else {
       value = e.target.value
     }
 
-    this.setState({value: value})
+    this.setState({ value: value })
 
     onChange && onChange(value)
   }
 
   componentWillReceiveProps(nextProps) {
     // TODO: this puts us in a weird area btwn un/controlled selection... review
-    if(nextProps.value !== this.props.value) {
+    if (nextProps.value !== this.props.value) {
       this.setState({ value: nextProps.value })
     }
   }
 
-  render(){
+  render() {
     let { allowedValues, multiple, allowEmptyValue, disabled } = this.props
     let value = this.state.value?.toJS?.() || this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} >
-        { allowEmptyValue ? <option value="">--</option> : null }
+      <select className={this.props.className} multiple={multiple} value={value} onChange={this.onChange} disabled={disabled} >
+        { allowEmptyValue ? <option value="">--</option> : null}
         {
           allowedValues.map(function (item, key) {
-            return <option key={ key } value={ String(item) }>{ String(item) }</option>
+            return <option key={key} value={String(item)}>{String(item)}</option>
           })
         }
       </select>
@@ -208,7 +208,7 @@ export class Select extends React.Component {
 export class Link extends React.Component {
 
   render() {
-    return <a {...this.props} rel="noopener noreferrer" className={xclass(this.props.className, "link")}/>
+    return <a {...this.props} rel="noopener noreferrer" className={xclass(this.props.className, "link")} />
   }
 
 }
@@ -217,7 +217,7 @@ Link.propTypes = {
   className: PropTypes.string
 }
 
-const NoMargin = ({children}) => <div className="no-margin"> {children} </div>
+const NoMargin = ({ children }) => <div className="no-margin"> {children} </div>
 
 NoMargin.propTypes = {
   children: PropTypes.node
@@ -237,8 +237,8 @@ export class Collapse extends React.Component {
   }
 
   renderNotAnimated() {
-    if(!this.props.isOpened)
-      return <noscript/>
+    if (!this.props.isOpened)
+      return <noscript />
     return (
       <NoMargin>
         {this.props.children}
@@ -249,7 +249,7 @@ export class Collapse extends React.Component {
   render() {
     let { animated, isOpened, children } = this.props
 
-    if(!animated)
+    if (!animated)
       return this.renderNotAnimated()
 
     children = isOpened ? children : null
