@@ -29,6 +29,72 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
   })
 
+  it("combine first oneOf or anyOf with schema's definitions", function () {
+    let definition = {
+      type: "object",
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            test2: {
+              type: "string",
+              example: "anyOf"
+            },
+            test: {
+              type: "string",
+              example: "anyOf"
+            }
+          }
+        }
+      ],
+      properties: {
+        test: {
+          type: "string",
+          example: "schema"
+        }
+      }
+    }
+
+    let expected = {
+      test: "schema",
+      test2: "anyOf"
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+
+    definition = {
+      type: "object",
+      oneOf: [
+        {
+          type: "object",
+          properties: {
+            test2: {
+              type: "string",
+              example: "oneOf"
+            },
+            test: {
+              type: "string",
+              example: "oneOf"
+            }
+          }
+        }
+      ],
+      properties: {
+        test: {
+          type: "string",
+          example: "schema"
+        }
+      }
+    }
+
+    expected = {
+      test: "schema",
+      test2: "oneOf"
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+  })
+
   it("returns object with no readonly fields for parameter", function () {
     let definition = {
       type: "object",
