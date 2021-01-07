@@ -66,7 +66,7 @@ class License extends React.Component {
     let { license, getComponent, selectedServer, url: specUrl } = this.props
 
     const Link = getComponent("Link")
-    let name = license.get("name") || "License"  
+    let name = license.get("name") || "License"
     let url = buildUrl(license.get("url"), specUrl, {selectedServer})
 
     return (
@@ -113,7 +113,12 @@ export default class Info extends React.Component {
     let version = info.get("version")
     let description = info.get("description")
     let title = info.get("title")
-    let termsOfServiceUrl = buildUrl(info.get("termsOfService"), specUrl, {selectedServer})
+    let termsOfServiceUrl
+    try {
+      termsOfServiceUrl = buildUrl(info.get("termsOfService"), specUrl, {selectedServer})
+    } catch (error) {
+      termsOfServiceUrl = info.get("termsOfService")
+    }
     let contact = info.get("contact")
     let license = info.get("license")
     let rawExternalDocsUrl = externalDocs && externalDocs.get("url")
