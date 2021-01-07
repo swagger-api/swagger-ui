@@ -58,7 +58,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.11.2",
+    "@babel/runtime-corejs3": "^7.12.5",
     "@braintree/sanitize-url": "^5.0.0",
     "@kyleshockey/object-assign-deep": "^0.4.2",
     "@kyleshockey/xml": "^1.0.2",
@@ -103,7 +103,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "=7.12.1",
     "@babel/plugin-proposal-optional-chaining": "=7.12.7",
     "@babel/plugin-transform-runtime": "=7.12.10",
-    "@babel/preset-env": "=7.12.10",
+    "@babel/preset-env": "=7.12.11",
     "@babel/preset-react": "=7.12.10",
     "@babel/register": "=7.12.10",
     "@commitlint/cli": "^11.0.0",
@@ -157,12 +157,12 @@
     "npm-run-all": "^4.1.5",
     "oauth2-server": "^2.4.1",
     "open": "^7.0.4",
-    "postcss": "=8.2.1",
+    "postcss": "=8.2.2",
     "postcss-loader": "=4.1.0",
     "postcss-preset-env": "=6.7.0",
     "prettier": "^2.0.0",
     "raw-loader": "^4.0.0",
-    "react-test-renderer": "^15.5.4",
+    "react-test-renderer": "^15.7.0",
     "release-it": "=13.7.1",
     "rimraf": "^3.0.0",
     "sass-loader": "^7.1.0",
@@ -174,7 +174,7 @@
     "webpack": "^4.43.0",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^3.11.1",
     "webpack-stats-plugin": "=1.0.2"
   },
   "config": {
