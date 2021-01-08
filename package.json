@@ -71,7 +71,7 @@
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.12",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "memoizee": "^0.4.12",
     "prop-types": "^15.7.2",
     "randombytes": "^2.1.0",
