@@ -114,7 +114,7 @@
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "=3.3.4",
-    "babel-plugin-module-resolver": "=4.0.0",
+    "babel-plugin-module-resolver": "=4.1.0",
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
     "body-parser": "^1.19.0",
     "chromedriver": "^87.0.0",
