@@ -48,12 +48,62 @@ const liftSampleHelper = (oldSchema, target) => {
   if(target.xml === undefined && oldSchema.xml !== undefined) {
     target.xml = oldSchema.xml
   }
+  if(target.type === undefined && oldSchema.type !== undefined) {
+    target.type = oldSchema.type
+  }
   return target
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
+  schema = objectify(schema)
+  let usePlainValue = exampleOverride !== undefined || schema.example !== undefined || schema && schema.default !== undefined
+  // first check if there is the need of combining this schema with others required by allOf
+  const hasOneOf = !usePlainValue && schema && schema.oneOf && schema.oneOf.length > 0
+  const hasAnyOf = !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
+  if(!usePlainValue && (hasOneOf || hasAnyOf)) {
+    const schemaToAdd = objectify(hasOneOf
+      ? schema.oneOf[0]
+      : schema.anyOf[0]
+    )
+    liftSampleHelper(schemaToAdd, schema)
+    if(!schema.xml && schemaToAdd.xml) {
+      schema.xml = schemaToAdd.xml
+    }
+    if(schema.example !== undefined && schemaToAdd.example !== undefined) {
+      usePlainValue = true
+    } else if(schemaToAdd.properties) {
+      if(!schema.properties) {
+        schema.properties = {}
+      }
+      let props = objectify(schemaToAdd.properties)
+      for (let propName in props) {
+        if (!props.hasOwnProperty(propName)) {
+          continue
+        }
+        if ( props[propName] && props[propName].deprecated ) {
+          continue
+        }
+        if ( props[propName] && props[propName].readOnly && !config.includeReadOnly ) {
+          continue
+        }
+        if ( props[propName] && props[propName].writeOnly && !config.includeWriteOnly ) {
+          continue
+        }
+        if(!schema.properties[propName]) {
+          schema.properties[propName] = props[propName]
+          if(!schemaToAdd.required && Array.isArray(schemaToAdd.required) && schemaToAdd.required.indexOf(propName) !== -1) {
+            if(!schema.required) {
+              schema.required = [propName]
+            } else {
+              schema.required.push(propName)
+            }
+          }
+        }
+      }
+    }
+  }
   const _attr = {}
-  let { xml, type, example, properties, additionalProperties, items } = objectify(schema)
+  let { xml, type, example, properties, additionalProperties, items } = schema
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -77,18 +127,6 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     res[displayName] = []
   }
 
-  const usePlainValue = exampleOverride !== undefined || example !== undefined || schema && schema.default !== undefined
-
-  const hasOneOf = !usePlainValue && schema && schema.oneOf && schema.oneOf.length > 0
-  const hasAnyOf = !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
-  if(!usePlainValue && (hasOneOf || hasAnyOf)) {
-    const someSchema = hasOneOf
-      ? schema.oneOf[0]
-      : schema.anyOf[0]
-    liftSampleHelper(schema, someSchema)
-    return sampleFromSchemaGeneric(someSchema, config, undefined, respectXML)
-  }
-
   // try recover missing type
   if(schema && !type) {
     if(properties || additionalProperties) {
@@ -105,6 +143,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   let addPropertyToResult
   if(respectXML) {
     addPropertyToResult = (propName, overrideE = undefined) => {
+
       if(schema) {
         // case it is an xml attribute
         props[propName].xml = props[propName].xml || {}
@@ -139,8 +178,10 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
     }
   } else {
-    addPropertyToResult = (propName, overrideE) =>
+    addPropertyToResult = (propName, overrideE) => {
+
       res[propName] = sampleFromSchemaGeneric(props[propName], config, overrideE, respectXML)
+    }
   }
 
   // check for plain value and if found use it to generate sample from it
