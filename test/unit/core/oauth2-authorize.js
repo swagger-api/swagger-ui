@@ -126,7 +126,7 @@ describe("oauth2", () => {
     it("should build authorize url for authorization_code flow", () => {
       const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.authorizationUrl = "https://testAuthorizationUrl"
-      mockSchema.flow = "authorization_code";
+      mockSchema.flow = "authorization_code"
 
       oauth2Authorize(authConfig3)
       expect(windowOpenSpy.mock.calls.length).toEqual(1)
