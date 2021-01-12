@@ -1093,7 +1093,28 @@ describe("createXMLExample", function () {
 
       expect(sut(definition)).toEqual(expected)
     })
+    it("should return additionalProperty example", () => {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<notalien>test</notalien>\n</aliens>"
+      let definition = {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            alien: {
+              type: "string"
+            },
+            dog: {
+              type: "integer"
+            }
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
 
+      expect(sut(definition, {}, [{ notalien: "test" }])).toEqual(expected)
+    })
 })
 
   describe("object", function () {
@@ -1520,6 +1541,26 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition, {}, overrideExample)).toEqual(expected)
+    })
+
+    it("should return additionalProperty example", () => {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<alien>test</alien>\n\t<dog>1</dog>\n</aliens>"
+      let definition = {
+        type: "object",
+        properties: {
+          alien: {
+            type: "string"
+          },
+          dog: {
+            type: "integer"
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, { alien: "test", dog: 1 })).toEqual(expected)
     })
   })
 })
