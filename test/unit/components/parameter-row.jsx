@@ -15,7 +15,8 @@ describe("<ParameterRow/>", () => {
     param,
     rawParam: param,
     pathMethod: [],
-    getConfigs: () => ({})
+    getConfigs: () => ({}),
+    onChange: () => {}
   })
 
   it("Can render Swagger 2 parameter type with format", () => {
