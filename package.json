@@ -142,7 +142,7 @@
     "ignore-assets-webpack-plugin": "^2.0.1",
     "inspectpack": "=4.5.2",
     "jest": "=26.6.3",
-    "jsdom": "=15.2.1",
+    "jsdom": "=16.4.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.2",
     "json-server": "=0.16.3",
