@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Map, List } from "immutable"
+import { Map } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
@@ -97,21 +97,15 @@ export default class ParameterRow extends Component {
     let { specSelectors, pathMethod, rawParam, oas3Selectors } = this.props
 
     const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
+    if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
+      return
+    }
+
     const { schema } = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
     const parameterMediaType = paramWithMeta
       .get("content", Map())
       .keySeq()
       .first()
-
-    // getSampleSchema could return null
-    const generatedSampleValue = schema ? getSampleSchema(schema.toJS(), parameterMediaType, {
-
-      includeWriteOnly: true
-    }) : null
-
-    if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
-      return
-    }
 
     if( paramWithMeta.get("in") !== "body" ) {
       let initialValue
@@ -127,7 +121,7 @@ export default class ParameterRow extends Component {
           : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-        initialValue = 
+        initialValue =
           paramWithMeta.getIn(["examples", currentExampleKey, "value"]) !== undefined
           ? paramWithMeta.getIn(["examples", currentExampleKey, "value"])
           : paramWithMeta.getIn(["content", parameterMediaType, "example"]) !== undefined
@@ -141,35 +135,17 @@ export default class ParameterRow extends Component {
           : paramWithMeta.get("default") // ensures support for `parameterMacro`
       }
 
-      //// Process the initial value
-
-      if(initialValue !== undefined && !List.isList(initialValue)) {
-        // Stringify if it isn't a List
-        initialValue = stringify(initialValue)
-      }
+      const generatedSampleValue = getSampleSchema(
+        schema,
+        parameterMediaType,
+        {
+          includeWriteOnly: true
+        },
+        initialValue
+      )
 
       //// Dispatch the initial value
-
-      if(initialValue !== undefined) {
-        this.onChangeWrapper(initialValue)
-      } else if(
-        schema && schema.get("type") === "object"
-        && generatedSampleValue
-        && !paramWithMeta.get("examples")
-      ) {
-        // Object parameters get special treatment.. if the user doesn't set any
-        // default or example values, we'll provide initial values generated from
-        // the schema.
-        // However, if `examples` exist for the parameter, we won't do anything,
-        // so that the appropriate `examples` logic can take over.
-        this.onChangeWrapper(
-          List.isList(generatedSampleValue) ? (
-            generatedSampleValue
-          ) : (
-            stringify(generatedSampleValue)
-          )
-        )
-      }
+      this.onChangeWrapper(stringify(generatedSampleValue))
     }
   }
 
