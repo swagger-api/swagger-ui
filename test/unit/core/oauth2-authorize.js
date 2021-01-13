@@ -27,6 +27,14 @@ describe("oauth2", () => {
     authConfigs: {}
   }
 
+  let authConfig3 = {
+    auth: { schema: { get: (key)=> mockSchema[key] }, scopes: Im.List(["scope4","scope5"]) },
+    authActions: {},
+    errActions: {},
+    configs: { oauth2RedirectUrl: "" },
+    authConfigs: {}
+  }
+
   beforeEach(() => {
     win.open = jest.fn()
   })
@@ -111,6 +119,18 @@ describe("oauth2", () => {
       oauth2Authorize(authConfig2)
       expect(windowOpenSpy.mock.calls.length).toEqual(1)
       expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope2%20scope3&state=")
+
+      windowOpenSpy.mockReset()
+    })
+
+    it("should build authorize url for authorization_code flow", () => {
+      const windowOpenSpy = jest.spyOn(win, "open")
+      mockSchema.authorizationUrl = "https://testAuthorizationUrl"
+      mockSchema.flow = "authorization_code"
+
+      oauth2Authorize(authConfig3)
+      expect(windowOpenSpy.mock.calls.length).toEqual(1)
+      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope4%20scope5&state=")
 
       windowOpenSpy.mockReset()
     })

@@ -13,7 +13,8 @@ import {
   parameterWithMetaByIdentity,
   parameterInclusionSettingFor,
   consumesOptionsFor,
-  taggedOperations
+  taggedOperations,
+  isMediaTypeSchemaPropertiesEqual
 } from "corePlugins/spec/selectors"
 
 import Petstore from "./assets/petstore.json"
@@ -1208,6 +1209,170 @@ describe("taggedOperations", function () {
           operation: op
         }]
       }
+    })
+  })
+})
+describe("isMediaTypeSchemaPropertiesEqual", () => {
+  const stateSingleMediaType = fromJS({
+    resolvedSubtrees: {
+      paths: {
+        "/test": {
+          post: {
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    properties: {
+                      "test": "some"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  })
+  const pathMethod = ["/test", "post"]
+
+  describe("Only one media type defined", () => {
+    const state = stateSingleMediaType
+
+    it("should return false if currentMediaType is null", () => {
+      const currentMediaType = null
+      const targetMediaType = "application/json"
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(false)
+    })
+    it("should return false if currentMediaType is undefined", () => {
+      const currentMediaType = undefined
+      const targetMediaType = "application/json"
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(false)
+    })
+    it("should return false if targetMediaType is null", () => {
+      const currentMediaType = "application/json"
+      const targetMediaType = null
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(false)
+    })
+    it("should return false if targetMediaType is undefined", () => {
+      const currentMediaType = "application/json"
+      const targetMediaType = undefined
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(false)
+    })
+    it("should return true when currentMediaType and targetMediaType are the same", () => {
+      const currentMediaType = "application/json"
+      const targetMediaType = "application/json"
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(true)
+    })
+
+    it("should return false if currentMediaType is not targetMediaType, but only one media type defined", () => {
+      const currentMediaType = "application/json"
+      const targetMediaType = "application/xml"
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(false)
+    })
+  })
+  describe("Multiple media types defined", () => {
+    const keyPath = ["resolvedSubtrees", "paths", ...pathMethod, "requestBody", "content"]
+    const state = stateSingleMediaType
+      .setIn(
+        [...keyPath, "application/xml"],
+        stateSingleMediaType.getIn([...keyPath, "application/json"])
+      )
+      .setIn(
+        [...keyPath, "application/other"],
+        stateSingleMediaType
+          .getIn([...keyPath, "application/json"])
+          .setIn(["schema", "properties"], "someOther")
+      )
+
+    it("should return true if same media type", () => {
+      const currentMediaType = "application/json"
+      const targetMediaType = "application/json"
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(true)
+    })
+
+    it("should return true if target has same properties", () => {
+      const currentMediaType = "application/json"
+      const targetMediaType = "application/xml"
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(true)
+    })
+
+    it("should return false if target has other properties", () => {
+      const currentMediaType = "application/json"
+      const targetMediaType = "application/other"
+
+      const result = isMediaTypeSchemaPropertiesEqual(
+        state,
+        pathMethod,
+        currentMediaType,
+        targetMediaType
+      )
+
+      expect(result).toEqual(false)
     })
   })
 })
