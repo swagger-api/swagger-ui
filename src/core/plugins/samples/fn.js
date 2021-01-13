@@ -214,6 +214,9 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     // generate xml sample recursively for array case
     if(type === "array") {
       if (!Array.isArray(sample)) {
+        if(typeof sample === "string") {
+          return sample
+        }
         sample = [sample]
       }
       const itemSchema = schema
@@ -239,6 +242,10 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
     // generate xml sample recursively for object case
     if(type === "object") {
+      // case literal example
+      if(typeof sample === "string") {
+        return sample
+      }
       for (let propName in sample) {
         if (!sample.hasOwnProperty(propName)) {
           continue
@@ -382,7 +389,9 @@ export const inferSchema = (thing) => {
 export const createXMLExample = (schema, config, o) => {
   const json = sampleFromSchemaGeneric(schema, config, o, true)
   if (!json) { return }
-
+  if(typeof json === "string") {
+    return json
+  }
   return XML(json, { declaration: true, indent: "\t" })
 }
 

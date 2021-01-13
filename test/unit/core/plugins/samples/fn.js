@@ -1115,6 +1115,27 @@ describe("createXMLExample", function () {
 
       expect(sut(definition, {}, [{ notalien: "test" }])).toEqual(expected)
     })
+    it("should return literal example", () => {
+      let expected = "<notaliens>\n\t\n\t<dog>0</dog>\n</notaliens>"
+      let definition = {
+        type: "array",
+        items: {
+          properties: {
+            alien: {
+              type: "string"
+            },
+            dog: {
+              type: "integer"
+            }
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, expected)).toEqual(expected)
+    })
 })
 
   describe("object", function () {
@@ -1561,6 +1582,25 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition, {}, { alien: "test", dog: 1 })).toEqual(expected)
+    })
+    it("should return literal example", () => {
+      let expected = "<notaliens>\n\t\n\t<dog>0</dog>\n</notaliens>"
+      let definition = {
+        type: "object",
+        properties: {
+          alien: {
+            type: "string"
+          },
+          dog: {
+            type: "integer"
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, expected)).toEqual(expected)
     })
   })
 })
