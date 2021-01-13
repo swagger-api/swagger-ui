@@ -515,6 +515,9 @@ export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {
 }
 
 export const isMediaTypeSchemaPropertiesEqual = ( state, pathMethod, currentMediaType, targetMediaType) => {
+  if((currentMediaType || targetMediaType) && currentMediaType === targetMediaType ) {
+    return true
+  }
   let requestBodyContent = state.getIn(["resolvedSubtrees", "paths", ...pathMethod, "requestBody", "content"], fromJS([]))
   if (requestBodyContent.size < 2 || !currentMediaType || !targetMediaType) {
     // nothing to compare
