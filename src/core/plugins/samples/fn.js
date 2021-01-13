@@ -143,8 +143,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   let addPropertyToResult
   if(respectXML) {
     addPropertyToResult = (propName, overrideE = undefined) => {
-
-      if(schema) {
+      if(schema && props[propName]) {
         // case it is an xml attribute
         props[propName].xml = props[propName].xml || {}
 
@@ -168,6 +167,13 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
           return
         }
         props[propName].xml.name = props[propName].xml.name || propName
+      } else if(!props[propName] && additionalProperties !== false) {
+        // case only additionalProperty that is not defined in schema
+        props[propName] = {
+          xml: {
+            name: propName
+          }
+        }
       }
 
       let t = sampleFromSchemaGeneric(schema && props[propName] || undefined, config, overrideE, respectXML)
