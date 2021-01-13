@@ -15,6 +15,7 @@ describe("<InfoContainer/>", function () {
       basePath () {},
       host () {},
       externalDocs () {},
+      termsOfService () {},
     },
     oas3Selectors: {
       selectedServer () {},
@@ -28,6 +29,38 @@ describe("<InfoContainer/>", function () {
     let props = {...mockedProps}
     props.specSelectors = {...mockedProps.specSelectors}
     props.specSelectors.info = function () {return fromJS(["info1", "info2"])}
+
+    // When
+    let wrapper = mount(<InfoContainer {...props}/>)
+
+    // Then
+    const renderedInfo = wrapper.find("span.mocked-info")
+    expect(renderedInfo.length).toEqual(1)
+  })
+
+  it("renders Info inside InfoContainer with inline termsOfService", function () {
+
+    // Given
+    let props = {...mockedProps}
+    props.specSelectors = {...mockedProps.specSelectors}
+    props.specSelectors.info = function () {return fromJS(["info1"])}
+    props.specSelectors.info.termsOfService = "foo bar baz"
+
+    // When
+    let wrapper = mount(<InfoContainer {...props}/>)
+
+    // Then
+    const renderedInfo = wrapper.find("span.mocked-info")
+    expect(renderedInfo.length).toEqual(1)
+  })
+
+  it("renders Info inside InfoContainer with termsOfService URL", function () {
+
+    // Given
+    let props = {...mockedProps}
+    props.specSelectors = {...mockedProps.specSelectors}
+    props.specSelectors.info = function () {return fromJS(["info1"])}
+    props.specSelectors.info.termsOfService = "https://foo.bar/baz"
 
     // When
     let wrapper = mount(<InfoContainer {...props}/>)
