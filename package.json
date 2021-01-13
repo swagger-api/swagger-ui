@@ -76,7 +76,7 @@
     "prop-types": "^15.7.2",
     "randombytes": "^2.1.0",
     "react": "=15.7.0",
-    "react-copy-to-clipboard": "5.0.2",
+    "react-copy-to-clipboard": "5.0.3",
     "react-debounce-input": "^3.2.3",
     "react-dom": "=15.7.0",
     "react-immutable-proptypes": "2.2.0",
