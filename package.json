@@ -110,7 +110,7 @@
     "@commitlint/config-conventional": "^11.0.0",
     "@jest/globals": "=26.6.2",
     "@release-it/conventional-changelog": "=1.1.4",
-    "autoprefixer": "^9.0.0",
+    "autoprefixer": "^10.2.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "=3.3.4",
