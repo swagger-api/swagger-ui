@@ -146,7 +146,7 @@
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.2",
     "json-server": "=0.16.3",
-    "less": "^3.11.2",
+    "less": "^4.1.0",
     "license-checker": "^25.0.0",
     "lint-staged": "=10.5.3",
     "mini-css-extract-plugin": "^1.3.4",
