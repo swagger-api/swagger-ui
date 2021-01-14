@@ -668,6 +668,11 @@
     overflow-y: auto;
     max-height: 400px;
     min-height: 6em;
+    
+    code {
+        white-space: pre-wrap !important;
+        word-break: break-all;
+    }
   }
 }
 .curl-command {
@@ -911,8 +916,7 @@ a.nostyle {
     code {
       background-color: #dedede;
       padding: 4px 4px 2px;
-      white-space: pre-wrap;
-      word-break: break-all;
+      white-space: pre;
     }
   }
 }
