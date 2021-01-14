@@ -198,7 +198,8 @@ export default class Operation extends PureComponent {
                     oas3Actions={ oas3Actions }
                     path={ path }
                     method={ method }
-                    onExecute={ onExecute } />
+                    onExecute={ onExecute }
+                    disabled={executeInProgress}/>
               }
 
               { (!tryItOutEnabled || !response || !allowTryItOut) ? null :

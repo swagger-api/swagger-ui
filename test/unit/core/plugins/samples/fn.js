@@ -29,6 +29,72 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
   })
 
+  it("combine first oneOf or anyOf with schema's definitions", function () {
+    let definition = {
+      type: "object",
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            test2: {
+              type: "string",
+              example: "anyOf"
+            },
+            test: {
+              type: "string",
+              example: "anyOf"
+            }
+          }
+        }
+      ],
+      properties: {
+        test: {
+          type: "string",
+          example: "schema"
+        }
+      }
+    }
+
+    let expected = {
+      test: "schema",
+      test2: "anyOf"
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+
+    definition = {
+      type: "object",
+      oneOf: [
+        {
+          type: "object",
+          properties: {
+            test2: {
+              type: "string",
+              example: "oneOf"
+            },
+            test: {
+              type: "string",
+              example: "oneOf"
+            }
+          }
+        }
+      ],
+      properties: {
+        test: {
+          type: "string",
+          example: "schema"
+        }
+      }
+    }
+
+    expected = {
+      test: "schema",
+      test2: "oneOf"
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+  })
+
   it("returns object with no readonly fields for parameter", function () {
     let definition = {
       type: "object",
@@ -1027,7 +1093,49 @@ describe("createXMLExample", function () {
 
       expect(sut(definition)).toEqual(expected)
     })
+    it("should return additionalProperty example", () => {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<notalien>test</notalien>\n</aliens>"
+      let definition = {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            alien: {
+              type: "string"
+            },
+            dog: {
+              type: "integer"
+            }
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
 
+      expect(sut(definition, {}, [{ notalien: "test" }])).toEqual(expected)
+    })
+    it("should return literal example", () => {
+      let expected = "<notaliens>\n\t\n\t<dog>0</dog>\n</notaliens>"
+      let definition = {
+        type: "array",
+        items: {
+          properties: {
+            alien: {
+              type: "string"
+            },
+            dog: {
+              type: "integer"
+            }
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, expected)).toEqual(expected)
+    })
 })
 
   describe("object", function () {
@@ -1454,6 +1562,45 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition, {}, overrideExample)).toEqual(expected)
+    })
+
+    it("should return additionalProperty example", () => {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<alien>test</alien>\n\t<dog>1</dog>\n</aliens>"
+      let definition = {
+        type: "object",
+        properties: {
+          alien: {
+            type: "string"
+          },
+          dog: {
+            type: "integer"
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, { alien: "test", dog: 1 })).toEqual(expected)
+    })
+    it("should return literal example", () => {
+      let expected = "<notaliens>\n\t\n\t<dog>0</dog>\n</notaliens>"
+      let definition = {
+        type: "object",
+        properties: {
+          alien: {
+            type: "string"
+          },
+          dog: {
+            type: "integer"
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, expected)).toEqual(expected)
     })
   })
 })

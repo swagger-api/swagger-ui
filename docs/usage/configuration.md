@@ -89,7 +89,7 @@ Parameter name | Docker variable | Description
 
 Parameter name | Docker variable | Description
 --- | --- | -----
-<a name="persistAuthorization"></a>`persistAuthorization` | _Unavailable_ | `Boolean=false`. If set to `true`, it persists authorization data and it would not be lost on browser close/refresh
+<a name="persistAuthorization"></a>`persistAuthorization` | `PERSIST_AUTHORIZATION` | `Boolean=false`. If set to `true`, it persists authorization data and it would not be lost on browser close/refresh
 
 ### Instance methods
 
