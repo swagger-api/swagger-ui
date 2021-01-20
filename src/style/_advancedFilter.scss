@@ -1,0 +1,59 @@
+.advanced-filter-options-wrapper {
+  background: white;
+  border: 2px solid $operational-filter-input-border-color;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  margin: 20px 0;
+  justify-items: center;
+  display: flex;
+  * {
+    margin-right: 5px;
+    align-self: center;
+  }
+}
+
+.advanced-filter-wrapper {
+  display: flex;
+  justify-content: center;
+  .input-wrapper {
+    flex: 1 1 auto;
+    input {
+      width: 100%;
+      padding: 10px 10px;
+      margin: 20px 0;
+
+      outline: none;
+      border: 2px solid $operational-filter-input-border-color;
+      border-right: none;
+      border-radius: 4px 0 0 4px;
+
+    }
+  }
+}
+
+.matcher-multi-select-wrapper  {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  height: 100%;
+
+  .matcher-multi-select-btn {
+    border: none;
+    background: none;
+  }
+  .matcher-multi-select {
+    display: none;
+  }
+  .matcher-multi-select.active {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    max-height: 100%;
+    .matcher-multi-select-option {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+    }
+  }
+
+}

@@ -35,6 +35,25 @@ export default function SwaggerUI(opts) {
     docExpansion: "list",
     maxDisplayedTags: null,
     filter: null,
+    advancedFilter: {
+      phrase: "",
+      enabled: false,
+      matcherOptions: {
+        matchCase: true,
+        matchWholeWord: false
+      },
+      matchers: {
+        operations: {
+          isActive: true
+        },
+        tags: {
+          isActive: true
+        },
+        definitions: {
+          isActive: true
+        }
+      }
+    },
     validatorUrl: "https://validator.swagger.io/validator",
     oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
     persistAuthorization: false,
@@ -106,7 +125,8 @@ export default function SwaggerUI(opts) {
       spec: {
         spec: "",
         url: constructorConfig.url
-      }
+      },
+      advancedFilter: constructorConfig.advancedFilter
     }, constructorConfig.initialState)
   }
 

@@ -9,11 +9,12 @@ export default class BaseLayout extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
+    layoutSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired
   }
 
   render() {
-    let {errSelectors, specSelectors, getComponent} = this.props
+    let {errSelectors, specSelectors, getComponent, layoutSelectors} = this.props
 
     let SvgAssets = getComponent("SvgAssets")
     let InfoContainer = getComponent("InfoContainer", true)
@@ -27,7 +28,15 @@ export default class BaseLayout extends React.Component {
     const ServersContainer = getComponent("ServersContainer", true)
     const SchemesContainer = getComponent("SchemesContainer", true)
     const AuthorizeBtnContainer = getComponent("AuthorizeBtnContainer", true)
-    const FilterContainer = getComponent("FilterContainer", true)
+
+    const filter = layoutSelectors.currentFilter()
+    const isNormalFilterEnabled = !(filter === null || filter === false || filter === "false")
+    const FilterContainer = getComponent(
+      isNormalFilterEnabled
+        ? "FilterContainer"
+        : "AdvancedFilter"
+      , true)
+
     let isSwagger2 = specSelectors.isSwagger2()
     let isOAS3 = specSelectors.isOAS3()
 
@@ -36,7 +45,7 @@ export default class BaseLayout extends React.Component {
     const loadingStatus = specSelectors.loadingStatus()
 
     let loadingMessage = null
-  
+
     if(loadingStatus === "loading") {
       loadingMessage = <div className="info">
         <div className="loading-container">
