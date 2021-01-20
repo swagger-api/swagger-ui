@@ -21,5 +21,5 @@ export default (system) => ({
   },
   [UPDATE_MATCHER_ACTIVE]: (state, { payload: { key, isActive } }) => {
     return state.setIn(["matchers", key, "isActive"], isActive)
-  }
+  },
 })

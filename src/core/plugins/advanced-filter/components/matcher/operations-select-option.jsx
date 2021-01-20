@@ -13,8 +13,8 @@ export const MatcherSelectOption = ({ matcherKey, label, advancedFilterActions, 
   }
   return (
     <div onClick={onClick} className="matcher-multi-select-option">
-        <input type="checkbox" value={matcherKey} defaultChecked={isActive}/>
-        {label}
+      <input type="checkbox" value={matcherKey} defaultChecked={isActive} />
+      {label}
     </div>
   )
 }
@@ -22,13 +22,13 @@ MatcherSelectOption.propTypes = {
   advancedFilterActions: PropTypes.object,
   advancedFilterSelectors: PropTypes.object,
   label: PropTypes.string.isRequired,
-  matcherKey: PropTypes.string.isRequired
+  matcherKey: PropTypes.string.isRequired,
 }
 
 export const MatcherSelectOption_operations = ({ getComponent, matcherKey }) => {
   const MatcherSelectOption = getComponent("MatcherSelectOption", true)
   return (
-    <MatcherSelectOption matcherKey={matcherKey} label="operation path"/>
+    <MatcherSelectOption matcherKey={matcherKey} label="operation path" />
   )
 }
 MatcherSelectOption_operations.propTypes = {
@@ -40,7 +40,7 @@ MatcherSelectOption_operations.propTypes = {
 export const MatcherSelectOption_tags = ({ getComponent, matcherKey }) => {
   const MatcherSelectOption = getComponent("MatcherSelectOption", true)
   return (
-    <MatcherSelectOption matcherKey={matcherKey} label="tags"/>
+    <MatcherSelectOption matcherKey={matcherKey} label="tags" />
   )
 }
 MatcherSelectOption_tags.propTypes = {
@@ -52,7 +52,7 @@ MatcherSelectOption_tags.propTypes = {
 export const MatcherSelectOption_definitions = ({ getComponent, matcherKey }) => {
   const MatcherSelectOption = getComponent("MatcherSelectOption", true)
   return (
-    <MatcherSelectOption matcherKey={matcherKey} label="Models"/>
+    <MatcherSelectOption matcherKey={matcherKey} label="Models" />
   )
 }
 MatcherSelectOption_definitions.propTypes = {

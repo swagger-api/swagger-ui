@@ -13,7 +13,6 @@ export const getMatcher = (state, key) => {
 }
 
 
-
 export const getMatchersAsComponents = (state) => ({ getComponent }) => {
   const registeredMatcherOptionKeys = state
     .get("matchers", Map())

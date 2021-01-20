@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { updateFilteredSpec } from "../../actions/filtered-spec"
 
 /* eslint-disable camelcase */
 
@@ -38,5 +37,5 @@ MatcherOptionSimpleButton.propTypes = {
   advancedFilterSelectors: PropTypes.object.isRequired,
   text: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  optionKey: PropTypes.string.isRequired
+  optionKey: PropTypes.string.isRequired,
 }

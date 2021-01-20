@@ -7,7 +7,7 @@ export const AdvancedFilterOptions = ({ advancedFilterSelectors, getComponent })
   return (
     <div className="advanced-filter-options-wrapper">
       {matcherOptionComponents}
-      <MatcherMultiSelect/>
+      <MatcherMultiSelect />
     </div>
   )
 }

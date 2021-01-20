@@ -15,7 +15,7 @@ export const applyMatchersToSpec = (phrase, system) => {
     ? {}
     : isFunc(spec.toJS)
       ? spec.toJS()
-      : spec)
+      : spec),
   )
   return fromJS(mergedFilteredSpecs)
 }

@@ -4,7 +4,8 @@ import { MatcherOption_matchWholeWord } from "./matcher-options/matcher-option_m
 import { AdvancedFilter } from "./advanced-filter"
 import { MatcherOptionSimpleButton } from "./matcher-options/matcher-option-simple-button"
 import {
-  MatcherSelectOption, MatcherSelectOption_definitions,
+  MatcherSelectOption,
+  MatcherSelectOption_definitions,
   MatcherSelectOption_operations,
   MatcherSelectOption_tags,
 } from "./matcher/operations-select-option"

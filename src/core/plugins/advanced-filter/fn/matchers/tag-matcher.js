@@ -4,6 +4,7 @@ const escapeRegExp = (string) => {
   return string.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&") // $& means the whole matched string
 }
 /* eslint-disable camelcase */
+/* eslint-disable no-useless-escape */
 
 export const advancedFilterMatcher_tags = (spec, options, phrase, { specSelectors }) => {
   const isOAS3 = specSelectors.isOAS3()
@@ -14,8 +15,8 @@ export const advancedFilterMatcher_tags = (spec, options, phrase, { specSelector
     ? ["components", "schemas"]
     : ["definitions"]
   const partialSpecResult = fromJS(isOAS3
-    ? { paths: {}, tags: [], components: { schemas: {}}}
-    : { paths: {}, tags: [], definitions: {}})
+    ? { paths: {}, tags: [], components: { schemas: {} } }
+    : { paths: {}, tags: [], definitions: {} })
   const nameMatcher = new RegExp(`(?<=${schemaPathBaseRegex}).*?(?=(?=\/)|$)`)
 
   phrase = escapeRegExp(phrase)
@@ -33,7 +34,7 @@ export const advancedFilterMatcher_tags = (spec, options, phrase, { specSelector
   if (expr) {
     const filteredPaths = (spec.get("paths") || Map())
       .map(path => path
-        .filter(op => op.get("tags").filter(tag => expr.test(tag)).count() > 0)
+        .filter(op => op.get("tags").filter(tag => expr.test(tag)).count() > 0),
       )
       .filter(method => method.count() > 0)
     const filteredTags = filteredPaths

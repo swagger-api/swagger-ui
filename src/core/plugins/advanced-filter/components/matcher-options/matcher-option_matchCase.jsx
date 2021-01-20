@@ -6,7 +6,7 @@ import PropTypes from "prop-types"
 export const MatcherOption_matchCase = ({ optionKey, getComponent }) => {
   const MatcherOptionSimpleButton = getComponent("MatcherOptionSimpleButton", true)
   return (
-    <MatcherOptionSimpleButton title="Match Case" text="Aa" optionKey={optionKey}/>
+    <MatcherOptionSimpleButton title="Match Case" text="Aa" optionKey={optionKey} />
   )
 }
 

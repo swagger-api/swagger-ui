@@ -6,7 +6,7 @@ import PropTypes from "prop-types"
 export const MatcherOption_matchWholeWord = ({ optionKey, getComponent }) => {
   const MatcherOptionSimpleButton = getComponent("MatcherOptionSimpleButton", true)
   return (
-    <MatcherOptionSimpleButton title="Match Whole Word" text="W" optionKey={optionKey}/>
+    <MatcherOptionSimpleButton title="Match Whole Word" text="W" optionKey={optionKey} />
   )
 }
 MatcherOption_matchWholeWord.propTypes = {

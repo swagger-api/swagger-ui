@@ -6,7 +6,7 @@ const escapeRegExp = (string) => {
 /* eslint-disable camelcase */
 /* eslint-disable no-useless-escape */
 
-export const advancedFilterMatcher_operations = (spec, options, phrase, {specSelectors}) => {
+export const advancedFilterMatcher_operations = (spec, options, phrase, { specSelectors }) => {
   const isOAS3 = specSelectors.isOAS3()
   const schemaPathBaseRegex = isOAS3
     ? "\\/components\\/schemas\\/"
@@ -15,8 +15,8 @@ export const advancedFilterMatcher_operations = (spec, options, phrase, {specSel
     ? ["components", "schemas"]
     : ["definitions"]
   const partialSpecResult = fromJS(isOAS3
-    ? { paths: {}, tags: [], components: { schemas: {}}}
-    : { paths: {}, tags: [], definitions: {}})
+    ? { paths: {}, tags: [], components: { schemas: {} } }
+    : { paths: {}, tags: [], definitions: {} })
   const nameMatcher = new RegExp(`(?<=${schemaPathBaseRegex}).*?(?=(?=\/)|$)`)
 
   phrase = escapeRegExp(phrase)

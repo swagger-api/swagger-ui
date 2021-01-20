@@ -5,14 +5,14 @@ const escapeRegExp = (string) => {
 }
 /* eslint-disable camelcase */
 
-export const advancedFilterMatcher_definitions = (spec, options, phrase, {specSelectors}) => {
+export const advancedFilterMatcher_definitions = (spec, options, phrase, { specSelectors }) => {
   const isOAS3 = specSelectors.isOAS3()
   const schemaPathBase = isOAS3
     ? ["components", "schemas"]
     : ["definitions"]
   const partialSpecResult = fromJS(isOAS3
-    ? { components: { schemas: {}}}
-    : { definitions: {}})
+    ? { components: { schemas: {} } }
+    : { definitions: {} })
 
   phrase = escapeRegExp(phrase)
   let expr

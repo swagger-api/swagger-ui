@@ -9,9 +9,10 @@ export class MatcherMultiSelect extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showSelect: false
+      showSelect: false,
     }
   }
+
   onClick = () => {
     this.setState({ showSelect: !this.state.showSelect })
   }
@@ -21,7 +22,7 @@ export class MatcherMultiSelect extends React.Component {
 
     const classNames = ["matcher-multi-select"]
     const btnClassNames = ["matcher-multi-select-btn"]
-    if(this.state.showSelect) {
+    if (this.state.showSelect) {
       classNames.push("active")
       btnClassNames.push("active")
     }
@@ -29,11 +30,12 @@ export class MatcherMultiSelect extends React.Component {
       <div className="matcher-multi-select-wrapper">
         <button
           className={btnClassNames.join(" ")}
-          title={this.state.showSelect ? "Collapse matchers": "Expand matchers"}
+          title={this.state.showSelect ? "Collapse matchers" : "Expand matchers"}
           onClick={this.onClick}>
 
           <svg className="arrow" width="20" height="20">
-            <use href={this.state.showSelect ? "#large-arrow" : "#large-arrow-down"} xlinkHref={this.state.showSelect ? "#large-arrow" : "#large-arrow-down"} />
+            <use href={this.state.showSelect ? "#large-arrow" : "#large-arrow-down"}
+                 xlinkHref={this.state.showSelect ? "#large-arrow" : "#large-arrow-down"} />
           </svg>
         </button>
         <div className={classNames.join(" ")}>
