@@ -1,7 +1,5 @@
-import { UPDATE_PHRASE } from "../actions/phrase"
-import { UPDATE_MATCHER_OPTION } from "../actions/matcher-options"
-import { UPDATE_FILTERED_SPEC } from "../actions/filtered-spec"
-import { UPDATE_MATCHER_ACTIVE } from "../actions/matcher"
+import { UPDATE_FILTERED_SPEC, UPDATE_MATCHER_ACTIVE, UPDATE_MATCHER_OPTION, UPDATE_PHRASE } from "./actions"
+
 
 export default (system) => ({
   [UPDATE_MATCHER_OPTION]: (state, { payload: { key, newOption } }) => {

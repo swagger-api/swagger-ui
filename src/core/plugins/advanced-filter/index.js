@@ -1,12 +1,12 @@
 import components from "./components"
-import selectors from "./selectors"
+import * as selectors from "./selectors"
 import makeReducers from "./reducers"
-import actions from "./actions"
-import fn from "./fn"
+import * as actions from "./actions"
+import * as fn from "./fn"
 import { definitions, taggedOperations } from "../spec/selectors"
 
-export default (system) => {
-  const t = ({
+export default (system) =>
+  ({
     components,
     fn,
     statePlugins: {
@@ -40,5 +40,3 @@ export default (system) => {
     },
 
   })
-  return t
-}
