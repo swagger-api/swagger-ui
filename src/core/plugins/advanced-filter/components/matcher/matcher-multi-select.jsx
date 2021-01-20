@@ -28,19 +28,19 @@ export class MatcherMultiSelect extends React.Component {
     }
     return (
       <div className="matcher-multi-select-wrapper">
+        <div className={classNames.join(" ")}>
+          {matcherSelectOptionComponents}
+        </div>
         <button
           className={btnClassNames.join(" ")}
           title={this.state.showSelect ? "Collapse matchers" : "Expand matchers"}
           onClick={this.onClick}>
 
-          <svg className="arrow" width="20" height="20">
-            <use href={this.state.showSelect ? "#large-arrow" : "#large-arrow-down"}
-                 xlinkHref={this.state.showSelect ? "#large-arrow" : "#large-arrow-down"} />
+          <svg className="arrow" width="20" height="20" transform={this.state.showSelect ? "rotate(180)" : "rotate(0)"}>
+            <use href="#large-arrow"
+                 xlinkHref="#large-arrow" />
           </svg>
         </button>
-        <div className={classNames.join(" ")}>
-          {matcherSelectOptionComponents}
-        </div>
       </div>
     )
   }
