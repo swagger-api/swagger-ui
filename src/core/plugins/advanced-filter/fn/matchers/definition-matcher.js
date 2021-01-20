@@ -5,27 +5,15 @@ const escapeRegExp = (string) => {
 }
 /* eslint-disable camelcase */
 
-export const advancedFilterMatcher_definitions = (spec, options, phrase, { specSelectors }) => {
+export const advancedFilterMatcher_definitions = (spec, options, phrase, { fn, specSelectors }) => {
   const isOAS3 = specSelectors.isOAS3()
-  const schemaPathBase = isOAS3
-    ? ["components", "schemas"]
-    : ["definitions"]
+  const { schemaPathBase } = fn.schemaPathBase(specSelectors)
+
   const partialSpecResult = fromJS(isOAS3
     ? { components: { schemas: {} } }
     : { definitions: {} })
 
-  phrase = escapeRegExp(phrase)
-  let expr
-  try {
-    expr = new RegExp(
-      options.get("matchWholeWord")
-        ? `\\b${phrase}\\b`
-        : phrase,
-      !options.get("matchCase") ? "i" : "",
-    )
-  } catch {
-    // TODO: add errors to state
-  }
+  const expr = fn.getRegularFilterExpr(options, escapeRegExp(phrase))
   if (expr) {
     const filteredSchemas = spec
       .getIn(schemaPathBase)
