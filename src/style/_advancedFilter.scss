@@ -1,13 +1,13 @@
 .advanced-filter-options-wrapper {
   background: white;
   border: 2px solid $operational-filter-input-border-color;
-  border-left: none;
   border-radius: 0 4px 4px 0;
   margin: 20px 0;
-  justify-items: center;
+  justify-content: center;
   display: flex;
-  * {
-    margin-right: 5px;
+  flex: 0 1 0;
+  > * {
+    margin-left: 5px;
     align-self: center;
   }
 }
@@ -19,6 +19,7 @@
     flex: 1 1 auto;
     input {
       width: 100%;
+      min-width: 100%;
       padding: 10px 10px;
       margin: 20px 0;
 
@@ -36,6 +37,7 @@
   flex-wrap: nowrap;
   justify-content: center;
   height: 100%;
+  flex: 0 1 0;
 
   .matcher-multi-select-btn {
     border: none;
@@ -45,14 +47,27 @@
     display: none;
   }
   .matcher-multi-select.active {
+    border-left: 2px solid $operational-filter-input-border-color;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
     max-height: 100%;
     .matcher-multi-select-option {
+      flex: 0 1 0;
       display: flex;
       flex-wrap: nowrap;
       justify-content: center;
+      padding-left: 10px;
+      align-items: center;
+      font-family: sans-serif;
+      font-size: 100%;
+      line-height: 1.15;
+      color: #3b4151;
+      margin: 0;
+      font-weight: 400;
+      input {
+        margin-right: 5px;
+      }
     }
   }
 

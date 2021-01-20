@@ -18,9 +18,9 @@ export const AdvancedFilter = ({ advancedFilterSelectors, advancedFilterActions,
   if (isLoading) classNames.push("loading")
 
   return (
-    <div>
-      {isEnabled
-        ? <div className="advanced-filter-wrapper wrapper">
+    isEnabled
+      ? (
+        <div className="advanced-filter-wrapper">
           <div className="input-wrapper">
             <input className={classNames.join(" ")} placeholder="Enter your filter phrase..." type="text"
                    onChange={onFilterChange} value={phrase === true || phrase === "true" ? "" : phrase}
@@ -28,9 +28,9 @@ export const AdvancedFilter = ({ advancedFilterSelectors, advancedFilterActions,
           </div>
           <AdvancedFilterOptions />
         </div>
-        : null
-      }
-    </div>
+      )
+      : null
+
   )
 }
 

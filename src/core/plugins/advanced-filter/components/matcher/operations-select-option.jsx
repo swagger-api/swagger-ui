@@ -6,16 +6,15 @@ import PropTypes from "prop-types"
 export const MatcherSelectOption = ({ matcherKey, label, advancedFilterActions, advancedFilterSelectors }) => {
   const matcherState = advancedFilterSelectors.getMatcher(matcherKey)
   const isActive = matcherState.get("isActive")
-
   const onClick = () => {
     advancedFilterActions.setMatcherIsActive(matcherKey, !isActive)
     advancedFilterActions.updateFilteredSpec()
   }
   return (
-    <div onClick={onClick} className="matcher-multi-select-option">
-      <input type="checkbox" value={matcherKey} defaultChecked={isActive} />
+    <label className="matcher-multi-select-option">
+      <input onClick={onClick} type="checkbox" value={matcherKey} defaultChecked={isActive} />
       {label}
-    </div>
+    </label>
   )
 }
 MatcherSelectOption.propTypes = {
@@ -28,7 +27,7 @@ MatcherSelectOption.propTypes = {
 export const MatcherSelectOption_operations = ({ getComponent, matcherKey }) => {
   const MatcherSelectOption = getComponent("MatcherSelectOption", true)
   return (
-    <MatcherSelectOption matcherKey={matcherKey} label="operation path" />
+    <MatcherSelectOption matcherKey={matcherKey} label="operations" />
   )
 }
 MatcherSelectOption_operations.propTypes = {
@@ -49,14 +48,16 @@ MatcherSelectOption_tags.propTypes = {
   matcherKey: PropTypes.object.isRequired,
 }
 
-export const MatcherSelectOption_definitions = ({ getComponent, matcherKey }) => {
+export const MatcherSelectOption_definitions = ({ getComponent, matcherKey, specSelectors }) => {
   const MatcherSelectOption = getComponent("MatcherSelectOption", true)
+  const isOAS3 = specSelectors.isOAS3()
   return (
-    <MatcherSelectOption matcherKey={matcherKey} label="Models" />
+    <MatcherSelectOption matcherKey={matcherKey} label={isOAS3 ? "schemas" : "models"} />
   )
 }
 MatcherSelectOption_definitions.propTypes = {
   getComponent: PropTypes.func.isRequired,
   key: PropTypes.object.isRequired,
   matcherKey: PropTypes.object.isRequired,
+  specSelectors: PropTypes.object.isRequired,
 }

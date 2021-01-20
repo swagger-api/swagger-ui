@@ -30,12 +30,9 @@ export default class BaseLayout extends React.Component {
     const AuthorizeBtnContainer = getComponent("AuthorizeBtnContainer", true)
 
     const filter = layoutSelectors.currentFilter()
-    const isNormalFilterEnabled = !(filter === null || filter === false || filter === "false")
-    const FilterContainer = getComponent(
-      isNormalFilterEnabled
-        ? "FilterContainer"
-        : "AdvancedFilter"
-      , true)
+    const isNormalFilterDisabled = filter === null || filter === false || filter === "false"
+    const FilterContainer = getComponent("FilterContainer", true)
+    const AdvancedFilter = getComponent("AdvancedFilter", true)
 
     let isSwagger2 = specSelectors.isSwagger2()
     let isOAS3 = specSelectors.isOAS3()
@@ -114,8 +111,16 @@ export default class BaseLayout extends React.Component {
                 </Col>
               </div>
             ) : null}
+            {
+              isNormalFilterDisabled
+                ? (
+                  <div className="wrapper">
+                    <AdvancedFilter/>
+                  </div>
+                )
+                : <FilterContainer/>
+            }
 
-            <FilterContainer/>
 
             <Row>
               <Col mobile={12} desktop={12} >
