@@ -25,6 +25,7 @@ import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
 import randomBytes from "randombytes"
 import shaJs from "sha.js"
+import YAML from "js-yaml"
 
 
 const DEFAULT_RESPONSE_KEY = "default"
@@ -581,6 +582,25 @@ const getStringifiedSampleForSchema = (schema, config, contentType, exampleOverr
     : res
 }
 
+const getYamlSampleSchema = (schema, config, contentType, exampleOverride) => {
+  const jsonExample = getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
+  let yamlString
+  try {
+    yamlString = YAML.safeDump(YAML.safeLoad(jsonExample), {
+
+      lineWidth: -1 // don't generate line folds
+    })
+    if(yamlString[yamlString.length - 1] === "\n") {
+      yamlString = yamlString.slice(0, yamlString.length - 1)
+    }
+  } catch (e) {
+    console.error(e)
+    return "error: could not generate yaml example"
+  }
+  return yamlString
+    .replace(/\t/g, "  ")
+}
+
 export const getSampleSchema = (schema, contentType="", config={}, exampleOverride = undefined) => {
   if(schema && isFunc(schema.toJS))
     schema = schema.toJS()
@@ -590,7 +610,9 @@ export const getSampleSchema = (schema, contentType="", config={}, exampleOverri
   if (/xml/.test(contentType)) {
     return getXmlSampleSchema(schema, config, exampleOverride)
   }
-
+  if (/(yaml|yml)/.test(contentType)) {
+    return getYamlSampleSchema(schema, config, contentType, exampleOverride)
+  }
   return getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
 }
 
