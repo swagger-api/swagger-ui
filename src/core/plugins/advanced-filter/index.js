@@ -21,8 +21,9 @@ export default (system) =>
             const { advancedFilterSelectors } = getSystem()
             if (advancedFilterSelectors.isEnabled() && advancedFilterSelectors.getPhrase() !== "") {
               const filteredSpec = advancedFilterSelectors.getFilteredSpec()
-              state = state.set("resolvedSubtrees", filteredSpec)
-              state = state.set("json", filteredSpec)
+              state
+                .set("resolvedSubtrees", filteredSpec)
+                .set("json", filteredSpec)
             }
             return taggedOperations(state)(getSystem())
           },
@@ -30,8 +31,9 @@ export default (system) =>
             const { advancedFilterSelectors } = getSystem()
             if (advancedFilterSelectors.isEnabled() && advancedFilterSelectors.getPhrase() !== "") {
               const filteredSpec = advancedFilterSelectors.getFilteredSpec()
-              state = state.set("resolvedSubtrees", filteredSpec)
-              state = state.set("json", filteredSpec)
+              state
+                .set("resolvedSubtrees", filteredSpec)
+                .set("json", filteredSpec)
             }
             return definitions(state)
           },

@@ -1,6 +1,4 @@
-import { fromJS, List, Map, Set } from "immutable"
-import assignDeep from "@kyleshockey/object-assign-deep"
-import { isFunc } from "../../utils"
+import { fromJS, List, Map, OrderedMap, Set } from "immutable"
 
 
 const getNameMatcher = ({ fn, specSelectors }) => {
@@ -137,13 +135,7 @@ export const applyMatchersToSpec = (phrase, system) => {
     .keySeq()
     .toArray()
     .map(key => system.fn[`advancedFilterMatcher_${key}`](spec, options, phrase, system))
-  const mergedFilteredSpecs = assignDeep({}, ...filteredSpecs.map(spec => !spec
-    ? {}
-    : isFunc(spec.toJS)
-      ? spec.toJS()
-      : spec),
-  )
-  return fromJS(mergedFilteredSpecs)
+  return OrderedMap().mergeDeep(...filteredSpecs)
 }
 
 export const getRegularFilterExpr = (options, phrase) => {
