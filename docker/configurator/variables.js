@@ -91,6 +91,10 @@ const standardVariables = {
     type: "array",
     name: "supportedSubmitMethods"
   },
+  TRY_IT_OUT_ENABLED: {
+    type: "boolean",
+    name: "tryItOutEnabled"
+  },
   VALIDATOR_URL: {
     type: "string",
     name: "validatorUrl"

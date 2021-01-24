@@ -7,8 +7,9 @@ import { Iterable, fromJS, Map } from "immutable"
 export default class OperationContainer extends PureComponent {
   constructor(props, context) {
     super(props, context)
+  
     this.state = {
-      tryItOutEnabled: false,
+      tryItOutEnabled: props.getConfigs().tryItOutEnabled,
       executeInProgress: false
     }
   }

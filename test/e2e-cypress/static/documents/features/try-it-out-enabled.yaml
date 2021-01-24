@@ -1,0 +1,13 @@
+openapi: 3.0.2
+info:
+  title: try it out enabled test
+  version: 0.0.1
+  description: |-
+    a simple test to ensure tryItOutEnabled=true expands "Try it out"
+paths:
+  /:
+    get:
+      summary: an operation
+      responses:
+        "200":
+          description: OK
