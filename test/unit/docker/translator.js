@@ -301,7 +301,7 @@ describe("docker: env translator", function() {
         OAUTH2_REDIRECT_URL: "http://google.com/",
         SHOW_MUTATED_REQUEST: "true",
         SUPPORTED_SUBMIT_METHODS: `["get", "post"]`,
-        TRY_IT_OUT_ENABLED: "true",
+        TRY_IT_OUT_ENABLED: "false",
         VALIDATOR_URL: "http://smartbear.com/"
       }
 
