@@ -525,7 +525,7 @@ export const isMediaTypeSchemaPropertiesEqual = ( state, pathMethod, currentMedi
   }
   let currentMediaTypeSchemaProperties = requestBodyContent.getIn([currentMediaType, "schema", "properties"], fromJS([]))
   let targetMediaTypeSchemaProperties = requestBodyContent.getIn([targetMediaType, "schema", "properties"], fromJS([]))
-  return currentMediaTypeSchemaProperties.equals(targetMediaTypeSchemaProperties) ? true: false
+  return !!currentMediaTypeSchemaProperties.equals(targetMediaTypeSchemaProperties)
 }
 
 function returnSelfOrNewMap(obj) {
