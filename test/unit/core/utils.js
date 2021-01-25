@@ -1581,6 +1581,22 @@ describe("utils", () => {
       const actual = JSON.parse(res)
       expect(actual.test).toEqual(123)
     })
+
+    it("should return yaml example if yaml is contained in the content-type", () => {
+      const res = getSampleSchema({
+        type: "object",
+      }, "text/yaml", {}, {test: 123})
+
+      expect(res).toEqual("test: 123")
+    })
+
+    it("should return yaml example if yml is contained in the content-type", () => {
+      const res = getSampleSchema({
+        type: "object",
+      }, "text/yml", {}, {test: 123})
+
+      expect(res).toEqual("test: 123")
+    })
   })
 
   describe("paramToIdentifier", () => {
