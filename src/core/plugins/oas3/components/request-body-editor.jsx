@@ -17,6 +17,7 @@ export default class RequestBodyEditor extends PureComponent {
 
   static defaultProps = {
     onChange: NOOP,
+    userHasEditedBody: false,
   };
 
   constructor(props, context) {
@@ -65,7 +66,7 @@ export default class RequestBodyEditor extends PureComponent {
       })
     }
 
-    
+
 
     if(!nextProps.value && nextProps.defaultValue && !!this.state.value) {
       // if new value is falsy, we have a default, AND the falsy value didn't
@@ -77,7 +78,7 @@ export default class RequestBodyEditor extends PureComponent {
   render() {
     let {
       getComponent,
-      errors
+      errors,
     } = this.props
 
     let {

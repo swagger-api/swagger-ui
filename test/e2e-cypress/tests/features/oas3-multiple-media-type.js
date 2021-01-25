@@ -22,13 +22,17 @@ describe("OpenAPI 3.0 Multiple Media Types with different schemas", () => {
     cy.get(".opblock-section-request-body .content-type").as("selectMediaType")
   })
 
-  // In all cases, 
+  // In all cases,
   // - assume that examples are populated based on schema (not explicitly tested)
   // - assume validation passes based on successful "execute"
   // - expect final cURL command result doees not contain unexpected artifacts from other content-type schemas
   describe("multipart/form-data (only 'bar')", () => {
     it("should execute multipart/form-data", () => {
       cy.get("@selectMediaType")
+        .select(mediaTypeUrlencoded)
+        .get("@executeBtn")
+        .click()
+        .get("@selectMediaType")
         .select(mediaTypeFormData)
         .get("@executeBtn")
         .click()
