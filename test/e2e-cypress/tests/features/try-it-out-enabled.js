@@ -1,5 +1,5 @@
 describe("Try it out enabled configuration", () => {
-    it("should provide correct initial values for objects and arrays", () => {
+    it("should enable the try it out section when true", () => {
 
       cy
         .visit("?tryItOutEnabled=true&url=/documents/features/try-it-out-enabled.yaml")
@@ -8,5 +8,15 @@ describe("Try it out enabled configuration", () => {
         .get(".try-out__btn")
         .should("have.text","Cancel")
     })
+
+    it("should disable the try it out section when false", () => {
+
+        cy
+          .visit("?tryItOutEnabled=false&url=/documents/features/try-it-out-enabled.yaml")
+          .get("#operations-default-get_")
+          .click()
+          .get(".try-out__btn")
+          .should("have.text","Try it out ")
+      })
   })
   
