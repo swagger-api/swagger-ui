@@ -75,30 +75,29 @@ export default class Parameters extends Component {
   }
 
   onChangeMediaType = ({ value, pathMethod }) => {
-    let { specSelectors, specActions, oas3Selectors, oas3Actions } = this.props
-    let targetMediaType = value
-    let currentMediaType = oas3Selectors.requestContentType(...pathMethod)
-    let schemaPropertiesMatch = specSelectors.isMediaTypeSchemaPropertiesEqual(pathMethod, currentMediaType, targetMediaType)
-    if (!schemaPropertiesMatch) {
-      oas3Actions.clearRequestBodyValue({ pathMethod })
+    let { specActions, oas3Selectors, oas3Actions } = this.props
+    const userHasEditedBody = oas3Selectors.hasUserEditedBody(...pathMethod)
+    const shouldRetainRequestBodyValue = oas3Selectors.shouldRetainRequestBodyValue(...pathMethod)
+    oas3Actions.setRequestContentType({ value, pathMethod })
+    oas3Actions.initRequestBodyValidateError({ pathMethod })
+    if (!userHasEditedBody) {
+      if(!shouldRetainRequestBodyValue) {
+        oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })
+      }
       specActions.clearResponse(...pathMethod)
       specActions.clearRequest(...pathMethod)
       specActions.clearValidateParams(pathMethod)
     }
-    oas3Actions.setRequestContentType({ value, pathMethod })
-    oas3Actions.initRequestBodyValidateError({ pathMethod })
   }
 
   render() {
 
     let {
       onTryoutClick,
-      onCancelClick,
       parameters,
       allowTryItOut,
       tryItOutEnabled,
       specPath,
-
       fn,
       getComponent,
       getConfigs,
@@ -131,6 +130,7 @@ export default class Parameters extends Component {
       }, {}))
       .reduce((acc, x) => acc.concat(x), [])
 
+    const retainRequestBodyValueFlagForOperation = (f) => oas3Actions.setRetainRequestBodyValueFlag({ value: f, pathMethod })
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
@@ -155,7 +155,13 @@ export default class Parameters extends Component {
             </div>
           )}
           {allowTryItOut ? (
-            <TryItOutButton enabled={tryItOutEnabled} onCancelClick={onCancelClick} onTryoutClick={onTryoutClick} />
+            <TryItOutButton
+              isOAS3={specSelectors.isOAS3()}
+              hasUserEditedBody={oas3Selectors.hasUserEditedBody(...pathMethod)}
+              enabled={tryItOutEnabled}
+              onCancelClick={this.props.onCancelClick}
+              onTryoutClick={onTryoutClick}
+              onResetClick={() => oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })}/>
           ) : null}
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
@@ -219,6 +225,8 @@ export default class Parameters extends Component {
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
+                setRetainRequestBodyValueFlag={retainRequestBodyValueFlagForOperation}
+                userHasEditedBody={oas3Selectors.hasUserEditedBody(...pathMethod)}
                 specPath={specPath.slice(0, -1).push("requestBody")}
                 requestBody={requestBody}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
