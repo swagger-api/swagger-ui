@@ -4,7 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify, isEmptyValue } from "core/utils"
 
-function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
+export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType])
   const schema = mediaTypeValue.get("schema").toJS()
 
@@ -32,6 +32,7 @@ function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
 
 
 const RequestBody = ({
+  userHasEditedBody,
   requestBody,
   requestBodyValue,
   requestBodyInclusionSetting,
@@ -47,6 +48,7 @@ const RequestBody = ({
   onChangeIncludeEmpty,
   activeExamplesKey,
   updateActiveExamplesKey,
+  setRetainRequestBodyValueFlag
 }) => {
   const handleFile = (e) => {
     onChange(e.target.files[0])
@@ -222,6 +224,7 @@ const RequestBody = ({
     {
       examplesForMediaType ? (
         <ExamplesSelectValueRetainer
+            userHasEditedBody={userHasEditedBody}
             examples={examplesForMediaType}
             currentKey={activeExamplesKey}
             currentUserInputValue={requestBodyValue}
@@ -229,6 +232,7 @@ const RequestBody = ({
             updateValue={onChange}
             defaultToFirstExample={true}
             getComponent={getComponent}
+            setRetainRequestBodyValueFlag={setRetainRequestBodyValueFlag}
           />
       ) : null
     }
@@ -276,6 +280,7 @@ const RequestBody = ({
 }
 
 RequestBody.propTypes = {
+  userHasEditedBody: PropTypes.bool.isRequired,
   requestBody: ImPropTypes.orderedMap.isRequired,
   requestBodyValue: ImPropTypes.orderedMap.isRequired,
   requestBodyInclusionSetting: ImPropTypes.Map.isRequired,
@@ -291,6 +296,8 @@ RequestBody.propTypes = {
   specPath: PropTypes.array.isRequired,
   activeExamplesKey: PropTypes.string,
   updateActiveExamplesKey: PropTypes.func,
+  setRetainRequestBodyValueFlag: PropTypes.func,
+  oas3Actions: PropTypes.object.isRequired
 }
 
 export default RequestBody
