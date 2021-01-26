@@ -63,7 +63,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     scopesArray = scopes.toArray()
   }
 
-  if (scopesArray.length > 0)  {
+  if (scopesArray.length > 0) {
     let scopeSeparator = authConfigs.scopeSeparator || " "
 
     query.push("scope=" + encodeURIComponent(scopesArray.join(scopeSeparator)))

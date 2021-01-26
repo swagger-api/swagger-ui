@@ -113,6 +113,12 @@ An array of functions that augment and modify Swagger UI's functionality. See Sw
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `tryItOutEnabled`: PropTypes.bool
+
+Controls whether the "Try it out" section should start enabled. The default is false.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 ## Limitations
 
 * Not all configuration bindings are available.
