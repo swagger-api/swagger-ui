@@ -11,7 +11,7 @@ export default class OperationContainer extends PureComponent {
     const { tryItOutEnabled } = props.getConfigs()
 
     this.state = {
-      tryItOutEnabled: tryItOutEnabled && tryItOutEnabled !== "false",
+      tryItOutEnabled: tryItOutEnabled === true || tryItOutEnabled === "true",
       executeInProgress: false
     }
   }
