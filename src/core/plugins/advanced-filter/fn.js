@@ -81,7 +81,7 @@ export const advancedFilterMatcher_definitions = (spec, options, phrase, { fn, s
   }
   return partialSpecResult
 }
-export const getMatchedOperationsSpec = (operationFilterPredicate, spec, options, phrase, { fn, specSelectors, getSystem }) => {
+export const getMatchedOperationsSpec = (operationFilterPredicate, spec, { fn, specSelectors, getSystem }) => {
   const system = getSystem()
   const isOAS3 = specSelectors.isOAS3()
   const { schemaPathBase } = fn.schemaPathBase(specSelectors)
@@ -106,7 +106,7 @@ export const advancedFilterMatcher_operations = (spec, options, phrase, { getSys
   if (expr) {
     return system.fn.getMatchedOperationsSpec(
       (ops) => ops.filter((path, pathName) => expr.test(pathName)),
-      spec, options, phrase, system,
+      spec, system,
     )
   }
 }
@@ -119,7 +119,7 @@ export const advancedFilterMatcher_tags = (spec, options, phrase, { getSystem })
       (ops) => ops.map(path => path
         .filter(op => op.get("tags").filter(tag => expr.test(tag)).count() > 0),
       ),
-      spec, options, phrase, system,
+      spec, system,
     )
   }
 }
