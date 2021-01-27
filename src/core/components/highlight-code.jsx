@@ -39,7 +39,7 @@ export default class HighlightCode extends Component {
   }
 
   render () {
-    let { value, className, downloadable, getConfigs, canCopy } = this.props
+    let { value, className, downloadable, getConfigs, canCopy, language } = this.props
 
     const config = getConfigs ? getConfigs() : {syntaxHighlight: {activated: true, theme: "agate"}}
 
@@ -47,6 +47,7 @@ export default class HighlightCode extends Component {
 
     const codeBlock = get(config, "syntaxHighlight.activated")
       ? <SyntaxHighlighter
+          language
           className={className + " microlight"}
           onWheel={this.preventYScrollingBeyondElement}
           style={getStyle(get(config, "syntaxHighlight.theme"))}
