@@ -12,6 +12,7 @@ export default class HighlightCode extends Component {
     className: PropTypes.string,
     downloadable: PropTypes.bool,
     fileName: PropTypes.string,
+    language: PropTypes.string,
     canCopy: PropTypes.bool
   }
 
@@ -47,7 +48,7 @@ export default class HighlightCode extends Component {
 
     const codeBlock = get(config, "syntaxHighlight.activated")
       ? <SyntaxHighlighter
-          language
+          language={language}
           className={className + " microlight"}
           onWheel={this.preventYScrollingBeyondElement}
           style={getStyle(get(config, "syntaxHighlight.theme"))}
