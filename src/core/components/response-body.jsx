@@ -102,7 +102,7 @@ export default class ResponseBody extends React.PureComponent {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode language downloadable fileName={`${downloadName}.json`} value={ body } getConfigs={ getConfigs } canCopy />
+      bodyEl = <HighlightCode language={language} downloadable fileName={`${downloadName}.json`} value={ body } getConfigs={ getConfigs } canCopy />
 
       // XML
     } else if (/xml/i.test(contentType)) {
