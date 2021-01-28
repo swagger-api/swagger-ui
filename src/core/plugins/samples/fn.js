@@ -203,8 +203,12 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
     // if json just return
     if(!respectXML) {
+      // spacial case yaml parser can not know about
+      if(typeof sample === "number" && type === "string") {
+        return `${sample}`
+      }
       // return if sample does not need any parsing
-      if(typeof sample !== "string") {
+      if(typeof sample !== "string" || type === "string") {
         return sample
       }
       // check if sample is parsable or just a plain string
