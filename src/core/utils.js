@@ -385,6 +385,18 @@ export const validateMaxLength = (val, max) => {
   }
 }
 
+export const validateMinItems = (val, min) => {
+  if (!val && min >= 1 || val && (val.length || val.size) < min) {
+      return `Array must contain at least ${min} item${min === 1 ? "" : "s"}`
+  }
+}
+
+export const validateMaxItems = (val, max) => {
+  if (val && (val.length || val.size) > max) {
+    return `Array must not contain more then ${max} item${max === 1 ? "" : "s"}`
+  }
+}
+
 export const validateMinLength = (val, min) => {
   if (val.length < min) {
       return `Value must be at least ${min} character${min !== 1 ? "s" : ""}`
@@ -416,6 +428,8 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
   let format = paramDetails.get("format")
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
+  let maxItems = paramDetails.get("maxItems")
+  let minItems = paramDetails.get("minItems")
   let pattern = paramDetails.get("pattern")
 
   /*
@@ -423,7 +437,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     then we should do our validation routine.
     Only bother validating the parameter if the type was specified.
   */
-  if ( type && (paramRequired || required || value) ) {
+  if ( type && (paramRequired || required || value || type === "array" && !value) ) {
     // These checks should evaluate to true if there is a parameter
     let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
@@ -465,6 +479,20 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     if (pattern) {
       let err = validatePattern(value, pattern)
       if (err) errors.push(err)
+    }
+
+    if(minItems) {
+      if(type === "array") {
+        let err = validateMinItems(value, minItems)
+        if (err) errors.push(err)
+      }
+    }
+
+    if(maxItems) {
+      if(type === "array") {
+        let err = validateMaxItems(value, maxItems)
+        if (err) errors.push(err)
+      }
     }
 
     if (maxLength || maxLength === 0) {
