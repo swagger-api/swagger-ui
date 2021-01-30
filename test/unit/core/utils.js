@@ -1582,6 +1582,42 @@ describe("utils", () => {
       expect(actual.test).toEqual(123)
     })
 
+    it("should handle number example with string schema as string", () => {
+      // Given
+      const expected = 123
+      const res = getSampleSchema({
+        type: "string",
+      }, "text/json", {}, expected)
+
+      // Then
+      const actual = JSON.parse(res)
+      expect(actual).toEqual("123")
+    })
+
+    it("should handle number literal example with string schema as string", () => {
+      // Given
+      const expected = "123"
+      const res = getSampleSchema({
+        type: "string",
+      }, "text/json", {}, expected)
+
+      // Then
+      const actual = JSON.parse(res)
+      expect(actual).toEqual("123")
+    })
+
+    it("should handle number literal example with number schema as number", () => {
+      // Given
+      const expected = "123"
+      const res = getSampleSchema({
+        type: "number",
+      }, "text/json", {}, expected)
+
+      // Then
+      const actual = JSON.parse(res)
+      expect(actual).toEqual(123)
+    })
+
     it("should return yaml example if yaml is contained in the content-type", () => {
       const res = getSampleSchema({
         type: "object",
