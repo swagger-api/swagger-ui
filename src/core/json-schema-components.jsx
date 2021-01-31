@@ -345,6 +345,31 @@ export class JsonSchema_boolean extends Component {
   }
 }
 
+const stringifyObjectErrors = (errors) => {
+  return errors.map(err => {
+    const meta = err.propKey !== undefined ? err.propKey : err.index
+    let stringError = typeof err === "string" ? err : typeof err.error === "string" ? err.error : null
+
+    if(!meta && stringError) {
+      return stringError
+    }
+    let currentError = err.error
+    let path = `/${err.propKey}`
+    while(typeof currentError === "object") {
+      const part = currentError.propKey !== undefined ? currentError.propKey : currentError.index
+      if(part === undefined) {
+        break
+      }
+      path += `/${part}`
+      if (!currentError.error) {
+        break
+      }
+      currentError = currentError.error
+    }
+    return `${path}: ${currentError}`
+  })
+}
+
 export class JsonSchema_object extends PureComponent {
   constructor() {
     super()
@@ -372,18 +397,18 @@ export class JsonSchema_object extends PureComponent {
     } = this.props
 
     const TextArea = getComponent("TextArea")
+    errors = errors.toJS ? errors.toJS() : Array.isArray(errors) ? errors : []
 
     return (
       <div>
         <TextArea
-          className={cx({ invalid: errors.size })}
-          title={ errors.size ? errors.join(", ") : ""}
+          className={cx({ invalid: errors.length })}
+          title={ errors.length ? stringifyObjectErrors(errors).join(", ") : ""}
           value={stringify(value)}
           disabled={disabled}
           onChange={ this.handleOnChange }/>
       </div>
     )
-
   }
 }
 

@@ -453,7 +453,7 @@ function validateValueBySchema(value, schema, isParamRequired, bypassRequiredChe
     Only bother validating the parameter if the type was specified.
     in case of array an empty value needs validation too because constrains can be set to require minItems
   */
-  if (type && (isParamRequired || required || value || type === "array" && !value)) {
+  if (type && (isParamRequired || required || value !== undefined || type === "array")) {
     // These checks should evaluate to true if there is a parameter
     let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
@@ -477,18 +477,33 @@ function validateValueBySchema(value, schema, isParamRequired, bypassRequiredChe
       errors.push("Required field is not provided")
       return errors
     }
-
     if (
       type === "object" &&
-      typeof value === "string" &&
       (parameterContentMediaType === null ||
         parameterContentMediaType === "application/json")
     ) {
-      try {
-        JSON.parse(value)
-      } catch (e) {
-        errors.push("Parameter string value must be valid JSON")
-        return errors
+      let objectVal = value
+      if(typeof value === "string") {
+        try {
+          objectVal = JSON.parse(value)
+        } catch (e) {
+          errors.push("Parameter string value must be valid JSON")
+          return errors
+        }
+      }
+      if(schema && schema.has("required") && isFunc(required.isList) && required.isList()) {
+        required.forEach(key => {
+          if(objectVal[key] === undefined) {
+            errors.push({ propKey: key, error: "Required property not found" })
+          }
+        })
+      }
+      if(schema && schema.has("properties")) {
+        schema.get("properties").forEach((val, key) => {
+          const errs = validateValueBySchema(objectVal[key], val, false, bypassRequiredCheck, parameterContentMediaType)
+          errors.push(...errs
+            .map((error) => ({ propKey: key, error })))
+        })
       }
     }
 
