@@ -170,7 +170,10 @@ export class JsonSchema_array extends PureComponent {
   render() {
     let { getComponent, required, schema, errors, fn, disabled } = this.props
 
-    errors = errors.toJS ? errors.toJS() : []
+    errors = errors.toJS ? errors.toJS() : Array.isArray(errors) ? errors : []
+    const arrayErrors = errors.filter(e => typeof e === "string")
+    const needsRemoveError = errors.filter(e => e.needRemove !== undefined)
+      .map(e => e.error)
     const value = this.state.value // expect Im List
     const shouldRenderValue =
       value && value.count && value.count() > 0 ? true : false
@@ -209,10 +212,10 @@ export class JsonSchema_array extends PureComponent {
       <div className="json-schema-array">
         {shouldRenderValue ?
           (value.map((item, i) => {
-            if (errors.length) {
-              let err = errors.filter((err) => err.index === i)
-              if (err.length) errors = [err[0].error + i]
-            }
+            const itemErrors = fromJS([
+              ...errors.filter((err) => err.index === i)
+              .map(e => e.error)
+            ])
             return (
               <div key={i} className="json-schema-form-item">
                 {
@@ -221,7 +224,7 @@ export class JsonSchema_array extends PureComponent {
                     value={item}
                     onChange={(val)=> this.onItemChange(val, i)}
                     disabled={disabled}
-                    errors={errors}
+                    errors={itemErrors}
                     getComponent={getComponent}
                     />
                     : isArrayItemText ?
@@ -229,13 +232,13 @@ export class JsonSchema_array extends PureComponent {
                         value={item}
                         onChange={(val) => this.onItemChange(val, i)}
                         disabled={disabled}
-                        errors={errors}
+                        errors={itemErrors}
                       />
                       : <ArrayItemsComponent {...this.props}
                         value={item}
                         onChange={(val) => this.onItemChange(val, i)}
                         disabled={disabled}
-                        errors={errors}
+                        errors={itemErrors}
                         schema={schemaItemsSchema}
                         getComponent={getComponent}
                         fn={fn}
@@ -243,7 +246,9 @@ export class JsonSchema_array extends PureComponent {
                 }
                 {!disabled ? (
                   <Button
-                    className="btn btn-sm json-schema-form-item-remove"
+                    className={`btn btn-sm json-schema-form-item-remove ${needsRemoveError.length ? "invalid" : null}`}
+                    title={needsRemoveError.length ? needsRemoveError : ""}
+
                     onClick={() => this.removeItem(i)}
                   > - </Button>
                 ) : null}
@@ -254,7 +259,8 @@ export class JsonSchema_array extends PureComponent {
         }
         {!disabled ? (
           <Button
-            className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`}
+            className={`btn btn-sm json-schema-form-item-add ${arrayErrors.length ? "invalid" : null}`}
+            title={arrayErrors.length ? arrayErrors : ""}
             onClick={this.addItem}
           >
             Add item
