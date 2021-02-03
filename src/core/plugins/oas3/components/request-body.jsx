@@ -133,7 +133,7 @@ const RequestBody = ({
       <table>
         <tbody>
           {
-             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
+            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
               if (prop.get("readOnly")) return
 
               let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
@@ -143,67 +143,68 @@ const RequestBody = ({
               const description = prop.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
               const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
-
-              let initialValue = prop.get("default") || prop.get("example") || ""
-
-              if (initialValue === "") {
-                if(type === "object") {
-                  initialValue = getSampleSchema(prop, false, {
-                    includeWriteOnly: true
-                  })
-                } else if(type === "array") {
-                  initialValue = []
-                }
+              const included = requestBodyInclusionSetting.get(key) || false
+              let hasNonEmptyInitialVal = prop.has("default") || prop.has("example") || prop.hasIn(["items", "example"]) || prop.hasIn(["items", "default"]) || prop.has("enum") && prop.get("enum").size === 1
+              let initialValue = ""
+              if(type === "array" && !hasNonEmptyInitialVal) {
+                initialValue = []
+              } else if (hasNonEmptyInitialVal) {
+                // TODO: what about example or examples from requestBody could be passed as exampleOverride
+                initialValue = getSampleSchema(prop, false, {
+                  includeWriteOnly: true
+                })
               }
-
               if (typeof initialValue !== "string" && type === "object") {
-                initialValue = stringify(initialValue)
+               initialValue = stringify(initialValue)
+              }
+              if (typeof initialValue === "string" && type === "array") {
+                initialValue = JSON.parse(initialValue)
               }
 
               const isFile = type === "string" && (format === "binary" || format === "base64")
 
               return <tr key={key} className="parameters" data-property-name={key}>
-                <td className="parameters-col_name">
-                        <div className={required ? "parameter__name required" : "parameter__name"}>
-                          { key }
-                          { !required ? null : <span>&nbsp;*</span> }
-                        </div>
-                        <div className="parameter__type">
-                          { type }
-                          { format && <span className="prop-format">(${format})</span>}
-                          {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
-                        </div>
-                        <div className="parameter__deprecated">
-                          { prop.get("deprecated") ? "deprecated": null }
-                        </div>
-                      </td>
-                      <td className="parameters-col_description">
-                        <Markdown source={ description }></Markdown>
-                        {isExecute ? <div>
-                          <JsonSchemaForm
-                            fn={fn}
-                            dispatchInitialValue={!isFile}
-                            schema={prop}
-                            description={key}
-                            getComponent={getComponent}
-                            value={currentValue === undefined ? initialValue : currentValue}
-                            required = { required }
-                            errors = { currentErrors }
-                            onChange={(value) => {
-                              onChange(value, [key])
-                            }}
-                          />
-                          {required ? null : (
-                            <ParameterIncludeEmpty
-                              onChange={(value) => onChangeIncludeEmpty(key, value)}
-                              isIncluded={requestBodyInclusionSetting.get(key) || false}
-                              isIncludedOptions={setIsIncludedOptions(key)}
-                              isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
-                            />
-                          )}
-                        </div> : null }
-                      </td>
-                      </tr>
+              <td className="parameters-col_name">
+                <div className={required ? "parameter__name required" : "parameter__name"}>
+                  { key }
+                  { !required ? null : <span>&nbsp;*</span> }
+                </div>
+                <div className="parameter__type">
+                  { type }
+                  { format && <span className="prop-format">(${format})</span>}
+                  {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
+                </div>
+                <div className="parameter__deprecated">
+                  { prop.get("deprecated") ? "deprecated": null }
+                </div>
+              </td>
+              <td className="parameters-col_description">
+                <Markdown source={ description }></Markdown>
+                {isExecute ? <div>
+                  <JsonSchemaForm
+                    fn={fn}
+                    dispatchInitialValue={!isFile}
+                    schema={prop}
+                    description={key}
+                    getComponent={getComponent}
+                    value={currentValue === undefined ? initialValue : currentValue}
+                    required = { required }
+                    errors = { currentErrors }
+                    onChange={(value) => {
+                      onChange(value, [key])
+                    }}
+                  />
+                  {required ? null : (
+                    <ParameterIncludeEmpty
+                      onChange={(value) => onChangeIncludeEmpty(key, value)}
+                      isIncluded={included}
+                      isIncludedOptions={setIsIncludedOptions(key)}
+                      isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
+                    />
+                  )}
+                </div> : null }
+              </td>
+              </tr>
             })
           }
         </tbody>
