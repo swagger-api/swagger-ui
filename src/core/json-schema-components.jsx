@@ -129,8 +129,9 @@ export class JsonSchema_array extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    if(props.value !== this.state.value)
-      this.setState({ value: props.value })
+    const value = valueOrEmptyList(props.value)
+    if(value !== this.state.value)
+      this.setState({ value })
 
     if(props.schema !== this.state.schema)
       this.setState({ schema: props.schema })
@@ -151,7 +152,7 @@ export class JsonSchema_array extends PureComponent {
       value: value.delete(i)
     }), this.onChange)
   }
- 
+
   addItem = () => {
     let newValue = valueOrEmptyList(this.state.value)
     this.setState(() => ({
@@ -382,5 +383,5 @@ export class JsonSchema_object extends PureComponent {
 }
 
 function valueOrEmptyList(value) {
-  return List.isList(value) ? value : List()
+  return List.isList(value) ? value : Array.isArray(value) ? fromJS(value) : List()
 }
