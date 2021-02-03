@@ -171,7 +171,10 @@ export class JsonSchema_array extends PureComponent {
   render() {
     let { getComponent, required, schema, errors, fn, disabled } = this.props
 
-    errors = errors.toJS ? errors.toJS() : []
+    errors = errors.toJS ? errors.toJS() : Array.isArray(errors) ? errors : []
+    const arrayErrors = errors.filter(e => typeof e === "string")
+    const needsRemoveError = errors.filter(e => e.needRemove !== undefined)
+      .map(e => e.error)
     const value = this.state.value // expect Im List
     const shouldRenderValue =
       value && value.count && value.count() > 0 ? true : false
@@ -210,10 +213,10 @@ export class JsonSchema_array extends PureComponent {
       <div className="json-schema-array">
         {shouldRenderValue ?
           (value.map((item, i) => {
-            if (errors.length) {
-              let err = errors.filter((err) => err.index === i)
-              if (err.length) errors = [err[0].error + i]
-            }
+            const itemErrors = fromJS([
+              ...errors.filter((err) => err.index === i)
+              .map(e => e.error)
+            ])
             return (
               <div key={i} className="json-schema-form-item">
                 {
@@ -222,7 +225,7 @@ export class JsonSchema_array extends PureComponent {
                     value={item}
                     onChange={(val)=> this.onItemChange(val, i)}
                     disabled={disabled}
-                    errors={errors}
+                    errors={itemErrors}
                     getComponent={getComponent}
                     />
                     : isArrayItemText ?
@@ -230,13 +233,13 @@ export class JsonSchema_array extends PureComponent {
                         value={item}
                         onChange={(val) => this.onItemChange(val, i)}
                         disabled={disabled}
-                        errors={errors}
+                        errors={itemErrors}
                       />
                       : <ArrayItemsComponent {...this.props}
                         value={item}
                         onChange={(val) => this.onItemChange(val, i)}
                         disabled={disabled}
-                        errors={errors}
+                        errors={itemErrors}
                         schema={schemaItemsSchema}
                         getComponent={getComponent}
                         fn={fn}
@@ -244,7 +247,9 @@ export class JsonSchema_array extends PureComponent {
                 }
                 {!disabled ? (
                   <Button
-                    className="btn btn-sm json-schema-form-item-remove"
+                    className={`btn btn-sm json-schema-form-item-remove ${needsRemoveError.length ? "invalid" : null}`}
+                    title={needsRemoveError.length ? needsRemoveError : ""}
+
                     onClick={() => this.removeItem(i)}
                   > - </Button>
                 ) : null}
@@ -255,7 +260,8 @@ export class JsonSchema_array extends PureComponent {
         }
         {!disabled ? (
           <Button
-            className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`}
+            className={`btn btn-sm json-schema-form-item-add ${arrayErrors.length ? "invalid" : null}`}
+            title={arrayErrors.length ? arrayErrors : ""}
             onClick={this.addItem}
           >
             Add item
@@ -340,6 +346,31 @@ export class JsonSchema_boolean extends Component {
   }
 }
 
+const stringifyObjectErrors = (errors) => {
+  return errors.map(err => {
+    const meta = err.propKey !== undefined ? err.propKey : err.index
+    let stringError = typeof err === "string" ? err : typeof err.error === "string" ? err.error : null
+
+    if(!meta && stringError) {
+      return stringError
+    }
+    let currentError = err.error
+    let path = `/${err.propKey}`
+    while(typeof currentError === "object") {
+      const part = currentError.propKey !== undefined ? currentError.propKey : currentError.index
+      if(part === undefined) {
+        break
+      }
+      path += `/${part}`
+      if (!currentError.error) {
+        break
+      }
+      currentError = currentError.error
+    }
+    return `${path}: ${currentError}`
+  })
+}
+
 export class JsonSchema_object extends PureComponent {
   constructor() {
     super()
@@ -367,18 +398,18 @@ export class JsonSchema_object extends PureComponent {
     } = this.props
 
     const TextArea = getComponent("TextArea")
+    errors = errors.toJS ? errors.toJS() : Array.isArray(errors) ? errors : []
 
     return (
       <div>
         <TextArea
-          className={cx({ invalid: errors.size })}
-          title={ errors.size ? errors.join(", ") : ""}
+          className={cx({ invalid: errors.length })}
+          title={ errors.length ? stringifyObjectErrors(errors).join(", ") : ""}
           value={stringify(value)}
           disabled={disabled}
           onChange={ this.handleOnChange }/>
       </div>
     )
-
   }
 }
 
