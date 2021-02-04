@@ -23,7 +23,6 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
-import randomBytes from "randombytes"
 import shaJs from "sha.js"
 import YAML from "js-yaml"
 
@@ -894,9 +893,9 @@ export function paramToValue(param, paramValues) {
 
 // adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
 export function generateCodeVerifier() {
-  return b64toB64UrlEncoded(
-    randomBytes(32).toString("base64")
-  )
+  const randomValues = crypto.getRandomValues(new Uint8Array(32))
+  const base64 = btoa(String.fromCharCode(...randomValues))
+  return b64toB64UrlEncoded(base64)
 }
 
 export function createCodeChallenge(codeVerifier) {

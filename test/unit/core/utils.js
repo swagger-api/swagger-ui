@@ -1,4 +1,5 @@
 
+import crypto from "crypto"
 import { Map, fromJS } from "immutable"
 import {
   mapToList,
@@ -1777,10 +1778,14 @@ describe("utils", () => {
 
   describe("generateCodeVerifier", () => {
     it("should generate a value of at least 43 characters", () => {
+      global.crypto = {
+        getRandomValues: crypto.randomFillSync
+      }
       const codeVerifier = generateCodeVerifier()
 
       // Source: https://tools.ietf.org/html/rfc7636#section-4.1
       expect(codeVerifier.length).toBeGreaterThanOrEqual(43)
+      delete global.crypto
     })
   })
 
