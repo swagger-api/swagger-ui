@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import {SyntaxHighlighter, getStyle} from "core/syntax-highlighting"
 import get from "lodash/get"
 import saveAs from "js-file-download"
-import { CopyToClipboard } from "react-copy-to-clipboard"
 
 export default class HighlightCode extends Component {
   static propTypes = {
@@ -67,7 +66,7 @@ export default class HighlightCode extends Component {
 
         { !canCopy ? null :
           <div className="copy-to-clipboard">
-            <CopyToClipboard text={value}><button/></CopyToClipboard>
+            <button onClick={() => navigator.clipboard.writeText(value)}></button>
           </div>
         }
 
