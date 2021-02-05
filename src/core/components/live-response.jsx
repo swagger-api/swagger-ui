@@ -62,7 +62,6 @@ export default class LiveResponse extends React.Component {
     const headersKeys = Object.keys(headers)
     const contentType = headers["content-type"] || headers["Content-Type"]
 
-    const Curl = getComponent("curl")
     const ResponseBody = getComponent("responseBody")
     const returnObject = headersKeys.map(key => {
       var joinedHeaders = Array.isArray(headers[key]) ? headers[key].join() : headers[key]
@@ -70,10 +69,10 @@ export default class LiveResponse extends React.Component {
     })
     const hasHeaders = returnObject.length !== 0
     const Markdown = getComponent("Markdown", true)
-
+    const RequestSnippets = getComponent("RequestSnippets", true)
     return (
       <div>
-        { curlRequest && <Curl request={ curlRequest } getConfigs={ getConfigs } /> }
+        { curlRequest && <RequestSnippets request={ curlRequest }/> }
         { url && <div>
             <h4>Request URL</h4>
             <div className="request-url">
