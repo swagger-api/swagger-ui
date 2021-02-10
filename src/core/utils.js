@@ -435,6 +435,7 @@ export const validatePattern = (val, rxPattern) => {
 function validateValueBySchema(value, schema, isParamRequired, bypassRequiredCheck, parameterContentMediaType) {
   if(!schema) return []
   let errors = []
+  let nullable = schema.get("nullable")
   let required = schema.get("required")
   let maximum = schema.get("maximum")
   let minimum = schema.get("minimum")
@@ -446,6 +447,10 @@ function validateValueBySchema(value, schema, isParamRequired, bypassRequiredChe
   let maxItems = schema.get("maxItems")
   let minItems = schema.get("minItems")
   let pattern = schema.get("pattern")
+
+  if(nullable && value === null) {
+    return []
+  }
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
