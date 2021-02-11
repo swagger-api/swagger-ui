@@ -133,7 +133,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       type = "object"
     } else if(items) {
       type = "array"
-    } else if(!usePlainValue){
+    } else if(!usePlainValue && !schema.enum){
       return
     }
   }
