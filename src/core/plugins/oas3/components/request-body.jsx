@@ -83,7 +83,18 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
-  const examplesForMediaType = mediaTypeValue.get("examples", null)
+  const rawExamplesOfMediaType = mediaTypeValue.get("examples", null)
+  const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
+    const val = container?.get("value", null)
+    if(val) {
+      container = container.set("value",   getDefaultRequestBodyValue(
+        requestBody,
+        contentType,
+        key,
+      ), val)
+    }
+    return container
+  })
 
   const handleExamplesSelect = (key /*, { isSyntheticChange } */) => {
     updateActiveExamplesKey(key)
@@ -223,10 +234,10 @@ const RequestBody = ({
       <Markdown source={requestBodyDescription} />
     }
     {
-      examplesForMediaType ? (
+      sampleForMediaType ? (
         <ExamplesSelectValueRetainer
             userHasEditedBody={userHasEditedBody}
-            examples={examplesForMediaType}
+            examples={sampleForMediaType}
             currentKey={activeExamplesKey}
             currentUserInputValue={requestBodyValue}
             onSelect={handleExamplesSelect}
@@ -269,9 +280,9 @@ const RequestBody = ({
       )
     }
     {
-       examplesForMediaType ? (
+      sampleForMediaType ? (
         <Example
-          example={examplesForMediaType.get(activeExamplesKey)}
+          example={sampleForMediaType.get(activeExamplesKey)}
           getComponent={getComponent}
           getConfigs={getConfigs}
         />
