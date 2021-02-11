@@ -189,7 +189,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
       nextProps
     )
 
-    const exampleMatchingNewValue = examples.find(
+    const examplesMatchingNewValue = examples.filter(
       (example) =>
         example.get("value") === newValue ||
         // sometimes data is stored as a string (e.g. in Request Bodies), so
@@ -197,8 +197,15 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
         stringify(example.get("value")) === newValue
     )
 
-    if (exampleMatchingNewValue) {
-      onSelect(examples.keyOf(exampleMatchingNewValue), {
+    if (examplesMatchingNewValue.size) {
+      let key
+      if(examplesMatchingNewValue.has(nextProps.currentKey))
+      {
+        key = nextProps.currentKey
+      } else {
+        key = examplesMatchingNewValue.keySeq().first()
+      }
+      onSelect(key, {
         isSyntheticChange: true,
       })
     } else if (

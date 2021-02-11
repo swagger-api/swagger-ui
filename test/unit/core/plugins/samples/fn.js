@@ -29,6 +29,15 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
   })
 
+  it("should return first enum value if only enum is provided", function () {
+    let definition = fromJS({
+      enum: ["probe"]
+    })
+
+    let expected = "probe"
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+  })
+
   it("combine first oneOf or anyOf with schema's definitions", function () {
     let definition = {
       type: "object",
