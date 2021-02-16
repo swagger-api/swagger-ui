@@ -28,6 +28,8 @@ export default class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
+    let enumNames = schema.get("x-enum-varnames") || schema.get("x-enumNames")
+    let enumDescriptions = schema.get("x-enum-descriptions")
     let title = schema.get("title") || displayName || name
     let description = schema.get("description")
     let extensions = getExtensions(schema)
@@ -61,7 +63,7 @@ export default class Primitive extends Component {
           </span>): null
         }
         {
-          enumArray && <EnumModel value={ enumArray } getComponent={ getComponent } />
+          enumArray && <EnumModel value={ enumArray } names={ enumNames } descriptions={ enumDescriptions } getComponent={ getComponent } />
         }
       </span>
     </span>

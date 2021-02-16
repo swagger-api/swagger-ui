@@ -340,6 +340,17 @@ span
 .prop-enum
 {
     display: block;
+
+    .value
+    {
+      color: #55a;
+    }
+
+    .name
+    {
+      color: #6b6b6b;
+      font-style: italic;
+    }
 }
 .prop-format
 {
