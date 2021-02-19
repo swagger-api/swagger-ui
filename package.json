@@ -138,7 +138,7 @@
     "file-loader": "^6.0.0",
     "git-describe": "^4.0.4",
     "http-server": "^0.12.3",
-    "husky": "=4.3.8",
+    "husky": "=5.0.9",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "inspectpack": "=4.6.1",
     "jest": "=26.6.3",
