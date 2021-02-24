@@ -479,7 +479,7 @@ export const executeRequest = (req) =>
         // console.error(err)
         if(err.message === "Failed to fetch") {
           err.name = ""
-          err.message = "**Failed to fetch.**  \n**See console** for more information.  \n**Possible Reasons:** \n  - CORS \n  - Network Failure \n  - URL scheme must be \"http\" or \"https\" for CORS request."
+          err.message = "**Failed to fetch.**  \n**Possible Reasons:** \n  - CORS \n  - Network Failure \n  - URL scheme must be \"http\" or \"https\" for CORS request."
         }
         specActions.setResponse(req.pathName, req.method, {
           error: true, err: serializeError(err)
