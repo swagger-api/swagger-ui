@@ -450,7 +450,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
 
   const needsExplicitConstraintValidation = type === "array"
   const schemaRequiresValue = requiredByParam || requiredBySchema
-  const hasValue = value !== undefined
+  const hasValue = value !== undefined && value !== null
   const isValidEmpty = !schemaRequiresValue && !hasValue
 
   const requiresFurtherValidation =
