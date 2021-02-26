@@ -155,11 +155,18 @@ const RequestBody = ({
               const currentValue = requestBodyValue.getIn([key, "value"])
               const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
               const included = requestBodyInclusionSetting.get(key) || false
-              let hasNonEmptyInitialVal = prop.has("default") || prop.has("example") || prop.hasIn(["items", "example"]) || prop.hasIn(["items", "default"]) || prop.has("enum") && prop.get("enum").size === 1
+
+              const useInitialValFromSchemaSamples = prop.has("default")
+                || prop.has("example")
+                || prop.hasIn(["items", "example"])
+                || prop.hasIn(["items", "default"])
+              const useInitialValFromEnum = prop.has("enum") && (prop.get("enum").size === 1 || required)
+              const useInitialValue = useInitialValFromSchemaSamples || useInitialValFromEnum
+              
               let initialValue = ""
-              if(type === "array" && !hasNonEmptyInitialVal) {
+              if(type === "array" && !useInitialValue) {
                 initialValue = []
-              } else if (hasNonEmptyInitialVal) {
+              } else if (useInitialValue) {
                 // TODO: what about example or examples from requestBody could be passed as exampleOverride
                 initialValue = getSampleSchema(prop, false, {
                   includeWriteOnly: true
