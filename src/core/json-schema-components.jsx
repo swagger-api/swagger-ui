@@ -264,7 +264,7 @@ export class JsonSchema_array extends PureComponent {
             title={arrayErrors.length ? arrayErrors : ""}
             onClick={this.addItem}
           >
-            Add item
+            Add {schemaItemsType ? `${schemaItemsType} ` : ""}item
           </Button>
         ) : null}
       </div>
