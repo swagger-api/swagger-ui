@@ -40,6 +40,8 @@ export class JsonSchemaForm extends Component {
     const { dispatchInitialValue, value, onChange } = this.props
     if(dispatchInitialValue) {
       onChange(value)
+    } else if(dispatchInitialValue === false) {
+      onChange("")
     }
   }
 
