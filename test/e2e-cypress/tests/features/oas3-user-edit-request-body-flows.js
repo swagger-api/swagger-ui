@@ -1,12 +1,16 @@
-const getRequestBodyFromCY = (page = null) =>
-  (page || cy.visit(
+function getExpandedTryout(page = null, operationId = "#operations-pet-addPet") {
+  return (page || cy.visit(
     "/?url=/documents/features/petstore-only-pet.openapi.yaml",
   ))
-    .get("#operations-pet-addPet")
+    .get(operationId)
     .click()
     // Expand Try It Out
     .get(".try-out__btn")
     .click()
+}
+
+const getRequestBodyFromCY = (page = null, operationId = "#operations-pet-addPet") =>
+  getExpandedTryout(page, operationId)
     // get textarea
     .get(".opblock-body .opblock-section .opblock-section-request-body .body-param textarea")
 
@@ -83,5 +87,20 @@ describe("OAS3 Request Body user edit flows", () => {
             expect($div.get(0).textContent).to.not.contain("ups that should not have happened")
           })
       })
+  })
+  describe("multipart/", () => {
+    // Case: User wants to execute operation with media-type multipart/ with a enum property. The user expects the first enum value to be used when execuded.
+    it("should use the first enum value on execute if not changed by user (#6976)", () => {
+      // test/e2e-cypress/static/documents/features/request-body/multipart/enum.yaml
+      getExpandedTryout(
+        cy.visit(
+          "/?url=/documents/features/request-body/multipart/enum.yaml",
+        ), "#operations-default-post_test")
+        .get(".execute")
+        .click()
+        // Assert on the request URL
+        .get(".curl")
+        .contains("test_enum=A")
+    })
   })
 })
