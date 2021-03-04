@@ -12,40 +12,23 @@ export default class AuthorizationPopup extends React.Component {
     let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
+    const Popup = getComponent("Popup")
 
     return (
-      <div className="dialog-ux">
-        <div className="backdrop-ux"></div>
-        <div className="modal-ux">
-          <div className="modal-dialog-ux">
-            <div className="modal-ux-inner">
-              <div className="modal-ux-header">
-                <h3>Available authorizations</h3>
-                <button type="button" className="close-modal" onClick={ this.close }>
-                  <svg width="20" height="20">
-                    <use href="#close" xlinkHref="#close" />
-                  </svg>
-                </button>
-              </div>
-              <div className="modal-ux-content">
-
-                {
-                  definitions.valueSeq().map(( definition, key ) => {
-                    return <Auths key={ key }
-                                  AST={AST}
-                                  definitions={ definition }
-                                  getComponent={ getComponent }
-                                  errSelectors={ errSelectors }
-                                  authSelectors={ authSelectors }
-                                  authActions={ authActions }
-                                  specSelectors={ specSelectors }/>
-                  })
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Popup title={"Available authorizations"} onClose={this.close}>
+        {
+          definitions.valueSeq().map(( definition, key ) => {
+            return <Auths key={ key }
+                          AST={AST}
+                          definitions={ definition }
+                          getComponent={ getComponent }
+                          errSelectors={ errSelectors }
+                          authSelectors={ authSelectors }
+                          authActions={ authActions }
+                          specSelectors={ specSelectors }/>
+          })
+        }
+      </Popup>
     )
   }
 
