@@ -133,7 +133,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       type = "object"
     } else if(items) {
       type = "array"
-    } else if(!usePlainValue){
+    } else if(!usePlainValue && !schema.enum){
       return
     }
   }
@@ -203,7 +203,21 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
     // if json just return
     if(!respectXML) {
-      return sample
+      // spacial case yaml parser can not know about
+      if(typeof sample === "number" && type === "string") {
+        return `${sample}`
+      }
+      // return if sample does not need any parsing
+      if(typeof sample !== "string" || type === "string") {
+        return sample
+      }
+      // check if sample is parsable or just a plain string
+      try {
+        return JSON.parse(sample)
+      } catch(e) {
+        // sample is just plain string return it
+        return sample
+      }
     }
 
     // recover missing type

@@ -64,6 +64,7 @@ Parameter name | Docker variable | Description
 <a name="syntaxHighlight"></a>`syntaxHighlight` | _Unavailable_ | Set to `false` to deactivate syntax highlighting of payloads and cURL command, can be otherwise an object with the `activate` and `theme` properties.
 <a name="syntaxHighlight.activate"></a>`syntaxHighlight.activate` | _Unavailable_ | `Boolean=true`. Whether syntax highlighting should be activated or not.
 <a name="syntaxHighlight.theme"></a>`syntaxHighlight.theme` | _Unavailable_ | `String=["agate"*, "arta", "monokai", "nord", "obsidian", "tomorrow-night"]`. [Highlight.js](https://highlightjs.org/static/demo/) syntax coloring theme to use. (Only these 6 styles are available.)
+<a name="tryItOutEnabled"></a>`tryItOutEnabled` | `TRY_IT_OUT_ENABLED` | `Boolean=false`. Controls whether the "Try it out" section should be enabled by default.
 
 ##### Network
 

@@ -63,7 +63,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     scopesArray = scopes.toArray()
   }
 
-  if (scopesArray.length > 0)  {
+  if (scopesArray.length > 0) {
     let scopeSeparator = authConfigs.scopeSeparator || " "
 
     query.push("scope=" + encodeURIComponent(scopesArray.join(scopeSeparator)))
@@ -77,7 +77,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
   }
 
-  if ((flow === "authorizationCode" || flow === "accessCode") && authConfigs.usePkceWithAuthorizationCodeGrant) {
+  if ((flow === "authorizationCode" || flow === "authorization_code" || flow === "accessCode") && authConfigs.usePkceWithAuthorizationCodeGrant) {
       const codeVerifier = generateCodeVerifier()
       const codeChallenge = createCodeChallenge(codeVerifier)
 

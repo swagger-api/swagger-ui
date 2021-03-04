@@ -10,7 +10,7 @@
   in `./helpers` if you have the time.
 */
 
-import Im from "immutable"
+import Im, { fromJS, Set } from "immutable"
 import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
@@ -25,6 +25,7 @@ import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
 import randomBytes from "randombytes"
 import shaJs from "sha.js"
+import YAML from "js-yaml"
 
 
 const DEFAULT_RESPONSE_KEY = "default"
@@ -384,6 +385,40 @@ export const validateMaxLength = (val, max) => {
   }
 }
 
+export const validateUniqueItems = (val, uniqueItems) => {
+  if (!val) {
+    return
+  }
+  if (uniqueItems === "true" || uniqueItems === true) {
+    const list = fromJS(val)
+    const set = list.toSet()
+    const hasDuplicates = val.length > set.size
+    if(hasDuplicates) {
+      let errorsPerIndex = Set()
+      list.forEach((item, i) => {
+        if(list.filter(v => isFunc(v.equals) ? v.equals(item) : v === item).size > 1) {
+          errorsPerIndex = errorsPerIndex.add(i)
+        }
+      })
+      if(errorsPerIndex.size !== 0) {
+        return errorsPerIndex.map(i => ({index: i, error: "No duplicates allowed."})).toArray()
+      }
+    }
+  }
+}
+
+export const validateMinItems = (val, min) => {
+  if (!val && min >= 1 || val && val.length < min) {
+      return `Array must contain at least ${min} item${min === 1 ? "" : "s"}`
+  }
+}
+
+export const validateMaxItems = (val, max) => {
+  if (val && val.length > max) {
+    return `Array must not contain more then ${max} item${max === 1 ? "" : "s"}`
+  }
+}
+
 export const validateMinLength = (val, min) => {
   if (val.length < min) {
       return `Value must be at least ${min} character${min !== 1 ? "s" : ""}`
@@ -397,148 +432,194 @@ export const validatePattern = (val, rxPattern) => {
   }
 }
 
-// validation of parameters before execute
-export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
-
+function validateValueBySchema(value, schema, requiredByParam, bypassRequiredCheck, parameterContentMediaType) {
+  if(!schema) return []
   let errors = []
+  let nullable = schema.get("nullable")
+  let requiredBySchema = schema.get("required")
+  let maximum = schema.get("maximum")
+  let minimum = schema.get("minimum")
+  let type = schema.get("type")
+  let format = schema.get("format")
+  let maxLength = schema.get("maxLength")
+  let minLength = schema.get("minLength")
+  let uniqueItems = schema.get("uniqueItems")
+  let maxItems = schema.get("maxItems")
+  let minItems = schema.get("minItems")
+  let pattern = schema.get("pattern")
 
-  let paramRequired = param.get("required")
+  const needsExplicitConstraintValidation = type === "array"
+  const schemaRequiresValue = requiredByParam || requiredBySchema
+  const hasValue = value !== undefined && value !== null
+  const isValidEmpty = !schemaRequiresValue && !hasValue
 
-  let { schema: paramDetails, parameterContentMediaType } = getParameterSchema(param, { isOAS3 })
+  const requiresFurtherValidation =
+    schemaRequiresValue
+    || needsExplicitConstraintValidation
+    || !isValidEmpty
 
-  if(!paramDetails) return errors
+  const isValidNullable = nullable && value === null
 
-  let required = paramDetails.get("required")
-  let maximum = paramDetails.get("maximum")
-  let minimum = paramDetails.get("minimum")
-  let type = paramDetails.get("type")
-  let format = paramDetails.get("format")
-  let maxLength = paramDetails.get("maxLength")
-  let minLength = paramDetails.get("minLength")
-  let pattern = paramDetails.get("pattern")
+  // will not be included in the request or [schema / value] does not [allow / require] further analysis.
+  const noFurtherValidationNeeded =
+    isValidNullable
+    || !type
+    || !requiresFurtherValidation
 
-  /*
-    If the parameter is required OR the parameter has a value (meaning optional, but filled in)
-    then we should do our validation routine.
-    Only bother validating the parameter if the type was specified.
-  */
-  if ( type && (paramRequired || required || value) ) {
-    // These checks should evaluate to true if there is a parameter
-    let stringCheck = type === "string" && value
-    let arrayCheck = type === "array" && Array.isArray(value) && value.length
-    let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
-    let arrayStringCheck = type === "array" && typeof value === "string" && value
-    let fileCheck = type === "file" && value instanceof win.File
-    let booleanCheck = type === "boolean" && (value || value === false)
-    let numberCheck = type === "number" && (value || value === 0)
-    let integerCheck = type === "integer" && (value || value === 0)
-    let objectCheck = type === "object" && typeof value === "object" && value !== null
-    let objectStringCheck = type === "object" && typeof value === "string" && value
+  if(noFurtherValidationNeeded) {
+    return []
+  }
 
-    const allChecks = [
-      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck,
-      booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
-    ]
+  // Further this point the parameter is considered worth to validate
+  let stringCheck = type === "string" && value
+  let arrayCheck = type === "array" && Array.isArray(value) && value.length
+  let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
+  let arrayStringCheck = type === "array" && typeof value === "string" && value
+  let fileCheck = type === "file" && value instanceof win.File
+  let booleanCheck = type === "boolean" && (value || value === false)
+  let numberCheck = type === "number" && (value || value === 0)
+  let integerCheck = type === "integer" && (value || value === 0)
+  let objectCheck = type === "object" && typeof value === "object" && value !== null
+  let objectStringCheck = type === "object" && typeof value === "string" && value
 
-    const passedAnyCheck = allChecks.some(v => !!v)
+  const allChecks = [
+    stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck,
+    booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
+  ]
 
-    if ((paramRequired || required) && !passedAnyCheck && !bypassRequiredCheck ) {
-      errors.push("Required field is not provided")
-      return errors
-    }
+  const passedAnyCheck = allChecks.some(v => !!v)
 
-    if (
-      type === "object" &&
-      typeof value === "string" &&
-      (parameterContentMediaType === null ||
-        parameterContentMediaType === "application/json")
-    ) {
+  if (schemaRequiresValue && !passedAnyCheck && !bypassRequiredCheck) {
+    errors.push("Required field is not provided")
+    return errors
+  }
+  if (
+    type === "object" &&
+    (parameterContentMediaType === null ||
+      parameterContentMediaType === "application/json")
+  ) {
+    let objectVal = value
+    if(typeof value === "string") {
       try {
-        JSON.parse(value)
+        objectVal = JSON.parse(value)
       } catch (e) {
         errors.push("Parameter string value must be valid JSON")
         return errors
       }
     }
-
-    if (pattern) {
-      let err = validatePattern(value, pattern)
-      if (err) errors.push(err)
-    }
-
-    if (maxLength || maxLength === 0) {
-      let err = validateMaxLength(value, maxLength)
-      if (err) errors.push(err)
-    }
-
-    if (minLength) {
-      let err = validateMinLength(value, minLength)
-      if (err) errors.push(err)
-    }
-
-    if (maximum || maximum === 0) {
-      let err = validateMaximum(value, maximum)
-      if (err) errors.push(err)
-    }
-
-    if (minimum || minimum === 0) {
-      let err = validateMinimum(value, minimum)
-      if (err) errors.push(err)
-    }
-
-    if ( type === "string" ) {
-      let err
-      if (format === "date-time") {
-          err = validateDateTime(value)
-      } else if (format === "uuid") {
-          err = validateGuid(value)
-      } else {
-          err = validateString(value)
-      }
-      if (!err) return errors
-      errors.push(err)
-    } else if ( type === "boolean" ) {
-      let err = validateBoolean(value)
-      if (!err) return errors
-      errors.push(err)
-    } else if ( type === "number" ) {
-      let err = validateNumber(value)
-      if (!err) return errors
-      errors.push(err)
-    } else if ( type === "integer" ) {
-      let err = validateInteger(value)
-      if (!err) return errors
-      errors.push(err)
-    } else if ( type === "array" ) {
-      let itemType
-
-      if ( !arrayListCheck || !value.count() ) { return errors }
-
-      itemType = paramDetails.getIn(["items", "type"])
-
-      value.forEach((item, index) => {
-        let err
-
-        if (itemType === "number") {
-          err = validateNumber(item)
-        } else if (itemType === "integer") {
-          err = validateInteger(item)
-        } else if (itemType === "string") {
-          err = validateString(item)
-        }
-
-        if ( err ) {
-          errors.push({ index: index, error: err})
+    if(schema && schema.has("required") && isFunc(requiredBySchema.isList) && requiredBySchema.isList()) {
+      requiredBySchema.forEach(key => {
+        if(objectVal[key] === undefined) {
+          errors.push({ propKey: key, error: "Required property not found" })
         }
       })
-    } else if ( type === "file" ) {
-      let err = validateFile(value)
-      if (!err) return errors
-      errors.push(err)
+    }
+    if(schema && schema.has("properties")) {
+      schema.get("properties").forEach((val, key) => {
+        const errs = validateValueBySchema(objectVal[key], val, false, bypassRequiredCheck, parameterContentMediaType)
+        errors.push(...errs
+          .map((error) => ({ propKey: key, error })))
+      })
     }
   }
 
+  if (pattern) {
+    let err = validatePattern(value, pattern)
+    if (err) errors.push(err)
+  }
+
+  if (minItems) {
+    if (type === "array") {
+      let err = validateMinItems(value, minItems)
+      if (err) errors.push(err)
+    }
+  }
+
+  if (maxItems) {
+    if (type === "array") {
+      let err = validateMaxItems(value, maxItems)
+      if (err) errors.push({ needRemove: true, error: err })
+    }
+  }
+
+  if (uniqueItems) {
+    if (type === "array") {
+      let errorPerItem = validateUniqueItems(value, uniqueItems)
+      if (errorPerItem) errors.push(...errorPerItem)
+    }
+  }
+
+  if (maxLength || maxLength === 0) {
+    let err = validateMaxLength(value, maxLength)
+    if (err) errors.push(err)
+  }
+
+  if (minLength) {
+    let err = validateMinLength(value, minLength)
+    if (err) errors.push(err)
+  }
+
+  if (maximum || maximum === 0) {
+    let err = validateMaximum(value, maximum)
+    if (err) errors.push(err)
+  }
+
+  if (minimum || minimum === 0) {
+    let err = validateMinimum(value, minimum)
+    if (err) errors.push(err)
+  }
+
+  if (type === "string") {
+    let err
+    if (format === "date-time") {
+      err = validateDateTime(value)
+    } else if (format === "uuid") {
+      err = validateGuid(value)
+    } else {
+      err = validateString(value)
+    }
+    if (!err) return errors
+    errors.push(err)
+  } else if (type === "boolean") {
+    let err = validateBoolean(value)
+    if (!err) return errors
+    errors.push(err)
+  } else if (type === "number") {
+    let err = validateNumber(value)
+    if (!err) return errors
+    errors.push(err)
+  } else if (type === "integer") {
+    let err = validateInteger(value)
+    if (!err) return errors
+    errors.push(err)
+  } else if (type === "array") {
+    if (!(arrayCheck || arrayListCheck)) {
+      return errors
+    }
+    if(value) {
+      value.forEach((item, i) => {
+        const errs = validateValueBySchema(item, schema.get("items"), false, bypassRequiredCheck, parameterContentMediaType)
+        errors.push(...errs
+          .map((err) => ({ index: i, error: err })))
+      })
+    }
+  } else if (type === "file") {
+    let err = validateFile(value)
+    if (!err) return errors
+    errors.push(err)
+  }
+
   return errors
+}
+
+// validation of parameters before execute
+export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
+
+  let paramRequired = param.get("required")
+
+  let { schema: paramDetails, parameterContentMediaType } = getParameterSchema(param, { isOAS3 })
+
+  return validateValueBySchema(value, paramDetails, paramRequired, bypassRequiredCheck, parameterContentMediaType)
 }
 
 const getXmlSampleSchema = (schema, config, exampleOverride) => {
@@ -581,6 +662,25 @@ const getStringifiedSampleForSchema = (schema, config, contentType, exampleOverr
     : res
 }
 
+const getYamlSampleSchema = (schema, config, contentType, exampleOverride) => {
+  const jsonExample = getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
+  let yamlString
+  try {
+    yamlString = YAML.safeDump(YAML.safeLoad(jsonExample), {
+
+      lineWidth: -1 // don't generate line folds
+    })
+    if(yamlString[yamlString.length - 1] === "\n") {
+      yamlString = yamlString.slice(0, yamlString.length - 1)
+    }
+  } catch (e) {
+    console.error(e)
+    return "error: could not generate yaml example"
+  }
+  return yamlString
+    .replace(/\t/g, "  ")
+}
+
 export const getSampleSchema = (schema, contentType="", config={}, exampleOverride = undefined) => {
   if(schema && isFunc(schema.toJS))
     schema = schema.toJS()
@@ -590,7 +690,9 @@ export const getSampleSchema = (schema, contentType="", config={}, exampleOverri
   if (/xml/.test(contentType)) {
     return getXmlSampleSchema(schema, config, exampleOverride)
   }
-
+  if (/(yaml|yml)/.test(contentType)) {
+    return getYamlSampleSchema(schema, config, contentType, exampleOverride)
+  }
   return getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
 }
 

@@ -31,7 +31,17 @@ const baseRules = [
     },
   },
   { test: /\.(txt|yaml)$/, loader: "raw-loader" },
-  { test: /\.(png|jpg|jpeg|gif|svg)$/, loader: "url-loader" },
+  {
+    test: /\.(png|jpg|jpeg|gif|svg)$/,
+    use: [
+      {
+        loader: "url-loader",
+        options: {
+          esModule: false,
+        },
+      },
+    ],
+  },
   {
     test: /\.(woff|woff2)$/,
     loader: "url-loader?",
@@ -134,8 +144,8 @@ export default function buildConfig(
 
       performance: {
         hints: "error",
-        maxEntrypointSize: 1072000,
-        maxAssetSize: 1072000,
+        maxEntrypointSize: 1153434,
+        maxAssetSize: 1153434,
       },
 
       optimization: {

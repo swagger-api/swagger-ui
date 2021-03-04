@@ -1,0 +1,63 @@
+openapi: 3.0.1
+info:
+ title: Example Swagger
+ version: '1.0'
+servers:
+ - url: /api/v1
+paths:
+  /test/{id}/related/{relatedId}:
+      post:
+        parameters:
+          - in: path
+            name: relatedId
+            required: true
+            schema:
+              type: integer
+              default: 1
+            description: The related ID
+          - in: header
+            name: TRACE-ID
+            required: true
+            schema:
+              type: integer
+              default: 1
+            description: The trace ID
+          - in: cookie
+            name: debug
+            required: true
+            schema:
+              type: number
+              enum: 
+                - 0
+                - 1
+            description: debug flag
+          - in: header
+            name: USER-ID
+            required: true
+            schema:
+              type: integer
+              default: 1
+            description: The user ID
+          - in: query
+            name: asc
+            required: true
+            schema:
+              type: boolean
+              default: true
+            description: sort asc
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: integer
+              default: 1
+            description: The ID
+        requestBody:
+          description: Some
+          content:
+            application/json:
+             schema:
+               type: string
+        responses:
+          200:
+            description: Some

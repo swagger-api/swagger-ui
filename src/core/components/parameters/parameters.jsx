@@ -1,20 +1,17 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import Im, { Map, List } from "immutable"
+import { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
-
-// More readable, just iterate over maps, only
-const eachMap = (iterable, fn) => iterable.valueSeq().filter(Im.Map.isMap).map(fn)
 
 export default class Parameters extends Component {
 
   constructor(props) {
-   super(props)
-   this.state = {
-     callbackVisible: false,
-     parametersVisible: true
-   }
- }
+    super(props)
+    this.state = {
+      callbackVisible: false,
+      parametersVisible: true,
+    }
+  }
 
   static propTypes = {
     parameters: ImPropTypes.list.isRequired,
@@ -45,7 +42,7 @@ export default class Parameters extends Component {
     specPath: [],
   }
 
-  onChange = ( param, value, isXml ) => {
+  onChange = (param, value, isXml) => {
     let {
       specActions: { changeParamByIdentity },
       onChangeKey,
@@ -54,54 +51,53 @@ export default class Parameters extends Component {
     changeParamByIdentity(onChangeKey, param, value, isXml)
   }
 
-  onChangeConsumesWrapper = ( val ) => {
+  onChangeConsumesWrapper = (val) => {
     let {
       specActions: { changeConsumesValue },
-      onChangeKey
+      onChangeKey,
     } = this.props
 
     changeConsumesValue(onChangeKey, val)
   }
 
   toggleTab = (tab) => {
-    if(tab === "parameters"){
+    if (tab === "parameters") {
       return this.setState({
         parametersVisible: true,
-        callbackVisible: false
+        callbackVisible: false,
       })
-    }else if(tab === "callbacks"){
+    } else if (tab === "callbacks") {
       return this.setState({
         callbackVisible: true,
-        parametersVisible: false
+        parametersVisible: false,
       })
     }
   }
 
-  onChangeMediaType = ( { value, pathMethod } ) => {
-    let { specSelectors, specActions, oas3Selectors, oas3Actions } = this.props
-    let targetMediaType = value
-    let currentMediaType = oas3Selectors.requestContentType(...pathMethod)
-    let schemaPropertiesMatch = specSelectors.isMediaTypeSchemaPropertiesEqual(pathMethod, currentMediaType, targetMediaType)
-    if (!schemaPropertiesMatch) {
-      oas3Actions.clearRequestBodyValue({ pathMethod })
+  onChangeMediaType = ({ value, pathMethod }) => {
+    let { specActions, oas3Selectors, oas3Actions } = this.props
+    const userHasEditedBody = oas3Selectors.hasUserEditedBody(...pathMethod)
+    const shouldRetainRequestBodyValue = oas3Selectors.shouldRetainRequestBodyValue(...pathMethod)
+    oas3Actions.setRequestContentType({ value, pathMethod })
+    oas3Actions.initRequestBodyValidateError({ pathMethod })
+    if (!userHasEditedBody) {
+      if(!shouldRetainRequestBodyValue) {
+        oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })
+      }
       specActions.clearResponse(...pathMethod)
       specActions.clearRequest(...pathMethod)
       specActions.clearValidateParams(pathMethod)
     }
-    oas3Actions.setRequestContentType({ value, pathMethod })
-    oas3Actions.initRequestBodyValidateError({ pathMethod })
   }
 
-  render(){
+  render() {
 
     let {
       onTryoutClick,
-      onCancelClick,
       parameters,
       allowTryItOut,
       tryItOutEnabled,
       specPath,
-
       fn,
       getComponent,
       getConfigs,
@@ -110,7 +106,7 @@ export default class Parameters extends Component {
       pathMethod,
       oas3Actions,
       oas3Selectors,
-      operation
+      operation,
     } = this.props
 
     const ParameterRow = getComponent("parameterRow")
@@ -124,17 +120,30 @@ export default class Parameters extends Component {
 
 
     const requestBody = operation.get("requestBody")
+
+    const groupedParametersArr = Object.values(parameters
+      .reduce((acc, x) => {
+        const key = x.get("in")
+        acc[key] ??= []
+        acc[key].push(x)
+        return acc
+      }, {}))
+      .reduce((acc, x) => acc.concat(x), [])
+
+    const retainRequestBodyValueFlagForOperation = (f) => oas3Actions.setRetainRequestBodyValueFlag({ value: f, pathMethod })
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
-          { isOAS3 ? (
-          <div className="tab-header">
-              <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
+          {isOAS3 ? (
+            <div className="tab-header">
+              <div onClick={() => this.toggleTab("parameters")}
+                   className={`tab-item ${this.state.parametersVisible && "active"}`}>
                 <h4 className="opblock-title"><span>Parameters</span></h4>
               </div>
-              { operation.get("callbacks") ?
+              {operation.get("callbacks") ?
                 (
-                  <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
+                  <div onClick={() => this.toggleTab("callbacks")}
+                       className={`tab-item ${this.state.callbackVisible && "active"}`}>
                     <h4 className="opblock-title"><span>Callbacks</span></h4>
                   </div>
                 ) : null
@@ -142,65 +151,72 @@ export default class Parameters extends Component {
             </div>
           ) : (
             <div className="tab-header">
-            <h4 className="opblock-title">Parameters</h4>
-          </div>
+              <h4 className="opblock-title">Parameters</h4>
+            </div>
           )}
-            { allowTryItOut ? (
-              <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
-            ) : null }
+          {allowTryItOut ? (
+            <TryItOutButton
+              isOAS3={specSelectors.isOAS3()}
+              hasUserEditedBody={oas3Selectors.hasUserEditedBody(...pathMethod)}
+              enabled={tryItOutEnabled}
+              onCancelClick={this.props.onCancelClick}
+              onTryoutClick={onTryoutClick}
+              onResetClick={() => oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })}/>
+          ) : null}
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
-        { !parameters.count() ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
-          <div className="table-container">
-            <table className="parameters">
-              <thead>
+          {!groupedParametersArr.length ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
+            <div className="table-container">
+              <table className="parameters">
+                <thead>
                 <tr>
                   <th className="col_header parameters-col_name">Name</th>
                   <th className="col_header parameters-col_description">Description</th>
                 </tr>
-              </thead>
-              <tbody>
+                </thead>
+                <tbody>
                 {
-                  eachMap(parameters, (parameter, i) => (
+                  groupedParametersArr.map((parameter, i) => (
                     <ParameterRow
-                      fn={ fn }
+                      fn={fn}
                       specPath={specPath.push(i.toString())}
-                      getComponent={ getComponent }
-                      getConfigs={ getConfigs }
-                      rawParam={ parameter }
-                      param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
-                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
-                      onChange={ this.onChange }
+                      getComponent={getComponent}
+                      getConfigs={getConfigs}
+                      rawParam={parameter}
+                      param={specSelectors.parameterWithMetaByIdentity(pathMethod, parameter)}
+                      key={`${parameter.get("in")}.${parameter.get("name")}`}
+                      onChange={this.onChange}
                       onChangeConsumes={this.onChangeConsumesWrapper}
-                      specSelectors={ specSelectors }
+                      specSelectors={specSelectors}
                       specActions={specActions}
                       oas3Actions={oas3Actions}
                       oas3Selectors={oas3Selectors}
-                      pathMethod={ pathMethod }
-                      isExecute={ isExecute }/>
-                  )).toArray()
+                      pathMethod={pathMethod}
+                      isExecute={isExecute} />
+                  ))
                 }
-              </tbody>
-            </table>
-          </div>
-        }
-        </div> : null }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div> : null}
 
         {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
           <Callbacks
             callbacks={Map(operation.get("callbacks"))}
             specPath={specPath.slice(0, -1).push("callbacks")}
           />
-        </div> : null }
+        </div> : null}
         {
           isOAS3 && requestBody && this.state.parametersVisible &&
           <div className="opblock-section opblock-section-request-body">
             <div className="opblock-section-header">
-              <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
+              <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request
+                body</h4>
               <label>
                 <ContentType
                   value={oas3Selectors.requestContentType(...pathMethod)}
-                  contentTypes={ requestBody.get("content", List()).keySeq() }
+                  contentTypes={requestBody.get("content", List()).keySeq()}
                   onChange={(value) => {
                     this.onChangeMediaType({ value, pathMethod })
                   }}
@@ -209,6 +225,8 @@ export default class Parameters extends Component {
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
+                setRetainRequestBodyValueFlag={retainRequestBodyValueFlagForOperation}
+                userHasEditedBody={oas3Selectors.hasUserEditedBody(...pathMethod)}
                 specPath={specPath.slice(0, -1).push("requestBody")}
                 requestBody={requestBody}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
@@ -219,24 +237,24 @@ export default class Parameters extends Component {
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
                   "requestBody",
-                  "requestBody" // RBs are currently not stored per-mediaType
+                  "requestBody", // RBs are currently not stored per-mediaType
                 )}
                 updateActiveExamplesKey={key => {
                   this.props.oas3Actions.setActiveExamplesMember({
                     name: key,
                     pathMethod: this.props.pathMethod,
                     contextType: "requestBody",
-                    contextName: "requestBody" // RBs are currently not stored per-mediaType
+                    contextName: "requestBody", // RBs are currently not stored per-mediaType
                   })
                 }
                 }
                 onChange={(value, path) => {
-                  if(path) {
+                  if (path) {
                     const lastValue = oas3Selectors.requestBodyValue(...pathMethod)
                     const usableValue = Map.isMap(lastValue) ? lastValue : Map()
                     return oas3Actions.setRequestBodyValue({
                       pathMethod,
-                      value: usableValue.setIn(path, value)
+                      value: usableValue.setIn(path, value),
                     })
                   }
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
@@ -248,7 +266,7 @@ export default class Parameters extends Component {
                     name,
                   })
                 }}
-                contentType={oas3Selectors.requestContentType(...pathMethod)}/>
+                contentType={oas3Selectors.requestContentType(...pathMethod)} />
             </div>
           </div>
         }
