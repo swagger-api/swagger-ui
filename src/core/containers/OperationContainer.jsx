@@ -8,10 +8,11 @@ export default class OperationContainer extends PureComponent {
   constructor(props, context) {
     super(props, context)
 
-    const { tryItOutEnabled } = props.getConfigs()
+    const tryItOutEnabled = props.featuresSelectors.isFeatureEnabled("tryItOutEnabled")
 
     this.state = {
       tryItOutEnabled: tryItOutEnabled === true || tryItOutEnabled === "true",
+      initialTryItOutState: tryItOutEnabled,
       executeInProgress: false
     }
   }
@@ -44,7 +45,8 @@ export default class OperationContainer extends PureComponent {
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    featuresSelectors: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -101,6 +103,10 @@ export default class OperationContainer extends PureComponent {
 
     if(isShown && resolvedSubtree === undefined) {
       this.requestResolvedSubtree()
+    }
+    const isTryItOutEnabled = nextProps.featuresSelectors.isFeatureEnabled("tryItOutEnabled")
+    if(isTryItOutEnabled !== this.state.initialTryItOutState) {
+      this.setState({initialTryItOutState: isTryItOutEnabled, tryItOutEnabled: isTryItOutEnabled === true || isTryItOutEnabled === "true"})
     }
   }
 
@@ -186,7 +192,7 @@ export default class OperationContainer extends PureComponent {
       authSelectors,
       oas3Actions,
       oas3Selectors,
-      fn
+      fn,
     } = this.props
 
     const Operation = getComponent( "operation" )
