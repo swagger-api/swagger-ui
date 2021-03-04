@@ -21,17 +21,17 @@ export function toggle(configName) {
 
 
 // Hook
-export const loaded = () => ({getConfigs, authActions}) => {
+export const loaded = () => ({featuresSelectors, authActions}) => {
   // check if we should restore authorization data from localStorage
-  const configs = getConfigs()
-  if (configs.persistAuthorization)
-  { 
-    const authorized = localStorage.getItem("authorized")                
+
+  if (featuresSelectors.isFeatureEnabled("persistAuthorization"))
+  {
+    const authorized = localStorage.getItem("authorized")
     if(authorized)
-    {      
-      authActions.restoreAuthorization({      
+    {
+      authActions.restoreAuthorization({
         authorized: JSON.parse(authorized)
-      })                
+      })
     }
   }
 }
