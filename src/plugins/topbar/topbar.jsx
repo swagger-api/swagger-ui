@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 //import "./topbar.less"
 import Logo from "./logo_small.svg"
 import {parseSearch, serializeSearch} from "../../core/utils"
+import FeaturesPopupButton from "../../core/plugins/features/features-popup"
 
 export default class Topbar extends React.Component {
 
@@ -113,6 +114,7 @@ export default class Topbar extends React.Component {
     let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
+    const FeaturesPopupButton = getComponent("FeaturesPopupButton", true)
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
@@ -155,6 +157,7 @@ export default class Topbar extends React.Component {
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}
             </form>
+            <FeaturesPopupButton/>
           </div>
         </div>
       </div>

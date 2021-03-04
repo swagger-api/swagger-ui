@@ -1,0 +1,30 @@
+.feature-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  .feature-item {
+    width: 100%;
+    .feature-item-option {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      padding-left: 10px;
+      align-items: center;
+      font-family: sans-serif;
+      font-size: 100%;
+      line-height: 1.15;
+      color: #3b4151;
+      margin: 0;
+      font-weight: 400;
+      input {
+        margin-right: 5px;
+      }
+    }
+  }
+  .modal-actions {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

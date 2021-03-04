@@ -7,6 +7,24 @@
     {
         display: flex;
         align-items: center;
+
+      .features {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+        padding-left: 5px;
+        .features-btn {
+          text-align: center;
+          height: 38px;
+          color: white;
+          font-size: 16px;
+          font-weight: 700;
+          padding: 4px 30px;
+          border: none;
+          border-radius: 4px;
+          background: #62a03f;
+        }
+      }
     }
     a
     {

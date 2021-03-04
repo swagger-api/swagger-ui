@@ -107,6 +107,22 @@ export default function SwaggerUI(opts) {
     syntaxHighlight: {
       activated: true,
       theme: "agate"
+    },
+
+    // Features - features that can be enabled on runtime or by configuration
+    features: {
+      tryItOutEnabled: {
+        enabled: false,
+        description: "Enable Try It Out by default"
+      },
+      persistAuthorization: {
+        enabled: false,
+        description: "Persist Authorization"
+      },
+      filter: {
+        enabled: false,
+        description: "Filter by tags"
+      },
     }
   }
 
@@ -117,6 +133,18 @@ export default function SwaggerUI(opts) {
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
+  const features = deepExtend({}, constructorConfig.features, {
+    tryItOutEnabled: {
+      enabled: constructorConfig.tryItOutEnabled === true || constructorConfig.tryItOutEnabled === "true"
+    },
+    persistAuthorization: {
+      enabled: constructorConfig.persistAuthorization === true || constructorConfig.persistAuthorization === "true"
+    },
+    filter: {
+      enabled: !(constructorConfig.filter === null || constructorConfig.filter === false || constructorConfig.filter === "false")
+    }
+  })
+  SwaggerUI.features = features
   const storeConfigs = {
     system: {
       configs: constructorConfig.configs
@@ -131,7 +159,8 @@ export default function SwaggerUI(opts) {
         spec: "",
         url: constructorConfig.url
       },
-      requestSnippets: constructorConfig.requestSnippets
+      requestSnippets: constructorConfig.requestSnippets,
+      features
     }, constructorConfig.initialState)
   }
 
