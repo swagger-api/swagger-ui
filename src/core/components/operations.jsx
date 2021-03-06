@@ -43,7 +43,6 @@ export default class Operations extends React.Component {
     // flat list, even if the `hierarchicalTags` option is set to `true`.
     let taggedOps = specSelectors.taggedOperations()
 
-    const OperationContainer = getComponent("OperationContainer", true)
     const OperationTag = getComponent("OperationTag")
 
     // Filter, if requested
@@ -76,7 +75,7 @@ export default class Operations extends React.Component {
       // hierarchy
 
       // For each raw tag....
-      for (const tagName in taggedOps) {
+      taggedOps.map((tagObj, tagName) => {
         // Split the raw tag name into parts
         const parts = tagName.split(tagSplitterChar);
 
@@ -104,27 +103,27 @@ export default class Operations extends React.Component {
 
           // If this is the last part, set data on this object
           if (i === parts.length - 1) {
-            current[part].data = taggedOps.get(tagName);
+            current[part].data = tagObj;
           }
 
           // Move to the next level of the hierarchy before looping around
           current = current[part].childTags;
         }
-      }
+      });
     } else {
       // If the `hierarchicalTags` option is not set, we just want to convert our flat tag map into
       // the right format
-      for (const tagName in taggedOps) {
+      taggedOps.map((tagObj, tagName) => {
         operationTagsRaw[tagName] = {
           canonicalName: tagName,
-          data: taggedOps.get(tagName),
+          data: tagObj,
           childTags: {}
         }
-      }
+      });
     }
 
     // Convert to immutable map
-    const operationTags = Im.fromJs(operationTagsRaw);
+    const operationTags = Im.fromJS(operationTagsRaw);
 
     // Return the render
     return operationTags.size === 0

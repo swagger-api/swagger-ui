@@ -58,6 +58,7 @@ export default class OperationTag extends React.Component {
       layoutActions,
       getConfigs,
       getComponent,
+      specSelectors,
       specUrl,
     } = this.props
 
@@ -68,6 +69,7 @@ export default class OperationTag extends React.Component {
     } = getConfigs()
 
     // Get the necessary components
+    const OperationContainer = getComponent("OperationContainer", true)
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown", true)
     const DeepLink = getComponent("DeepLink")
@@ -137,7 +139,7 @@ export default class OperationTag extends React.Component {
         </h4>
 
         <Collapse isOpened={showTag}>
-          <div class="hierarchical-operation-tag-operations">
+          <div className="hierarchical-operation-tag-operations">
             {
               operations.map(op => {
                 const path = op.get("path")
@@ -195,7 +197,7 @@ export default class OperationTag extends React.Component {
       <div className="hierarchical-operation-tags" style={isRoot ? null : {margin: "0 0 0 2rem"}}>
       {
         childTags.map((tag, tagName) => {
-          return <HierarchicalOperationTag
+          return <OperationTag
             key={"operation-" + (tag.get("canonicalTagName") || tagName)}
             tagObj={tag.get("data")}
             tag={tagName}
@@ -208,7 +210,7 @@ export default class OperationTag extends React.Component {
             childTags={tag.get("childTags")}
             isRoot={false}
           />
-        })
+        }).toArray()
       }
       </div>
     )
