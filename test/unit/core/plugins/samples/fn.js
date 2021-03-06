@@ -607,6 +607,128 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition, {}, expected)).toEqual(expected)
   })
+
+  it("should merge properties with anyOf", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string"
+        }
+      },
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            bar: {
+              type: "boolean"
+            }
+          }
+        }
+      ]
+    }
+
+    const expected = {
+      foo: "string",
+      bar: true
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should merge array item properties with anyOf", () => {
+    const definition = {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          foo: {
+            type: "string"
+          }
+        },
+        anyOf: [
+          {
+            type: "object",
+            properties: {
+              bar: {
+                type: "boolean"
+              }
+            }
+          }
+        ]
+      }
+    }
+
+    const expected = [
+      {
+        foo: "string",
+        bar: true
+      }
+    ]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should merge properties with oneOf", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string"
+        }
+      },
+      oneOf: [
+        {
+          type: "object",
+          properties: {
+            bar: {
+              type: "boolean"
+            }
+          }
+        }
+      ]
+    }
+
+    const expected = {
+      foo: "string",
+      bar: true
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should merge array item properties with oneOf", () => {
+    const definition = {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          foo: {
+            type: "string"
+          }
+        },
+        oneOf: [
+          {
+            type: "object",
+            properties: {
+              bar: {
+                type: "boolean"
+              }
+            }
+          }
+        ]
+      }
+    }
+
+    const expected = [
+      {
+        foo: "string",
+        bar: true
+      }
+    ]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
