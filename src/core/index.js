@@ -113,15 +113,18 @@ export default function SwaggerUI(opts) {
     features: {
       tryItOutEnabled: {
         enabled: false,
-        description: "Enable Try It Out by default"
+        title: "Try It Out Enabled",
+        description: "Enables Try It Out by default for all operations."
       },
       persistAuthorization: {
         enabled: false,
-        description: "Persist Authorization"
+        title: "Persist Authorization",
+        description: "Persists authorization data that would be lost on browser close or on refresh."
       },
       filter: {
         enabled: false,
-        description: "Filter by tags"
+        title: "Tag Filter",
+        description: "Enables a search bar to filter operations by tag name."
       },
     }
   }

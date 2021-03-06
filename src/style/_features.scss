@@ -5,12 +5,18 @@
   flex-wrap: nowrap;
   .feature-item {
     width: 100%;
+    .seperator {
+      width: 100%;
+      border-bottom: 1px solid rgba(59,65,81,.2);
+      height: 15px;
+      margin-bottom: 15px;
+    }
     .feature-item-option {
       display: flex;
       flex-wrap: nowrap;
       justify-content: flex-start;
-      padding-left: 10px;
       align-items: center;
+      padding-left: 10px;
       font-family: sans-serif;
       font-size: 100%;
       line-height: 1.15;
@@ -19,6 +25,13 @@
       font-weight: 400;
       input {
         margin-right: 5px;
+      }
+      .feature-item-detail {
+        h4 {
+          margin-bottom: 5px;
+          margin-top: 0;
+        }
+        margin-left: 15px;
       }
     }
   }

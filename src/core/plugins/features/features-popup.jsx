@@ -37,9 +37,13 @@ export default class FeaturesPopupButton extends React.Component {
                   const checked = featuresSelectors.isFeatureEnabled(key)
                   return <div className="feature-item" key={"feature-item-" + key}>
                     <label className="feature-item-option">
-                      <input onClick={onClick} type="checkbox" checked={checked} defaultChecked={checked} />
-                      {feature.get("description")}
+                      <input onChange={onClick} type="checkbox" checked={checked} />
+                      <div className="feature-item-detail">
+                        <h4>{feature.get("title")}</h4>
+                        {feature.get("description")}
+                      </div>
                     </label>
+                    <div className="seperator"></div>
                   </div>
                 }).toArray()
               }
