@@ -53,6 +53,8 @@ export default function SwaggerUI(opts) {
     showExtensions: false,
     showCommonExtensions: false,
     withCredentials: undefined,
+    hierarchicalTagsEnabled: true, // TODO: switch to false
+    hierarchicalTagDelimiter: "|",
     supportedSubmitMethods: [
       "get",
       "put",
@@ -107,6 +109,10 @@ export default function SwaggerUI(opts) {
       spec: {
         spec: "",
         url: constructorConfig.url
+      },
+      hierarchicalTags: {
+        enabled: constructorConfig.hierarchicalTagsEnabled,
+        delimiter: constructorConfig.hierarchicalTagDelimiter
       }
     }, constructorConfig.initialState)
   }

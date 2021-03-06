@@ -12,6 +12,7 @@ import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 import filter from "core/plugins/filter"
 import onComplete from "core/plugins/on-complete"
+import hierarchicalTags from "core/plugins/hierarchical-tags"
 
 import OperationContainer from "core/containers/OperationContainer"
 
@@ -191,6 +192,7 @@ export default function() {
     downloadUrlPlugin,
     deepLinkingPlugin,
     filter,
-    onComplete
+    onComplete,
+    hierarchicalTags
   ]
 }
