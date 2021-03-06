@@ -53,6 +53,7 @@ export default function SwaggerUI(opts) {
     showExtensions: false,
     showCommonExtensions: false,
     withCredentials: undefined,
+    requestSnippetsEnabled: false,
     requestSnippets: {
       generators: {
         "curl_bash": {

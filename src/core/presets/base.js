@@ -65,6 +65,7 @@ import JumpToPath from "core/components/jump-to-path"
 import Footer from "core/components/footer"
 import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
+import Curl from "core/components/curl"
 import Schemes from "core/components/schemes"
 import SchemesContainer from "core/containers/schemes"
 import ModelCollapse from "core/components/model-collapse"
@@ -132,6 +133,7 @@ export default function() {
       footer: Footer,
       FilterContainer,
       ParamBody: ParamBody,
+      curl: Curl,
       schemes: Schemes,
       SchemesContainer,
       modelExample: ModelExample,
