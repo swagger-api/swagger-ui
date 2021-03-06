@@ -6,12 +6,6 @@ import { createDeepLinkPath, escapeDeepLinkPath, sanitizeUrl } from "core/utils"
 import { buildUrl } from "core/utils/url"
 import { isFunc } from "core/utils"
 
-const SWAGGER2_OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch"
-]
-
-const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
-
 export default class OperationTag extends React.Component {
 
   static defaultProps = {
@@ -20,10 +14,8 @@ export default class OperationTag extends React.Component {
   }
 
   static propTypes = {
-    tagObj: ImPropTypes.map,
-    tag: PropTypes.string,
-    childTags: ImPropTypes.map.isRequired,
-    isRoot: PropTypes.bool,
+    tagObj: ImPropTypes.map.isRequired,
+    tag: PropTypes.string.isRequired,
 
     oas3Selectors: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
@@ -33,63 +25,48 @@ export default class OperationTag extends React.Component {
     getComponent: PropTypes.func.isRequired,
 
     specUrl: PropTypes.string.isRequired,
-  }
 
-  constructor(props) {
-    super(props);
-    this.render = this.render.bind(this);
-    this.renderChildTags = this.renderChildTags.bind(this);
+    children: PropTypes.element,
   }
 
   render() {
-    // If this is the root element, just render the child tags
-    if (this.props.isRoot) {
-      return this.renderChildTags();
-    }
-
-    // Otherwise, we're rendering the individual elements, so proceed with full render
-
-    // Get the necessary props
     const {
       tagObj,
       tag,
+      children,
       oas3Selectors,
       layoutSelectors,
       layoutActions,
       getConfigs,
       getComponent,
-      specSelectors,
       specUrl,
     } = this.props
 
-    // Get the necessary configs
     let {
       docExpansion,
       deepLinking,
     } = getConfigs()
 
-    // Get the necessary components
-    const OperationContainer = getComponent("OperationContainer", true)
+    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
+
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown", true)
     const DeepLink = getComponent("DeepLink")
     const Link = getComponent("Link")
 
-    // Set up some helpers
-    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
+    let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
+    let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
+    let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
+    let tagExternalDocsUrl
+    if (isFunc(oas3Selectors) && isFunc(oas3Selectors.selectedServer)) {
+      tagExternalDocsUrl = buildUrl( rawTagExternalDocsUrl, specUrl, { selectedServer: oas3Selectors.selectedServer() } )
+    } else {
+      tagExternalDocsUrl = rawTagExternalDocsUrl
+    }
 
-    const tagDescription = tagObj ? tagObj.getIn(["tagDetails", "description"], null) : null;
-    const tagExternalDocsDescription = tagObj ? tagObj.getIn(["tagDetails", "externalDocs", "description"]) : null;
-    const rawTagExternalDocsUrl = tagObj ? tagObj.getIn(["tagDetails", "externalDocs", "url"]) : null;
-    const tagExternalDocsUrl = (isFunc(oas3Selectors) && isFunc(oas3Selectors.selectedServer))
-      ? buildUrl(rawTagExternalDocsUrl, specUrl, { selectedServer: oas3Selectors.selectedServer() })
-      : rawTagExternalDocsUrl;
-    const operations = tagObj ? tagObj.get("operations") : Im.fromJS({});
+    let isShownKey = ["operations-tag", tag]
+    let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
-    const isShownKey = ["operations-tag", tag]
-    const showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
-
-    // Finally, render
     return (
       <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} >
 
@@ -139,79 +116,8 @@ export default class OperationTag extends React.Component {
         </h4>
 
         <Collapse isOpened={showTag}>
-          <div className="hierarchical-operation-tag-operations">
-            {
-              operations.map(op => {
-                const path = op.get("path")
-                const method = op.get("method")
-                const specPath = Im.List(["paths", path, method])
-
-
-                // FIXME: (someday) this logic should probably be in a selector,
-                // but doing so would require further opening up
-                // selectors to the plugin system, to allow for dynamic
-                // overriding of low-level selectors that other selectors
-                // rely on. --KS, 12/17
-                const validMethods = specSelectors.isOAS3() ?
-                  OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
-
-                if(validMethods.indexOf(method) === -1) {
-                  return null
-                }
-
-                return <OperationContainer
-                  key={`${method}-${path}`}
-                  specPath={specPath}
-                  op={op}
-                  path={path}
-                  method={method}
-                  tag={tag}
-                />
-              }).toArray()
-            }
-          </div>
-
-          { this.renderChildTags() }
+          {children}
         </Collapse>
-      </div>
-    )
-  }
-
-  renderChildTags() {
-    const { childTags } = this.props;
-    if (!childTags || childTags.size === 0) {
-      return null;
-    }
-
-    const {
-      oas3Selectors,
-      layoutSelectors,
-      layoutActions,
-      getConfigs,
-      getComponent,
-      specSelectors,
-      isRoot,
-    } = this.props;
-
-    return (
-      <div className="hierarchical-operation-tags" style={isRoot ? null : {margin: "0 0 0 2rem"}}>
-      {
-        childTags.map((tag, tagName) => {
-          return <OperationTag
-            key={"operation-" + (tag.get("canonicalTagName") || tagName)}
-            tagObj={tag.get("data")}
-            tag={tagName}
-            specSelectors={specSelectors}
-            oas3Selectors={oas3Selectors}
-            layoutSelectors={layoutSelectors}
-            layoutActions={layoutActions}
-            getConfigs={getConfigs}
-            getComponent={getComponent}
-            childTags={tag.get("childTags")}
-            isRoot={false}
-          />
-        }).toArray()
-      }
       </div>
     )
   }
