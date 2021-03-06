@@ -40,7 +40,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     target.example = oldSchema.example
   }
   if(target.default === undefined && oldSchema.default !== undefined) {
-    target.default = oldSchema.default
+    target.default = oldSchema.defaultfn
   }
   if(target.enum === undefined && oldSchema.enum !== undefined) {
     target.enum = oldSchema.enum
@@ -81,6 +81,13 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
       }
     }
   }
+  if(oldSchema.items) {
+    if(!target.items) {
+      target.items = {}
+    }
+    target.items = liftSampleHelper(oldSchema.items, target.items, config)
+  }
+
   return target
 }
 
@@ -101,6 +108,35 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
     if(schema.example !== undefined && schemaToAdd.example !== undefined) {
       usePlainValue = true
+    } else if(schemaToAdd.properties) {
+      if(!schema.properties) {
+        schema.properties = {}
+      }
+      let props = objectify(schemaToAdd.properties)
+      for (let propName in props) {
+        if (!props.hasOwnProperty(propName)) {
+          continue
+        }
+        if ( props[propName] && props[propName].deprecated ) {
+          continue
+        }
+        if ( props[propName] && props[propName].readOnly && !config.includeReadOnly ) {
+          continue
+        }
+        if ( props[propName] && props[propName].writeOnly && !config.includeWriteOnly ) {
+          continue
+        }
+        if(!schema.properties[propName]) {
+          schema.properties[propName] = props[propName]
+          if(!schemaToAdd.required && Array.isArray(schemaToAdd.required) && schemaToAdd.required.indexOf(propName) !== -1) {
+            if(!schema.required) {
+              schema.required = [propName]
+            } else {
+              schema.required.push(propName)
+            }
+          }
+        }
+      }
     }
   }
   const _attr = {}
@@ -349,6 +385,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       items.xml = items.xml || schema.xml || {}
       items.xml.name = items.xml.name || xml.name
     }
+
     if(Array.isArray(items.anyOf)) {
       sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i, config), config, undefined, respectXML))
     } else if(Array.isArray(items.oneOf)) {
