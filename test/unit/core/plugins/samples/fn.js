@@ -729,6 +729,47 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
+
+  it("should lift items with anyOf", () => {
+    const definition = {
+      type: "array",
+      anyOf: [
+        {
+          type: "array",
+          items: {
+            type: "boolean"
+          }
+        }
+      ]
+    }
+
+    const expected = [
+      true
+    ]
+
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should lift items with oneOf", () => {
+    const definition = {
+      type: "array",
+      oneOf: [
+        {
+          type: "array",
+          items: {
+            type: "boolean"
+          }
+        }
+      ]
+    }
+
+    const expected = [
+      true
+    ]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
