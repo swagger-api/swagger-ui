@@ -39,8 +39,7 @@ export default class Operations extends React.Component {
       hierarchicalTags,
     } = getConfigs()
 
-    // Get a flat map of tag names to tag info and operations. Note that this will always return a
-    // flat list, even if the `hierarchicalTags` option is set to `true`.
+    // Note returns now optional filtered and optional hierarchical structure, in case user has set config accordingly
     const taggedOps = specSelectors.taggedOperations()
 
     if(taggedOps.size === 0) {
