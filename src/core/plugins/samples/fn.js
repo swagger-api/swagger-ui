@@ -36,21 +36,20 @@ const sanitizeRef = (value) => deeplyStripKey(value, "$$ref", (val) =>
   typeof val === "string" && val.indexOf("#") > -1)
 
 const liftSampleHelper = (oldSchema, target) => {
-  if(target.example === undefined && oldSchema.example !== undefined) {
-    target.example = oldSchema.example
+  const setIfNotDefinedInTarget = (key) => {
+    if(target[key] === undefined && oldSchema[key] !== undefined) {
+      target[key] = oldSchema[key]
+    }
   }
-  if(target.default === undefined && oldSchema.default !== undefined) {
-    target.default = oldSchema.default
-  }
-  if(target.enum === undefined && oldSchema.enum !== undefined) {
-    target.enum = oldSchema.enum
-  }
-  if(target.xml === undefined && oldSchema.xml !== undefined) {
-    target.xml = oldSchema.xml
-  }
-  if(target.type === undefined && oldSchema.type !== undefined) {
-    target.type = oldSchema.type
-  }
+  [
+    "example",
+    "default",
+    "enum",
+    "xml",
+    "type",
+    "maxProperties",
+    "minProperties",
+  ].forEach(key => setIfNotDefinedInTarget(key))
   return target
 }
 
@@ -141,6 +140,53 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   // add to result helper init for xml or json
   const props = objectify(properties)
   let addPropertyToResult
+  let propertyAddedCounter = 0
+
+  const hasExceededMaxProperties = () => schema
+    && schema.maxProperties !== null && schema.maxProperties !== undefined
+    && propertyAddedCounter >= schema.maxProperties
+
+  const requiredPropertiesToAdd = () => {
+    if(!schema || !schema.required) {
+      return 0
+    }
+    let addedCount = 0
+    if(respectXML) {
+      schema.required.forEach(key => addedCount +=
+        res[key] === undefined
+          ? 0
+          : 1
+      )
+    } else {
+      schema.required.forEach(key => addedCount +=
+        res[displayName]?.find(x => x[key] !== undefined) === undefined
+          ? 0
+          : 1
+      )
+    }
+    return schema.required.length - addedCount
+  }
+
+  const isOptionalProperty = (propName) => {
+    if(!schema || !schema.required || !schema.required.length) {
+      return true
+    }
+    return !schema.required.includes(propName)
+  }
+
+  const canAddProperty = (propName) => {
+    if(!schema || schema.maxProperties === null || schema.maxProperties === undefined) {
+      return true
+    }
+    if(hasExceededMaxProperties()) {
+      return false
+    }
+    if(!isOptionalProperty(propName)) {
+      return true
+    }
+    return (schema.maxProperties - propertyAddedCounter - requiredPropertiesToAdd()) > 0
+  }
+
   if(respectXML) {
     addPropertyToResult = (propName, overrideE = undefined) => {
       if(schema && props[propName]) {
@@ -177,6 +223,11 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
 
       let t = sampleFromSchemaGeneric(schema && props[propName] || undefined, config, overrideE, respectXML)
+      if(!canAddProperty(propName)) {
+        return
+      }
+
+      propertyAddedCounter++
       if (Array.isArray(t)) {
         res[displayName] = res[displayName].concat(t)
       } else {
@@ -185,8 +236,11 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
   } else {
     addPropertyToResult = (propName, overrideE) => {
-
+      if(!canAddProperty(propName)) {
+        return
+      }
       res[propName] = sampleFromSchemaGeneric(props[propName], config, overrideE, respectXML)
+      propertyAddedCounter++
     }
   }
 
@@ -309,6 +363,13 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
       addPropertyToResult(propName)
     }
+    if (respectXML && _attr) {
+      res[displayName].push({_attr: _attr})
+    }
+
+    if(hasExceededMaxProperties()) {
+      return res
+    }
 
     if ( additionalProperties === true ) {
       if(respectXML) {
@@ -316,6 +377,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       } else {
         res.additionalProp1 = {}
       }
+      propertyAddedCounter++
     } else if ( additionalProperties ) {
       const additionalProps = objectify(additionalProperties)
       const additionalPropSample = sampleFromSchemaGeneric(additionalProps, config, undefined, respectXML)
@@ -324,7 +386,13 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       {
         res[displayName].push(additionalPropSample)
       } else {
-        for (let i = 1; i < 4; i++) {
+        const toGenerateCount = schema.minProperties !== null && schema.minProperties !== undefined && propertyAddedCounter < schema.minProperties
+          ? schema.minProperties - propertyAddedCounter
+          : 4
+        for (let i = 1; i < toGenerateCount; i++) {
+          if(hasExceededMaxProperties()) {
+            return res
+          }
           if(respectXML) {
             const temp = {}
             temp["additionalProp" + i] = additionalPropSample["notagname"]
@@ -332,13 +400,10 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
           } else {
             res["additionalProp" + i] = additionalPropSample
           }
+          propertyAddedCounter++
         }
       }
     }
-    if (respectXML && _attr) {
-      res[displayName].push({_attr: _attr})
-    }
-
     return res
   }
 
