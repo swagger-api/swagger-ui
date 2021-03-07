@@ -670,6 +670,104 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
+
+  it("should handle maxProperties", () => {
+    const definition = {
+      type: "object",
+      maxProperties: 1,
+      properties: {
+        foo: {
+          type: "string"
+        },
+        swaggerUi: {
+          type: "string"
+        }
+      }
+    }
+
+    const expected = {
+      foo: "string"
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maxProperties in conjunction with anyOf", () => {
+    const definition = {
+      type: "object",
+      maxProperties: 1,
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            foo: {
+              type: "string"
+            },
+            swaggerUi: {
+              type: "string"
+            }
+          }
+        }
+      ]
+    }
+
+    const expected = {
+      foo: "string"
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle handle maxProperties in conjunction with required", () => {
+    const definition = {
+      type: "object",
+      maxProperties: 1,
+      required: ["swaggerUi"],
+      properties: {
+        foo: {
+          type: "string"
+        },
+        swaggerUi: {
+          type: "string",
+          example: "<3"
+        }
+      }
+    }
+
+    const expected = {
+      swaggerUi: "<3",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle handle maxProperties in conjunction with anyOf required", () => {
+    const definition = {
+      type: "object",
+      maxProperties: 1,
+      required: ["swaggerUi"],
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            foo: {
+              type: "string"
+            },
+            swaggerUi: {
+              type: "string",
+              example: "<3"
+            }
+          }
+        }
+      ],
+    }
+
+    const expected = {
+      swaggerUi: "<3",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
@@ -1674,6 +1772,33 @@ describe("createXMLExample", function () {
 
       expect(sut(definition, {}, expected)).toEqual(expected)
     })
+  })
+
+  it("should handle handle maxProperties in conjunction with required", function () {
+    const definition = {
+      type: "object",
+      maxProperties: 1,
+      required: ["swaggerUi"],
+      xml: {
+        name: "probe"
+      },
+      properties: {
+        foo: {
+          type: "string"
+        },
+        swaggerUi: {
+          type: "string",
+          example: "cool"
+        }
+      }
+    }
+
+    const expected = `<?xml version="1.0" encoding="UTF-8"?>
+<probe>
+\t<swaggerUi>cool</swaggerUi>
+</probe>`
+
+    expect(sut(definition)).toEqual(expected)
   })
 })
 
