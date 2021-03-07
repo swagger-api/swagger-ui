@@ -768,6 +768,77 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
+
+  it("should handle minItems", () => {
+    const definition = {
+      type: "array",
+      minItems: 2,
+      items: {
+        type: "string"
+      }
+    }
+
+    const expected = ["string", "string"]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minItems with example", () => {
+    const definition = {
+      type: "array",
+      minItems: 2,
+      items: {
+        type: "string",
+        example: "some"
+      },
+    }
+
+    const expected = ["some", "some"]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minItems in conjunction with oneOf", () => {
+    const definition = {
+      type: "array",
+      minItems: 4,
+      items: {
+        oneOf: [
+          {
+            type: "string"
+          },
+          {
+            type: "number"
+          }
+        ]
+      }
+    }
+
+    const expected = ["string", 0, "string", 0]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maxItems in conjunction with multiple oneOf", () => {
+    const definition = {
+      type: "array",
+      maxItems: 1,
+      items: {
+        oneOf: [
+          {
+            type: "string"
+          },
+          {
+            type: "number"
+          }
+        ]
+      }
+    }
+
+    const expected = ["string"]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
