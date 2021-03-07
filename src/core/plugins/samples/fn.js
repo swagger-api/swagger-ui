@@ -51,6 +51,10 @@ const liftSampleHelper = (oldSchema, target) => {
     "minProperties",
     "minItems",
     "maxItems",
+    "minimum",
+    "maximum",
+    "exclusiveMinimum",
+    "exclusiveMaximum",
   ].forEach(key => setIfNotDefinedInTarget(key))
 
   if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
@@ -469,6 +473,22 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   } else if(schema) {
     // display schema default
     value = primitive(schema)
+    if(typeof value === "number") {
+      let min = schema.minimum
+      if(min !== undefined && min !== null) {
+        if(schema.exclusiveMinimum) {
+          min++
+        }
+        value = min
+      }
+      let max = schema.maximum
+      if(max !== undefined && max !== null) {
+        if(schema.exclusiveMaximum) {
+          max--
+        }
+        value = max
+      }
+    }
   } else {
     return
   }
