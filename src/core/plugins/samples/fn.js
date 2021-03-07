@@ -49,6 +49,8 @@ const liftSampleHelper = (oldSchema, target) => {
     "type",
     "maxProperties",
     "minProperties",
+    "minItems",
+    "maxItems",
   ].forEach(key => setIfNotDefinedInTarget(key))
   return target
 }
@@ -135,6 +137,19 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     } else if(!usePlainValue && !schema.enum){
       return
     }
+  }
+
+  const handleMinMaxItems = (sampleArray) => {
+    if (schema.maxItems !== null && schema.maxItems !== undefined) {
+      sampleArray = sampleArray.slice(0, schema.maxItems)
+    }
+    if (schema.minItems !== null && schema.minItems !== undefined) {
+      let i = 0
+      while (sampleArray.length < schema.minItems) {
+        sampleArray.push(sampleArray[i++ % sampleArray.length])
+      }
+    }
+    return sampleArray
   }
 
   // add to result helper init for xml or json
@@ -294,8 +309,9 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         itemSchema.xml = itemSchema.xml || xml || {}
         itemSchema.xml.name = itemSchema.xml.name || xml.name
       }
-      const itemSamples = sample
+      let itemSamples = sample
         .map(s => sampleFromSchemaGeneric(itemSchema, config, s, respectXML))
+      itemSamples = handleMinMaxItems(itemSamples)
       if(xml.wrapped) {
         res[displayName] = itemSamples
         if (!isEmpty(_attr)) {
@@ -422,6 +438,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     } else {
       return sampleFromSchemaGeneric(items, config, undefined, respectXML)
     }
+    sampleArray = handleMinMaxItems(sampleArray)
     if(respectXML && xml.wrapped) {
       res[displayName] = sampleArray
       if (!isEmpty(_attr)) {
