@@ -32,12 +32,10 @@ export default class Operations extends React.Component {
       layoutSelectors,
       layoutActions,
       getConfigs,
-      fn
     } = this.props
 
     // Get pertinent options
     let {
-      maxDisplayedTags,
       hierarchicalTags,
       tagSplitterChar,
     } = getConfigs();
@@ -47,20 +45,7 @@ export default class Operations extends React.Component {
 
     // Get a flat map of tag names to tag info and operations. Note that this will always return a
     // flat list, even if the `hierarchicalTags` option is set to `true`.
-    let taggedOps = specSelectors.taggedOperations()
-
-    // Filter, if requested
-    let filter = layoutSelectors.currentFilter()
-    if (filter) {
-      if (filter !== true && filter !== "true" && filter !== "false") {
-        taggedOps = fn.opsFilter(taggedOps, filter)
-      }
-    }
-
-    // Limit to [max] items, if specified
-    if (maxDisplayedTags && !isNaN(maxDisplayedTags) && maxDisplayedTags >= 0) {
-      taggedOps = taggedOps.slice(0, maxDisplayedTags)
-    }
+    const taggedOps = specSelectors.taggedOperations()
 
     // Render either hierarchical or flat depending on config
     if (hierarchicalTags) {
