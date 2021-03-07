@@ -886,6 +886,28 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
+
+  it("should handle minLength", () => {
+    const definition = {
+      type: "string",
+      minLength: 7
+    }
+
+    const expected = "strings"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maxLength", () => {
+    const definition = {
+      type: "string",
+      maxLength: 3
+    }
+
+    const expected = "str"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
