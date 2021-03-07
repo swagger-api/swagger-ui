@@ -51,7 +51,7 @@ export const taggedOperations = (oriSelector, system) => (state, ...args) => {
     taggedOps = taggedOps.slice(0, maxDisplayedTags)
   }
 
-  if(hierarchicalTags) {
+  if(hierarchicalTags === true || hierarchicalTags === "true") {
     const tagSplitterChar = configs.tagSplitterChar || /[:|]/
 
     return taggedOps.reduce(

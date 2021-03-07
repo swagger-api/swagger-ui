@@ -56,6 +56,11 @@ export default class Operations extends React.Component {
     const OperationContainer = getComponent("OperationContainer", true)
     const OperationTag = getComponent("OperationTag")
     const operations = tagObj.get("operations")
+    const contentClassNames = ["operation-tag-content"]
+    const hierarchicalTags = getConfigs().hierarchicalTags
+    if(hierarchicalTags === true || hierarchicalTags === "true") {
+      contentClassNames.push("indented")
+    }
     return (
       <OperationTag
         key={"operation-" + tag}
@@ -67,7 +72,7 @@ export default class Operations extends React.Component {
         getConfigs={getConfigs}
         getComponent={getComponent}
         specUrl={specSelectors.url()}>
-        <div style={{borderLeft: "1px solid rgba(59,65,81,.3)", paddingLeft: "1rem", marginLeft: "1rem", }}>
+        <div className={contentClassNames.join(" ")}>
           {
             operations?.map(op => {
               const path = op.get("path")
