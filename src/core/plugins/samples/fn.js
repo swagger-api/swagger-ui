@@ -52,6 +52,19 @@ const liftSampleHelper = (oldSchema, target) => {
     "minItems",
     "maxItems",
   ].forEach(key => setIfNotDefinedInTarget(key))
+
+  if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
+    if(target.required === undefined || !target.required.length) {
+      target.required = []
+    }
+    oldSchema.required.forEach(key => {
+      if(target.required.includes(key)) {
+        return
+      }
+      target.required.push(key)
+    })
+  }
+
   return target
 }
 
