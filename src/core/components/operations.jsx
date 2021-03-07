@@ -48,14 +48,8 @@ export default class Operations extends React.Component {
 
     // Render either hierarchical or flat depending on config
     if (hierarchicalTags) {
-      const HierarchicalOperationTag = getComponent("HierarchicalOperationTag")
+      const HierarchicalOperationTag = getComponent("HierarchicalOperationTag", true)
       return <HierarchicalOperationTag
-        specSelectors={specSelectors}
-        oas3Selectors={oas3Selectors}
-        layoutSelectors={layoutSelectors}
-        layoutActions={layoutActions}
-        getConfigs={getConfigs}
-        getComponent={getComponent}
         childTags={taggedOps}
         isRoot={true}
       />
