@@ -55,6 +55,8 @@ const liftSampleHelper = (oldSchema, target) => {
     "maximum",
     "exclusiveMinimum",
     "exclusiveMaximum",
+    "minLength",
+    "maxLength"
   ].forEach(key => setIfNotDefinedInTarget(key))
 
   if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
@@ -487,6 +489,17 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
           max--
         }
         value = max
+      }
+    }
+    if(typeof value === "string") {
+      if (schema.maxLength !== null && schema.maxLength !== undefined) {
+        value = value.slice(0, schema.maxLength)
+      }
+      if (schema.minLength !== null && schema.minLength !== undefined) {
+        let i = 0
+        while (value.length < schema.minLength) {
+          value += value[i++ % value.length]
+        }
       }
     }
   } else {
