@@ -839,6 +839,53 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
+
+  it("should handle minimum", () => {
+    const definition = {
+      type: "number",
+      minimum: 5,
+    }
+
+    const expected = 5
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minimum with exclusive", () => {
+    const definition = {
+      type: "number",
+      minimum: 5,
+      exclusiveMinimum: true,
+    }
+
+    const expected = 6
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+
+  it("should handle maximum", () => {
+    const definition = {
+      type: "number",
+      maximum: -1,
+    }
+
+    const expected = -1
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maximum with exclusive", () => {
+    const definition = {
+      type: "number",
+      maximum: -1,
+      exclusiveMaximum: true,
+    }
+
+    const expected = -2
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
