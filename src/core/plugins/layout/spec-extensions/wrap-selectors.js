@@ -1,4 +1,36 @@
-import { fromJS } from "immutable"
+import { OrderedMap } from "immutable"
+
+
+const addTagIn = (hierarchicalOperations, nestedTagPath, targetValue) => {
+  targetValue = targetValue.set("childTags", OrderedMap())
+  for (let i = 0; i < nestedTagPath.length; i++) {
+    const currentTag = nestedTagPath[i]
+    const isTargetTag = i === nestedTagPath.length - 1
+    const isRootTag = i === 0
+    const isNewRootTag = isRootTag && !hierarchicalOperations.has(currentTag)
+
+    const newTagValue = isTargetTag ? targetValue : OrderedMap({childTags: OrderedMap()})
+
+    if(isNewRootTag) {
+      hierarchicalOperations = hierarchicalOperations.set(
+        currentTag,
+        newTagValue
+      )
+      continue
+    }
+
+    const hierarchicalUpdatePath = nestedTagPath
+      .slice(0, i)
+      .reduce((acc, x) => acc.concat([x, "childTags"]), [])
+    hierarchicalUpdatePath.push(currentTag)
+
+    hierarchicalOperations = hierarchicalOperations.mergeDeepIn(
+      hierarchicalUpdatePath,
+      newTagValue
+    )
+  }
+  return hierarchicalOperations
+}
 
 export const taggedOperations = (oriSelector, system) => (state, ...args) => {
   let taggedOps = oriSelector(state, ...args)
@@ -21,58 +53,11 @@ export const taggedOperations = (oriSelector, system) => (state, ...args) => {
 
   if(hierarchicalTags) {
     const tagSplitterChar = configs.tagSplitterChar || /[:|]/
-    // If the `hierarchicalTags` option is set, we want to break down the tags into a deep
-    // hierarchy. We're using a "raw" object for cleanliness here, but later we'll convert that
-    // into an immutable map. Here are the types we're dealing with:
-    //
-    // const operationTagsRaw: TagMap;
-    // type TagMap = { [TagName: string]: TagData };
-    // type TagData = {
-    //   canonicalName: string;
-    //   data: TagInfoAndOperations | null;
-    //   childTags: TagMap;
-    // }
-    // TODO: Explicitly define TagInfoAndOperations
 
-    const operationTagsRaw = {}
-
-    // For each raw tag....
-    taggedOps.map((tagObj, tagName) => {
-      // Split the raw tag name into parts
-      const parts = tagName.split(tagSplitterChar)
-
-      // Set a pointer for use in traversing the hierarchy
-      let current = operationTagsRaw
-
-      // Iterate through the parts defined by this tag
-      for (let i = 0; i < parts.length; i++) {
-        const part = parts[i]
-
-        // If there's no object defined for the current part, define one with just childTags as an
-        // empty set
-        if (current[part] === undefined) {
-          // Compose canonical name from parts up to this point
-          const canonicalName = parts.reduce(
-            (name, p, j) => ((j > i) ? name : name.concat([p])),
-            []
-          ).join("|")
-          current[part] = {
-            canonicalName,
-            data: null,
-            childTags: {}
-          }
-        }
-
-        // If this is the last part, set data on this object
-        if (i === parts.length - 1) {
-          current[part].data = tagObj
-        }
-
-        // Move to the next level of the hierarchy before looping around
-        current = current[part].childTags
-      }
-    })
-    taggedOps = fromJS(operationTagsRaw)
+    return taggedOps.reduce(
+      (hierarchicalOperations, tagObj, tagName) => addTagIn(hierarchicalOperations, tagName.split(tagSplitterChar), tagObj),
+      OrderedMap()
+    )
   }
 
   return taggedOps

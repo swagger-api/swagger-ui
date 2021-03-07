@@ -27,17 +27,7 @@ export default class Operations extends React.Component {
   render() {
     let {
       specSelectors,
-      getComponent,
-      oas3Selectors,
-      layoutSelectors,
-      layoutActions,
-      getConfigs,
     } = this.props
-
-    // Get pertinent options
-    let {
-      hierarchicalTags,
-    } = getConfigs()
 
     // Note returns now optional filtered and optional hierarchical structure, in case user has set config accordingly
     const taggedOps = specSelectors.taggedOperations()
@@ -46,71 +36,73 @@ export default class Operations extends React.Component {
       return <h3> No operations defined in spec!</h3>
     }
 
-    // Render either hierarchical or flat depending on config
-    if (hierarchicalTags) {
-      const HierarchicalOperationTag = getComponent("HierarchicalOperationTag", true)
-      return <HierarchicalOperationTag
-        childTags={taggedOps}
-        isRoot={true}
-      />
-    }
-
-    const OperationContainer = getComponent("OperationContainer", true)
-    const OperationTag = getComponent("OperationTag")
     return (
         <div>
+          { taggedOps.map(this.renderOperationTag).toArray() }
+          { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
+        </div>
+    )
+  }
+
+  renderOperationTag = (tagObj, tag) => {
+    const {
+      specSelectors,
+      getComponent,
+      oas3Selectors,
+      layoutSelectors,
+      layoutActions,
+      getConfigs,
+    } = this.props
+    const OperationContainer = getComponent("OperationContainer", true)
+    const OperationTag = getComponent("OperationTag")
+    const operations = tagObj.get("operations")
+    return (
+      <OperationTag
+        key={"operation-" + tag}
+        tagObj={tagObj}
+        tag={tag}
+        oas3Selectors={oas3Selectors}
+        layoutSelectors={layoutSelectors}
+        layoutActions={layoutActions}
+        getConfigs={getConfigs}
+        getComponent={getComponent}
+        specUrl={specSelectors.url()}>
+        <div style={{borderLeft: "1px solid rgba(59,65,81,.3)", paddingLeft: "1rem", marginLeft: "1rem", }}>
           {
-            taggedOps.map( (tagObj, tag) => {
-              const operations = tagObj.get("operations")
+            operations?.map(op => {
+              const path = op.get("path")
+              const method = op.get("method")
+              const specPath = Im.List(["paths", path, method])
+
+
+              // FIXME: (someday) this logic should probably be in a selector,
+              // but doing so would require further opening up
+              // selectors to the plugin system, to allow for dynamic
+              // overriding of low-level selectors that other selectors
+              // rely on. --KS, 12/17
+              const validMethods = specSelectors.isOAS3() ?
+                OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
+
+              if (validMethods.indexOf(method) === -1) {
+                return null
+              }
+
               return (
-                <OperationTag
-                  key={"operation-" + tag}
-                  tagObj={tagObj}
-                  tag={tag}
-                  oas3Selectors={oas3Selectors}
-                  layoutSelectors={layoutSelectors}
-                  layoutActions={layoutActions}
-                  getConfigs={getConfigs}
-                  getComponent={getComponent}
-                  specUrl={specSelectors.url()}>
-                  {
-                    operations.map( op => {
-                      const path = op.get("path")
-                      const method = op.get("method")
-                      const specPath = Im.List(["paths", path, method])
-
-
-                      // FIXME: (someday) this logic should probably be in a selector,
-                      // but doing so would require further opening up
-                      // selectors to the plugin system, to allow for dynamic
-                      // overriding of low-level selectors that other selectors
-                      // rely on. --KS, 12/17
-                      const validMethods = specSelectors.isOAS3() ?
-                            OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
-
-                      if(validMethods.indexOf(method) === -1) {
-                        return null
-                      }
-
-                      return <OperationContainer
-                                 key={`${path}-${method}`}
-                                 specPath={specPath}
-                                 op={op}
-                                 path={path}
-                                 method={method}
-                                 tag={tag}
-                                 />
-                    }).toArray()
-                  }
-
-
-                </OperationTag>
+                <OperationContainer
+                  key={`${path}-${method}`}
+                  specPath={specPath}
+                  op={op}
+                  path={path}
+                  method={method}
+                  tag={tag} />
               )
             }).toArray()
           }
-
-          { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
+          {
+            tagObj.get("childTags")?.map(this.renderOperationTag).toArray()
+          }
         </div>
+      </OperationTag>
     )
   }
 }
