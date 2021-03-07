@@ -607,6 +607,69 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition, {}, expected)).toEqual(expected)
   })
+
+  it("should ignore minProperties if cannot extend object", () => {
+    const definition = {
+      type: "object",
+      minProperties: 2,
+      properties: {
+        foo: {
+          type: "string"
+        }
+      }
+    }
+
+    const expected = {
+      foo: "string"
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minProperties in conjunction with additionalProperties", () => {
+    const definition = {
+      type: "object",
+      minProperties: 2,
+      additionalProperties: true,
+      properties: {
+        foo: {
+          type: "string"
+        }
+      }
+    }
+
+    const expected = {
+      foo: "string",
+      additionalProp1: {}
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minProperties in conjunction with additionalProperties and anyOf", () => {
+    const definition = {
+      type: "object",
+      minProperties: 2,
+      additionalProperties: true,
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            foo: {
+              type: "string"
+            }
+          }
+        }
+      ]
+    }
+
+    const expected = {
+      foo: "string",
+      additionalProp1: {}
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
