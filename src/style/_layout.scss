@@ -6,7 +6,13 @@
     padding: 0 20px;
     box-sizing: border-box;
 }
-
+.operation-tag-content {
+  &.indented {
+    border-left: 1px solid rgba(59,65,81,.3);
+    padding-left: 1rem;
+    margin-left: 1rem;
+  }
+}
 .opblock-tag-section
 {
     display: flex;

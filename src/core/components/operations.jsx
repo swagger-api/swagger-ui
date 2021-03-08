@@ -8,7 +8,6 @@ const SWAGGER2_OPERATION_METHODS = [
 
 const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
 
-
 export default class Operations extends React.Component {
 
   static propTypes = {
@@ -28,92 +27,89 @@ export default class Operations extends React.Component {
   render() {
     let {
       specSelectors,
-      getComponent,
-      oas3Selectors,
-      layoutSelectors,
-      layoutActions,
-      getConfigs,
-      fn
     } = this.props
 
-    let taggedOps = specSelectors.taggedOperations()
+    // Note returns now optional filtered and optional hierarchical structure, in case user has set config accordingly
+    const taggedOps = specSelectors.taggedOperations()
 
-    const OperationContainer = getComponent("OperationContainer", true)
-    const OperationTag = getComponent("OperationTag")
-
-    let {
-      maxDisplayedTags,
-    } = getConfigs()
-
-    let filter = layoutSelectors.currentFilter()
-
-    if (filter) {
-      if (filter !== true && filter !== "true" && filter !== "false") {
-        taggedOps = fn.opsFilter(taggedOps, filter)
-      }
-    }
-
-    if (maxDisplayedTags && !isNaN(maxDisplayedTags) && maxDisplayedTags >= 0) {
-      taggedOps = taggedOps.slice(0, maxDisplayedTags)
+    if(taggedOps.size === 0) {
+      return <h3> No operations defined in spec!</h3>
     }
 
     return (
         <div>
-          {
-            taggedOps.map( (tagObj, tag) => {
-              const operations = tagObj.get("operations")
-              return (
-                <OperationTag
-                  key={"operation-" + tag}
-                  tagObj={tagObj}
-                  tag={tag}
-                  oas3Selectors={oas3Selectors}
-                  layoutSelectors={layoutSelectors}
-                  layoutActions={layoutActions}
-                  getConfigs={getConfigs}
-                  getComponent={getComponent}
-                  specUrl={specSelectors.url()}>
-                  {
-                    operations.map( op => {
-                      const path = op.get("path")
-                      const method = op.get("method")
-                      const specPath = Im.List(["paths", path, method])
-
-
-                      // FIXME: (someday) this logic should probably be in a selector,
-                      // but doing so would require further opening up
-                      // selectors to the plugin system, to allow for dynamic
-                      // overriding of low-level selectors that other selectors
-                      // rely on. --KS, 12/17
-                      const validMethods = specSelectors.isOAS3() ?
-                            OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
-
-                      if(validMethods.indexOf(method) === -1) {
-                        return null
-                      }
-
-                      return <OperationContainer
-                                 key={`${path}-${method}`}
-                                 specPath={specPath}
-                                 op={op}
-                                 path={path}
-                                 method={method}
-                                 tag={tag}
-                                 />
-                    }).toArray()
-                  }
-
-
-                </OperationTag>
-              )
-            }).toArray()
-          }
-
+          { taggedOps.map(this.renderOperationTag).toArray() }
           { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
         </div>
     )
   }
 
+  renderOperationTag = (tagObj, tag) => {
+    const {
+      specSelectors,
+      getComponent,
+      oas3Selectors,
+      layoutSelectors,
+      layoutActions,
+      getConfigs,
+    } = this.props
+    const OperationContainer = getComponent("OperationContainer", true)
+    const OperationTag = getComponent("OperationTag")
+    const operations = tagObj.get("operations")
+    const contentClassNames = ["operation-tag-content"]
+    const hierarchicalTags = getConfigs().hierarchicalTags
+    if(hierarchicalTags === true || hierarchicalTags === "true") {
+      contentClassNames.push("indented")
+    }
+    return (
+      <OperationTag
+        key={"operation-" + tag}
+        tagObj={tagObj}
+        tag={tag}
+        oas3Selectors={oas3Selectors}
+        layoutSelectors={layoutSelectors}
+        layoutActions={layoutActions}
+        getConfigs={getConfigs}
+        getComponent={getComponent}
+        specUrl={specSelectors.url()}>
+        <div className={contentClassNames.join(" ")}>
+          {
+            operations?.map(op => {
+              const path = op.get("path")
+              const method = op.get("method")
+              const specPath = Im.List(["paths", path, method])
+
+
+              // FIXME: (someday) this logic should probably be in a selector,
+              // but doing so would require further opening up
+              // selectors to the plugin system, to allow for dynamic
+              // overriding of low-level selectors that other selectors
+              // rely on. --KS, 12/17
+              const validMethods = specSelectors.isOAS3() ?
+                OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
+
+              if (validMethods.indexOf(method) === -1) {
+                return null
+              }
+
+              return (
+                <OperationContainer
+                  key={`${path}-${method}`}
+                  specPath={specPath}
+                  op={op}
+                  path={path}
+                  method={method}
+                  tag={tag} />
+              )
+            }).toArray()
+          }
+          {
+            tagObj.get("childTags")?.map(this.renderOperationTag).toArray()
+          }
+        </div>
+      </OperationTag>
+    )
+  }
 }
 
 Operations.propTypes = {
