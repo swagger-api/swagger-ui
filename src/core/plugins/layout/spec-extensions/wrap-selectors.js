@@ -1,15 +1,23 @@
 import { OrderedMap } from "immutable"
 
 
-const addTagIn = (hierarchicalOperations, nestedTagPath, targetValue) => {
+const addTagIn = (hierarchicalOperations, fullTagName, targetValue, tagSplitterChar) => {
   targetValue = targetValue.set("childTags", OrderedMap())
+
+  // Need to create a "safe" canonical name. We'll replace all non-alphanum chars with "_" on set
+  targetValue = targetValue.set("canonicalName", fullTagName.replace(/[^a-z0-9]/gi, "_"))
+
+  const nestedTagPath = fullTagName.split(tagSplitterChar)
   for (let i = 0; i < nestedTagPath.length; i++) {
     const currentTag = nestedTagPath[i]
     const isTargetTag = i === nestedTagPath.length - 1
     const isRootTag = i === 0
     const isNewRootTag = isRootTag && !hierarchicalOperations.has(currentTag)
 
-    const newTagValue = isTargetTag ? targetValue : OrderedMap({childTags: OrderedMap()})
+    const newTagValue = isTargetTag ? targetValue : OrderedMap({
+      canonicalName: nestedTagPath.reduce((nm, curVal, j) => j <= i ? nm.concat([ curVal ]) : nm, []).join("_"),
+      childTags: OrderedMap(),
+    })
 
     if(isNewRootTag) {
       hierarchicalOperations = hierarchicalOperations.set(
@@ -55,7 +63,7 @@ export const taggedOperations = (oriSelector, system) => (state, ...args) => {
     const tagSplitterChar = configs.tagSplitterChar || /[:|]/
 
     return taggedOps.reduce(
-      (hierarchicalOperations, tagObj, tagName) => addTagIn(hierarchicalOperations, tagName.split(tagSplitterChar), tagObj),
+      (hierarchicalOperations, tagObj, tagName) => addTagIn(hierarchicalOperations, tagName, tagObj, tagSplitterChar),
       OrderedMap()
     )
   }

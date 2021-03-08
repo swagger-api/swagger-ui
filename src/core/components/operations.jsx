@@ -38,8 +38,7 @@ export default class Operations extends React.Component {
 
     return (
         <div>
-          { taggedOps.map(this.renderOperationTag).toArray() }
-          { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
+            { taggedOps.map(this.renderOperationTag).toArray() }
         </div>
     )
   }
@@ -63,7 +62,7 @@ export default class Operations extends React.Component {
     }
     return (
       <OperationTag
-        key={"operation-" + tag}
+        key={"operation-" + tagObj.get("canonicalName")}
         tagObj={tagObj}
         tag={tag}
         oas3Selectors={oas3Selectors}
