@@ -64,7 +64,7 @@ export default class OperationTag extends React.Component {
       tagExternalDocsUrl = rawTagExternalDocsUrl
     }
 
-    let isShownKey = ["operations-tag", tag]
+    let isShownKey = ["operations-tag", tagObj.get("canonicalName") || tag]
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
     return (
