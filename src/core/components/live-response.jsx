@@ -35,7 +35,8 @@ export default class LiveResponse extends React.Component {
     displayRequestDuration: PropTypes.bool.isRequired,
     specSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    featuresSelectors: PropTypes.func.isRequired
   }
 
   shouldComponentUpdate(nextProps) {
@@ -48,9 +49,9 @@ export default class LiveResponse extends React.Component {
   }
 
   render() {
-    const { response, getComponent, getConfigs, displayRequestDuration, specSelectors, path, method } = this.props
-    const { showMutatedRequest, requestSnippetsEnabled } = getConfigs()
-
+    const { response, getComponent, getConfigs, displayRequestDuration, specSelectors, path, method, featuresSelectors } = this.props
+    const { showMutatedRequest } = getConfigs()
+    const requestSnippetsEnabled = featuresSelectors.isFeatureEnabled("requestSnippets")
     const curlRequest = showMutatedRequest ? specSelectors.mutatedRequestFor(path, method) : specSelectors.requestFor(path, method)
     const status = response.get("status")
     const url = curlRequest.get("url")

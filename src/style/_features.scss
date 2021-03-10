@@ -23,13 +23,18 @@
       color: #3b4151;
       margin: 0;
       font-weight: 400;
-      input {
+      .feature-item-option-checkbox {
         margin-right: 5px;
       }
       .feature-item-detail {
         h4 {
           margin-bottom: 5px;
           margin-top: 0;
+        }
+        .requestSnippets {
+          .checkbox {
+            margin-left: 15px;
+          }
         }
         margin-left: 15px;
       }

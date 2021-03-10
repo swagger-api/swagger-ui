@@ -46,7 +46,7 @@ export default class OperationContainer extends PureComponent {
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     getConfigs: PropTypes.func.isRequired,
-    featuresSelectors: PropTypes.object.isRequired
+    featuresSelectors: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -193,6 +193,7 @@ export default class OperationContainer extends PureComponent {
       oas3Actions,
       oas3Selectors,
       fn,
+      featuresSelectors
     } = this.props
 
     const Operation = getComponent( "operation" )
@@ -246,6 +247,7 @@ export default class OperationContainer extends PureComponent {
         getComponent={ getComponent }
         getConfigs={ getConfigs }
         fn={fn}
+        featuresSelectors={featuresSelectors}
       />
     )
   }

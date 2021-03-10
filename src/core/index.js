@@ -54,28 +54,6 @@ export default function SwaggerUI(opts) {
     showCommonExtensions: false,
     withCredentials: undefined,
     requestSnippetsEnabled: false,
-    requestSnippets: {
-      generators: {
-        "curl_bash": {
-          title: "cURL (bash)",
-          syntax: "bash"
-        },
-        "curl_powershell": {
-          title: "cURL (PowerShell)",
-          syntax: "powershell"
-        },
-        "curl_cmd": {
-          title: "cURL (CMD)",
-          syntax: "bash"
-        },
-        "node_native": {
-          title: "Node.js (Native)",
-          syntax: "javascript"
-        },
-      },
-      defaultExpanded: true,
-      languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
-    },
     supportedSubmitMethods: [
       "get",
       "put",
@@ -111,21 +89,60 @@ export default function SwaggerUI(opts) {
 
     // Features - features that can be enabled on runtime or by configuration
     features: {
-      tryItOutEnabled: {
-        enabled: false,
-        title: "Try It Out Enabled",
-        description: "Enables Try It Out by default for all operations."
+      presets: {
+        tryItOutEnabled: {
+          info: {
+            title: "Try It Out Enabled",
+            description: "Enables Try It Out by default for all operations."
+          },
+          enabled: false,
+        },
+        persistAuthorization: {
+          info: {
+            title: "Persist Authorization",
+            description: "Persists authorization data that would be lost on browser close or on refresh."
+          },
+          enabled: false,
+        },
+        filter: {
+          info: {
+            title: "Tag Filter",
+            description: "Enables a search bar to filter operations by tag name."
+          },
+          enabled: false,
+        },
+        requestSnippets: {
+          info: {
+            title: "Request Snippets",
+            description: "With Request Snippets the Curl request generator is replaced, instead you are now optioned multiple target languages(cURL for bash, powershell, cmd and in addition Node.JS)"
+          },
+          enabled: false,
+          state: {
+            generators: {
+              "curl_bash": {
+                title: "cURL (bash)",
+                syntax: "bash"
+              },
+              "curl_powershell": {
+                title: "cURL (PowerShell)",
+                syntax: "powershell"
+              },
+              "curl_cmd": {
+                title: "cURL (CMD)",
+                syntax: "bash"
+              },
+              "node_native": {
+                title: "Node.js (Native)",
+                syntax: "javascript"
+              },
+            },
+            defaultExpanded: true,
+            languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
+          }
+        },
       },
-      persistAuthorization: {
-        enabled: false,
-        title: "Persist Authorization",
-        description: "Persists authorization data that would be lost on browser close or on refresh."
-      },
-      filter: {
-        enabled: false,
-        title: "Tag Filter",
-        description: "Enables a search bar to filter operations by tag name."
-      },
+      staticPresets: [], // e.g. exclude filter from user changeable settings: ["filter"]
+      enabled: true,
     }
   }
 
@@ -136,17 +153,40 @@ export default function SwaggerUI(opts) {
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
+  const isEnabled = (key) => constructorConfig[key] === true || constructorConfig[key] === "true"
+
   const features = deepExtend({}, constructorConfig.features, {
-    tryItOutEnabled: {
-      enabled: constructorConfig.tryItOutEnabled === true || constructorConfig.tryItOutEnabled === "true"
-    },
-    persistAuthorization: {
-      enabled: constructorConfig.persistAuthorization === true || constructorConfig.persistAuthorization === "true"
-    },
-    filter: {
-      enabled: !(constructorConfig.filter === null || constructorConfig.filter === false || constructorConfig.filter === "false")
+    presets: {
+      tryItOutEnabled: {
+        enabled: isEnabled("tryItOutEnabled")
+      },
+      persistAuthorization: {
+        enabled: isEnabled("persistAuthorizationOutEnabled")
+      },
+      filter: {
+        enabled: !(constructorConfig.filter === null || constructorConfig.filter === false || constructorConfig.filter === "false")
+      },
+      requestSnippets: {
+        enabled: isEnabled("requestSnippetsEnabled")
+      }
     }
   })
+  const getFeaturesStates = () => {
+    const dict = {}
+    if(!features || !features.presets) {
+      return dict
+    }
+    for (const key in features.presets) {
+      if(!features.presets.hasOwnProperty(key)) {
+        continue
+      }
+      if(!features.presets[key].state) {
+        continue
+      }
+      dict[key] = features.presets[key].state
+    }
+    return dict
+  }
   SwaggerUI.features = features
   const storeConfigs = {
     system: {
@@ -162,9 +202,8 @@ export default function SwaggerUI(opts) {
         spec: "",
         url: constructorConfig.url
       },
-      requestSnippets: constructorConfig.requestSnippets,
-      features
-    }, constructorConfig.initialState)
+      features,
+    }, getFeaturesStates(), constructorConfig.initialState)
   }
 
   if(constructorConfig.initialState) {
