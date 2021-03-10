@@ -208,7 +208,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the curl body
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleA.serializedValue || exampleA.value}"`)
+      .contains(`-d '${exampleA.serializedValue || exampleA.value}'`)
   })
 
   it("should set default static and Try-It-Out values based on choosing the second member in static mode", () => {
@@ -234,7 +234,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the request URL
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleB.serializedValue || exampleB.value}"`)
+      .contains(`-d '${exampleB.serializedValue || exampleB.value}'`)
   })
 
   it("should set default static and Try-It-Out values based on choosing the second member in Try-It-Out mode", () => {
@@ -257,7 +257,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the request URL
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleB.serializedValue || exampleB.value}"`)
+      .contains(`-d '${exampleB.serializedValue || exampleB.value}'`)
       // Switch to static docs
       .get(".try-out__btn")
       .click()
@@ -323,7 +323,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the request URL
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleB.serializedValue || exampleB.value}"`)
+      .contains(`-d '${exampleB.serializedValue || exampleB.value}'`)
   })
 
   it("should use the first example for the media type when changing the media type without prior interactions with the value", () => {
@@ -349,7 +349,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the request URL
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleA.serializedValue || exampleA.value}"`)
+      .contains(`-d '${exampleA.serializedValue || exampleA.value}'`)
   })
 
   it("static mode toggling: mediaType -> example -> mediaType -> example", () => {
@@ -489,7 +489,7 @@ function RequestBodyPrimitiveTestCases({
       // TODO: use an interceptor instead of curl
       .get(".curl")
       .contains(
-        `-d "${customUserInputExpectedCurlSubstring || customUserInput}"`
+        `-d '${customUserInputExpectedCurlSubstring || customUserInput}'`
       )
 
       // Choose exampleB
@@ -508,7 +508,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the curl body
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleB.serializedValue || exampleB.value}"`)
+      .contains(`-d '${exampleB.serializedValue || exampleB.value}'`)
 
       // Ensure the modified value is still accessible
       .get(".opblock-section-request-body .examples-select > select")
@@ -530,7 +530,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the curl body
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleB.serializedValue || exampleB.value}"`)
+      .contains(`-d '${exampleB.serializedValue || exampleB.value}'`)
 
       // Ensure the modified value is still accessible
       .get(".opblock-section-request-body .examples-select > select")
@@ -552,7 +552,7 @@ function RequestBodyPrimitiveTestCases({
       // Assert on the curl body
       // TODO: use an interceptor instead of curl
       .get(".curl")
-      .contains(`-d "${exampleA.serializedValue || exampleA.value}"`)
+      .contains(`-d '${exampleA.serializedValue || exampleA.value}'`)
 
       // Ensure the modified value is still the same value
       .get(".opblock-section-request-body .examples-select > select")
@@ -571,7 +571,7 @@ function RequestBodyPrimitiveTestCases({
       // TODO: use an interceptor instead of curl
       .get(".curl")
       .contains(
-        `-d "${customUserInputExpectedCurlSubstring || customUserInput}"`
+        `-d '${customUserInputExpectedCurlSubstring || customUserInput}'`
       )
   })
 

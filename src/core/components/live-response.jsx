@@ -49,7 +49,7 @@ export default class LiveResponse extends React.Component {
 
   render() {
     const { response, getComponent, getConfigs, displayRequestDuration, specSelectors, path, method } = this.props
-    const { showMutatedRequest } = getConfigs()
+    const { showMutatedRequest, requestSnippetsEnabled } = getConfigs()
 
     const curlRequest = showMutatedRequest ? specSelectors.mutatedRequestFor(path, method) : specSelectors.requestFor(path, method)
     const status = response.get("status")
@@ -62,7 +62,6 @@ export default class LiveResponse extends React.Component {
     const headersKeys = Object.keys(headers)
     const contentType = headers["content-type"] || headers["Content-Type"]
 
-    const Curl = getComponent("curl")
     const ResponseBody = getComponent("responseBody")
     const returnObject = headersKeys.map(key => {
       var joinedHeaders = Array.isArray(headers[key]) ? headers[key].join() : headers[key]
@@ -70,10 +69,14 @@ export default class LiveResponse extends React.Component {
     })
     const hasHeaders = returnObject.length !== 0
     const Markdown = getComponent("Markdown", true)
+    const RequestSnippets = getComponent("RequestSnippets", true)
+    const Curl = getComponent("curl")
 
     return (
       <div>
-        { curlRequest && <Curl request={ curlRequest } getConfigs={ getConfigs } /> }
+        { curlRequest && (requestSnippetsEnabled === true || requestSnippetsEnabled === "true"
+          ? <RequestSnippets request={ curlRequest }/>
+          : <Curl request={ curlRequest } getConfigs={ getConfigs } />) }
         { url && <div>
             <h4>Request URL</h4>
             <div className="request-url">
