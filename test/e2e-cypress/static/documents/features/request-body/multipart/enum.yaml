@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: asd
+  version: 0.0.1
+paths:
+  /test:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TestBody'
+      responses:
+        200:
+          description: ok
+components:
+  schemas:
+    TestBody:
+      required:
+        - test_enum
+      type: object
+      properties:
+        test_enum:
+          allOf:
+            - $ref: "#/components/schemas/TestEnum"
+    TestEnum:
+      enum:
+        - A
+        - B
