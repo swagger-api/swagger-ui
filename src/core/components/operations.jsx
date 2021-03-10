@@ -69,7 +69,7 @@ export default class Operations extends React.Component {
         specUrl={specSelectors.url()}>
         <div className="operation-tag-content">
           {
-            operations?.map(op => {
+            operations.map(op => {
               const path = op.get("path")
               const method = op.get("method")
               const specPath = Im.List(["paths", path, method])
