@@ -7,6 +7,7 @@ import {
   logoutWithPersistOption,
   persistAuthorizationIfNeeded
 } from "corePlugins/auth/actions"
+import { authorizeAccessCodeWithBasicAuthentication } from "../../../../../src/core/plugins/auth/actions"
 
 describe("auth plugin - actions", () => {
 
@@ -178,26 +179,31 @@ describe("auth plugin - actions", () => {
 
   describe("tokenRequest", function () {
     it("should send the code verifier when set", () => {
-      const data = {
-        auth: {
-          schema: {
-            get: () => "http://tokenUrl"
+      const testCodeVerifierForAuthorizationCodeFlows = (flowAction) =>  {
+        const data = {
+          auth: {
+            schema: {
+              get: () => "http://tokenUrl",
+            },
+            codeVerifier: "mock_code_verifier",
           },
-          codeVerifier: "mock_code_verifier"
-        },
-        redirectUrl: "http://google.com"
+          redirectUrl: "http://google.com",
+        }
+
+        const authActions = {
+          authorizeRequest: jest.fn(),
+        }
+
+        flowAction(data)({ authActions })
+
+        expect(authActions.authorizeRequest.mock.calls.length).toEqual(1)
+        const actualArgument = authActions.authorizeRequest.mock.calls[0][0]
+        expect(actualArgument.body).toContain("code_verifier=" + data.auth.codeVerifier)
+        expect(actualArgument.body).toContain("grant_type=authorization_code")
       }
 
-      const authActions = {
-        authorizeRequest: jest.fn()
-      }
-
-      authorizeAccessCodeWithFormParams(data)({ authActions })
-
-      expect(authActions.authorizeRequest.mock.calls.length).toEqual(1)
-      const actualArgument = authActions.authorizeRequest.mock.calls[0][0]
-      expect(actualArgument.body).toContain("code_verifier=" + data.auth.codeVerifier)
-      expect(actualArgument.body).toContain("grant_type=authorization_code")
+      testCodeVerifierForAuthorizationCodeFlows(authorizeAccessCodeWithFormParams)
+      testCodeVerifierForAuthorizationCodeFlows(authorizeAccessCodeWithBasicAuthentication)
     })
   })
 
@@ -278,7 +284,7 @@ describe("auth plugin - actions", () => {
         localStorage.clear()
       })
       it("should skip if `persistAuthorization` is turned off", () => {
-        // Given        
+        // Given
         const system = {
           getConfigs: () => ({
             persistAuthorization: false
