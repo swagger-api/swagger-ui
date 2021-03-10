@@ -152,7 +152,7 @@ export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( 
 }
 
 export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl } ) => ( { authActions } ) => {
-  let { schema, name, clientId, clientSecret } = auth
+  let { schema, name, clientId, clientSecret, codeVerifier } = auth
   let headers = {
     Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
   }
@@ -160,7 +160,8 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
     grant_type: "authorization_code",
     code: auth.code,
     client_id: clientId,
-    redirect_uri: redirectUrl
+    redirect_uri: redirectUrl,
+    code_verifier: codeVerifier
   }
 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})

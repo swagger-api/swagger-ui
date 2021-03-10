@@ -1,9 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
-import curlify from "core/curlify"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import {SyntaxHighlighter, getStyle} from "core/syntax-highlighting"
 import get from "lodash/get"
+import { requestSnippetGenerator_curl_bash } from "../plugins/request-snippets/fn"
 
 export default class Curl extends React.Component {
   static propTypes = {
@@ -13,7 +13,7 @@ export default class Curl extends React.Component {
 
   render() {
     let { request, getConfigs } = this.props
-    let curl = curlify(request)
+    let curl = requestSnippetGenerator_curl_bash(request)
 
     const config = getConfigs()
 
