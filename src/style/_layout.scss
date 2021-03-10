@@ -127,7 +127,10 @@
 
 .examples-select {
     margin-bottom: .75em;
-
+    display: inline-block;
+    .examples-select-element {
+      width: 100%;
+    }
     &__section-label {
         font-weight: bold;
         font-size: .9rem;
