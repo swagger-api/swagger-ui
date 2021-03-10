@@ -35,12 +35,12 @@ const primitive = (schema) => {
 const sanitizeRef = (value) => deeplyStripKey(value, "$$ref", (val) =>
   typeof val === "string" && val.indexOf("#") > -1)
 
-const liftSampleHelper = (oldSchema, target) => {
+const liftSampleHelper = (oldSchema, target, config = {}) => {
   if(target.example === undefined && oldSchema.example !== undefined) {
     target.example = oldSchema.example
   }
   if(target.default === undefined && oldSchema.default !== undefined) {
-    target.default = oldSchema.default
+    target.default = oldSchema.defaultfn
   }
   if(target.enum === undefined && oldSchema.enum !== undefined) {
     target.enum = oldSchema.enum
@@ -51,6 +51,43 @@ const liftSampleHelper = (oldSchema, target) => {
   if(target.type === undefined && oldSchema.type !== undefined) {
     target.type = oldSchema.type
   }
+  if(oldSchema.properties) {
+    if(!target.properties) {
+      target.properties = {}
+    }
+    let props = objectify(oldSchema.properties)
+    for (let propName in props) {
+      if (!props.hasOwnProperty(propName)) {
+        continue
+      }
+      if ( props[propName] && props[propName].deprecated ) {
+        continue
+      }
+      if ( props[propName] && props[propName].readOnly && !config.includeReadOnly ) {
+        continue
+      }
+      if ( props[propName] && props[propName].writeOnly && !config.includeWriteOnly ) {
+        continue
+      }
+      if(!target.properties[propName]) {
+        target.properties[propName] = props[propName]
+        if(!oldSchema.required && Array.isArray(oldSchema.required) && oldSchema.required.indexOf(propName) !== -1) {
+          if(!target.required) {
+            target.required = [propName]
+          } else {
+            target.required.push(propName)
+          }
+        }
+      }
+    }
+  }
+  if(oldSchema.items) {
+    if(!target.items) {
+      target.items = {}
+    }
+    target.items = liftSampleHelper(oldSchema.items, target.items, config)
+  }
+
   return target
 }
 
@@ -65,7 +102,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       ? schema.oneOf[0]
       : schema.anyOf[0]
     )
-    liftSampleHelper(schemaToAdd, schema)
+    liftSampleHelper(schemaToAdd, schema, config)
     if(!schema.xml && schemaToAdd.xml) {
       schema.xml = schemaToAdd.xml
     }
@@ -348,10 +385,11 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       items.xml = items.xml || schema.xml || {}
       items.xml.name = items.xml.name || xml.name
     }
+
     if(Array.isArray(items.anyOf)) {
-      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i), config, undefined, respectXML))
+      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i, config), config, undefined, respectXML))
     } else if(Array.isArray(items.oneOf)) {
-      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i), config, undefined, respectXML))
+      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i, config), config, undefined, respectXML))
     } else if(!respectXML || respectXML && xml.wrapped) {
       sampleArray = [sampleFromSchemaGeneric(items, config, undefined, respectXML)]
     } else {
