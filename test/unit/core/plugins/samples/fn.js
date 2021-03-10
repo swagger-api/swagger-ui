@@ -2074,6 +2074,25 @@ describe("createXMLExample", function () {
 
       expect(sut(definition, {}, expected)).toEqual(expected)
     })
+    it("should use exampleOverride for attr too", () => {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens test=\"probe\">\n</aliens>"
+      let definition = {
+        type: "object",
+        properties: {
+          test: {
+            type: "string",
+            xml: {
+              attribute: true
+            }
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, { test: "probe" })).toEqual(expected)
+    })
   })
 
   it("should handle handle maxProperties in conjunction with required", function () {

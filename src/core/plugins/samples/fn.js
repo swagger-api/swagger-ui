@@ -395,12 +395,8 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         if (schema && props[propName] && props[propName].writeOnly && !includeWriteOnly) {
           continue
         }
-        if (schema && props[propName] && props[propName].xml && props[propName].xml.attribute && !(example && example[propName])) {
-          _attr[props[propName].xml.name || propName] = sample[propName]
-          continue
-        }
         if (schema && props[propName] && props[propName].xml && props[propName].xml.attribute) {
-          _attr[props[propName].xml.name || propName] = example[propName]
+          _attr[props[propName].xml.name || propName] = sample[propName]
           continue
         }
         addPropertyToResult(propName, sample[propName])
