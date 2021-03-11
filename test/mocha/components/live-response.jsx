@@ -3,9 +3,9 @@ import React from "react"
 import { fromJSOrdered } from "core/utils"
 import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
-import Curl from "components/curl"
 import LiveResponse from "components/live-response"
 import ResponseBody from "components/response-body"
+import { RequestSnippets } from "core/plugins/request-snippets/request-snippets"
 
 describe("<LiveResponse/>", function () {
   let request = fromJSOrdered({
@@ -36,7 +36,7 @@ describe("<LiveResponse/>", function () {
   ]
 
   tests.forEach(function (test) {
-    it("passes " + test.expected.request + " to Curl when showMutatedRequest = " + test.showMutatedRequest, function () {
+    it("passes " + test.expected.request + " to RequestSnippets when showMutatedRequest = " + test.showMutatedRequest, function () {
 
       // Given
 
@@ -54,7 +54,7 @@ describe("<LiveResponse/>", function () {
       let requestForSpy = createSpy().andReturn(request)
 
       let components = {
-        curl: Curl,
+        RequestSnippets: RequestSnippets,
         responseBody: ResponseBody
       }
 
@@ -69,7 +69,7 @@ describe("<LiveResponse/>", function () {
           return components[c]
         },
         displayRequestDuration: true,
-        getConfigs: () => ({ showMutatedRequest: test.showMutatedRequest })
+        getConfigs: () => ({ showMutatedRequest: test.showMutatedRequest, requestSnippetsEnabled: true })
       }
 
       // When
@@ -79,9 +79,9 @@ describe("<LiveResponse/>", function () {
       expect(mutatedRequestForSpy.calls.length).toEqual(test.expected.mutatedRequestForCalls)
       expect(requestForSpy.calls.length).toEqual(test.expected.requestForCalls)
 
-      const curl = wrapper.find(Curl)
-      expect(curl.length).toEqual(1)
-      expect(curl.props().request).toBe(requests[test.expected.request])
+      const snippets = wrapper.find("RequestSnippets")
+      expect(snippets.length).toEqual(1)
+      expect(snippets.props().request).toBe(requests[test.expected.request])
 
       const expectedUrl = requests[test.expected.request].get("url")
       expect(wrapper.find("div.request-url pre.microlight").text()).toEqual(expectedUrl)
