@@ -51,6 +51,10 @@ export function arrayify (thing) {
 }
 
 export function fromJSOrdered(js) {
+  return fromJSOrderedWith(js,[]);
+}
+
+function fromJSOrderedWith(js,stack) {
   if (isImmutable(js)) {
     return js // Can't do much here
   }
@@ -60,15 +64,27 @@ export function fromJSOrdered(js) {
   if (!isObject(js)) {
     return js
   }
+  // if this is a circular reference, return an empty representation instead
+  if (~stack.indexOf(js)) {
+    return Array.isArray(js) ? new Im.List() : new Im.Map();
+  }
+  
+  stack.push(js);
+
   if (Array.isArray(js)) {
-    return Im.Seq(js).map(fromJSOrdered).toList()
+    return Im.Seq(js).map((i) => fromJSOrderedWith(i,stack)).toList()
   }
   if (isFunction(js.entries)) {
     // handle multipart/form-data
     const objWithHashedKeys = createObjWithHashedKeys(js)
-    return Im.OrderedMap(objWithHashedKeys).map(fromJSOrdered)
+    return Im.OrderedMap(objWithHashedKeys).map((i) => fromJSOrderedWith(i,stack))
   }
-  return Im.OrderedMap(js).map(fromJSOrdered)
+
+  let result = Im.OrderedMap(js).map((i) => fromJSOrderedWith(i,stack))
+
+  stack.pop();
+  
+  return result;
 }
 
 /**
