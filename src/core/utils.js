@@ -51,7 +51,7 @@ export function arrayify (thing) {
 }
 
 export function fromJSOrdered(js) {
-  return fromJSOrderedWith(js,[]);
+  return fromJSOrderedWith(js,[])
 }
 
 function fromJSOrderedWith(js,stack) {
@@ -66,10 +66,10 @@ function fromJSOrderedWith(js,stack) {
   }
   // if this is a circular reference, return an empty representation instead
   if (~stack.indexOf(js)) {
-    return Array.isArray(js) ? new Im.List() : new Im.Map();
+    return Array.isArray(js) ? new Im.List() : new Im.Map()
   }
   
-  stack.push(js);
+  stack.push(js)
 
   if (Array.isArray(js)) {
     return Im.Seq(js).map((i) => fromJSOrderedWith(i,stack)).toList()
@@ -82,9 +82,9 @@ function fromJSOrderedWith(js,stack) {
 
   let result = Im.OrderedMap(js).map((i) => fromJSOrderedWith(i,stack))
 
-  stack.pop();
+  stack.pop()
   
-  return result;
+  return result
 }
 
 /**

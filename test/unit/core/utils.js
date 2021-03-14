@@ -1037,7 +1037,7 @@ describe("utils", () => {
       const param = {
         value: "test"
       }
-      param.circular = param;
+      param.circular = param
 
       const result = fromJSOrdered(param).toJS()
       expect( result ).toEqual( { value: "test", circular: {} } )
@@ -1047,7 +1047,7 @@ describe("utils", () => {
       const param = [
         { value: "test"}
       ]
-      param[0].circular = param;
+      param[0].circular = param
 
       const result = fromJSOrdered(param).toJS()
       expect( result ).toEqual( [ { value: "test", circular: [] } ] )
