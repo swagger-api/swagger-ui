@@ -688,7 +688,7 @@ export const parseSearch = () => {
     let params = search.substr(1).split("&")
 
     for (let i in params) {
-      if (!params.hasOwnProperty(i)) {
+      if (!Object.prototype.hasOwnProperty.call(params, i)) {
         continue
       }
       i = params[i].split("=")

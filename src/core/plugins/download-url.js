@@ -1,4 +1,4 @@
-/* global Promise */
+// global Promise
 
 import { createSelector } from "reselect"
 import { Map } from "immutable"
