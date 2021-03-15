@@ -99,6 +99,7 @@
   "devDependencies": {
     "@babel/cli": "=7.13.0",
     "@babel/core": "=7.13.8",
+    "@babel/eslint-parser": "=7.13.10",
     "@babel/plugin-proposal-class-properties": "=7.13.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "=7.13.8",
     "@babel/plugin-proposal-optional-chaining": "=7.13.8",
@@ -111,7 +112,6 @@
     "@jest/globals": "=26.6.2",
     "@release-it/conventional-changelog": "=1.1.4",
     "autoprefixer": "^9.0.0",
-    "babel-eslint": "^10.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "=3.3.4",
     "babel-plugin-module-resolver": "=4.1.0",
