@@ -58,7 +58,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.13.9",
+    "@babel/runtime-corejs3": "^7.13.10",
     "@braintree/sanitize-url": "^5.0.0",
     "@kyleshockey/object-assign-deep": "^0.4.2",
     "@kyleshockey/xml": "^1.0.2",
@@ -98,7 +98,7 @@
   },
   "devDependencies": {
     "@babel/cli": "=7.13.0",
-    "@babel/core": "=7.13.8",
+    "@babel/core": "=7.13.10",
     "@babel/eslint-parser": "=7.13.10",
     "@babel/plugin-proposal-class-properties": "=7.13.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "=7.13.8",
