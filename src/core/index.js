@@ -141,7 +141,7 @@ export default function SwaggerUI(opts) {
     // known usage: Swagger-Editor validate plugin tests
     for (var key in constructorConfig.initialState) {
       if(
-        constructorConfig.initialState.hasOwnProperty(key)
+        Object.prototype.hasOwnProperty.call(constructorConfig.initialState, key)
         && constructorConfig.initialState[key] === undefined
       ) {
         delete storeConfigs.state[key]
