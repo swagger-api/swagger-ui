@@ -76,7 +76,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     }
     let props = objectify(oldSchema.properties)
     for (let propName in props) {
-      if (!props.hasOwnProperty(propName)) {
+      if (!Object.prototype.hasOwnProperty.call(props, propName)) {
         continue
       }
       if ( props[propName] && props[propName].deprecated ) {
@@ -133,7 +133,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
       let props = objectify(schemaToAdd.properties)
       for (let propName in props) {
-        if (!props.hasOwnProperty(propName)) {
+        if (!Object.prototype.hasOwnProperty.call(props, propName)) {
           continue
         }
         if ( props[propName] && props[propName].deprecated ) {
@@ -386,7 +386,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         return sample
       }
       for (let propName in sample) {
-        if (!sample.hasOwnProperty(propName)) {
+        if (!Object.prototype.hasOwnProperty.call(sample, propName)) {
           continue
         }
         if (schema && props[propName] && props[propName].readOnly && !includeReadOnly) {
@@ -416,7 +416,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
   if(type === "object") {
     for (let propName in props) {
-      if (!props.hasOwnProperty(propName)) {
+      if (!Object.prototype.hasOwnProperty.call(props, propName)) {
         continue
       }
       if ( props[propName] && props[propName].deprecated ) {
