@@ -35,7 +35,7 @@ export default {
                 sourceMap: true,
                 plugins: [
                   require("cssnano")(),
-                  require("autoprefixer")(),
+                  "postcss-preset-env" // applies autoprefixer
                 ],
 
               }
