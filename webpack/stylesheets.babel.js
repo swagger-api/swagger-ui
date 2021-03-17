@@ -44,9 +44,11 @@ export default {
           {
             loader: "sass-loader",
             options: {
-              outputStyle: "expanded",
               sourceMap: true,
-              sourceMapContents: "true",
+              sassOptions: {
+                outputStyle: "expanded",
+                // sourceMapContents: "true", // if sourceMap: true, sassOptions.sourceMapContents is ignored
+              },
             },
           },
         ],
