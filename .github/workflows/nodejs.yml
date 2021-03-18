@@ -72,12 +72,3 @@ jobs:
     strategy:
       matrix:
         node-version: [ 14.x ]
-
-    steps:
-      - name: Merge me!
-        uses: ridedott/merge-me-action@master
-        with:
-          GITHUB_LOGIN: dependabot[bot]
-          GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          MERGE_METHOD: SQUASH
-          PRESET: DEPENDABOT_MINOR
