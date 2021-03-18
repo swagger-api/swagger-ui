@@ -4,6 +4,7 @@ import formatXml from "xml-but-prettier"
 import toLower from "lodash/toLower"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import win from "core/window"
+var JSONbigNative = require("json-bigint")({ useNativeBigInt: true })
 
 export default class ResponseBody extends React.PureComponent {
   state = {
@@ -96,7 +97,7 @@ export default class ResponseBody extends React.PureComponent {
       // JSON
       let language = null
       try {
-        body = JSON.stringify(JSON.parse(content), null, "  ")
+        body = JSONbigNative.stringify(JSONbigNative.parse(content), null, "  ")
         language = "json"
       } catch (error) {
         body = "can't parse JSON.  Raw result:\n\n" + content
