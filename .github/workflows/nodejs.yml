@@ -61,23 +61,3 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14.x
-
-  merge-me:
-    name: Merge me!
-    if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-latest
-
-    needs: [ build, artifact-bundle ]
-
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
-
-    steps:
-      - name: Merge me!
-        uses: ridedott/merge-me-action@master
-        with:
-          GITHUB_LOGIN: dependabot[bot]
-          GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          MERGE_METHOD: SQUASH
-          PRESET: DEPENDABOT_MINOR
