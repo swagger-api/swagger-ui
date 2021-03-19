@@ -1,0 +1,16 @@
+openapi: "3.0.0"
+
+paths:
+  /:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                first:
+                  type: string
+                  example:
+                    "999888777666555444"
