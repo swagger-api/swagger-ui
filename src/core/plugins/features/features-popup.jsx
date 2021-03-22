@@ -21,7 +21,6 @@ export default class FeaturesPopupButton extends React.Component {
     const { getComponent, featuresSelectors, featuresActions, fn } = this.props
     const Button = getComponent("Button")
     const Popup = getComponent("Popup")
-
     return (<div className="features">
         <button className="features-btn btn" onClick={() => this.setState({ isOpen: true })}>Features
         </button>
@@ -37,24 +36,35 @@ export default class FeaturesPopupButton extends React.Component {
                   const checked = featuresSelectors.isFeatureEnabled(key)
                   const AdditionalSettings = fn.getSettingsComponent(key)
                   const info = feature.get("info")
+
+                  const disabled = !featuresSelectors.isFeatureUserChangeable(key)
                   return <div className="feature-item" key={"feature-item-" + key}>
-                    <label className="feature-item-option">
-                      <input className="feature-item-option-checkbox" onChange={onClick} type="checkbox" checked={checked} />
-                      <div className="feature-item-detail">
-                        <h4>{info.get("title")}</h4>
-                        {info.get("description")}
-                        {
-                          AdditionalSettings && (
-                            <div>
-                              <h5>Settings</h5>
-                              <div className="feature-item-settings">
-                                <AdditionalSettings/>
+                    <fieldset disabled={disabled}>
+                      <label className="feature-item-option">
+                        <input className="feature-item-option-checkbox" onChange={onClick} type="checkbox" checked={checked} />
+                        <div className="feature-item-detail">
+                          <div className="header">
+                            <h4 className="settings-title">{info.get("title")}</h4>
+                            {
+                              disabled && <div className="restricted-label">
+                                managed by your organization
                               </div>
-                            </div>
-                          )
-                        }
-                      </div>
-                    </label>
+                            }
+                          </div>
+                          {info.get("description")}
+                          {
+                            AdditionalSettings && (
+                              <div className="additional-settings">
+                                <h5 className="settings-title">Settings</h5>
+                                <div className="feature-item-settings">
+                                  <AdditionalSettings/>
+                                </div>
+                              </div>
+                            )
+                          }
+                        </div>
+                      </label>
+                    </fieldset>
                     <div className="seperator"></div>
                   </div>
                 }).toArray()

@@ -18,6 +18,5 @@ export default (system) => ({
   },
   afterLoad: (system) => {
     system.featuresActions.clearOldPersistedFeatures()
-    system.featuresActions.tryLoadPersistedFeatures()
   },
 })

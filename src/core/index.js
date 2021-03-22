@@ -146,16 +146,46 @@ export default function SwaggerUI(opts) {
     }
   }
 
+
   let queryConfig = parseSearch()
 
   const domNode = opts.domNode
   delete opts.domNode
 
-  const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
+  const defaultedOrganizationConfig = deepExtend({}, defaults, opts)
+  const constructorConfig = deepExtend({}, defaultedOrganizationConfig, queryConfig)
 
-  const isEnabled = (key) => constructorConfig[key] === true || constructorConfig[key] === "true"
+  const getInConfig = (key) => defaultedOrganizationConfig.features.staticPresets.includes(key)
+    ? defaultedOrganizationConfig[key]
+    : constructorConfig[key]
+  const isEnabled = (key) => getInConfig(key) === true || getInConfig(key) === "true"
 
-  const features = deepExtend({}, constructorConfig.features, {
+  const tryLoadPersistedFeatures = () => {
+    const localPresets = JSON.parse(localStorage.getItem("features-" + window.versions.swaggerUi.version))
+    if(!localPresets) {
+      return { }
+    }
+    const dict = {}
+    for (const key in localPresets) {
+      if(!Object.prototype.hasOwnProperty.call(localPresets, key)) {
+        continue
+      }
+      if(!localPresets[key].state) {
+        continue
+      }
+      if(defaultedOrganizationConfig?.features?.staticPresets?.includes(key)) {
+        continue
+      }
+      dict[key] = localPresets[key].state
+    }
+    return {
+      presets: dict
+    }
+  }
+
+  // Ensures defaults of defaulted organizational config can be overridden AND ensures that organizational defaults are set
+  // It also integrates user settings from local storage these can be overridden by query config and organizational config
+  const features = deepExtend({}, defaultedOrganizationConfig.features, tryLoadPersistedFeatures(), {
     presets: {
       tryItOutEnabled: {
         enabled: isEnabled("tryItOutEnabled")
@@ -164,20 +194,20 @@ export default function SwaggerUI(opts) {
         enabled: isEnabled("persistAuthorizationOutEnabled")
       },
       filter: {
-        enabled: !(constructorConfig.filter === null || constructorConfig.filter === false || constructorConfig.filter === "false")
+        enabled: !(getInConfig("filter") === null || getInConfig("filter") === false || getInConfig("filter") === "false")
       },
       requestSnippets: {
         enabled: isEnabled("requestSnippetsEnabled")
       }
     }
-  })
+  }, opts?.features || {})
   const getFeaturesStates = () => {
     const dict = {}
     if(!features || !features.presets) {
       return dict
     }
     for (const key in features.presets) {
-      if(!features.presets.hasOwnProperty(key)) {
+      if(!Object.prototype.hasOwnProperty.call(features.presets, key)) {
         continue
       }
       if(!features.presets[key].state) {
@@ -196,7 +226,7 @@ export default function SwaggerUI(opts) {
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
-        filter: constructorConfig.filter
+        filter: getInConfig("filter")
       },
       spec: {
         spec: "",

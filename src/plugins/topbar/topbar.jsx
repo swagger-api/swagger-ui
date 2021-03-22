@@ -4,7 +4,6 @@ import PropTypes from "prop-types"
 //import "./topbar.less"
 import Logo from "./logo_small.svg"
 import {parseSearch, serializeSearch} from "../../core/utils"
-import FeaturesPopupButton from "../../core/plugins/features/features-popup"
 
 export default class Topbar extends React.Component {
 

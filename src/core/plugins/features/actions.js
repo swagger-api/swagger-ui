@@ -13,14 +13,16 @@ export const toggleFeature = (key) => {
   }
 }
 
-export const persistFeatures = () => ( { featuresSelectors, getState } ) => {
-  const features = featuresSelectors.getFeaturesState()
-    .updateIn(
-      ["presets"],
-      (presets) => presets.map((ft, key) => ft.mergeDeepIn(["state"], getState().get(key, Map())))
-    )
+export const persistFeatures = () => ( { getSystem } ) => {
+  const {featuresSelectors, getState} = getSystem()
 
-  localStorage.setItem(storageKey(), JSON.stringify(features.toJS()))
+  const features = featuresSelectors.getFeaturesState()
+  const presets = features
+    .get("presets", Map())
+    .map((ft, key) => ft.mergeDeepIn(["state"], getState().get(key, Map())))
+    .filter((_, key) => featuresSelectors.isFeatureUserChangeable(key))
+
+  localStorage.setItem(storageKey(), JSON.stringify(presets.toJS()))
   return {
     type: NOOP_FEATURES
   }
@@ -36,7 +38,7 @@ export const resetFeatures = () => {
 export const clearOldPersistedFeatures = () => {
   localStorage.getItem(storageKey())
   for (const possibleFeaturesBackup in localStorage) {
-    if(!localStorage.hasOwnProperty(possibleFeaturesBackup)) {
+    if(!Object.prototype.hasOwnProperty.call(localStorage, possibleFeaturesBackup)) {
       continue
     }
     if(!possibleFeaturesBackup.startsWith("features-")) {
@@ -49,17 +51,5 @@ export const clearOldPersistedFeatures = () => {
   }
   return {
     type: NOOP_FEATURES
-  }
-}
-export const tryLoadPersistedFeatures = () => {
-  const features = fromJS(JSON.parse(localStorage.getItem(storageKey())))
-  if(!features) {
-    return {
-      type: NOOP_FEATURES
-    }
-  }
-  return {
-    type: UPDATE_FEATURES,
-    payload: features
   }
 }
