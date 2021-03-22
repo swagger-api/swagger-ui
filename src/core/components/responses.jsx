@@ -95,7 +95,8 @@ export default class Responses extends React.Component {
               <ContentType value={producesValue}
                          onChange={this.onChangeProducesWrapper}
                          contentTypes={produces}
-                         className="execute-content-type"/>
+                         className="execute-content-type"
+                         ariaLabel="Response content type" />
                      </label> }
         </div>
         <div className="responses-inner">
