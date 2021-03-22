@@ -1,12 +1,14 @@
 import * as selectors from "./selectors"
 import * as actions from "./actions"
 import reducers from "./reducers"
+import makeFn from "./fn"
 import FeaturesPopupButton from "./features-popup"
 
-export default () => ({
+export default (system) => ({
   components: {
     FeaturesPopupButton
   },
+  fn: makeFn(system),
   statePlugins: {
     features: {
       selectors,

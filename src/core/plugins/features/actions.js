@@ -1,4 +1,4 @@
-import { fromJS } from "immutable"
+import { fromJS, Map} from "immutable"
 import SwaggerUI from "../../index"
 
 export const TOGGLE_FEATURE = "feature_toggle"
@@ -13,8 +13,13 @@ export const toggleFeature = (key) => {
   }
 }
 
-export const persistFeatures = () => ( { featuresSelectors } ) => {
-  const features = featuresSelectors.getPreviewFeatures()
+export const persistFeatures = () => ( { featuresSelectors, getState } ) => {
+  const features = featuresSelectors.getFeaturesState()
+    .updateIn(
+      ["presets"],
+      (presets) => presets.map((ft, key) => ft.mergeDeepIn(["state"], getState().get(key, Map())))
+    )
+
   localStorage.setItem(storageKey(), JSON.stringify(features.toJS()))
   return {
     type: NOOP_FEATURES

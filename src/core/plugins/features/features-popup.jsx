@@ -18,7 +18,7 @@ export default class FeaturesPopupButton extends React.Component {
   }
 
   render() {
-    const { getComponent, featuresSelectors, featuresActions } = this.props
+    const { getComponent, featuresSelectors, featuresActions, fn } = this.props
     const Button = getComponent("Button")
     const Popup = getComponent("Popup")
 
@@ -35,12 +35,24 @@ export default class FeaturesPopupButton extends React.Component {
                     featuresActions.persistFeatures()
                   }
                   const checked = featuresSelectors.isFeatureEnabled(key)
+                  const AdditionalSettings = fn.getSettingsComponent(key)
+                  const info = feature.get("info")
                   return <div className="feature-item" key={"feature-item-" + key}>
                     <label className="feature-item-option">
-                      <input onChange={onClick} type="checkbox" checked={checked} />
+                      <input className="feature-item-option-checkbox" onChange={onClick} type="checkbox" checked={checked} />
                       <div className="feature-item-detail">
-                        <h4>{feature.get("title")}</h4>
-                        {feature.get("description")}
+                        <h4>{info.get("title")}</h4>
+                        {info.get("description")}
+                        {
+                          AdditionalSettings && (
+                            <div>
+                              <h5>Settings</h5>
+                              <div className="feature-item-settings">
+                                <AdditionalSettings/>
+                              </div>
+                            </div>
+                          )
+                        }
                       </div>
                     </label>
                     <div className="seperator"></div>
@@ -62,5 +74,6 @@ export default class FeaturesPopupButton extends React.Component {
     getComponent: PropTypes.func.isRequired,
     featuresSelectors: PropTypes.object.isRequired,
     featuresActions: PropTypes.object.isRequired,
+    fn: PropTypes.object.isRequired,
   }
 }
