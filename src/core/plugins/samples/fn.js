@@ -35,28 +35,33 @@ const primitive = (schema) => {
 const sanitizeRef = (value) => deeplyStripKey(value, "$$ref", (val) =>
   typeof val === "string" && val.indexOf("#") > -1)
 
+const objectContracts = ["maxProperties", "minProperties"]
+const arrayContracts = ["minItems", "maxItems"]
+const numberContracts = [
+  "minimum",
+  "maximum",
+  "exclusiveMinimum",
+  "exclusiveMaximum"
+]
+const stringContracts = ["minLength", "maxLength"]
+
 const liftSampleHelper = (oldSchema, target, config = {}) => {
   const setIfNotDefinedInTarget = (key) => {
     if(target[key] === undefined && oldSchema[key] !== undefined) {
       target[key] = oldSchema[key]
     }
   }
+
   [
     "example",
     "default",
     "enum",
     "xml",
     "type",
-    "maxProperties",
-    "minProperties",
-    "minItems",
-    "maxItems",
-    "minimum",
-    "maximum",
-    "exclusiveMinimum",
-    "exclusiveMaximum",
-    "minLength",
-    "maxLength"
+    ...objectContracts,
+    ...arrayContracts,
+    ...numberContracts,
+    ...stringContracts,
   ].forEach(key => setIfNotDefinedInTarget(key))
 
   if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
@@ -183,14 +188,33 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     res[displayName] = []
   }
 
+  const schemaHasAny = (keys) => keys.some(key => Object.prototype.hasOwnProperty.call(schema, key))
   // try recover missing type
   if(schema && !type) {
-    if(properties || additionalProperties) {
+    if(properties || additionalProperties || schemaHasAny(objectContracts)) {
       type = "object"
-    } else if(items) {
+    } else if(items || schemaHasAny(arrayContracts)) {
       type = "array"
+    } else if(schemaHasAny(numberContracts)) {
+      type = "number"
+      schema.type = "number"
     } else if(!usePlainValue && !schema.enum){
-      return
+      // implicit cover schemaHasAny(stringContracts) or A schema without a type matches any data type is:
+      // components:
+      //   schemas:
+      //     AnyValue:
+      //       anyOf:
+      //         - type: string
+      //         - type: number
+      //         - type: integer
+      //         - type: boolean
+      //         - type: array
+      //           items: {}
+      //         - type: object
+      //
+      // which would resolve to type: string
+      type = "string"
+      schema.type = "string"
     }
   }
 
