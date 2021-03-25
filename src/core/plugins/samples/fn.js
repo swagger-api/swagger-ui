@@ -116,8 +116,9 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
-  schema = objectify(schema)
-  let usePlainValue = exampleOverride !== undefined || schema.example !== undefined || schema && schema.default !== undefined
+  if(schema && isFunc(schema.toJS))
+    schema = schema.toJS()
+  let usePlainValue = exampleOverride !== undefined || schema && schema.example !== undefined || schema && schema.default !== undefined
   // first check if there is the need of combining this schema with others required by allOf
   const hasOneOf = !usePlainValue && schema && schema.oneOf && schema.oneOf.length > 0
   const hasAnyOf = !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
@@ -164,7 +165,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
   }
   const _attr = {}
-  let { xml, type, example, properties, additionalProperties, items } = schema
+  let { xml, type, example, properties, additionalProperties, items } = schema || {}
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -219,12 +220,12 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   }
 
   const handleMinMaxItems = (sampleArray) => {
-    if (schema.maxItems !== null && schema.maxItems !== undefined) {
-      sampleArray = sampleArray.slice(0, schema.maxItems)
+    if (schema?.maxItems !== null && schema?.maxItems !== undefined) {
+      sampleArray = sampleArray.slice(0, schema?.maxItems)
     }
-    if (schema.minItems !== null && schema.minItems !== undefined) {
+    if (schema?.minItems !== null && schema?.minItems !== undefined) {
       let i = 0
-      while (sampleArray.length < schema.minItems) {
+      while (sampleArray.length < schema?.minItems) {
         sampleArray.push(sampleArray[i++ % sampleArray.length])
       }
     }
@@ -501,7 +502,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(type === "array") {
     let sampleArray
     if(respectXML) {
-      items.xml = items.xml || schema.xml || {}
+      items.xml = items.xml || schema?.xml || {}
       items.xml.name = items.xml.name || xml.name
     }
 
