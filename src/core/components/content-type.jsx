@@ -11,7 +11,8 @@ export default class ContentType extends React.Component {
     contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set, ImPropTypes.seq]),
     value: PropTypes.string,
     onChange: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
+    ariaLabel: PropTypes.string
   }
 
   static defaultProps = {
@@ -40,14 +41,14 @@ export default class ContentType extends React.Component {
   onChangeWrapper = e => this.props.onChange(e.target.value)
 
   render() {
-    let { contentTypes, className, value } = this.props
+    let { contentTypes, className, value, ariaLabel } = this.props
 
     if ( !contentTypes || !contentTypes.size )
       return null
 
     return (
       <div className={ "content-type-wrapper " + ( className || "" ) }>
-        <select className="content-type" value={value || ""} onChange={this.onChangeWrapper} >
+        <select className="content-type" aria-label={ariaLabel} value={value || ""} onChange={this.onChangeWrapper} >
           { contentTypes.map( (val) => {
             return <option key={ val } value={ val }>{ val }</option>
           }).toArray()}
