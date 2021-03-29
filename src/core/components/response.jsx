@@ -133,11 +133,13 @@ export default class Response extends React.Component {
       sampleSchema = activeMediaType.get("schema", Map({})).toJS()
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
-        mediaTypeExample = examplesForMediaType
+        const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
-          .get("value")
+        const getMediaTypeExample = (targetExample) =>
+          targetExample.get("value")
+        mediaTypeExample = getMediaTypeExample(targetExample)
         if(mediaTypeExample === undefined) {
-          mediaTypeExample = examplesForMediaType.values().next().value
+          mediaTypeExample = getMediaTypeExample(examplesForMediaType.values().next().value)
         }
         shouldOverrideSchemaExample = true
       } else if(activeMediaType.get("example") !== undefined) {
