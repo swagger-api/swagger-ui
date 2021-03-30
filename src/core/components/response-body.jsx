@@ -116,6 +116,10 @@ export default class ResponseBody extends React.PureComponent {
     } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } getConfigs={ getConfigs } canCopy />
 
+      // CSV
+    } else if (toLower(contentType) === "text/csv" || /text\/csv/.test(contentType)) {
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.csv`} value={ content } getConfigs={ getConfigs } canCopy />
+
       // Image
     } else if (/^image\//i.test(contentType)) {
       if(contentType.includes("svg")) {
