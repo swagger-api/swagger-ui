@@ -772,6 +772,39 @@ describe("utils", () => {
       value = []
       assertValidateParam(param, value, [])
 
+      // valid, empty array, with validation constraint
+      param = {
+        required: false,
+        schema: {
+          type: "array",
+          minItems: 1
+        }
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, [])
+
+      // invalid, empty array, with minItems validation constraint
+      param = {
+        required: false,
+        schema: {
+          type: "array",
+          minItems: 2
+        }
+      }
+      value = ["12"]
+      assertValidateOas3Param(param, value, ["Array must contain at least 2 items"])
+
+      // valid, valid array with satisfied minItems validation constraint
+      param = {
+        required: false,
+        schema: {
+          type: "array",
+          minItems: 1
+        }
+      }
+      value = ["probe"]
+      assertValidateOas3Param(param, value, [])
+
       // invalid, items do not match correct type
       param = {
         required: false,

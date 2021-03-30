@@ -429,10 +429,11 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let minItems = schema.get("minItems")
   let pattern = schema.get("pattern")
 
-  const needsExplicitConstraintValidation = type === "array"
   const schemaRequiresValue = requiredByParam || requiredBySchema
   const hasValue = value !== undefined && value !== null
   const isValidEmpty = !schemaRequiresValue && !hasValue
+
+  const needsExplicitConstraintValidation = hasValue && type === "array"
 
   const requiresFurtherValidation =
     schemaRequiresValue
