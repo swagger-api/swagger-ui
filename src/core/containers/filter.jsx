@@ -35,7 +35,7 @@ export default class FilterContainer extends React.Component {
             ? <div className="filter-container">
                 <Col className="filter wrapper" mobile={12}>
                   <input className={classNames.join(" ")} placeholder="Filter by tag" type="text"
-                         onChange={this.onFilterChange} value={filter === null || filter === true || filter === "true" ? "" : filter}
+                         onChange={this.onFilterChange} value={filter}
                          disabled={isLoading}/>
                 </Col>
               </div>

@@ -218,6 +218,19 @@ export default function SwaggerUI(opts) {
     return dict
   }
   SwaggerUI.features = features
+  const normalizeFilter = (str) => {
+    switch (str) {
+      case true:
+      case "true":
+      case false:
+      case "false":
+      case null:
+      case "null":
+        return ""
+      default:
+        return str
+    }
+  }
   const storeConfigs = {
     system: {
       configs: constructorConfig.configs
@@ -226,7 +239,7 @@ export default function SwaggerUI(opts) {
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
-        filter: getInConfig("filter")
+        filter: normalizeFilter(getInConfig("filter"))
       },
       spec: {
         spec: "",
