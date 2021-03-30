@@ -5,6 +5,16 @@ import { Col } from "components/layout-utils"
 
 describe("<FilterContainer/>", function(){
 
+  const featureMock = (filterEnabled) => ({
+    featuresSelectors: {
+      isFeatureEnabled: (key) => {
+        const dict = {
+          filter: filterEnabled
+        }
+        return dict[key] === true
+      }
+    }
+  })
   const mockedProps = {
     specSelectors: {
       loadingStatus() {}
@@ -15,10 +25,10 @@ describe("<FilterContainer/>", function(){
     getComponent: () => {return Col}
   }
 
-  it("renders FilterContainer if filter is provided", function(){
+  it("renders FilterContainer if filter is enabled", function(){
 
     // Given
-    let props = {...mockedProps}
+    let props = {...mockedProps, ...featureMock(true)}
     props.layoutSelectors = {...mockedProps.specSelectors}
     props.layoutSelectors.currentFilter = function() {return true}
 
@@ -30,27 +40,12 @@ describe("<FilterContainer/>", function(){
     expect(renderedColInsideFilter.length).toEqual(1)
   })
 
-  it("does not render FilterContainer if filter is null", function(){
+  it("does not render FilterContainer if feature filter is disabled", function(){
 
     // Given
-    let props = {...mockedProps}
+    let props = {...mockedProps, ...featureMock(false)}
     props.layoutSelectors = {...mockedProps.specSelectors}
-    props.layoutSelectors.currentFilter = function() {return null}
-
-    // When
-    let wrapper = mount(<FilterContainer {...props}/>)
-
-    // Then
-    const renderedColInsideFilter = wrapper.find(Col)
-    expect(renderedColInsideFilter.length).toEqual(0)
-  })
-
-  it("does not render FilterContainer if filter is false", function(){
-
-    // Given
-    let props = {...mockedProps}
-    props.layoutSelectors = {...mockedProps.specSelectors}
-    props.layoutSelectors.currentFilter = function() {return false}
+    props.layoutSelectors.currentFilter = function() {return "any"}
 
     // When
     let wrapper = mount(<FilterContainer {...props}/>)

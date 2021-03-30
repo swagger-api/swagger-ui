@@ -283,12 +283,20 @@ describe("auth plugin - actions", () => {
       beforeEach(() => {
         localStorage.clear()
       })
+      const featureMock = (persistAuthorization) => ({
+        featuresSelectors: {
+          isFeatureEnabled: (key) => {
+            const dict = {
+              persistAuthorization: persistAuthorization
+            }
+            return dict[key] === true
+          }
+        }
+      })
       it("should skip if `persistAuthorization` is turned off", () => {
         // Given
         const system = {
-          getConfigs: () => ({
-            persistAuthorization: false
-          }),
+          ...featureMock(false),
           authSelectors: {
             authorized: jest.fn(() => { })
           }
@@ -305,10 +313,9 @@ describe("auth plugin - actions", () => {
         const data = {
           "api_key": {}
         }
+
         const system = {
-          getConfigs: () => ({
-            persistAuthorization: true
-          }),
+          ...featureMock(true),
           errActions: {
             newAuthErr: () => ({})
           },
