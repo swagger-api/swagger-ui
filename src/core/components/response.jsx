@@ -197,6 +197,7 @@ export default class Response extends React.Component {
                       : Seq()
                   }
                   onChange={this._onContentTypeChange}
+                  ariaLabel="Media Type"
                 />
                 {controlsAcceptHeader ? (
                   <small className="response-control-media-type__accept-message">
