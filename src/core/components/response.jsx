@@ -130,7 +130,7 @@ export default class Response extends React.Component {
 
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
-      sampleSchema = activeMediaType.get("schema", Map({})).toJS()
+      sampleSchema = activeMediaType.get("schema")?.toJS()
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
         const targetExample = examplesForMediaType
