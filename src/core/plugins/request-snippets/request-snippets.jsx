@@ -103,7 +103,7 @@ export class RequestSnippets extends React.Component {
             expanded && <div className="curl-command">
               <div style={{paddingLeft: "15px", paddingRight: "10px", width: "100%", display: "flex"}}>
                 {
-                  snippetGenerators.map((gen, key) => {
+                  snippetGenerators.entrySeq().map(([key, gen]) => {
                     return (<div style={getBtnStyle(key)} className="btn" key={key} onClick={() => onGenChange(key)}>
                       <h4 style={key === activeLanguage ? {color: "white",} : {}}>{gen.get("title")}</h4>
                     </div>)
