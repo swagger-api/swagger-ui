@@ -10,6 +10,7 @@ export default class OperationSummary extends PureComponent {
   static propTypes = {
     specPath: ImPropTypes.list.isRequired,
     operationProps: PropTypes.instanceOf(Iterable).isRequired,
+    isShown: PropTypes.bool.isRequired,
     toggleShown: PropTypes.func.isRequired,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
@@ -26,6 +27,7 @@ export default class OperationSummary extends PureComponent {
   render() {
 
     let {
+      isShown,
       toggleShown,
       getComponent,
       authActions,
@@ -40,6 +42,7 @@ export default class OperationSummary extends PureComponent {
       method,
       op,
       showSummary,
+      path,
       operationId,
       originalOperationId,
       displayOperationId,
@@ -60,17 +63,28 @@ export default class OperationSummary extends PureComponent {
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
     const allowAnonymous = !hasSecurity || securityIsOptional
     return (
-      <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
-        <OperationSummaryMethod method={method} />
-        <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
+      <div className={`opblock-summary opblock-summary-${method}`} >
+        <button
+          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
+          aria-expanded={isShown}
+          className="opblock-summary-control"
+          onClick={toggleShown}
+        >
+          <OperationSummaryMethod method={method} />
+          <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
 
-        {!showSummary ? null :
-          <div className="opblock-summary-description">
-            {toString(resolvedSummary || summary)}
-          </div>
-        }
+          {!showSummary ? null :
+            <div className="opblock-summary-description">
+              {toString(resolvedSummary || summary)}
+            </div>
+          }
 
-        {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
+          {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
+
+          <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
+            <use href={isShown ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={isShown ? "#large-arrow-up" : "#large-arrow-down"} />
+          </svg>
+        </button>
 
         {
           allowAnonymous ? null :
