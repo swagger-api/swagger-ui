@@ -63,7 +63,7 @@
     "@kyleshockey/object-assign-deep": "^0.4.2",
     "@kyleshockey/xml": "^1.0.2",
     "base64-js": "^1.5.1",
-    "classnames": "^2.2.6",
+    "classnames": "^2.3.1",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
     "dompurify": "^2.2.7",
