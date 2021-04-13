@@ -54,7 +54,7 @@
     "security-audit": "run-s -sc security-audit:all security-audit:prod",
     "security-audit:prod": "npm-audit-ci-wrapper -p -t low",
     "security-audit:all": "npm-audit-ci-wrapper -t moderate",
-    "serve-static": "http-server dist/ -i -a 0.0.0.0 -p 3002",
+    "serve-static": "ws -d dist/ --hostname 0.0.0.0 -p 3002",
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
@@ -136,7 +136,6 @@
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "git-describe": "^4.0.4",
-    "http-server": "^0.12.3",
     "husky": "=6.0.0",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "inspectpack": "=4.7.1",
@@ -148,6 +147,7 @@
     "less": "^4.1.1",
     "license-checker": "^25.0.0",
     "lint-staged": "=10.5.4",
+    "local-web-server": "^4.2.1",
     "mini-css-extract-plugin": "^1.4.0",
     "mocha": "=8.3.2",
     "nightwatch": "^1.6.2",
