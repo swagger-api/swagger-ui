@@ -54,28 +54,6 @@ export default function SwaggerUI(opts) {
     showCommonExtensions: false,
     withCredentials: undefined,
     requestSnippetsEnabled: false,
-    requestSnippets: {
-      generators: {
-        "curl_bash": {
-          title: "cURL (bash)",
-          syntax: "bash"
-        },
-        "curl_powershell": {
-          title: "cURL (PowerShell)",
-          syntax: "powershell"
-        },
-        "curl_cmd": {
-          title: "cURL (CMD)",
-          syntax: "bash"
-        },
-        "node_native": {
-          title: "Node.js (Native)",
-          syntax: "javascript"
-        },
-      },
-      defaultExpanded: true,
-      languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
-    },
     supportedSubmitMethods: [
       "get",
       "put",
@@ -107,16 +85,152 @@ export default function SwaggerUI(opts) {
     syntaxHighlight: {
       activated: true,
       theme: "agate"
+    },
+
+    // Features - features that can be enabled on runtime or by configuration
+    features: {
+      presets: {
+        tryItOutEnabled: {
+          info: {
+            title: "Try It Out Enabled",
+            description: "Enables Try It Out by default for all operations."
+          },
+          enabled: false,
+        },
+        persistAuthorization: {
+          info: {
+            title: "Persist Authorization",
+            description: "Persists authorization data that would be lost on browser close or on refresh."
+          },
+          enabled: false,
+        },
+        filter: {
+          info: {
+            title: "Tag Filter",
+            description: "Enables a search bar to filter operations by tag name."
+          },
+          enabled: false,
+        },
+        requestSnippets: {
+          info: {
+            title: "Request Snippets",
+            description: "With Request Snippets the Curl request generator is replaced, instead you are now optioned multiple target languages(cURL for bash, powershell, cmd and in addition Node.JS)"
+          },
+          enabled: false,
+          state: {
+            generators: {
+              "curl_bash": {
+                title: "cURL (bash)",
+                syntax: "bash"
+              },
+              "curl_powershell": {
+                title: "cURL (PowerShell)",
+                syntax: "powershell"
+              },
+              "curl_cmd": {
+                title: "cURL (CMD)",
+                syntax: "bash"
+              },
+              "node_native": {
+                title: "Node.js (Native)",
+                syntax: "javascript"
+              },
+            },
+            defaultExpanded: true,
+            languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
+          }
+        },
+      },
+      staticPresets: [], // e.g. exclude filter from user changeable settings: ["filter"]
+      enabled: true,
     }
   }
+
 
   let queryConfig = parseSearch()
 
   const domNode = opts.domNode
   delete opts.domNode
 
-  const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
+  const defaultedOrganizationConfig = deepExtend({}, defaults, opts)
+  const constructorConfig = deepExtend({}, defaultedOrganizationConfig, queryConfig)
 
+  const getInConfig = (key) => defaultedOrganizationConfig.features.staticPresets.includes(key)
+    ? defaultedOrganizationConfig[key]
+    : constructorConfig[key]
+  const isEnabled = (key) => getInConfig(key) === true || getInConfig(key) === "true"
+
+  const tryLoadPersistedFeatures = () => {
+    const localPresets = JSON.parse(localStorage.getItem("features-" + window.versions.swaggerUi.version))
+    if(!localPresets) {
+      return { }
+    }
+    const dict = {}
+    for (const key in localPresets) {
+      if(!Object.prototype.hasOwnProperty.call(localPresets, key)) {
+        continue
+      }
+      if(!localPresets[key].state) {
+        continue
+      }
+      if(defaultedOrganizationConfig?.features?.staticPresets?.includes(key)) {
+        continue
+      }
+      dict[key] = localPresets[key].state
+    }
+    return {
+      presets: dict
+    }
+  }
+
+  // Ensures defaults of defaulted organizational config can be overridden AND ensures that organizational defaults are set
+  // It also integrates user settings from local storage these can be overridden by query config and organizational config
+  const features = deepExtend({}, defaultedOrganizationConfig.features, tryLoadPersistedFeatures(), {
+    presets: {
+      tryItOutEnabled: {
+        enabled: isEnabled("tryItOutEnabled")
+      },
+      persistAuthorization: {
+        enabled: isEnabled("persistAuthorizationOutEnabled")
+      },
+      filter: {
+        enabled: !(getInConfig("filter") === null || getInConfig("filter") === false || getInConfig("filter") === "false")
+      },
+      requestSnippets: {
+        enabled: isEnabled("requestSnippetsEnabled")
+      }
+    }
+  }, opts?.features || {})
+  const getFeaturesStates = () => {
+    const dict = {}
+    if(!features || !features.presets) {
+      return dict
+    }
+    for (const key in features.presets) {
+      if(!Object.prototype.hasOwnProperty.call(features.presets, key)) {
+        continue
+      }
+      if(!features.presets[key].state) {
+        continue
+      }
+      dict[key] = features.presets[key].state
+    }
+    return dict
+  }
+  SwaggerUI.features = features
+  const normalizeFilter = (str) => {
+    switch (str) {
+      case true:
+      case "true":
+      case false:
+      case "false":
+      case null:
+      case "null":
+        return ""
+      default:
+        return str
+    }
+  }
   const storeConfigs = {
     system: {
       configs: constructorConfig.configs
@@ -125,14 +239,14 @@ export default function SwaggerUI(opts) {
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
-        filter: constructorConfig.filter
+        filter: normalizeFilter(getInConfig("filter"))
       },
       spec: {
         spec: "",
         url: constructorConfig.url
       },
-      requestSnippets: constructorConfig.requestSnippets
-    }, constructorConfig.initialState)
+      features,
+    }, getFeaturesStates(), constructorConfig.initialState)
   }
 
   if(constructorConfig.initialState) {

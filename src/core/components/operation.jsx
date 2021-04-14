@@ -30,7 +30,8 @@ export default class Operation extends PureComponent {
     oas3Selectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
+    featuresSelectors: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -58,7 +59,8 @@ export default class Operation extends PureComponent {
       authActions,
       authSelectors,
       oas3Actions,
-      oas3Selectors
+      oas3Selectors,
+      featuresSelectors
     } = this.props
     let operationProps = this.props.operation
 
@@ -229,7 +231,8 @@ export default class Operation extends PureComponent {
                     path={ path }
                     method={ method }
                     displayRequestDuration={ displayRequestDuration }
-                    fn={fn} />
+                    fn={fn}
+                    featuresSelectors={featuresSelectors}/>
               }
 
               { !showExtensions || !extensions.size ? null :

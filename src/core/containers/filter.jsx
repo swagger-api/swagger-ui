@@ -6,6 +6,7 @@ export default class FilterContainer extends React.Component {
   static propTypes = {
     specSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
+    featuresSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
   }
@@ -16,7 +17,7 @@ export default class FilterContainer extends React.Component {
   }
 
   render () {
-    const {specSelectors, layoutSelectors, getComponent} = this.props
+    const {specSelectors, layoutSelectors, getComponent, featuresSelectors} = this.props
     const Col = getComponent("Col")
 
     const isLoading = specSelectors.loadingStatus() === "loading"
@@ -29,14 +30,16 @@ export default class FilterContainer extends React.Component {
 
     return (
       <div>
-        {filter === null || filter === false || filter === "false" ? null :
-          <div className="filter-container">
-            <Col className="filter wrapper" mobile={12}>
-              <input className={classNames.join(" ")} placeholder="Filter by tag" type="text"
-                     onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter}
-                     disabled={isLoading}/>
-            </Col>
-          </div>
+        {
+          featuresSelectors.isFeatureEnabled("filter")
+            ? <div className="filter-container">
+                <Col className="filter wrapper" mobile={12}>
+                  <input className={classNames.join(" ")} placeholder="Filter by tag" type="text"
+                         onChange={this.onFilterChange} value={filter}
+                         disabled={isLoading}/>
+                </Col>
+              </div>
+            : null
         }
       </div>
     )

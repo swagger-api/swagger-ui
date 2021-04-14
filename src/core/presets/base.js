@@ -12,11 +12,13 @@ import downloadUrlPlugin from "core/plugins/download-url"
 import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 import filter from "core/plugins/filter"
+import features from "core/plugins/features"
 import onComplete from "core/plugins/on-complete"
 
 import OperationContainer from "core/containers/OperationContainer"
 
 import App from "core/components/app"
+import Popup from "core/components/popup"
 import AuthorizationPopup from "core/components/auth/authorization-popup"
 import AuthorizeBtn from "core/components/auth/authorize-btn"
 import AuthorizeBtnContainer from "core/containers/authorize-btn"
@@ -164,6 +166,7 @@ export default function() {
       Example,
       ExamplesSelect,
       ExamplesSelectValueRetainer,
+      Popup
     }
   }
 
@@ -193,6 +196,7 @@ export default function() {
     deepLinkingPlugin,
     filter,
     onComplete,
-    requestSnippets
+    requestSnippets,
+    features
   ]
 }

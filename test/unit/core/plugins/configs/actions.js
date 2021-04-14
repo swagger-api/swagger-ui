@@ -28,32 +28,42 @@ describe("configs plugin - actions", () => {
     describe("authorization data restoration", () => {
       beforeEach(() => {
         localStorage.clear()
-      })    
-      it("retrieve `authorized` value from `localStorage`", () => {            
-        const system = {        
-          getConfigs: () => ({
-            persistAuthorization: true
-          }),        
+      })
+      it("retrieve `authorized` value from `localStorage`", () => {
+        const system = {
+          featuresSelectors: {
+            isFeatureEnabled: (key) => {
+              const dict = {
+                persistAuthorization: true
+              }
+              return dict[key] === true
+            }
+          },
           authActions: {
 
           }
         }
         jest.spyOn(Object.getPrototypeOf(window.localStorage), "getItem")
-        loaded()(system)            
+        loaded()(system)
         expect(localStorage.getItem).toHaveBeenCalled()
-        expect(localStorage.getItem).toHaveBeenCalledWith("authorized")        
+        expect(localStorage.getItem).toHaveBeenCalledWith("authorized")
       })
-      it("restore authorization data when a value exists", () => {            
-        const system = {        
-          getConfigs: () => ({
-            persistAuthorization: true
-          }),        
+      it("restore authorization data when a value exists", () => {
+        const system = {
           authActions: {
             restoreAuthorization: jest.fn(() => {})
+          },
+          featuresSelectors: {
+            isFeatureEnabled: (key) => {
+              const dict = {
+                persistAuthorization: true
+              }
+              return dict[key] === true
+            }
           }
         }
         const mockData = {"api_key": {}}
-        localStorage.setItem("authorized", JSON.stringify(mockData))      
+        localStorage.setItem("authorized", JSON.stringify(mockData))
         loaded()(system)
         expect(system.authActions.restoreAuthorization).toHaveBeenCalled()
         expect(system.authActions.restoreAuthorization).toHaveBeenCalledWith({

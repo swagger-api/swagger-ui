@@ -69,7 +69,15 @@ describe("<LiveResponse/>", function () {
           return components[c]
         },
         displayRequestDuration: true,
-        getConfigs: () => ({ showMutatedRequest: test.showMutatedRequest, requestSnippetsEnabled: true })
+        getConfigs: () => ({ showMutatedRequest: test.showMutatedRequest }),
+        featuresSelectors: {
+          isFeatureEnabled: (key) => {
+            const dict = {
+              requestSnippets: true
+            }
+            return dict[key] === true
+          }
+        }
       }
 
       // When

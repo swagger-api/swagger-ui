@@ -20,7 +20,8 @@ export default class Responses extends React.Component {
     oas3Actions: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
     specPath: ImPropTypes.list.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
+    featuresSelectors: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -72,6 +73,7 @@ export default class Responses extends React.Component {
       method,
       oas3Selectors,
       oas3Actions,
+      featuresSelectors
     } = this.props
     let defaultCode = defaultStatusCode( responses )
 
@@ -109,7 +111,8 @@ export default class Responses extends React.Component {
                                                 specSelectors={ specSelectors }
                                                 path={ this.props.path }
                                                 method={ this.props.method }
-                                                displayRequestDuration={ displayRequestDuration } />
+                                                displayRequestDuration={ displayRequestDuration }
+                                                featuresSelectors={featuresSelectors}/>
                                   <h4>Responses</h4>
                                 </div>
 
