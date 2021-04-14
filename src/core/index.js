@@ -68,10 +68,6 @@ export default function SwaggerUI(opts) {
           title: "cURL (CMD)",
           syntax: "bash"
         },
-        "node_native": {
-          title: "Node.js (Native)",
-          syntax: "javascript"
-        },
       },
       defaultExpanded: true,
       languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
