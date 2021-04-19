@@ -10,8 +10,19 @@ const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
   if (
     sampleResponse !== undefined &&
     sampleResponse !== null
-  ) { return <div>
-      <HighlightCode className="example" getConfigs={ getConfigs } value={ stringify(sampleResponse) } />
+  ) {
+    let language = null
+
+    try {
+      let testValueForJson = JSON.parse(sampleResponse)
+      if (testValueForJson) {
+        language = "json"
+      }
+    } catch (e) {
+      // do nothing
+    }
+     return <div>
+      <HighlightCode className="example" getConfigs={ getConfigs } language={language} value={ stringify(sampleResponse) } />
     </div>
   }
   return null

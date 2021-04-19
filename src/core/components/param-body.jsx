@@ -112,6 +112,16 @@ export default class ParamBody extends PureComponent {
     let consumes = this.props.consumes && this.props.consumes.size ? this.props.consumes : ParamBody.defaultProp.consumes
 
     let { value, isEditBox } = this.state
+    let language = null
+
+    try {
+      let testValueForJson = JSON.parse(value)
+      if (testValueForJson) {
+        language = "json"
+      }
+    } catch(e) {
+      // do nothing
+    }
 
     return (
       <div className="body-param" data-param-name={param.get("name")} data-param-in={param.get("in")}>
@@ -119,8 +129,9 @@ export default class ParamBody extends PureComponent {
           isEditBox && isExecute
             ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")} value={value} onChange={ this.handleOnChange }/>
             : (value && <HighlightCode className="body-param__example"
-                               getConfigs={ getConfigs }
-                               value={ value }/>)
+                          language={ language }
+                          getConfigs={ getConfigs }
+                          value={ value }/>)
         }
         <div className="body-param-options">
           {
