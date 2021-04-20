@@ -235,6 +235,16 @@ const RequestBody = ({
     contentType,
     activeExamplesKey,
   )
+  let language = null
+
+  try {
+    let testValueForJson = JSON.parse(sampleRequestBody)
+    if (testValueForJson) {
+      language = "json"
+    }
+  } catch (e) {
+    // do nothing
+  }
 
   return <div>
     { requestBodyDescription &&
@@ -279,6 +289,7 @@ const RequestBody = ({
             <HighlightCode
               className="body-param__example"
               getConfigs={getConfigs}
+              language={language}
               value={stringify(requestBodyValue) || sampleRequestBody}
             />
           }
