@@ -2,6 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { fromJS, List } from "immutable"
 import { getSampleSchema } from "core/utils"
+import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 const NOOP = Function.prototype
 
@@ -113,14 +114,9 @@ export default class ParamBody extends PureComponent {
 
     let { value, isEditBox } = this.state
     let language = null
-
-    try {
-      let testValueForJson = JSON.parse(value)
-      if (testValueForJson) {
-        language = "json"
-      }
-    } catch(e) {
-      // do nothing
+    let testValueForJson = getKnownSyntaxHighlighterLanguage(value)
+    if (testValueForJson) {
+      language = "json"
     }
 
     return (

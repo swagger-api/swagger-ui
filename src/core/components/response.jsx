@@ -4,6 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
@@ -12,17 +13,12 @@ const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
     sampleResponse !== null
   ) {
     let language = null
-
-    try {
-      let testValueForJson = JSON.parse(sampleResponse)
-      if (testValueForJson) {
-        language = "json"
-      }
-    } catch (e) {
-      // do nothing
+    let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
+    if (testValueForJson) {
+      language = "json"
     }
-     return <div>
-      <HighlightCode className="example" getConfigs={ getConfigs } language={language} value={ stringify(sampleResponse) } />
+    return <div>
+      <HighlightCode className="example" getConfigs={ getConfigs } language={ language } value={ stringify(sampleResponse) } />
     </div>
   }
   return null
