@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify, isEmptyValue } from "core/utils"
+import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType])
@@ -235,6 +236,11 @@ const RequestBody = ({
     contentType,
     activeExamplesKey,
   )
+  let language = null
+  let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleRequestBody)
+  if (testValueForJson) {
+    language = "json"
+  }
 
   return <div>
     { requestBodyDescription &&
@@ -279,6 +285,7 @@ const RequestBody = ({
             <HighlightCode
               className="body-param__example"
               getConfigs={getConfigs}
+              language={language}
               value={stringify(requestBodyValue) || sampleRequestBody}
             />
           }
