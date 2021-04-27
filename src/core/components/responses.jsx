@@ -97,12 +97,12 @@ export default class Responses extends React.Component {
             { specSelectors.isOAS3() ? null : <label htmlFor={controlId}>
               <span>Response content type</span>
               <ContentType value={producesValue}
-                         onChange={this.onChangeProducesWrapper}
+                         ariaControls={regionId}
+                         ariaLabel="Response content type"
+                         className="execute-content-type"
                          contentTypes={produces}
                          controlId={controlId}
-                         ariaControls={regionId}
-                         className="execute-content-type"
-                         ariaLabel="Response content type" />
+                         onChange={this.onChangeProducesWrapper} />
                      </label> }
         </div>
         <div className="responses-inner">
