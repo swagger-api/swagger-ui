@@ -3,7 +3,6 @@ import { shallow } from "enzyme"
 import OperationTag from "components/operation-tag"
 import Im from "immutable"
 import { Link } from "components/layout-utils"
-import { expect } from "@jest/globals"
 
 describe("<OperationTag/>", function(){
   it("render externalDocs URL for swagger v2", function(){
