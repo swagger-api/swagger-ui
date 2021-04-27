@@ -3,6 +3,7 @@ import { shallow } from "enzyme"
 import OperationTag from "components/operation-tag"
 import Im from "immutable"
 import { Link } from "components/layout-utils"
+import { expect } from "@jest/globals"
 
 describe("<OperationTag/>", function(){
   it("render externalDocs URL for swagger v2", function(){
@@ -44,6 +45,7 @@ describe("<OperationTag/>", function(){
 
     const opblockTag = wrapper.find(".opblock-tag")
     expect(opblockTag.length).toEqual(1)
+    expect(opblockTag.getNode().type).toEqual("h3")
 
     const renderedLink = wrapper.find("Link")
     expect(renderedLink.length).toEqual(1)
