@@ -44,6 +44,7 @@ describe("<OperationTag/>", function(){
 
     const opblockTag = wrapper.find(".opblock-tag")
     expect(opblockTag.length).toEqual(1)
+    expect(opblockTag.getNode().type).toEqual("h3")
 
     const renderedLink = wrapper.find("Link")
     expect(renderedLink.length).toEqual(1)

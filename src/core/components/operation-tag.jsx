@@ -70,7 +70,7 @@ export default class OperationTag extends React.Component {
     return (
       <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} >
 
-        <h4
+        <h3
           onClick={() => layoutActions.show(isShownKey, !showTag)}
           className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
           id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}
@@ -114,7 +114,7 @@ export default class OperationTag extends React.Component {
                 <use href={showTag ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={showTag ? "#large-arrow-up" : "#large-arrow-down"} />
               </svg>
             </button>
-        </h4>
+        </h3>
 
         <Collapse isOpened={showTag}>
           {children}
