@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, bindActionCreators, compose } from "redux
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
-import serializeError from "serialize-error"
+import { serializeError } from "serialize-error"
 import assignDeep from "@kyleshockey/object-assign-deep"
 import { NEW_THROWN_ERR } from "corePlugins/err/actions"
 import win from "core/window"
