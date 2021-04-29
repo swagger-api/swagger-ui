@@ -429,7 +429,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let minItems = schema.get("minItems")
   let pattern = schema.get("pattern")
 
-  const schemaRequiresValue = requiredByParam || requiredBySchema
+  const schemaRequiresValue = requiredByParam || requiredBySchema === true
   const hasValue = value !== undefined && value !== null
   const isValidEmpty = !schemaRequiresValue && !hasValue
 
