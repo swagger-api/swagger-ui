@@ -93,6 +93,11 @@ export default function SwaggerUI(opts) {
     plugins: [
     ],
 
+    // Behavior during plugin registration. Can be :
+    // - null (default) : the current behavior for backward compatibility
+    // - chain : chain wrapComponents when targeting the same core component
+    pluginsBehavior: null,
+
     // Initial state
     initialState: { },
 
@@ -118,6 +123,7 @@ export default function SwaggerUI(opts) {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
+    pluginsBehavior: constructorConfig.pluginsBehavior,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
