@@ -321,7 +321,7 @@ function combinePlugins(plugins, toolbox, behavior) {
   }
 
   if(isArray(plugins)) {
-    const dest = behavior === 'chain' ? toolbox.getComponents() : {}
+    const dest = behavior === "chain" ? toolbox.getComponents() : {}
 
     return plugins
     .map(plugin => combinePlugins(plugin, toolbox, behavior))

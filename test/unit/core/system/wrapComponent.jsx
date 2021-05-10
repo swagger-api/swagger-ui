@@ -196,7 +196,7 @@ describe("wrapComponents", () => {
     // Given
 
     const mySystem = new System({
-      pluginsBehavior: 'chain',
+      pluginsBehavior: "chain",
       plugins: [
         () => {
           return {
