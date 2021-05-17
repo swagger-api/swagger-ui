@@ -44,6 +44,7 @@ module.exports = require("./make-webpack-config")(rules, {
   },
 	devtool: "eval-source-map",
   entry: {
+    dfsd
     "swagger-ui-bundle": [
       "./src/polyfills",
       "./src/core/index.js"
