@@ -107,7 +107,7 @@
     "@babel/preset-env": "=7.14.1",
     "@babel/preset-react": "=7.13.13",
     "@babel/register": "=7.13.16",
-    "@commitlint/cli": "^12.1.1",
+    "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.1",
     "@jest/globals": "=26.6.2",
     "@release-it/conventional-changelog": "=1.1.4",
