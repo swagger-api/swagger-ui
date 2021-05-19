@@ -196,7 +196,9 @@ describe("wrapComponents", () => {
     // Given
 
     const mySystem = new System({
-      pluginsBehavior: "chain",
+      pluginsOptions: {
+        pluginLoadType: "chain"
+      },
       plugins: [
         () => {
           return {

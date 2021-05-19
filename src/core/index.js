@@ -93,10 +93,12 @@ export default function SwaggerUI(opts) {
     plugins: [
     ],
 
-    // Behavior during plugin registration. Can be :
-    // - null (default) : the current behavior for backward compatibility
-    // - chain : chain wrapComponents when targeting the same core component
-    pluginsBehavior: null,
+    pluginsOptions: {
+      // Behavior during plugin registration. Can be :
+      // - legacy (default) : the current behavior for backward compatibility – last plugin takes precedence over the others
+      // - chain : chain wrapComponents when targeting the same core component
+      pluginLoadType: "legacy"
+    },
 
     // Initial state
     initialState: { },
@@ -123,7 +125,7 @@ export default function SwaggerUI(opts) {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
-    pluginsBehavior: constructorConfig.pluginsBehavior,
+    pluginsOptions: constructorConfig.pluginsOptions,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
