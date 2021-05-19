@@ -58,11 +58,17 @@ export default class Models extends Component {
     const JumpToPath = getComponent("JumpToPath")
 
     return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
-      <h4 onClick={() => layoutActions.show(specPathBase, !showModels)}>
-        <span>{isOAS3 ? "Schemas" : "Models" }</span>
-        <svg width="20" height="20">
-          <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
-        </svg>
+      <h4>
+        <button
+          aria-expanded={showModels}
+          className="models-control"
+          onClick={() => layoutActions.show(specPathBase, !showModels)}
+        >
+          <span>{isOAS3 ? "Schemas" : "Models"}</span>
+          <svg width="20" height="20" aria-hidden="true" focusable="false">
+            <use xlinkHref={showModels ? "#large-arrow-up" : "#large-arrow-down"} />
+          </svg>
+        </button>
       </h4>
       <Collapse isOpened={showModels}>
         {
