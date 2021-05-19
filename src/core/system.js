@@ -64,7 +64,7 @@ export default class Store {
   }
 
   register(plugins, rebuild=true) {
-    var pluginSystem = combinePlugins(plugins, this.getSystem(), this.pluginsOptions.pluginLoadType)
+    var pluginSystem = combinePlugins(plugins, this.getSystem())
     systemExtend(this.system, pluginSystem)
     if(rebuild) {
       this.buildSystem()
