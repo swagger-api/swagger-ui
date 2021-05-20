@@ -35,6 +35,7 @@ export default class Store {
     deepExtend(this, {
       state: {},
       plugins: [],
+      pluginsOptions: {},
       system: {
         configs: {},
         fn: {},
@@ -63,7 +64,7 @@ export default class Store {
   }
 
   register(plugins, rebuild=true) {
-    var pluginSystem = combinePlugins(plugins, this.getSystem())
+    var pluginSystem = combinePlugins(plugins, this.getSystem(), this.pluginsOptions)
     systemExtend(this.system, pluginSystem)
     if(rebuild) {
       this.buildSystem()
@@ -310,19 +311,21 @@ export default class Store {
 
 }
 
-function combinePlugins(plugins, toolbox) {
+function combinePlugins(plugins, toolbox, pluginOptions) {
   if(isObject(plugins) && !isArray(plugins)) {
     return assignDeep({}, plugins)
   }
 
   if(isFunc(plugins)) {
-    return combinePlugins(plugins(toolbox), toolbox)
+    return combinePlugins(plugins(toolbox), toolbox, pluginOptions)
   }
 
   if(isArray(plugins)) {
+    const dest = pluginOptions.pluginLoadType === "chain" ? toolbox.getComponents() : {}
+
     return plugins
-    .map(plugin => combinePlugins(plugin, toolbox))
-    .reduce(systemExtend, {})
+    .map(plugin => combinePlugins(plugin, toolbox, pluginOptions))
+    .reduce(systemExtend, dest)
   }
 
   return {}
