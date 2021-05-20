@@ -150,7 +150,7 @@
     "local-web-server": "^4.2.1",
     "mini-css-extract-plugin": "^1.6.0",
     "mocha": "=8.4.0",
-    "nightwatch": "^1.6.3",
+    "nightwatch": "^1.6.4",
     "node-sass": "^4.14.1",
     "npm-audit-ci-wrapper": "^3.0.2",
     "npm-run-all": "^4.1.5",
