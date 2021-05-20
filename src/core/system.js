@@ -64,7 +64,7 @@ export default class Store {
   }
 
   register(plugins, rebuild=true) {
-    var pluginSystem = combinePlugins(plugins, this.getSystem())
+    var pluginSystem = combinePlugins(plugins, this.getSystem(), this.pluginsOptions)
     systemExtend(this.system, pluginSystem)
     if(rebuild) {
       this.buildSystem()
@@ -311,20 +311,20 @@ export default class Store {
 
 }
 
-function combinePlugins(plugins, toolbox, pluginLoadType) {
+function combinePlugins(plugins, toolbox, pluginOptions) {
   if(isObject(plugins) && !isArray(plugins)) {
     return assignDeep({}, plugins)
   }
 
   if(isFunc(plugins)) {
-    return combinePlugins(plugins(toolbox), toolbox, pluginLoadType)
+    return combinePlugins(plugins(toolbox), toolbox, pluginOptions)
   }
 
   if(isArray(plugins)) {
-    const dest = pluginLoadType === "chain" ? toolbox.getComponents() : {}
+    const dest = pluginOptions.pluginLoadType === "chain" ? toolbox.getComponents() : {}
 
     return plugins
-    .map(plugin => combinePlugins(plugin, toolbox, pluginLoadType))
+    .map(plugin => combinePlugins(plugin, toolbox, pluginOptions))
     .reduce(systemExtend, dest)
   }
 
