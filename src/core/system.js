@@ -392,23 +392,46 @@ function systemExtend(dest={}, src={}) {
   if(isObject(statePlugins)) {
     for(let namespace in statePlugins) {
       const namespaceObj = statePlugins[namespace]
-      if(!isObject(namespaceObj) || !isObject(namespaceObj.wrapActions)) {
+      if(!isObject(namespaceObj)) {
         continue
       }
-      const { wrapActions } = namespaceObj
-      for(let actionName in wrapActions) {
-        let action = wrapActions[actionName]
 
-        // This should only happen if dest is the first plugin, since invocations after that will ensure its an array
-        if(!Array.isArray(action)) {
-          action = [action]
-          wrapActions[actionName] = action // Put the value inside an array
+      const { wrapActions, wrapSelectors } = namespaceObj
+
+      // process action wrapping
+      if (isObject(wrapActions)) {
+        for(let actionName in wrapActions) {
+          let action = wrapActions[actionName]
+
+          // This should only happen if dest is the first plugin, since invocations after that will ensure its an array
+          if(!Array.isArray(action)) {
+            action = [action]
+            wrapActions[actionName] = action // Put the value inside an array
+          }
+
+          if(src && src.statePlugins && src.statePlugins[namespace] && src.statePlugins[namespace].wrapActions && src.statePlugins[namespace].wrapActions[actionName]) {
+            src.statePlugins[namespace].wrapActions[actionName] = wrapActions[actionName].concat(src.statePlugins[namespace].wrapActions[actionName])
+          }
+
         }
+      }
 
-        if(src && src.statePlugins && src.statePlugins[namespace] && src.statePlugins[namespace].wrapActions && src.statePlugins[namespace].wrapActions[actionName]) {
-          src.statePlugins[namespace].wrapActions[actionName] = wrapActions[actionName].concat(src.statePlugins[namespace].wrapActions[actionName])
+      // process selector wrapping
+      if (isObject(wrapSelectors)) {
+        for(let selectorName in wrapSelectors) {
+          let selector = wrapSelectors[selectorName]
+
+          // This should only happen if dest is the first plugin, since invocations after that will ensure its an array
+          if(!Array.isArray(selector)) {
+            selector = [selector]
+            wrapSelectors[selectorName] = selector // Put the value inside an array
+          }
+
+          if(src && src.statePlugins && src.statePlugins[namespace] && src.statePlugins[namespace].wrapSelectors && src.statePlugins[namespace].wrapSelectors[selectorName]) {
+            src.statePlugins[namespace].wrapSelectors[selectorName] = wrapSelectors[selectorName].concat(src.statePlugins[namespace].wrapSelectors[selectorName])
+          }
+
         }
-
       }
     }
   }
