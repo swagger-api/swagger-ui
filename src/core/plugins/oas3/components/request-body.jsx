@@ -107,12 +107,14 @@ const RequestBody = ({
   }
 
   const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
+  const isBinaryFormat = mediaTypeValue.getIn(["schema", "format"]) === "binary"
 
   if(
     contentType === "application/octet-stream"
     || contentType.indexOf("image/") === 0
     || contentType.indexOf("audio/") === 0
     || contentType.indexOf("video/") === 0
+    || isBinaryFormat
   ) {
     const Input = getComponent("Input")
 
@@ -163,7 +165,7 @@ const RequestBody = ({
                 || prop.hasIn(["items", "default"])
               const useInitialValFromEnum = prop.has("enum") && (prop.get("enum").size === 1 || required)
               const useInitialValue = useInitialValFromSchemaSamples || useInitialValFromEnum
-              
+
               let initialValue = ""
               if(type === "array" && !useInitialValue) {
                 initialValue = []
