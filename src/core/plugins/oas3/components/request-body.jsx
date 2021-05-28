@@ -118,7 +118,7 @@ const RequestBody = ({
 
     if(!isExecute) {
       return <i>
-        Example values are not available for <code>application/octet-stream</code> media types.
+        Example values are not available for <code>{contentType}</code> media types.
       </i>
     }
 
