@@ -89,3 +89,7 @@ To help with the migration, here are the currently known issues with 3.X. This l
 ## Security contact
 
 Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
+
+### LICENSE
+
+Apache License 2.0 [License](./LICENSE)
