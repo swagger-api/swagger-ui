@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+//OutSystems change - import a new component created by OutSystems
+import RequestUrlOutSystems from "./requestUrlOutSystems"
 
 export default class Parameters extends Component {
 
@@ -131,8 +133,26 @@ export default class Parameters extends Component {
       .reduce((acc, x) => acc.concat(x), [])
 
     const retainRequestBodyValueFlagForOperation = (f) => oas3Actions.setRetainRequestBodyValueFlag({ value: f, pathMethod })
+
+    //OutSystems change - get the host in order to send to the RequestUrlOutSystems component
+    var host = specSelectors.host()
+    //in swagger api 20 host may not be defined
+    if (host == undefined) {
+      host = window.location.host
+    }
+
     return (
       <div className="opblock-section">
+        {/*OutSystems change - render the request URL */}
+        <RequestUrlOutSystems
+          //input parameters of the method
+          parameters={parameters}
+          host={host}
+          //first argument is the path
+          path={pathMethod[0]}
+          //get the scheme. The first position is HTTPS if exists
+          scheme={specSelectors.schemes()._tail.array[0]}
+          basePath={specSelectors.basePath()}/>
         <div className="opblock-section-header">
           {isOAS3 ? (
             <div className="tab-header">
