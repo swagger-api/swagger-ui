@@ -220,7 +220,8 @@ export default class Parameters extends Component {
                   onChange={(value) => {
                     this.onChangeMediaType({ value, pathMethod })
                   }}
-                  className="body-param-content-type" />
+                  className="body-param-content-type" 
+                  ariaLabel="Request content type" />
               </label>
             </div>
             <div className="opblock-description-wrapper">

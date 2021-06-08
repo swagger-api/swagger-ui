@@ -110,6 +110,21 @@
     }
 }
 
+.opblock-summary-control,
+.models-control,
+.model-box-control
+{
+  all: inherit;
+  flex: 1;
+  border-bottom: 0;
+  padding: 0;
+  cursor: pointer;
+
+  &:focus {
+    outline: auto;
+  }
+}
+
 .expand-methods,
 .expand-operation
 {
@@ -143,11 +158,9 @@
     }
 }
 
-
 button
 {
     cursor: pointer;
-    outline: none;
 
     &.invalid
     {

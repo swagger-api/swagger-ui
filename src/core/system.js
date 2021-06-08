@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, bindActionCreators, compose } from "redux
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
-import serializeError from "serialize-error"
+import { serializeError } from "serialize-error"
 import assignDeep from "@kyleshockey/object-assign-deep"
 import { NEW_THROWN_ERR } from "corePlugins/err/actions"
 import win from "core/window"
@@ -35,6 +35,7 @@ export default class Store {
     deepExtend(this, {
       state: {},
       plugins: [],
+      pluginsOptions: {},
       system: {
         configs: {},
         fn: {},
@@ -63,7 +64,7 @@ export default class Store {
   }
 
   register(plugins, rebuild=true) {
-    var pluginSystem = combinePlugins(plugins, this.getSystem())
+    var pluginSystem = combinePlugins(plugins, this.getSystem(), this.pluginsOptions)
     systemExtend(this.system, pluginSystem)
     if(rebuild) {
       this.buildSystem()
@@ -310,19 +311,21 @@ export default class Store {
 
 }
 
-function combinePlugins(plugins, toolbox) {
+function combinePlugins(plugins, toolbox, pluginOptions) {
   if(isObject(plugins) && !isArray(plugins)) {
     return assignDeep({}, plugins)
   }
 
   if(isFunc(plugins)) {
-    return combinePlugins(plugins(toolbox), toolbox)
+    return combinePlugins(plugins(toolbox), toolbox, pluginOptions)
   }
 
   if(isArray(plugins)) {
+    const dest = pluginOptions.pluginLoadType === "chain" ? toolbox.getComponents() : {}
+
     return plugins
-    .map(plugin => combinePlugins(plugin, toolbox))
-    .reduce(systemExtend, {})
+    .map(plugin => combinePlugins(plugin, toolbox, pluginOptions))
+    .reduce(systemExtend, dest)
   }
 
   return {}
@@ -389,23 +392,46 @@ function systemExtend(dest={}, src={}) {
   if(isObject(statePlugins)) {
     for(let namespace in statePlugins) {
       const namespaceObj = statePlugins[namespace]
-      if(!isObject(namespaceObj) || !isObject(namespaceObj.wrapActions)) {
+      if(!isObject(namespaceObj)) {
         continue
       }
-      const { wrapActions } = namespaceObj
-      for(let actionName in wrapActions) {
-        let action = wrapActions[actionName]
 
-        // This should only happen if dest is the first plugin, since invocations after that will ensure its an array
-        if(!Array.isArray(action)) {
-          action = [action]
-          wrapActions[actionName] = action // Put the value inside an array
+      const { wrapActions, wrapSelectors } = namespaceObj
+
+      // process action wrapping
+      if (isObject(wrapActions)) {
+        for(let actionName in wrapActions) {
+          let action = wrapActions[actionName]
+
+          // This should only happen if dest is the first plugin, since invocations after that will ensure its an array
+          if(!Array.isArray(action)) {
+            action = [action]
+            wrapActions[actionName] = action // Put the value inside an array
+          }
+
+          if(src && src.statePlugins && src.statePlugins[namespace] && src.statePlugins[namespace].wrapActions && src.statePlugins[namespace].wrapActions[actionName]) {
+            src.statePlugins[namespace].wrapActions[actionName] = wrapActions[actionName].concat(src.statePlugins[namespace].wrapActions[actionName])
+          }
+
         }
+      }
 
-        if(src && src.statePlugins && src.statePlugins[namespace] && src.statePlugins[namespace].wrapActions && src.statePlugins[namespace].wrapActions[actionName]) {
-          src.statePlugins[namespace].wrapActions[actionName] = wrapActions[actionName].concat(src.statePlugins[namespace].wrapActions[actionName])
+      // process selector wrapping
+      if (isObject(wrapSelectors)) {
+        for(let selectorName in wrapSelectors) {
+          let selector = wrapSelectors[selectorName]
+
+          // This should only happen if dest is the first plugin, since invocations after that will ensure its an array
+          if(!Array.isArray(selector)) {
+            selector = [selector]
+            wrapSelectors[selectorName] = selector // Put the value inside an array
+          }
+
+          if(src && src.statePlugins && src.statePlugins[namespace] && src.statePlugins[namespace].wrapSelectors && src.statePlugins[namespace].wrapSelectors[selectorName]) {
+            src.statePlugins[namespace].wrapSelectors[selectorName] = wrapSelectors[selectorName].concat(src.statePlugins[namespace].wrapSelectors[selectorName])
+          }
+
         }
-
       }
     }
   }

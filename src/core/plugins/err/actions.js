@@ -1,4 +1,4 @@
-import serializeError from "serialize-error"
+import { serializeError } from "serialize-error"
 
 export const NEW_THROWN_ERR = "err_new_thrown_err"
 export const NEW_THROWN_ERR_BATCH = "err_new_thrown_err_batch"

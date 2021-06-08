@@ -35,7 +35,7 @@ export default {
                 sourceMap: true,
                 plugins: [
                   require("cssnano")(),
-                  require("autoprefixer")(),
+                  "postcss-preset-env" // applies autoprefixer
                 ],
 
               }
@@ -44,9 +44,11 @@ export default {
           {
             loader: "sass-loader",
             options: {
-              outputStyle: "expanded",
               sourceMap: true,
-              sourceMapContents: "true",
+              sassOptions: {
+                outputStyle: "expanded",
+                // sourceMapContents: "true", // if sourceMap: true, sassOptions.sourceMapContents is ignored
+              },
             },
           },
         ],

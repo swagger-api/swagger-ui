@@ -1,5 +1,3 @@
-/* global Promise */
-
 import { createSelector } from "reselect"
 import { Map } from "immutable"
 import win from "../window"
