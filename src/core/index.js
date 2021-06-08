@@ -155,7 +155,7 @@ export default function SwaggerUI(opts) {
         url: constructorConfig.url
       },
       advancedFilter: constructorConfig.advancedFilter,
-      requestSnippets: constructorConfig.requestSnippets
+      requestSnippets: constructorConfig.requestSnippets,
     }, constructorConfig.initialState)
   }
 
