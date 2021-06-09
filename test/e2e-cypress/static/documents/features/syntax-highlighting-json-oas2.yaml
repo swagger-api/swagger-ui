@@ -1,0 +1,97 @@
+swagger: '2.0'
+info:
+  description: sample OAS 2 definition to test syntax highlighting
+  version: 1.0.0
+  title: json syntax highlighting
+host: "localhost:3200"
+basePath: /v1
+schemes:
+  - https
+  - http
+paths:
+  /setServices:
+    post:
+      summary: "simple service"
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+         $ref: '#/definitions/setServicesBody' 
+      responses:
+        200:
+          description: OK
+          schema:
+           $ref: '#/definitions/setServicesResponse'
+        404:
+          description: "Page not found"
+definitions:
+  setServicesBody:
+    type: object
+    required:
+      - appid
+      - key
+      - userid
+      - station_objectid
+      - details
+    properties:
+      appid:
+        type: string
+        example: "Website"
+        description: "application ID"
+      userid:
+        type: integer
+        example: "79daf5b4-aa4b-1452-eae5-42c231477ba7"
+        description: "user id available to test"
+      station_objectid:
+        type: string
+        example: "22a124b4-594b-4452-bdf5-fc3ef1477ba7"
+        description: "station id available to test"
+      details:
+        type: array
+        items:
+          type: object
+          properties:
+            station_serviceid:
+              type: integer
+              example: "34"
+              description: "optional service id"
+            name:
+              type: string
+              example: "hooray"
+            amount:
+              type: string
+              example: "0.00"
+            quantity:
+              type: integer
+              example: "999999"
+            date:
+              type: string
+              format: date-time
+              example: "2020-11-12 18:52:29"
+  setServicesResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+        example: true
+      count:
+        type: boolean
+        example: 1
+      response:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          station_serviceid:
+            type: integer
+            example: "3"
+          userid:
+            type: integer
+            example: "5ff06f632bb165394501b05d3a833355"
+          statusId:
+            type: string
+            example: "f0009babde9dbe204540d79cf754408e"

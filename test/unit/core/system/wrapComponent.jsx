@@ -5,7 +5,7 @@ import System from "core/system"
 
 describe("wrapComponents", () => {
   describe("should wrap a component and provide a reference to the original", () => {
-    it("with stateless components", function(){
+    it("with stateless components", function () {
       // Given
       const system = new System({
         plugins: [
@@ -40,7 +40,7 @@ describe("wrapComponents", () => {
       expect(children.eq(1).text()).toEqual("Wrapped component")
     })
 
-    it("with React classes", function(){
+    it("with React classes", function () {
       class MyComponent extends React.Component {
         render() {
           return <div>{this.props.name} component</div>
@@ -86,7 +86,7 @@ describe("wrapComponents", () => {
     })
   })
 
-  it("should provide a reference to the system to the wrapper", function(){
+  it("should provide a reference to the system to the wrapper", function () {
 
     // Given
 
@@ -137,7 +137,7 @@ describe("wrapComponents", () => {
     expect(children.eq(1).text()).toEqual("WOW much data")
   })
 
-  it("should wrap correctly when registering more plugins", function(){
+  it("should wrap correctly when registering more plugins", function () {
 
     // Given
 
@@ -163,7 +163,7 @@ describe("wrapComponents", () => {
     })
 
     mySystem.register([
-      function() {
+      function () {
         return {
           // Wrap the component and use the system
           wrapComponents: {
@@ -191,7 +191,73 @@ describe("wrapComponents", () => {
     expect(children.eq(1).text()).toEqual("WOW much data")
   })
 
-  it("should wrap correctly when building a system twice", function(){
+  it("should wrap correctly when registering multiple plugins targeting the same component", function () {
+
+    // Given
+
+    const mySystem = new System({
+      pluginsOptions: {
+        pluginLoadType: "chain"
+      },
+      plugins: [
+        () => {
+          return {
+            components: {
+              wow: () => <div>Original component</div>
+            }
+          }
+        }
+      ]
+    })
+
+    mySystem.register([
+      () => {
+        return {
+          wrapComponents: {
+            wow: (OriginalComponent, system) => (props) => {
+              return <container1>
+                <OriginalComponent {...props}></OriginalComponent>
+                <div>Injected after</div>
+              </container1>
+            }
+          }
+        }
+      },
+      () => {
+        return {
+          wrapComponents: {
+            wow: (OriginalComponent, system) => (props) => {
+              return <container2>
+                <div>Injected before</div>
+                <OriginalComponent {...props}></OriginalComponent>
+              </container2>
+            }
+          }
+        }
+      }
+    ])
+
+    // Then
+    let Component = mySystem.getSystem().getComponents("wow")
+    const wrapper = render(<Component name="Normal" />)
+
+    const container2 = wrapper.children().first()
+    expect(container2[0].name).toEqual("container2")
+
+    const children2 = container2.children()
+    expect(children2.length).toEqual(2)
+    expect(children2[0].name).toEqual("div")
+    expect(children2.eq(0).text()).toEqual("Injected before")
+    expect(children2[1].name).toEqual("container1")
+
+    const children1 = children2.children()
+    expect(children1.length).toEqual(2)
+    expect(children1.eq(0).text()).toEqual("Original component")
+    expect(children1[0].name).toEqual("div")
+    expect(children1.eq(1).text()).toEqual("Injected after")
+  })
+
+  it("should wrap correctly when building a system twice", function () {
 
     // Given
 

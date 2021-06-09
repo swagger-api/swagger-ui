@@ -35,28 +35,33 @@ const primitive = (schema) => {
 const sanitizeRef = (value) => deeplyStripKey(value, "$$ref", (val) =>
   typeof val === "string" && val.indexOf("#") > -1)
 
+const objectContracts = ["maxProperties", "minProperties"]
+const arrayContracts = ["minItems", "maxItems"]
+const numberContracts = [
+  "minimum",
+  "maximum",
+  "exclusiveMinimum",
+  "exclusiveMaximum"
+]
+const stringContracts = ["minLength", "maxLength"]
+
 const liftSampleHelper = (oldSchema, target, config = {}) => {
   const setIfNotDefinedInTarget = (key) => {
     if(target[key] === undefined && oldSchema[key] !== undefined) {
       target[key] = oldSchema[key]
     }
   }
+
   [
     "example",
     "default",
     "enum",
     "xml",
     "type",
-    "maxProperties",
-    "minProperties",
-    "minItems",
-    "maxItems",
-    "minimum",
-    "maximum",
-    "exclusiveMinimum",
-    "exclusiveMaximum",
-    "minLength",
-    "maxLength"
+    ...objectContracts,
+    ...arrayContracts,
+    ...numberContracts,
+    ...stringContracts,
   ].forEach(key => setIfNotDefinedInTarget(key))
 
   if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
@@ -111,8 +116,9 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
-  schema = objectify(schema)
-  let usePlainValue = exampleOverride !== undefined || schema.example !== undefined || schema && schema.default !== undefined
+  if(schema && isFunc(schema.toJS))
+    schema = schema.toJS()
+  let usePlainValue = exampleOverride !== undefined || schema && schema.example !== undefined || schema && schema.default !== undefined
   // first check if there is the need of combining this schema with others required by allOf
   const hasOneOf = !usePlainValue && schema && schema.oneOf && schema.oneOf.length > 0
   const hasAnyOf = !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
@@ -159,7 +165,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
   }
   const _attr = {}
-  let { xml, type, example, properties, additionalProperties, items } = schema
+  let { xml, type, example, properties, additionalProperties, items } = schema || {}
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -183,24 +189,43 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     res[displayName] = []
   }
 
+  const schemaHasAny = (keys) => keys.some(key => Object.prototype.hasOwnProperty.call(schema, key))
   // try recover missing type
   if(schema && !type) {
-    if(properties || additionalProperties) {
+    if(properties || additionalProperties || schemaHasAny(objectContracts)) {
       type = "object"
-    } else if(items) {
+    } else if(items || schemaHasAny(arrayContracts)) {
       type = "array"
+    } else if(schemaHasAny(numberContracts)) {
+      type = "number"
+      schema.type = "number"
     } else if(!usePlainValue && !schema.enum){
-      return
+      // implicit cover schemaHasAny(stringContracts) or A schema without a type matches any data type is:
+      // components:
+      //   schemas:
+      //     AnyValue:
+      //       anyOf:
+      //         - type: string
+      //         - type: number
+      //         - type: integer
+      //         - type: boolean
+      //         - type: array
+      //           items: {}
+      //         - type: object
+      //
+      // which would resolve to type: string
+      type = "string"
+      schema.type = "string"
     }
   }
 
   const handleMinMaxItems = (sampleArray) => {
-    if (schema.maxItems !== null && schema.maxItems !== undefined) {
-      sampleArray = sampleArray.slice(0, schema.maxItems)
+    if (schema?.maxItems !== null && schema?.maxItems !== undefined) {
+      sampleArray = sampleArray.slice(0, schema?.maxItems)
     }
-    if (schema.minItems !== null && schema.minItems !== undefined) {
+    if (schema?.minItems !== null && schema?.minItems !== undefined) {
       let i = 0
-      while (sampleArray.length < schema.minItems) {
+      while (sampleArray.length < schema?.minItems) {
         sampleArray.push(sampleArray[i++ % sampleArray.length])
       }
     }
@@ -477,7 +502,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(type === "array") {
     let sampleArray
     if(respectXML) {
-      items.xml = items.xml || schema.xml || {}
+      items.xml = items.xml || schema?.xml || {}
       items.xml.name = items.xml.name || xml.name
     }
 

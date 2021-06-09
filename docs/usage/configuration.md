@@ -39,8 +39,15 @@ Read more about the plugin system in the [Customization documentation](/docs/cus
 Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="layout"></a>`layout` | _Unavailable_ | `String="BaseLayout"`. The name of a component available via the plugin system to use as the top-level layout for Swagger UI.
+<a name="pluginsOptions"></a>`pluginsOptions` | _Unavailable_ | `Object`. A Javascript object to configure plugin integration and behaviors (see below).
 <a name="plugins"></a>`plugins` | _Unavailable_ | `Array=[]`. An array of plugin functions to use in Swagger UI.
 <a name="presets"></a>`presets` | _Unavailable_ | `Array=[SwaggerUI.presets.ApisPreset]`. An array of presets to use in Swagger UI. Usually, you'll want to include `ApisPreset` if you use this option.
+
+##### Plugins options
+
+Parameter name | Docker variable | Description
+--- | --- | -----
+<a name="pluginLoadType"></a>`pluginLoadType` | _Unavailable_ | `String=["legacy", "chain"]`. Control behavior of plugins when targeting the same component with wrapComponent.<br/>- `legacy` (default) : last plugin takes precedence over the others<br/>- `chain` : chain wrapComponents when targeting the same core component, allowing multiple plugins to wrap the same component
 
 ##### Display
 
@@ -65,7 +72,7 @@ Parameter name | Docker variable | Description
 <a name="syntaxHighlight.activate"></a>`syntaxHighlight.activate` | _Unavailable_ | `Boolean=true`. Whether syntax highlighting should be activated or not.
 <a name="syntaxHighlight.theme"></a>`syntaxHighlight.theme` | _Unavailable_ | `String=["agate"*, "arta", "monokai", "nord", "obsidian", "tomorrow-night"]`. [Highlight.js](https://highlightjs.org/static/demo/) syntax coloring theme to use. (Only these 6 styles are available.)
 <a name="tryItOutEnabled"></a>`tryItOutEnabled` | `TRY_IT_OUT_ENABLED` | `Boolean=false`. Controls whether the "Try it out" section should be enabled by default.
-<a name="requestSnippets"></a>`requestSnippets` | _Unavailable_ | `Object`. This is the default configuration section for the the requestSnippets plugin.<br>requestSnippets: {<br>&nbsp;&nbsp;generators: {<br>&nbsp;&nbsp;&nbsp;&nbsp;"curl_bash": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: "cURL (bash)",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax: "bash"<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;"curl_powershell": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: "cURL (PowerShell)",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax: "powershell"<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;"curl_cmd": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: "cURL (CMD)",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax: "bash"<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;"node_native": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: "Node.js (Native)",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax: "javascript"<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;defaultExpanded: true,<br>&nbsp;&nbsp;languagesMask: null, // e.g. only show curl bash = \["curl_bash"\]<br>},
+<a name="requestSnippets"></a>`requestSnippets` | _Unavailable_ | `Object`. This is the default configuration section for the the requestSnippets plugin.<br>requestSnippets: {<br>&nbsp;&nbsp;generators: {<br>&nbsp;&nbsp;&nbsp;&nbsp;"curl_bash": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: "cURL (bash)",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax: "bash"<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;"curl_powershell": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: "cURL (PowerShell)",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax: "powershell"<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;"curl_cmd": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: "cURL (CMD)",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syntax: "bash"<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;defaultExpanded: true,<br>&nbsp;&nbsp;languagesMask: null, // e.g. only show curl bash = \["curl_bash"\]<br>},
 
 
 ##### Network

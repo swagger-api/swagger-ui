@@ -68,10 +68,6 @@ export default function SwaggerUI(opts) {
           title: "cURL (CMD)",
           syntax: "bash"
         },
-        "node_native": {
-          title: "Node.js (Native)",
-          syntax: "javascript"
-        },
       },
       defaultExpanded: true,
       languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
@@ -96,6 +92,13 @@ export default function SwaggerUI(opts) {
     // Plugins; ( loaded after presets )
     plugins: [
     ],
+
+    pluginsOptions: {
+      // Behavior during plugin registration. Can be :
+      // - legacy (default) : the current behavior for backward compatibility – last plugin takes precedence over the others
+      // - chain : chain wrapComponents when targeting the same core component
+      pluginLoadType: "legacy"
+    },
 
     // Initial state
     initialState: { },
@@ -122,6 +125,7 @@ export default function SwaggerUI(opts) {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
+    pluginsOptions: constructorConfig.pluginsOptions,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,

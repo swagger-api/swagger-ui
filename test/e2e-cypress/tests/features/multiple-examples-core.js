@@ -314,7 +314,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".json-schema-form-item-add")
           .click()
           .get(".json-schema-form-item:last-of-type > input")
-          .type("5")
+          .type("{selectall}5")
           // Assert against the input fields
           .get(".json-schema-form-item > input")
           .then((inputs) => {
@@ -345,7 +345,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".json-schema-form-item-add")
           .click()
           .get(".json-schema-form-item:last-of-type > input")
-          .type("5")
+          .type("{selectall}5")
           // Reset to an example
           .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
