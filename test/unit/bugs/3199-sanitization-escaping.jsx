@@ -16,6 +16,6 @@ describe("UI-3199: Sanitized Markdown causing code examples to be double escaped
     let el = render(<Markdown {...props}/>)
 
     expect(el.find("code").first().text()).toEqual("{\"abc\": \"def\"}\n")
-    expect(el.find("code").first().html()).toEqual("{&quot;abc&quot;: &quot;def&quot;}\n")
+    expect(el.find("code").first().html()).toEqual("{\"abc\": \"def\"}\n")
   })
 })
