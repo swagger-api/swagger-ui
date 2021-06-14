@@ -139,7 +139,7 @@ export default function buildConfig(
       devtool: sourcemaps
         ? minimize
           ? "nosources-source-map"
-          : "cheap-module-eval-source-map"
+          : "cheap-module-source-map"
         : false,
 
       performance: {
