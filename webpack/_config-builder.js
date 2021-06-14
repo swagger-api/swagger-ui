@@ -138,8 +138,8 @@ export default function buildConfig(
       // Otherwise, provide heavy souremaps suitable for development
       devtool: sourcemaps
         ? minimize
-          ? "nosource-source-map"
-          : "module-source-map"
+          ? "nosources-source-map"
+          : "cheap-module-eval-source-map"
         : false,
 
       performance: {
