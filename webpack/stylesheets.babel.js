@@ -7,7 +7,7 @@
 
 import path from "path"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
-import IgnoreAssetsPlugin from "ignore-assets-webpack-plugin"
+// import IgnoreAssetsPlugin from "ignore-assets-webpack-plugin"
 
 export default {
   mode: "production",
@@ -60,11 +60,11 @@ export default {
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),
-    new IgnoreAssetsPlugin({
-      // This is a hack to avoid a Webpack/MiniCssExtractPlugin bug, for more
-      // info see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151
-      ignore: ["swagger-ui.js", "swagger-ui.js.map"],
-    }),
+    // new IgnoreAssetsPlugin({
+    //   // This is a hack to avoid a Webpack/MiniCssExtractPlugin bug, for more
+    //   // info see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151
+    //   ignore: ["swagger-ui.js", "swagger-ui.js.map"],
+    // }),
   ],
 
   devtool: "source-map",
