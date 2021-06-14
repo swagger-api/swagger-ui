@@ -77,6 +77,11 @@ export default function buildConfig(
         BUILD_TIME: new Date().toUTCString(),
       }),
     }),
+    new webpack.ProvidePlugin({
+      // webpack 5 change: polyfill node bindings
+      // ref: https://github.com/duplotech/create-react-app/commit/d0be703d40cd4bc32cd91128ba407a138c608243
+      Buffer: ["buffer", "Buffer"]
+    })
   ]
 
   const completeConfig = deepExtend(
@@ -133,7 +138,7 @@ export default function buildConfig(
           // yaml-js has a reference to `fs`, this is a workaround
           fs: false,
           // js-yaml & swagger-client/querystring-browser
-          buffer: require.resolve("buffer/"),
+          // buffer: require.resolve("buffer/"),
         },
         // these aliases make sure that we don't bundle same libraries twice
         // when the versions of these libraries diverge between swagger-js and swagger-ui
