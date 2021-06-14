@@ -93,10 +93,10 @@ export default function buildConfig(
 
       target: "web",
 
-      node: {
-        // yaml-js has a reference to `fs`, this is a workaround
-        fs: "empty",
-      },
+      // node: {
+      //   // yaml-js has a reference to `fs`, this is a workaround
+      //   fs: "empty",
+      // },
 
       module: {
         rules: baseRules,
@@ -125,6 +125,10 @@ export default function buildConfig(
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
+        fallback: {
+          // yaml-js has a reference to `fs`, this is a workaround
+          fs: false,
+        },
         // these aliases make sure that we don't bundle same libraries twice
         // when the versions of these libraries diverge between swagger-js and swagger-ui
         alias: {
