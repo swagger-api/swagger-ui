@@ -44,10 +44,14 @@ const baseRules = [
   },
   {
     test: /\.(woff|woff2)$/,
-    loader: "url-loader?",
-    options: {
-      limit: 10000,
-    },
+    use: [
+      {
+        loader: "url-loader?",
+        options: {
+          limit: 10000,
+        },
+      },
+    ],
   },
   { test: /\.(ttf|eot)$/, loader: "file-loader" },
 ]
