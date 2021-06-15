@@ -30,7 +30,10 @@ const result = configBuilder(
     },
     output: {
       globalObject: "this",
-      library: "SwaggerUIBundle",
+      library: {
+        name: "SwaggerUIBundle",
+        // type: "umd",
+      }
     },
     plugins: [
       new DuplicatesPlugin({

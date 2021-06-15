@@ -80,6 +80,7 @@ export default function buildConfig(
     new webpack.ProvidePlugin({
       // webpack 5 change: polyfill node bindings
       // ref: https://github.com/duplotech/create-react-app/commit/d0be703d40cd4bc32cd91128ba407a138c608243
+      // process: 'process/browser.js',
       Buffer: ["buffer", "Buffer"]
     })
   ]
@@ -96,8 +97,14 @@ export default function buildConfig(
         publicPath: "/dist",
         filename: "[name].js",
         chunkFilename: "[name].js",
-        libraryTarget: "umd",
-        libraryExport: "default", // TODO: enable
+        globalObject: "this",
+        library: {
+          name: "SwaggerUI",
+          type: "umd",
+          export: "default",
+        }
+        // libraryTarget: "umd",
+        // libraryExport: "default", // TODO: enable
       },
 
       target: "web",
