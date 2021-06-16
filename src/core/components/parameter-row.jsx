@@ -333,7 +333,7 @@ export default class ParameterRow extends Component {
                               value={ value }
                               required={ required }
                               disabled={!isExecute}
-                              description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
+                              description={param.get("name")}
                               onChange={ this.onChangeWrapper }
                               errors={ paramWithMeta.get("errors") }
                               schema={ schema }/>
