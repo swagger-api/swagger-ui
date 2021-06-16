@@ -26,6 +26,8 @@ module.exports = {
         "@babel/proposal-class-properties",
         "@babel/proposal-object-rest-spread",
         "@babel/plugin-proposal-optional-chaining",
+        // "add-module-exports",
+        // ["add-module-exports", { "addDefaultProperty": true }],
       ]
     },
     "es": {
@@ -67,8 +69,8 @@ module.exports = {
                 "not dead"
               ]
             },
-            "useBuiltIns": false,
-            "corejs": { version: 3 }
+            // "useBuiltIns": false,
+            // "corejs": { version: 3 }
           }
         ],
         "@babel/preset-react"
@@ -106,7 +108,8 @@ module.exports = {
               "less": "./src/less"
             }
           }
-        ]
+        ],
+        // "add-module-exports",
       ]
     },
     "test": {
@@ -117,8 +120,8 @@ module.exports = {
             "targets": {
               "node": "10"
             },
-            "useBuiltIns": false,
-            "corejs": { version: 3 }
+            // "useBuiltIns": false,
+            // "corejs": { version: 3 }
           }
         ],
         "@babel/preset-react"
@@ -156,7 +159,8 @@ module.exports = {
               "less": "./src/less"
             }
           }
-        ]
+        ],
+        // ["add-module-exports", { "addDefaultProperty": true }],
       ]
     }
   }
