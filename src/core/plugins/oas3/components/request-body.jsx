@@ -108,6 +108,7 @@ const RequestBody = ({
 
   const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
   const isBinaryFormat = mediaTypeValue.getIn(["schema", "format"]) === "binary"
+  const isBase64Format = mediaTypeValue.getIn(["schema", "format"]) === "base64"
 
   if(
     contentType === "application/octet-stream"
@@ -115,6 +116,7 @@ const RequestBody = ({
     || contentType.indexOf("audio/") === 0
     || contentType.indexOf("video/") === 0
     || isBinaryFormat
+    || isBase64Format
   ) {
     const Input = getComponent("Input")
 
