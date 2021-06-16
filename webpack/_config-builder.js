@@ -44,10 +44,14 @@ const baseRules = [
   },
   {
     test: /\.(woff|woff2)$/,
-    loader: "url-loader?",
-    options: {
-      limit: 10000,
-    },
+    use: [
+      {
+        loader: "url-loader?",
+        options: {
+          limit: 10000,
+        },
+      },
+    ],
   },
   { test: /\.(ttf|eot)$/, loader: "file-loader" },
 ]
@@ -73,6 +77,12 @@ export default function buildConfig(
         BUILD_TIME: new Date().toUTCString(),
       }),
     }),
+    new webpack.ProvidePlugin({
+      // webpack 5 change: polyfill node bindings
+      // ref: https://github.com/duplotech/create-react-app/commit/d0be703d40cd4bc32cd91128ba407a138c608243
+      // process: 'process/browser.js',
+      Buffer: ["buffer", "Buffer"]
+    })
   ]
 
   const completeConfig = deepExtend(
@@ -87,16 +97,22 @@ export default function buildConfig(
         publicPath: "/dist",
         filename: "[name].js",
         chunkFilename: "[name].js",
-        libraryTarget: "umd",
-        libraryExport: "default", // TODO: enable
+        globalObject: "this",
+        library: {
+          name: "SwaggerUI",
+          type: "umd",
+          export: "default",
+        }
+        // libraryTarget: "umd",
+        // libraryExport: "default", // TODO: enable
       },
 
       target: "web",
 
-      node: {
-        // yaml-js has a reference to `fs`, this is a workaround
-        fs: "empty",
-      },
+      // node: {
+      //   // yaml-js has a reference to `fs`, this is a workaround
+      //   fs: "empty",
+      // },
 
       module: {
         rules: baseRules,
@@ -125,11 +141,18 @@ export default function buildConfig(
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
+        fallback: {
+          // yaml-js has a reference to `fs`, this is a workaround
+          fs: false,
+          // js-yaml & swagger-client/querystring-browser
+          // buffer: require.resolve("buffer/"),
+        },
         // these aliases make sure that we don't bundle same libraries twice
         // when the versions of these libraries diverge between swagger-js and swagger-ui
         alias: {
           "@babel/runtime-corejs3": path.resolve(__dirname, "..", "node_modules/@babel/runtime-corejs3"),
           "js-yaml": path.resolve(__dirname, "..", "node_modules/js-yaml"),
+          "buffer": path.resolve(__dirname, "..", "node_modules/buffer"),
           "lodash": path.resolve(__dirname, "..", "node_modules/lodash")
         },
       },
@@ -138,8 +161,8 @@ export default function buildConfig(
       // Otherwise, provide heavy souremaps suitable for development
       devtool: sourcemaps
         ? minimize
-          ? "nosource-source-map"
-          : "module-source-map"
+          ? "nosources-source-map"
+          : "cheap-module-source-map"
         : false,
 
       performance: {
