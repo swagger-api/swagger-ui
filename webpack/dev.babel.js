@@ -31,21 +31,32 @@ const devConfig = configBuilder(
     },
 
     output: {
-      library: "[name]",
+      // globalObject: "this",
+      library: {
+        name: "[name]",
+        // type: "umd",
+      },
       filename: "[name].js",
       chunkFilename: "[id].js",
     },
 
     devServer: {
       port: 3200,
-      publicPath: "/",
-      disableHostCheck: true, // for development within VMs
+      host: "0.0.0.0",
+      // begin section: webpack-dev-server@3, to remove in webpack-dev-server@4
+      disableHostCheck: true, // for development within VMs; @next => firewall
       stats: {
         colors: true,
-      },
-      hot: true,
-      contentBase: path.join(__dirname, "../", "dev-helpers"),
-      host: "0.0.0.0",
+      }, // @next, use stats option from webpack.config.js
+      hot: true, // @next, true by default
+      contentBase: path.join(__dirname, "../", "dev-helpers"), // @next: static: {}
+      publicPath: "/", // @next: static: {}
+      //  begin section: webpack-dev-server@4
+      // firewall: false, // for development within VMs
+      // static: [{
+      //   directory: path.join(__dirname, "../", "dev-helpers"),
+      //   publicPath: "/",
+      // }],
     },
 
     plugins: [new HotModuleReplacementPlugin()],
