@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: multipart/form-data schema object
+  version: 0.0.1
+paths:
+  /test:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                parameters:
+                  "$ref": "#/components/schemas/TestBody"
+      responses:
+        200:
+          description: ok
+components:
+  schemas:
+    TestBody:
+      type: object
+      properties:
+        stuff:
+          type: string
