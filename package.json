@@ -132,7 +132,7 @@
     "eslint-plugin-mocha": "^8.0.8",
     "eslint-plugin-react": "^7.23.2",
     "esm": "=3.2.25",
-    "expect": "^1.20.2",
+    "expect": "^27.0.2",
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "git-describe": "^4.0.4",
