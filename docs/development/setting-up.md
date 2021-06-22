@@ -5,21 +5,22 @@ Swagger UI includes a development server that provides hot module reloading and 
 ### Prerequisites
 
 - git, any version
-- NPM 6.x
+- NPM >=6.12.x
 
 Generally, we recommend the following guidelines from [Node.js Releases](https://nodejs.org/en/about/releases/) to only use Active LTS or Maintenance LTS releases.
 
+Current Node.js:
+- Node.js 16.x
+- NPM >=7.10.x
+
 Current Node.js Active LTS:
-- Node.js 12.x
-- NPM 6.x
+- Node.js 14.x
+- NPM >=6.12.x
 
 Current Node.js Maintenance LTS:
-- Node.js 10.x
-- NPM 6.x
+- Node.js 12.x
+- NPM >= 6.12.x
 
-Unsupported Node.js LTS that should still work:
-- Node.js 8.13.0 or greater
-- NPM 6.x
 
 ### Steps
 
