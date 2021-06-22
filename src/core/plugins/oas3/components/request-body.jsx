@@ -169,14 +169,16 @@ const RequestBody = ({
               const useInitialValue = useInitialValFromSchemaSamples || useInitialValFromEnum
 
               let initialValue = ""
-              if(type === "array" && !useInitialValue) {
+              if (type === "array" && !useInitialValue) {
                 initialValue = []
-              } else if (useInitialValue) {
+              }
+              if (type === "object" || useInitialValue) {
                 // TODO: what about example or examples from requestBody could be passed as exampleOverride
                 initialValue = getSampleSchema(prop, false, {
                   includeWriteOnly: true
                 })
               }
+
               if (typeof initialValue !== "string" && type === "object") {
                initialValue = stringify(initialValue)
               }
