@@ -146,7 +146,7 @@
     "json-server": "=0.16.3",
     "less": "^4.1.1",
     "license-checker": "^25.0.0",
-    "lint-staged": "=10.5.4",
+    "lint-staged": "=11.0.0",
     "local-web-server": "^4.2.1",
     "mini-css-extract-plugin": "^1.6.0",
     "mocha": "=8.4.0",
