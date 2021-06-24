@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  CYPRESS_CACHE_FOLDER: cypress/cache
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,8 +32,16 @@ jobs:
       with:
         path: node_modules
         key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Cache Cypress binary
+      id: cache-cypress-binary
+      uses: actions/cache@v2
+      with:
+        path: cypress/cache
+        key: cypress-binary-${{ hashFiles('package-lock.json') }}
     - name: Install dependencies
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      if: | 
+        steps.cache-node-modules.outputs.cache-hit != 'true' ||
+        steps.cache-cypress-binary.outputs.cache-hit != 'true'
       run: npm ci
     - name: Lint code for errors only
       run: npm run lint-errors
@@ -52,7 +63,14 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Cache Node Modules # artifact-bundle test is node-only, no Cypress
+      id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
     - name: Install dependencies
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
     - name: Build and Run all artifact tests
       run: npm run test:artifact
