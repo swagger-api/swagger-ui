@@ -500,6 +500,10 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   }
 
   if(type === "array") {
+    if (!items) {
+      return
+    }
+
     let sampleArray
     if(respectXML) {
       items.xml = items.xml || schema?.xml || {}
