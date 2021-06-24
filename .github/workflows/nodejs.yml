@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  CYPRESS_CACHE_FOLDER: cypress/cache
+
 jobs:
   build:
     runs-on: ubuntu-latest
