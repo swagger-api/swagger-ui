@@ -17,11 +17,10 @@ describe("<Link/> Anchor Target Safety", function () {
       href: "http://google.com/"
     }
     let wrapper = render(<Link {...props} />)
-    const anchor = wrapper.find("a")
 
-    expect(anchor.attr("href")).toEqual("http://google.com/")
-    expect(anchor.attr("rel") || "").toMatch("noopener")
-    expect(anchor.attr("rel") || "").toMatch("noreferrer")
+    expect(wrapper.attr("href")).toEqual("http://google.com/")
+    expect(wrapper.attr("rel") || "").toMatch("noopener")
+    expect(wrapper.attr("rel") || "").toMatch("noreferrer")
   })
 
   it("enforces `noreferrer` and `noopener` on target=_blank links", function () {
@@ -31,11 +30,10 @@ describe("<Link/> Anchor Target Safety", function () {
       target: "_blank"
     }
     let wrapper = render(<Link {...props} />)
-    const anchor = wrapper.find("a")
 
-    expect(anchor.attr("href")).toEqual("http://google.com/")
-    expect(anchor.attr("target")).toEqual("_blank")
-    expect(anchor.attr("rel") || "").toMatch("noopener")
-    expect(anchor.attr("rel") || "").toMatch("noreferrer")
+    expect(wrapper.attr("href")).toEqual("http://google.com/")
+    expect(wrapper.attr("target")).toEqual("_blank")
+    expect(wrapper.attr("rel") || "").toMatch("noopener")
+    expect(wrapper.attr("rel") || "").toMatch("noreferrer")
   })
 })

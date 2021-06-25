@@ -31,11 +31,11 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("select").length).toEqual(1)
-      expect(wrapper.find("select option").length).toEqual(3)
-      expect(wrapper.find("select option").eq(0).text()).toEqual("--")
-      expect(wrapper.find("select option").eq(1).text()).toEqual("one")
-      expect(wrapper.find("select option").eq(2).text()).toEqual("two")
+      expect(wrapper.get(0).name).toEqual("select")
+      expect(wrapper.find("option").length).toEqual(3)
+      expect(wrapper.find("option").eq(0).text()).toEqual("--")
+      expect(wrapper.find("option").eq(1).text()).toEqual("one")
+      expect(wrapper.find("option").eq(2).text()).toEqual("two")
     })
 
     it("should render a string enum as disabled when JsonSchemaForm is disabled", function(){
@@ -55,7 +55,7 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("select").attr("disabled")).toEqual("disabled")
+      expect(wrapper.attr("disabled")).toEqual("disabled")
     })
 
 
@@ -76,7 +76,7 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("select").length).toEqual(1)
+      expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(2)
       expect(wrapper.find("select option").eq(0).text()).toEqual("one")
       expect(wrapper.find("select option").eq(1).text()).toEqual("two")
@@ -98,7 +98,7 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("select").length).toEqual(1)
+      expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(3)
       expect(wrapper.find("select option").eq(0).text()).toEqual("--")
       expect(wrapper.find("select option").eq(1).text()).toEqual("true")
@@ -122,7 +122,7 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("select").length).toEqual(1)
+      expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(2)
       expect(wrapper.find("select option").eq(0).text()).toEqual("--")
       expect(wrapper.find("select option").eq(1).text()).toEqual("true")
@@ -145,7 +145,7 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("select").length).toEqual(1)
+      expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(3)
       expect(wrapper.find("select option").eq(0).text()).toEqual("--")
       expect(wrapper.find("select option").eq(1).text()).toEqual("true")
@@ -170,7 +170,7 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("select").length).toEqual(1)
+      expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(1)
       expect(wrapper.find("select option").eq(0).text()).toEqual("true")
       expect(wrapper.find("select option:checked").first().text()).toEqual("true")
@@ -225,7 +225,8 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("input").length).toEqual(1)
+      expect(wrapper.length).toEqual(1)
+      expect(wrapper.get(0).name).toEqual("input")
       // expect(wrapper.find("select input").length).toEqual(1)
       // expect(wrapper.find("select option").first().text()).toEqual("true")
     })
@@ -247,7 +248,8 @@ describe("<JsonSchemaForm/>", function(){
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
-      expect(wrapper.find("input").length).toEqual(1)
+      expect(wrapper.length).toEqual(1)
+      expect(wrapper.get(0).name).toEqual("input")
       // expect(wrapper.find("select input").length).toEqual(1)
       // expect(wrapper.find("select option").first().text()).toEqual("true")
     })
