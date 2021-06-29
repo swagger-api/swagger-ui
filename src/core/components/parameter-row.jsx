@@ -314,7 +314,7 @@ export default class ParameterRow extends Component {
     }
 
     //OutSystems change - customize the Example
-    const example = this.getExample(paramExample, schema, bodyParam, type)
+    let example = this.getExample(paramExample, schema, bodyParam, type)
 
     //OutSystems change: support binary data-type for body parameters. It is binary if consumes = [], format is not defined and the parameter is sent in the body. Example = 'DATA' in binary
     const consumes = specSelectors.consumesOptionsFor(pathMethod);
