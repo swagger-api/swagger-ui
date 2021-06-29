@@ -110,19 +110,22 @@ export default class Info extends React.Component {
 
   render() {
     let { info, url, host, basePath, getComponent, externalDocs, selectedServer, url: specUrl } = this.props
-    let version = info.get("version")
+    //OutSystems change: remove version
+    //let version = info.get("version")
     let description = info.get("description")
     let title = info.get("title")
+    /* OutSystems change: remove the following parameters
     let termsOfServiceUrl = buildUrl(info.get("termsOfService"), specUrl, {selectedServer})
     let contact = info.get("contact")
     let license = info.get("license")
     let rawExternalDocsUrl = externalDocs && externalDocs.get("url")
     let externalDocsUrl = buildUrl(rawExternalDocsUrl, specUrl, {selectedServer})
-    let externalDocsDescription = externalDocs && externalDocs.get("description")
+    let externalDocsDescription = externalDocs && externalDocs.get("description") */
 
     const Markdown = getComponent("Markdown", true)
     const Link = getComponent("Link")
-    const VersionStamp = getComponent("VersionStamp")
+    //OutSystems change: remove version
+    //const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
     const InfoBasePath = getComponent("InfoBasePath")
 
@@ -130,7 +133,8 @@ export default class Info extends React.Component {
       <div className="info">
         <hgroup className="main">
           <h2 className="title" >{ title }
-            { version && <VersionStamp version={version}></VersionStamp> }
+            {/* OutSystems change: remove version
+            version && <VersionStamp version={version}></VersionStamp> */}
           </h2>
           { host || basePath ? <InfoBasePath host={ host } basePath={ basePath } /> : null }
           { url && <InfoUrl getComponent={getComponent} url={url} /> }
@@ -140,6 +144,7 @@ export default class Info extends React.Component {
           <Markdown source={ description } />
         </div>
 
+        {/* OutSystems change: remove the following block
         {
           termsOfServiceUrl && <div className="info__tos">
             <Link target="_blank" href={ sanitizeUrl(termsOfServiceUrl) }>Terms of service</Link>
@@ -150,7 +155,7 @@ export default class Info extends React.Component {
         {license && license.size ? <License getComponent={getComponent} license={ license } selectedServer={selectedServer} url={url}/> : null }
         { externalDocsUrl ?
             <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
-        : null }
+        : null } */}
 
       </div>
     )
@@ -161,6 +166,7 @@ export default class Info extends React.Component {
 Info.propTypes = {
   title: PropTypes.any,
   description: PropTypes.any,
-  version: PropTypes.any,
+  //OutSystems change: remove version
+  //version: PropTypes.any,
   url: PropTypes.string
 }

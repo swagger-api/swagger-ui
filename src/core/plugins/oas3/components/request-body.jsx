@@ -198,8 +198,9 @@ const RequestBody = ({
                 </div>
               </td>
               <td className="parameters-col_description">
-                <Markdown source={ description }></Markdown>
-                {isExecute ? <div>
+                  <Markdown source={description}></Markdown>
+                  {/*  OutSystems change - remove input parameters used on the Try it out
+                  {isExecute ? <div>
                   <JsonSchemaForm
                     fn={fn}
                     dispatchInitialValue={!isFile}
@@ -221,7 +222,7 @@ const RequestBody = ({
                       isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
                     />
                   )}
-                </div> : null }
+                </div> : null } */}
               </td>
               </tr>
             })

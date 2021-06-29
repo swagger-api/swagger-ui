@@ -129,6 +129,7 @@ export default class ParamBody extends PureComponent {
                           getConfigs={ getConfigs }
                           value={ value }/>)
         }
+        {/* OutSystems change: remove Parameter content Type
         <div className="body-param-options">
           {
             !isExecute ? null
@@ -147,7 +148,7 @@ export default class ParamBody extends PureComponent {
               className="body-param-content-type" 
               ariaLabel="Parameter content type" />
           </label>
-        </div>
+        </div> */}
 
       </div>
     )

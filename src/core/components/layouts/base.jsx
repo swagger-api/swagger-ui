@@ -77,12 +77,12 @@ export default class BaseLayout extends React.Component {
       </div>
     }
 
+    {/* Outsystems change - remove the schemas
     const servers = specSelectors.servers()
     const schemes = specSelectors.schemes()
-
     const hasServers = servers && servers.size
     const hasSchemes = schemes && schemes.size
-    const hasSecurityDefinitions = !!specSelectors.securityDefinitions()
+    const hasSecurityDefinitions = !!specSelectors.securityDefinitions() */}
 
     return (
 
@@ -96,7 +96,8 @@ export default class BaseLayout extends React.Component {
               </Col>
             </Row>
 
-            {hasServers || hasSchemes || hasSecurityDefinitions ? (
+          {/* Outsystems change - remove the schemas
+            *{hasServers || hasSchemes || hasSecurityDefinitions ? (
               <div className="scheme-container">
                 <Col className="schemes wrapper" mobile={12}>
                   {hasServers ? (<ServersContainer />) : null}
@@ -104,7 +105,7 @@ export default class BaseLayout extends React.Component {
                   {hasSecurityDefinitions ? (<AuthorizeBtnContainer />) : null}
                 </Col>
               </div>
-            ) : null}
+            ) : null} */}
 
             <FilterContainer/>
 

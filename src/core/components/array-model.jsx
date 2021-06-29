@@ -25,7 +25,7 @@ export default class ArrayModel extends Component {
     let description = schema.get("description")
     let items = schema.get("items")
     let title = schema.get("title") || displayName || name
-    let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref"].indexOf(key) === -1 )
+    let properties = schema.filter((v, key) => ["type", "items", "description", "$$ref"].indexOf(key) === -1)
 
     const Markdown = getComponent("Markdown", true)
     const ModelCollapse = getComponent("ModelCollapse")
@@ -43,15 +43,17 @@ export default class ArrayModel extends Component {
     */
 
     return <span className="model">
-      <ModelCollapse title={titleEl} expanded={ depth <= expandDepth } collapsedContent="[...]">
-        [
-          {
+      <ModelCollapse title={titleEl} expanded={depth <= expandDepth} collapsedContent="[...]">
+        {/* OutSystems change - display the Array Model in a different manner Array[object] Object: object content */}
+        Array[object]<p></p>
+        {!description ? (properties.size ? <div className="markdown"></div> : null) :
+          <Markdown source={description} />
+        }
+        <p>object:</p>
+        {
             properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
-          }
-          {
-            !description ? (properties.size ? <div className="markdown"></div> : null) :
-              <Markdown source={ description } />
-          }
+        }
+          
           <span>
             <Model
               { ...this.props }
@@ -62,8 +64,10 @@ export default class ArrayModel extends Component {
               required={ false }
               depth={ depth + 1 }
             />
-          </span>
-        ]
+         </span>
+        {/*OutSystems change - remove the ]
+        ] */}
+        
       </ModelCollapse>
     </span>
   }

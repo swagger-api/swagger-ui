@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+//OutSystems change - import a new component created by OutSystems
+import RequestUrlOutSystems from "./requestUrlOutSystems"
 
 export default class Parameters extends Component {
 
@@ -131,19 +133,38 @@ export default class Parameters extends Component {
       .reduce((acc, x) => acc.concat(x), [])
 
     const retainRequestBodyValueFlagForOperation = (f) => oas3Actions.setRetainRequestBodyValueFlag({ value: f, pathMethod })
+
+    //OutSystems change - get the host in order to send to the RequestUrlOutSystems component
+    //in swagger api 20 host may not be defined. So that, we will use the location.host
+    const host = specSelectors.host() ?? window.location.host;
+
+    //OutSystems change: get the scheme. The first position is HTTPS if exists. If not, set to Https
+    const schemes = specSelectors.schemes()
+    const scheme = schemes ? schemes.first() : 'https'
+
     return (
       <div className="opblock-section">
+        {/*OutSystems change - render the request URL */}
+        <RequestUrlOutSystems
+          //input parameters of the method
+          parameters={parameters}
+          host={host}
+          //first argument is the path
+          path={pathMethod[0]}
+          //get the scheme. The first position is HTTPS if exists
+          scheme={scheme}
+          basePath={specSelectors.basePath()} />
         <div className="opblock-section-header">
           {isOAS3 ? (
             <div className="tab-header">
               <div onClick={() => this.toggleTab("parameters")}
-                   className={`tab-item ${this.state.parametersVisible && "active"}`}>
+                  className={`tab-item ${this.state.parametersVisible && "active"}`}>
                 <h4 className="opblock-title"><span>Parameters</span></h4>
               </div>
               {operation.get("callbacks") ?
                 (
                   <div onClick={() => this.toggleTab("callbacks")}
-                       className={`tab-item ${this.state.callbackVisible && "active"}`}>
+                      className={`tab-item ${this.state.callbackVisible && "active"}`}>
                     <h4 className="opblock-title"><span>Callbacks</span></h4>
                   </div>
                 ) : null
@@ -153,7 +174,7 @@ export default class Parameters extends Component {
             <div className="tab-header">
               <h4 className="opblock-title">Parameters</h4>
             </div>
-          )}
+            )}
           {allowTryItOut ? (
             <TryItOutButton
               isOAS3={specSelectors.isOAS3()}
@@ -169,10 +190,14 @@ export default class Parameters extends Component {
             <div className="table-container">
               <table className="parameters">
                 <thead>
-                <tr>
-                  <th className="col_header parameters-col_name">Name</th>
-                  <th className="col_header parameters-col_description">Description</th>
-                </tr>
+                  {/* OutSystems change: change the structure of the table, add Type, Parameter Type and Example */}
+                  <tr>
+                    <th className="col_header parameters-col_name">Name</th>
+                    <th className="col_header parameters-col_description">Description</th>
+                    <th className="col_header parameters-col_name">Type</th>
+                    <th className="col_header parameters-col_name">Parameter Type</th>
+                    <th className="col_header parameters-col_name">Example</th>
+                  </tr>
                 </thead>
                 <tbody>
                 {

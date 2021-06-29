@@ -88,8 +88,8 @@ table
 }
 
 .parameters-col_description
-{
-    width: 99%; // forces other columns to shrink to their content widths
+{   //OutSystems change: change the width from 99 to 20%
+    width: 20%; // forces other columns to shrink to their content widths
     margin-bottom: 2em;
     input[type=text]
     {

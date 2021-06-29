@@ -1,3 +1,4 @@
+//OutSystems change: change the parameters-row component in order to remove the input parameters to try it out
 import React, { Component } from "react"
 import { Map, List } from "immutable"
 import PropTypes from "prop-types"
@@ -5,6 +6,8 @@ import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getSampleSchema, getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
 import getParameterSchema from "../../helpers/get-parameter-schema.js"
+//OutSystems change - import a new component created by OutSystems
+import DataTypesOutSystems from "./dataTypesOutSystems"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -40,7 +43,7 @@ export default class ParameterRow extends Component {
 
     let enumValue
 
-    if(isOAS3) {
+    if (isOAS3) {
       let { schema } = getParameterSchema(parameterWithMeta, { isOAS3 })
       enumValue = schema ? schema.get("enum") : undefined
     } else {
@@ -50,13 +53,13 @@ export default class ParameterRow extends Component {
 
     let value
 
-    if ( paramValue !== undefined ) {
+    if (paramValue !== undefined) {
       value = paramValue
-    } else if ( rawParam.get("required") && enumValue && enumValue.size ) {
+    } else if (rawParam.get("required") && enumValue && enumValue.size) {
       value = enumValue.first()
     }
 
-    if ( value !== undefined && value !== paramValue ) {
+    if (value !== undefined && value !== paramValue) {
       this.onChangeWrapper(numberToString(value))
     }
     // todo: could check if schema here; if not, do not call. impact?
@@ -68,7 +71,7 @@ export default class ParameterRow extends Component {
     let valueForUpstream
 
     // Coerce empty strings and empty Immutable objects to null
-    if(value === "" || (value && value.size === 0)) {
+    if (value === "" || (value && value.size === 0)) {
       valueForUpstream = null
     } else {
       valueForUpstream = value
@@ -113,7 +116,7 @@ export default class ParameterRow extends Component {
       return
     }
 
-    if( paramWithMeta.get("in") !== "body" ) {
+    if (paramWithMeta.get("in") !== "body") {
       let initialValue
 
       //// Find an initial value
@@ -121,38 +124,38 @@ export default class ParameterRow extends Component {
       if (specSelectors.isSwagger2()) {
         initialValue =
           paramWithMeta.get("x-example") !== undefined
-          ? paramWithMeta.get("x-example")
-          : paramWithMeta.getIn(["schema", "example"]) !== undefined
-          ? paramWithMeta.getIn(["schema", "example"])
-          : (schema && schema.getIn(["default"]))
+            ? paramWithMeta.get("x-example")
+            : paramWithMeta.getIn(["schema", "example"]) !== undefined
+              ? paramWithMeta.getIn(["schema", "example"])
+              : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-        initialValue = 
+        initialValue =
           paramWithMeta.getIn(["examples", currentExampleKey, "value"]) !== undefined
-          ? paramWithMeta.getIn(["examples", currentExampleKey, "value"])
-          : paramWithMeta.getIn(["content", parameterMediaType, "example"]) !== undefined
-          ? paramWithMeta.getIn(["content", parameterMediaType, "example"])
-          : paramWithMeta.get("example") !== undefined
-          ? paramWithMeta.get("example")
-          : (schema && schema.get("example")) !== undefined
-          ? (schema && schema.get("example"))
-          : (schema && schema.get("default")) !== undefined
-          ? (schema && schema.get("default"))
-          : paramWithMeta.get("default") // ensures support for `parameterMacro`
+            ? paramWithMeta.getIn(["examples", currentExampleKey, "value"])
+            : paramWithMeta.getIn(["content", parameterMediaType, "example"]) !== undefined
+              ? paramWithMeta.getIn(["content", parameterMediaType, "example"])
+              : paramWithMeta.get("example") !== undefined
+                ? paramWithMeta.get("example")
+                : (schema && schema.get("example")) !== undefined
+                  ? (schema && schema.get("example"))
+                  : (schema && schema.get("default")) !== undefined
+                    ? (schema && schema.get("default"))
+                    : paramWithMeta.get("default") // ensures support for `parameterMacro`
       }
 
       //// Process the initial value
 
-      if(initialValue !== undefined && !List.isList(initialValue)) {
+      if (initialValue !== undefined && !List.isList(initialValue)) {
         // Stringify if it isn't a List
         initialValue = stringify(initialValue)
       }
 
       //// Dispatch the initial value
 
-      if(initialValue !== undefined) {
+      if (initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
-      } else if(
+      } else if (
         schema && schema.get("type") === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
@@ -166,8 +169,8 @@ export default class ParameterRow extends Component {
           List.isList(generatedSampleValue) ? (
             generatedSampleValue
           ) : (
-            stringify(generatedSampleValue)
-          )
+              stringify(generatedSampleValue)
+            )
         )
       }
     }
@@ -176,23 +179,61 @@ export default class ParameterRow extends Component {
   getParamKey() {
     const { param } = this.props
 
-    if(!param) return null
+    if (!param) return null
 
     return `${param.get("name")}-${param.get("in")}`
   }
 
+  //OutSystem - get the example text
+  getExampleText(paramExample, schema, type, param) {
+    let exampleText
+
+    //First check if there is something in the paramExample - paramExaple is not undefined if the param is sent in the URL or in the header. If it is in the body, it is null
+    if (paramExample != undefined) {
+      exampleText = stringify(paramExample)
+    }
+    else if (param.get("in") == 'body') {
+      //if the param is sent in the body, we need to get the example from the schema. For instance, If it is a double, date, integer, it will enter here
+      exampleText = schema ? schema.getIn(["example"]) : null
+      if (exampleText != undefined) {
+        exampleText = stringify(exampleText)
+      }
+    }
+    if (exampleText == undefined && type == 'string') {
+      //in the case of not having example but it's a string, let's set the exampleText = string. If it is a text, it will enter here
+      //If type = string and format = date time, there will be example. However, if type = string and it is a text (without format) there won't be example
+      exampleText = 'string'
+    }
+
+    return exampleText;
+  }
+
+  //OutSystems change: Customize the Example
+  getExample(paramExample, schema, bodyParam, type) {
+    const { param, getComponent, getConfigs } = this.props
+    const HighlightCode = getComponent("highlightCode")
+
+    const exampleText = this.getExampleText(paramExample, schema, type, param);
+    return (exampleText ? <HighlightCode
+                            className="body-param__example"
+                            getConfigs={getConfigs}
+                            language={null}
+                            value={exampleText}
+                          /> : bodyParam )
+  }
+
   render() {
-    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath, oas3Selectors} = this.props
+    let { param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath, oas3Selectors } = this.props
 
     let isOAS3 = specSelectors.isOAS3()
 
     const { showExtensions, showCommonExtensions } = getConfigs()
 
-    if(!param) {
+    if (!param) {
       param = rawParam
     }
 
-    if(!rawParam) return null
+    if (!rawParam) return null
 
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
@@ -200,16 +241,16 @@ export default class ParameterRow extends Component {
     let inType = param.get("in")
     let bodyParam = inType !== "body" ? null
       : <ParamBody getComponent={getComponent}
-                   getConfigs={ getConfigs }
-                   fn={fn}
-                   param={param}
-                   consumes={ specSelectors.consumesOptionsFor(pathMethod) }
-                   consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   onChange={this.onChangeWrapper}
-                   onChangeConsumes={onChangeConsumes}
-                   isExecute={ isExecute }
-                   specSelectors={ specSelectors }
-                   pathMethod={ pathMethod }
+        getConfigs={getConfigs}
+        fn={fn}
+        param={param}
+        consumes={specSelectors.consumesOptionsFor(pathMethod)}
+        consumesValue={specSelectors.contentTypeValues(pathMethod).get("requestContentType")}
+        onChange={this.onChangeWrapper}
+        onChangeConsumes={onChangeConsumes}
+        isExecute={isExecute}
+        specSelectors={specSelectors}
+        pathMethod={pathMethod}
       />
 
     const ModelExample = getComponent("modelExample")
@@ -218,13 +259,17 @@ export default class ParameterRow extends Component {
     const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
     const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
     const Example = getComponent("Example")
+    //OutSystems change: get highlightCode component
+    const HighlightCode = getComponent("highlightCode")
+
 
     let { schema } = getParameterSchema(param, { isOAS3 })
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
 
     let format = schema ? schema.get("format") : null
     let type = schema ? schema.get("type") : null
-    let itemType = schema ? schema.getIn(["items", "type"]) : null
+    //OutSystems change: we are not displaying the itemType
+    //let itemType = schema ? schema.getIn(["items", "type"]) : null
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
@@ -239,7 +284,7 @@ export default class ParameterRow extends Component {
     let paramExample // undefined
     let isDisplayParamEnum = false
 
-    if ( param !== undefined && schema ) {
+    if (param !== undefined && schema) {
       paramItems = schema.get("items")
     }
 
@@ -250,12 +295,12 @@ export default class ParameterRow extends Component {
       paramEnum = schema.get("enum")
     }
 
-    if ( paramEnum && paramEnum.size && paramEnum.size > 0) {
+    if (paramEnum && paramEnum.size && paramEnum.size > 0) {
       isDisplayParamEnum = true
     }
 
     // Default and Example Value for readonly doc
-    if ( param !== undefined ) {
+    if (param !== undefined) {
       if (schema) {
         paramDefaultValue = schema.get("default")
       }
@@ -268,30 +313,57 @@ export default class ParameterRow extends Component {
       }
     }
 
+    //OutSystems change - customize the Example
+    const example = this.getExample(paramExample, schema, bodyParam, type)
+
+    //OutSystems change: support binary data-type for body parameters. It is binary if consumes = [], format is not defined and the parameter is sent in the body. Example = 'DATA' in binary
+    const consumes = specSelectors.consumesOptionsFor(pathMethod);
+    if (param.get("in") == 'body' && !format && (!consumes || consumes.size == 0)) {
+      example = <HighlightCode
+        className="body-param__example"
+        getConfigs={getConfigs}
+        language={null}
+        value={'DATA'}
+      />
+    }
+
     return (
       <tr data-param-name={param.get("name")} data-param-in={param.get("in")}>
         <td className="parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
-            { param.get("name") }
-            { !required ? null : <span>&nbsp;*</span> }
+            {param.get("name")}
+            {!required ? null : <span>&nbsp;*</span>}
           </div>
-          <div className="parameter__type">
-            { type }
-            { itemType && `[${itemType}]` }
-            { format && <span className="prop-format">(${format})</span>}
-          </div>
-          <div className="parameter__deprecated">
-            { isOAS3 && param.get("deprecated") ? "deprecated": null }
-          </div>
-          <div className="parameter__in">({ param.get("in") })</div>
-          { !showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
-          { !showExtensions || !extensions.size ? null : extensions.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
+          {/*OutSystems change: Create different columns to the Name, Description, Model, Parameter Type and Example*/}
+        </td>
+        {/*OutSystems change: Column to the Description*/}
+        <td className="parameters-col_description">
+          {param.get("description") ? <Markdown source={param.get("description")} /> : null}
         </td>
 
-        <td className="parameters-col_description">
-          { param.get("description") ? <Markdown source={ param.get("description") }/> : null }
-
-          { (bodyParam || !isExecute) && isDisplayParamEnum ?
+        {/*OutSystems change: Column to the Model*/}
+        <td className="parameters-col_name">
+          {/* OutSystems change: if there is format, display just the format, otherwise, display the type and itemType*/}
+          <div className="parameter__type">
+            {/* OutSystems change: Render the component created by OutSystems */}
+            <DataTypesOutSystems
+              param={param}
+              specSelectors={specSelectors}
+              schema={schema}
+              pathMethod={pathMethod} />
+          </div>
+        </td>
+        {/*OutSystems change: Column to the Parameter type*/}
+        <td className="parameters-col_name">
+          <div className="parameter__deprecated">
+            {isOAS3 && param.get("deprecated") ? "deprecated" : null}
+          </div>
+          <div className="parameter__in">({param.get("in")})</div>
+          {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
+          {!showExtensions || !extensions.size ? null : extensions.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
+        </td>
+        {/* OutSystems change - remove the input parameters to try it out
+           * { (bodyParam || !isExecute) && isDisplayParamEnum ?
             <Markdown className="parameter__enum" source={
                 "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
@@ -304,12 +376,12 @@ export default class ParameterRow extends Component {
             : null
           }
 
-          { (bodyParam || !isExecute) && paramExample !== undefined ?
+          {(bodyParam || !isExecute) && paramExample !== undefined ?
             <Markdown source={"<i>Example</i> : " + paramExample}/>
             : null
           }
 
-          {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
+          {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>} 
 
           {
             isOAS3 && param.get("examples") ? (
@@ -337,28 +409,28 @@ export default class ParameterRow extends Component {
                               onChange={ this.onChangeWrapper }
                               errors={ paramWithMeta.get("errors") }
                               schema={ schema }/>
-          }
+          } */}
 
 
-          {
-            bodyParam && schema ? <ModelExample getComponent={ getComponent }
-                                                specPath={specPath.push("schema")}
-                                                getConfigs={ getConfigs }
-                                                isExecute={ isExecute }
-                                                specSelectors={ specSelectors }
-                                                schema={ schema }
-                                                example={ bodyParam }
-                                                includeWriteOnly={ true }/>
-              : null
-          }
-
+        {/* OutSystems change:  Show always the model example, and not just when the input is sent in the body. Remove the condition and add to 2 props to the ModelExample component*/}
+        <td className="parameters-col_name">
+          < ModelExample getComponent={getComponent}
+            specPath={specPath.push("schema")}
+            getConfigs={getConfigs}
+            isExecute={isExecute}
+            specSelectors={specSelectors}
+            schema={schema}
+            example={example}
+            includeWriteOnly={true}
+            param={param}
+            pathMethod={pathMethod} />
           {
             !bodyParam && isExecute && param.get("allowEmptyValue") ?
-            <ParameterIncludeEmpty
-              onChange={this.onChangeIncludeEmpty}
-              isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
-              isDisabled={!isEmptyValue(value)} />
-            : null
+              <ParameterIncludeEmpty
+                onChange={this.onChangeIncludeEmpty}
+                isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
+                isDisabled={!isEmptyValue(value)} />
+              : null
           }
 
           {
@@ -373,12 +445,8 @@ export default class ParameterRow extends Component {
               />
             ) : null
           }
-
         </td>
-
       </tr>
     )
-
   }
-
 }

@@ -5,9 +5,10 @@ import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
+import DataTypesOutSystems from "./dataTypesOutSystems"
 
-
-const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
+//OutSystems change: receive the contentType to check if it is binary
+const getExampleComponent = (sampleResponse, HighlightCode, getConfigs, contentType) => {
   if (
     sampleResponse !== undefined &&
     sampleResponse !== null
@@ -16,6 +17,11 @@ const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
     let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
     if (testValueForJson) {
       language = "json"
+    }
+
+    //OutSystems change: if binary type - render the word DATA
+    if (contentType === 'application/octet-stream') {
+      sampleResponse = 'DATA';
     }
     return <div>
       <HighlightCode className="example" getConfigs={ getConfigs } language={ language } value={ stringify(sampleResponse) } />
@@ -170,20 +176,20 @@ export default class Response extends React.Component {
       sampleGenConfig,
       shouldOverrideSchemaExample ? mediaTypeExample : undefined
     )
-
-    let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
+    //OutSystems change: send the contentType to detect if the response is binary
+    const example = getExampleComponent(sampleResponse, HighlightCode, getConfigs, contentType )
 
     return (
-      <tr className={ "response " + ( className || "") } data-code={code}>
-        <td className="response-col_status">
+      <tr className={"response " + (className || "")} data-code={code}>
+        {/* OutSystems change: change the branding of the table*/}
+        <td className="col_header parameters-col_name">
           { code }
         </td>
-        <td className="response-col_description">
-
-          <div className="response-col_description__inner">
+        {/* OutSystems change: change the branding of the table*/}
+        <td className="col_header parameters-col_description">
             <Markdown source={ response.get( "description" ) } />
-          </div>
-
+        </td>
+        {/* OutSystems change : Remove the following block
           { !showExtensions || !extensions.size ? null : extensions.entrySeq().map(([key, v]) => <ResponseExtension key={`${key}-${v}`} xKey={key} xVal={v} /> )}
 
           {isOAS3 && response.get("content") ? (
@@ -233,8 +239,20 @@ export default class Response extends React.Component {
                 </div>
               ) : null}
             </section>
-          ) : null}
+          ) : null} */}
 
+        {/*OutSystems change: Column to the Model in the response as we have in the input parameters*/}
+        <td className="parameters-col_name">
+          <div className="parameter__type">
+            <DataTypesOutSystems
+              schema={schema}
+              isResponse={true}
+              contentType={contentType} />
+          </div>
+        </td>
+
+        {/*OutSystems change: branding*/}
+        <td className="parameters-col_name">              
           { example || schema ? (
             <ModelExample
               specPath={specPathWithPossibleSchema}
@@ -254,22 +272,24 @@ export default class Response extends React.Component {
                 omitValue={true}
               />
           ) : null}
-
-          { headers ? (
-            <Headers
-              headers={ headers }
-              getComponent={ getComponent }
-            />
-          ) : null}
-
         </td>
+
+         {/* OutSystems change: Remove the headers logic from this component. Instead it is placed in the responses.jsx in order to fulfill a specific layout
+          * headers ? (
+            <Headers
+              headers={headers}
+              getComponent={getComponent}
+            />
+        ) : null}
+
+        
         {isOAS3 ? <td className="response-col_links">
           { links ?
             links.toSeq().entrySeq().map(([key, link]) => {
               return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
             })
           : <i>No links</i>}
-        </td> : null}
+        </td> : null*/}
       </tr>
     )
   }
