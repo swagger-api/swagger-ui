@@ -109,7 +109,7 @@
     "@babel/register": "=7.13.16",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@jest/globals": "=26.6.2",
+    "@jest/globals": "=27.0.6",
     "@release-it/conventional-changelog": "=3.0.1",
     "autoprefixer": "^10.2.6",
     "babel-loader": "^8.1.0",
