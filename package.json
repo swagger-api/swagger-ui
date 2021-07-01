@@ -148,7 +148,7 @@
     "license-checker": "^25.0.0",
     "lint-staged": "=11.0.0",
     "local-web-server": "^4.2.1",
-    "mini-css-extract-plugin": "^1.6.0",
+    "mini-css-extract-plugin": "^1.6.2",
     "mocha": "=8.4.0",
     "nightwatch": "^1.7.7",
     "npm-audit-ci-wrapper": "^3.0.2",
