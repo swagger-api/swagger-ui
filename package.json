@@ -139,7 +139,7 @@
     "husky": "=6.0.0",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "inspectpack": "=4.7.1",
-    "jest": "=27.0.4",
+    "jest": "=27.0.6",
     "jsdom": "=16.6.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.6",
