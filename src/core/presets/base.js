@@ -12,6 +12,7 @@ import downloadUrlPlugin from "core/plugins/download-url"
 import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 import filter from "core/plugins/filter"
+import advancedFilter from "core/plugins/advanced-filter"
 import onComplete from "core/plugins/on-complete"
 
 import OperationContainer from "core/containers/OperationContainer"
@@ -192,6 +193,7 @@ export default function() {
     downloadUrlPlugin,
     deepLinkingPlugin,
     filter,
+    advancedFilter,
     onComplete,
     requestSnippets
   ]

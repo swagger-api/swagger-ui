@@ -119,6 +119,13 @@ Controls whether the "Try it out" section should start enabled. The default is f
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+
+#### `advancedFilter`: PropTypes.object
+
+A Object that configures Advanced Filter Core Plugin. For more information head over to its own [documentation](/docs/usage/advanced-filter.md).
+
+⚠️This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 ## Limitations
 
 * Not all configuration bindings are available.
