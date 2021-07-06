@@ -35,15 +35,17 @@ if (startMarkerIndex < 0 || endMarkerIndex < 0) {
   process.exit(0)
 }
 
-fs.writeFileSync(
-  targetPath,
-  `${beforeStartMarkerContent}
-      ${START_MARKER}
-      const ui = SwaggerUIBundle({
-        ${indent(translator(process.env, { injectBaseConfig: true }), 8, 2)}
-      })
-      
-      ${indent(oauthBlockBuilder(process.env), 6, 2)}
-      ${END_MARKER}
-${afterEndMarkerContent}`
-)
+if (!process.env.READONLY_FILESYSTEM) {
+  fs.writeFileSync(
+    targetPath,
+    `${beforeStartMarkerContent}
+        ${START_MARKER}
+        const ui = SwaggerUIBundle({
+          ${indent(translator(process.env, { injectBaseConfig: true }), 8, 2)}
+        })
+        
+        ${indent(oauthBlockBuilder(process.env), 6, 2)}
+        ${END_MARKER}
+  ${afterEndMarkerContent}`
+  )
+}
