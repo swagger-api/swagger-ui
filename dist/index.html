@@ -53,12 +53,13 @@
     <script src="./swagger-ui-bundle.js" charset="UTF-8"></script>
     <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"></script>
     <script>
-		  window.onload = function () {
+      window.onload = function () {
+        // OutSystems change: url = swagger.json
+        var url = "swagger.json";
 			  // Begin Swagger UI call region
 			  const ui = SwaggerUIBundle({
-			    // OutSystems change: change the URL!
-			    //It is supposed to change the URL!!!!!!!!!!!!!!!!!!!! This is for testing
-			    url: "https://os-jbfr253.domain.outsystems.com/swaggerUiDocumentation/rest/useCases/swagger.json",
+			     // OutSystems change: change the URL!
+          url: url,
 			    dom_id: '#swagger-ui',
 			    // OutSystems change: submit methods = empty in order to don't use the Try It Out feature
 			    supportedSubmitMethods: [],
