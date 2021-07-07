@@ -1,0 +1,447 @@
+/* OutSystems change - CSS file created in order to perform some customizations in the layout, by overriding some classes properties*/
+.swagger-ui {
+/*OutSystems Change: branding*/
+    font-family: "Open Sans", sans-serif;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*OutSystems Change: branding*/
+.arrow {
+	display: none;
+}
+	
+/*OutSystems Change: branding*/
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(fonts/open-sans-latin-400.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(fonts/open-sans-latin-700.woff) format('woff');
+}
+.swagger-ui pre {
+	font-family: 'Open Sans', sans-serif;
+}	
+
+.swagger-ui .link:focus {
+	outline: inherit;
+}
+
+.swagger-ui .opblock-tag {
+	display: none
+}
+
+.swagger-ui .opblock-tag {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock-tag small {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .parameter__type {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock .opblock-section-header {
+	background: inherit;
+}
+
+.swagger-ui .opblock .opblock-section-header>label {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock .opblock-section-header h4 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock .opblock-summary-method {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock .opblock-summary-operation-id,.swagger-ui .opblock .opblock-summary-path,.swagger-ui .opblock .opblock-summary-path__deprecated {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock .opblock-summary-description {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock.opblock-post {
+    background: rgba(16,165,74,.1);
+    border-color: #10a54a
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+    background: #10a54a
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary {
+    border-color: #10a54a
+}
+
+.swagger-ui .opblock.opblock-post .tab-header .tab-item.active h4 span:after {
+    background: #10a54a
+}
+
+.swagger-ui .opblock.opblock-put {
+    background: rgba(197,134,43,.1);
+    border-color: #c5862b
+}
+
+.swagger-ui .opblock.opblock-put .opblock-summary-method {
+    background: #c5862b
+}
+
+.swagger-ui .opblock.opblock-put .opblock-summary {
+    border-color: #c5862b
+}
+
+.swagger-ui .opblock.opblock-put .tab-header .tab-item.active h4 span:after {
+    background: #c5862b
+}
+
+.swagger-ui .opblock.opblock-delete {
+    background: rgba(164,30,34,.1);
+    border-color: #a41e22
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary-method {
+    background: #a41e22
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary {
+    border-color: #a41e22
+}
+
+.swagger-ui .opblock.opblock-delete .tab-header .tab-item.active h4 span:after {
+    background: #a41e22
+}
+
+.swagger-ui .opblock.opblock-get {
+    background: rgba(15,106,180,.1);
+    border-color: #0f6ab4
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+    background: #0f6ab4
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary {
+    border-color: #0f6ab4
+}
+
+.swagger-ui .opblock.opblock-get .tab-header .tab-item.active h4 span:after {
+    background: #0f6ab4
+}
+
+.swagger-ui .opblock.opblock-patch {
+    background: rgba(211,128,66,.1);
+    border-color: #d38042
+}
+
+.swagger-ui .opblock.opblock-patch .opblock-summary-method {
+    background: #d38042
+}
+
+.swagger-ui .opblock.opblock-patch .opblock-summary {
+    border-color: #d38042
+}
+
+.swagger-ui .opblock.opblock-patch .tab-header .tab-item.active h4 span:after {
+    background: #d38042
+}
+
+.swagger-ui .tab li {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock-description-wrapper,.swagger-ui .opblock-external-docs-wrapper,.swagger-ui .opblock-title_normal {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock-description-wrapper h4,.swagger-ui .opblock-external-docs-wrapper h4,.swagger-ui .opblock-title_normal h4 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock-description-wrapper p,.swagger-ui .opblock-external-docs-wrapper p,.swagger-ui .opblock-title_normal p {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .responses-inner h4,.swagger-ui .responses-inner h5 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .response-col_status {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .response-col_links {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .opblock-body pre.microlight {
+    background: #fcf6db;
+	color: inherit;
+}
+
+.swagger-ui .response-col_links {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .scheme-container .schemes>label {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .loading-container .loading:after {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui section h3 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .btn {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .btn.cancel {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .model-box-control:focus,.swagger-ui .models-control:focus,.swagger-ui .opblock-summary-control:focus {
+    outline: inherit;
+}
+
+	
+.swagger-ui select {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui label {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .dialog-ux .modal-ux-content p {
+    font-family: "Open Sans", sans-serif;
+}
+.swagger-ui .dialog-ux .modal-ux-content h4 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .dialog-ux .modal-ux-header h3 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui section.models {
+	display: none
+}
+
+.swagger-ui section.models h4 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui section.models h5 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .model-title {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .model-deprecated-warning {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .servers>label {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui table thead tr td,.swagger-ui table thead tr th {
+	font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .parameter__name {
+	font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .topbar a {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .topbar .download-url-wrapper .download-url-button {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .info {
+    margin: 50px 0px 30px 0px
+}
+	
+.swagger-ui .info li,.swagger-ui .info p,.swagger-ui .info table {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .info h1,.swagger-ui .info h2,.swagger-ui .info h3,.swagger-ui .info h4,.swagger-ui .info h5 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .info a {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .info .base-url {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .info .title {
+    color: #3b4151;
+    font-family: "Open Sans", sans-serif;
+    font-size: 25px;
+	font-weight: bold;
+    margin: 0;
+	padding-bottom: 10px;
+}
+
+.swagger-ui .info .title small pre {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .scopes h2 {
+    font-family: "Open Sans", sans-serif;
+}
+
+.swagger-ui .errors-wrapper hgroup h4 {
+    font-family: "Open Sans", sans-serif;
+}
+
+
+/* OutSystems: header and footer part */
+.swagger-section .swagger-ui-wrap {
+  line-height: 1;
+  font-family: "Open Sans", sans-serif;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swagger-ui-wrap {
+    min-height: 730px;
+}
+
+html {
+  background: #f2f2f2;
+}
+
+body {
+  background: white;
+}
+
+.swagger-section .os-header-title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  margin-top: 4px;
+  margin-left: -1px;
+}
+
+.swagger-section .os-header-left {
+  margin-top: 9px;
+}
+
+.swagger-section .os-swagger-footer {
+  color: #999;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  text-align: center;
+  min-height: 50px;
+  padding: 10px 0;
+  width: 100%;
+  bottom: 0;
+  background: #d6d6d6;
+  background: -moz-linear-gradient(top, #d6d6d6 0%, #f2f2f2 10%, #f2f2f2 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d6d6d6), color-stop(10%, #f2f2f2), color-stop(100%, #f2f2f2));
+  background: -webkit-linear-gradient(top, #d6d6d6 0%, #f2f2f2 10%, #f2f2f2 100%);
+  background: -o-linear-gradient(top, #d6d6d6 0%, #f2f2f2 10%, #f2f2f2 100%);
+  background: -ms-linear-gradient(top, #d6d6d6 0%, #f2f2f2 10%, #f2f2f2 100%);
+  background: linear-gradient(to bottom, #d6d6d6 0%, #f2f2f2 10%, #f2f2f2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d6d6d6', endColorstr='#f2f2f2', GradientType=0);
+}
+
+.swagger-section .os-swagger-footer a {
+    color: #E83E26;
+    text-decoration: none;
+    transition: color 0.2s ease-in;
+    -webkit-transition: color 0.2s ease-in;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.swagger-section .os-header-right {
+  float: right;
+  margin-top: 5px;
+}
+
+.swagger-section .os-logo-vertical {
+  margin-top: 5px;
+}
+
+.swagger-section #header {
+  /*OutSystems change: branding*/
+  color: #ffffff;
+  height: 60px;
+  line-height: 61px;
+  overflow: hidden;
+  padding: 0;
+  background: #656565;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzY1NjU2NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM0NDQ0NDQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #656565 0%, #444444 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #656565), color-stop(100%, #444444));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #656565 0%, #444444 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #656565 0%, #444444 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #656565 0%, #444444 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #656565 0%, #444444 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#656565', endColorstr='#444444', GradientType=0);
+  /* IE6-8 */
+}
+
+.swagger-section #message-bar {
+  min-height: 30px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ v2.0 | 20110126 */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
