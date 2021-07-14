@@ -16,7 +16,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "automated-release": "release-it -VV major --preRelease=beta --config ./release/.release-it.json",
+    "automated-release": "release-it major --preRelease=beta --verbose --config ./release/.release-it.json",
     "build": "run-p --aggregate-output build-core build-bundle build-standalone build-stylesheets build:es:bundle build:es:bundle:core",
     "build-bundle": "webpack --color --config webpack/bundle.babel.js",
     "build-core": "webpack --color --config webpack/core.babel.js",
