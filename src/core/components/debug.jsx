@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { presets } from "react-motion"
 import ObjectInspector from "react-inspector"
 
 export default class Debug extends React.Component {
@@ -32,7 +31,7 @@ export default class Debug extends React.Component {
       <div className="info">
         <h3><a onClick={this.toggleJsonDump}> {this.plusOrMinus(this.state.jsonDumpOpen)} App </a></h3>
 
-        <Collapse isOpened={this.state.jsonDumpOpen} springConfig={presets.noWobble}>
+        <Collapse isOpened={this.state.jsonDumpOpen} springConfig={{ stiffness: 170, damping: 26 }}>
 
            <ObjectInspector data={getState().toJS() || {}} name="state" expandPaths={["state"]}/>
 
