@@ -60,8 +60,6 @@
   "dependencies": {
     "@babel/runtime-corejs3": "^7.14.7",
     "@braintree/sanitize-url": "^5.0.2",
-    "@kyleshockey/object-assign-deep": "^0.4.2",
-    "@kyleshockey/xml": "^1.0.2",
     "base64-js": "^1.5.1",
     "classnames": "^2.3.1",
     "css.escape": "1.5.1",
@@ -90,8 +88,10 @@
     "reselect": "^4.0.0",
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
+    "stream": "=0.0.2",
     "swagger-client": "^3.13.6",
     "url-parse": "^1.5.1",
+    "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
   },
