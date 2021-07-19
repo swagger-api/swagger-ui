@@ -1,5 +1,5 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
-import XML from "@kyleshockey/xml"
+import XML from "xml"
 import memoizee from "memoizee"
 import isEmpty from "lodash/isEmpty"
 
