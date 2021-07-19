@@ -124,12 +124,12 @@ export default function buildConfig(
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
-        // these aliases make sure that we don't bundle same libraries twice
-        // when the versions of these libraries diverge between swagger-js and swagger-ui
         alias: {
+          // these aliases make sure that we don't bundle same libraries twice
+          // when the versions of these libraries diverge between swagger-js and swagger-ui
           "@babel/runtime-corejs3": path.resolve(__dirname, "..", "node_modules/@babel/runtime-corejs3"),
           "js-yaml": path.resolve(__dirname, "..", "node_modules/js-yaml"),
-          "lodash": path.resolve(__dirname, "..", "node_modules/lodash")
+          "lodash": path.resolve(__dirname, "..", "node_modules/lodash"),
         },
       },
 
