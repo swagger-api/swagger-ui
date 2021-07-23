@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
 import toLower from "lodash/toLower"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
+import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 import win from "core/window"
 
 export default class ResponseBody extends React.PureComponent {
@@ -95,9 +96,12 @@ export default class ResponseBody extends React.PureComponent {
     } else if (/json/i.test(contentType)) {
       // JSON
       let language = null
+      let testValueForJson = getKnownSyntaxHighlighterLanguage(content)
+      if (testValueForJson) {
+        language = "json"
+      }
       try {
         body = JSON.stringify(JSON.parse(content), null, "  ")
-        language = "json"
       } catch (error) {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
@@ -115,6 +119,10 @@ export default class ResponseBody extends React.PureComponent {
       // HTML or Plain Text
     } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } getConfigs={ getConfigs } canCopy />
+
+      // CSV
+    } else if (toLower(contentType) === "text/csv" || /text\/csv/.test(contentType)) {
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.csv`} value={ content } getConfigs={ getConfigs } canCopy />
 
       // Image
     } else if (/^image\//i.test(contentType)) {

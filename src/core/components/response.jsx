@@ -4,14 +4,21 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
   if (
     sampleResponse !== undefined &&
     sampleResponse !== null
-  ) { return <div>
-      <HighlightCode className="example" getConfigs={ getConfigs } value={ stringify(sampleResponse) } />
+  ) {
+    let language = null
+    let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
+    if (testValueForJson) {
+      language = "json"
+    }
+    return <div>
+      <HighlightCode className="example" getConfigs={ getConfigs } language={ language } value={ stringify(sampleResponse) } />
     </div>
   }
   return null
@@ -130,14 +137,16 @@ export default class Response extends React.Component {
 
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
-      sampleSchema = activeMediaType.get("schema", Map({})).toJS()
+      sampleSchema = activeMediaType.get("schema")?.toJS()
       if(examplesForMediaType) {
         const targetExamplesKey = this.getTargetExamplesKey()
-        mediaTypeExample = examplesForMediaType
+        const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
-          .get("value")
+        const getMediaTypeExample = (targetExample) =>
+          targetExample.get("value")
+        mediaTypeExample = getMediaTypeExample(targetExample)
         if(mediaTypeExample === undefined) {
-          mediaTypeExample = examplesForMediaType.values().next().value
+          mediaTypeExample = getMediaTypeExample(examplesForMediaType.values().next().value)
         }
         shouldOverrideSchemaExample = true
       } else if(activeMediaType.get("example") !== undefined) {
@@ -195,6 +204,7 @@ export default class Response extends React.Component {
                       : Seq()
                   }
                   onChange={this._onContentTypeChange}
+                  ariaLabel="Media Type"
                 />
                 {controlsAcceptHeader ? (
                   <small className="response-control-media-type__accept-message">

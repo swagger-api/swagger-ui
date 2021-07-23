@@ -14,7 +14,13 @@
 }
 
 .try-out.btn-group {
-  padding: 0;
+    padding: 0;
+    display: flex;
+    flex: 0.1 2 auto;
+}
+
+.try-out__btn {
+    margin-left: 1.25rem;
 }
 
 .opblock-tag
@@ -700,7 +706,6 @@
   color: white;
   font-size: 14px;
   height: 30px;
-  width: 75px;
 }
 
 .scheme-container

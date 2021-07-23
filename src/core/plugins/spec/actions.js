@@ -1,7 +1,7 @@
 import YAML from "js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
-import serializeError from "serialize-error"
+import { serializeError } from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
