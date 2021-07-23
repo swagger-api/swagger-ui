@@ -480,8 +480,8 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       } else {
         const toGenerateCount = schema.minProperties !== null && schema.minProperties !== undefined && propertyAddedCounter < schema.minProperties
           ? schema.minProperties - propertyAddedCounter
-          : 4
-        for (let i = 1; i < toGenerateCount; i++) {
+          : 3
+        for (let i = 1; i <= toGenerateCount; i++) {
           if(hasExceededMaxProperties()) {
             return res
           }
