@@ -481,16 +481,16 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         const toGenerateCount = schema.minProperties !== null && schema.minProperties !== undefined && propertyAddedCounter < schema.minProperties
           ? schema.minProperties - propertyAddedCounter
           : 3
-        for (let i = 1; i <= toGenerateCount; i++) {
+        for (let i = 0; i < toGenerateCount; i++) {
           if(hasExceededMaxProperties()) {
             return res
           }
           if(respectXML) {
             const temp = {}
-            temp["additionalProp" + i] = additionalPropSample["notagname"]
+            temp["additionalProp" + (i + 1)] = additionalPropSample["notagname"]
             res[displayName].push(temp)
           } else {
-            res["additionalProp" + i] = additionalPropSample
+            res["additionalProp" + (i + 1)] = additionalPropSample
           }
           propertyAddedCounter++
         }
