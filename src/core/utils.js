@@ -648,7 +648,7 @@ const getYamlSampleSchema = (schema, config, contentType, exampleOverride) => {
   const jsonExample = getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
   let yamlString
   try {
-    yamlString = YAML.safeDump(YAML.safeLoad(jsonExample), {
+    yamlString = YAML.dump(YAML.load(jsonExample), {
 
       lineWidth: -1 // don't generate line folds
     })
