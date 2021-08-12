@@ -25,7 +25,7 @@ export default class Servers extends React.Component {
     this.setServer(servers.first().get("url"))
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     let {
       servers,
       setServerVariableValue,

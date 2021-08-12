@@ -50,7 +50,7 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
       handleProps(getSystem, mapping, props, {})
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       handleProps(getSystem, mapping, nextProps, this.props)
     }
 
@@ -76,7 +76,7 @@ const createClass = component => class extends Component {
   }
 }
 
-const Fallback = ({ 
+const Fallback = ({
   name // eslint-disable-line react/prop-types
 }) => <div className="fallback">😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i></div>
 
