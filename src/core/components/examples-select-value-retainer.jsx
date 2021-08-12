@@ -117,7 +117,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   }
 
   _getValueForExample = (exampleKey, props) => {
-    // props are accepted so that this can be used in componentWillReceiveProps,
+    // props are accepted so that this can be used in UNSAFE_componentWillReceiveProps,
     // which has access to `nextProps`
     const { examples } = props || this.props
     return stringifyUnlessList(
@@ -126,7 +126,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   }
 
   _getCurrentExampleValue = props => {
-    // props are accepted so that this can be used in componentWillReceiveProps,
+    // props are accepted so that this can be used in UNSAFE_componentWillReceiveProps,
     // which has access to `nextProps`
     const { currentKey } = props || this.props
     return this._getValueForExample(currentKey, props || this.props)
@@ -169,7 +169,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // update `lastUserEditedValue` as new currentUserInput values come in
 
     const {
