@@ -67,11 +67,9 @@ export default class ModelExample extends React.Component {
         <ul className="tab" role="tablist">
           <li className={cx("tabitem", { "active": this.state.activeTab === "example" })} role="presentation">
             <button
-              aria-controls="examplePanel"
               aria-selected={this.state.activeTab === "example"}
               className="tablinks"
               data-name="example"
-              id="exampleTab"
               onClick={ this.activeTab }
               role="tab"
             >
@@ -79,13 +77,11 @@ export default class ModelExample extends React.Component {
             </button>
           </li>
           { schema && (
-            <li className={cx("tabitem", { "active": this.state.activeTab === "model" })} role="presentation">
+            <li className={cx("tabitem", { "active": ["model", "schema"].includes(this.state.activeTab) })} role="presentation">
               <button
-                aria-controls={isOAS3 ? "schemaPanel" : "modelPanel" }
-                aria-selected={this.state.activeTab === "model"}
+                aria-selected={["model", "schema"].includes(this.state.activeTab)}
                 className={ "tablinks" + ( isExecute ? " inactive" : "" )}
-                data-name="model"
-                id={isOAS3 ? "schemaTab" : "modelTab" }
+                data-name={isOAS3 ? "schema" : "model" }
                 onClick={ this.activeTab }
                 role="tab"
               >
@@ -95,15 +91,15 @@ export default class ModelExample extends React.Component {
           )}
         </ul>
         {this.state.activeTab === "example" && (
-          <div id="examplePanel" role="tabpanel" aria-labelledby="exampleTab" aria-hidden={this.state.activeTab === "model"} tabIndex="0">
+          <div data-name="examplePanel" role="tabpanel" aria-hidden={this.state.activeTab !== "example"} tabIndex="0">
             {example ? example : (
               <HighlightCode value="(no example available)" getConfigs={ getConfigs } />
             )}
           </div>
         )}
 
-        {this.state.activeTab === "model" && (
-          <div id={isOAS3 ? "schemaPanel" : "modelPanel" } role="tabpanel" aria-labelledby={isOAS3 ? "schemaTab" : "modelTab" } aria-hidden={this.state.activeTab === "example"} tabIndex="0">
+        {["model", "schema"].includes(this.state.activeTab) && (
+          <div data-name={isOAS3 ? "schemaPanel" : "modelPanel" } role="tabpanel" aria-hidden={this.state.activeTab === "example"} tabIndex="0">
             <ModelWrapper
               schema={ schema }
               getComponent={ getComponent }
