@@ -4,7 +4,7 @@
 
 FROM nginx:1.19-alpine
 
-RUN apk --no-cache add nodejs
+RUN apk update && apk add --no-cache "nodejs>=14.17.4-r0"
 
 LABEL maintainer="fehguy"
 
