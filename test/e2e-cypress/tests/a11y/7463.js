@@ -1,4 +1,4 @@
-describe("Bug-7463: Response tab elements", () => {
+describe("Issue-7463: Response tab elements", () => {
   describe("ModelExample within Operation", () => {
     it("should render Example tabpanel by default", () => {
       cy
