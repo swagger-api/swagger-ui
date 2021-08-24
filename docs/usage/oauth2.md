@@ -10,7 +10,7 @@ appName | `OAUTH_APP_NAME` |application name, displayed in authorization popup. 
 scopeSeparator | `OAUTH_SCOPE_SEPARATOR` |scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 scopes | `OAUTH_SCOPES` |string array or scope separator (i.e. space) separated string of initially selected oauth scopes, default is empty array
 additionalQueryStringParams | `OAUTH_ADDITIONAL_PARAMS` |Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
-useBasicAuthenticationWithAccessCodeGrant | _Unavailable_ |Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encode(client_id + client_secret)`).  The default is `false`
+useBasicAuthenticationWithAccessCodeGrant | `OAUTH_USE_BASIC_AUTHENTICATION_WITH_ACCESS_CODE_GRANT` |Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encode(client_id + client_secret)`).  The default is `false`
 usePkceWithAuthorizationCodeGrant | `OAUTH_USE_PKCE` | Only applies to `authorizatonCode` flows. [Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636) brings enhanced security for OAuth public clients. The default is `false`
 
 ```javascript
