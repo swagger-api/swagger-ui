@@ -34,6 +34,10 @@ const oauthBlockSchema = {
   OAUTH_USE_PKCE: {
     type: "boolean",
     name: "usePkceWithAuthorizationCodeGrant"
+  },
+  OAUTH_USE_BASIC_AUTHENTICATION_WITH_ACCESS_CODE_GRANT: {
+    type: "boolean",
+    name: "useBasicAuthenticationWithAccessCodeGrant",
   }
 }
 
