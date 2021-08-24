@@ -25,6 +25,6 @@ RUN chmod 777 /usr/share/nginx/html/ /etc/nginx/ /var/cache/nginx/ /var/run/
 
 EXPOSE 8080
 
-USER nginx
+USER 101
 
 CMD ["sh", "/usr/share/nginx/run.sh"]
