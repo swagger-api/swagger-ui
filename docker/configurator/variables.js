@@ -102,7 +102,11 @@ const standardVariables = {
   WITH_CREDENTIALS: {
     type: "boolean",
     name: "withCredentials",
-  }
+  },
+  RE_FETCH_SCHEMA_ON_AUTH_CHANGED: {
+    type: "boolean",
+    name: "reFetchSchemaOnAuthChanged",
+  },
 }
 
 const legacyVariables = {

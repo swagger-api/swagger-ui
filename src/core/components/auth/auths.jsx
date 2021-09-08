@@ -26,14 +26,17 @@ export default class Auths extends React.Component {
   submitAuth =(e) => {
     e.preventDefault()
 
-    let { authActions } = this.props
+    let { authActions, getConfigs } = this.props
     authActions.authorizeWithPersistOption(this.state)
+    if(getConfigs().reFetchSchemaOnAuthChanged) {
+      this.props.specActions.download()
+      this.close(e)
+    }
   }
 
   logoutClick =(e) => {
     e.preventDefault()
-
-    let { authActions, definitions } = this.props
+    let { authActions, definitions, getConfigs } = this.props
     let auths = definitions.map( (val, key) => {
       return key
     }).toArray()
@@ -44,6 +47,10 @@ export default class Auths extends React.Component {
     }, {}))
 
     authActions.logoutWithPersistOption(auths)
+    if(getConfigs().reFetchSchemaOnAuthChanged) {
+      this.props.specActions.download()
+      this.close(e)
+    }
   }
 
   close =(e) => {
@@ -125,6 +132,8 @@ export default class Auths extends React.Component {
     authSelectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
+    definitions: ImPropTypes.iterable.isRequired,
+    specActions: ImPropTypes.iterable.isRequired,
+    getConfigs: ImPropTypes.iterable.isRequired,
   }
 }
