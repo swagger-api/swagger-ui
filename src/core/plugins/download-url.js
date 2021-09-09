@@ -35,7 +35,7 @@ export default function downloadUrlPlugin (toolbox) {
           }
           const operation = {
             security: Object.keys(securities.authorized).map(key => ({[key]: []}))
-          };
+          }
           if(isOAS3(spec)) {
             applySecurities3({
               request,

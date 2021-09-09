@@ -58,5 +58,7 @@ export default class AuthorizationPopup extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
+    specActions: PropTypes.object.isRequired,
+    getConfigs: PropTypes.object.isRequired,
   }
 }
