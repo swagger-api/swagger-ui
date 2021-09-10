@@ -84,7 +84,7 @@
     "react-inspector": "^2.3.0",
     "react-motion": "^0.5.2",
     "react-redux": "=4.4.10",
-    "react-syntax-highlighter": "^15.4.3",
+    "react-syntax-highlighter": "^15.4.4",
     "redux": "=3.7.2",
     "redux-immutable": "3.1.0",
     "remarkable": "^2.0.1",
