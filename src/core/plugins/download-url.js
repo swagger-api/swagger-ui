@@ -25,32 +25,44 @@ export default function downloadUrlPlugin (toolbox) {
           "Accept": "application/json,*/*"
         }
       }
+      let reFetch = false
       if(config.reFetchSchemaOnAuthChanged) {
         const spec = specSelectors.specJsonWithResolvedSubtrees().toJS()
-        if(spec) {
+        const authorized = authSelectors.authorized() && authSelectors.authorized().toJS()
+        if(spec && Object.keys(spec).length > 0) {
           let securities = {
-            authorized: authSelectors.authorized() && authSelectors.authorized().toJS(),
+            authorized,
             definitions: specSelectors.securityDefinitions() && specSelectors.securityDefinitions().toJS(),
             specSecurity:  specSelectors.security() && specSelectors.security().toJS()
           }
           const operation = {
             security: Object.keys(securities.authorized).map(key => ({[key]: []}))
           }
-          if(isOAS3(spec)) {
-            applySecurities3({
-              request,
-              securities,
-              operation,
-              spec,
-            })
+          try {
+            if(isOAS3(spec)) {
+              applySecurities3({
+                request,
+                securities,
+                operation,
+                spec,
+              })
+            }
+            else {
+              applySecurities2({
+                request,
+                securities,
+                operation,
+                spec
+              })
+            }
           }
-          else {
-            applySecurities2({
-              request,
-              securities,
-              operation,
-              spec
-            })
+          catch (ex) {
+            console.error(ex)
+          }
+        }
+        else {
+          if(authorized && Object.keys(authorized).length > 0) {
+            reFetch = true
           }
         }
       }
@@ -68,6 +80,9 @@ export default function downloadUrlPlugin (toolbox) {
         specActions.updateSpec(res.text)
         if(specSelectors.url() !== url) {
           specActions.updateUrl(url)
+        }
+        if(reFetch) {
+          specActions.download()
         }
       }
 
