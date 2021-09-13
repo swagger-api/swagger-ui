@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "4.0.0-rc.0",
+  "version": "4.0.0-rc.1",
   "main": "dist/swagger-ui.js",
   "module": "dist/swagger-ui-es-bundle.js",
   "homepage": "https://github.com/swagger-api/swagger-ui",
