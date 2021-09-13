@@ -86,7 +86,7 @@
     "sha.js": "^2.4.11",
     "stream": "=0.0.2",
     "swagger-client": "^3.16.1",
-    "url-parse": "^1.5.1",
+    "url-parse": "^1.5.3",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
