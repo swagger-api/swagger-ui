@@ -69,7 +69,6 @@ export default function buildConfig(
         PACKAGE_VERSION: pkg.version,
         GIT_COMMIT: gitInfo.hash,
         GIT_DIRTY: gitInfo.dirty,
-        HOSTNAME: os.hostname(),
         BUILD_TIME: new Date().toUTCString(),
       }),
     }),
