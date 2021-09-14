@@ -134,7 +134,7 @@ export default class Oauth2 extends React.Component {
     let isPkceCodeGrant = authConfigs.usePkceWithAuthorizationCodeGrant === "true" || authConfigs.usePkceWithAuthorizationCodeGrant === true
 
     let flow = schema.get("flow")
-    let flowToDisplay = isPkceCodeGrant ? flow + " with PKCE" : flow
+    let flowToDisplay = flow === AUTH_FLOW_ACCESS_CODE && isPkceCodeGrant ? flow + " with PKCE" : flow
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
     let authorizedAuth = authSelectors.authorized().get(name)
     let isAuthorized = !!authorizedAuth
