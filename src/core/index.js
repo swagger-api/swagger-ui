@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
 }
 
 // eslint-disable-next-line no-undef
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
 
 export default function SwaggerUI(opts) {
 
@@ -21,7 +21,6 @@ export default function SwaggerUI(opts) {
     gitRevision: GIT_COMMIT,
     gitDirty: GIT_DIRTY,
     buildTimestamp: BUILD_TIME,
-    machine: HOSTNAME
   }
 
   const defaults = {
