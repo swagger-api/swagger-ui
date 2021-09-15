@@ -84,11 +84,11 @@ export default class ModelExample extends React.Component {
             </button>
           </li>
           { schema && (
-            <li className={cx("tabitem", { "active": ["model", "schema"].includes(this.state.activeTab) })} role="presentation">
+            <li className={cx("tabitem", { active: ["model", "schema"].includes(this.state.activeTab) })} role="presentation">
               <button
                 aria-controls={modelPanelId}
                 aria-selected={["model", "schema"].includes(this.state.activeTab)}
-                className={ "tablinks" + ( isExecute ? " inactive" : "" )}
+                className={cx("tablinks", { inactive: isExecute })}
                 data-name={isOAS3 ? "schema" : "model"}
                 id={modelTabId}
                 onClick={ this.activeTab }
