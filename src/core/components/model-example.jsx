@@ -84,12 +84,12 @@ export default class ModelExample extends React.Component {
             </button>
           </li>
           { schema && (
-            <li className={cx("tabitem", { active: ["model", "schema"].includes(this.state.activeTab) })} role="presentation">
+            <li className={cx("tabitem", { active: this.state.activeTab === "model" })} role="presentation">
               <button
                 aria-controls={modelPanelId}
-                aria-selected={["model", "schema"].includes(this.state.activeTab)}
+                aria-selected={this.state.activeTab === "model"}
                 className={cx("tablinks", { inactive: isExecute })}
-                data-name={isOAS3 ? "schema" : "model"}
+                data-name="model"
                 id={modelTabId}
                 onClick={ this.activeTab }
                 role="tab"
@@ -114,11 +114,11 @@ export default class ModelExample extends React.Component {
           </div>
         )}
 
-        {["model", "schema"].includes(this.state.activeTab) && (
+        {this.state.activeTab === "model" && (
           <div
             aria-hidden={this.state.activeTab === "example"}
             aria-labelledby={modelTabId}
-            data-name={isOAS3 ? "schemaPanel" : "modelPanel" }
+            data-name="modelPanel"
             id={modelPanelId}
             role="tabpanel"
             tabIndex="0"

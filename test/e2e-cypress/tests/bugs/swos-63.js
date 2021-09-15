@@ -19,7 +19,7 @@ describe("SWOS-63: Schema/Model labeling", () => {
         .visit("/?url=/documents/petstore-expanded.openapi.yaml")
         .get("#operations-default-findPets")
         .click()
-        .get("button.tablinks[data-name=schema]")
+        .get("button.tablinks[data-name=model]")
         .contains("Schema")
     })
     it("should render `Models` for OpenAPI 2", () => {
