@@ -70,7 +70,7 @@ export default class ModelExample extends React.Component {
     return (
       <div className="model-example">
         <ul className="tab" role="tablist">
-          <li className={cx("tabitem", { "active": this.state.activeTab === "example" })} role="presentation">
+          <li className={cx("tabitem", { active: this.state.activeTab === "example" })} role="presentation">
             <button
               aria-controls={examplePanelId}
               aria-selected={this.state.activeTab === "example"}
