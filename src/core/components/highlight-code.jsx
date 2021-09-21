@@ -39,6 +39,16 @@ export default class HighlightCode extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.syntaxHighlighter) this.syntaxHighlighter.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false })
+    if (this.pre) this.pre.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false })
+  }
+
+  componentWillUnmount() {
+    this.syntaxHighlighter.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
+    this.pre.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
+  }
+
   render () {
     let { value, className, downloadable, getConfigs, canCopy, language } = this.props
 
@@ -48,14 +58,14 @@ export default class HighlightCode extends Component {
 
     const codeBlock = get(config, "syntaxHighlight.activated")
       ? <SyntaxHighlighter
+          ref={elem => this.syntaxHighlighter = elem}
           language={language}
           className={className + " microlight"}
-          onWheel={this.preventYScrollingBeyondElement}
           style={getStyle(get(config, "syntaxHighlight.theme"))}
           >
           {value}
         </SyntaxHighlighter>
-      : <pre onWheel={this.preventYScrollingBeyondElement} className={className + " microlight"}>{value}</pre>
+      : <pre ref={elem => this.pre = elem} className={className + " microlight"}>{value}</pre>
 
     return (
       <div className="highlight-code">
