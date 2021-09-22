@@ -29,23 +29,6 @@ export default class ResponseBody extends React.Component {
 
       bodyEl = <HighlightCode value={ body } />
 
-      // XML
-    } else if (/xml/i.test(contentType)) {
-      body = formatXml(content)
-      bodyEl = <HighlightCode value={ body } />
-
-      // HTML or Plain Text
-    } else if (lowerCase(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode value={ content } />
-
-      // Image
-    } else if (/^image\//i.test(contentType)) {
-      bodyEl = <img src={ url } />
-
-      // Audio
-    } else if (/^audio\//i.test(contentType)) {
-      bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
-
       // Download
     } else if (
       /^application\/octet-stream/i.test(contentType) ||
@@ -82,6 +65,23 @@ export default class ResponseBody extends React.Component {
       } else {
         bodyEl = <pre>Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
       }
+
+      // XML
+    } else if (/xml/i.test(contentType)) {
+      body = formatXml(content)
+      bodyEl = <HighlightCode value={ body } />
+
+      // HTML or Plain Text
+    } else if (lowerCase(contentType) === "text/html" || /text\/plain/.test(contentType)) {
+      bodyEl = <HighlightCode value={ content } />
+
+      // Image
+    } else if (/^image\//i.test(contentType)) {
+      bodyEl = <img src={ url } />
+
+      // Audio
+    } else if (/^audio\//i.test(contentType)) {
+      bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
 
       // Anything else (CORS)
     } else if (typeof content === "string") {
