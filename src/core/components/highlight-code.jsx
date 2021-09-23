@@ -45,8 +45,8 @@ export default class HighlightCode extends Component {
   }
 
   componentWillUnmount() {
-    this.syntaxHighlighter.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
-    this.pre.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
+    if (this.syntaxHighlighter) this.syntaxHighlighter.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
+    if (this.pre) this.pre.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
   }
 
   render () {
