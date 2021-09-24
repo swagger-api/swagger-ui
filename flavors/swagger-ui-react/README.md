@@ -119,6 +119,12 @@ Controls whether the "Try it out" section should start enabled. The default is f
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `displayRequestDuration`: PropTypes.bool
+
+Controls whether to display the duration of the request. The default is false.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 ## Limitations
 
 * Not all configuration bindings are available.
