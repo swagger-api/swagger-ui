@@ -500,6 +500,17 @@
         {
             font-weight: bold;
         }
+
+        button.tablinks
+        {
+            background: none;
+            border: 0;
+            padding: 0;
+
+            color: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+        }
     }
 }
 
@@ -865,11 +876,6 @@
 .float-right
 {
     float: right;
-}
-
-img.full-width
-{
-    width: 100%;
 }
 
 .svg-assets
