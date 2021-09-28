@@ -9,6 +9,7 @@ const ParameterIncludeEmptyPropTypes = {
   isIncluded: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   isIncludedOptions: PropTypes.object,
+  paramIdentifier: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 }
 
@@ -34,15 +35,16 @@ export default class ParameterIncludeEmpty extends Component {
   }
 
   render() {
-    let { isIncluded, isDisabled } = this.props
+    let { isIncluded, isDisabled, paramIdentifier } = this.props
 
     return (
       <div>
         <label className={cx("parameter__empty_value_toggle", {
           "disabled": isDisabled
         })}>
-          <input type="checkbox" 
+          <input type="checkbox"
             disabled={isDisabled}
+            aria-label={paramIdentifier ? `${paramIdentifier} empty allowed` : null}
             checked={!isDisabled && isIncluded}
             onChange={this.onCheckboxChange} />
           Send empty value

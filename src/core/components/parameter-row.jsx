@@ -127,7 +127,7 @@ export default class ParameterRow extends Component {
           : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-        initialValue = 
+        initialValue =
           paramWithMeta.getIn(["examples", currentExampleKey, "value"]) !== undefined
           ? paramWithMeta.getIn(["examples", currentExampleKey, "value"])
           : paramWithMeta.getIn(["content", parameterMediaType, "example"]) !== undefined
@@ -221,6 +221,7 @@ export default class ParameterRow extends Component {
 
     let { schema } = getParameterSchema(param, { isOAS3 })
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
+    let paramIdentifier = [...pathMethod, param.get("in"), param.get("name")].join(" ")
 
     let format = schema ? schema.get("format") : null
     let type = schema ? schema.get("type") : null
@@ -331,6 +332,7 @@ export default class ParameterRow extends Component {
             : <JsonSchemaForm fn={fn}
                               getComponent={getComponent}
                               value={ value }
+                              ariaLabel={ paramIdentifier }
                               required={ required }
                               disabled={!isExecute}
                               description={param.get("name")}
@@ -357,7 +359,8 @@ export default class ParameterRow extends Component {
             <ParameterIncludeEmpty
               onChange={this.onChangeIncludeEmpty}
               isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
-              isDisabled={!isEmptyValue(value)} />
+              isDisabled={!isEmptyValue(value)}
+              paramIdentifier={paramIdentifier}/>
             : null
           }
 

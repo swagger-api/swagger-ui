@@ -11,6 +11,7 @@ const noop = ()=> {}
 const JsonSchemaPropShape = {
   getComponent: PropTypes.func.isRequired,
   value: PropTypes.any,
+  ariaLabel: PropTypes.string,
   onChange: PropTypes.func,
   keyName: PropTypes.any,
   fn: PropTypes.object.isRequired,
@@ -71,7 +72,7 @@ export class JsonSchema_string extends Component {
   }
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, schema, errors, required, description, disabled } = this.props
+    let { getComponent, value, ariaLabel, schema, errors, required, description, disabled } = this.props
     const enumValue = schema && schema.get ? schema.get("enum") : null
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
@@ -85,6 +86,7 @@ export class JsonSchema_string extends Component {
       const Select = getComponent("Select")
       return (<Select className={ errors.length ? "invalid" : ""}
                       title={ errors.length ? errors : ""}
+                      ariaLabel={ariaLabel}
                       allowedValues={ enumValue }
                       value={ value }
                       allowEmptyValue={ !required }
@@ -97,6 +99,7 @@ export class JsonSchema_string extends Component {
     if (type && type === "file") {
       return (
         <Input type="file"
+          aria-label={ariaLabel}
           className={errors.length ? "invalid" : ""}
           title={errors.length ? errors : ""}
           onChange={this.onChange}
@@ -107,6 +110,7 @@ export class JsonSchema_string extends Component {
       return (
         <DebounceInput
           type={format && format === "password" ? "password" : "text"}
+          aria-label={ariaLabel}
           className={errors.length ? "invalid" : ""}
           title={errors.length ? errors : ""}
           value={value}
@@ -171,7 +175,7 @@ export class JsonSchema_array extends PureComponent {
   }
 
   render() {
-    let { getComponent, required, schema, errors, fn, disabled } = this.props
+    let { getComponent, ariaLabel, required, schema, errors, fn, disabled } = this.props
 
     errors = errors.toJS ? errors.toJS() : Array.isArray(errors) ? errors : []
     const arrayErrors = errors.filter(e => typeof e === "string")
@@ -225,6 +229,7 @@ export class JsonSchema_array extends PureComponent {
                   isArrayItemFile ?
                     <JsonSchemaArrayItemFile
                     value={item}
+                    ariaLabel={ariaLabel}
                     onChange={(val)=> this.onItemChange(val, i)}
                     disabled={disabled}
                     errors={itemErrors}
@@ -233,12 +238,14 @@ export class JsonSchema_array extends PureComponent {
                     : isArrayItemText ?
                       <JsonSchemaArrayItemText
                         value={item}
+                        ariaLabel={ariaLabel}
                         onChange={(val) => this.onItemChange(val, i)}
                         disabled={disabled}
                         errors={itemErrors}
                       />
                       : <ArrayItemsComponent {...this.props}
                         value={item}
+                        ariaLabel={ariaLabel}
                         onChange={(val) => this.onItemChange(val, i)}
                         disabled={disabled}
                         errors={itemErrors}

@@ -45,6 +45,7 @@ const RequestBody = ({
   contentType,
   isExecute,
   specPath,
+  pathMethod,
   onChange,
   onChangeIncludeEmpty,
   activeExamplesKey,
@@ -88,7 +89,7 @@ const RequestBody = ({
   const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
     const val = container?.get("value", null)
     if(val) {
-      container = container.set("value",   getDefaultRequestBodyValue(
+      container = container.set("value", getDefaultRequestBodyValue(
         requestBody,
         contentType,
         key,
@@ -160,6 +161,8 @@ const RequestBody = ({
               const currentValue = requestBodyValue.getIn([key, "value"])
               const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
               const included = requestBodyInclusionSetting.get(key) || false
+              const paramIdentifier = [...pathMethod, "body", key].join(" ")
+
 
               const useInitialValFromSchemaSamples = prop.has("default")
                 || prop.has("example")
@@ -210,6 +213,7 @@ const RequestBody = ({
                     fn={fn}
                     dispatchInitialValue={!isFile}
                     schema={prop}
+                    ariaLabel={paramIdentifier}
                     description={key}
                     getComponent={getComponent}
                     value={currentValue === undefined ? initialValue : currentValue}
@@ -225,6 +229,7 @@ const RequestBody = ({
                       isIncluded={included}
                       isIncludedOptions={setIsIncludedOptions(key)}
                       isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
+                      paramIdentifier={paramIdentifier}
                     />
                   )}
                 </div> : null }
@@ -326,6 +331,7 @@ RequestBody.propTypes = {
   onChange: PropTypes.func.isRequired,
   onChangeIncludeEmpty: PropTypes.func.isRequired,
   specPath: PropTypes.array.isRequired,
+  pathMethod: PropTypes.array.isRequired,
   activeExamplesKey: PropTypes.string,
   updateActiveExamplesKey: PropTypes.func,
   setRetainRequestBodyValueFlag: PropTypes.func,
