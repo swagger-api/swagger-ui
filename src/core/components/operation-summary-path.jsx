@@ -28,7 +28,10 @@ export default class OperationSummaryPath extends PureComponent{
       isDeepLinkingEnabled,
     } = operationProps.toJS()
 
-    // add <wbr> word-break elements between each segment, before the slash
+    /**
+     * Add <wbr> word-break elements between each segment, before the slash
+     * to allow browsers an opportunity to break long paths into sensible segments.
+     */
     const pathParts = path.split(/(?=\/)/g)
     for (let i = 1; i < pathParts.length; i += 2) {
       pathParts.splice(i, 0, <wbr key={i} />)
