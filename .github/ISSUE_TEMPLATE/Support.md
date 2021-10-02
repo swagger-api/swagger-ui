@@ -11,6 +11,7 @@ about: Ask a question or request help with your implementation.
   (for example, Springfox or swagger-node), please open an issue
   in that project's repository instead.
  -->
+ Try Out the newest version of Swagger UI it will help
 
 ### Q&A (please complete the following information)
  - OS: [e.g. macOS]
