@@ -40,13 +40,15 @@ export default class HighlightCode extends Component {
   }
 
   componentDidMount() {
-    if (this.syntaxHighlighter) this.syntaxHighlighter.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false })
-    if (this.pre) this.pre.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false })
+    [this.syntaxHighlighter, this.pre]
+    .filter(element => !!element)
+    .map(element => element.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
   componentWillUnmount() {
-    if (this.syntaxHighlighter) this.syntaxHighlighter.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
-    if (this.pre) this.pre.removeEventListener("mousewheel", this.preventYScrollingBeyondElement)
+    [this.syntaxHighlighter, this.pre]
+    .filter(element => !!element)
+    .map(element => element.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
   }
 
   render () {
