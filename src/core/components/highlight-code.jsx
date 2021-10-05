@@ -41,8 +41,7 @@ export default class HighlightCode extends Component {
 
   componentDidMount() {
     [this.syntaxHighlighter, this.pre]
-    .filter(element => !!element)
-    .map(element => element.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
+    .map(element => element?.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
   componentWillUnmount() {
