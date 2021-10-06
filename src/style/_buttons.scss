@@ -181,6 +181,8 @@ button
 
   button
   {
+    position: absolute;
+    right: 0px;
     padding-left: 25px;
     border: none;
     height: 25px;
@@ -195,9 +197,12 @@ button
   right: 10px;
   width: 20px;
   height: 20px;
+
   button
   {
+    position: absolute;
+    left: 0;
     padding-left: 18px;
-    height: 18px
+    height: 18px;
   }
 }
