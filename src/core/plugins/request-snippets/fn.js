@@ -103,9 +103,10 @@ const curlify = (request, escape, newLine, ext = "") => {
     }
   }
 
-  if (request.get("body")) {
+  const body = request.get("body")
+  if (body) {
     if (isMultipartFormDataRequest && ["POST", "PUT", "PATCH"].includes(request.get("method"))) {
-      for (let [k, v] of request.get("body").entrySeq()) {
+      for (let [k, v] of body.entrySeq()) {
         let extractedKey = extractKey(k)
         addNewLine()
         addIndent()
@@ -116,11 +117,15 @@ const curlify = (request, escape, newLine, ext = "") => {
           addWords(`${extractedKey}=${v}`)
         }
       }
+    } else if(body instanceof win.File) {
+      addNewLine()
+      addIndent()
+      addWordsWithoutLeadingSpace(`--data-binary '@${body.name}'`)
     } else {
       addNewLine()
       addIndent()
       addWordsWithoutLeadingSpace("-d ")
-      let reqBody = request.get("body")
+      let reqBody = body
       if (!Map.isMap(reqBody)) {
         if (typeof reqBody !== "string") {
           reqBody = JSON.stringify(reqBody)
@@ -130,7 +135,7 @@ const curlify = (request, escape, newLine, ext = "") => {
         addWordsWithoutLeadingSpace(getStringBodyOfMap(request))
       }
     }
-  } else if (!request.get("body") && request.get("method") === "POST") {
+  } else if (!body && request.get("method") === "POST") {
     addNewLine()
     addIndent()
     addWordsWithoutLeadingSpace("-d ''")
