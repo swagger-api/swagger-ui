@@ -100,7 +100,7 @@ Parameter name | Docker variable | Description
 Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="persistAuthorization"></a>`persistAuthorization` | `PERSIST_AUTHORIZATION` | `Boolean=false`. If set to `true`, it persists authorization data and it would not be lost on browser close/refresh
-<a name="persistAuthorization"></a>`reFetchSchemaOnAuthChanged` | `RE_FETCH_SCHEMA_ON_AUTH_CHANGED` | `Boolean=false`. If set to `true`, refresh to fetch schema, when authorization is changed
+<a name="reFetchSchemaOnAuthChanged"></a>`reFetchSchemaOnAuthChanged` | `RE_FETCH_SCHEMA_ON_AUTH_CHANGED` | `Boolean=false`. If set to `true`, refresh to fetch schema, when authorization is changed
 
 ### Instance methods
 
