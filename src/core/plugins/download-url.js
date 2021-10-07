@@ -39,22 +39,15 @@ export default function downloadUrlPlugin (toolbox) {
             security: Object.keys(securities.authorized).map(key => ({[key]: []}))
           }
           try {
-            if(isOAS3(spec)) {
-              applySecurities3({
-                request,
-                securities,
-                operation,
-                spec,
-              })
+            const toApply = {
+              request,
+              securities,
+              operation,
+              spec,
             }
-            else {
-              applySecurities2({
-                request,
-                securities,
-                operation,
-                spec
-              })
-            }
+            isOAS3(spec)
+              ? applySecurities3(toApply)
+              : applySecurities2(toApply)
           }
           catch (ex) {
             console.error(ex)
