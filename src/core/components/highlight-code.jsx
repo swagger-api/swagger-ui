@@ -16,6 +16,9 @@ export default class HighlightCode extends Component {
     canCopy: PropTypes.bool
   }
 
+  #syntaxHighlighter;
+  #pre;
+
   downloadText = () => {
     saveAs(this.props.value, this.props.fileName || "response.txt")
   }
@@ -39,6 +42,16 @@ export default class HighlightCode extends Component {
     }
   }
 
+  componentDidMount() {
+    [this.#syntaxHighlighter, this.#pre]
+    .map(element => element?.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
+  }
+
+  componentWillUnmount() {
+    [this.#syntaxHighlighter, this.#pre]
+    .map(element => element?.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
+  }
+
   render () {
     let { value, className, downloadable, getConfigs, canCopy, language } = this.props
 
@@ -48,14 +61,14 @@ export default class HighlightCode extends Component {
 
     const codeBlock = get(config, "syntaxHighlight.activated")
       ? <SyntaxHighlighter
+          ref={elem => this.#syntaxHighlighter = elem}
           language={language}
           className={className + " microlight"}
-          onWheel={this.preventYScrollingBeyondElement}
           style={getStyle(get(config, "syntaxHighlight.theme"))}
           >
           {value}
         </SyntaxHighlighter>
-      : <pre onWheel={this.preventYScrollingBeyondElement} className={className + " microlight"}>{value}</pre>
+      : <pre ref={elem => this.#pre = elem} className={className + " microlight"}>{value}</pre>
 
     return (
       <div className="highlight-code">
