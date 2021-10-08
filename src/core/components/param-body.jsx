@@ -86,7 +86,7 @@ export default class ParamBody extends PureComponent {
     const {consumesValue} = this.props
     const isXml = /xml/i.test(consumesValue)
     const inputValue = e.target.value
-    this.onChange(inputValue, {isXml})
+    this.onChange(inputValue, {isXml, isEditBox: this.state.isEditBox})
   }
 
   toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
