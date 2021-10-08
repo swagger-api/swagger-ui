@@ -42,12 +42,12 @@ export default class HighlightCode extends Component {
     }
   }
 
-  componentDidMount() {
+  UNSAFE_componentDidMount() {
     [this.#syntaxHighlighter, this.#pre]
     .map(element => element?.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     [this.#syntaxHighlighter, this.#pre]
     .map(element => element?.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
   }
