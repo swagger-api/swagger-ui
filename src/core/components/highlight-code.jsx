@@ -51,12 +51,14 @@ export default class HighlightCode extends Component {
     }
   }
 
-  componentDidMount() {
-    this.#childNodes?.forEach(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
+  UNSAFE_componentDidMount() {
+    [this.#syntaxHighlighter, this.#pre]
+    .map(element => element?.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
-  componentWillUnmount() {
-    this.#childNodes?.forEach(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
+  UNSAFE_componentWillUnmount() {
+    [this.#syntaxHighlighter, this.#pre]
+    .map(element => element?.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
   }
 
   render () {
