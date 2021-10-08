@@ -69,7 +69,7 @@ export default function SwaggerUI(opts) {
         },
       },
       defaultExpanded: true,
-      languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
+      languages: null, // e.g. only show curl bash = ["curl_bash"]
     },
     supportedSubmitMethods: [
       "get",
