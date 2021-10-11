@@ -11,7 +11,7 @@ export default function Example(props) {
   const { example, showValue, getComponent, getConfigs } = props
 
   const Markdown = getComponent("Markdown", true)
-  const HighlightCode = getComponent("highlightCode")
+  const HighlightCode = getComponent("highlightCode", true)
 
   if(!example) return null
 

@@ -104,7 +104,7 @@ export default class ParamBody extends PureComponent {
 
     const Button = getComponent("Button")
     const TextArea = getComponent("TextArea")
-    const HighlightCode = getComponent("highlightCode")
+    const HighlightCode = getComponent("highlightCode", true)
     const ContentType = getComponent("contentType")
     // for domains where specSelectors not passed
     let parameter = specSelectors ? specSelectors.parameterWithMetaByIdentity(pathMethod, param) : param
@@ -140,11 +140,11 @@ export default class ParamBody extends PureComponent {
           }
           <label htmlFor="">
             <span>Parameter content type</span>
-            <ContentType 
-              value={ consumesValue } 
-              contentTypes={ consumes } 
-              onChange={onChangeConsumes} 
-              className="body-param-content-type" 
+            <ContentType
+              value={ consumesValue }
+              contentTypes={ consumes }
+              onChange={onChangeConsumes}
+              className="body-param-content-type"
               ariaLabel="Parameter content type" />
           </label>
         </div>

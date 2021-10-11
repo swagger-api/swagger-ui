@@ -2,7 +2,6 @@ import React from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import PropTypes from "prop-types"
 import get from "lodash/get"
-import {SyntaxHighlighter, getStyle} from "core/syntax-highlighting"
 
 export class RequestSnippets extends React.Component {
   constructor() {
@@ -17,69 +16,72 @@ export class RequestSnippets extends React.Component {
     request: PropTypes.object.isRequired,
     requestSnippetsSelectors: PropTypes.object.isRequired,
     getConfigs: PropTypes.object.isRequired,
+    getComponent: PropTypes.object.isRequired,
     requestSnippetsActions: PropTypes.object.isRequired,
+    fn: PropTypes.object.isRequired,
   }
   render() {
-      const {request, getConfigs, requestSnippetsSelectors } = this.props
-      const snippetGenerators = requestSnippetsSelectors.getSnippetGenerators()
-      const activeLanguage = this.state.activeLanguage || snippetGenerators.keySeq().first()
-      const activeGenerator = snippetGenerators.get(activeLanguage)
-      const snippet = activeGenerator.get("fn")(request)
-      const onGenChange = (key) => {
-        const needsChange = activeLanguage !== key
-        if(needsChange) {
-          this.setState({
-            activeLanguage: key
-          })
-        }
+    const {request, getConfigs, requestSnippetsSelectors, fn, getComponent } = this.props
+    const snippetGenerators = requestSnippetsSelectors.getSnippetGenerators()
+    const activeLanguage = this.state.activeLanguage || snippetGenerators.keySeq().first()
+    const activeGenerator = snippetGenerators.get(activeLanguage)
+    const snippet = activeGenerator.get("fn")(request)
+    const onGenChange = (key) => {
+      const needsChange = activeLanguage !== key
+      if(needsChange) {
+        this.setState({
+          activeLanguage: key
+        })
       }
-      const style = {
-        cursor: "pointer",
-        lineHeight: 1,
-        display: "inline-flex",
-        backgroundColor: "rgb(250, 250, 250)",
-        paddingBottom: "0",
-        paddingTop: "0",
-        border: "1px solid rgb(51, 51, 51)",
-        borderRadius: "4px 4px 0 0",
-        boxShadow: "none",
-        borderBottom: "none"
+    }
+    const style = {
+      cursor: "pointer",
+      lineHeight: 1,
+      display: "inline-flex",
+      backgroundColor: "rgb(250, 250, 250)",
+      paddingBottom: "0",
+      paddingTop: "0",
+      border: "1px solid rgb(51, 51, 51)",
+      borderRadius: "4px 4px 0 0",
+      boxShadow: "none",
+      borderBottom: "none"
+    }
+    const activeStyle = {
+      cursor: "pointer",
+      lineHeight: 1,
+      display: "inline-flex",
+      backgroundColor: "rgb(51, 51, 51)",
+      boxShadow: "none",
+      border: "1px solid rgb(51, 51, 51)",
+      paddingBottom: "0",
+      paddingTop: "0",
+      borderRadius: "4px 4px 0 0",
+      marginTop: "-5px",
+      marginRight: "-5px",
+      marginLeft: "-5px",
+      zIndex: "9999",
+      borderBottom: "none"
+    }
+    const getBtnStyle = (key) => {
+      if (key === activeLanguage) {
+        return activeStyle
       }
-      const activeStyle = {
-        cursor: "pointer",
-        lineHeight: 1,
-        display: "inline-flex",
-        backgroundColor: "rgb(51, 51, 51)",
-        boxShadow: "none",
-        border: "1px solid rgb(51, 51, 51)",
-        paddingBottom: "0",
-        paddingTop: "0",
-        borderRadius: "4px 4px 0 0",
-        marginTop: "-5px",
-        marginRight: "-5px",
-        marginLeft: "-5px",
-        zIndex: "9999",
-        borderBottom: "none"
-      }
-      const getBtnStyle = (key) => {
-        if (key === activeLanguage) {
-          return activeStyle
-        }
-        return style
-      }
-      const config = getConfigs()
+      return style
+    }
+    const config = getConfigs()
+    const SyntaxHighlighter = getComponent("SyntaxHighlighter")
 
-      const SnippetComponent = config?.syntaxHighlight?.activated
-        ? <SyntaxHighlighter
-          language={activeGenerator.get("syntax")}
-          className="curl microlight"
-          onWheel={function(e) {return this.preventYScrollingBeyondElement(e)}}
-          style={getStyle(get(config, "syntaxHighlight.theme"))}
-        >
-          {snippet}
-        </SyntaxHighlighter>
-        :
-        <textarea readOnly={true} className="curl" value={snippet}></textarea>
+    const SnippetComponent = config?.syntaxHighlight?.activated
+      ? <SyntaxHighlighter
+        language={activeGenerator.get("syntax")}
+        className="curl microlight"
+        onWheel={function(e) {return this.preventYScrollingBeyondElement(e)}}
+        style={fn.getStyle(get(config, "syntaxHighlight.theme"))}
+      >
+        {snippet}
+      </SyntaxHighlighter>
+      :
+      <textarea readOnly={true} className="curl" value={snippet}></textarea>
 
     const expanded = this.state.expanded === undefined ? this.props?.requestSnippetsSelectors?.getDefaultExpanded() : this.state.expanded
     return (

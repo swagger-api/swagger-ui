@@ -59,7 +59,7 @@ export default class ModelExample extends React.Component {
     let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath, includeReadOnly, includeWriteOnly } = this.props
     let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
-    const HighlightCode = getComponent("highlightCode")
+    const HighlightCode = getComponent("highlightCode", true)
     const exampleTabId = randomBytes(5).toString("base64")
     const examplePanelId = randomBytes(5).toString("base64")
     const modelTabId = randomBytes(5).toString("base64")

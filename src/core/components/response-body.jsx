@@ -53,7 +53,7 @@ export default class ResponseBody extends React.PureComponent {
   render() {
     let { content, contentType, url, headers={}, getConfigs, getComponent } = this.props
     const { parsedContent } = this.state
-    const HighlightCode = getComponent("highlightCode")
+    const HighlightCode = getComponent("highlightCode", true)
     const downloadName = "response_" + new Date().getTime()
     let body, bodyEl
     url = url || ""
