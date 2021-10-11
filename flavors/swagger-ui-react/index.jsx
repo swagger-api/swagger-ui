@@ -26,7 +26,7 @@ export default class SwaggerUI extends React.Component {
       tryItOutEnabled: this.props.tryItOutEnabled,
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
-      filter: (typeof this.props.filter === "boolean" || typeof this.props.filter === "string") ? this.props.filter : false,
+      filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
     })
 
     this.system = ui
