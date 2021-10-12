@@ -23,7 +23,7 @@ export default class HighlightCode extends Component {
   }
 
   handleRootRef = (node) => {
-    this.#root = node;
+    this.#root = node
   }
 
   preventYScrollingBeyondElement = (e) => {
@@ -48,15 +48,15 @@ export default class HighlightCode extends Component {
   componentDidMount() {
     Array
       .from(this.#root.childNodes)
-      .filter(node => node.classList.contains('microlight'))
-      .map(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
+      .filter(node => node.classList.contains("microlight"))
+      .forEach(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
   componentWillUnmount() {
     Array
       .from(this.#root.childNodes)
-      .filter(node => node.classList.contains('microlight'))
-      .map(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
+      .filter(node => node.classList.contains("microlight"))
+      .forEach(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
   }
 
   render () {
