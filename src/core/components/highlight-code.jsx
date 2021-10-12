@@ -24,7 +24,7 @@ export default class HighlightCode extends Component {
 
   handleRootRef = (node) => {
     if (node === null) {
-      this.#childNodes = node;
+      this.#childNodes = node
     } else {
       this.#childNodes = Array
         .from(node.childNodes)
