@@ -16,14 +16,20 @@ export default class HighlightCode extends Component {
     canCopy: PropTypes.bool
   }
 
-  #root
+  #childNodes
 
   downloadText = () => {
     saveAs(this.props.value, this.props.fileName || "response.txt")
   }
 
   handleRootRef = (node) => {
-    this.#root = node
+    if (node === null) {
+      this.#childNodes = node;
+    } else {
+      this.#childNodes = Array
+        .from(node.childNodes)
+        .filter(node => !!node.nodeType && node.classList.contains("microlight"))
+    }
   }
 
   preventYScrollingBeyondElement = (e) => {
@@ -46,17 +52,11 @@ export default class HighlightCode extends Component {
   }
 
   componentDidMount() {
-    Array
-      .from(this.#root.childNodes)
-      .filter(node => node.classList.contains("microlight"))
-      .forEach(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
+    this.#childNodes.forEach(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
   componentWillUnmount() {
-    Array
-      .from(this.#root.childNodes)
-      .filter(node => node.classList.contains("microlight"))
-      .forEach(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
+    this.#childNodes.forEach(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
   }
 
   render () {
