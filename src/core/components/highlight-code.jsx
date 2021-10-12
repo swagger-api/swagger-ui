@@ -52,11 +52,11 @@ export default class HighlightCode extends Component {
   }
 
   componentDidMount() {
-    this.#childNodes.forEach(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
+    this.#childNodes?.forEach(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
   componentWillUnmount() {
-    this.#childNodes.forEach(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
+    this.#childNodes?.forEach(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
   }
 
   render () {
