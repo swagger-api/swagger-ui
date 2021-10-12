@@ -70,9 +70,9 @@ export const render = (getSystem, getStore, getComponent, getComponents, domNode
 }
 
 // Render try/catch wrapper
-const createClass = component => class extends Component {
+const createClass = OriginalComponent => class extends Component {
   render() {
-    return component(this.props)
+    return <OriginalComponent {...this.props} />
   }
 }
 
