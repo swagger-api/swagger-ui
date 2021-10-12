@@ -1,47 +1,40 @@
-import React, { Component } from "react"
+import React, { useRef, useEffect } from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
 import {SyntaxHighlighter, getStyle} from "core/syntax-highlighting"
 import get from "lodash/get"
+import isFunction from "lodash/isFunction"
 import saveAs from "js-file-download"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
-export default class HighlightCode extends Component {
-  static propTypes = {
-    value: PropTypes.string.isRequired,
-    getConfigs: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    downloadable: PropTypes.bool,
-    fileName: PropTypes.string,
-    language: PropTypes.string,
-    canCopy: PropTypes.bool
-  }
+const HighlightCode = ({value, fileName, className, downloadable, getConfigs, canCopy, language}) => {
+  const config = isFunction(getConfigs) ? getConfigs() : null
+  const canSyntaxHighlight = get(config, "syntaxHighlight.activated", true)
+  const highlighterStyle = getStyle(get(config, "syntaxHighlight.theme", "agate"))
+  const rootRef = useRef(null)
 
-  #childNodes
+  useEffect(() => {
+    const childNodes = Array
+      .from(rootRef.current.childNodes)
+      .filter(node => !!node.nodeType && node.classList.contains("microlight"))
 
-  downloadText = () => {
-    saveAs(this.props.value, this.props.fileName || "response.txt")
-  }
+    // eslint-disable-next-line no-use-before-define
+    childNodes.forEach(node => node.addEventListener("mousewheel", handlePreventYScrollingBeyondElement, { passive: false }))
 
-  handleRootRef = (node) => {
-    if (node === null) {
-      this.#childNodes = node
-    } else {
-      this.#childNodes = Array
-        .from(node.childNodes)
-        .filter(node => !!node.nodeType && node.classList.contains("microlight"))
+    return () => {
+      // eslint-disable-next-line no-use-before-define
+      childNodes.forEach(node => node.removeEventListener("mousewheel", handlePreventYScrollingBeyondElement))
     }
+  }, [value, className, language])
+
+  const handleDownload = () => {
+    saveAs(value, fileName)
   }
 
-  preventYScrollingBeyondElement = (e) => {
-    const target = e.target
-
-    var deltaY = e.deltaY
-    var contentHeight = target.scrollHeight
-    var visibleHeight = target.offsetHeight
-    var scrollTop = target.scrollTop
-
+  const handlePreventYScrollingBeyondElement = (e) => {
+    const { target, deltaY }  = e
+    const { scrollHeight: contentHeight, offsetHeight: visibleHeight, scrollTop } = target
     const scrollOffset = visibleHeight + scrollTop
-
     const isElementScrollable = contentHeight > visibleHeight
     const isScrollingPastTop = scrollTop === 0 && deltaY < 0
     const isScrollingPastBottom = scrollOffset >= contentHeight && deltaY > 0
@@ -51,49 +44,47 @@ export default class HighlightCode extends Component {
     }
   }
 
-  UNSAFE_componentDidMount() {
-    [this.#syntaxHighlighter, this.#pre]
-    .map(element => element?.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
-  }
+  return (
+    <div className="highlight-code" ref={rootRef}>
+      {!downloadable ? null :
+        <div className="download-contents" onClick={handleDownload}>
+          Download
+        </div>
+      }
 
-  UNSAFE_componentWillUnmount() {
-    [this.#syntaxHighlighter, this.#pre]
-    .map(element => element?.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
-  }
+      {canCopy && (
+        <div className="copy-to-clipboard">
+          <CopyToClipboard text={value}><button/></CopyToClipboard>
+        </div>
+      )}
 
-  render () {
-    let { value, className, downloadable, getConfigs, canCopy, language } = this.props
-
-    const config = getConfigs ? getConfigs() : {syntaxHighlight: {activated: true, theme: "agate"}}
-
-    className = className || ""
-
-    const codeBlock = get(config, "syntaxHighlight.activated")
-      ? <SyntaxHighlighter
+      {canSyntaxHighlight
+        ? <SyntaxHighlighter
           language={language}
-          className={className + " microlight"}
-          style={getStyle(get(config, "syntaxHighlight.theme"))}
-          >
+          className={cx(className, "microlight")}
+          style={highlighterStyle}
+        >
           {value}
         </SyntaxHighlighter>
-      : <pre className={className + " microlight"}>{value}</pre>
+        : <pre className={cx(className + "microlight")}>{value}</pre>
+      }
 
-    return (
-      <div className="highlight-code" ref={this.handleRootRef}>
-        { !downloadable ? null :
-          <div className="download-contents" onClick={this.downloadText}>
-            Download
-          </div>
-        }
-
-        { !canCopy ? null :
-          <div className="copy-to-clipboard">
-            <CopyToClipboard text={value}><button/></CopyToClipboard>
-          </div>
-        }
-
-        { codeBlock }
-      </div>
-    )
-  }
+    </div>
+  )
 }
+
+HighlightCode.propTypes = {
+  value: PropTypes.string.isRequired,
+  getConfigs: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  downloadable: PropTypes.bool,
+  fileName: PropTypes.string,
+  language: PropTypes.string,
+  canCopy: PropTypes.bool
+}
+
+HighlightCode.defaultProps = {
+  fileName: "response.txt"
+}
+
+export default HighlightCode
