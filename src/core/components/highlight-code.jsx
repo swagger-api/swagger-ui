@@ -16,17 +16,20 @@ export default class HighlightCode extends Component {
     canCopy: PropTypes.bool
   }
 
-  #syntaxHighlighter;
-  #pre;
+  #root
 
   downloadText = () => {
     saveAs(this.props.value, this.props.fileName || "response.txt")
   }
 
+  handleRootRef = (node) => {
+    this.#root = node;
+  }
+
   preventYScrollingBeyondElement = (e) => {
     const target = e.target
 
-    var deltaY = e.nativeEvent.deltaY
+    var deltaY = e.deltaY
     var contentHeight = target.scrollHeight
     var visibleHeight = target.offsetHeight
     var scrollTop = target.scrollTop
@@ -43,13 +46,17 @@ export default class HighlightCode extends Component {
   }
 
   componentDidMount() {
-    [this.#syntaxHighlighter, this.#pre]
-    .map(element => element?.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
+    Array
+      .from(this.#root.childNodes)
+      .filter(node => node.classList.contains('microlight'))
+      .map(node => node.addEventListener("mousewheel", this.preventYScrollingBeyondElement, { passive: false }))
   }
 
   componentWillUnmount() {
-    [this.#syntaxHighlighter, this.#pre]
-    .map(element => element?.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
+    Array
+      .from(this.#root.childNodes)
+      .filter(node => node.classList.contains('microlight'))
+      .map(node => node.removeEventListener("mousewheel", this.preventYScrollingBeyondElement))
   }
 
   render () {
@@ -61,17 +68,16 @@ export default class HighlightCode extends Component {
 
     const codeBlock = get(config, "syntaxHighlight.activated")
       ? <SyntaxHighlighter
-          ref={elem => this.#syntaxHighlighter = elem}
           language={language}
           className={className + " microlight"}
           style={getStyle(get(config, "syntaxHighlight.theme"))}
           >
           {value}
         </SyntaxHighlighter>
-      : <pre ref={elem => this.#pre = elem} className={className + " microlight"}>{value}</pre>
+      : <pre className={className + " microlight"}>{value}</pre>
 
     return (
-      <div className="highlight-code">
+      <div className="highlight-code" ref={this.handleRootRef}>
         { !downloadable ? null :
           <div className="download-contents" onClick={this.downloadText}>
             Download
