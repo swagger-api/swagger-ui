@@ -1,12 +1,11 @@
-
 import React, { PureComponent } from "react"
+import { fromJS } from "immutable"
+import { render, mount } from "enzyme"
+import { Provider } from "react-redux"
 
 import System from "core/system"
-import { fromJS } from "immutable"
-import { render } from "enzyme"
 import ViewPlugin from "core/plugins/view/index.js"
 import filterPlugin from "core/plugins/filter/index.js"
-import { connect, Provider } from "react-redux"
 
 describe("bound system", function(){
 
@@ -704,7 +703,7 @@ describe("bound system", function(){
   describe("rootInjects", function() {
     it("should attach a rootInject function as an instance method", function() {
       // This is the same thing as the `afterLoad` tests, but is here for posterity
-      
+
       // Given
       const system = new System({
         plugins: [
@@ -985,10 +984,9 @@ describe("bound system", function(){
         })
 
         // When
-        let Component = system.getSystem().getComponent("BrokenComponent")
-        const renderedComponent = render(<Component />)
+        const Component = system.getSystem().getComponent("BrokenComponent")
+        const renderedComponent = mount(<Component />)
 
-        // Then
         expect(renderedComponent.text().startsWith("😱 Could not render")).toEqual(true)
       })
 
