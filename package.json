@@ -130,7 +130,7 @@
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "git-describe": "^4.0.4",
-    "husky": "=6.0.0",
+    "husky": "=7.0.2",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "inspectpack": "=4.7.1",
     "jest": "=27.0.6",
