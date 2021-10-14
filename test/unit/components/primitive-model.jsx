@@ -2,14 +2,15 @@ import React from "react"
 import { shallow } from "enzyme"
 import { fromJS } from "immutable"
 import PrimitiveModel from "components/primitive-model"
+import ModelCollapse from "components/model-collapse"
 
 describe("<PrimitiveModel/>", function () {
-  describe("Model name", function () {
     const dummyComponent = () => null
     const components = {
       Markdown: dummyComponent,
       EnumModel: dummyComponent,
       Property: dummyComponent,
+      "ModelCollapse" : ModelCollapse,
     }
     const props = {
       getComponent: c => components[c],
@@ -24,28 +25,9 @@ describe("<PrimitiveModel/>", function () {
       })
     }
 
-    it("renders the schema's title", function () {
-      // When
-      const wrapper = shallow(<PrimitiveModel {...props} />)
-      const modelTitleEl = wrapper.find("span.model-title")
-      expect(modelTitleEl.length).toEqual(1)
-
-      // Then
-      expect(modelTitleEl.text()).toEqual("Custom model title")
+    it("renders a collapsible header", function(){
+      const wrapper = shallow(<PrimitiveModel {...props}/>)
+      const renderedModelCollapse = wrapper.find(ModelCollapse)
+      expect(renderedModelCollapse.length).toEqual(1)
     })
-
-    it("falls back to the passed-in `name` prop for the title", function () {
-      // When
-      props.schema = fromJS({
-        type: "string"
-      })
-      const wrapper = shallow(<PrimitiveModel {...props} />)
-      const modelTitleEl = wrapper.find("span.model-title")
-      expect(modelTitleEl.length).toEqual(1)
-
-      // Then
-      expect(modelTitleEl.text()).toEqual("Name from props")
-    })
-
-  })
 })
