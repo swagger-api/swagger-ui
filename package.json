@@ -84,7 +84,7 @@
     "reselect": "^4.0.0",
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.16.1",
+    "swagger-client": "^3.17.0",
     "url-parse": "^1.5.3",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
