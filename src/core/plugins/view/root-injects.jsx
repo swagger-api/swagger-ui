@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import ReactDOM from "react-dom"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
@@ -69,30 +70,71 @@ export const render = (getSystem, getStore, getComponent, getComponents, domNode
   ReactDOM.render(( <App/> ), domNode)
 }
 
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error(error, errorInfo) // eslint-disable-line no-console
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <Fallback name={this.props.targetName} />
+    }
+
+    return this.props.children
+  }
+}
+ErrorBoundary.propTypes = {
+  targetName: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ])
+}
+ErrorBoundary.defaultProps = {
+  targetName: "this component",
+  children: null,
+}
+
+const Fallback = ({ name }) => (
+  <div className="fallback">
+    😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i>
+  </div>
+)
+Fallback.propTypes = {
+  name: PropTypes.string.isRequired,
+}
+
 // Render try/catch wrapper
 const createClass = OriginalComponent => class extends Component {
   render() {
-    return <OriginalComponent {...this.props} />
+    return (
+      <ErrorBoundary targetName={OriginalComponent?.name}>
+        <OriginalComponent {...this.props} />
+      </ErrorBoundary>
+    )
   }
 }
 
-const Fallback = ({
-  name // eslint-disable-line react/prop-types
-}) => <div className="fallback">😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i></div>
-
 const wrapRender = (component) => {
   const isStateless = component => !(component.prototype && component.prototype.isReactComponent)
-
   const target = isStateless(component) ? createClass(component) : component
-
-  const ori = target.prototype.render
+  const { render: oriRender} = target.prototype
 
   target.prototype.render = function render(...args) {
     try {
-      return ori.apply(this, args)
+      return oriRender.apply(this, args)
     } catch (error) {
       console.error(error) // eslint-disable-line no-console
-      return <Fallback error={error} name={target.name} />
+      return <Fallback name={target.name} />
     }
   }
 
