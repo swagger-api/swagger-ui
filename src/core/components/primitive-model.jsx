@@ -45,8 +45,9 @@ export default class Primitive extends Component {
       </span>
 
     return <span className="model">
-      <ModelCollapse title={titleEl} expanded={depth <= expandDepth} collapsedContent=" ">
+      <ModelCollapse title={titleEl} expanded={depth >= expandDepth} collapsedContent=" " hideSelfOnExpand={expandDepth !== depth}>
         <span className="prop">
+          {name && depth > 1 && <span className={`${depth === 1 && "model-title"} prop-name`}>{ title }</span> }
           <span className="prop-type">{ type }</span>
           { format && <span className="prop-format">(${format})</span>}
           {
