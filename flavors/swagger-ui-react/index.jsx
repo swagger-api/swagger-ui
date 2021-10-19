@@ -44,7 +44,7 @@ export default class SwaggerUI extends React.Component {
       // flush current content
       this.system.specActions.updateSpec("")
 
-      if (this.props.url) {
+      if(this.props.url) {
         // update the internal URL
         this.system.specActions.updateUrl(this.props.url)
         // trigger remote definition fetch
@@ -53,7 +53,7 @@ export default class SwaggerUI extends React.Component {
     }
 
     if(this.props.spec !== prevProps.spec && this.props.spec) {
-      if (typeof this.props.spec === "object") {
+      if(typeof this.props.spec === "object") {
         this.system.specActions.updateSpec(JSON.stringify(this.props.spec))
       } else {
         this.system.specActions.updateSpec(this.props.spec)
@@ -62,21 +62,21 @@ export default class SwaggerUI extends React.Component {
   }
 
   requestInterceptor = (req) => {
-    if(typeof this.props.requestInterceptor === "function") {
+    if (typeof this.props.requestInterceptor === "function") {
       return this.props.requestInterceptor(req)
     }
     return req
   }
 
   responseInterceptor = (res) => {
-    if(typeof this.props.responseInterceptor === "function") {
+    if (typeof this.props.responseInterceptor === "function") {
       return this.props.responseInterceptor(res)
     }
     return res
   }
 
   onComplete = () => {
-    if(typeof this.props.onComplete === "function") {
+    if (typeof this.props.onComplete === "function") {
       return this.props.onComplete(this.system)
     }
   }
@@ -95,7 +95,7 @@ SwaggerUI.propTypes = {
   docExpansion: PropTypes.oneOf(["list", "full", "none"]),
   supportedSubmitMethods: PropTypes.arrayOf(
     PropTypes.oneOf(["get", "put", "post", "delete", "options", "head", "patch", "trace"])
-  ),
+    ),
   plugins: PropTypes.arrayOf(PropTypes.object),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
