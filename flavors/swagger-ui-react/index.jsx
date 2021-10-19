@@ -113,4 +113,5 @@ SwaggerUI.defaultProps = {
   defaultModelsExpandDepth: 1,
   presets: [],
   deepLinking: false,
+  showExtensions: false,
 }
