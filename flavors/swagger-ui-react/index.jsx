@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor, {presets} from "./swagger-ui"
+import swaggerUIConstructor, { presets } from "./swagger-ui"
 export default class SwaggerUI extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.SwaggerUIComponent = null
     this.system = null
@@ -15,7 +15,7 @@ export default class SwaggerUI extends React.Component {
       url: this.props.url,
       layout: this.props.layout,
       defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
-      presets: [presets.apis,...this.props.presets],
+      presets: [presets.apis, ...this.props.presets],
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
@@ -24,6 +24,7 @@ export default class SwaggerUI extends React.Component {
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
       displayOperationId: this.props.displayOperationId,
       tryItOutEnabled: this.props.tryItOutEnabled,
+      showExtensions: this.props.showExtensions,
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
     })
@@ -39,11 +40,11 @@ export default class SwaggerUI extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.url !== prevProps.url) {
+    if (this.props.url !== prevProps.url) {
       // flush current content
       this.system.specActions.updateSpec("")
 
-      if(this.props.url) {
+      if (this.props.url) {
         // update the internal URL
         this.system.specActions.updateUrl(this.props.url)
         // trigger remote definition fetch
@@ -51,8 +52,8 @@ export default class SwaggerUI extends React.Component {
       }
     }
 
-    if(this.props.spec !== prevProps.spec && this.props.spec) {
-      if(typeof this.props.spec === "object") {
+    if (this.props.spec !== prevProps.spec && this.props.spec) {
+      if (typeof this.props.spec === "object") {
         this.system.specActions.updateSpec(JSON.stringify(this.props.spec))
       } else {
         this.system.specActions.updateSpec(this.props.spec)
@@ -94,7 +95,7 @@ SwaggerUI.propTypes = {
   docExpansion: PropTypes.oneOf(["list", "full", "none"]),
   supportedSubmitMethods: PropTypes.arrayOf(
     PropTypes.oneOf(["get", "put", "post", "delete", "options", "head", "patch", "trace"])
-    ),
+  ),
   plugins: PropTypes.arrayOf(PropTypes.object),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
