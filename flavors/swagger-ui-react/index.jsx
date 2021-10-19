@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor, { presets } from "./swagger-ui"
+import swaggerUIConstructor, {presets} from "./swagger-ui"
 export default class SwaggerUI extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.SwaggerUIComponent = null
     this.system = null
@@ -15,7 +15,7 @@ export default class SwaggerUI extends React.Component {
       url: this.props.url,
       layout: this.props.layout,
       defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
-      presets: [presets.apis, ...this.props.presets],
+      presets: [presets.apis,...this.props.presets],
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
@@ -40,7 +40,7 @@ export default class SwaggerUI extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.url !== prevProps.url) {
+    if(this.props.url !== prevProps.url) {
       // flush current content
       this.system.specActions.updateSpec("")
 
@@ -52,7 +52,7 @@ export default class SwaggerUI extends React.Component {
       }
     }
 
-    if (this.props.spec !== prevProps.spec && this.props.spec) {
+    if(this.props.spec !== prevProps.spec && this.props.spec) {
       if (typeof this.props.spec === "object") {
         this.system.specActions.updateSpec(JSON.stringify(this.props.spec))
       } else {
@@ -62,21 +62,21 @@ export default class SwaggerUI extends React.Component {
   }
 
   requestInterceptor = (req) => {
-    if (typeof this.props.requestInterceptor === "function") {
+    if(typeof this.props.requestInterceptor === "function") {
       return this.props.requestInterceptor(req)
     }
     return req
   }
 
   responseInterceptor = (res) => {
-    if (typeof this.props.responseInterceptor === "function") {
+    if(typeof this.props.responseInterceptor === "function") {
       return this.props.responseInterceptor(res)
     }
     return res
   }
 
   onComplete = () => {
-    if (typeof this.props.onComplete === "function") {
+    if(typeof this.props.onComplete === "function") {
       return this.props.onComplete(this.system)
     }
   }
