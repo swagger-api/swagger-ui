@@ -60,7 +60,7 @@
     "classnames": "^2.3.1",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
-    "dompurify": "^2.3.3",
+    "dompurify": "=2.3.3",
     "ieee754": "^1.2.1",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.12",
