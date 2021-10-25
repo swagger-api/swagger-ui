@@ -144,6 +144,17 @@ export const host = createSelector(
     spec => spec.get("host")
 )
 
+export const email = createSelector(
+    spec,
+    spec => spec.get("email")
+)
+
+
+export const copyright = createSelector(
+    spec,
+    spec => spec.get("copyright")
+)
+
 export const schemes = createSelector(
     spec,
     spec => spec.get("schemes", Map())

@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
+import Email from "./email.svg"
 import Logo from "./logo_small.png"
 
 export default class Topbar extends React.Component {
@@ -83,7 +84,9 @@ export default class Topbar extends React.Component {
   render() {
     let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
-    const Link = getComponent("Link")
+
+    let email = specSelectors.email()
+    let copyright = specSelectors.copyright()
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
@@ -120,13 +123,26 @@ export default class Topbar extends React.Component {
       <div className="topbar">
         <div className="wrapper">
           <div className="topbar-wrapper">
-            <Link href="#" title="Swagger UX">
-              <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
-              <span>swagger</span>
-            </Link>
+            <img className="app-logo" src={ Logo } alt="Application logo" />
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control}
             </form>
+            <div className="email-copyright">
+              { email ? (
+                  <address className="email-container">
+                    <img className="email-icon" src={ Email } alt="Email" />
+                    <a href={`mailto:${email}`}>{ email }</a>
+                  </address>
+                ) : null
+              }
+              { copyright ? (
+                  <div className="copyright-container">
+                    <div className="copyright">{ copyright }</div>
+                    <img className="copyright-logo" src={ Logo } alt="Copyright logo" />
+                  </div>
+                ) : null
+              }
+            </div>
           </div>
         </div>
       </div>

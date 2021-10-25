@@ -1,12 +1,13 @@
 .topbar
 {
-    padding: 8px 30px;
+    padding: 8px 175px;
 
     background-color: #89bf04;
     .topbar-wrapper
     {
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
     a
     {
@@ -91,6 +92,49 @@
             background: #547f00;
 
             @include text_headline(#fff);
+        }
+    }
+
+    img {
+      user-select: none;
+    }
+
+    .app-logo {
+        height: 30px;
+    }
+
+    .email-copyright {
+        display: flex;
+        color: #fafafa;
+        align-items: center;
+
+        .email-container {
+            display: flex;
+            margin-right: 20px;
+            align-items: center;
+
+            .email-icon {
+                height: 14px;
+                padding: 0 5px;
+            }
+
+            a {
+                font-size: 1em;
+                font-weight: normal;
+                font-style: normal;
+                font-family: inherit;
+                text-decoration: none;
+            }
+        }
+
+        .copyright-container {
+            display: flex;
+            align-items: center;
+
+            .copyright-logo {
+                height: 18px;
+                padding: 0 5px;
+            }
         }
     }
 }
