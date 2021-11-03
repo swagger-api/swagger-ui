@@ -6,10 +6,6 @@ import AllPlugins from "./plugins/all"
 import { parseSearch } from "./utils"
 import win from "./window"
 
-if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-  win.Perf = require("react-dom/lib/ReactPerf")
-}
-
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
 
@@ -69,7 +65,7 @@ export default function SwaggerUI(opts) {
         },
       },
       defaultExpanded: true,
-      languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
+      languages: null, // e.g. only show curl bash = ["curl_bash"]
     },
     supportedSubmitMethods: [
       "get",

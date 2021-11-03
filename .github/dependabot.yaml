@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    open-pull-requests-limit: 6
+    ignore:
+      # node-fetch must be synced manually
+      - dependency-name: "node-fetch"
+      - dependency-name: "release-it"
+      - dependency-name: "@release-it/conventional-changelog"
+
+  - package-ecosystem: "docker"
+    # Look for a `Dockerfile` in the `root` directory
+    directory: "/"
+    # Check for updates once a week
+    schedule:
+      interval: "weekly"
+

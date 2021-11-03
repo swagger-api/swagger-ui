@@ -12,6 +12,10 @@ sed -i "s|\$\$VERSION|$UI_VERSION|g" package.json
 # Copy UI's dist files to our directory
 cp ../dist/* .
 
+# Copy LICENSE & NOTICE to our directory
+cp ../LICENSE .
+cp ../NOTICE .
+
 if [ "$PUBLISH_DIST" = "true" ] || [ "$TRAVIS" = "true" ] ; then
   npm publish .
 else

@@ -30,7 +30,7 @@ export default class OnlineValidatorBadge extends React.Component {
       return urlObject.toString()
     }
 
-    componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
         let { getConfigs } = nextProps
         let { validatorUrl } = getConfigs()
 
@@ -91,7 +91,7 @@ class ValidatorImage extends React.Component {
     img.src = this.props.src
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
       const img = new Image()
       img.onload = () => {
