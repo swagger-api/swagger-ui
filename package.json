@@ -114,7 +114,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "cross-env": "=7.0.3",
-    "css-loader": "=5.2.6",
+    "css-loader": "=5.2.7",
     "cssnano": "=5.0.4",
     "cypress": "=7.7.0",
     "dedent": "^0.7.0",
