@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import React from "react"
-import expect, { createSpy } from "expect"
+import expect from "expect"
 import { mount } from "enzyme"
 import { fromJS, Map } from "immutable"
 import OnlineValidatorBadge from "components/online-validator-badge"
@@ -26,7 +26,7 @@ describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
       "https://validator.swagger.io/validator/debug?url=swagger.json"
     )
     expect(anchor.props().target).toEqual("_blank")
-    expect(anchor.props().rel || "").toInclude("noopener")
-    expect(anchor.props().rel || "").toInclude("noreferrer")
+    expect(anchor.props().rel || "").toContain("noopener")
+    expect(anchor.props().rel || "").toContain("noreferrer")
   })
 })
