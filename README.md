@@ -35,6 +35,7 @@ The OpenAPI Specification has undergone 5 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
+4.0.0 | 2021-11-03 | 2.0, 3.0 | [tag v4.0.0](https://github.com/swagger-api/swagger-ui/tree/v4.0.0)
 3.18.3 | 2018-08-03 | 2.0, 3.0 | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3)
 3.0.21 | 2017-07-26 | 2.0 | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21)
 2.2.10 | 2017-01-04 | 1.1, 1.2, 2.0 | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10)
