@@ -9,8 +9,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 
 const HighlightCode = ({value, fileName, className, downloadable, getConfigs, canCopy, language}) => {
   const config = isFunction(getConfigs) ? getConfigs() : null
-  const canSyntaxHighlight = get(config, "syntaxHighlight.activated", true)
-  const highlighterStyle = getStyle(get(config, "syntaxHighlight.theme", "agate"))
+  const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
   const rootRef = useRef(null)
 
   useEffect(() => {
@@ -62,11 +61,11 @@ const HighlightCode = ({value, fileName, className, downloadable, getConfigs, ca
         ? <SyntaxHighlighter
           language={language}
           className={cx(className, "microlight")}
-          style={highlighterStyle}
+          style={getStyle(get(config, "syntaxHighlight.theme", "agate"))}
         >
           {value}
         </SyntaxHighlighter>
-        : <pre className={cx(className + "microlight")}>{value}</pre>
+        : <pre className={cx(className, "microlight")}>{value}</pre>
       }
 
     </div>
