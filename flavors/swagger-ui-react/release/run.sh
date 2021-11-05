@@ -12,6 +12,7 @@ mkdir -p ../dist
 cp ../../../dist/swagger-ui.js ../dist
 cp ../../../dist/swagger-ui-es-bundle.js ../dist
 cp ../../../dist/swagger-ui.css ../dist
+cp ../../../dist/swagger-ui.css.map ../dist
 
 # Create a releasable package manifest
 node create-manifest.js > ../dist/package.json
