@@ -1,4 +1,8 @@
 const standardVariables = {
+  ADVANCED_FILTER: {
+    type: "object",
+    name: "advancedFilter"
+  },
   CONFIG_URL: {
     type: "string",
     name: "configUrl"
