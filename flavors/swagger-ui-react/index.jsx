@@ -24,9 +24,12 @@ export default class SwaggerUI extends React.Component {
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
       displayOperationId: this.props.displayOperationId,
       tryItOutEnabled: this.props.tryItOutEnabled,
+      requestSnippetsEnabled: this.props.requestSnippetsEnabled,
+      requestSnippets: this.props.requestSnippets,
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
-      filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
+      showExtensions: this.props.showExtensions,
+      filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,      
     })
 
     this.system = ui
@@ -103,11 +106,14 @@ SwaggerUI.propTypes = {
   defaultModelsExpandDepth: PropTypes.number,
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
-  tryItOutEnabled: PropTypes.bool,
+  showExtensions: PropTypes.bool,
   filter: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
+  requestSnippetsEnabled: PropTypes.bool,
+  requestSnippets: PropTypes.object,
+  tryItOutEnabled: PropTypes.bool,
 }
 
 SwaggerUI.defaultProps = {
@@ -117,5 +123,25 @@ SwaggerUI.defaultProps = {
   defaultModelsExpandDepth: 1,
   presets: [],
   deepLinking: false,
+  showExtensions: false,
   filter: false,
+  requestSnippetsEnabled: false,
+  requestSnippets: {
+    generators: {
+      "curl_bash": {
+        title: "cURL (bash)",
+        syntax: "bash"
+      },
+      "curl_powershell": {
+        title: "cURL (PowerShell)",
+        syntax: "powershell"
+      },
+      "curl_cmd": {
+        title: "cURL (CMD)",
+        syntax: "bash"
+      },
+    },
+    defaultExpanded: true,
+    languages: null, // e.g. only show curl bash = ["curl_bash"]
+  },
 }
