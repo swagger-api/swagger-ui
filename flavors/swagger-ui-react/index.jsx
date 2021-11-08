@@ -24,9 +24,9 @@ export default class SwaggerUI extends React.Component {
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
       displayOperationId: this.props.displayOperationId,
       tryItOutEnabled: this.props.tryItOutEnabled,
-      showExtensions: this.props.showExtensions,
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
+      showExtensions: this.props.showExtensions,
     })
 
     this.system = ui
@@ -103,6 +103,7 @@ SwaggerUI.propTypes = {
   defaultModelsExpandDepth: PropTypes.number,
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
+  showExtensions: PropTypes.bool,
   tryItOutEnabled: PropTypes.bool
 }
 
