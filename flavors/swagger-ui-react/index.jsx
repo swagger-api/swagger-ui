@@ -24,6 +24,8 @@ export default class SwaggerUI extends React.Component {
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
       displayOperationId: this.props.displayOperationId,
       tryItOutEnabled: this.props.tryItOutEnabled,
+      requestSnippetsEnabled: this.props.requestSnippetsEnabled,
+      requestSnippets: this.props.requestSnippets,
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
       showExtensions: this.props.showExtensions,
@@ -104,7 +106,9 @@ SwaggerUI.propTypes = {
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
   showExtensions: PropTypes.bool,
-  tryItOutEnabled: PropTypes.bool
+  requestSnippetsEnabled: PropTypes.bool,
+  requestSnippets: PropTypes.object,
+  tryItOutEnabled: PropTypes.bool,
 }
 
 SwaggerUI.defaultProps = {
@@ -115,4 +119,23 @@ SwaggerUI.defaultProps = {
   presets: [],
   deepLinking: false,
   showExtensions: false,
+  requestSnippetsEnabled: false,
+  requestSnippets: {
+    generators: {
+      "curl_bash": {
+        title: "cURL (bash)",
+        syntax: "bash"
+      },
+      "curl_powershell": {
+        title: "cURL (PowerShell)",
+        syntax: "powershell"
+      },
+      "curl_cmd": {
+        title: "cURL (CMD)",
+        syntax: "bash"
+      },
+    },
+    defaultExpanded: true,
+    languages: null, // e.g. only show curl bash = ["curl_bash"]
+  },
 }
