@@ -106,7 +106,6 @@ SwaggerUI.propTypes = {
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
   showExtensions: PropTypes.bool,
-  tryItOutEnabled: PropTypes.bool,
   requestSnippetsEnabled: PropTypes.bool,
   requestSnippets: PropTypes.object,
   tryItOutEnabled: PropTypes.bool,
