@@ -29,6 +29,7 @@ export default class SwaggerUI extends React.Component {
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
       showExtensions: this.props.showExtensions,
+      filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,      
     })
 
     this.system = ui
@@ -97,7 +98,7 @@ SwaggerUI.propTypes = {
   docExpansion: PropTypes.oneOf(["list", "full", "none"]),
   supportedSubmitMethods: PropTypes.arrayOf(
     PropTypes.oneOf(["get", "put", "post", "delete", "options", "head", "patch", "trace"])
-    ),
+  ),
   plugins: PropTypes.arrayOf(PropTypes.object),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
@@ -106,6 +107,10 @@ SwaggerUI.propTypes = {
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
   showExtensions: PropTypes.bool,
+  filter: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
   requestSnippetsEnabled: PropTypes.bool,
   requestSnippets: PropTypes.object,
   tryItOutEnabled: PropTypes.bool,
@@ -119,6 +124,7 @@ SwaggerUI.defaultProps = {
   presets: [],
   deepLinking: false,
   showExtensions: false,
+  filter: false,
   requestSnippetsEnabled: false,
   requestSnippets: {
     generators: {
