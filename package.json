@@ -122,7 +122,7 @@
     "enzyme": "=3.11.0",
     "eslint": "^7.29.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-jest": "^25.2.4",
     "eslint-plugin-mocha": "^9.0.0",
     "eslint-plugin-react": "^7.24.0",
     "esm": "=3.2.25",
