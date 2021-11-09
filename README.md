@@ -1,3 +1,10 @@
+## Author's Note
+
+We created this fork to solve a series of accessibility concerns that have not been resolved upstream. We chose not to upgrade to the latest swagger because of time sensitivity.
+
+We preserved the previoius work that was done on this fork in the `legacy` branch [found here](https://github.com/Kong/swagger-ui/tree/legacy).
+
+
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
