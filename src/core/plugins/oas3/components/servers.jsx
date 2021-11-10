@@ -134,7 +134,7 @@ export default class Servers extends React.Component {
                       <td>{name}</td>
                       <td>
                         { val.get("enum") ?
-                          <select aria-label="server variables" data-variable={name} onChange={this.onServerVariableValueChange}>
+                          <select aria-label={`server variable ${name}`} data-variable={name} onChange={this.onServerVariableValueChange}>
                             {val.get("enum").map(enumValue => {
                               return <option
                                 selected={enumValue === getServerVariable(currentServer, name)}
