@@ -124,7 +124,7 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jest": "^25.2.4",
     "eslint-plugin-mocha": "^9.0.0",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react": "^7.27.0",
     "esm": "=3.2.25",
     "expect": "=27.3.1",
     "express": "^4.17.1",
