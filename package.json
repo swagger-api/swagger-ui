@@ -141,7 +141,7 @@
     "less": "^4.1.1",
     "license-checker": "^25.0.0",
     "lint-staged": "=11.2.6",
-    "local-web-server": "^4.2.1",
+    "local-web-server": "^5.1.1",
     "mini-css-extract-plugin": "^1.6.2",
     "mocha": "=8.4.0",
     "npm-audit-ci-wrapper": "^3.0.2",
