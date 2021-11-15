@@ -62,7 +62,7 @@
     "deep-extend": "0.6.0",
     "dompurify": "=2.3.3",
     "ieee754": "^1.2.1",
-    "immutable": "^3.x.x",
+    "immutable": "^4.x.x",
     "js-file-download": "^0.4.12",
     "js-yaml": "=4.1.0",
     "lodash": "^4.17.21",
