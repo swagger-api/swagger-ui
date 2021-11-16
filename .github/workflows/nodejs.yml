@@ -55,7 +55,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: ['bugs/**/*.js', 'features/**/oas3-*.js', 'features/**/!(oas3-)*.js', "(a11y|security)/**/*.js"]
+#        containers: ['bugs/**/*.js', 'features/**/oas3-*.js', 'features/**/!(oas3-)*.js', "+(a11y|security)/**/*.js"]
+        containers: ["+(a11y|security)/**/*.js"]
 
     steps:
       - uses: actions/checkout@v2
@@ -81,11 +82,5 @@ jobs:
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
         run: npm ci
       - name: Cypress Test
-        uses: cypress-io/github-action@v2
-        with:
-          spec: test/e2e-cypress/tests/${{ matrix.containers }}
-          browser: chrome
-          start: npm run hot-e2e-cypress-server
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: start-server-and-test cy:start http://localhost:3204 cy:run -- --spec "test/e2e-cypess/tests/${{ matrix.container }}
 
