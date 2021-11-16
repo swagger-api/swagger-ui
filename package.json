@@ -135,7 +135,7 @@
     "jsdom": "=16.6.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.6",
-    "json-server": "=0.16.3",
+    "json-server": "=0.17.0",
     "less": "^4.1.1",
     "license-checker": "^25.0.0",
     "lint-staged": "=11.2.6",
@@ -165,7 +165,7 @@
     "webpack": "^4.46.0",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
+    "webpack-dev-server": "^4.5.0",
     "webpack-stats-plugin": "=1.0.3"
   },
   "config": {
