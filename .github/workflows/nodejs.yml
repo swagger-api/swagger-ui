@@ -56,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [bugs, features, "(a11y|security)"]
+        containers: [bugs, 'features/**/[a-o]*.js', 'features/**/[p-z]*.js', "{a11y,security}"]
 
     steps:
       - uses: actions/checkout@v2
