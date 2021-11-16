@@ -56,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [bugs, 'features/**/[a-o]', 'features/**/[p-z]', "{a11y,security}"]
+        containers: ['bugs/**/*.js', 'features/**/[a-o]*.js', 'features/**/[p-z]*.js', "{a11y,security}/**/*.js"]
 
     steps:
       - uses: actions/checkout@v2
@@ -84,7 +84,7 @@ jobs:
       - name: Cypress Test
         uses: cypress-io/github-action@v2
         with:
-          spec: test/e2e-cypress/tests/${{ matrix.containers }}/**/*.js
+          spec: test/e2e-cypress/tests/${{ matrix.containers }}
           browser: chrome
           start: npm run hot-e2e-cypress-server
         env:
