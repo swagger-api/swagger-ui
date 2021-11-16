@@ -84,7 +84,7 @@ jobs:
       - name: Cypress Test
         uses: cypress-io/github-action@v2
         with:
-          spec: test/e2e-cypress/tests/${{ matrix.containers }}.js
+          spec: test/e2e-cypress/tests/${{ matrix.containers }}/**/*.js
           browser: chrome
           start: npm run hot-e2e-cypress-server
         env:
