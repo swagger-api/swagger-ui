@@ -82,4 +82,4 @@ jobs:
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
         run: npm ci
       - name: Cypress Test
-        run: npx start-server-and-test cy:start http://localhost:3204 'npm run cy:run -- --spec "test/e2e-cypess/tests/${{ matrix.container }}"'
+        run: npx start-server-and-test cy:start http://localhost:3204 'npm run cy:run -- --spec "test/e2e-cypess/tests/${{ matrix.containers }}"'
