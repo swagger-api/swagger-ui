@@ -52,7 +52,6 @@ jobs:
 
   e2e-tests:
     runs-on: ubuntu-latest
-    needs: build
     container: cypress/browsers:node16.5.0-chrome94-ff93
     strategy:
       fail-fast: false
