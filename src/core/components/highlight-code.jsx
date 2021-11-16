@@ -60,7 +60,8 @@ export default class HighlightCode extends Component {
         <pre
           ref={this.initializeComponent}
           onWheel={this.preventYScrollingBeyondElement}
-          className={className + " microlight"}>
+          className={className + " microlight"}
+          tabIndex="0">
           {value}
         </pre>
       </div>
