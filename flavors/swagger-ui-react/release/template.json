@@ -40,7 +40,7 @@
   ],
   "license": "Apache-2.0",
   "peerDependencies": {
-    "react": ">=15.6.2",
-    "react-dom": ">=15.6.2"
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
   }
 }

@@ -1,8 +1,10 @@
-import win from "../../src/core/window"
-// import { configure } from "enzyme" // enzyme@3
-// import Adapter from "enzyme-adapter-react-15" // enzyme@3
 import { JSDOM } from "jsdom"
+import Enzyme from "enzyme"
+import Adapter from "@wojtekmaj/enzyme-adapter-react-17"
 
+import win from "../../src/core/window"
+
+Enzyme.configure({ adapter: new Adapter() })
 
 function copyProps(src, target) {
   const props = Object.getOwnPropertyNames(src)

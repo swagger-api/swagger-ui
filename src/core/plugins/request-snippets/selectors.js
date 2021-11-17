@@ -10,7 +10,7 @@ export const getGenerators = createSelector(
       .get("languages")
     const generators = state
       .get("generators", Map())
-    if(!languageKeys) {
+    if(!languageKeys || languageKeys.isEmpty()) {
       return generators
     }
     return generators
