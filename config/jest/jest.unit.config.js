@@ -19,6 +19,6 @@ module.exports = {
     '<rootDir>/test/unit/components/live-response.jsx',
   ],
   transformIgnorePatterns: [
-    '/node_modules/(?!(react-syntax-highlighter)/)'
+    '/node_modules/(?!(serialize-error)/)',
   ]
 };
