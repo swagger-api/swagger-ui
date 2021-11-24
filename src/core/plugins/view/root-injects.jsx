@@ -4,9 +4,56 @@ import ReactDOM from "react-dom"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
 
+const Fallback = ({ name }) => (
+  <div className="fallback">
+    😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i>
+  </div>
+)
+Fallback.propTypes = {
+  name: PropTypes.string.isRequired,
+}
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error(error, errorInfo) // eslint-disable-line no-console
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <Fallback name={this.props.targetName} />
+    }
+
+    return this.props.children
+  }
+}
+ErrorBoundary.propTypes = {
+  targetName: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ])
+}
+ErrorBoundary.defaultProps = {
+  targetName: "this component",
+  children: null,
+}
+
 const SystemWrapper = (getSystem, ComponentToWrap ) => class extends Component {
   render() {
-    return <ComponentToWrap {...getSystem() } {...this.props} {...this.context} />
+    return (
+      <ErrorBoundary targetName={ComponentToWrap?.name}>
+        <ComponentToWrap {...getSystem() } {...this.props} {...this.context} />
+      </ErrorBoundary>
+    )
   }
 }
 
@@ -14,7 +61,9 @@ const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
   render() {
     return (
       <Provider store={reduxStore}>
-        <ComponentToWrap {...this.props} {...this.context} />
+        <ErrorBoundary targetName={ComponentToWrap?.name}>
+          <ComponentToWrap {...this.props} {...this.context} />
+        </ErrorBoundary>
       </Provider>
     )
   }
@@ -23,7 +72,7 @@ const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
 const makeContainer = (getSystem, component, reduxStore) => {
   const mapStateToProps = function(state, ownProps) {
     const propsForContainerComponent = Object.assign({}, ownProps, getSystem())
-    const ori = component.prototype.mapStateToProps || (state => { return {state} })
+    const ori = component?.prototype.mapStateToProps || (state => { return {state} })
     return ori(state, propsForContainerComponent)
   }
 
@@ -66,51 +115,8 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
 }
 
 export const render = (getSystem, getStore, getComponent, getComponents, domNode) => {
-  let App = (getComponent(getSystem, getStore, getComponents, "App", "root"))
-  ReactDOM.render(( <App/> ), domNode)
-}
-
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { hasError: false, error: null }
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error }
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error(error, errorInfo) // eslint-disable-line no-console
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <Fallback name={this.props.targetName} />
-    }
-
-    return this.props.children
-  }
-}
-ErrorBoundary.propTypes = {
-  targetName: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ])
-}
-ErrorBoundary.defaultProps = {
-  targetName: "this component",
-  children: null,
-}
-
-const Fallback = ({ name }) => (
-  <div className="fallback">
-    😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i>
-  </div>
-)
-Fallback.propTypes = {
-  name: PropTypes.string.isRequired,
+  let App = getComponent(getSystem, getStore, getComponents, "App", "root")
+  ReactDOM.render(<App/>, domNode)
 }
 
 // Render try/catch wrapper
@@ -130,12 +136,11 @@ const wrapRender = (component) => {
   const { render: oriRender} = target.prototype
 
   target.prototype.render = function render(...args) {
-    try {
-      return oriRender.apply(this, args)
-    } catch (error) {
-      console.error(error) // eslint-disable-line no-console
-      return <Fallback name={target.name} />
-    }
+    return (
+      <ErrorBoundary targetName={component?.name}>
+        {oriRender.apply(this, args)}
+      </ErrorBoundary>
+    )
   }
 
   return target
