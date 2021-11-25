@@ -1,64 +1,19 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
 import ReactDOM from "react-dom"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
 
-const Fallback = ({ name }) => (
-  <div className="fallback">
-    😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i>
-  </div>
-)
-Fallback.propTypes = {
-  name: PropTypes.string.isRequired,
-}
-
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { hasError: false, error: null }
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error }
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error(error, errorInfo) // eslint-disable-line no-console
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <Fallback name={this.props.targetName} />
-    }
-
-    return this.props.children
-  }
-}
-ErrorBoundary.propTypes = {
-  targetName: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ])
-}
-ErrorBoundary.defaultProps = {
-  targetName: "this component",
-  children: null,
-}
-
 const SystemWrapper = (getSystem, ComponentToWrap ) => class extends Component {
   render() {
-    return (
-      <ErrorBoundary targetName={ComponentToWrap?.name}>
-        <ComponentToWrap {...getSystem() } {...this.props} {...this.context} />
-      </ErrorBoundary>
-    )
+    return <ComponentToWrap {...getSystem()} {...this.props} {...this.context} />
   }
 }
 
-const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
+const RootWrapper = (getSystem, reduxStore, ComponentToWrap) => class extends Component {
   render() {
+    const { getComponent } = getSystem()
+    const ErrorBoundary = getComponent("ErrorBoundary", true)
+
     return (
       <Provider store={reduxStore}>
         <ErrorBoundary targetName={ComponentToWrap?.name}>
@@ -79,7 +34,7 @@ const makeContainer = (getSystem, component, reduxStore) => {
   let wrappedWithSystem = SystemWrapper(getSystem, component, reduxStore)
   let connected = connect( mapStateToProps )(wrappedWithSystem)
   if(reduxStore)
-    return RootWrapper(reduxStore, connected)
+    return RootWrapper(getSystem, reduxStore, connected)
   return connected
 }
 
@@ -119,28 +74,42 @@ export const render = (getSystem, getStore, getComponent, getComponents, domNode
   ReactDOM.render(<App/>, domNode)
 }
 
-// Render try/catch wrapper
-const createClass = OriginalComponent => class extends Component {
+/**
+ * Creates a class component from a stateless one and wrap it with Error Boundary
+ * to handle errors coming from a stateless component.
+ */
+const createClass = (getSystem, OriginalComponent) => class extends Component {
   render() {
+    const { getComponent } = getSystem()
+    const ErrorBoundary = getComponent("ErrorBoundary")
+
     return (
-      <ErrorBoundary targetName={OriginalComponent?.name}>
+      <ErrorBoundary targetName={OriginalComponent?.name} getComponent={getComponent}>
         <OriginalComponent {...this.props} />
       </ErrorBoundary>
     )
   }
 }
 
-const wrapRender = (component) => {
+const wrapRender = (getSystem, component) => {
   const isStateless = component => !(component.prototype && component.prototype.isReactComponent)
-  const target = isStateless(component) ? createClass(component) : component
+  const target = isStateless(component) ? createClass(getSystem, component) : component
   const { render: oriRender} = target.prototype
 
+  /**
+   * This render method override handles errors that are throw in render method
+   * of class components.
+   */
   target.prototype.render = function render(...args) {
-    return (
-      <ErrorBoundary targetName={component?.name}>
-        {oriRender.apply(this, args)}
-      </ErrorBoundary>
-    )
+    try {
+      return oriRender.apply(this, args)
+    } catch (error) {
+      const { getComponent } = getSystem()
+      const Fallback = getComponent("Fallback")
+
+      console.error(error) // eslint-disable-line no-console
+      return <Fallback name={target.name} />
+    }
   }
 
   return target
@@ -164,11 +133,11 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
   }
 
   if(!container)
-    return wrapRender(component)
+    return wrapRender(getSystem, component)
 
   if(container === "root")
     return makeContainer(getSystem, component, getStore())
 
   // container == truthy
-  return makeContainer(getSystem, wrapRender(component))
+  return makeContainer(getSystem, wrapRender(getSystem, component))
 }
