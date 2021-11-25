@@ -940,7 +940,7 @@ describe("bound system", function(){
         expect(renderedComponent.text()).toEqual("😱 Could not render BrokenComponent, see the console.")
       })
 
-      it("should catch errors thrown inside of pure component 123455", function() {
+      it("should catch errors thrown inside of pure component", function() {
         // Given
         class BrokenComponent extends PureComponent {
           // eslint-disable-next-line react/require-render-return
