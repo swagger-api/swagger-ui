@@ -55,7 +55,7 @@ export default class Models extends Component {
     const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
     const ModelCollapse = getComponent("ModelCollapse")
-    const JumpToPath = getComponent("JumpToPath")
+    const JumpToPath = getComponent("JumpToPath", true)
 
     return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
       <h4>
