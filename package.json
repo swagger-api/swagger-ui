@@ -64,7 +64,6 @@
     "js-file-download": "^0.4.12",
     "js-yaml": "=4.1.0",
     "lodash": "^4.17.21",
-    "memoizee": "^0.4.15",
     "prop-types": "^15.7.2",
     "randombytes": "^2.1.0",
     "react": "=17.0.2",

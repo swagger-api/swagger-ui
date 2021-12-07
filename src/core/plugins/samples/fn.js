@@ -1,6 +1,5 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import XML from "xml"
-import memoizee from "memoizee"
 import isEmpty from "lodash/isEmpty"
 
 const primitives = {
@@ -601,7 +600,9 @@ export const createXMLExample = (schema, config, o) => {
 
 export const sampleFromSchema = (schema, config, o) =>
   sampleFromSchemaGeneric(schema, config, o, false)
+let c = {}
+const memoize = f => (x => (x in c ? c[x] : (c[x] = f(x))));
 
-export const memoizedCreateXMLExample = memoizee(createXMLExample)
+export const memoizedCreateXMLExample = memoize(createXMLExample)
 
-export const memoizedSampleFromSchema = memoizee(sampleFromSchema)
+export const memoizedSampleFromSchema = memoize(sampleFromSchema)
