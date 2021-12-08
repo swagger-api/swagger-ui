@@ -77,6 +77,7 @@ export default function SwaggerUI(opts) {
       "patch",
       "trace"
     ],
+    queryConfigEnabled: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
@@ -108,7 +109,7 @@ export default function SwaggerUI(opts) {
     }
   }
 
-  let queryConfig = parseSearch()
+  let queryConfig = opts.queryConfigEnabled ? parseSearch() : {}
 
   const domNode = opts.domNode
   delete opts.domNode

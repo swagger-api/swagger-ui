@@ -21,6 +21,7 @@ export default class SwaggerUI extends React.Component {
       onComplete: this.onComplete,
       docExpansion: this.props.docExpansion,
       supportedSubmitMethods: this.props.supportedSubmitMethods,
+      queryConfigEnabled: this.props.queryConfigEnabled,
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
       displayOperationId: this.props.displayOperationId,
       tryItOutEnabled: this.props.tryItOutEnabled,
@@ -29,7 +30,7 @@ export default class SwaggerUI extends React.Component {
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
       showExtensions: this.props.showExtensions,
-      filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,      
+      filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
     })
 
     this.system = ui
@@ -99,6 +100,7 @@ SwaggerUI.propTypes = {
   supportedSubmitMethods: PropTypes.arrayOf(
     PropTypes.oneOf(["get", "put", "post", "delete", "options", "head", "patch", "trace"])
   ),
+  queryConfigEnabled: PropTypes.bool,
   plugins: PropTypes.arrayOf(PropTypes.object),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
@@ -119,6 +121,7 @@ SwaggerUI.propTypes = {
 SwaggerUI.defaultProps = {
   layout: "BaseLayout",
   supportedSubmitMethods: ["get", "put", "post", "delete", "options", "head", "patch", "trace"],
+  queryConfigEnabled: false,
   docExpansion: "list",
   defaultModelsExpandDepth: 1,
   presets: [],
