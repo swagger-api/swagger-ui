@@ -45,7 +45,7 @@ const defaultBaseConfig = {
     }
   },
   queryConfigEnabled: {
-    value: "true",
+    value: "false",
     schema: {
       type: "boolean",
       base: true,
