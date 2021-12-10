@@ -2,6 +2,7 @@ import parseUrl from "url-parse"
 import win from "core/window"
 import Im from "immutable"
 import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
+import {authPopup} from "./plugins/auth/actions";
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={}, currentServer } ) {
   let { schema, scopes, name, clientId } = auth
@@ -123,13 +124,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     callback = authActions.authorizeAccessCodeWithFormParams
   }
 
-  win.swaggerUIRedirectOauth2 = {
+  authActions.authPopup(url, {
     auth: auth,
     state: state,
     redirectUrl: redirectUrl,
     callback: callback,
     errCb: errActions.newAuthErr
-  }
-
-  win.open(url)
+  })
 }
