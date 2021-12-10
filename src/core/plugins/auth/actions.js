@@ -280,7 +280,7 @@ export const persistAuthorizationIfNeeded = () => ( { authSelectors, getConfigs 
   }
 }
 
-export function authPopup(url, swaggerUIRedirectOauth2) {
+export const authPopup = (url, swaggerUIRedirectOauth2) => ( ) => {
   win.swaggerUIRedirectOauth2 = swaggerUIRedirectOauth2
 
   win.open(url)

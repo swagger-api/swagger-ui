@@ -335,7 +335,7 @@ describe("auth plugin - actions", () => {
       it("should call win.open with url", () => {
         const windowOpenSpy = jest.spyOn(win, "open")
 
-        authPopup("http://swagger.ui", {})
+        authPopup("http://swagger.ui", {})()
 
         expect(windowOpenSpy.mock.calls.length).toEqual(1)
         windowOpenSpy.mockReset()
