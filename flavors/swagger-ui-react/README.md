@@ -83,6 +83,13 @@ The default expansion depth for models (set to -1 completely hide the models).
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `defaultModelRendering`: PropTypes.oneOf(["example", "model"])
+
+Controls how the model is shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Example Value' links.) The default value is 'example'.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+
 #### `displayOperationId`: PropTypes.bool
 
 Controls the display of operationId in operations list. The default is false.
