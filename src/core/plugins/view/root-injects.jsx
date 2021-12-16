@@ -5,15 +5,20 @@ import omit from "lodash/omit"
 
 const SystemWrapper = (getSystem, ComponentToWrap ) => class extends Component {
   render() {
-    return <ComponentToWrap {...getSystem() } {...this.props} {...this.context} />
+    return <ComponentToWrap {...getSystem()} {...this.props} {...this.context} />
   }
 }
 
-const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
+const RootWrapper = (getSystem, reduxStore, ComponentToWrap) => class extends Component {
   render() {
+    const { getComponent } = getSystem()
+    const ErrorBoundary = getComponent("ErrorBoundary", true)
+
     return (
       <Provider store={reduxStore}>
-        <ComponentToWrap {...this.props} {...this.context} />
+        <ErrorBoundary targetName={ComponentToWrap?.name}>
+          <ComponentToWrap {...this.props} {...this.context} />
+        </ErrorBoundary>
       </Provider>
     )
   }
@@ -29,7 +34,7 @@ const makeContainer = (getSystem, component, reduxStore) => {
   let wrappedWithSystem = SystemWrapper(getSystem, component, reduxStore)
   let connected = connect( mapStateToProps )(wrappedWithSystem)
   if(reduxStore)
-    return RootWrapper(reduxStore, connected)
+    return RootWrapper(getSystem, reduxStore, connected)
   return connected
 }
 
@@ -50,7 +55,7 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
       handleProps(getSystem, mapping, props, {})
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       handleProps(getSystem, mapping, nextProps, this.props)
     }
 
@@ -65,34 +70,45 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
 }
 
 export const render = (getSystem, getStore, getComponent, getComponents, domNode) => {
-  let App = (getComponent(getSystem, getStore, getComponents, "App", "root"))
-  ReactDOM.render(( <App/> ), domNode)
+  let App = getComponent(getSystem, getStore, getComponents, "App", "root")
+  ReactDOM.render(<App/>, domNode)
 }
 
-// Render try/catch wrapper
-const createClass = component => class extends Component {
+/**
+ * Creates a class component from a stateless one and wrap it with Error Boundary
+ * to handle errors coming from a stateless component.
+ */
+const createClass = (getSystem, OriginalComponent) => class extends Component {
   render() {
-    return component(this.props)
+    const { getComponent } = getSystem()
+    const ErrorBoundary = getComponent("ErrorBoundary")
+
+    return (
+      <ErrorBoundary targetName={OriginalComponent?.name} getComponent={getComponent}>
+        <OriginalComponent {...this.props} />
+      </ErrorBoundary>
+    )
   }
 }
 
-const Fallback = ({ 
-  name // eslint-disable-line react/prop-types
-}) => <div className="fallback">😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i></div>
-
-const wrapRender = (component) => {
+const wrapRender = (getSystem, component) => {
   const isStateless = component => !(component.prototype && component.prototype.isReactComponent)
+  const target = isStateless(component) ? createClass(getSystem, component) : component
+  const { render: oriRender} = target.prototype
 
-  const target = isStateless(component) ? createClass(component) : component
-
-  const ori = target.prototype.render
-
+  /**
+   * This render method override handles errors that are throw in render method
+   * of class components.
+   */
   target.prototype.render = function render(...args) {
     try {
-      return ori.apply(this, args)
+      return oriRender.apply(this, args)
     } catch (error) {
+      const { getComponent } = getSystem()
+      const Fallback = getComponent("Fallback")
+
       console.error(error) // eslint-disable-line no-console
-      return <Fallback error={error} name={target.name} />
+      return <Fallback name={target.name} />
     }
   }
 
@@ -117,11 +133,11 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
   }
 
   if(!container)
-    return wrapRender(component)
+    return wrapRender(getSystem, component)
 
   if(container === "root")
     return makeContainer(getSystem, component, getStore())
 
   // container == truthy
-  return makeContainer(getSystem, wrapRender(component))
+  return makeContainer(getSystem, wrapRender(getSystem, component))
 }

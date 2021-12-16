@@ -1,4 +1,3 @@
-
 import { Map, fromJS } from "immutable"
 import {
   mapToList,
@@ -36,6 +35,7 @@ import {
   isAbsoluteUrl,
   buildBaseUrl,
   buildUrl,
+  safeBuildUrl,
 } from "core/utils/url"
 
 import win from "core/window"
@@ -1445,6 +1445,7 @@ describe("utils", () => {
     const absoluteServerUrl = "https://server-example.com/base-path/path"
     const serverUrlRelativeToBase = "server-example/base-path/path"
     const serverUrlRelativeToHost = "/server-example/base-path/path"
+    const serverUrlWithVariables = "https://api.example.com:{port}/{basePath}"
 
     const specUrlAsInvalidUrl = "./examples/test.yaml"
     const specUrlOas2NonUrlString = "an allowed OAS2 TermsOfService description string"
@@ -1487,6 +1488,85 @@ describe("utils", () => {
 
     it("build relative url when no servers defined AND specUrl is OAS2 non-url string", () => {
       expect(buildUrl(urlRelativeToHost, specUrlOas2NonUrlString, { selectedServer: noServerSelected })).toBe("http://localhost/relative-url/base-path/path")
+    })
+
+    it("throws error when server url contains non-transcluded server variables", () => {
+      const buildUrlThunk = () => buildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlWithVariables })
+
+      expect(buildUrlThunk).toThrow(/^Invalid base URL/)
+    })
+  })
+
+  describe("safeBuildUrl", () => {
+    const { location } = window
+    beforeAll(() => {
+      delete window.location
+      window.location = {
+        href: "http://localhost/",
+      }
+    })
+    afterAll(() => {
+      window.location = location
+    })
+
+    const specUrl = "https://petstore.swagger.io/v2/swagger.json"
+
+    const noUrl = ""
+    const absoluteUrl = "https://example.com/base-path/path"
+    const urlRelativeToBase = "relative-url/base-path/path"
+    const urlRelativeToHost = "/relative-url/base-path/path"
+
+    const noServerSelected = ""
+    const absoluteServerUrl = "https://server-example.com/base-path/path"
+    const serverUrlRelativeToBase = "server-example/base-path/path"
+    const serverUrlRelativeToHost = "/server-example/base-path/path"
+    const serverUrlWithVariables = "https://api.example.com:{port}/{basePath}"
+
+    const specUrlAsInvalidUrl = "./examples/test.yaml"
+    const specUrlOas2NonUrlString = "an allowed OAS2 TermsOfService description string"
+
+    it("build no url", () => {
+      expect(safeBuildUrl(noUrl, specUrl, { selectedServer: absoluteServerUrl })).toBe(undefined)
+      expect(safeBuildUrl(noUrl, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe(undefined)
+      expect(safeBuildUrl(noUrl, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe(undefined)
+    })
+
+    it("build absolute url", () => {
+      expect(safeBuildUrl(absoluteUrl, specUrl, { selectedServer: absoluteServerUrl })).toBe("https://example.com/base-path/path")
+      expect(safeBuildUrl(absoluteUrl, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe("https://example.com/base-path/path")
+      expect(safeBuildUrl(absoluteUrl, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe("https://example.com/base-path/path")
+    })
+
+    it("build relative url with no server selected", () => {
+      expect(safeBuildUrl(urlRelativeToBase, specUrl, { selectedServer: noServerSelected })).toBe("https://petstore.swagger.io/v2/relative-url/base-path/path")
+      expect(safeBuildUrl(urlRelativeToHost, specUrl, { selectedServer: noServerSelected })).toBe("https://petstore.swagger.io/relative-url/base-path/path")
+    })
+
+    it("build relative url with absolute server url", () => {
+      expect(safeBuildUrl(urlRelativeToBase, specUrl, { selectedServer: absoluteServerUrl })).toBe("https://server-example.com/base-path/relative-url/base-path/path")
+      expect(safeBuildUrl(urlRelativeToHost, specUrl, { selectedServer: absoluteServerUrl })).toBe("https://server-example.com/relative-url/base-path/path")
+    })
+
+    it("build relative url with server url relative to base", () => {
+      expect(safeBuildUrl(urlRelativeToBase, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe("https://petstore.swagger.io/v2/server-example/base-path/relative-url/base-path/path")
+      expect(safeBuildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe("https://petstore.swagger.io/relative-url/base-path/path")
+    })
+
+    it("build relative url with server url relative to host", () => {
+      expect(safeBuildUrl(urlRelativeToBase, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe("https://petstore.swagger.io/server-example/base-path/relative-url/base-path/path")
+      expect(safeBuildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe("https://petstore.swagger.io/relative-url/base-path/path")
+    })
+
+    it("build relative url when no servers defined AND specUrl is invalid Url", () => {
+      expect(safeBuildUrl(urlRelativeToHost, specUrlAsInvalidUrl, { selectedServer: noServerSelected })).toBe("http://localhost/relative-url/base-path/path")
+    })
+
+    it("build relative url when no servers defined AND specUrl is OAS2 non-url string", () => {
+      expect(safeBuildUrl(urlRelativeToHost, specUrlOas2NonUrlString, { selectedServer: noServerSelected })).toBe("http://localhost/relative-url/base-path/path")
+    })
+
+    it("build no url when server url contains non-transcluded server variables", () => {
+      expect(safeBuildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlWithVariables })).toBe(undefined)
     })
   })
 
