@@ -17,6 +17,17 @@ export default class Auths extends React.Component {
     this.state = {}
   }
 
+  componentDidMount() {
+    var inputs = document.getElementsByClassName("modal-ux-content")[0].getElementsByTagName("input")
+    for (let i = 0; i < inputs.length; i++) {
+      const element = inputs[i];
+      if (element) {
+        element.focus()
+        break
+      }
+    }
+  }
+
   onAuthChange =(auth) => {
     let { name } = auth
 
@@ -66,7 +77,9 @@ export default class Auths extends React.Component {
     })
 
     let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2")
-    let oauthDefinitions = definitions.filter( schema => schema.get("type") === "oauth2")
+    let oauthDefinitions = definitions.filter(schema => schema.get("type") === "oauth2")
+
+
 
     return (
       <div className="auth-container">

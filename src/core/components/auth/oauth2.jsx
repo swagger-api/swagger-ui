@@ -163,7 +163,7 @@ export default class Oauth2 extends React.Component {
                 {
                   isAuthorized ? <code> { this.state.username } </code>
                     : <Col tablet={10} desktop={10}>
-                      <input id="oauth_username" type="text" data-name="username" onChange={ this.onInputChange } autoFocus/>
+                      <input id="oauth_username" type="text" data-name="username" onChange={ this.onInputChange } />
                     </Col>
                 }
               </Row>
