@@ -47,6 +47,7 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ## Documentation
 
 #### Usage
+- Run in cloud without installation [![TeamCode try-it-now](https://static01.teamcode.com/badge/demo.svg)](https://www.teamcode.com/tin/clone?applicationId=270139780752936960)
 - [Installation](docs/usage/installation.md)
 - [Configuration](docs/usage/configuration.md)
 - [CORS](docs/usage/cors.md)
