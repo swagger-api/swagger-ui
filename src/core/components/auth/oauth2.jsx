@@ -125,10 +125,10 @@ export default class Oauth2 extends React.Component {
     let oidcUrl = isOAS3() ? schema.get("openIdConnectUrl") : null
 
     // Auth type consts
-    const IMPLICIT = "implicit"
-    const PASSWORD = "password"
-    const ACCESS_CODE = isOAS3() ? (oidcUrl ? "authorization_code" : "authorizationCode") : "accessCode"
-    const APPLICATION = isOAS3() ? (oidcUrl ? "client_credentials" : "clientCredentials") : "application"
+    const AUTH_FLOW_IMPLICIT = "implicit"
+    const AUTH_FLOW_PASSWORD = "password"
+    const AUTH_FLOW_ACCESS_CODE = isOAS3() ? (oidcUrl ? "authorization_code" : "authorizationCode") : "accessCode"
+    const AUTH_FLOW_APPLICATION = isOAS3() ? (oidcUrl ? "client_credentials" : "clientCredentials") : "application"
 
     let flow = schema.get("flow")
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
@@ -147,12 +147,12 @@ export default class Oauth2 extends React.Component {
         { isAuthorized && <h6>Authorized</h6> }
 
         { oidcUrl && <p>OpenID Connect URL: <code>{ oidcUrl }</code></p> }
-        { ( flow === IMPLICIT || flow === ACCESS_CODE ) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
-        { ( flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION ) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
+        { ( flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE ) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
+        { ( flow === AUTH_FLOW_PASSWORD || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_APPLICATION ) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
         <p className="flow">Flow: <code>{ schema.get("flow") }</code></p>
 
         {
-          flow !== PASSWORD ? null
+          flow !== AUTH_FLOW_PASSWORD ? null
             : <Row>
               <Row>
                 <label htmlFor="oauth_username">username:</label>
@@ -190,7 +190,7 @@ export default class Oauth2 extends React.Component {
             </Row>
         }
         {
-          ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || flow === PASSWORD ) &&
+          ( flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
             {
@@ -198,7 +198,7 @@ export default class Oauth2 extends React.Component {
                            : <Col tablet={10} desktop={10}>
                                <InitializedInput id="client_id"
                                       type="text"
-                                      required={ flow === PASSWORD }
+                                      required={ flow === AUTH_FLOW_PASSWORD }
                                       initialValue={ this.state.clientId }
                                       data-name="clientId"
                                       onChange={ this.onInputChange }/>
@@ -208,7 +208,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( (flow === APPLICATION || flow === ACCESS_CODE || flow === PASSWORD) && <Row>
+          ( (flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>

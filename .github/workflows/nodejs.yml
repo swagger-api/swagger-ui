@@ -9,75 +9,76 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  CYPRESS_CACHE_FOLDER: cypress/cache
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.13.x, 10.x, 12.x, 14.x]
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: npm ci
-    - name: Lint code for errors only
-      run: npm run lint-errors
-    - name: Run all tests
-      run: npm test
-      env:
-        CI: true
-
-  artifact-bundle:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: npm ci
-    - name: Build and Run all artifact tests
-      run: npm run test:artifact
-
-  release:
-    if: contains(github.ref, 'master')
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14.x
-
-  merge-me:
-    name: Merge me!
-    if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-latest
-
-    needs: [ build, artifact-bundle ]
-
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
-
-    steps:
-      - name: Merge me!
-        uses: ridedott/merge-me-action@master
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
         with:
-          GITHUB_LOGIN: dependabot[bot]
-          GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          MERGE_METHOD: SQUASH
-          PRESET: DEPENDABOT_MINOR
+          node-version: 16
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress binary
+        id: cache-cypress-binary
+        uses: actions/cache@v2
+        with:
+          path: cypress/cache
+          key: cypress-binary-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        if: |
+          steps.cache-node-modules.outputs.cache-hit != 'true' ||
+          steps.cache-cypress-binary.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Lint code for errors only
+        run: npm run lint-errors
+      - name: Run all tests
+        run: npm run just-test-in-node && npm run test:unit-jest
+        env:
+          CI: true
+      - name: Build SwaggerUI
+        run: npm run build
+      - name: Test build artifacts
+        run: npm run test:artifact
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: ['+(a11y|security|bugs)/**/*.js', 'features/**/+(o|d)*.js', 'features/**/m*.js', 'features/**/!(o|d|m)*.js']
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress binary
+        id: cache-cypress-binary
+        uses: actions/cache@v2
+        with:
+          path: cypress/cache
+          key: cypress-binary-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        if: |
+          steps.cache-node-modules.outputs.cache-hit != 'true' ||
+          steps.cache-cypress-binary.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Cypress Test
+        run: npx start-server-and-test cy:start http://localhost:3204 'npm run cy:run -- --spec "test/e2e-cypress/tests/${{ matrix.containers }}"'

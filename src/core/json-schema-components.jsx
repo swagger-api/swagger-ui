@@ -40,6 +40,8 @@ export class JsonSchemaForm extends Component {
     const { dispatchInitialValue, value, onChange } = this.props
     if(dispatchInitialValue) {
       onChange(value)
+    } else if(dispatchInitialValue === false) {
+      onChange("")
     }
   }
 
@@ -128,7 +130,7 @@ export class JsonSchema_array extends PureComponent {
     this.state = { value: valueOrEmptyList(props.value), schema: props.schema}
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     const value = valueOrEmptyList(props.value)
     if(value !== this.state.value)
       this.setState({ value })

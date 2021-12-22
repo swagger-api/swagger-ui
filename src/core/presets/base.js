@@ -3,6 +3,7 @@ import layout from "core/plugins/layout"
 import spec from "core/plugins/spec"
 import view from "core/plugins/view"
 import samples from "core/plugins/samples"
+import requestSnippets from "core/plugins/request-snippets"
 import logs from "core/plugins/logs"
 import swaggerJs from "core/plugins/swagger-js"
 import auth from "core/plugins/auth"
@@ -191,6 +192,7 @@ export default function() {
     downloadUrlPlugin,
     deepLinkingPlugin,
     filter,
-    onComplete
+    onComplete,
+    requestSnippets
   ]
 }

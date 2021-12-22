@@ -2,7 +2,7 @@
  * @prettier
  */
 
- const {
+const {
   ParameterPrimitiveTestCases,
   RequestBodyPrimitiveTestCases,
   ResponsePrimitiveTestCases,
@@ -256,7 +256,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get("#operations-default-post_Array")
           .click()
           .get(".json-schema-form-item > input")
-          .then(inputs => {
+          .then((inputs) => {
             expect(inputs.map((i, el) => el.value).toArray()).to.deep.equal([
               "a",
               "b",
@@ -276,7 +276,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
           .get(".json-schema-form-item > input")
-          .then(inputs => {
+          .then((inputs) => {
             expect(inputs.map((i, el) => el.value).toArray()).to.deep.equal([
               "1",
               "2",
@@ -314,10 +314,10 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".json-schema-form-item-add")
           .click()
           .get(".json-schema-form-item:last-of-type > input")
-          .type("5")
+          .type("{selectall}5")
           // Assert against the input fields
           .get(".json-schema-form-item > input")
-          .then(inputs => {
+          .then((inputs) => {
             expect(inputs.map((i, el) => el.value).toArray()).to.deep.equal([
               "1",
               "2",
@@ -345,13 +345,13 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".json-schema-form-item-add")
           .click()
           .get(".json-schema-form-item:last-of-type > input")
-          .type("5")
+          .type("{selectall}5")
           // Reset to an example
           .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
           // Assert against the input fields
           .get(".json-schema-form-item > input")
-          .then(inputs => {
+          .then((inputs) => {
             expect(inputs.map((i, el) => el.value).toArray()).to.deep.equal([
               "1",
               "2",
@@ -367,7 +367,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .select("__MODIFIED__VALUE__")
           // Assert that our modified value is back
           .get(".json-schema-form-item > input")
-          .then(inputs => {
+          .then((inputs) => {
             expect(inputs.map((i, el) => el.value).toArray()).to.deep.equal([
               "1",
               "2",
@@ -566,41 +566,43 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
       })
     })
     describe("in a Request Body", () => {
+      const exampleA = JSON.stringify(
+        {
+          firstName: "Kyle",
+          lastName: "Shockey",
+          email: "kyle.shockey@smartbear.com",
+        },
+        null,
+        2
+      )
+      const exampleB = JSON.stringify(
+        {
+          name: "Abbey",
+          type: "kitten",
+          color: "calico",
+          gender: "female",
+          age: "11 weeks",
+        },
+        null,
+        2
+      )
       RequestBodyPrimitiveTestCases({
         operationDomId: "#operations-default-post_Object",
         primaryMediaType: "application/json",
         // ↓ not a typo, Cypress requires escaping { when using `cy.type`
         customUserInput: `{{} "openapiIsCool": true }`,
         customExpectedUrlSubstring: "?openapiIsCool=true",
-        customUserInputExpectedCurlSubstring: `{\\"openapiIsCool\\":true}`,
+        customUserInputExpectedCurlSubstring: `{ "openapiIsCool": true }`,
         exampleA: {
           key: "ObjectExampleA",
-          serializedValue: `{\\"firstName\\":\\"Kyle\\",\\"lastName\\":\\"Shockey\\",\\"email\\":\\"kyle.shockey@smartbear.com\\"}`,
-          value: JSON.stringify(
-            {
-              firstName: "Kyle",
-              lastName: "Shockey",
-              email: "kyle.shockey@smartbear.com",
-            },
-            null,
-            2
-          ),
+          serializedValue: exampleA,
+          value: exampleA,
           summary: "A user's contact info",
         },
         exampleB: {
           key: "ObjectExampleB",
-          serializedValue: `{\\"name\\":\\"Abbey\\",\\"type\\":\\"kitten\\",\\"color\\":\\"calico\\",\\"gender\\":\\"female\\",\\"age\\":\\"11 weeks\\"}`,
-          value: JSON.stringify(
-            {
-              name: "Abbey",
-              type: "kitten",
-              color: "calico",
-              gender: "female",
-              age: "11 weeks",
-            },
-            null,
-            2
-          ),
+          serializedValue: exampleB,
+          value: exampleB,
           summary: "A wonderful kitten's info",
         },
       })

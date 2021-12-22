@@ -1,11 +1,11 @@
 import YAML from "js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
-import serializeError from "serialize-error"
+import { serializeError } from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
-import { isJSONObject, paramToValue, isEmptyValue } from "core/utils"
+import { paramToValue, isEmptyValue } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -62,7 +62,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   try {
     str = str || specStr()
     errActions.clear({ source: "parser" })
-    json = YAML.safeLoad(str)
+    json = YAML.load(str)
   } catch(e) {
     // TODO: push error to state
     console.error(e)
@@ -426,9 +426,7 @@ export const executeRequest = (req) =>
       const requestBody = oas3Selectors.requestBodyValue(pathName, method)
       const requestBodyInclusionSetting = oas3Selectors.requestBodyInclusionSetting(pathName, method)
 
-      if(isJSONObject(requestBody)) {
-        req.requestBody = JSON.parse(requestBody)
-      } else if(requestBody && requestBody.toJS) {
+      if(requestBody && requestBody.toJS) {
         req.requestBody = requestBody
           .map(
             (val) => {
@@ -445,7 +443,7 @@ export const executeRequest = (req) =>
             ) || requestBodyInclusionSetting.get(key)
           )
           .toJS()
-      } else{
+      } else {
         req.requestBody = requestBody
       }
     }

@@ -56,7 +56,7 @@ export class Col extends React.Component {
     let classesAr = []
 
     for (let device in DEVICES) {
-      if (!DEVICES.hasOwnProperty(device)) {
+      if (!Object.prototype.hasOwnProperty.call(DEVICES, device)) {
         continue
       }
       let deviceClass = DEVICES[device]
@@ -181,7 +181,7 @@ export class Select extends React.Component {
     onChange && onChange(value)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // TODO: this puts us in a weird area btwn un/controlled selection... review
     if(nextProps.value !== this.props.value) {
       this.setState({ value: nextProps.value })

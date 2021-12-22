@@ -12,6 +12,7 @@ mkdir -p ../dist
 cp ../../../dist/swagger-ui.js ../dist
 cp ../../../dist/swagger-ui-es-bundle.js ../dist
 cp ../../../dist/swagger-ui.css ../dist
+cp ../../../dist/swagger-ui.css.map ../dist
 
 # Create a releasable package manifest
 node create-manifest.js > ../dist/package.json
@@ -22,6 +23,10 @@ node create-manifest.js > ../dist/package.json
 
 # Copy our README into the dist folder for npm
 cp ../README.md ../dist
+
+# Copy LICENSE & NOTICE into the dist folder for npm
+cp ../../../LICENSE ../dist
+cp ../../../NOTICE ../dist
 
 # Run the release from the dist folder
 cd ../dist

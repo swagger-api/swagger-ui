@@ -1,5 +1,5 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
-import XML from "@kyleshockey/xml"
+import XML from "xml"
 import memoizee from "memoizee"
 import isEmpty from "lodash/isEmpty"
 
@@ -35,28 +35,90 @@ const primitive = (schema) => {
 const sanitizeRef = (value) => deeplyStripKey(value, "$$ref", (val) =>
   typeof val === "string" && val.indexOf("#") > -1)
 
-const liftSampleHelper = (oldSchema, target) => {
-  if(target.example === undefined && oldSchema.example !== undefined) {
-    target.example = oldSchema.example
+const objectContracts = ["maxProperties", "minProperties"]
+const arrayContracts = ["minItems", "maxItems"]
+const numberContracts = [
+  "minimum",
+  "maximum",
+  "exclusiveMinimum",
+  "exclusiveMaximum"
+]
+const stringContracts = ["minLength", "maxLength"]
+
+const liftSampleHelper = (oldSchema, target, config = {}) => {
+  const setIfNotDefinedInTarget = (key) => {
+    if(target[key] === undefined && oldSchema[key] !== undefined) {
+      target[key] = oldSchema[key]
+    }
   }
-  if(target.default === undefined && oldSchema.default !== undefined) {
-    target.default = oldSchema.default
+
+  [
+    "example",
+    "default",
+    "enum",
+    "xml",
+    "type",
+    ...objectContracts,
+    ...arrayContracts,
+    ...numberContracts,
+    ...stringContracts,
+  ].forEach(key => setIfNotDefinedInTarget(key))
+
+  if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
+    if(target.required === undefined || !target.required.length) {
+      target.required = []
+    }
+    oldSchema.required.forEach(key => {
+      if(target.required.includes(key)) {
+        return
+      }
+      target.required.push(key)
+    })
   }
-  if(target.enum === undefined && oldSchema.enum !== undefined) {
-    target.enum = oldSchema.enum
+  if(oldSchema.properties) {
+    if(!target.properties) {
+      target.properties = {}
+    }
+    let props = objectify(oldSchema.properties)
+    for (let propName in props) {
+      if (!Object.prototype.hasOwnProperty.call(props, propName)) {
+        continue
+      }
+      if ( props[propName] && props[propName].deprecated ) {
+        continue
+      }
+      if ( props[propName] && props[propName].readOnly && !config.includeReadOnly ) {
+        continue
+      }
+      if ( props[propName] && props[propName].writeOnly && !config.includeWriteOnly ) {
+        continue
+      }
+      if(!target.properties[propName]) {
+        target.properties[propName] = props[propName]
+        if(!oldSchema.required && Array.isArray(oldSchema.required) && oldSchema.required.indexOf(propName) !== -1) {
+          if(!target.required) {
+            target.required = [propName]
+          } else {
+            target.required.push(propName)
+          }
+        }
+      }
+    }
   }
-  if(target.xml === undefined && oldSchema.xml !== undefined) {
-    target.xml = oldSchema.xml
+  if(oldSchema.items) {
+    if(!target.items) {
+      target.items = {}
+    }
+    target.items = liftSampleHelper(oldSchema.items, target.items, config)
   }
-  if(target.type === undefined && oldSchema.type !== undefined) {
-    target.type = oldSchema.type
-  }
+
   return target
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
-  schema = objectify(schema)
-  let usePlainValue = exampleOverride !== undefined || schema.example !== undefined || schema && schema.default !== undefined
+  if(schema && isFunc(schema.toJS))
+    schema = schema.toJS()
+  let usePlainValue = exampleOverride !== undefined || schema && schema.example !== undefined || schema && schema.default !== undefined
   // first check if there is the need of combining this schema with others required by allOf
   const hasOneOf = !usePlainValue && schema && schema.oneOf && schema.oneOf.length > 0
   const hasAnyOf = !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
@@ -65,7 +127,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       ? schema.oneOf[0]
       : schema.anyOf[0]
     )
-    liftSampleHelper(schemaToAdd, schema)
+    liftSampleHelper(schemaToAdd, schema, config)
     if(!schema.xml && schemaToAdd.xml) {
       schema.xml = schemaToAdd.xml
     }
@@ -77,7 +139,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
       let props = objectify(schemaToAdd.properties)
       for (let propName in props) {
-        if (!props.hasOwnProperty(propName)) {
+        if (!Object.prototype.hasOwnProperty.call(props, propName)) {
           continue
         }
         if ( props[propName] && props[propName].deprecated ) {
@@ -103,7 +165,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
   }
   const _attr = {}
-  let { xml, type, example, properties, additionalProperties, items } = schema
+  let { xml, type, example, properties, additionalProperties, items } = schema || {}
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -127,20 +189,99 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     res[displayName] = []
   }
 
+  const schemaHasAny = (keys) => keys.some(key => Object.prototype.hasOwnProperty.call(schema, key))
   // try recover missing type
   if(schema && !type) {
-    if(properties || additionalProperties) {
+    if(properties || additionalProperties || schemaHasAny(objectContracts)) {
       type = "object"
-    } else if(items) {
+    } else if(items || schemaHasAny(arrayContracts)) {
       type = "array"
+    } else if(schemaHasAny(numberContracts)) {
+      type = "number"
+      schema.type = "number"
     } else if(!usePlainValue && !schema.enum){
-      return
+      // implicit cover schemaHasAny(stringContracts) or A schema without a type matches any data type is:
+      // components:
+      //   schemas:
+      //     AnyValue:
+      //       anyOf:
+      //         - type: string
+      //         - type: number
+      //         - type: integer
+      //         - type: boolean
+      //         - type: array
+      //           items: {}
+      //         - type: object
+      //
+      // which would resolve to type: string
+      type = "string"
+      schema.type = "string"
     }
+  }
+
+  const handleMinMaxItems = (sampleArray) => {
+    if (schema?.maxItems !== null && schema?.maxItems !== undefined) {
+      sampleArray = sampleArray.slice(0, schema?.maxItems)
+    }
+    if (schema?.minItems !== null && schema?.minItems !== undefined) {
+      let i = 0
+      while (sampleArray.length < schema?.minItems) {
+        sampleArray.push(sampleArray[i++ % sampleArray.length])
+      }
+    }
+    return sampleArray
   }
 
   // add to result helper init for xml or json
   const props = objectify(properties)
   let addPropertyToResult
+  let propertyAddedCounter = 0
+
+  const hasExceededMaxProperties = () => schema
+    && schema.maxProperties !== null && schema.maxProperties !== undefined
+    && propertyAddedCounter >= schema.maxProperties
+
+  const requiredPropertiesToAdd = () => {
+    if(!schema || !schema.required) {
+      return 0
+    }
+    let addedCount = 0
+    if(respectXML) {
+      schema.required.forEach(key => addedCount +=
+        res[key] === undefined
+          ? 0
+          : 1
+      )
+    } else {
+      schema.required.forEach(key => addedCount +=
+        res[displayName]?.find(x => x[key] !== undefined) === undefined
+          ? 0
+          : 1
+      )
+    }
+    return schema.required.length - addedCount
+  }
+
+  const isOptionalProperty = (propName) => {
+    if(!schema || !schema.required || !schema.required.length) {
+      return true
+    }
+    return !schema.required.includes(propName)
+  }
+
+  const canAddProperty = (propName) => {
+    if(!schema || schema.maxProperties === null || schema.maxProperties === undefined) {
+      return true
+    }
+    if(hasExceededMaxProperties()) {
+      return false
+    }
+    if(!isOptionalProperty(propName)) {
+      return true
+    }
+    return (schema.maxProperties - propertyAddedCounter - requiredPropertiesToAdd()) > 0
+  }
+
   if(respectXML) {
     addPropertyToResult = (propName, overrideE = undefined) => {
       if(schema && props[propName]) {
@@ -177,6 +318,11 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
 
       let t = sampleFromSchemaGeneric(schema && props[propName] || undefined, config, overrideE, respectXML)
+      if(!canAddProperty(propName)) {
+        return
+      }
+
+      propertyAddedCounter++
       if (Array.isArray(t)) {
         res[displayName] = res[displayName].concat(t)
       } else {
@@ -185,8 +331,11 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
   } else {
     addPropertyToResult = (propName, overrideE) => {
-
+      if(!canAddProperty(propName)) {
+        return
+      }
       res[propName] = sampleFromSchemaGeneric(props[propName], config, overrideE, respectXML)
+      propertyAddedCounter++
     }
   }
 
@@ -240,8 +389,9 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         itemSchema.xml = itemSchema.xml || xml || {}
         itemSchema.xml.name = itemSchema.xml.name || xml.name
       }
-      const itemSamples = sample
+      let itemSamples = sample
         .map(s => sampleFromSchemaGeneric(itemSchema, config, s, respectXML))
+      itemSamples = handleMinMaxItems(itemSamples)
       if(xml.wrapped) {
         res[displayName] = itemSamples
         if (!isEmpty(_attr)) {
@@ -261,7 +411,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         return sample
       }
       for (let propName in sample) {
-        if (!sample.hasOwnProperty(propName)) {
+        if (!Object.prototype.hasOwnProperty.call(sample, propName)) {
           continue
         }
         if (schema && props[propName] && props[propName].readOnly && !includeReadOnly) {
@@ -270,12 +420,8 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         if (schema && props[propName] && props[propName].writeOnly && !includeWriteOnly) {
           continue
         }
-        if (schema && props[propName] && props[propName].xml && props[propName].xml.attribute && !(example && example[propName])) {
-          _attr[props[propName].xml.name || propName] = sample[propName]
-          continue
-        }
         if (schema && props[propName] && props[propName].xml && props[propName].xml.attribute) {
-          _attr[props[propName].xml.name || propName] = example[propName]
+          _attr[props[propName].xml.name || propName] = sample[propName]
           continue
         }
         addPropertyToResult(propName, sample[propName])
@@ -295,7 +441,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
   if(type === "object") {
     for (let propName in props) {
-      if (!props.hasOwnProperty(propName)) {
+      if (!Object.prototype.hasOwnProperty.call(props, propName)) {
         continue
       }
       if ( props[propName] && props[propName].deprecated ) {
@@ -309,6 +455,13 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
       addPropertyToResult(propName)
     }
+    if (respectXML && _attr) {
+      res[displayName].push({_attr: _attr})
+    }
+
+    if(hasExceededMaxProperties()) {
+      return res
+    }
 
     if ( additionalProperties === true ) {
       if(respectXML) {
@@ -316,6 +469,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       } else {
         res.additionalProp1 = {}
       }
+      propertyAddedCounter++
     } else if ( additionalProperties ) {
       const additionalProps = objectify(additionalProperties)
       const additionalPropSample = sampleFromSchemaGeneric(additionalProps, config, undefined, respectXML)
@@ -324,7 +478,13 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       {
         res[displayName].push(additionalPropSample)
       } else {
-        for (let i = 1; i < 4; i++) {
+        const toGenerateCount = schema.minProperties !== null && schema.minProperties !== undefined && propertyAddedCounter < schema.minProperties
+          ? schema.minProperties - propertyAddedCounter
+          : 3
+        for (let i = 1; i <= toGenerateCount; i++) {
+          if(hasExceededMaxProperties()) {
+            return res
+          }
           if(respectXML) {
             const temp = {}
             temp["additionalProp" + i] = additionalPropSample["notagname"]
@@ -332,31 +492,34 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
           } else {
             res["additionalProp" + i] = additionalPropSample
           }
+          propertyAddedCounter++
         }
       }
     }
-    if (respectXML && _attr) {
-      res[displayName].push({_attr: _attr})
-    }
-
     return res
   }
 
   if(type === "array") {
+    if (!items) {
+      return
+    }
+
     let sampleArray
     if(respectXML) {
-      items.xml = items.xml || schema.xml || {}
+      items.xml = items.xml || schema?.xml || {}
       items.xml.name = items.xml.name || xml.name
     }
+
     if(Array.isArray(items.anyOf)) {
-      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i), config, undefined, respectXML))
+      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i, config), config, undefined, respectXML))
     } else if(Array.isArray(items.oneOf)) {
-      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i), config, undefined, respectXML))
+      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i, config), config, undefined, respectXML))
     } else if(!respectXML || respectXML && xml.wrapped) {
       sampleArray = [sampleFromSchemaGeneric(items, config, undefined, respectXML)]
     } else {
       return sampleFromSchemaGeneric(items, config, undefined, respectXML)
     }
+    sampleArray = handleMinMaxItems(sampleArray)
     if(respectXML && xml.wrapped) {
       res[displayName] = sampleArray
       if (!isEmpty(_attr)) {
@@ -374,6 +537,33 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   } else if(schema) {
     // display schema default
     value = primitive(schema)
+    if(typeof value === "number") {
+      let min = schema.minimum
+      if(min !== undefined && min !== null) {
+        if(schema.exclusiveMinimum) {
+          min++
+        }
+        value = min
+      }
+      let max = schema.maximum
+      if(max !== undefined && max !== null) {
+        if(schema.exclusiveMaximum) {
+          max--
+        }
+        value = max
+      }
+    }
+    if(typeof value === "string") {
+      if (schema.maxLength !== null && schema.maxLength !== undefined) {
+        value = value.slice(0, schema.maxLength)
+      }
+      if (schema.minLength !== null && schema.minLength !== undefined) {
+        let i = 0
+        while (value.length < schema.minLength) {
+          value += value[i++ % value.length]
+        }
+      }
+    }
   } else {
     return
   }

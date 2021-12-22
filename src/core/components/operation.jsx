@@ -2,7 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
-import { buildUrl } from "core/utils/url"
+import { safeBuildUrl } from "core/utils/url"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
@@ -82,7 +82,7 @@ export default class Operation extends PureComponent {
       schemes
     } = op
 
-    const externalDocsUrl = externalDocs ? buildUrl(externalDocs.url, specSelectors.url(), { selectedServer: oas3Selectors.selectedServer() }) : ""
+    const externalDocsUrl = externalDocs ? safeBuildUrl(externalDocs.url, specSelectors.url(), { selectedServer: oas3Selectors.selectedServer() }) : ""
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
@@ -114,7 +114,7 @@ export default class Operation extends PureComponent {
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
-        <OperationSummary operationProps={operationProps} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
+          <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
               { (operation && operation.size) || operation === null ? null :

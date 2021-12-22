@@ -29,7 +29,7 @@ export default class Operations extends React.Component {
       specSelectors,
     } = this.props
 
-    // Note returns now optional filtered and optional hierarchical structure, in case user has set config accordingly
+    // Note: returns now optional filtered and optional hierarchical structure, in case user has set config accordingly
     const taggedOps = specSelectors.taggedOperations()
 
     if(taggedOps.size === 0) {
@@ -37,9 +37,10 @@ export default class Operations extends React.Component {
     }
 
     return (
-        <div>
-            { taggedOps.map(this.renderOperationTag).toArray() }
-        </div>
+      <div>
+        { taggedOps.map(this.renderOperationTag).toArray() }
+        { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
+      </div>
     )
   }
 
@@ -55,9 +56,10 @@ export default class Operations extends React.Component {
     const OperationContainer = getComponent("OperationContainer", true)
     const OperationTag = getComponent("OperationTag")
     const operations = tagObj.get("operations")
+
     const contentClassNames = ["operation-tag-content"]
     const hierarchicalTags = getConfigs().hierarchicalTags
-    if(hierarchicalTags === true || hierarchicalTags === "true") {
+    if (hierarchicalTags === true || hierarchicalTags === "true") {
       contentClassNames.push("indented")
     }
     return (
@@ -102,6 +104,7 @@ export default class Operations extends React.Component {
               )
             }).toArray()
           }
+
           {
             tagObj.get("childTags")?.map(this.renderOperationTag).toArray()
           }
