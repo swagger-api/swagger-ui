@@ -69,7 +69,6 @@ export default function buildConfig(
         PACKAGE_VERSION: pkg.version,
         GIT_COMMIT: gitInfo.hash,
         GIT_DIRTY: gitInfo.dirty,
-        HOSTNAME: os.hostname(),
         BUILD_TIME: new Date().toUTCString(),
       }),
     }),
@@ -125,12 +124,14 @@ export default function buildConfig(
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
-        // these aliases make sure that we don't bundle same libraries twice
-        // when the versions of these libraries diverge between swagger-js and swagger-ui
         alias: {
+          // these aliases make sure that we don't bundle same libraries twice
+          // when the versions of these libraries diverge between swagger-js and swagger-ui
           "@babel/runtime-corejs3": path.resolve(__dirname, "..", "node_modules/@babel/runtime-corejs3"),
           "js-yaml": path.resolve(__dirname, "..", "node_modules/js-yaml"),
-          "lodash": path.resolve(__dirname, "..", "node_modules/lodash")
+          "lodash": path.resolve(__dirname, "..", "node_modules/lodash"),
+          "isarray": path.resolve(__dirname, "..", "node_modules/stream-browserify/node_modules/isarray"),
+          "react-is": path.resolve(__dirname, "..", "node_modules/react-redux/node_modules/react-is"),
         },
       },
 
