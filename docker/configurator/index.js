@@ -31,7 +31,7 @@ if (startMarkerIndex < 0 || endMarkerIndex < 0) {
   console.error(`!      In order to solve this, add the "${START_MARKER}"`)
   console.error(`!      and "${END_MARKER}" markers to your JavaScript.`)
   console.error("!      See the repository for an example:")
-  console.error("!      // TODO")
+  console.error("!      https://github.com/swagger-api/swagger-ui/blob/8c946a02e73ef877d73b7635de27924418ba50f3/dist/swagger-initializer.js#L2-L19")
   console.error("!  ")
   console.error("!      If you're seeing this message and aren't using custom HTML,")
   console.error("!      this message may be a bug. Please file an issue:")
