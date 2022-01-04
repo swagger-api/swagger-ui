@@ -33,6 +33,8 @@
 
 <body>
   <div id="swagger-ui"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonld/1.0.0/jsonld.min.js"></script>
 
   <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
   <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
@@ -42,7 +44,7 @@
       window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
       // Build a system
       const ui = SwaggerUIBundle({
-        url: "https://petstore.swagger.io/v2/swagger.json",
+        url: "https://raw.githubusercontent.com/ioggstream/json-semantic-playground/master/assets/schemas/person/v202108.01/person.oas3.yaml",
         dom_id: '#swagger-ui',
         presets: [
           SwaggerUIBundle.presets.apis,

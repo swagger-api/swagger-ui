@@ -7,6 +7,28 @@ const braceOpen = "{"
 const braceClose = "}"
 const propClass = "property"
 
+function contestualizza(key, ctx) {
+  if (!ctx) return "No semantics"
+
+  let field = ctx.get(key)
+  let vocabularyUri = null
+  if (!field) return "No semantics"
+
+  if (typeof field !== "string") {
+    const fieldCtx = field.get("@context")
+    field = field.get("@id")
+    vocabularyUri = fieldCtx && fieldCtx.get("@base") || null
+  }
+  let vocab = ctx.get("@vocab") || ""
+  return (
+    <div>
+    <a href={vocab + field}>
+      {field}
+    </a>&nbsp;
+    <span>{vocabularyUri && <a href={vocabularyUri}>Vocab</a>}</span>
+    </div>
+  )
+}
 export default class ObjectModel extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
@@ -36,6 +58,7 @@ export default class ObjectModel extends Component {
 
     const { showExtensions } = getConfigs()
 
+    let semantics = schema.get("x-jsonld-context")
     let description = schema.get("description")
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
@@ -139,6 +162,7 @@ export default class ObjectModel extends Component {
                                  schema={ value }
                                  depth={ depth + 1 } />
                         </td>
+                        <td>{semantics && contestualizza(key, semantics)}</td>
                       </tr>)
                     }).toArray()
               }
@@ -237,6 +261,10 @@ export default class ObjectModel extends Component {
       {
         infoProperties.size ? infoProperties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
       }
+      <hr/>
+          <div className="model">JSON-LD Context
+    <pre>{ semantics && JSON.stringify(semantics, null, 2) || "{}"}</pre>
+    </div>
     </span>
   }
 }
