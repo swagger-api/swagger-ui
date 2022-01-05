@@ -1,0 +1,170 @@
+#
+# This schema is in OpenAPI 3.0 format
+#   and can be referred via #/components/schemas/Person
+#
+openapi: 3.0.3
+info:
+  title: The Person schema
+  version: 202108.01.00
+  x-summary: A minimal Person schema compliant with CPV ontology.
+  license:
+    name: BSD3
+    url: https://opensource.org/licenses/BSD-3-Clause
+  termsOfService: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Roberto Polli
+    email: robipolli@gmail.com
+    url: http://spcdata.digitpa.gov.it/Amministrazione/agid
+  description: |-
+    This Person schema is derived from the [CPV/Person](https://w3id.org/italia/onto/CPV/Person) ontology.
+
+    This description field can be rendered in markdown or in text-only in catalogues
+    and other interfaces.
+paths: {}
+servers: []
+tags: []
+components:
+  schemas:
+    TaxCode:
+      type: string
+      # Since jsonld does not support to attacha @context
+      #  to a primitive type, we reference the semantic 
+      #  context using `x-refersTo.`
+      x-refersTo: https://w3id.org/italia/onto/CPV/taxCode
+      description: Il codice fiscale.
+      example: RSSMRA75L01H501A
+      maxLength: 16
+      minLength: 11
+    Parent:
+      x-jsonld-context:
+        "@vocab": "https://w3id.org/italia/onto/CPV/"
+        parent_id: taxCode
+      type: object
+      x-refersTo: https://w3id.org/italia/onto/CPV/Person
+      description: |-
+        Uno schema semplificato per associare una sola chiave
+        che identifica un genitore.
+      additionalProperties: false
+      required:
+        - parent_id
+      properties:
+        parent_id:
+          $ref: "#/components/schemas/TaxCode"
+    BirthPlace:
+      type: object
+      additionalProperties: false
+      required:
+        - city
+        - province
+        - country
+      x-jsonld-context: &BirthPlaceContext
+        "@vocab": "https://w3id.org/italia/onto/CLV/"
+        city: hasCity
+        country:
+          "@id": "hasCountry"
+          "@type": "@id"
+          "@context":
+            "@base": "http://publications.europa.eu/resource/authority/country/"
+        province: 
+          "@id": "hasProvince"
+          "@type": "@id"
+          "@context": 
+            "@base": "https://w3id.org/italia/data/identifiers/provinces-identifiers/vehicle-code/"
+      properties:
+        city:
+          type: string
+          description: The city where the person was born.
+          example: Roma
+        province:
+          type: string
+          description: The province where the person was born.
+          example: RM
+        country:
+          type: string
+          description: The iso alpha-3 code of the country where the person was born.
+          example: ITA
+      example:
+        city: Roma
+        province: RM
+        country: ITA  
+    Person:
+      type: object
+      x-refersTo: https://w3id.org/italia/onto/CPV/Person
+      # This custom property defines the associated json-ld
+      #   context that can be used to semantically describe
+      #   the instances.
+      x-jsonld-context:
+        "@vocab": "https://w3id.org/italia/onto/CPV/"
+        tax_code: taxCode
+        date_of_birth: dateOfBirth
+        given_name: givenName
+        family_name: familyName
+        education_level:
+          "@id": hasEducationLevel
+          "@type": "@id"
+          "@context":
+            "@base": "https://w3id.org/italia/controlled-vocabulary/classifications-for-people/education-level/"
+        birth_place: 
+          "@id": "hasBirthPlace"
+          "@context": 
+            <<: *BirthPlaceContext
+        children:
+          "@id": isParentOf
+        parents:
+          "@id": isChildOf
+      additionalProperties: false
+      description: |-
+          Questo schema rappresenta una persona fisica.
+      required:
+      - given_name
+      - family_name
+      - tax_code
+      properties:
+        tax_code:
+          $ref: "#/components/schemas/TaxCode"
+        family_name:
+          maxLength: 255
+          type: string
+        given_name:
+          maxLength: 255
+          type: string
+        date_of_birth:
+          format: date
+          type: string
+        education_level:
+          type: string
+          maxLength: 3
+          description: |-
+            Il livello di istruzione della persona.
+            I valori ammessi sono indicati nel [vocabolario](https://w3id.org/italia/controlled-vocabulary/classifications-for-people/education-level)
+        birth_place:
+          $ref: "#/components/schemas/BirthPlace"
+        children:
+          type: array
+          items:
+            $ref: "#/components/schemas/Person"
+          minItems: 0
+          maxItems: 50
+        parents:
+          type: array
+          items:
+            $ref: "#/components/schemas/Parent"
+          maxItems: 2
+          minItems: 0
+      example:
+        tax_code: RSSMRA75L01H501A
+        family_name: Rossi
+        given_name: Mario
+        date_of_birth: "1961-01-01"
+        education_level: "NED"
+        birth_place:
+          city: Roma
+          province: RM
+          country: ITA
+        children:
+        - tax_code: RSSMRA75L01H501A
+        - tax_code: RSSMRA76L01H501A
+        - tax_code: RSSMRA77L01H501A
+    ExportedSchemas:
+      anyOf:
+        - $ref: "#/components/schemas/Person"
