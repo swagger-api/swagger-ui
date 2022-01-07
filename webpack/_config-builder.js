@@ -3,7 +3,6 @@
  */
 
 import path from "path"
-import os from "os"
 import fs from "fs"
 import deepExtend from "deep-extend"
 import webpack from "webpack"
@@ -30,7 +29,14 @@ const baseRules = [
       cacheDirectory: true,
     },
   },
-  { test: /\.(txt|yaml)$/, loader: "raw-loader" },
+  { test: /\.(txt|yaml)$/, 
+    use: [
+      {
+        loader: "raw-loader"
+      },
+    ],
+    type: "javascript/auto",
+  },
   {
     test: /\.(png|jpg|jpeg|gif|svg)$/,
     use: [
@@ -41,15 +47,36 @@ const baseRules = [
         },
       },
     ],
+    type: "javascript/auto",
   },
   {
     test: /\.(woff|woff2)$/,
-    loader: "url-loader?",
-    options: {
-      limit: 10000,
-    },
+    use: [
+      {
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+        },
+      },
+    ],
+    type: "javascript/auto",
   },
-  { test: /\.(ttf|eot)$/, loader: "file-loader" },
+  { test: /\.(ttf|eot)$/,
+    use: [
+      {
+        loader: "file-loader"
+      },
+    ],
+    type: "javascript/auto",
+  },
+  {
+    test: /\.html$/,
+    use: [
+      {
+        loader: "html-loader",
+      }
+    ]
+  },
 ]
 
 export default function buildConfig(
@@ -72,6 +99,10 @@ export default function buildConfig(
         BUILD_TIME: new Date().toUTCString(),
       }),
     }),
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
+    }),
   ]
 
   const completeConfig = deepExtend(
@@ -86,16 +117,16 @@ export default function buildConfig(
         publicPath: "/dist",
         filename: "[name].js",
         chunkFilename: "[name].js",
-        libraryTarget: "umd",
-        libraryExport: "default", // TODO: enable
+        globalObject: "this",
+        library: {
+          // when esm, library.name should be unset, so do not define here
+          type: "umd",
+          export: "default",
+        }
       },
 
       target: "web",
 
-      node: {
-        // yaml-js has a reference to `fs`, this is a workaround
-        fs: "empty",
-      },
 
       module: {
         rules: baseRules,
@@ -132,6 +163,14 @@ export default function buildConfig(
           "lodash": path.resolve(__dirname, "..", "node_modules/lodash"),
           "isarray": path.resolve(__dirname, "..", "node_modules/stream-browserify/node_modules/isarray"),
           "react-is": path.resolve(__dirname, "..", "node_modules/react-redux/node_modules/react-is"),
+          "buffer": path.resolve(__dirname, "..", "node_modules/buffer"),
+        },
+        fallback: {
+          fs: false,
+          stream: require.resolve("stream-browserify"),
+          https: require.resolve("https-browserify"),
+          http: require.resolve("stream-http"),
+          util: require.resolve("util"),
         },
       },
 
@@ -139,8 +178,8 @@ export default function buildConfig(
       // Otherwise, provide heavy souremaps suitable for development
       devtool: sourcemaps
         ? minimize
-          ? "nosource-source-map"
-          : "module-source-map"
+          ? "nosources-source-map"
+          : "cheap-module-source-map"
         : false,
 
       performance: {
@@ -154,8 +193,6 @@ export default function buildConfig(
         minimizer: [
           compiler =>
             new TerserPlugin({
-              cache: true,
-              sourceMap: sourcemaps,
               terserOptions: {
                 mangle: !!mangle,
               },

@@ -30,7 +30,9 @@ const result = configBuilder(
     },
     output: {
       globalObject: "this",
-      library: "SwaggerUIBundle",
+      library: {
+        name: "SwaggerUIBundle",
+      },
     },
     plugins: [
       new DuplicatesPlugin({
@@ -44,7 +46,7 @@ const result = configBuilder(
       //   filename: path.join("log.bundle-stats.swagger-ui.json"),
       //   fields: null,
       // }),
-    ]
+    ],
   }
 )
 

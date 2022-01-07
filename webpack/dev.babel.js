@@ -3,7 +3,7 @@
  */
 
 import path from "path"
-import { HotModuleReplacementPlugin } from "webpack"
+
 import configBuilder from "./_config-builder"
 import styleConfig from "./stylesheets.babel"
 
@@ -31,25 +31,35 @@ const devConfig = configBuilder(
     },
 
     output: {
-      library: "[name]",
       filename: "[name].js",
       chunkFilename: "[id].js",
+      library: {
+        name: "[name]",
+      },
+      publicPath: "/",
     },
 
     devServer: {
-      port: 3200,
-      publicPath: "/",
-      disableHostCheck: true, // for development within VMs
-      stats: {
-        colors: true,
+      allowedHosts: "all", // for development within VMs
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
       },
-      hot: true,
-      contentBase: path.join(__dirname, "../", "dev-helpers"),
+      port: 3200,
       host: "0.0.0.0",
+      hot: true,
+      static: {
+        directory: path.join(__dirname, "../", "dev-helpers"),
+        publicPath: "/",
+      },
+      client: {
+        logging: "info",
+        progress: true,
+      },
+      devMiddleware: {},
     },
-
-    plugins: [new HotModuleReplacementPlugin()],
-  }
+  },
 )
 
 // mix in the style config's plugins and loader rules

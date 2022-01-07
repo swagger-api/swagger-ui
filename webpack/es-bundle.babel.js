@@ -30,8 +30,13 @@ const result = configBuilder(
     },
     output: {
       globalObject: "this",
-      library: "SwaggerUIBundle",
-      libraryTarget: "commonjs2",
+      library: {
+        type: "module",
+      },
+      module: true,
+    },
+    experiments: {
+      outputModule: true,
     },
     plugins: [
       new DuplicatesPlugin({

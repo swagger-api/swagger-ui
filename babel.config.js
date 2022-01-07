@@ -8,7 +8,7 @@ module.exports = {
             "debug": false,
             "modules": "commonjs",
             "targets": {
-              "node": "8"
+              "node": "14"
             },
             "forceAllTransforms": false,
             "ignoreBrowserslistConfig": true
@@ -115,7 +115,7 @@ module.exports = {
           "@babel/env",
           {
             "targets": {
-              "node": "10"
+              "node": "14"
             },
             "useBuiltIns": false,
             "corejs": { version: 3 }
