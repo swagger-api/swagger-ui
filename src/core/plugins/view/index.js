@@ -1,6 +1,9 @@
 import * as rootInjects from "./root-injects"
 import { memoize } from "core/utils"
 
+import ErrorBoundary from "./error-boundary"
+import Fallback from "./fallback"
+
 export default function({getComponents, getStore, getSystem}) {
 
   let { getComponent, render, makeMappedContainer } = rootInjects
@@ -14,6 +17,10 @@ export default function({getComponents, getStore, getSystem}) {
       getComponent: memGetComponent,
       makeMappedContainer: memMakeMappedContainer,
       render: render.bind(null, getSystem, getStore, getComponent, getComponents),
-    }
+    },
+    components: {
+      ErrorBoundary,
+      Fallback,
+    },
   }
 }
