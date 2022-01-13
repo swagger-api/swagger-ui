@@ -30,7 +30,9 @@ export default function({ configs, getConfigs }) {
     },
     statePlugins: {
       configs: {
-        wrapActions: configsWrapActions
+        wrapActions: {
+          configsWrapActions
+        }
       }
     },
   }
