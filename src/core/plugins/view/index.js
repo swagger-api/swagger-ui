@@ -18,6 +18,9 @@ export default function({getComponents, getStore, getSystem}) {
       makeMappedContainer: memMakeMappedContainer,
       render: render.bind(null, getSystem, getStore, getComponent, getComponents),
     },
+    fn: {
+      componentDidCatch: ErrorBoundary.defaultProps.fn.componentDidCatch,
+    },
     components: {
       ErrorBoundary,
       Fallback,

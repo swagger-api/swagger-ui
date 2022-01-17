@@ -14,7 +14,7 @@ export class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error(error, errorInfo) // eslint-disable-line no-console
+    this.props.fn.componentDidCatch(error, errorInfo)
   }
 
   render() {
@@ -31,6 +31,7 @@ export class ErrorBoundary extends Component {
 ErrorBoundary.propTypes = {
   targetName: PropTypes.string,
   getComponent: PropTypes.func,
+  fn: PropTypes.object,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -39,6 +40,9 @@ ErrorBoundary.propTypes = {
 ErrorBoundary.defaultProps = {
   targetName: "this component",
   getComponent: () => Fallback,
+  fn: {
+    componentDidCatch: console.error,
+  },
   children: null,
 }
 

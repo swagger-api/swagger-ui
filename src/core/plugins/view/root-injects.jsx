@@ -104,10 +104,10 @@ const wrapRender = (getSystem, component) => {
     try {
       return oriRender.apply(this, args)
     } catch (error) {
-      const { getComponent } = getSystem()
+      const { getComponent, fn } = getSystem()
       const Fallback = getComponent("Fallback")
 
-      console.error(error) // eslint-disable-line no-console
+      fn.componentDidCatch(error, null) // eslint-disable-line no-console
       return <Fallback name={target.name} />
     }
   }
