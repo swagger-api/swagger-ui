@@ -148,7 +148,7 @@
     "open": "^8.4.0",
     "postcss": "=8.3.11",
     "postcss-loader": "=4.3.0",
-    "postcss-preset-env": "=6.7.0",
+    "postcss-preset-env": "=7.1.0",
     "prettier": "^2.3.0",
     "raw-loader": "^4.0.0",
     "react-test-renderer": "=17.0.2",
