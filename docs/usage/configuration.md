@@ -31,6 +31,7 @@ Parameter name | Docker variable | Description
 <a name="url"></a>`url` | `URL` | `String`. The URL pointing to API definition (normally `swagger.json` or `swagger.yaml`). Will be ignored if `urls` or `spec` is used.
 <a name="urls"></a>`urls` | `URLS` | `Array`. An array of API definition objects (`[{url: "<url1>", name: "<name1>"},{url: "<url2>", name: "<name2>"}]`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed. Names and URLs must be unique among all items in this array, since they're used as identifiers.
 <a name="urls.primaryName"></a>`urls.primaryName` | `URLS_PRIMARY_NAME` | `String`. When using `urls`, you can use this subparameter. If the value matches the name of a spec provided in `urls`, that spec will be displayed when Swagger UI loads, instead of defaulting to the first spec in `urls`.
+<a name="queryConfigEnabled"></a>`queryConfigEnabled` | `QUERY_CONFIG_ENABLED` | `Boolean=false`. Enables overriding configuration parameters via URL search params.  
 
 ##### Plugin system
 

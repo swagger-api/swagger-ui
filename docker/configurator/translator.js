@@ -43,6 +43,13 @@ const defaultBaseConfig = {
       type: "string",
       base: true
     }
+  },
+  queryConfigEnabled: {
+    value: "false",
+    schema: {
+      type: "boolean",
+      base: true,
+    }
   }
 }
 
@@ -51,14 +58,14 @@ function objectToKeyValueString(env, { injectBaseConfig = false, schema = config
   const keys = Object.keys(env)
 
   // Compute an intermediate representation that holds candidate values and schemas.
-  // 
+  //
   // This is useful for deduping between multiple env keys that set the same
   // config variable.
 
   keys.forEach(key => {
     const varSchema = schema[key]
     const value = env[key]
-    
+
     if(!varSchema) return
 
     if(varSchema.onFound) {
@@ -88,8 +95,8 @@ function objectToKeyValueString(env, { injectBaseConfig = false, schema = config
 
   Object.keys(valueStorage).forEach(key => {
     const value = valueStorage[key]
-    
-    const escapedName = /[^a-zA-Z0-9]/.test(key) ? `"${key}"` : key 
+
+    const escapedName = /[^a-zA-Z0-9]/.test(key) ? `"${key}"` : key
 
     if (value.schema.type === "string") {
       result += `${escapedName}: "${value.value}",\n`
