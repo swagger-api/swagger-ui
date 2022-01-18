@@ -23,6 +23,10 @@ const standardVariables = {
     type: "string",
     name: "urls.primaryName"
   },
+  QUERY_CONFIG_ENABLED: {
+    type: "boolean",
+    name: "queryConfigEnabled"
+  },
   LAYOUT: {
     type: "string",
     name: "layout"

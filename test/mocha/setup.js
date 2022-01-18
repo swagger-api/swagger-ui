@@ -1,5 +1,10 @@
 const { JSDOM } = require("jsdom")
+const Enzyme = require("enzyme")
+const Adapter = require("@wojtekmaj/enzyme-adapter-react-17")
+
 const win = require("../../src/core/window")
+
+Enzyme.configure({ adapter: new Adapter() })
 
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>")
 const { window } = jsdom
