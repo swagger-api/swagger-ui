@@ -20,6 +20,6 @@ module.exports = {
   ],
   silent: true, // set to `false` to allow console.* calls to be printed
   transformIgnorePatterns: [
-    '/node_modules/(?!(react-syntax-highlighter)/)'
+    '/node_modules/(?!(serialize-error)/)',
   ]
 };
