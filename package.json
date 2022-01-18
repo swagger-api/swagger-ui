@@ -80,7 +80,7 @@
     "redux-immutable": "^4.0.0",
     "remarkable": "^2.0.1",
     "reselect": "^4.0.0",
-    "serialize-error": "^8.1.0",
+    "serialize-error": "^9.0.0",
     "sha.js": "^2.4.11",
     "swagger-client": "^3.17.0",
     "url-parse": "^1.5.3",
