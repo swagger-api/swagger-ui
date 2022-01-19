@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"
 import React, { Component } from "react"
 
+import { componentDidCatch } from "../fn"
 import Fallback from "./fallback"
 
 export class ErrorBoundary extends Component {
@@ -19,9 +20,9 @@ export class ErrorBoundary extends Component {
 
   render() {
     const { getComponent, targetName, children } = this.props
-    const FallbackComponent = getComponent("Fallback")
 
     if (this.state.hasError) {
+      const FallbackComponent = getComponent("Fallback")
       return <FallbackComponent name={targetName} />
     }
 
@@ -41,7 +42,7 @@ ErrorBoundary.defaultProps = {
   targetName: "this component",
   getComponent: () => Fallback,
   fn: {
-    componentDidCatch: console.error,
+    componentDidCatch,
   },
   children: null,
 }

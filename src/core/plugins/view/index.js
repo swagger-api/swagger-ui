@@ -1,13 +1,11 @@
-import * as rootInjects from "./root-injects"
 import { memoize } from "core/utils"
 
-import ErrorBoundary from "./error-boundary"
-import Fallback from "./fallback"
+import { getDisplayName, componentDidCatch } from "./fn"
+import { getComponent, render, makeMappedContainer, withErrorBoundary } from "./root-injects"
+import ErrorBoundary from "./components/error-boundary"
+import Fallback from "./components/fallback"
 
-export default function({getComponents, getStore, getSystem}) {
-
-  let { getComponent, render, makeMappedContainer } = rootInjects
-
+const viewPlugin = ({getComponents, getStore, getSystem}) => {
   // getComponent should be passed into makeMappedContainer, _already_ memoized... otherwise we have a big performance hit ( think, really big )
   const memGetComponent = memoize(getComponent.bind(null, getSystem, getStore, getComponents))
   const memMakeMappedContainer = memoize(makeMappedContainer.bind(null, getSystem, getStore, memGetComponent, getComponents))
@@ -19,7 +17,9 @@ export default function({getComponents, getStore, getSystem}) {
       render: render.bind(null, getSystem, getStore, getComponent, getComponents),
     },
     fn: {
-      componentDidCatch: ErrorBoundary.defaultProps.fn.componentDidCatch,
+      getDisplayName,
+      componentDidCatch,
+      withErrorBoundary: withErrorBoundary(getSystem),
     },
     components: {
       ErrorBoundary,
@@ -27,3 +27,5 @@ export default function({getComponents, getStore, getSystem}) {
     },
   }
 }
+
+export default viewPlugin

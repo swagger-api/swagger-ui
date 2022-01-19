@@ -7,6 +7,6 @@ export default function PresetApis() {
 
   return [
     BasePreset,
-    OAS3Plugin
+    OAS3Plugin,
   ]
 }

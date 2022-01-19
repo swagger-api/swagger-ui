@@ -233,3 +233,7 @@ const ui = SwaggerUIBundle({
   ...snippetConfig,
 })
 ```
+
+### Error Handling
+
+SwaggerUI comes with 

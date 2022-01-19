@@ -86,8 +86,7 @@ export default function SwaggerUI(opts) {
     ],
 
     // Plugins; ( loaded after presets )
-    plugins: [
-    ],
+    plugins: [],
 
     pluginsOptions: {
       // Behavior during plugin registration. Can be :
@@ -110,6 +109,7 @@ export default function SwaggerUI(opts) {
   }
 
   let queryConfig = opts.queryConfigEnabled ? parseSearch() : {}
+
 
   const domNode = opts.domNode
   delete opts.domNode
