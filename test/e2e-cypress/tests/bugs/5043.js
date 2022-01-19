@@ -1,5 +1,3 @@
-import repeat from "lodash/repeat"
-
 describe("#5043: path-level $ref path items should inherit global consumes/produces", () => {
   it("should render consumes options correctly", () => {
     cy

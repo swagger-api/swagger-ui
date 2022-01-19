@@ -18,7 +18,5 @@ module.exports = {
     '<rootDir>/test/unit/components/online-validator-badge.jsx',
     '<rootDir>/test/unit/components/live-response.jsx',
   ],
-  transformIgnorePatterns: [
-    '/node_modules/(?!(react-syntax-highlighter)/)'
-  ]
+  silent: true, // set to `false` to allow console.* calls to be printed
 };
