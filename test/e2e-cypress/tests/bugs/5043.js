@@ -2,7 +2,6 @@ describe("#5043: path-level $ref path items should inherit global consumes/produ
   it("should render consumes options correctly", () => {
     cy
       .visit("/?url=/documents/bugs/5043/swagger.yaml")
-      .wait(500) // HACK: wait for external spec ref to resolve (swagger.yaml->status.yaml)
       .get("#operations-pet-findPetsByStatus")
       .click()
       .get(".try-out__btn")
@@ -17,7 +16,6 @@ describe("#5043: path-level $ref path items should inherit global consumes/produ
   it("should render produces options correctly", () => {
     cy
       .visit("/?url=/documents/bugs/5043/swagger.yaml")
-      .wait(500) // HACK: wait for external spec ref to resolve (swagger.yaml->status.yaml)
       .get("#operations-pet-findPetsByStatus")
       .click()
       .get(".try-out__btn")
