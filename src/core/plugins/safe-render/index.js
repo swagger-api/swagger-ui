@@ -1,4 +1,10 @@
-const safeRenderPlugin = ({componentList = [], fullOverride = false} = {}) => () => {
+import zipObject from "lodash/zipObject"
+
+import ErrorBoundary from "./components/error-boundary"
+import Fallback from "./components/fallback"
+import { componentDidCatch, withErrorBoundary } from "./fn"
+
+const safeRenderPlugin = ({componentList = [], fullOverride = false} = {}) => ({ getSystem }) => {
   const defaultComponentList = [
     "App",
     "Topbar",
@@ -16,15 +22,20 @@ const safeRenderPlugin = ({componentList = [], fullOverride = false} = {}) => ()
     "ModelWrapper",
     "onlineValidatorBadge"
   ]
-
   const mergedComponentList = fullOverride ? componentList : [...defaultComponentList, ...componentList]
   const wrapFactory = (Original, { fn }) => fn.withErrorBoundary(Original)
+  const wrapComponents = zipObject(mergedComponentList, Array(mergedComponentList.length).fill(wrapFactory))
 
   return {
-    wrapComponents: mergedComponentList.reduce((previousValue, currentValue) => {
-      previousValue[currentValue] = wrapFactory
-      return previousValue
-    }, {})
+    fn: {
+      componentDidCatch,
+      withErrorBoundary: withErrorBoundary(getSystem),
+    },
+    components: {
+      ErrorBoundary,
+      Fallback,
+    },
+    wrapComponents,
   }
 }
 

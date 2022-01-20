@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 import ReactDOM from "react-dom"
+import { compose } from "redux"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
-
-const isFunctionComponent = component => !(component.prototype && component.prototype.isReactComponent)
+import identity from "lodash/identity"
 
 const withSystem = (getSystem) => (WrappedComponent) => {
   const { fn } = getSystem()
@@ -33,46 +33,18 @@ const withRoot = (getSystem, reduxStore) => (WrappedComponent) => {
   return WithRoot
 }
 
-export const withErrorBoundary = (getSystem) => (WrappedComponent) => {
-  const { getComponent, fn } = getSystem()
-  const ErrorBoundary = getComponent("ErrorBoundary")
-  const targetName = fn.getDisplayName(WrappedComponent)
-  const BaseClass = isFunctionComponent(WrappedComponent) ? Component : WrappedComponent
-
-  /**
-   * We need to handle case of class components defining a `mapStateToProps` method.
-    */
-  class WithErrorBoundary extends BaseClass {
-    render() {
-      const children = BaseClass === Component
-        ? <WrappedComponent {...this.props} {...this.context} />
-        : super.render()
-
-      return (
-        <ErrorBoundary targetName={targetName} getComponent={getComponent} fn={fn}>
-          {children}
-        </ErrorBoundary>
-      )
-    }
-  }
-  WithErrorBoundary.displayName = `WithErrorBoundary(${fn.getDisplayName(WrappedComponent)})`
-  return WithErrorBoundary
-}
-
-const makeContainer = (getSystem, component, reduxStore) => {
+const withConnect = (getSystem, WrappedComponent, reduxStore) => {
   const mapStateToProps = (state, ownProps) => {
     const props = {...ownProps, ...getSystem()}
-    const customMapStateToProps = component.prototype?.mapStateToProps || (state => ({state}))
+    const customMapStateToProps = WrappedComponent.prototype?.mapStateToProps || (state => ({state}))
     return customMapStateToProps(state, props)
   }
 
-  const wrappedWithSystem = withSystem(getSystem)(component)
-  const connected = connect(mapStateToProps)(wrappedWithSystem)
-
-  if (reduxStore) {
-    return withRoot(getSystem, reduxStore)(connected)
-  }
-  return connected
+  return compose(
+    reduxStore ? withRoot(getSystem, reduxStore) : identity,
+    connect(mapStateToProps),
+    withSystem(getSystem),
+  )(WrappedComponent)
 }
 
 const handleProps = (getSystem, mapping, props, oldProps) => {
@@ -85,8 +57,11 @@ const handleProps = (getSystem, mapping, props, oldProps) => {
   }
 }
 
-export const makeMappedContainer = (getSystem, getStore, memGetComponent, getComponents, componentName, mapping) => {
-  return class extends Component {
+export const withMappedContainer = (getSystem, getStore, memGetComponent) => (componentName, mapping) => {
+  const { fn } = getSystem()
+  const WrappedComponent = memGetComponent(componentName, "root")
+
+  class WithMappedContainer extends Component {
     constructor(props, context) {
       super(props, context)
       handleProps(getSystem, mapping, props, {})
@@ -98,18 +73,19 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
 
     render() {
       const cleanProps = omit(this.props, mapping ? Object.keys(mapping) : [])
-      const Comp = memGetComponent(componentName, "root")
-      return <Comp {...cleanProps}/>
+      return <WrappedComponent {...cleanProps} />
     }
   }
+  WithMappedContainer.displayName = `WithMappedContainer(${fn.getDisplayName(WrappedComponent)})`
+  return WithMappedContainer
 }
 
-export const render = (getSystem, getStore, getComponent, getComponents, domNode) => {
-  const App = getComponent(getSystem, getStore, getComponents, "App", "root")
+export const render = (getSystem, getStore, getComponent, getComponents) => (domNode) => {
+  const App = getComponent(getSystem, getStore, getComponents)("App", "root")
   ReactDOM.render(<App/>, domNode)
 }
 
-export const getComponent = (getSystem, getStore, getComponents, componentName, container, config = {}) => {
+export const getComponent = (getSystem, getStore, getComponents) => (componentName, container, config = {}) => {
 
   if (typeof componentName !== "string")
     throw new TypeError("Need a string, to fetch a component. Was given a " + typeof componentName)
@@ -131,9 +107,9 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
   }
 
   if(container === "root") {
-    return makeContainer(getSystem, component, getStore())
+    return withConnect(getSystem, component, getStore())
   }
 
   // container == truthy
-  return makeContainer(getSystem, component)
+  return withConnect(getSystem, component)
 }
