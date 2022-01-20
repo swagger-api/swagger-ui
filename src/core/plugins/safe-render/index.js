@@ -1,16 +1,27 @@
-const safeRenderPlugin = () => {
-  const criticalComponentList = [
+const safeRenderPlugin = ({componentList = [], fullOverride = false} = {}) => () => {
+  const defaultComponentList = [
     "App",
     "Topbar",
-    "info",
+    "VersionPragmaFilter",
+    "InfoContainer",
+    "SchemesContainer",
+    "AuthorizeBtnContainer",
+    "FilterContainer",
+    "Operations",
     "OperationContainer",
+    "parameters",
+    "responses",
+    "OperationServers",
+    "Models",
+    "ModelWrapper",
+    "onlineValidatorBadge"
   ]
-  const wrapFactory = (Original, { fn }) => {
-    return fn.withErrorBoundary(Original)
-  }
+
+  const mergedComponentList = fullOverride ? componentList : [...defaultComponentList, ...componentList]
+  const wrapFactory = (Original, { fn }) => fn.withErrorBoundary(Original)
 
   return {
-    wrapComponents: criticalComponentList.reduce((previousValue, currentValue) => {
+    wrapComponents: mergedComponentList.reduce((previousValue, currentValue) => {
       previousValue[currentValue] = wrapFactory
       return previousValue
     }, {})
