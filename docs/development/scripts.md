@@ -17,7 +17,7 @@ Script name | Description
 --- | ---
 `build` | Build a new set of JS and CSS assets, and output them to `/dist`.
 `build-bundle` | Build `swagger-ui-bundle.js` only (commonJS). 
-`build-core` | Build `swagger-ui.(js\|css)` only (commonJS).
+`build-core` | Build `swagger-ui-core.(js\|css)` only (commonJS).
 `build-standalone` | Build `swagger-ui-standalone-preset.js` only (commonJS).
 `build-stylesheets` | Build `swagger-ui.css` only.
 `build:es:bundle` | Build `swagger-ui-es-bundle.js` only (es2015).

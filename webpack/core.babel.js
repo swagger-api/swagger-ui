@@ -13,7 +13,7 @@ const result = configBuilder(
   },
   {
     entry: {
-      "swagger-ui": [
+      "swagger-ui-core": [
         "./src/index.js",
       ],
     },
