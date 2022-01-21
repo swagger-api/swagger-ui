@@ -86,7 +86,8 @@ export default function SwaggerUI(opts) {
     ],
 
     // Plugins; ( loaded after presets )
-    plugins: [],
+    plugins: [
+    ],
 
     pluginsOptions: {
       // Behavior during plugin registration. Can be :
