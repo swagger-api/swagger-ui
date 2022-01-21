@@ -32,6 +32,7 @@ const result = configBuilder(
       globalObject: "this",
       library: {
         name: "SwaggerUIBundle",
+        export: "default",
       },
     },
     plugins: [

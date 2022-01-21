@@ -35,6 +35,7 @@ const devConfig = configBuilder(
       chunkFilename: "[id].js",
       library: {
         name: "[name]",
+        export: "default",
       },
       publicPath: "/",
     },

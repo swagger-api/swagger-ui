@@ -120,8 +120,8 @@ export default function buildConfig(
         globalObject: "this",
         library: {
           // when esm, library.name should be unset, so do not define here
+          // when esm, library.export should be unset, so do not define here
           type: "umd",
-          export: "default",
         }
       },
 

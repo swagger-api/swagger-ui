@@ -36,6 +36,7 @@ const devE2eConfig = configBuilder(
       chunkFilename: "[id].js",
       library: {
         name: "[name]",
+        export: "default",
       },
       publicPath: "/",
     },
