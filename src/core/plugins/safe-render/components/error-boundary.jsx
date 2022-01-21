@@ -5,13 +5,13 @@ import { componentDidCatch } from "../fn"
 import Fallback from "./fallback"
 
 export class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { hasError: false, error: null }
-  }
-
   static getDerivedStateFromError(error) {
     return { hasError: true, error }
+  }
+
+  constructor(...args) {
+    super(...args)
+    this.state = { hasError: false, error: null }
   }
 
   componentDidCatch(error, errorInfo) {

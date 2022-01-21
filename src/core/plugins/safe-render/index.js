@@ -7,9 +7,10 @@ import { componentDidCatch, withErrorBoundary } from "./fn"
 const safeRenderPlugin = ({componentList = [], fullOverride = false} = {}) => ({ getSystem }) => {
   const defaultComponentList = [
     "App",
-    "Topbar",
+    "BaseLayout",
     "VersionPragmaFilter",
     "InfoContainer",
+    "ServersContainer",
     "SchemesContainer",
     "AuthorizeBtnContainer",
     "FilterContainer",
@@ -20,7 +21,6 @@ const safeRenderPlugin = ({componentList = [], fullOverride = false} = {}) => ({
     "OperationServers",
     "Models",
     "ModelWrapper",
-    "onlineValidatorBadge"
   ]
   const mergedComponentList = fullOverride ? componentList : [...defaultComponentList, ...componentList]
   const wrapFactory = (Original, { fn }) => fn.withErrorBoundary(Original)
