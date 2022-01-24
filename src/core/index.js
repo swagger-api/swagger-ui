@@ -111,7 +111,6 @@ export default function SwaggerUI(opts) {
 
   let queryConfig = opts.queryConfigEnabled ? parseSearch() : {}
 
-
   const domNode = opts.domNode
   delete opts.domNode
 
