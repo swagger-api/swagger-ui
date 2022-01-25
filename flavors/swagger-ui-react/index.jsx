@@ -108,7 +108,7 @@ SwaggerUI.propTypes = {
   showMutatedRequest: PropTypes.bool,
   defaultModelExpandDepth: PropTypes.number,
   defaultModelsExpandDepth: PropTypes.number,
-  defaultModelRendering: PropTypes.oneOf["example", "model"],
+  defaultModelRendering: PropTypes.oneOf(["example", "model"]),
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
   showExtensions: PropTypes.bool,

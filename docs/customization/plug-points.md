@@ -233,3 +233,168 @@ const ui = SwaggerUIBundle({
   ...snippetConfig,
 })
 ```
+
+### Error handling
+
+SwaggerUI comes with a `safe-render` plugin that handles error handling allows plugging into error handling system and modify it.
+
+The plugin accepts a list of component names that should be protected by error boundaries.  
+
+Its public API looks like this:
+
+```js
+{
+  fn: {
+    componentDidCatch,
+    withErrorBoundary: withErrorBoundary(getSystem),
+  },
+  components: {
+    ErrorBoundary,
+    Fallback,
+  },
+}
+```
+
+safe-render plugin is automatically utilized by [base](https://github.com/swagger-api/swagger-ui/blob/78f62c300a6d137e65fd027d850981b010009970/src/core/presets/base.js) and [standalone](https://github.com/swagger-api/swagger-ui/tree/78f62c300a6d137e65fd027d850981b010009970/src/standalone) SwaggerUI presets and
+should always be used as the last plugin, after all the components are already known to the SwaggerUI.
+The plugin defines a default list of components that should be protected by error boundaries:
+
+```js
+[
+  "App",
+  "BaseLayout",
+  "VersionPragmaFilter",
+  "InfoContainer",
+  "ServersContainer",
+  "SchemesContainer",
+  "AuthorizeBtnContainer",
+  "FilterContainer",
+  "Operations",
+  "OperationContainer",
+  "parameters",
+  "responses",
+  "OperationServers",
+  "Models",
+  "ModelWrapper",
+  "Topbar",
+  "StandaloneLayout",
+  "onlineValidatorBadge"
+]
+```
+
+As demonstrated below, additional components can be protected by utilizing the safe-render plugin 
+with configuration options. This gets really handy if you are a SwaggerUI integrator and you maintain a number of
+plugins with additional custom components.
+
+```js
+const swaggerUI = SwaggerUI({
+  url: "https://petstore.swagger.io/v2/swagger.json",
+  dom_id: '#swagger-ui',
+  plugins: [
+    () => ({
+      components: {
+        MyCustomComponent1: () => 'my custom component',
+      },
+    }),
+    SwaggerUI.plugins.SafeRender({
+      fullOverride: true, // only the component list defined here will apply (not the default list)
+      componentList: [
+        "MyCustomComponent1",
+      ],
+    }),
+  ],
+});
+```
+
+##### componentDidCatch
+
+This static function is invoked after a component has thrown an error.  
+It receives two parameters:
+
+1. `error` - The error that was thrown.
+2. `info` - An object with a componentStack key containing [information about which component threw the error](https://reactjs.org/docs/error-boundaries.html#component-stack-traces).
+
+It has precisely the same signature as error boundaries [componentDidCatch lifecycle method](https://reactjs.org/docs/react-component.html#componentdidcatch),
+except it's a static function and not a class method.
+
+Default implement of componentDidCatch uses `console.error` to display the received error:
+
+```js
+export const componentDidCatch = console.error;
+```
+
+To utilize your own error handling logic (e.g. [bugsnag](https://www.bugsnag.com/)), create new SwaggerUI plugin that overrides componentDidCatch:
+
+{% highlight js linenos %}
+const BugsnagErrorHandlerPlugin = () => {
+  // init bugsnag
+
+  return {
+    fn: {
+      componentDidCatch = (error, info) => {
+        Bugsnag.notify(error);
+        Bugsnag.notify(info);
+      },
+    },
+  };
+};
+{% endhighlight %}
+
+##### withErrorBoundary
+
+This function is HOC (Higher Order Component). It wraps a particular component into the `ErrorBoundary` component.
+It can be overridden via a plugin system to control how components are wrapped by the ErrorBoundary component.
+In 99.9% of situations, you won't need to override this function, but if you do, please read the source code of this function first.
+
+##### Fallback
+
+The component is displayed when the error boundary catches an error. It can be overridden via a plugin system.
+Its default implementation is trivial:
+
+```js
+import React from "react"
+import PropTypes from "prop-types"
+
+const Fallback = ({ name }) => (
+  <div className="fallback">
+    😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i>
+  </div>
+)
+Fallback.propTypes = {
+  name: PropTypes.string.isRequired,
+}
+export default Fallback
+```
+
+Feel free to override it to match your look & feel:
+
+```js
+const CustomFallbackPlugin = () => ({
+  components: {
+    Fallback: ({ name } ) => `This is my custom fallback. ${name} failed to render`,
+  },
+});
+
+const swaggerUI = SwaggerUI({
+  url: "https://petstore.swagger.io/v2/swagger.json",
+  dom_id: '#swagger-ui',
+  plugins: [
+    CustomFallbackPlugin,
+  ]  
+});
+```
+
+##### ErrorBoundary
+
+This is the component that implements React error boundaries. Uses `componentDidCatch` and `Fallback`
+under the hood. In 99.9% of situations, you won't need to override this component, but if you do, 
+please read the source code of this component first.
+
+
+##### Change in behavior
+
+In prior releases of SwaggerUI (before v4.3.0), almost all components have been protected, and when thrown error,
+`Fallback` component was displayed. This changes with SwaggerUI v4.3.0. Only components defined
+by the `safe-render` plugin are now protected and display fallback. If a small component somewhere within
+SwaggerUI React component tree fails to render and throws an error. The error bubbles up to the closest
+error boundary, and that error boundary displays the `Fallback` component and invokes `componentDidCatch`.
