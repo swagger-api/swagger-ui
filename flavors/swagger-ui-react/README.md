@@ -132,6 +132,10 @@ Controls whether the "Try it out" section should start enabled. The default is f
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `displayRequestDuration`: PropTypes.bool
+
+Controls the display of the request duration (in milliseconds) for "Try it out" requests. The default is false.
+
 #### `filter`: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 
 If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag. See Swagger UI's [Plug Points](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plug-points.md#fnopsfilter) to customize the filtering behavior.
