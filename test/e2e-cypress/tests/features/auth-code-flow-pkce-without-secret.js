@@ -7,7 +7,10 @@ describe("Check client_secret for OAuth2 Authorization Code flow with and withou
       .then(win => {
         // set auth config to use PKCE
         let authConfigs = win.ui.authSelectors.getConfigs()
-        authConfigs.usePkceWithAuthorizationCodeGrant = true
+        win.ui.authActions.configureAuth({
+          ...authConfigs,
+          usePkceWithAuthorizationCodeGrant: true,
+        })
       })
       .get("button.authorize")
       .click()
@@ -27,7 +30,10 @@ describe("Check client_secret for OAuth2 Authorization Code flow with and withou
       .then(win => {
         // set auth config to not use PKCE
         let authConfigs = win.ui.authSelectors.getConfigs()
-        authConfigs.usePkceWithAuthorizationCodeGrant = false
+        win.ui.authActions.configureAuth({
+          ...authConfigs,
+          usePkceWithAuthorizationCodeGrant: false,
+        })
       })
       .get("button.authorize")
       .click()
