@@ -1,6 +1,6 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import XML from "xml"
-import memoizee from "memoizee"
+import { memoizeN } from "core/utils"
 import isEmpty from "lodash/isEmpty"
 
 const primitives = {
@@ -602,6 +602,8 @@ export const createXMLExample = (schema, config, o) => {
 export const sampleFromSchema = (schema, config, o) =>
   sampleFromSchemaGeneric(schema, config, o, false)
 
-export const memoizedCreateXMLExample = memoizee(createXMLExample)
+const resolver = (arg1, arg2, arg3) => [arg1, JSON.stringify(arg2), JSON.stringify(arg3)]
 
-export const memoizedSampleFromSchema = memoizee(sampleFromSchema)
+export const memoizedCreateXMLExample = memoizeN(createXMLExample, resolver)
+
+export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)

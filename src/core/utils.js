@@ -153,6 +153,48 @@ export function isArray(thing) {
 // I've changed memoize libs more than once, so I'm using this a way to make that simpler
 export const memoize = _memoize
 
+/**
+ * This function is extension on top of lodash.memoize.
+ * It uses all the arguments of the `fn` as the cache key instead of just the first one.
+ * If resolver is provided, it determines the cache key for
+ * storing the result based on the arguments provided to the memoized function.
+ */
+export const memoizeN = (fn, resolver = ((...args) => args)) => {
+  const shallowArrayEquals = (a) => (b) => {
+    return Array.isArray(a) && Array.isArray(b)
+      && a.length === b.length
+      && a.every((val, index) => val === b[index])
+  }
+
+  class Cache extends Map {
+    delete(key) {
+      const keys = Array.from(this.keys())
+      const foundKey = keys.find(shallowArrayEquals(key))
+      return super.delete(foundKey)
+    }
+
+    get(key) {
+      const keys = Array.from(this.keys())
+      const foundKey = keys.find(shallowArrayEquals(key))
+      return super.get(foundKey)
+    }
+
+    has(key) {
+      const keys = Array.from(this.keys())
+      return keys.findIndex(shallowArrayEquals(key)) !== -1
+    }
+  }
+
+  const { Cache: OriginalCache } = _memoize
+  _memoize.Cache = Cache
+
+  const memoized = _memoize(fn, resolver)
+
+  _memoize.Cache = OriginalCache
+
+  return memoized
+}
+
 export function objMap(obj, fn) {
   return Object.keys(obj).reduce((newObj, key) => {
     newObj[key] = fn(obj[key], key)
