@@ -1,6 +1,8 @@
 import XML from "xml"
 import isEmpty from "lodash/isEmpty"
-import { objectify, isFunc, normalizeArray, deeplyStripKey, memoizeN } from "core/utils"
+import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
+
+import memoizeN from "../../../helpers/memoizeN"
 
 const primitives = {
   "string": () => "string",
