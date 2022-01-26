@@ -5,7 +5,7 @@ import { getDisplayName } from "./fn"
 
 const viewPlugin = ({getComponents, getStore, getSystem}) => {
   // getComponent should be passed into makeMappedContainer, _already_ memoized... otherwise we have a big performance hit ( think, really big )
-  const memGetComponent = memoize(getComponent(getSystem, getStore, getComponents))
+  const memGetComponent = memoize(getComponent(getSystem, getStore, getComponents), (...args) => JSON.stringify(args))
   const memMakeMappedContainer = memoize(withMappedContainer(getSystem, getStore, memGetComponent))
 
   return {
