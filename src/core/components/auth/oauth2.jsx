@@ -130,7 +130,11 @@ export default class Oauth2 extends React.Component {
     const AUTH_FLOW_ACCESS_CODE = isOAS3() ? (oidcUrl ? "authorization_code" : "authorizationCode") : "accessCode"
     const AUTH_FLOW_APPLICATION = isOAS3() ? (oidcUrl ? "client_credentials" : "clientCredentials") : "application"
 
+    let authConfigs = authSelectors.getConfigs()
+    let isPkceCodeGrant = authConfigs.usePkceWithAuthorizationCodeGrant === "true" || authConfigs.usePkceWithAuthorizationCodeGrant === true
+
     let flow = schema.get("flow")
+    let flowToDisplay = flow === AUTH_FLOW_ACCESS_CODE && isPkceCodeGrant ? flow + " with PKCE" : flow
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
     let authorizedAuth = authSelectors.authorized().get(name)
     let isAuthorized = !!authorizedAuth
@@ -140,7 +144,7 @@ export default class Oauth2 extends React.Component {
 
     return (
       <div>
-        <h4>{name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        <h4>{name} (OAuth2, { flowToDisplay }) <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
         { description && <Markdown source={ schema.get("description") } /> }
 
@@ -149,7 +153,7 @@ export default class Oauth2 extends React.Component {
         { oidcUrl && <p>OpenID Connect URL: <code>{ oidcUrl }</code></p> }
         { ( flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE ) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
         { ( flow === AUTH_FLOW_PASSWORD || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_APPLICATION ) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
-        <p className="flow">Flow: <code>{ schema.get("flow") }</code></p>
+        <p className="flow">Flow: <code>{ flowToDisplay }</code></p>
 
         {
           flow !== AUTH_FLOW_PASSWORD ? null
@@ -208,7 +212,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( (flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD) && <Row>
+          ( (flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD) && !isPkceCodeGrant && <Row>
             <label htmlFor="client_secret">client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>

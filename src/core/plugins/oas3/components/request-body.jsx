@@ -88,7 +88,7 @@ const RequestBody = ({
   const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
     const val = container?.get("value", null)
     if(val) {
-      container = container.set("value",   getDefaultRequestBodyValue(
+      container = container.set("value", getDefaultRequestBodyValue(
         requestBody,
         contentType,
         key,
