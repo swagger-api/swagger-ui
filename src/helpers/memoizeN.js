@@ -13,6 +13,8 @@ const shallowArrayEquals = (a) => (b) => {
     && a.every((val, index) => val === b[index])
 }
 
+const list = (...args) => args
+
 class Cache extends Map {
   delete(key) {
     const keys = Array.from(this.keys())
@@ -32,7 +34,7 @@ class Cache extends Map {
   }
 }
 
-const memoizeN = (fn, resolver = ((...args) => args)) => {
+const memoizeN = (fn, resolver = list) => {
   const { Cache: OriginalCache } = memoize
   memoize.Cache = Cache
 
