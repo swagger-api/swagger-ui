@@ -163,7 +163,7 @@
     "tachyons-sass": "^4.9.5",
     "terser-webpack-plugin": "^4.2.3",
     "url-loader": "^4.1.1",
-    "webpack": "^4.46.0",
+    "webpack": "^5.67.0",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
