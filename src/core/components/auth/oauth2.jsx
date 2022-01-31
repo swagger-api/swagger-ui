@@ -130,8 +130,8 @@ export default class Oauth2 extends React.Component {
     const AUTH_FLOW_ACCESS_CODE = isOAS3() ? (oidcUrl ? "authorization_code" : "authorizationCode") : "accessCode"
     const AUTH_FLOW_APPLICATION = isOAS3() ? (oidcUrl ? "client_credentials" : "clientCredentials") : "application"
 
-    let authConfigs = authSelectors.getConfigs()
-    let isPkceCodeGrant = authConfigs.usePkceWithAuthorizationCodeGrant === "true" || authConfigs.usePkceWithAuthorizationCodeGrant === true
+    let authConfigs = authSelectors.getConfigs() || {}
+    let isPkceCodeGrant = !!authConfigs.usePkceWithAuthorizationCodeGrant
 
     let flow = schema.get("flow")
     let flowToDisplay = flow === AUTH_FLOW_ACCESS_CODE && isPkceCodeGrant ? flow + " with PKCE" : flow

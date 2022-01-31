@@ -7,32 +7,34 @@ import memoize from "lodash/memoize"
  * storing the result based on the arguments provided to the memoized function.
  */
 
-const memoizeN = (fn, resolver = ((...args) => args)) => {
-  const shallowArrayEquals = (a) => (b) => {
-    return Array.isArray(a) && Array.isArray(b)
-      && a.length === b.length
-      && a.every((val, index) => val === b[index])
+const shallowArrayEquals = (a) => (b) => {
+  return Array.isArray(a) && Array.isArray(b)
+    && a.length === b.length
+    && a.every((val, index) => val === b[index])
+}
+
+const list = (...args) => args
+
+class Cache extends Map {
+  delete(key) {
+    const keys = Array.from(this.keys())
+    const foundKey = keys.find(shallowArrayEquals(key))
+    return super.delete(foundKey)
   }
 
-  class Cache extends Map {
-    delete(key) {
-      const keys = Array.from(this.keys())
-      const foundKey = keys.find(shallowArrayEquals(key))
-      return super.delete(foundKey)
-    }
-
-    get(key) {
-      const keys = Array.from(this.keys())
-      const foundKey = keys.find(shallowArrayEquals(key))
-      return super.get(foundKey)
-    }
-
-    has(key) {
-      const keys = Array.from(this.keys())
-      return keys.findIndex(shallowArrayEquals(key)) !== -1
-    }
+  get(key) {
+    const keys = Array.from(this.keys())
+    const foundKey = keys.find(shallowArrayEquals(key))
+    return super.get(foundKey)
   }
 
+  has(key) {
+    const keys = Array.from(this.keys())
+    return keys.findIndex(shallowArrayEquals(key)) !== -1
+  }
+}
+
+const memoizeN = (fn, resolver = list) => {
   const { Cache: OriginalCache } = memoize
   memoize.Cache = Cache
 
