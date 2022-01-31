@@ -72,7 +72,7 @@ Will start nginx with Swagger UI on port 80.
 Or you can provide your own swagger.json on your host
 
 ```
-docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
+docker run -p 80:8080 -e SWAGGER_JSON=swagger.json -v /bar/swagger.json:/usr/share/nginx/html/swagger.json swaggerapi/swagger-ui
 ```
 
 The base URL of the web application can be changed by specifying the `BASE_URL` environment variable:
