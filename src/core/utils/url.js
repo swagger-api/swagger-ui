@@ -12,11 +12,11 @@ export function buildBaseUrl(selectedServer, specUrl) {
   if (!selectedServer) return specUrl
   if (isAbsoluteUrl(selectedServer)) return addProtocol(selectedServer)
 
-  return new URL(selectedServer, specUrl).href    
+  return new URL(selectedServer, specUrl).href
 }
 
 export function buildUrl(url, specUrl, { selectedServer="" } = {}) {
-  if (!url) return
+  if (!url) return undefined
   if (isAbsoluteUrl(url)) return url
 
   const baseUrl = buildBaseUrl(selectedServer, specUrl)
@@ -24,4 +24,16 @@ export function buildUrl(url, specUrl, { selectedServer="" } = {}) {
     return new URL(url, window.location.href).href
   }
   return new URL(url, baseUrl).href
+}
+
+/**
+ * Safe version of buildUrl function. `selectedServer` can contain server variables
+ * which can fail the URL resolution.
+ */
+export function safeBuildUrl(url, specUrl, { selectedServer="" } = {}) {
+  try {
+    return buildUrl(url, specUrl, { selectedServer })
+  } catch {
+    return undefined
+  }
 }

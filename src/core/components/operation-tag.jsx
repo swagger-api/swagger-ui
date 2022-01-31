@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import Im from "immutable"
 import { createDeepLinkPath, escapeDeepLinkPath, sanitizeUrl } from "core/utils"
-import { buildUrl } from "core/utils/url"
+import { safeBuildUrl } from "core/utils/url"
 import { isFunc } from "core/utils"
 
 export default class OperationTag extends React.Component {
@@ -59,7 +59,7 @@ export default class OperationTag extends React.Component {
     let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
     let tagExternalDocsUrl
     if (isFunc(oas3Selectors) && isFunc(oas3Selectors.selectedServer)) {
-      tagExternalDocsUrl = buildUrl( rawTagExternalDocsUrl, specUrl, { selectedServer: oas3Selectors.selectedServer() } )
+      tagExternalDocsUrl = safeBuildUrl( rawTagExternalDocsUrl, specUrl, { selectedServer: oas3Selectors.selectedServer() } )
     } else {
       tagExternalDocsUrl = rawTagExternalDocsUrl
     }

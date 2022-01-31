@@ -1,0 +1,17 @@
+name: Merge me!
+
+on:
+  pull_request_target:
+
+jobs:
+  merge-me:
+    name: Merge me!
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge me!
+        uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          target: minor
+          github-token: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+          command: squash and merge
