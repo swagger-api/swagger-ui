@@ -8,7 +8,7 @@ module.exports = {
             "debug": false,
             "modules": "commonjs",
             "targets": {
-              "node": "14"
+              "node": "8"
             },
             "forceAllTransforms": false,
             "ignoreBrowserslistConfig": true
