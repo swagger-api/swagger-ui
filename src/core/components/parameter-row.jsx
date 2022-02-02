@@ -30,7 +30,7 @@ export default class ParameterRow extends Component {
     this.setDefaultValue()
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     let { specSelectors, pathMethod, rawParam } = props
     let isOAS3 = specSelectors.isOAS3()
 
@@ -127,7 +127,7 @@ export default class ParameterRow extends Component {
           : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-        initialValue = 
+        initialValue =
           paramWithMeta.getIn(["examples", currentExampleKey, "value"]) !== undefined
           ? paramWithMeta.getIn(["examples", currentExampleKey, "value"])
           : paramWithMeta.getIn(["content", parameterMediaType, "example"]) !== undefined

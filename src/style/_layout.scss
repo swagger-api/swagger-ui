@@ -281,7 +281,7 @@
         font-weight: bold;
 
         min-width: 80px;
-        padding: 6px 15px;
+        padding: 6px 0;
 
         text-align: center;
 
@@ -500,6 +500,17 @@
         {
             font-weight: bold;
         }
+
+        button.tablinks
+        {
+            background: none;
+            border: 0;
+            padding: 0;
+
+            color: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+        }
     }
 }
 
@@ -706,6 +717,9 @@
   color: white;
   font-size: 14px;
   height: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .scheme-container
