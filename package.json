@@ -1,13 +1,12 @@
 {
   "name": "swagger-ui",
   "version": "4.1.3",
-  "unpkg": "./dist/swagger-ui.js",
-  "browser": "./dist/swagger-ui.js",
+  "main": "./dist/swagger-ui-core.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": "./dist/swagger-ui.js"
+    "." : {
+      "import": "./dist/swagger-ui-es-bundle-core.js",
+      "require": "./dist/swagger-ui-core.js"
     }
   },
   "homepage": "https://github.com/swagger-api/swagger-ui",
