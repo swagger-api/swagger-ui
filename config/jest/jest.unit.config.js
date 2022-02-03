@@ -7,7 +7,6 @@ module.exports = {
     '**/test/unit/*.js?(x)',
     '**/test/unit/**/*.js?(x)',
   ],
-  // testMatch: ['**/test/unit/core/plugins/auth/actions.js'],
   setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
@@ -19,7 +18,4 @@ module.exports = {
     '<rootDir>/test/unit/components/live-response.jsx',
   ],
   silent: true, // set to `false` to allow console.* calls to be printed
-  transformIgnorePatterns: [
-    '/node_modules/(?!(react-syntax-highlighter)/)'
-  ]
 };

@@ -21,22 +21,16 @@ export default class StandaloneLayout extends React.Component {
     const Topbar = getComponent("Topbar", true)
     const BaseLayout = getComponent("BaseLayout", true)
     const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
-    const ErrorBoundary = getComponent("ErrorBoundary", true)
-
 
     return (
       <Container className='swagger-ui'>
-        <ErrorBoundary targetName="Topbar">
-          {Topbar ? <Topbar /> : null}
-        </ErrorBoundary>
+        {Topbar ? <Topbar /> : null}
         <BaseLayout />
-        <ErrorBoundary targetName="OnlineValidatorBadge">
-          <Row>
-            <Col>
-              <OnlineValidatorBadge />
-            </Col>
-          </Row>
-        </ErrorBoundary>
+        <Row>
+          <Col>
+            <OnlineValidatorBadge />
+          </Col>
+        </Row>
       </Container>
     )
   }
