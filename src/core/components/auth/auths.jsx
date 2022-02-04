@@ -20,7 +20,7 @@ export default class Auths extends React.Component {
   componentDidMount() {
     var inputs = document.getElementsByClassName("modal-ux-content")[0].getElementsByTagName("input")
     for (let i = 0; i < inputs.length; i++) {
-      const element = inputs[i];
+      const element = inputs[i]
       if (element) {
         element.focus()
         break
