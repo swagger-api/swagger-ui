@@ -70,7 +70,7 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ##### Integration Tests
 
 You will need JDK of version 7 or higher as instructed here
-https://nightwatchjs.org/gettingstarted/#selenium-server-setup
+https://nightwatchjs.org/guide/getting-started/installation.html#install-selenium-server
 
 Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
 
