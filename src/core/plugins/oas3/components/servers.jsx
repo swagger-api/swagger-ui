@@ -117,13 +117,15 @@ export default class Servers extends React.Component {
         <label htmlFor="servers">
           <select onChange={ this.onServerChange } value={currentServer}>
             { servers.valueSeq().map(
-              ( server ) =>
-              <option
-                value={ server.get("url") }
-                key={ server.get("url") }>
-                { server.get("url") }
+              ( server ) => {
+              const serverUrl = server.get("url")
+              return <option
+                aria-label={ serverUrl }
+                value={ serverUrl }
+                key={ serverUrl }>
+                { serverUrl }
                 { server.get("description") && ` - ${server.get("description")}` }
-              </option>
+              </option>}
             ).toArray()}
           </select>
         </label>

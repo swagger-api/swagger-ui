@@ -133,6 +133,7 @@ export class Select extends React.Component {
   static propTypes = {
     allowedValues: PropTypes.array,
     value: PropTypes.any,
+    ariaLabel: PropTypes.string,
     onChange: PropTypes.func,
     multiple: PropTypes.bool,
     allowEmptyValue: PropTypes.bool,
@@ -189,11 +190,11 @@ export class Select extends React.Component {
   }
 
   render(){
-    let { allowedValues, multiple, allowEmptyValue, disabled } = this.props
+    let { allowedValues, ariaLabel, multiple, allowEmptyValue, disabled } = this.props
     let value = this.state.value?.toJS?.() || this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} >
+      <select className={this.props.className} aria-label={ariaLabel} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {

@@ -220,7 +220,7 @@ export default class Parameters extends Component {
                   onChange={(value) => {
                     this.onChangeMediaType({ value, pathMethod })
                   }}
-                  className="body-param-content-type" 
+                  className="body-param-content-type"
                   ariaLabel="Request content type" />
               </label>
             </div>
@@ -230,6 +230,7 @@ export default class Parameters extends Component {
                 userHasEditedBody={oas3Selectors.hasUserEditedBody(...pathMethod)}
                 specPath={specPath.slice(0, -1).push("requestBody")}
                 requestBody={requestBody}
+                pathMethod={pathMethod}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
                 requestBodyInclusionSetting={oas3Selectors.requestBodyInclusionSetting(...pathMethod)}
                 requestBodyErrors={oas3Selectors.requestBodyErrors(...pathMethod)}
