@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor, {presets} from "./swagger-ui"
+import swaggerUIConstructor, {presets} from "./swagger-ui-es-bundle-core"
 export default class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
