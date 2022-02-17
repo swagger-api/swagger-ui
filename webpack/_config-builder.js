@@ -163,14 +163,11 @@ export default function buildConfig(
           "lodash": path.resolve(__dirname, "..", "node_modules/lodash"),
           "isarray": path.resolve(__dirname, "..", "node_modules/stream-browserify/node_modules/isarray"),
           "react-is": path.resolve(__dirname, "..", "node_modules/react-redux/node_modules/react-is"),
-          "buffer": path.resolve(__dirname, "..", "node_modules/buffer"),
+          "safe-buffer": path.resolve(__dirname, "..", "node_modules/string_decoder/node_modules/safe-buffer"),
         },
         fallback: {
           fs: false,
           stream: require.resolve("stream-browserify"),
-          https: require.resolve("https-browserify"),
-          http: require.resolve("stream-http"),
-          util: require.resolve("util"),
         },
       },
 
