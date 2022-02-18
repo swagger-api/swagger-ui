@@ -142,7 +142,7 @@
     "lint-staged": "=11.2.6",
     "local-web-server": "^4.2.1",
     "mini-css-extract-plugin": "^1.6.2",
-    "mocha": "=8.4.0",
+    "mocha": "=9.2.0",
     "npm-audit-ci-wrapper": "^3.0.2",
     "npm-run-all": "^4.1.5",
     "oauth2-server": "^2.4.1",
