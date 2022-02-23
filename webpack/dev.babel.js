@@ -6,6 +6,12 @@ import path from "path"
 
 import configBuilder from "./_config-builder"
 import styleConfig from "./stylesheets.babel"
+// import HtmlWebpackPlugin from "html-webpack-plugin"
+// import { HotModuleReplacementPlugin } from "webpack"
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
+
+const projectBasePath = path.join(__dirname, "../")
+const isDevelopment = process.env.NODE_ENV !== "production"
 
 const devConfig = configBuilder(
   {
@@ -50,16 +56,101 @@ const devConfig = configBuilder(
       port: 3200,
       host: "0.0.0.0",
       hot: true,
+      // liveReload: true, // hot = false, or watchFiles enabled. so we shouldn't need this
+      // watchFiles: path.join(__dirname, "../", "dev-helpers", "index.html"), // globs/directories/files, but extraneous for us due to static.directory
       static: {
-        directory: path.join(__dirname, "../", "dev-helpers"),
+        directory: path.resolve(__dirname, "../", "dev-helpers"),
         publicPath: "/",
+        // watch: true, // enabled by default, watches static.directory
       },
       client: {
         logging: "info",
         progress: true,
       },
-      devMiddleware: {},
+      devMiddleware: {
+        // writeToDisk: true,
+      },
     },
+
+    // plugins: [
+    //   new HtmlWebpackPlugin({
+    //     template: path.join(__dirname, "../", "dev-helpers", "index.html"),
+    //   }),
+    // ],
+    // plugins: [
+    //   new HotModuleReplacementPlugin()
+    // ]
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          include: [
+            path.join(projectBasePath, "src"),
+            path.join(projectBasePath, "node_modules", "object-assign-deep"),
+          ],
+          loader: "babel-loader",
+          options: {
+            retainLines: true,
+            cacheDirectory: true,
+            plugins: [isDevelopment && require.resolve("react-refresh/babel")].filter(Boolean),
+          },
+        },
+        {
+          test: /\.(txt|yaml)$/,
+          use: [
+            {
+              loader: "raw-loader"
+            },
+          ],
+          type: "javascript/auto",
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif|svg)$/,
+          use: [
+            {
+              loader: "url-loader",
+              options: {
+                esModule: false,
+              },
+            },
+          ],
+          type: "javascript/auto",
+        },
+        {
+          test: /\.(woff|woff2)$/,
+          use: [
+            {
+              loader: "url-loader",
+              options: {
+                limit: 10000,
+              },
+            },
+          ],
+          type: "javascript/auto",
+        },
+        {
+          test: /\.(ttf|eot)$/,
+          use: [
+            {
+              loader: "file-loader"
+            },
+          ],
+          type: "javascript/auto",
+        },
+        {
+          test: /\.html$/,
+          use: [
+            {
+              loader: "html-loader",
+            }
+          ]
+        },
+      ],
+    },
+    plugins: [isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
+    // optimization: {
+    //   runtimeChunk: "single",
+    // },
   },
 )
 
