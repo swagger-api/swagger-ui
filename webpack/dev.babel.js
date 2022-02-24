@@ -3,12 +3,11 @@
  */
 
 import path from "path"
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
+import HtmlWebpackPlugin from "html-webpack-plugin"
 
 import configBuilder from "./_config-builder"
 import styleConfig from "./stylesheets.babel"
-import HtmlWebpackPlugin from "html-webpack-plugin"
-// import { HotModuleReplacementPlugin } from "webpack"
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
 
 const projectBasePath = path.join(__dirname, "../")
 const isDevelopment = process.env.NODE_ENV !== "production"
@@ -57,30 +56,16 @@ const devConfig = configBuilder(
       port: 3200,
       host: "0.0.0.0",
       hot: true,
-      // liveReload: true, // hot = false, or watchFiles enabled. so we shouldn't need this
-      // watchFiles: path.join(__dirname, "../", "dev-helpers", "index.html"), // globs/directories/files, but extraneous for us due to static.directory
       static: {
-        directory: path.resolve(__dirname, "../", "dev-helpers"),
+        directory: path.resolve(projectBasePath, "dev-helpers"),
         publicPath: "/",
-        // watch: true, // enabled by default, watches static.directory
       },
       client: {
         logging: "info",
         progress: true,
       },
-      devMiddleware: {
-        // writeToDisk: true,
-      },
     },
 
-    // plugins: [
-    //   new HtmlWebpackPlugin({
-    //     template: path.join(__dirname, "../", "dev-helpers", "index.html"),
-    //   }),
-    // ],
-    // plugins: [
-    //   new HotModuleReplacementPlugin()
-    // ]
     module: {
       rules: [
         {
@@ -148,23 +133,16 @@ const devConfig = configBuilder(
         },
       ],
     },
+
     plugins: [
       isDevelopment && new ReactRefreshWebpackPlugin({ library: "[name]" }),
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, "../", "dev-helpers", "index.html"),
+        template: path.join(projectBasePath, "dev-helpers", "index.html"),
       })
     ].filter(Boolean),
+
     optimization: {
-      // runtimeChunk: "single",
-      // splitChunks: {
-      //   chunks: "all",
-      //   cacheGroups: {
-      //     default: false
-      //   },
-      //   name(_, __, cacheGroupKey) {
-      //     return cacheGroupKey
-      //   },
-      // },
+      runtimeChunk: "single", // for multiple entry points using ReactRefreshWebpackPlugin
     },
   },
 )
