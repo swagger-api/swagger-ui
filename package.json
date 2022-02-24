@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "4.5.0",
+  "version": "4.5.2",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -94,7 +94,7 @@
     "sha.js": "^2.4.11",
     "stream-browserify": "^3.0.0",
     "swagger-client": "^3.18.4",
-    "url-parse": "^1.5.3",
+    "url-parse": "^1.5.6",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"

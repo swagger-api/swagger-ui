@@ -46,7 +46,8 @@ export default class SwaggerUI extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.url !== prevProps.url) {
+    const prevStateUrl = this.system.specSelectors.url()
+    if(this.props.url !== prevStateUrl || this.props.url !== prevProps.url) {
       // flush current content
       this.system.specActions.updateSpec("")
 
@@ -58,7 +59,8 @@ export default class SwaggerUI extends React.Component {
       }
     }
 
-    if(this.props.spec !== prevProps.spec && this.props.spec) {
+    const prevStateSpec = this.system.specSelectors.specStr()
+    if(this.props.spec && (this.props.spec !== prevStateSpec || this.props.spec !== prevProps.spec)) {
       if(typeof this.props.spec === "object") {
         this.system.specActions.updateSpec(JSON.stringify(this.props.spec))
       } else {
