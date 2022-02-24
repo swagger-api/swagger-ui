@@ -6,7 +6,7 @@ import path from "path"
 
 import configBuilder from "./_config-builder"
 import styleConfig from "./stylesheets.babel"
-// import HtmlWebpackPlugin from "html-webpack-plugin"
+import HtmlWebpackPlugin from "html-webpack-plugin"
 // import { HotModuleReplacementPlugin } from "webpack"
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
 
@@ -30,6 +30,7 @@ const devConfig = configBuilder(
         "./src/standalone/index.js",
       ],
       "swagger-ui": "./src/style/main.scss",
+      vendors: ["react", "react-dom", "react-refresh/runtime"],
     },
 
     performance: {
@@ -147,10 +148,24 @@ const devConfig = configBuilder(
         },
       ],
     },
-    plugins: [isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
-    // optimization: {
-    //   runtimeChunk: "single",
-    // },
+    plugins: [
+      isDevelopment && new ReactRefreshWebpackPlugin({ library: "[name]" }),
+      new HtmlWebpackPlugin({
+        template: path.join(__dirname, "../", "dev-helpers", "index.html"),
+      })
+    ].filter(Boolean),
+    optimization: {
+      // runtimeChunk: "single",
+      // splitChunks: {
+      //   chunks: "all",
+      //   cacheGroups: {
+      //     default: false
+      //   },
+      //   name(_, __, cacheGroupKey) {
+      //     return cacheGroupKey
+      //   },
+      // },
+    },
   },
 )
 
