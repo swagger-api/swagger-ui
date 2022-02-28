@@ -83,45 +83,19 @@ const devConfig = configBuilder(
         },
         {
           test: /\.(txt|yaml)$/,
-          use: [
-            {
-              loader: "raw-loader"
-            },
-          ],
-          type: "javascript/auto",
+          type: "asset/source",
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg)$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                esModule: false,
-              },
-            },
-          ],
-          type: "javascript/auto",
+          type: "asset/inline",
         },
         {
           test: /\.(woff|woff2)$/,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: 10000,
-              },
-            },
-          ],
-          type: "javascript/auto",
+          type: "asset",
         },
         {
           test: /\.(ttf|eot)$/,
-          use: [
-            {
-              loader: "file-loader"
-            },
-          ],
-          type: "javascript/auto",
+          type: "asset/resource",
         },
         {
           test: /\.html$/,
