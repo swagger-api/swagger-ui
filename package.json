@@ -82,7 +82,7 @@
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
     "swagger-client": "^3.18.4",
-    "url-parse": "^1.5.6",
+    "url-parse": "^1.5.8",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
