@@ -5,6 +5,7 @@
 import path from "path"
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
+import { HtmlWebpackSkipAssetsPlugin } from "html-webpack-skip-assets-plugin"
 
 import configBuilder from "./_config-builder"
 import styleConfig from "./stylesheets.babel"
@@ -29,7 +30,7 @@ const devConfig = configBuilder(
         "./src/standalone/index.js",
       ],
       "swagger-ui": "./src/style/main.scss",
-      vendors: ["react", "react-dom", "react-refresh/runtime"],
+      vendors: ["react-refresh/runtime"],
     },
 
     performance: {
@@ -112,7 +113,10 @@ const devConfig = configBuilder(
       isDevelopment && new ReactRefreshWebpackPlugin({ library: "[name]" }),
       new HtmlWebpackPlugin({
         template: path.join(projectBasePath, "dev-helpers", "index.html"),
-      })
+      }),
+      new HtmlWebpackSkipAssetsPlugin({
+        skipAssets: [/swagger-ui\.js/],
+      }),
     ].filter(Boolean),
 
     optimization: {

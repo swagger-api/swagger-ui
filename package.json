@@ -143,6 +143,7 @@
     "git-describe": "^4.1.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
+    "html-webpack-skip-assets-plugin": "^1.0.3",
     "husky": "=7.0.4",
     "inspectpack": "=4.7.1",
     "jest": "=27.4.7",
