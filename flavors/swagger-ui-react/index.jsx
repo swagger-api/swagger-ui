@@ -33,6 +33,7 @@ export default class SwaggerUI extends React.Component {
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
       showExtensions: this.props.showExtensions,
       filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
+      persistAuthorization: this.props.persistAuthorization,
     })
 
     this.system = ui
@@ -122,6 +123,7 @@ SwaggerUI.propTypes = {
   requestSnippets: PropTypes.object,
   tryItOutEnabled: PropTypes.bool,
   displayRequestDuration: PropTypes.bool,
+  persistAuthorization: PropTypes.bool,
 }
 
 SwaggerUI.defaultProps = {
@@ -155,4 +157,5 @@ SwaggerUI.defaultProps = {
     defaultExpanded: true,
     languages: null, // e.g. only show curl bash = ["curl_bash"]
   },
+  persistAuthorization: false,
 }
