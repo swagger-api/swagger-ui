@@ -152,6 +152,12 @@ Configures the request snippet core plugin. See Swagger UI's [Display Configurat
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `persistAuthorization`: PropTypes.bool
+
+If set, it persists authorization data and it would not be lost on browser close/refresh. The default is false.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 ## Limitations
 
 * Not all configuration bindings are available.
