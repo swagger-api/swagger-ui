@@ -90,22 +90,6 @@ const devConfig = configBuilder(
           test: /\.(png|jpg|jpeg|gif|svg)$/,
           type: "asset/inline",
         },
-        {
-          test: /\.(woff|woff2)$/,
-          type: "asset",
-        },
-        {
-          test: /\.(ttf|eot)$/,
-          type: "asset/resource",
-        },
-        {
-          test: /\.html$/,
-          use: [
-            {
-              loader: "html-loader",
-            }
-          ]
-        },
       ],
     },
 
