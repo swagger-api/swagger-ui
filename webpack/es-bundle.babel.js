@@ -30,10 +30,10 @@ const result = configBuilder(
     },
     output: {
       globalObject: "this",
-      // with webpack 5 and commonjs2, there should not be a library[String] or library[Object]
-      // https://github.com/webpack/webpack/issues/12675
-      libraryTarget: "commonjs2",
-      libraryExport: "default"
+      library: {
+        type: "commonjs2",
+        export: "default",
+      },
     },
     plugins: [
       new DuplicatesPlugin({
