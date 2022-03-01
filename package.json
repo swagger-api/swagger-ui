@@ -101,7 +101,7 @@
     "@babel/preset-react": "=7.14.5",
     "@babel/register": "=7.16.0",
     "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^16.0.0",
+    "@commitlint/config-conventional": "^16.2.1",
     "@jest/globals": "=27.0.6",
     "@release-it/conventional-changelog": "=3.0.1",
     "@wojtekmaj/enzyme-adapter-react-17": "=0.6.5",
