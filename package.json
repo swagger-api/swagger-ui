@@ -153,7 +153,7 @@
     "prettier": "^2.3.0",
     "raw-loader": "^4.0.0",
     "react-test-renderer": "=17.0.2",
-    "release-it": "=14.10.0",
+    "release-it": "=14.12.5",
     "rimraf": "^3.0.0",
     "sass": "^1.49.0",
     "sass-loader": "^9.0.3",
