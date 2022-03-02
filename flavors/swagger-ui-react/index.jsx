@@ -106,7 +106,10 @@ SwaggerUI.propTypes = {
     PropTypes.oneOf(["get", "put", "post", "delete", "options", "head", "patch", "trace"])
   ),
   queryConfigEnabled: PropTypes.bool,
-  plugins: PropTypes.arrayOf(PropTypes.object),
+  plugins: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.func,
+  ]),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
   defaultModelExpandDepth: PropTypes.number,
