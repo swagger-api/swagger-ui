@@ -28,6 +28,13 @@
   "name": "swagger-ui-react",
   "main": "commonjs.js",
   "module": "index.js",
+  "exports": {
+    "./swagger-ui.css": "./swagger-ui.css",
+    ".": {
+      "import": "./index.js",
+      "require": "./commonjs.js"
+    }
+  },
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
     "(in alphabetical order)",

@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor, {presets} from "./swagger-ui"
+import swaggerUIConstructor, {presets} from "./swagger-ui-es-bundle-core"
 export default class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
@@ -15,6 +15,7 @@ export default class SwaggerUI extends React.Component {
       url: this.props.url,
       layout: this.props.layout,
       defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
+      defaultModelRendering: this.props.defaultModelRendering,
       presets: [presets.apis,...this.props.presets],
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
@@ -25,12 +26,14 @@ export default class SwaggerUI extends React.Component {
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
       displayOperationId: this.props.displayOperationId,
       tryItOutEnabled: this.props.tryItOutEnabled,
+      displayRequestDuration: this.props.displayRequestDuration,
       requestSnippetsEnabled: this.props.requestSnippetsEnabled,
       requestSnippets: this.props.requestSnippets,
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
       showExtensions: this.props.showExtensions,
       filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
+      persistAuthorization: this.props.persistAuthorization,
     })
 
     this.system = ui
@@ -44,7 +47,8 @@ export default class SwaggerUI extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.url !== prevProps.url) {
+    const prevStateUrl = this.system.specSelectors.url()
+    if(this.props.url !== prevStateUrl || this.props.url !== prevProps.url) {
       // flush current content
       this.system.specActions.updateSpec("")
 
@@ -56,7 +60,8 @@ export default class SwaggerUI extends React.Component {
       }
     }
 
-    if(this.props.spec !== prevProps.spec && this.props.spec) {
+    const prevStateSpec = this.system.specSelectors.specStr()
+    if(this.props.spec && (this.props.spec !== prevStateSpec || this.props.spec !== prevProps.spec)) {
       if(typeof this.props.spec === "object") {
         this.system.specActions.updateSpec(JSON.stringify(this.props.spec))
       } else {
@@ -101,11 +106,15 @@ SwaggerUI.propTypes = {
     PropTypes.oneOf(["get", "put", "post", "delete", "options", "head", "patch", "trace"])
   ),
   queryConfigEnabled: PropTypes.bool,
-  plugins: PropTypes.arrayOf(PropTypes.object),
+  plugins: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.func,
+  ]),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
   defaultModelExpandDepth: PropTypes.number,
   defaultModelsExpandDepth: PropTypes.number,
+  defaultModelRendering: PropTypes.oneOf(["example", "model"]),
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
   showExtensions: PropTypes.bool,
@@ -116,6 +125,8 @@ SwaggerUI.propTypes = {
   requestSnippetsEnabled: PropTypes.bool,
   requestSnippets: PropTypes.object,
   tryItOutEnabled: PropTypes.bool,
+  displayRequestDuration: PropTypes.bool,
+  persistAuthorization: PropTypes.bool,
 }
 
 SwaggerUI.defaultProps = {
@@ -124,8 +135,10 @@ SwaggerUI.defaultProps = {
   queryConfigEnabled: false,
   docExpansion: "list",
   defaultModelsExpandDepth: 1,
+  defaultModelRendering: "example",
   presets: [],
   deepLinking: false,
+  displayRequestDuration: false,
   showExtensions: false,
   filter: false,
   requestSnippetsEnabled: false,
@@ -147,4 +160,5 @@ SwaggerUI.defaultProps = {
     defaultExpanded: true,
     languages: null, // e.g. only show curl bash = ["curl_bash"]
   },
+  persistAuthorization: false,
 }
