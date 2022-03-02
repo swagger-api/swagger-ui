@@ -100,7 +100,7 @@
     "@babel/cli": "=7.16.8",
     "@babel/core": "=7.14.6",
     "@babel/eslint-parser": "=7.16.3",
-    "@babel/plugin-proposal-class-properties": "=7.16.0",
+    "@babel/plugin-proposal-class-properties": "=7.16.7",
     "@babel/plugin-proposal-nullish-coalescing-operator": "=7.16.0",
     "@babel/plugin-proposal-object-rest-spread": "=7.16.7",
     "@babel/plugin-proposal-optional-chaining": "=7.16.0",
