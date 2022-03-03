@@ -74,6 +74,7 @@
     "js-yaml": "=4.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
+    "randexp": "^0.5.3",
     "randombytes": "^2.1.0",
     "react": "=17.0.2",
     "react-copy-to-clipboard": "5.0.4",
