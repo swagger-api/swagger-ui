@@ -317,6 +317,7 @@
     {
         flex-shrink: 0;
         max-width: calc(100% - 110px - 15rem);
+        user-select: text;
     }
 
     .opblock-summary-path__deprecated
