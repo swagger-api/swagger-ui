@@ -1,11 +1,17 @@
 import XML from "xml"
+import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 
 import memoizeN from "../../../helpers/memoizeN"
 
+const generateStringFromRegex = (pattern) => {
+      const randexp = new RandExp(pattern)
+      return randexp.gen()
+}
+
 const primitives = {
-  "string": () => "string",
+  "string": (schema) => schema.pattern ? generateStringFromRegex(schema.pattern) : "string",
   "string_email": () => "user@example.com",
   "string_date-time": () => new Date().toISOString(),
   "string_date": () => new Date().toISOString().substring(0, 10),
