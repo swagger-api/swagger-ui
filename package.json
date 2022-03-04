@@ -144,7 +144,7 @@
     "html-webpack-skip-assets-plugin": "^1.0.3",
     "husky": "=7.0.4",
     "inspectpack": "=4.7.1",
-    "jest": "=27.4.7",
+    "jest": "=27.5.1",
     "jsdom": "=16.6.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.6",
