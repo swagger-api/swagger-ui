@@ -1899,7 +1899,7 @@ describe("utils", () => {
     it("should produce a string that's valid base64", () => {
       const codeVerifier = generateCodeVerifier()
 
-      expect(() => atob(codeVerifier)).not.toThrow();
+      expect(() => window.atob(codeVerifier)).not.toThrow();
     })
   })
 
