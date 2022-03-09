@@ -23,7 +23,6 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
-import randomBytes from "randombytes"
 import shaJs from "sha.js"
 import YAML from "js-yaml"
 import { fromByteArray } from "base64-js";
