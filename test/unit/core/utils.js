@@ -1895,6 +1895,12 @@ describe("utils", () => {
       // Source: https://tools.ietf.org/html/rfc7636#section-4.1
       expect(codeVerifier.length).toBeGreaterThanOrEqual(43)
     })
+
+    it("should produce a string that's valid base64", () => {
+      const codeVerifier = generateCodeVerifier()
+
+      expect(() => atob(codeVerifier)).not.toThrow();
+    })
   })
 
   describe("createCodeChallenge", () => {
