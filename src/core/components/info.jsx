@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { sanitizeUrl } from "core/utils"
-import { buildUrl } from "core/utils/url"
+import { safeBuildUrl } from "core/utils/url"
 
 
 export class InfoBasePath extends React.Component {
@@ -35,7 +35,7 @@ class Contact extends React.Component {
   render(){
     let { data, getComponent, selectedServer, url: specUrl} = this.props
     let name = data.get("name") || "the developer"
-    let url = buildUrl(data.get("url"), specUrl, {selectedServer})
+    let url = safeBuildUrl(data.get("url"), specUrl, {selectedServer})
     let email = data.get("email")
 
     const Link = getComponent("Link")
@@ -66,8 +66,8 @@ class License extends React.Component {
     let { license, getComponent, selectedServer, url: specUrl } = this.props
 
     const Link = getComponent("Link")
-    let name = license.get("name") || "License"  
-    let url = buildUrl(license.get("url"), specUrl, {selectedServer})
+    let name = license.get("name") || "License"
+    let url = safeBuildUrl(license.get("url"), specUrl, {selectedServer})
 
     return (
       <div className="info__license">
@@ -113,11 +113,11 @@ export default class Info extends React.Component {
     let version = info.get("version")
     let description = info.get("description")
     let title = info.get("title")
-    let termsOfServiceUrl = buildUrl(info.get("termsOfService"), specUrl, {selectedServer})
+    let termsOfServiceUrl = safeBuildUrl(info.get("termsOfService"), specUrl, {selectedServer})
     let contact = info.get("contact")
     let license = info.get("license")
     let rawExternalDocsUrl = externalDocs && externalDocs.get("url")
-    let externalDocsUrl = buildUrl(rawExternalDocsUrl, specUrl, {selectedServer})
+    let externalDocsUrl = safeBuildUrl(rawExternalDocsUrl, specUrl, {selectedServer})
     let externalDocsDescription = externalDocs && externalDocs.get("description")
 
     const Markdown = getComponent("Markdown", true)

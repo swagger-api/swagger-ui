@@ -6,10 +6,6 @@ import AllPlugins from "./plugins/all"
 import { parseSearch } from "./utils"
 import win from "./window"
 
-if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-  win.Perf = require("react-dom/lib/ReactPerf")
-}
-
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
 
@@ -35,7 +31,7 @@ export default function SwaggerUI(opts) {
     maxDisplayedTags: null,
     filter: null,
     validatorUrl: "https://validator.swagger.io/validator",
-    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
+    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`,
     persistAuthorization: false,
     configs: {},
     custom: {},
@@ -81,6 +77,7 @@ export default function SwaggerUI(opts) {
       "patch",
       "trace"
     ],
+    queryConfigEnabled: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
@@ -112,7 +109,7 @@ export default function SwaggerUI(opts) {
     }
   }
 
-  let queryConfig = parseSearch()
+  let queryConfig = opts.queryConfigEnabled ? parseSearch() : {}
 
   const domNode = opts.domNode
   delete opts.domNode

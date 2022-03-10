@@ -3,5 +3,5 @@ const path = require('path');
 module.exports = {
   rootDir: path.join(__dirname, '..', '..'),
   testEnvironment: 'jsdom',
-  testMatch: ['**/test/build-artifacts/umd.js'],
+  testMatch: ['**/test/build-artifacts/**/*.js'],
 };
