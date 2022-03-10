@@ -180,7 +180,7 @@ describe("auth plugin - actions", () => {
 
   describe("tokenRequest", function () {
     it("should send the code verifier when set", () => {
-      const testCodeVerifierForAuthorizationCodeFlows = (flowAction) =>  {
+      const testCodeVerifierForAuthorizationCodeFlows = (flowAction) => {
         const data = {
           auth: {
             schema: {
