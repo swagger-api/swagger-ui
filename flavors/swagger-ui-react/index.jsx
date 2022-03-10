@@ -108,6 +108,7 @@ SwaggerUI.propTypes = {
   queryConfigEnabled: PropTypes.bool,
   plugins: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
+    PropTypes.arrayOf(PropTypes.func),
     PropTypes.func,
   ]),
   displayOperationId: PropTypes.bool,
