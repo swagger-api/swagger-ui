@@ -22,8 +22,30 @@ describe("<PrimitiveModel/>", function () {
       schema: fromJS({
         type: "string",
         title: "Custom model title"
-      })
+      }),
+      expandDepth: 1
     }
+
+    it("renders the schema's title", function () {
+      // When
+      const wrapper = shallow(<PrimitiveModel {...props} />)
+      const modelTitleEl = wrapper.find("ModelCollapse").prop("title").props.children.props.children
+
+      expect(modelTitleEl).toEqual("Custom model title")
+    })
+
+    it("falls back to the passed-in `name` prop for the title", function () {
+      // When
+      props.schema = fromJS({
+        type: "string"
+      })
+      const wrapper = shallow(<PrimitiveModel {...props} />)
+      const modelTitleEl = wrapper.find("ModelCollapse").prop("title").props.children.props.children
+
+      // Then
+      expect(modelTitleEl).toEqual("Name from props")
+
+    })
 
     it("renders a collapsible header", function(){
       const wrapper = shallow(<PrimitiveModel {...props}/>)
