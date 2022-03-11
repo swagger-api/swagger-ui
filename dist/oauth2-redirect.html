@@ -67,9 +67,13 @@
         window.close();
     }
 
-    window.addEventListener('DOMContentLoaded', function () {
-      run();
-    });
+    if (document.readyState !== 'loading') {
+        run();
+    } else {
+        document.addEventListener('DOMContentLoaded', function () {
+            run();
+        });
+    }
 </script>
 </body>
 </html>

@@ -5,6 +5,8 @@ const request = require.context(".", true, /\.jsx?$/)
 
 const allPlugins = {}
 
+export default allPlugins
+
 request.keys().forEach( function( key ){
   if( key === "./index.js" ) {
     return
@@ -20,5 +22,3 @@ request.keys().forEach( function( key ){
 })
 
 allPlugins.SafeRender = SafeRender
-
-export default allPlugins

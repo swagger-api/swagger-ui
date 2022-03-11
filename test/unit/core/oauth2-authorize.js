@@ -1,5 +1,4 @@
 
-import win from "core/window"
 import Im from "immutable"
 import oauth2Authorize from "core/oauth2-authorize"
 import * as utils from "core/utils"
@@ -13,7 +12,9 @@ describe("oauth2", () => {
 
   let authConfig = {
     auth: { schema: { get: (key)=> mockSchema[key] }, scopes: ["scope1", "scope2"] },
-    authActions: {},
+    authActions: {
+      authPopup: jest.fn()
+    },
     errActions: {},
     configs: { oauth2RedirectUrl: "" },
     authConfigs: {}
@@ -21,7 +22,9 @@ describe("oauth2", () => {
 
   let authConfig2 = {
     auth: { schema: { get: (key)=> mockSchema[key] }, scopes: Im.List(["scope2","scope3"]) },
-    authActions: {},
+    authActions: {
+      authPopup: jest.fn()
+    },
     errActions: {},
     configs: { oauth2RedirectUrl: "" },
     authConfigs: {}
@@ -29,59 +32,56 @@ describe("oauth2", () => {
 
   let authConfig3 = {
     auth: { schema: { get: (key)=> mockSchema[key] }, scopes: Im.List(["scope4","scope5"]) },
-    authActions: {},
+    authActions: {
+      authPopup: jest.fn()
+    },
     errActions: {},
     configs: { oauth2RedirectUrl: "" },
     authConfigs: {}
   }
 
-  beforeEach(() => {
-    win.open = jest.fn()
-  })
-
   describe("authorize redirect", () => {
     it("should build authorize url", () => {
-      const windowOpenSpy = jest.spyOn(win, "open")
       oauth2Authorize(authConfig)
-      expect(windowOpenSpy.mock.calls.length).toEqual(1)
-      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
+      expect(authConfig.authActions.authPopup.mock.calls.length).toEqual(1)
+      expect(authConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
 
-      windowOpenSpy.mockReset()
+      authConfig.authActions.authPopup.mockReset()
     })
 
     it("should build authorize url relative", function () {
-      const windowOpenSpy = jest.spyOn(win, "open")
       let relativeMockSchema = {
         flow: "accessCode",
         authorizationUrl: "/testAuthorizationUrl"
       }
       let relativeAuthConfig = {
         auth: { schema: { get: (key) => relativeMockSchema[key] } },
-        authActions: {},
+        authActions: {
+          authPopup: jest.fn()
+        },
         errActions: {},
         configs: { oauth2RedirectUrl: "" },
         authConfigs: {},
         currentServer: "https://currentserver"
       }
       oauth2Authorize(relativeAuthConfig)
-      expect(windowOpenSpy.mock.calls.length).toEqual(1)
-      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://currentserver/testAuthorizationUrl?response_type=code&redirect_uri=&state=")
+      expect(relativeAuthConfig.authActions.authPopup.mock.calls.length).toEqual(1)
+      expect(relativeAuthConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://currentserver/testAuthorizationUrl?response_type=code&redirect_uri=&state=")
 
-      windowOpenSpy.mockReset()
+      relativeAuthConfig.authActions.authPopup.mockReset()
     })
 
     it("should append query parameters to authorizeUrl with query parameters", () => {
-      const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
       oauth2Authorize(authConfig)
-      expect(windowOpenSpy.mock.calls.length).toEqual(1)
-      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
 
-      windowOpenSpy.mockReset()
+      expect(authConfig.authActions.authPopup.mock.calls.length).toEqual(1)
+      expect(authConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
+
+      authConfig.authActions.authPopup.mockReset()
     })
 
     it("should send code_challenge when using authorizationCode flow with usePkceWithAuthorizationCodeGrant enabled", () => {
-      const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.flow = "authorizationCode"
 
       const expectedCodeVerifier = "mock_code_verifier"
@@ -93,9 +93,9 @@ describe("oauth2", () => {
       authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
 
       oauth2Authorize(authConfig)
-      expect(win.open.mock.calls.length).toEqual(1)
+      expect(authConfig.authActions.authPopup.mock.calls.length).toEqual(1)
 
-      const actualUrl = new URLSearchParams(win.open.mock.calls[0][0])
+      const actualUrl = new URLSearchParams(authConfig.authActions.authPopup.mock.calls[0][0])
       expect(actualUrl.get("code_challenge")).toBe(expectedCodeChallenge)
       expect(actualUrl.get("code_challenge_method")).toBe("S256")
 
@@ -107,14 +107,13 @@ describe("oauth2", () => {
       expect(authConfig.auth.codeVerifier).toBe(expectedCodeVerifier)
 
       // Restore spies
-      windowOpenSpy.mockReset()
+      authConfig.authActions.authPopup.mockReset()
       generateCodeVerifierSpy.mockReset()
       createCodeChallengeSpy.mockReset()
     })
 
 
     it("should send code_challenge when using accessCode flow with usePkceWithAuthorizationCodeGrant enabled", () => {
-      const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.flow = "accessCode"
 
       const expectedCodeVerifier = "mock_code_verifier"
@@ -127,9 +126,10 @@ describe("oauth2", () => {
       authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
 
       oauth2Authorize(authConfig)
-      expect(win.open.mock.calls.length).toEqual(1)
 
-      const actualUrl = new URLSearchParams(win.open.mock.calls[0][0])
+      expect(authConfig.authActions.authPopup.mock.calls.length).toEqual(1)
+
+      const actualUrl = new URLSearchParams(authConfig.authActions.authPopup.mock.calls[0][0])
       expect(actualUrl.get("code_challenge")).toBe(expectedCodeChallenge)
       expect(actualUrl.get("code_challenge_method")).toBe("S256")
 
@@ -141,13 +141,12 @@ describe("oauth2", () => {
       expect(authConfig.auth.codeVerifier).toBe(expectedCodeVerifier)
 
       // Restore spies
-      windowOpenSpy.mockReset()
+      authConfig.authActions.authPopup.mockReset()
       generateCodeVerifierSpy.mockReset()
       createCodeChallengeSpy.mockReset()
     })
 
     it("should send code_challenge when using authorization_code flow with usePkceWithAuthorizationCodeGrant enabled", () => {
-      const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.flow = "authorization_code"
 
       const expectedCodeVerifier = "mock_code_verifier"
@@ -159,9 +158,9 @@ describe("oauth2", () => {
       authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
 
       oauth2Authorize(authConfig)
-      expect(win.open.mock.calls.length).toEqual(1)
+      expect(authConfig.authActions.authPopup.mock.calls.length).toEqual(1)
 
-      const actualUrl = new URLSearchParams(win.open.mock.calls[0][0])
+      const actualUrl = new URLSearchParams(authConfig.authActions.authPopup.mock.calls[0][0])
       expect(actualUrl.get("code_challenge")).toBe(expectedCodeChallenge)
       expect(actualUrl.get("code_challenge_method")).toBe("S256")
 
@@ -173,32 +172,30 @@ describe("oauth2", () => {
       expect(authConfig.auth.codeVerifier).toBe(expectedCodeVerifier)
 
       // Restore spies
-      windowOpenSpy.mockReset()
+      authConfig.authActions.authPopup.mockReset()
       generateCodeVerifierSpy.mockReset()
       createCodeChallengeSpy.mockReset()
     })
 
     it("should add list of scopes to authorizeUrl", () => {
-      const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
 
       oauth2Authorize(authConfig2)
-      expect(windowOpenSpy.mock.calls.length).toEqual(1)
-      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope2%20scope3&state=")
+      expect(authConfig2.authActions.authPopup.mock.calls.length).toEqual(1)
+      expect(authConfig2.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope2%20scope3&state=")
 
-      windowOpenSpy.mockReset()
+      authConfig2.authActions.authPopup.mockReset()
     })
 
     it("should build authorize url for authorization_code flow", () => {
-      const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.authorizationUrl = "https://testAuthorizationUrl"
       mockSchema.flow = "authorization_code"
 
       oauth2Authorize(authConfig3)
-      expect(windowOpenSpy.mock.calls.length).toEqual(1)
-      expect(windowOpenSpy.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope4%20scope5&state=")
+      expect(authConfig3.authActions.authPopup.mock.calls.length).toEqual(1)
+      expect(authConfig3.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope4%20scope5&state=")
 
-      windowOpenSpy.mockReset()
+      authConfig3.authActions.authPopup.mockReset()
     })
   })
 })
