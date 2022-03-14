@@ -31,7 +31,7 @@ const HighlightCode = ({value, fileName, className, downloadable, getConfigs, ca
   }
 
   const handlePreventYScrollingBeyondElement = (e) => {
-    const { target, deltaY }  = e
+    const { target, deltaY } = e
     const { scrollHeight: contentHeight, offsetHeight: visibleHeight, scrollTop } = target
     const scrollOffset = visibleHeight + scrollTop
     const isElementScrollable = contentHeight > visibleHeight

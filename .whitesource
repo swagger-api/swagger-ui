@@ -1,15 +1,3 @@
 {
-  "scanSettings": {
-    "configMode": "AUTO",
-    "configExternalURL": "",
-    "projectToken": "",
-    "baseBranches": []
-  },
-  "checkRunSettings": {
-    "vulnerableCheckRunConclusionLevel": "failure",
-    "displayMode": "diff"
-  },
-  "issueSettings": {
-    "minSeverityLevel": "LOW"
-  }
+  "settingsInheritedFrom": "swagger-api/whitesource-config@main"
 }

@@ -91,11 +91,20 @@
         font-size: 14px;
         font-weight: normal;
 
-        flex: 1;
+        flex: 2;
 
         padding: 0 10px;
 
         @include text_body();
+    }
+
+    >div
+    {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        flex: 1 1 150px;
+        font-weight: 400;
     }
 }
 
@@ -735,7 +744,7 @@
         display: flex;
         align-items: flex-end;
 
-         > label
+        > label
         {
             font-size: 12px;
             font-weight: bold;
