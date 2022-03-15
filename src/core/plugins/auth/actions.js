@@ -13,6 +13,17 @@ export const RESTORE_AUTHORIZATION = "restore_authorization"
 
 const scopeSeparator = " "
 
+function formWithAdditionalFormParams(form, additionalFormParams) {
+  if (typeof additionalFormParams !== "object") {
+    return form
+  }
+
+  return Object.assign(
+    {},
+    form,
+    ...Array.from(additionalFormParams, ([k, v]) => ({[k]: v})))
+}
+
 export function showDefinitions(payload) {
   return {
     type: SHOW_AUTH_POPUP,
@@ -111,7 +122,14 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
       console.warn(`Warning: invalid passwordType ${passwordType} was passed, not including client id and secret`)
   }
 
-  return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
+  return authActions.authorizeRequest({
+    form: formWithAdditionalFormParams(form, schema.get("additionalFormParams")),
+    url: schema.get("tokenUrl"),
+    name,
+    headers,
+    query,
+    auth
+  })
 }
 
 function setClientIdAndSecret(target, clientId, clientSecret) {
@@ -134,7 +152,13 @@ export const authorizeApplication = ( auth ) => ( { authActions } ) => {
     scope: scopes.join(scopeSeparator)
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
+  return authActions.authorizeRequest({
+    form: formWithAdditionalFormParams(form, schema.get("additionalFormParams")),
+    name,
+    url: schema.get("tokenUrl"),
+    auth,
+    headers
+  })
 }
 
 export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( { authActions } ) => {
@@ -148,7 +172,12 @@ export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( 
     code_verifier: codeVerifier
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
+  return authActions.authorizeRequest({
+    form: formWithAdditionalFormParams(form, schema.get("additionalFormParams")),
+    name,
+    url: schema.get("tokenUrl"),
+    auth
+  })
 }
 
 export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl } ) => ( { authActions } ) => {
@@ -164,11 +193,17 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
     code_verifier: codeVerifier
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
+  return authActions.authorizeRequest({
+    form: formWithAdditionalFormParams(form, schema.get("additionalFormParams")),
+    name,
+    url: schema.get("tokenUrl"),
+    auth,
+    headers
+  })
 }
 
 export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, oas3Selectors, specSelectors, authSelectors } ) => {
-  let { body, query={}, headers={}, name, url, auth } = data
+  let { form, query={}, headers={}, name, url, auth } = data
 
   let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
 
@@ -186,6 +221,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   }
 
   const fetchUrl = parsedUrl.toString()
+  const body = buildFormData(form)
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
