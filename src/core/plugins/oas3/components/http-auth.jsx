@@ -112,7 +112,7 @@ export default class HttpAuth extends React.Component {
               <label>Value:</label>
               {
                 value ? <code> ****** </code>
-              : <Col><Input type="text" onChange={ this.onChange } autoFocus/></Col>
+              : <Col><Input type="text" name="bearer" onChange={ this.onChange } autoFocus/></Col>
           }
         </Row>
         {

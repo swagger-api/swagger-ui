@@ -3,7 +3,6 @@
  */
 
 import path from "path"
-import os from "os"
 import fs from "fs"
 import deepExtend from "deep-extend"
 import webpack from "webpack"
@@ -30,26 +29,13 @@ const baseRules = [
       cacheDirectory: true,
     },
   },
-  { test: /\.(txt|yaml)$/, loader: "raw-loader" },
+  { test: /\.(txt|yaml)$/,
+    type: "asset/source", 
+  },
   {
     test: /\.(png|jpg|jpeg|gif|svg)$/,
-    use: [
-      {
-        loader: "url-loader",
-        options: {
-          esModule: false,
-        },
-      },
-    ],
+    type: "asset/inline",
   },
-  {
-    test: /\.(woff|woff2)$/,
-    loader: "url-loader?",
-    options: {
-      limit: 10000,
-    },
-  },
-  { test: /\.(ttf|eot)$/, loader: "file-loader" },
 ]
 
 export default function buildConfig(
@@ -72,6 +58,10 @@ export default function buildConfig(
         BUILD_TIME: new Date().toUTCString(),
       }),
     }),
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
+    }),
   ]
 
   const completeConfig = deepExtend(
@@ -86,16 +76,16 @@ export default function buildConfig(
         publicPath: "/dist",
         filename: "[name].js",
         chunkFilename: "[name].js",
-        libraryTarget: "umd",
-        libraryExport: "default", // TODO: enable
+        globalObject: "this",
+        library: {
+          // when esm, library.name should be unset, so do not define here
+          // when esm, library.export should be unset, so do not define here
+          type: "umd",
+        }
       },
 
       target: "web",
 
-      node: {
-        // yaml-js has a reference to `fs`, this is a workaround
-        fs: "empty",
-      },
 
       module: {
         rules: baseRules,
@@ -124,12 +114,19 @@ export default function buildConfig(
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
-        // these aliases make sure that we don't bundle same libraries twice
-        // when the versions of these libraries diverge between swagger-js and swagger-ui
         alias: {
+          // these aliases make sure that we don't bundle same libraries twice
+          // when the versions of these libraries diverge between swagger-js and swagger-ui
           "@babel/runtime-corejs3": path.resolve(__dirname, "..", "node_modules/@babel/runtime-corejs3"),
           "js-yaml": path.resolve(__dirname, "..", "node_modules/js-yaml"),
-          "lodash": path.resolve(__dirname, "..", "node_modules/lodash")
+          "lodash": path.resolve(__dirname, "..", "node_modules/lodash"),
+          "isarray": path.resolve(__dirname, "..", "node_modules/stream-browserify/node_modules/isarray"),
+          "react-is": path.resolve(__dirname, "..", "node_modules/react-redux/node_modules/react-is"),
+          "safe-buffer": path.resolve(__dirname, "..", "node_modules/string_decoder/node_modules/safe-buffer"),
+        },
+        fallback: {
+          fs: false,
+          stream: require.resolve("stream-browserify"),
         },
       },
 
@@ -137,8 +134,8 @@ export default function buildConfig(
       // Otherwise, provide heavy souremaps suitable for development
       devtool: sourcemaps
         ? minimize
-          ? "nosource-source-map"
-          : "module-source-map"
+          ? "nosources-source-map"
+          : "cheap-module-source-map"
         : false,
 
       performance: {
@@ -152,8 +149,6 @@ export default function buildConfig(
         minimizer: [
           compiler =>
             new TerserPlugin({
-              cache: true,
-              sourceMap: sourcemaps,
               terserOptions: {
                 mangle: !!mangle,
               },

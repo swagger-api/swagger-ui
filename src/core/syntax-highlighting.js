@@ -1,5 +1,4 @@
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter"
-
+import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/light"
 import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript"
 import json from "react-syntax-highlighter/dist/esm/languages/hljs/json"
 import xml from "react-syntax-highlighter/dist/esm/languages/hljs/xml"

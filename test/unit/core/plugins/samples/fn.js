@@ -153,6 +153,23 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition, { includeReadOnly: true })).toEqual(expected)
   })
 
+
+
+  it("regex pattern test", function () {
+    let definition = {
+      type: "object",
+      properties: {
+        macAddress: {
+          type: "string",
+          pattern: "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
+        }
+      }
+    }
+    const resp = sampleFromSchema(definition)
+
+    expect(new RegExp("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", "g").test(resp.macAddress)).toBe(true)
+  })
+
   it("returns object without deprecated fields for parameter", function () {
     let definition = {
       type: "object",
