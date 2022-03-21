@@ -25,6 +25,7 @@ window.onload = function() {
     scopeSeparator: " ",
     scopes: "openid profile email phone address",
     additionalQueryStringParams: {},
+    useBasicAuthenticationWithAccessCodeGrant: false,
     usePkceWithAuthorizationCodeGrant: false
   })
 }
