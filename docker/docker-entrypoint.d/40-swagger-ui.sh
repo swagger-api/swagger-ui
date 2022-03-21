@@ -45,5 +45,3 @@ if [[ -n "${PORT}" ]]; then
 fi
 
 find $NGINX_ROOT -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
-
-exec nginx -g 'daemon off;'
