@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "4.6.2",
+  "version": "4.8.0",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -115,7 +115,7 @@
     "@jest/globals": "=27.0.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@release-it/conventional-changelog": "=3.0.1",
-    "@wojtekmaj/enzyme-adapter-react-17": "=0.6.5",
+    "@wojtekmaj/enzyme-adapter-react-17": "=0.6.6",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
     "babel-plugin-lodash": "=3.3.4",
@@ -161,7 +161,7 @@
     "open": "^8.4.0",
     "postcss": "^8.4.5",
     "postcss-loader": "^6.2.1",
-    "postcss-preset-env": "^7.2.3",
+    "postcss-preset-env": "^7.4.3",
     "prettier": "^2.5.1",
     "process": "^0.11.10",
     "react-refresh": "^0.11.0",
