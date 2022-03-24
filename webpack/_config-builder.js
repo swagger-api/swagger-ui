@@ -3,16 +3,13 @@
  */
 
 import path from "path"
-import fs from "fs"
 import deepExtend from "deep-extend"
 import webpack from "webpack"
 import TerserPlugin from "terser-webpack-plugin"
+import nodeExternals from "webpack-node-externals"
 
 import { getRepoInfo } from "./_helpers"
 import pkg from "../package.json"
-const nodeModules = fs.readdirSync("node_modules").filter(function(x) {
-  return x !== ".bin"
-})
 
 const projectBasePath = path.join(__dirname, "../")
 
@@ -30,7 +27,7 @@ const baseRules = [
     },
   },
   { test: /\.(txt|yaml)$/,
-    type: "asset/source", 
+    type: "asset/source",
   },
   {
     test: /\.(png|jpg|jpeg|gif|svg)$/,
@@ -93,24 +90,12 @@ export default function buildConfig(
 
       externals: includeDependencies
         ? {
-            // json-react-schema/deeper depends on buffertools, which fails.
-            buffertools: true,
-            esprima: true,
+            esprima: "esprima",
           }
-        : (context, request, cb) => {
-            // webpack injects some stuff into the resulting file,
-            // these libs need to be pulled in to keep that working.
-            var exceptionsForWebpack = ["ieee754", "base64-js"]
-            if (
-              nodeModules.indexOf(request) !== -1 ||
-              exceptionsForWebpack.indexOf(request) !== -1
-            ) {
-              cb(null, "commonjs " + request)
-              return
-            }
-            cb()
-          },
-
+        : [nodeExternals({
+          importType: (moduleName) => {
+            return `commonjs ${moduleName}`
+          }})],
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
@@ -139,7 +124,7 @@ export default function buildConfig(
         : false,
 
       performance: {
-        hints: "error",
+        hints: "warning",
         maxEntrypointSize: 1153434,
         maxAssetSize: 1153434,
       },
