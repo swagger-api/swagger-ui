@@ -124,7 +124,7 @@ export default function buildConfig(
         : false,
 
       performance: {
-        hints: "warning",
+        hints: "error",
         maxEntrypointSize: 1153434,
         maxAssetSize: 1153434,
       },
