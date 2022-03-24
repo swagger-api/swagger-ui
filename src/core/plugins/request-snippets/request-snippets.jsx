@@ -38,8 +38,7 @@ const activeStyle = {
 const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
   const config = isFunction(getConfigs) ? getConfigs() : null
   const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
-  // eslint-disable-next-line no-unused-vars
-  const rootRef = useRef(null) // TODO: enable ref
+  const rootRef = useRef(null)
 
   const [activeLanguage, setActiveLanguage] = useState(requestSnippetsSelectors.getSnippetGenerators()?.keySeq().first())
   const [isExpanded, setIsExpanded] = useState(requestSnippetsSelectors?.getDefaultExpanded())
@@ -49,6 +48,18 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
     }
     doIt()
   }, [])
+  useEffect(() => {
+    const childNodes = Array
+      .from(rootRef.current.childNodes)
+      .filter(node => !!node.nodeType && node.classList?.contains("curl-command"))
+    // eslint-disable-next-line no-use-before-define
+    childNodes.forEach(node => node.addEventListener("mousewheel", handlePreventYScrollingBeyondElement, { passive: false }))
+
+    return () => {
+      // eslint-disable-next-line no-use-before-define
+      childNodes.forEach(node => node.removeEventListener("mousewheel", handlePreventYScrollingBeyondElement))
+    }
+  }, [request])
 
   const snippetGenerators = requestSnippetsSelectors.getSnippetGenerators()
   const activeGenerator = snippetGenerators.get(activeLanguage)
@@ -72,7 +83,6 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
     return style
   }
 
-  // eslint-disable-next-line no-unused-vars
   const handlePreventYScrollingBeyondElement = (e) => {
     const { target, deltaY } = e
     const { scrollHeight: contentHeight, offsetHeight: visibleHeight, scrollTop } = target
@@ -85,21 +95,11 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
       e.preventDefault()
     }
   }
-  // TODO: this is what we are fixing/replacing
-  const handleScroll = () => {
-    // placeholder debug function
-    // console.log("handleScroll")
-    return
-    // return handlePreventYScrollingBeyondElement(e)
-  }
-  // handleScroll = (e) => this.preventYScrollingBeyondElement(e)
-  // Uncaught TypeError: _this.preventYScrollingBeyondElement is not a function
 
   const SnippetComponent = canSyntaxHighlight
     ? <SyntaxHighlighter
       language={activeGenerator.get("syntax")}
       className="curl microlight"
-      onWheel={() => handleScroll()}
       style={getStyle(get(config, "syntaxHighlight.theme"))}
     >
       {snippet}
@@ -108,7 +108,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
     <textarea readOnly={true} className="curl" value={snippet}></textarea>
 
   return (
-    <div>
+    <div className="request-snippets" ref={rootRef}>
       Just a test
       <div style={{ width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "15px" }}>
         <h4
