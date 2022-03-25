@@ -165,5 +165,5 @@ SwaggerUI.defaultProps = {
   persistAuthorization: false,
 }
 
-SwaggerUI.presets = swaggerUIConstructor.presets;
-SwaggerUI.plugins = swaggerUIConstructor.plugins;
+SwaggerUI.presets = swaggerUIConstructor.presets
+SwaggerUI.plugins = swaggerUIConstructor.plugins
