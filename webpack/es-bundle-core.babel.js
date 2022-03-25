@@ -19,7 +19,7 @@ const result = configBuilder(
   {
     minimize: true,
     mangle: true,
-    sourcemaps: true,
+    sourcemaps: false,
     includeDependencies: false,
   },
   {
@@ -47,6 +47,17 @@ const result = configBuilder(
         esprima: "esprima",
       },
       nodeExternals({
+        allowlist: [
+          "deep-extend", // uses Buffer as global symbol
+          "randombytes", // uses require('safe-buffer')
+          "sha.js", // uses require('safe-buffer')
+          "xml", // uses require('stream')
+          /process\/browser/, // is injected via ProvidePlugin
+          /readable-stream/, // byproduct of buffer ProvidePlugin injection
+          /safe-buffer/, // contained in resolve.alias
+          /string_decoder/, // byproduct of buffer ProvidePlugin injection
+          "buffer", // buffer is injected via ProvidePlugin
+        ],
         importType: (moduleName) => {
           return `module ${moduleName}`
       }})
