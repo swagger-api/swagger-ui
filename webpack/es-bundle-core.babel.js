@@ -18,7 +18,7 @@ import nodeExternals from "webpack-node-externals"
 const result = configBuilder(
   {
     minimize: true,
-    mangle: true,
+    mangle: false,
     sourcemaps: false,
     includeDependencies: false,
   },
@@ -54,6 +54,9 @@ const result = configBuilder(
           "xml", // uses require('stream')
           /process\/browser/, // is injected via ProvidePlugin
           /readable-stream/, // byproduct of buffer ProvidePlugin injection
+          "util-deprecate", // dependency of readable-stream
+          "inherits", // dependency of readable-stream
+          "events", // dependency of readable-stream
           /safe-buffer/, // contained in resolve.alias
           /string_decoder/, // byproduct of buffer ProvidePlugin injection
           "buffer", // buffer is injected via ProvidePlugin
