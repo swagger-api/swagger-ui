@@ -15,11 +15,14 @@ import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
 import nodeExternals from "webpack-node-externals"
 // import { StatsWriterPlugin } from "webpack-stats-plugin"
 
+const minimize = true
+const sourcemaps = true
+
 const result = configBuilder(
   {
-    minimize: true,
-    mangle: false,
-    sourcemaps: false,
+    minimize,
+    mangle: true,
+    sourcemaps,
     includeDependencies: false,
   },
   {
@@ -41,6 +44,7 @@ const result = configBuilder(
         module: true,
       },
     },
+    devtool: sourcemaps && minimize ? "source-map" : false,
     externalsType: "module",
     externals: [
       {
@@ -48,6 +52,7 @@ const result = configBuilder(
       },
       nodeExternals({
         allowlist: [
+          /object\/define-property/, // @babel/runtime-corejs3 import which makes fragment work with Jest
           "deep-extend", // uses Buffer as global symbol
           "randombytes", // uses require('safe-buffer')
           "sha.js", // uses require('safe-buffer')
@@ -78,6 +83,5 @@ const result = configBuilder(
     ]
   }
 )
-
 
 export default result
