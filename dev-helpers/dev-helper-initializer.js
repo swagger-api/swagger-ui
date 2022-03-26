@@ -1,10 +1,13 @@
+/* eslint-disable no-undef */
 window.onload = function() {
   window["SwaggerUIBundle"] = window["swagger-ui-bundle"]
   window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "https://petstore.swagger.io/v2/swagger.json",
-    dom_id: '#swagger-ui',
+    // url: "https://petstore.swagger.io/v2/swagger.json",
+    url: "./examples/swos-281-oas3.yaml",
+    // url: "./examples/swos-281-oas2.yaml",
+    dom_id: "#swagger-ui",
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
@@ -12,6 +15,7 @@ window.onload = function() {
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
     ],
+    // requestSnippetsEnabled: true,
     layout: "StandaloneLayout"
   })
 
