@@ -15,11 +15,14 @@ import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
 import nodeExternals from "webpack-node-externals"
 // import { StatsWriterPlugin } from "webpack-stats-plugin"
 
+const minimize = true
+const sourcemaps = true
+
 const result = configBuilder(
   {
-    minimize: true,
+    minimize,
     mangle: true,
-    sourcemaps: true,
+    sourcemaps,
     includeDependencies: false,
   },
   {
@@ -41,12 +44,28 @@ const result = configBuilder(
         module: true,
       },
     },
+    devtool: sourcemaps && minimize ? "source-map" : false,
     externalsType: "module",
     externals: [
       {
         esprima: "esprima",
       },
       nodeExternals({
+        allowlist: [
+          /object\/define-property/, // @babel/runtime-corejs3 import which makes fragment work with Jest
+          "deep-extend", // uses Buffer as global symbol
+          "randombytes", // uses require('safe-buffer')
+          "sha.js", // uses require('safe-buffer')
+          "xml", // uses require('stream')
+          /process\/browser/, // is injected via ProvidePlugin
+          /readable-stream/, // byproduct of buffer ProvidePlugin injection
+          "util-deprecate", // dependency of readable-stream
+          "inherits", // dependency of readable-stream
+          "events", // dependency of readable-stream
+          /safe-buffer/, // contained in resolve.alias
+          /string_decoder/, // byproduct of buffer ProvidePlugin injection
+          "buffer", // buffer is injected via ProvidePlugin
+        ],
         importType: (moduleName) => {
           return `module ${moduleName}`
       }})
@@ -64,6 +83,5 @@ const result = configBuilder(
     ]
   }
 )
-
 
 export default result
