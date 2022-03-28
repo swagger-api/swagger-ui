@@ -21,7 +21,6 @@ export default class Curl extends React.Component {
       ? <SyntaxHighlighter
           language="bash"
           className="curl microlight"
-          onWheel={this.preventYScrollingBeyondElement}
           style={getStyle(get(config, "syntaxHighlight.theme"))}
           >
           {curl}

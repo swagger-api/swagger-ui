@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "4.9.0",
+  "version": "4.10.0",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -38,9 +38,9 @@
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack/bundle.babel.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
     "deps-check": "run-s deps-license deps-size",
-    "lint": "eslint --ext \".js,.jsx\" src test",
-    "lint-errors": "eslint --quiet --ext \".js,.jsx\" src test",
-    "lint-fix": "eslint --ext \".js,.jsx\" src test --fix",
+    "lint": "eslint --ext \".js,.jsx\" src test dev-helpers flavors",
+    "lint-errors": "eslint --quiet --ext \".js,.jsx\" src test dev-helpers flavors",
+    "lint-fix": "eslint --ext \".js,.jsx\" src test dev-helpers flavors --fix",
     "test": "run-s lint-errors just-test-in-node test:unit-jest cy:ci",
     "test-in-node": "run-s lint-errors just-test-in-node",
     "just-test-in-node": "cross-env BABEL_ENV=test mocha \"test/mocha/**/*.{js,jsx}\"",
