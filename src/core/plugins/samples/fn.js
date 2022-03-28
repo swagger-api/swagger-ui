@@ -6,8 +6,13 @@ import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import memoizeN from "../../../helpers/memoizeN"
 
 const generateStringFromRegex = (pattern) => {
-      const randexp = new RandExp(pattern)
-      return randexp.gen()
+  try {
+    const randexp = new RandExp(pattern)
+    return randexp.gen()
+  } catch (e) {
+    // Invalid regex should not cause a crash (regex syntax varies across languages)
+    return "string"
+  }
 }
 
 const primitives = {
