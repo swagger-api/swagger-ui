@@ -1,19 +1,34 @@
-import * as rootInjects from "./root-injects"
 import { memoize } from "core/utils"
 
-export default function({getComponents, getStore, getSystem}) {
+import { getComponent, render, withMappedContainer } from "./root-injects"
+import { getDisplayName } from "./fn"
+import memoizeN from "../../../helpers/memoizeN"
 
-  let { getComponent, render, makeMappedContainer } = rootInjects
+const memoizeForGetComponent = (fn) => {
+  const resolver = (...args) => JSON.stringify(args)
+  return memoize(fn, resolver)
+}
 
+const memoizeForWithMappedContainer = (fn) => {
+  const resolver = (...args) => args
+  return memoizeN(fn, resolver)
+}
+
+const viewPlugin = ({getComponents, getStore, getSystem}) => {
   // getComponent should be passed into makeMappedContainer, _already_ memoized... otherwise we have a big performance hit ( think, really big )
-  const memGetComponent = memoize(getComponent.bind(null, getSystem, getStore, getComponents))
-  const memMakeMappedContainer = memoize(makeMappedContainer.bind(null, getSystem, getStore, memGetComponent, getComponents))
+  const memGetComponent = memoizeForGetComponent(getComponent(getSystem, getStore, getComponents))
+  const memMakeMappedContainer = memoizeForWithMappedContainer(withMappedContainer(getSystem, getStore, memGetComponent))
 
   return {
     rootInjects: {
       getComponent: memGetComponent,
       makeMappedContainer: memMakeMappedContainer,
-      render: render.bind(null, getSystem, getStore, getComponent, getComponents),
-    }
+      render: render(getSystem, getStore, getComponent, getComponents),
+    },
+    fn: {
+      getDisplayName,
+    },
   }
 }
+
+export default viewPlugin

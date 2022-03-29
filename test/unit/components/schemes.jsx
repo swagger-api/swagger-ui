@@ -61,7 +61,7 @@ describe("<Schemes/>", function(){
     expect(setSchemeSpy.mock.calls.length).toEqual(1)
 
     // After an update
-    wrapper.instance().componentWillReceiveProps(props)
+    wrapper.instance().UNSAFE_componentWillReceiveProps(props)
 
     // Should not be called again, since `currentScheme` is in schemes
     expect(setSchemeSpy.mock.calls.length).toEqual(1)

@@ -91,11 +91,20 @@
         font-size: 14px;
         font-weight: normal;
 
-        flex: 1;
+        flex: 2;
 
         padding: 0 10px;
 
         @include text_body();
+    }
+
+    >div
+    {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        flex: 1 1 150px;
+        font-weight: 400;
     }
 }
 
@@ -281,7 +290,7 @@
         font-weight: bold;
 
         min-width: 80px;
-        padding: 6px 15px;
+        padding: 6px 0;
 
         text-align: center;
 
@@ -500,6 +509,17 @@
         {
             font-weight: bold;
         }
+
+        button.tablinks
+        {
+            background: none;
+            border: 0;
+            padding: 0;
+
+            color: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+        }
     }
 }
 
@@ -706,6 +726,9 @@
   color: white;
   font-size: 14px;
   height: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .scheme-container
@@ -721,7 +744,7 @@
         display: flex;
         align-items: flex-end;
 
-         > label
+        > label
         {
             font-size: 12px;
             font-weight: bold;
@@ -865,11 +888,6 @@
 .float-right
 {
     float: right;
-}
-
-img.full-width
-{
-    width: 100%;
 }
 
 .svg-assets
