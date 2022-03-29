@@ -2,17 +2,75 @@
  * @prettier
  */
 
-// The standard dev config doesn't allow overriding contentBase via the CLI,
-// which we do in the npm scripts for e2e tests. 
-//
-// This variant avoids contentBase in the config, so the CLI values take hold.
+import path from "path"
 
-import devConfig from "./dev.babel"
+import configBuilder from "./_config-builder"
+import styleConfig from "./stylesheets.babel"
 
-// set the common e2e port 3230
-devConfig.devServer.port = 3230
+// Pretty much the same as devConfig, but with changes to port and static.directory
+const devE2eConfig = configBuilder(
+  {
+    minimize: false,
+    mangle: false,
+    sourcemaps: true,
+    includeDependencies: true,
+  },
+  {
+    mode: "development",
+    entry: {
+      "swagger-ui-bundle": [
+        "./src/core/index.js",
+      ],
+      "swagger-ui-standalone-preset": [
+        "./src/standalone/index.js",
+      ],
+      "swagger-ui": "./src/style/main.scss",
+    },
 
-// unset contentBase
-delete devConfig.devServer.contentBase
+    performance: {
+      hints: false
+    },
 
-export default devConfig
+    output: {
+      filename: "[name].js",
+      chunkFilename: "[id].js",
+      library: {
+        name: "[name]",
+        export: "default",
+      },
+      publicPath: "/",
+    },
+
+    devServer: {
+      allowedHosts: "all", // for development within VMs
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+      },
+      port: 3230,
+      host: "0.0.0.0",
+      hot: true,
+      static: {
+        directory: path.join(__dirname, "../", "test", "e2e-cypress", "static"),
+        publicPath: "/",
+      },
+      client: {
+        logging: "info",
+        progress: true,
+      },
+      devMiddleware: {},
+    },
+  },
+)
+
+// mix in the style config's plugins and loader rules
+
+devE2eConfig.plugins = [...devE2eConfig.plugins, ...styleConfig.plugins]
+
+devE2eConfig.module.rules = [
+  ...devE2eConfig.module.rules,
+  ...styleConfig.module.rules,
+]
+
+export default devE2eConfig

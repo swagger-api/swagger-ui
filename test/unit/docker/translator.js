@@ -109,6 +109,7 @@ describe("docker: env translator", function() {
       SwaggerUIBundle.plugins.DownloadUrl
     ],
     layout: "StandaloneLayout",
+    queryConfigEnabled: false,
     `))
     })
 
@@ -214,6 +215,7 @@ describe("docker: env translator", function() {
         SwaggerUIBundle.plugins.DownloadUrl
       ],
       layout: "StandaloneLayout",
+      queryConfigEnabled: false,
       url: "/swagger.json",
       urls: ["/one", "/two"],`
 
@@ -313,6 +315,7 @@ describe("docker: env translator", function() {
       plugins: [
         SwaggerUIBundle.plugins.DownloadUrl
       ],
+      queryConfigEnabled: false,
       configUrl: "/wow",
       "dom_id": "#swagger_ui",
       spec: { swagger: "2.0" },

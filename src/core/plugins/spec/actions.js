@@ -62,7 +62,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   try {
     str = str || specStr()
     errActions.clear({ source: "parser" })
-    json = YAML.safeLoad(str)
+    json = YAML.load(str)
   } catch(e) {
     // TODO: push error to state
     console.error(e)

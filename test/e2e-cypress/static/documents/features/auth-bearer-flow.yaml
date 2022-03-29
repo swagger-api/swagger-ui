@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: Bearer auth test
+  version: 1.0.0
+servers:
+  # - url: https://httpbin.org # live external url
+  - url: http://localhost:3231 # will need to mock
+paths:
+  /get:
+    get:
+      responses:
+        '200':
+          description: ok
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

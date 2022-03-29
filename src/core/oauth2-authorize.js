@@ -1,5 +1,4 @@
 import parseUrl from "url-parse"
-import win from "core/window"
 import Im from "immutable"
 import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
 
@@ -123,13 +122,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     callback = authActions.authorizeAccessCodeWithFormParams
   }
 
-  win.swaggerUIRedirectOauth2 = {
+  authActions.authPopup(url, {
     auth: auth,
     state: state,
     redirectUrl: redirectUrl,
     callback: callback,
     errCb: errActions.newAuthErr
-  }
-
-  win.open(url)
+  })
 }

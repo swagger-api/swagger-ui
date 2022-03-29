@@ -1,11 +1,12 @@
 /* eslint-env mocha */
 import React from "react"
 import { fromJSOrdered } from "core/utils"
-import expect, { createSpy } from "expect"
+import sinon from "sinon"
+import expect from "expect"
 import { shallow } from "enzyme"
 import LiveResponse from "components/live-response"
 import ResponseBody from "components/response-body"
-import { RequestSnippets } from "core/plugins/request-snippets/request-snippets"
+import RequestSnippets from "core/plugins/request-snippets/request-snippets"
 
 describe("<LiveResponse/>", function () {
   let request = fromJSOrdered({
@@ -50,8 +51,8 @@ describe("<LiveResponse/>", function () {
         duration: 50
       })
 
-      let mutatedRequestForSpy = createSpy().andReturn(mutatedRequest)
-      let requestForSpy = createSpy().andReturn(request)
+      let mutatedRequestForSpy = sinon.stub().returns(mutatedRequest)
+      let requestForSpy = sinon.stub().returns(request)
 
       let components = {
         RequestSnippets: RequestSnippets,
@@ -76,8 +77,8 @@ describe("<LiveResponse/>", function () {
       let wrapper = shallow(<LiveResponse {...props} />)
 
       // Then
-      expect(mutatedRequestForSpy.calls.length).toEqual(test.expected.mutatedRequestForCalls)
-      expect(requestForSpy.calls.length).toEqual(test.expected.requestForCalls)
+      expect(mutatedRequestForSpy.callCount).toEqual(test.expected.mutatedRequestForCalls)
+      expect(requestForSpy.callCount).toEqual(test.expected.requestForCalls)
 
       const snippets = wrapper.find("RequestSnippets")
       expect(snippets.length).toEqual(1)
