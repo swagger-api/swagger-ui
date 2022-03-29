@@ -17,9 +17,9 @@ ENV SWAGGER_JSON_URL ""
 COPY --chown=nginx:nginx --chmod=0666 ./docker/nginx.conf ./docker/cors.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
-COPY --chown=nginx:nginx --chmod=0666 ./dist/* /usr/share/nginx/html/
-COPY --chown=nginx:nginx --chmod=0555 ./docker/run.sh /usr/share/nginx/
-COPY --chown=nginx:nginx --chmod=0666 ./docker/configurator /usr/share/nginx/configurator
+COPY --chmod=0666 ./dist/* /usr/share/nginx/html/
+COPY --chmod=0555 ./docker/docker-entrypoint.d/ /docker-entrypoint.d/
+COPY --chmod=0666 ./docker/configurator /usr/share/nginx/configurator
 
 RUN chmod 777 /usr/share/nginx/html/ /etc/nginx/ /var/cache/nginx/ /var/run/
 
