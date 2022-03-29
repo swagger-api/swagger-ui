@@ -2,9 +2,9 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1-alpine
+FROM nginx:1.21.6-alpine
 
-RUN apk add --no-cache "nodejs>=14.17.4-r0"
+RUN apk update && apk add --no-cache "nodejs>=14.17.6-r0"
 
 LABEL maintainer="fehguy"
 
@@ -24,7 +24,3 @@ COPY --chown=nginx:nginx --chmod=0666 ./docker/configurator /usr/share/nginx/con
 RUN chmod 777 /usr/share/nginx/html/ /etc/nginx/ /var/cache/nginx/ /var/run/
 
 EXPOSE 8080
-
-USER 101
-
-CMD ["sh", "/usr/share/nginx/run.sh"]

@@ -1,10 +1,22 @@
-import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
-import XML from "@kyleshockey/xml"
-import memoizee from "memoizee"
+import XML from "xml"
+import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
+import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
+
+import memoizeN from "../../../helpers/memoizeN"
+
+const generateStringFromRegex = (pattern) => {
+  try {
+    const randexp = new RandExp(pattern)
+    return randexp.gen()
+  } catch (e) {
+    // Invalid regex should not cause a crash (regex syntax varies across languages)
+    return "string"
+  }
+}
 
 const primitives = {
-  "string": () => "string",
+  "string": (schema) => schema.pattern ? generateStringFromRegex(schema.pattern) : "string",
   "string_email": () => "user@example.com",
   "string_date-time": () => new Date().toISOString(),
   "string_date": () => new Date().toISOString().substring(0, 10),
@@ -480,8 +492,8 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       } else {
         const toGenerateCount = schema.minProperties !== null && schema.minProperties !== undefined && propertyAddedCounter < schema.minProperties
           ? schema.minProperties - propertyAddedCounter
-          : 4
-        for (let i = 1; i < toGenerateCount; i++) {
+          : 3
+        for (let i = 1; i <= toGenerateCount; i++) {
           if(hasExceededMaxProperties()) {
             return res
           }
@@ -602,6 +614,8 @@ export const createXMLExample = (schema, config, o) => {
 export const sampleFromSchema = (schema, config, o) =>
   sampleFromSchemaGeneric(schema, config, o, false)
 
-export const memoizedCreateXMLExample = memoizee(createXMLExample)
+const resolver = (arg1, arg2, arg3) => [arg1, JSON.stringify(arg2), JSON.stringify(arg3)]
 
-export const memoizedSampleFromSchema = memoizee(sampleFromSchema)
+export const memoizedCreateXMLExample = memoizeN(createXMLExample, resolver)
+
+export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)

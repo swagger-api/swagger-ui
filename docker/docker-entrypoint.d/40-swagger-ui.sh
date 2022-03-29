@@ -3,36 +3,19 @@
 set -e
 BASE_URL=${BASE_URL:-/}
 NGINX_ROOT=/usr/share/nginx/html
-INDEX_FILE=$NGINX_ROOT/index.html
+INITIALIZER_SCRIPT=$NGINX_ROOT/swagger-initializer.js
 NGINX_CONF=/etc/nginx/nginx.conf
 
-node /usr/share/nginx/configurator $INDEX_FILE
+node /usr/share/nginx/configurator $INITIALIZER_SCRIPT
 
-replace_in_index () {
-  if [ "$1" != "**None**" ]; then
-    sed -i "s|/\*||g" $INDEX_FILE
-    sed -i "s|\*/||g" $INDEX_FILE
-    sed -i "s|$1|$2|g" $INDEX_FILE
-  fi
-}
-
-replace_or_delete_in_index () {
-  if [ -z "$2" ]; then
-    sed -i "/$1/d" $INDEX_FILE
-  else
-    replace_in_index $1 $2
-  fi
-}
 
 if [[ "${BASE_URL}" != "/" ]]; then
   sed -i "s|location / {|location $BASE_URL {|g" $NGINX_CONF
 fi
 
-replace_in_index myApiKeyXXXX123456789 $API_KEY
-
 if [ "$SWAGGER_JSON_URL" ]; then
-  sed -i "s|https://petstore.swagger.io/v2/swagger.json|$SWAGGER_JSON_URL|g" $INDEX_FILE
-  sed -i "s|http://example.com/api|$SWAGGER_JSON_URL|g" $INDEX_FILE
+  sed -i "s|https://petstore.swagger.io/v2/swagger.json|$SWAGGER_JSON_URL|g" $INITIALIZER_SCRIPT
+  sed -i "s|http://example.com/api|$SWAGGER_JSON_URL|g" $INITIALIZER_SCRIPT
 fi
 
 if [[ -f "$SWAGGER_JSON" ]]; then
@@ -52,8 +35,8 @@ if [[ -f "$SWAGGER_JSON" ]]; then
   fi
   sed -i "s|#SWAGGER_ROOT|root $SWAGGER_ROOT/;|g" $NGINX_CONF
 
-  sed -i "s|https://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
-  sed -i "s|http://example.com/api|$REL_PATH|g" $INDEX_FILE
+  sed -i "s|https://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INITIALIZER_SCRIPT
+  sed -i "s|http://example.com/api|$REL_PATH|g" $INITIALIZER_SCRIPT
 fi
 
 # replace the PORT that nginx listens on if PORT is supplied
@@ -62,5 +45,3 @@ if [[ -n "${PORT}" ]]; then
 fi
 
 find $NGINX_ROOT -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
-
-exec nginx -g 'daemon off;'
