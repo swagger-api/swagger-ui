@@ -5,7 +5,7 @@ window.onload = function() {
   // Build a system
   const ui = SwaggerUIBundle({
     // url: "https://petstore.swagger.io/v2/swagger.json",
-    url: "./examples/swos-281-oas3.yaml",
+    url: "./examples/patient.json",
     // url: "./examples/swos-281-oas2.yaml",
     dom_id: "#swagger-ui",
     presets: [
@@ -16,7 +16,12 @@ window.onload = function() {
       SwaggerUIBundle.plugins.DownloadUrl
     ],
     // requestSnippetsEnabled: true,
-    layout: "StandaloneLayout"
+    layout: "StandaloneLayout",
+
+    requestInterceptor: (req) => {
+      req.headers.Authorization = "Bearer " + req.headers.Authorization;
+      return req;
+    },
   })
 
   window.ui = ui
