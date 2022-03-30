@@ -13,7 +13,7 @@ export default class NewAuthorizationPopup extends React.Component {
     this.state = {
       id: '',
       password: '',
-      token: null
+      token: ''
     };
     this.login = this.login.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -53,6 +53,14 @@ export default class NewAuthorizationPopup extends React.Component {
     let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
+    // if(this.state.token){
+    //   return(
+    //     <div className="wrapper">
+    //       <label>token </label>
+    //       <input name="token" id="token" type="text" value={this.state.token} onChange={(e) => this.handleChange({ token: e.target.value })}/>
+    //     </div>
+    //   )
+    // }
     // if(this.state.token){
     //   console.log(this.state.token)
     //   return <Auths token={this.state.token}
@@ -103,6 +111,11 @@ export default class NewAuthorizationPopup extends React.Component {
 
                 <button type="submit" className="btn modal-btn auth authorize button" onClick={(e) => this.login(e)}>Authorize</button>
                 <button type="button" className="btn modal-btn auth btn-done button" onClick={ this.close }>Close</button>
+
+                <div className="wrapper">
+                  <label>token </label>
+                  <input name="token" id="token" type="text" value={this.state.token} onChange={(e) => this.handleChange({ token: e.target.value })}/>
+                </div>
 
                 {
                   definitions.valueSeq().map(( definition, key ) => {
