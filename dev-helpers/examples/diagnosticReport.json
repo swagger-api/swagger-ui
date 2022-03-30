@@ -1,0 +1,1540 @@
+swagger: '2.0'
+definitions:
+  DiagnosticReport:
+    description: >-
+      The findings and interpretation of diagnostic  tests performed on
+      patients, groups of patients, devices, and locations, and/or specimens
+      derived from these. The report includes clinical context such as
+      requesting and provider information, and some mix of atomic results,
+      images, textual and coded interpretations, and formatted representation of
+      diagnostic reports.
+    properties:
+      resourceType:
+        description: This is a DiagnosticReport resource
+        type: string
+      id:
+        description: >-
+          The logical id of the resource, as used in the URL for the resource.
+          Once assigned, this value never changes.
+        $ref: '#/definitions/id'
+      identifier:
+        description: Identifiers assigned to this report by the performer or other systems.
+        items:
+          $ref: '#/definitions/Identifier'
+        type: array
+      basedOn:
+        description: Details concerning a service requested.
+        items:
+          $ref: '#/definitions/Reference'
+        type: array
+      status:
+        description: The status of the diagnostic report.
+        enum:
+          - registered
+          - partial
+          - preliminary
+          - final
+          - amended
+          - corrected
+          - appended
+          - cancelled
+          - entered-in-error
+          - unknown
+      category:
+        description: >-
+          A code that classifies the clinical discipline, department or
+          diagnostic service that created the report (e.g. cardiology,
+          biochemistry, hematology, MRI). This is used for searching, sorting
+          and display purposes.
+        items:
+          $ref: '#/definitions/CodeableConcept'
+        type: array
+      code:
+        description: A code or name that describes this diagnostic report.
+        $ref: '#/definitions/CodeableConcept'
+      subject:
+        description: >-
+          The subject of the report. Usually, but not always, this is a patient.
+          However, diagnostic services also perform analyses on specimens
+          collected from a variety of other sources.
+        $ref: '#/definitions/Reference'
+      encounter:
+        description: >-
+          The healthcare event  (e.g. a patient and healthcare provider
+          interaction) which this DiagnosticReport is about.
+        $ref: '#/definitions/Reference'
+      effectiveDateTime:
+        description: >-
+          Clinically relevant time/time-period for report
+        $ref: '#/definitions/dateTime'
+      issued:
+        description: >-
+          The date and time that this version of the report was made available
+          to providers, typically after the report was reviewed and verified.
+        $ref: '#/definitions/instant'
+      performer:
+        description: The diagnostic service that is responsible for issuing the report.
+        items:
+          $ref: '#/definitions/Reference'
+        type: array
+      resultsInterpreter:
+        description: >-
+          The practitioner or organization that is responsible for the report's
+          conclusions and interpretations.
+        items:
+          $ref: '#/definitions/Reference'
+        type: array
+      specimen:
+        description: Details about the specimens on which this diagnostic report is based.
+        items:
+          $ref: '#/definitions/Reference'
+        type: array
+      result:
+        description: >-
+          [Observations](observation.html)  that are part of this diagnostic
+          report.
+        items:
+          $ref: '#/definitions/Reference'
+        type: array
+      imagingStudy:
+        description: >-
+          One or more links to full details of any imaging performed during the
+          diagnostic investigation. Typically, this is imaging performed by
+          DICOM enabled modalities, but this is not required. A fully enabled
+          PACS viewer can use this information to provide views of the source
+          images.
+        items:
+          $ref: '#/definitions/Reference'
+        type: array
+      media:
+        description: >-
+          A list of key images associated with this report. The images are
+          generally created during the diagnostic process, and may be directly
+          of the patient, or of treated specimens (i.e. slides of interest).
+        items:
+          $ref: '#/definitions/DiagnosticReport_Media'
+        type: array
+      conclusion:
+        description: >-
+          Concise and clinically contextualized summary conclusion
+          (interpretation/impression) of the diagnostic report.
+        $ref: '#/definitions/string'
+      conclusionCode:
+        description: >-
+          One or more codes that represent the summary conclusion
+          (interpretation/impression) of the diagnostic report.
+        items:
+          $ref: '#/definitions/CodeableConcept'
+        type: array
+      presentedForm:
+        description: >-
+          Rich text representation of the entire result as issued by the
+          diagnostic service. Multiple formats are allowed but they SHALL be
+          semantically equivalent.
+        items:
+          $ref: '#/definitions/Attachment'
+        type: array
+    additionalProperties: false
+    required:
+      - code
+      - resourceType
+  id:
+    type: string
+    description: >-
+      Any combination of letters, numerals, "-" and ".", with a length limit of
+      64 characters.  (This might be an integer, an unprefixed OID, UUID or any
+      other identifier pattern that meets these constraints.)  Ids are
+      case-insensitive.
+  Meta:
+    description: >-
+      The metadata about a resource. This is content in the resource that is
+      maintained by the infrastructure. Changes to the content might not always
+      be associated with version changes to the resource.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      versionId:
+        description: >-
+          The version specific identifier, as it appears in the version portion
+          of the URL. This value changes when the resource is created, updated,
+          or deleted.
+        $ref: '#/definitions/id'
+      lastUpdated:
+        description: When the resource last changed - e.g. when the version changed.
+        $ref: '#/definitions/instant'
+      source:
+        description: >-
+          A uri that identifies the source system of the resource. This provides
+          a minimal amount of [[[Provenance]]] information that can be used to
+          track or differentiate the source of information in the resource. The
+          source may identify another FHIR server, document, message, database,
+          etc.
+        $ref: '#/definitions/uri'
+      profile:
+        description: >-
+          A list of profiles (references to [[[StructureDefinition]]] resources)
+          that this resource claims to conform to. The URL is a reference to
+          [[[StructureDefinition.url]]].
+        items:
+          $ref: '#/definitions/canonical'
+        type: array
+      security:
+        description: >-
+          Security labels applied to this resource. These tags connect specific
+          resources to the overall security policy and infrastructure.
+        items:
+          $ref: '#/definitions/Coding'
+        type: array
+      tag:
+        description: >-
+          Tags applied to this resource. Tags are intended to be used to
+          identify and relate resources to process and workflow, and
+          applications are not required to consider the tags when interpreting
+          the meaning of a resource.
+        items:
+          $ref: '#/definitions/Coding'
+        type: array
+    additionalProperties: false
+  uri:
+    type: string
+    description: String of characters used to identify a name or a resource
+  code:
+    type: string
+    description: >-
+      A string which has at least one character and no leading or trailing
+      whitespace and where there is no whitespace other than single spaces in
+      the contents
+  Narrative:
+    description: >-
+      A human-readable summary of the resource conveying the essential clinical
+      and business information for the resource.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      status:
+        description: >-
+          The status of the narrative - whether it's entirely generated (from
+          just the defined data or the extensions too), or whether a human
+          authored it and it may contain additional data.
+        enum:
+          - generated
+          - extensions
+          - additional
+          - empty
+      div:
+        description: The actual narrative content, a stripped down version of XHTML.
+        $ref: '#/definitions/xhtml'
+    additionalProperties: false
+    required:
+      - div
+  Extension:
+    description: Optional Extension Element - found in all resources.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      url:
+        description: >-
+          Source of the definition for the extension code - a logical name or a
+          URL.
+        $ref: '#/definitions/uri'
+      valueBase64Binary:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueBoolean:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        pattern: ^true|false$
+        type: boolean
+      valueCanonical:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        pattern: ^\S*$
+        type: string
+      valueCode:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueDate:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueDateTime:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueDecimal:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: number
+      valueId:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueInstant:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueInteger:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: number
+      valueMarkdown:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueOid:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valuePositiveInt:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: number
+      valueString:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueTime:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueUnsignedInt:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: number
+      valueUri:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueUrl:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueUuid:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueAddress:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueAge:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueAnnotation:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueAttachment:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        $ref: '#/definitions/Attachment'
+      valueCodeableConcept:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        $ref: '#/definitions/CodeableConcept'
+      valueCoding:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        $ref: '#/definitions/Coding'
+      valueContactPoint:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueCount:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueDistance:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueDuration:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueHumanName:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueIdentifier:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        $ref: '#/definitions/Identifier'
+      valueMoney:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valuePeriod:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        $ref: '#/definitions/Period'
+      valueQuantity:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueRange:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueRatio:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueReference:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        $ref: '#/definitions/Reference'
+      valueSampledData:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueSignature:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueTiming:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueContactDetail:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueContributor:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueDataRequirement:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueExpression:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueParameterDefinition:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueRelatedArtifact:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueTriggerDefinition:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueUsageContext:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+      valueDosage:
+        description: >-
+          Value of extension - must be one of a constrained set of the data
+          types (see [Extensibility](extensibility.html) for a list).
+        type: string
+    additionalProperties: false
+  Identifier:
+    description: >-
+      An identifier - identifies some entity uniquely and unambiguously.
+      Typically this is used for business identifiers.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      use:
+        description: The purpose of this identifier.
+        enum:
+          - usual
+          - official
+          - temp
+          - secondary
+          - old
+      type:
+        description: >-
+          A coded type for the identifier that can be used to determine which
+          identifier to use for a specific purpose.
+        $ref: '#/definitions/CodeableConcept'
+      system:
+        description: >-
+          Establishes the namespace for the value - that is, a URL that
+          describes a set values that are unique.
+        $ref: '#/definitions/uri'
+      value:
+        description: >-
+          The portion of the identifier typically relevant to the user and which
+          is unique within the context of the system.
+        $ref: '#/definitions/string'
+      period:
+        description: Time period during which identifier is/was valid for use.
+        $ref: '#/definitions/Period'
+      assigner:
+        description: Organization that issued/manages the identifier.
+        $ref: '#/definitions/Reference'
+    additionalProperties: false
+  Reference:
+    description: A reference from one resource to another.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      reference:
+        description: >-
+          A reference to a location at which the other resource is found. The
+          reference may be a relative reference, in which case it is relative to
+          the service base URL, or an absolute URL that resolves to the location
+          where the resource is found. The reference may be version specific or
+          not. If the reference is not to a FHIR RESTful server, then it should
+          be assumed to be version specific. Internal fragment references (start
+          with '#') refer to contained resources.
+        $ref: '#/definitions/string'
+      type:
+        description: >-
+          The expected type of the target of the reference. If both
+          Reference.type and Reference.reference are populated and
+          Reference.reference is a FHIR URL, both SHALL be consistent.
+
+
+          The type is the Canonical URL of Resource Definition that is the type
+          this reference refers to. References are URLs that are relative to
+          http://hl7.org/fhir/StructureDefinition/ e.g. "Patient" is a reference
+          to http://hl7.org/fhir/StructureDefinition/Patient. Absolute URLs are
+          only allowed for logical models (and can only be used in references in
+          logical models, not resources).
+        $ref: '#/definitions/uri'
+      identifier:
+        description: >-
+          An identifier for the target resource. This is used when there is no
+          way to reference the other resource directly, either because the
+          entity it represents is not available through a FHIR server, or
+          because there is no way for the author of the resource to convert a
+          known identifier to an actual location. There is no requirement that a
+          Reference.identifier point to something that is actually exposed as a
+          FHIR instance, but it SHALL point to a business concept that would be
+          expected to be exposed as a FHIR instance, and that instance would
+          need to be of a FHIR resource type allowed by the reference.
+        $ref: '#/definitions/Identifier'
+      display:
+        description: >-
+          Plain text narrative that identifies the resource in addition to the
+          resource reference.
+        $ref: '#/definitions/string'
+    additionalProperties: false
+  CodeableConcept:
+    description: >-
+      A concept that may be defined by a formal reference to a terminology or
+      ontology or may be provided by text.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      coding:
+        description: A reference to a code defined by a terminology system.
+        items:
+          $ref: '#/definitions/Coding'
+        type: array
+      text:
+        description: >-
+          A human language representation of the concept as
+          seen/selected/uttered by the user who entered the data and/or which
+          represents the intended meaning of the user.
+        $ref: '#/definitions/string'
+    additionalProperties: false
+  Period:
+    description: A time period defined by a start and end date and optionally time.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      start:
+        description: The start of the period. The boundary is inclusive.
+        $ref: '#/definitions/dateTime'
+      end:
+        description: >-
+          The end of the period. If the end of the period is missing, it means
+          no end was known or planned at the time the instance was created. The
+          start may be in the past, and the end date in the future, which means
+          that period is expected/planned to end at that time.
+        $ref: '#/definitions/dateTime'
+    additionalProperties: false
+  instant:
+    type: string
+    description: An instant in time - known at least to the second
+  DiagnosticReport_Media:
+    description: >-
+      The findings and interpretation of diagnostic  tests performed on
+      patients, groups of patients, devices, and locations, and/or specimens
+      derived from these. The report includes clinical context such as
+      requesting and provider information, and some mix of atomic results,
+      images, textual and coded interpretations, and formatted representation of
+      diagnostic reports.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      comment:
+        description: >-
+          A comment about the image. Typically, this is used to provide an
+          explanation for why the image is included, or to draw the viewer's
+          attention to important features.
+        $ref: '#/definitions/string'
+      link:
+        description: Reference to the image source.
+        $ref: '#/definitions/Reference'
+    additionalProperties: false
+    required:
+      - link
+  string:
+    type: string
+    description: A sequence of Unicode characters
+  Attachment:
+    description: For referring to data content defined in other formats.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      contentType:
+        description: >-
+          Identifies the type of the data in the attachment and allows a method
+          to be chosen to interpret or render the data. Includes mime type
+          parameters such as charset where appropriate.
+        $ref: '#/definitions/code'
+      language:
+        description: >-
+          The human language of the content. The value can be any valid value
+          according to BCP 47.
+        $ref: '#/definitions/code'
+      data:
+        description: >-
+          The actual data of the attachment - a sequence of bytes, base64
+          encoded.
+        $ref: '#/definitions/base64Binary'
+      url:
+        description: A location where the data can be accessed.
+        $ref: '#/definitions/url'
+      size:
+        description: >-
+          The number of bytes of data that make up this attachment (before
+          base64 encoding, if that is done).
+        $ref: '#/definitions/unsignedInt'
+      hash:
+        description: The calculated hash of the data using SHA-1. Represented using base64.
+        $ref: '#/definitions/base64Binary'
+      title:
+        description: A label or set of text to display in place of the data.
+        $ref: '#/definitions/string'
+      creation:
+        description: The date that the attachment was first created.
+        $ref: '#/definitions/dateTime'
+    additionalProperties: false
+  OperationOutcome:
+    description: >-
+      A collection of error, warning, or information messages that result from a
+      system action.
+    properties:
+      resourceType:
+        description: This is a OperationOutcome resource
+        type: string
+      issue:
+        description: >-
+          An error, warning, or information message that results from a system
+          action.
+        items:
+          description: >-
+            A collection of error, warning, or information messages that result
+            from a system action.
+          properties:
+            id:
+              description: >-
+                Unique id for the element within a resource (for internal
+                references). This may be any string value that does not contain
+                spaces.
+              $ref: '#/definitions/string'
+            severity:
+              description: >-
+                Indicates whether the issue indicates a variation from
+                successful processing.
+              enum:
+                - fatal
+                - error
+                - warning
+                - information
+            code:
+              description: >-
+                Describes the type of the issue. The system that creates an
+                OperationOutcome SHALL choose the most applicable code from the
+                IssueType value set, and may additional provide its own code for
+                the error in the details element.
+              enum:
+                - invalid
+                - structure
+                - required
+                - value
+                - invariant
+                - security
+                - login
+                - unknown
+                - expired
+                - forbidden
+                - suppressed
+                - processing
+                - not-supported
+                - duplicate
+                - multiple-matches
+                - not-found
+                - deleted
+                - too-long
+                - code-invalid
+                - extension
+                - too-costly
+                - business-rule
+                - conflict
+                - transient
+                - lock-error
+                - no-store
+                - exception
+                - timeout
+                - incomplete
+                - throttled
+                - informational
+            details:
+              description: >-
+                Additional details about the error. This may be a text
+                description of the error or a system code that identifies the
+                error.
+              $ref: '#/definitions/CodeableConcept'
+            diagnostics:
+              description: Additional diagnostic information about the issue.
+              $ref: '#/definitions/string'
+            location:
+              description: >-
+                This element is deprecated because it is XML specific. It is
+                replaced by issue.expression, which is format independent, and
+                simpler to parse. 
+
+
+                For resource issues, this will be a simple XPath limited to
+                element names, repetition indicators and the default child
+                accessor that identifies one of the elements in the resource
+                that caused this issue to be raised.  For HTTP errors, will be
+                "http." + the parameter name.
+              items:
+                $ref: '#/definitions/string'
+              type: array
+            expression:
+              description: >-
+                A [simple subset of FHIRPath](fhirpath.html#simple) limited to
+                element names, repetition indicators and the default child
+                accessor that identifies one of the elements in the resource
+                that caused this issue to be raised.
+              items:
+                $ref: '#/definitions/string'
+              type: array
+          additionalProperties: false
+        type: array
+    additionalProperties: false
+    required:
+      - issue
+      - resourceType
+  Bundle:
+    description: A container for a collection of resources.
+    properties:
+      resourceType:
+        description: This is a Bundle resource
+        type: string
+      identifier:
+        description: >-
+          A persistent identifier for the bundle that won't change as a bundle
+          is copied from server to server.
+        $ref: '#/definitions/Identifier'
+      type:
+        description: Indicates the purpose of this bundle - how it is intended to be used.
+        enum:
+          - document
+          - message
+          - transaction
+          - transaction-response
+          - batch
+          - batch-response
+          - history
+          - searchset
+          - collection
+      timestamp:
+        description: >-
+          The date/time that the bundle was assembled - i.e. when the resources
+          were placed in the bundle.
+        $ref: '#/definitions/instant'
+      total:
+        description: >-
+          If a set of search matches, this is the total number of entries of
+          type 'match' across all pages in the search.  It does not include
+          search.mode = 'include' or 'outcome' entries and it does not provide a
+          count of the number of entries in the Bundle.
+        $ref: '#/definitions/unsignedInt'
+      link:
+        description: A series of links that provide context to this bundle.
+        items:
+          description: A container for a collection of resources.
+          properties:
+            id:
+              description: >-
+                Unique id for the element within a resource (for internal
+                references). This may be any string value that does not contain
+                spaces.
+              $ref: '#/definitions/string'
+            relation:
+              description: >-
+                A name which details the functional use for this link - see
+                [http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1](http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1).
+              $ref: '#/definitions/string'
+            url:
+              description: The reference details for the link.
+              $ref: '#/definitions/uri'
+          additionalProperties: false
+        type: array
+      entry:
+        description: >-
+          An entry in a bundle resource - will either contain a resource or
+          information about a resource (transactions and history only).
+        items:
+          description: A container for a collection of resources.
+          properties:
+            id:
+              description: >-
+                Unique id for the element within a resource (for internal
+                references). This may be any string value that does not contain
+                spaces.
+              $ref: '#/definitions/string'
+            link:
+              description: A series of links that provide context to this entry.
+              items:
+                description: A container for a collection of resources.
+                properties:
+                  id:
+                    description: >-
+                      Unique id for the element within a resource (for internal
+                      references). This may be any string value that does not
+                      contain spaces.
+                    $ref: '#/definitions/string'
+                  relation:
+                    description: >-
+                      A name which details the functional use for this link -
+                      see
+                      [http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1](http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1).
+                    $ref: '#/definitions/string'
+                  url:
+                    description: The reference details for the link.
+                    $ref: '#/definitions/uri'
+                additionalProperties: false
+              type: array
+            fullUrl:
+              description: >-
+                The Absolute URL for the resource.  The fullUrl SHALL NOT
+                disagree with the id in the resource - i.e. if the fullUrl is
+                not a urn:uuid, the URL shall be version-independent URL
+                consistent with the Resource.id. The fullUrl is a version
+                independent reference to the resource. The fullUrl element SHALL
+                have a value except that: 
+
+                * fullUrl can be empty on a POST (although it does not need to
+                when specifying a temporary id for reference in the bundle)
+
+                * Results from operations might involve resources that are not
+                identified.
+              $ref: '#/definitions/uri'
+            resource:
+              description: >-
+                The Resource for the entry. The purpose/meaning of the resource
+                is determined by the Bundle.type.
+              $ref: '#/definitions/Resource'
+            search:
+              description: >-
+                Information about the search process that lead to the creation
+                of this entry.
+              properties:
+                id:
+                  description: >-
+                    Unique id for the element within a resource (for internal
+                    references). This may be any string value that does not
+                    contain spaces.
+                  $ref: '#/definitions/string'
+                mode:
+                  description: >-
+                    Why this entry is in the result set - whether it's included
+                    as a match or because of an _include requirement, or to
+                    convey information or warning information about the search
+                    process.
+                  enum:
+                    - match
+                    - include
+                    - outcome
+                score:
+                  description: >-
+                    When searching, the server's search ranking score for the
+                    entry.
+                  $ref: '#/definitions/decimal'
+              additionalProperties: false
+            request:
+              description: >-
+                Additional information about how this entry should be processed
+                as part of a transaction or batch.  For history, it shows how
+                the entry was processed to create the version contained in the
+                entry.
+              properties:
+                id:
+                  description: >-
+                    Unique id for the element within a resource (for internal
+                    references). This may be any string value that does not
+                    contain spaces.
+                  $ref: '#/definitions/string'
+                method:
+                  description: >-
+                    In a transaction or batch, this is the HTTP action to be
+                    executed for this entry. In a history bundle, this indicates
+                    the HTTP action that occurred.
+                  enum:
+                    - GET
+                    - HEAD
+                    - POST
+                    - PUT
+                    - DELETE
+                    - PATCH
+                url:
+                  description: >-
+                    The URL for this entry, relative to the root (the address to
+                    which the request is posted).
+                  $ref: '#/definitions/uri'
+                ifNoneMatch:
+                  description: >-
+                    If the ETag values match, return a 304 Not Modified status.
+                    See the API documentation for ["Conditional
+                    Read"](http.html#cread).
+                  $ref: '#/definitions/string'
+                ifModifiedSince:
+                  description: >-
+                    Only perform the operation if the last updated date matches.
+                    See the API documentation for ["Conditional
+                    Read"](http.html#cread).
+                  $ref: '#/definitions/instant'
+                ifMatch:
+                  description: >-
+                    Only perform the operation if the Etag value matches. For
+                    more information, see the API section ["Managing Resource
+                    Contention"](http.html#concurrency).
+                  $ref: '#/definitions/string'
+                ifNoneExist:
+                  description: >-
+                    Instruct the server not to perform the create if a specified
+                    resource already exists. For further information, see the
+                    API documentation for ["Conditional
+                    Create"](http.html#ccreate). This is just the query portion
+                    of the URL - what follows the "?" (not including the "?").
+                  $ref: '#/definitions/string'
+              additionalProperties: false
+            response:
+              description: >-
+                Indicates the results of processing the corresponding 'request'
+                entry in the batch or transaction being responded to or what the
+                results of an operation where when returning history.
+              properties:
+                id:
+                  description: >-
+                    Unique id for the element within a resource (for internal
+                    references). This may be any string value that does not
+                    contain spaces.
+                  $ref: '#/definitions/string'
+                status:
+                  description: >-
+                    The status code returned by processing this entry. The
+                    status SHALL start with a 3 digit HTTP code (e.g. 404) and
+                    may contain the standard HTTP description associated with
+                    the status code.
+                  $ref: '#/definitions/string'
+                location:
+                  description: >-
+                    The location header created by processing this operation,
+                    populated if the operation returns a location.
+                  $ref: '#/definitions/uri'
+                etag:
+                  description: >-
+                    The Etag for the resource, if the operation for the entry
+                    produced a versioned resource (see [Resource Metadata and
+                    Versioning](http.html#versioning) and [Managing Resource
+                    Contention](http.html#concurrency)).
+                  $ref: '#/definitions/string'
+                lastModified:
+                  description: The date/time that the resource was modified on the server.
+                  $ref: '#/definitions/instant'
+                outcome:
+                  description: >-
+                    An OperationOutcome containing hints and warnings produced
+                    as part of processing this entry in a batch or transaction.
+                  $ref: '#/definitions/Resource'
+              additionalProperties: false
+          additionalProperties: false
+        type: array
+      signature:
+        description: Digital Signature - base64 encoded. XML-DSig or a JWT.
+        $ref: '#/definitions/Signature'
+    additionalProperties: false
+    required:
+      - resourceType
+  unsignedInt:
+    type: number
+    description: An integer with a value that is not negative (e.g. >= 0)
+  Resource:
+    properties:
+      resourceType:
+        type: string
+      id:
+        $ref: '#/definitions/id'
+      meta:
+        $ref: '#/definitions/Meta'
+      implicitRules:
+        $ref: '#/definitions/uri'
+      language:
+        $ref: '#/definitions/code'
+  Signature:
+    description: >-
+      A signature along with supporting context. The signature may be a digital
+      signature that is cryptographic in nature, or some other signature
+      acceptable to the domain. This other signature may be as simple as a
+      graphical image representing a hand-written signature, or a signature
+      ceremony Different signature approaches have different utilities.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      type:
+        description: >-
+          An indication of the reason that the entity signed this document. This
+          may be explicitly included as part of the signature information and
+          can be used when determining accountability for various actions
+          concerning the document.
+        items:
+          $ref: '#/definitions/Coding'
+        type: array
+      when:
+        description: When the digital signature was signed.
+        $ref: '#/definitions/instant'
+      who:
+        description: >-
+          A reference to an application-usable description of the identity that
+          signed  (e.g. the signature used their private key).
+        $ref: '#/definitions/Reference'
+      onBehalfOf:
+        description: >-
+          A reference to an application-usable description of the identity that
+          is represented by the signature.
+        $ref: '#/definitions/Reference'
+      targetFormat:
+        description: >-
+          A mime type that indicates the technical format of the target
+          resources signed by the signature.
+        $ref: '#/definitions/code'
+      sigFormat:
+        description: >-
+          A mime type that indicates the technical format of the signature.
+          Important mime types are application/signature+xml for X ML DigSig,
+          application/jose for JWS, and image/* for a graphical image of a
+          signature, etc.
+        $ref: '#/definitions/code'
+      data:
+        description: >-
+          The base64 encoding of the Signature content. When signature is not
+          recorded electronically this element would be empty.
+        $ref: '#/definitions/base64Binary'
+    additionalProperties: false
+    required:
+      - type
+      - who
+  base64Binary:
+    type: string
+    description: A stream of bytes
+  decimal:
+    type: number
+    description: A rational number with implicit precision
+  canonical:
+    type: string
+    description: A URI that is a reference to a canonical URL on a FHIR resource
+  Coding:
+    description: A reference to a code defined by a terminology system.
+    properties:
+      id:
+        description: >-
+          Unique id for the element within a resource (for internal references).
+          This may be any string value that does not contain spaces.
+        $ref: '#/definitions/string'
+      extension:
+        description: >-
+          May be used to represent additional information that is not part of
+          the basic definition of the element. To make the use of extensions
+          safe and manageable, there is a strict set of governance  applied to
+          the definition and use of extensions. Though any implementer can
+          define an extension, there is a set of requirements that SHALL be met
+          as part of the definition of the extension.
+        items:
+          $ref: '#/definitions/Extension'
+        type: array
+      system:
+        description: >-
+          The identification of the code system that defines the meaning of the
+          symbol in the code.
+        $ref: '#/definitions/uri'
+      version:
+        description: >-
+          The version of the code system which was used when choosing this code.
+          Note that a well-maintained code system does not need the version
+          reported, because the meaning of codes is consistent across versions.
+          However this cannot consistently be assured, and when the meaning is
+          not guaranteed to be consistent, the version SHOULD be exchanged.
+        $ref: '#/definitions/string'
+      code:
+        description: >-
+          A symbol in syntax defined by the system. The symbol may be a
+          predefined code or an expression in a syntax defined by the coding
+          system (e.g. post-coordination).
+        $ref: '#/definitions/code'
+      display:
+        description: >-
+          A representation of the meaning of the code in the system, following
+          the rules of the system.
+        $ref: '#/definitions/string'
+      userSelected:
+        description: >-
+          Indicates that this coding was chosen by a user directly - e.g. off a
+          pick list of available items (codes or displays).
+        $ref: '#/definitions/boolean'
+    additionalProperties: false
+  xhtml:
+    description: xhtml - escaped html (see specfication)
+    type: string
+  dateTime:
+    type: string
+    description: >-
+      A date, date-time or partial date (e.g. just year or year + month).  If
+      hours and minutes are specified, a time zone SHALL be populated. The
+      format is a union of the schema types gYear, gYearMonth, date and
+      dateTime. Seconds must be provided due to schema type constraints but may
+      be zero-filled and may be ignored.                 Dates SHALL be valid
+      dates.
+  url:
+    type: string
+    description: A URI that is a literal reference
+  boolean:
+    pattern: ^true|false$
+    type: boolean
+    description: Value of "true" or "false"
+host: hapi.fhir.org
+basePath: /
+info:
+  title: DiagnosticReportFHIRAPI
+  version: '4.0'
+  description: >-
+    The findings and interpretation of diagnostic  tests performed on patients,
+    groups of patients, devices, and locations, and/or specimens derived from
+    these. The report includes clinical context such as requesting and provider
+    information, and some mix of atomic results, images, textual and coded
+    interpretations, and formatted representation of diagnostic reports.
+paths:
+  /DiagnosticReport:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Create DiagnosticReport
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/DiagnosticReport'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/DiagnosticReport'
+        '400':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        '500':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+    get:
+      tags:
+        - DiagnosticReport
+      summary: Get DiagnosticReport
+      parameters:
+        - name: _text
+          in: query
+          type: string
+          description: Search on the narrative of the resource
+        - name: _content
+          in: query
+          type: string
+          description: Search on the entire content of the resource
+        - name: _id
+          in: query
+          type: string
+          description: Logical id of this artifact
+        - name: _lastUpdated
+          in: query
+          type: string
+          description: When the resource version last changed
+        - name: _profile
+          in: query
+          type: string
+          description: Profiles this resource claims to conform to
+        - name: _query
+          in: query
+          type: string
+          description: >-
+            A custom search profile that describes a specific defined query
+            operation
+        - name: _security
+          in: query
+          type: string
+          description: Security Labels applied to this resource
+        - name: _source
+          in: query
+          type: string
+          description: Identifies where the resource comes from
+        - name: _tag
+          in: query
+          type: string
+          description: Tags applied to this resource
+        - name: code
+          in: query
+          type: string
+          description: "Multiple Resources: \r\n\r\n* [AllergyIntolerance](allergyintolerance.html): Code that identifies the allergy or intolerance\r\n* [Condition](condition.html): Code for the condition\r\n* [DeviceRequest](devicerequest.html): Code for what is being requested/ordered\r\n* [DiagnosticReport](diagnosticreport.html): The code for the report, as opposed to codes for the atomic results, which are the names on the observation resource referred to from the result\r\n* [FamilyMemberHistory](familymemberhistory.html): A search by a condition code\r\n* [List](list.html): What the purpose of this list is\r\n* [Medication](medication.html): Returns medications for a specific code\r\n* [MedicationAdministration](medicationadministration.html): Return administrations of this medication code\r\n* [MedicationDispense](medicationdispense.html): Returns dispenses of this medicine code\r\n* [MedicationRequest](medicationrequest.html): Return prescriptions of this medication code\r\n* [MedicationStatement](medicationstatement.html): Return statements of this medication code\r\n* [Observation](observation.html): The code of the observation type\r\n* [Procedure](procedure.html): A code to identify a  procedure\r\n* [ServiceRequest](servicerequest.html): What is being requested/ordered\r\n"
+        - name: date
+          in: query
+          type: string
+          description: "Multiple Resources: \r\n\r\n* [AllergyIntolerance](allergyintolerance.html): Date first version of the resource instance was recorded\r\n* [CarePlan](careplan.html): Time period plan covers\r\n* [CareTeam](careteam.html): Time period team covers\r\n* [ClinicalImpression](clinicalimpression.html): When the assessment was documented\r\n* [Composition](composition.html): Composition editing time\r\n* [Consent](consent.html): When this Consent was created or indexed\r\n* [DiagnosticReport](diagnosticreport.html): The clinically relevant time of the report\r\n* [Encounter](encounter.html): A date within the period the Encounter lasted\r\n* [EpisodeOfCare](episodeofcare.html): The provided date search value falls within the episode of care's period\r\n* [FamilyMemberHistory](familymemberhistory.html): When history was recorded or last updated\r\n* [Flag](flag.html): Time period when flag is active\r\n* [Immunization](immunization.html): Vaccination  (non)-Administration Date\r\n* [List](list.html): When the list was prepared\r\n* [Observation](observation.html): Obtained date/time. If the obtained element is a period, a date that falls in the period\r\n* [Procedure](procedure.html): When the procedure was performed\r\n* [RiskAssessment](riskassessment.html): When was assessment made?\r\n* [SupplyRequest](supplyrequest.html): When the request was made\r\n"
+        - name: identifier
+          in: query
+          type: string
+          description: "Multiple Resources: \r\n\r\n* [AllergyIntolerance](allergyintolerance.html): External ids for this item\r\n* [CarePlan](careplan.html): External Ids for this plan\r\n* [CareTeam](careteam.html): External Ids for this team\r\n* [Composition](composition.html): Version-independent identifier for the Composition\r\n* [Condition](condition.html): A unique identifier of the condition record\r\n* [Consent](consent.html): Identifier for this record (external references)\r\n* [DetectedIssue](detectedissue.html): Unique id for the detected issue\r\n* [DeviceRequest](devicerequest.html): Business identifier for request/order\r\n* [DiagnosticReport](diagnosticreport.html): An identifier for the report\r\n* [DocumentManifest](documentmanifest.html): Unique Identifier for the set of documents\r\n* [DocumentReference](documentreference.html): Master Version Specific Identifier\r\n* [Encounter](encounter.html): Identifier(s) by which this encounter is known\r\n* [EpisodeOfCare](episodeofcare.html): Business Identifier(s) relevant for this EpisodeOfCare\r\n* [FamilyMemberHistory](familymemberhistory.html): A search by a record identifier\r\n* [Goal](goal.html): External Ids for this goal\r\n* [ImagingStudy](imagingstudy.html): Identifiers for the Study, such as DICOM Study Instance UID and Accession number\r\n* [Immunization](immunization.html): Business identifier\r\n* [List](list.html): Business identifier\r\n* [MedicationAdministration](medicationadministration.html): Return administrations with this external identifier\r\n* [MedicationDispense](medicationdispense.html): Returns dispenses with this external identifier\r\n* [MedicationRequest](medicationrequest.html): Return prescriptions with this external identifier\r\n* [MedicationStatement](medicationstatement.html): Return statements with this external identifier\r\n* [NutritionOrder](nutritionorder.html): Return nutrition orders with this external identifier\r\n* [Observation](observation.html): The unique id for a particular observation\r\n* [Procedure](procedure.html): A unique identifier for a procedure\r\n* [RiskAssessment](riskassessment.html): Unique identifier for the assessment\r\n* [ServiceRequest](servicerequest.html): Identifiers assigned to this order\r\n* [SupplyDelivery](supplydelivery.html): External identifier\r\n* [SupplyRequest](supplyrequest.html): Business Identifier for SupplyRequest\r\n* [VisionPrescription](visionprescription.html): Return prescriptions with this external identifier\r\n"
+        - name: patient
+          in: query
+          type: string
+          description: "Multiple Resources: \r\n\r\n* [AllergyIntolerance](allergyintolerance.html): Who the sensitivity is for\r\n* [CarePlan](careplan.html): Who the care plan is for\r\n* [CareTeam](careteam.html): Who care team is for\r\n* [ClinicalImpression](clinicalimpression.html): Patient or group assessed\r\n* [Composition](composition.html): Who and/or what the composition is about\r\n* [Condition](condition.html): Who has the condition?\r\n* [Consent](consent.html): Who the consent applies to\r\n* [DetectedIssue](detectedissue.html): Associated patient\r\n* [DeviceRequest](devicerequest.html): Individual the service is ordered for\r\n* [DeviceUseStatement](deviceusestatement.html): Search by subject - a patient\r\n* [DiagnosticReport](diagnosticreport.html): The subject of the report if a patient\r\n* [DocumentManifest](documentmanifest.html): The subject of the set of documents\r\n* [DocumentReference](documentreference.html): Who/what is the subject of the document\r\n* [Encounter](encounter.html): The patient or group present at the encounter\r\n* [EpisodeOfCare](episodeofcare.html): The patient who is the focus of this episode of care\r\n* [FamilyMemberHistory](familymemberhistory.html): The identity of a subject to list family member history items for\r\n* [Flag](flag.html): The identity of a subject to list flags for\r\n* [Goal](goal.html): Who this goal is intended for\r\n* [ImagingStudy](imagingstudy.html): Who the study is about\r\n* [Immunization](immunization.html): The patient for the vaccination record\r\n* [List](list.html): If all resources have the same subject\r\n* [MedicationAdministration](medicationadministration.html): The identity of a patient to list administrations  for\r\n* [MedicationDispense](medicationdispense.html): The identity of a patient to list dispenses  for\r\n* [MedicationRequest](medicationrequest.html): Returns prescriptions for a specific patient\r\n* [MedicationStatement](medicationstatement.html): Returns statements for a specific patient.\r\n* [NutritionOrder](nutritionorder.html): The identity of the person who requires the diet, formula or nutritional supplement\r\n* [Observation](observation.html): The subject that the observation is about (if patient)\r\n* [Procedure](procedure.html): Search by subject - a patient\r\n* [RiskAssessment](riskassessment.html): Who/what does assessment apply to?\r\n* [ServiceRequest](servicerequest.html): Search by subject - a patient\r\n* [SupplyDelivery](supplydelivery.html): Patient for whom the item is supplied\r\n* [VisionPrescription](visionprescription.html): The identity of a patient to list dispenses for\r\n"
+        - name: encounter
+          in: query
+          type: string
+          description: "Multiple Resources: \r\n\r\n* [Composition](composition.html): Context of the Composition\r\n* [DeviceRequest](devicerequest.html): Encounter during which request was created\r\n* [DiagnosticReport](diagnosticreport.html): The Encounter when the order was made\r\n* [DocumentReference](documentreference.html): Context of the document  content\r\n* [Flag](flag.html): Alert relevant during encounter\r\n* [List](list.html): Context in which list created\r\n* [NutritionOrder](nutritionorder.html): Return nutrition orders with this encounter identifier\r\n* [Observation](observation.html): Encounter related to the observation\r\n* [Procedure](procedure.html): Encounter created as part of\r\n* [RiskAssessment](riskassessment.html): Where was assessment performed?\r\n* [ServiceRequest](servicerequest.html): An encounter in which this request is made\r\n* [VisionPrescription](visionprescription.html): Return prescriptions with this encounter identifier\r\n"
+        - name: based-on
+          in: query
+          type: string
+          description: Reference to the service request.
+        - name: category
+          in: query
+          type: string
+          description: Which diagnostic discipline/department created the report
+        - name: conclusion
+          in: query
+          type: string
+          description: A coded conclusion (interpretation/impression) on the report
+        - name: issued
+          in: query
+          type: string
+          description: When the report was issued
+        - name: media
+          in: query
+          type: string
+          description: A reference to the image source.
+        - name: performer
+          in: query
+          type: string
+          description: Who is responsible for the report
+        - name: result
+          in: query
+          type: string
+          description: Link to an atomic result (observation resource)
+        - name: results-interpreter
+          in: query
+          type: string
+          description: Who was the source of the report
+        - name: specimen
+          in: query
+          type: string
+          description: The specimen details
+        - name: status
+          in: query
+          type: string
+          description: The status of the report
+          enum:
+            - registered
+            - partial
+            - preliminary
+            - final
+            - amended
+            - corrected
+            - appended
+            - cancelled
+            - entered-in-error
+            - unknown
+        - name: subject
+          in: query
+          type: string
+          description: The subject of the report
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Bundle'
+        '400':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        '500':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+  /DiagnosticReport/{id}:
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+    get:
+      tags:
+        - DiagnosticReport
+      summary: Retrieve DiagnosticReport by ID
+      description: Retrieve DiagnosticReport by providing ID
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/DiagnosticReport'
+        '400':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        '500':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+    put:
+      tags:
+        - DiagnosticReport
+      summary: Update DiagnosticReport
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/DiagnosticReport'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/DiagnosticReport'
+        '400':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        '500':
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/OperationOutcome'
+produces:
+  - text/plain
+  - application/json
+  - application/fhir+json
+  - application/json+fhir
+  - text/json
+  - application/xml
+  - application/fhir+xml
+  - application/xml+fhir
+  - text/xml
+  - text/xml+fhir
+  - application/octet-stream
+securityDefinitions:
+  Bearer:
+    name: Authorization
+    in: header
+    type: apiKey
+    description: >-
+      Authorization header using the Bearer scheme. Example :: 'Authorization:
+      Bearer {token}'
+security:
+  - Bearer: []
