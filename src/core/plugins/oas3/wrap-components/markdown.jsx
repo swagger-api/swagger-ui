@@ -8,7 +8,6 @@ import { sanitizer } from "core/components/providers/markdown"
 const parser = new Remarkable("commonmark")
 parser.block.ruler.enable(["table"])
 parser.set({ linkTarget: "_blank" })
-parser.set({ breaks: true })
 
 export const Markdown = ({ source, className = "", getConfigs }) => {
   if(typeof source !== "string") {
