@@ -5,6 +5,7 @@
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
     "./dist/swagger-ui.css": "./dist/swagger-ui.css",
+    "./dist/oauth2-redirect.html": "./dist/oauth2-redirect.html",
     ".": {
       "import": "./dist/swagger-ui-es-bundle-core.js",
       "require": "./dist/swagger-ui.js"
