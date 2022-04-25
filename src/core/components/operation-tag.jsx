@@ -59,7 +59,7 @@ export default class OperationTag extends React.Component {
     let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
     let tagExternalDocsUrl
     if (isFunc(oas3Selectors) && isFunc(oas3Selectors.selectedServer)) {
-      tagExternalDocsUrl = safeBuildUrl( rawTagExternalDocsUrl, specUrl, { selectedServer: oas3Selectors.selectedServer() } )
+      tagExternalDocsUrl = safeBuildUrl(rawTagExternalDocsUrl, specUrl, { selectedServer: oas3Selectors.selectedServer() })
     } else {
       tagExternalDocsUrl = rawTagExternalDocsUrl
     }
@@ -72,48 +72,49 @@ export default class OperationTag extends React.Component {
 
         <h3
           onClick={() => layoutActions.show(isShownKey, !showTag)}
-          className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
+          className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag"}
           id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}
           data-tag={tag}
           data-is-open={showTag}
-          >
+        >
           <DeepLink
             enabled={isDeepLinkingEnabled}
             isShown={showTag}
             path={createDeepLinkPath(tag)}
             text={tag} />
-          { !tagDescription ? <small></small> :
+          {!tagDescription ? <small></small> :
             <small>
-                <Markdown source={tagDescription} />
-              </small>
-            }
+              <Markdown source={tagDescription} />
+            </small>
+          }
 
+          {!tagExternalDocsDescription ? null :
             <div>
-              { !tagExternalDocsDescription ? null :
-                <small>
-                    { tagExternalDocsDescription }
-                      { tagExternalDocsUrl ? ": " : null }
-                      { tagExternalDocsUrl ?
-                        <Link
-                            href={sanitizeUrl(tagExternalDocsUrl)}
-                            onClick={(e) => e.stopPropagation()}
-                            target="_blank"
-                            >{tagExternalDocsUrl}</Link> : null
-                          }
-                  </small>
+              <small>
+                {tagExternalDocsDescription}
+                {tagExternalDocsUrl ? ": " : null}
+                {tagExternalDocsUrl ?
+                  <Link
+                    href={sanitizeUrl(tagExternalDocsUrl)}
+                    onClick={(e) => e.stopPropagation()}
+                    target="_blank"
+                  >{tagExternalDocsUrl}</Link> : null
                 }
+              </small>
             </div>
+          }
 
-            <button
-              aria-expanded={showTag}
-              className="expand-operation"
-              title={showTag ? "Collapse operation": "Expand operation"}
-              onClick={() => layoutActions.show(isShownKey, !showTag)}>
 
-              <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
-                <use href={showTag ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={showTag ? "#large-arrow-up" : "#large-arrow-down"} />
-              </svg>
-            </button>
+          <button
+            aria-expanded={showTag}
+            className="expand-operation"
+            title={showTag ? "Collapse operation" : "Expand operation"}
+            onClick={() => layoutActions.show(isShownKey, !showTag)}>
+
+            <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
+              <use href={showTag ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={showTag ? "#large-arrow-up" : "#large-arrow-down"} />
+            </svg>
+          </button>
         </h3>
 
         <Collapse isOpened={showTag}>
