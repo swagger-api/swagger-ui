@@ -97,7 +97,7 @@ You can embed Swagger UI's code directly in your HTML by using [unpkg's](https:/
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="SwaggerIU"
+    content="SwaggerUI"
   />
   <title>SwaggerUI</title>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
@@ -127,7 +127,7 @@ Using `StandalonePreset` will render `TopBar` and `ValidatorBadge` as well.
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="SwaggerIU"
+      content="SwaggerUI"
     />
     <title>SwaggerUI</title>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
