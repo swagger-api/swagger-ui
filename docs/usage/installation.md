@@ -97,7 +97,7 @@ You can embed Swagger UI's code directly in your HTML by using [unpkg's](https:/
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="SwaggerIU"
+    content="SwaggerUI"
   />
   <title>SwaggerUI</title>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
@@ -127,7 +127,7 @@ Using `StandalonePreset` will render `TopBar` and `ValidatorBadge` as well.
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="SwaggerIU"
+      content="SwaggerUI"
     />
     <title>SwaggerUI</title>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
@@ -165,6 +165,6 @@ The folder `/dist` includes all the HTML, CSS and JS files needed to run Swagger
 
 1. Download the [latest release](https://github.com/swagger-api/swagger-ui/releases/latest).
 1. Copy the contents of the `/dist` folder to your server.
-1. Open `index.html` in your HTML editor and replace "https://petstore.swagger.io/v2/swagger.json" with the URL for your OpenAPI 3.0 spec.
+1. Open `swagger-initializer.js` in your text editor and replace "https://petstore.swagger.io/v2/swagger.json" with the URL for your OpenAPI 3.0 spec.
 
 
