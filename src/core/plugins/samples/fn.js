@@ -1,5 +1,5 @@
 import XML from "xml"
-import RandExp from "randexp"
+import { randexp } from "randexp"
 import isEmpty from "lodash/isEmpty"
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 
@@ -7,8 +7,7 @@ import memoizeN from "../../../helpers/memoizeN"
 
 const generateStringFromRegex = (pattern) => {
   try {
-    const randexp = new RandExp(pattern)
-    return randexp.gen()
+    return randexp(pattern)
   } catch (e) {
     // Invalid regex should not cause a crash (regex syntax varies across languages)
     return "string"
