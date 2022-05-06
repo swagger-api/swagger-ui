@@ -89,7 +89,7 @@ export default class OperationTag extends React.Component {
           }
 
           {!tagExternalDocsDescription ? null :
-            <div>
+            <div className="info__externaldocs">
               <small>
                 {tagExternalDocsDescription}
                 {tagExternalDocsUrl ? ": " : null}
