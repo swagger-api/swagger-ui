@@ -109,7 +109,6 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
 
   return (
     <div className="request-snippets" ref={rootRef}>
-      Just a test
       <div style={{ width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "15px" }}>
         <h4
           onClick={() => handleSetIsExpanded()}
