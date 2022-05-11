@@ -23,9 +23,9 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
-import randomBytes from "randombytes"
 import shaJs from "sha.js"
 import YAML from "js-yaml"
+import { fromByteArray } from "base64-js";
 
 
 const DEFAULT_RESPONSE_KEY = "default"
@@ -889,11 +889,20 @@ export function paramToValue(param, paramValues) {
   return values[0]
 }
 
-// adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
 export function generateCodeVerifier() {
-  return b64toB64UrlEncoded(
-    randomBytes(32).toString("base64")
-  )
+  // Generate a 32 bits of randomness and encode as base64
+  //
+  // Avoid using the "randombytes" package - because it depends on a library
+  // that requires a polyfill for the Buffer package in Nodejs.
+
+  const arr = []
+  const maxValue = Math.pow(2,8) - 1;
+  for (var i = 0; i < 32; ++i) {
+    const randomByte = Math.floor(Math.random() * maxValue)
+    arr.push(randomByte)
+  }
+
+  return fromByteArray(arr)
 }
 
 export function createCodeChallenge(codeVerifier) {
