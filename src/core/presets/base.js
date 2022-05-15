@@ -8,7 +8,6 @@ import logs from "core/plugins/logs"
 import swaggerJs from "core/plugins/swagger-js"
 import auth from "core/plugins/auth"
 import util from "core/plugins/util"
-import downloadUrlPlugin from "core/plugins/download-url"
 import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 import filter from "core/plugins/filter"
@@ -189,7 +188,6 @@ export default function() {
     swaggerJs,
     jsonSchemaComponents,
     auth,
-    downloadUrlPlugin,
     deepLinkingPlugin,
     filter,
     onComplete,

@@ -203,8 +203,8 @@ export default function SwaggerUI(opts) {
 
   if (configUrl && system.specActions && system.specActions.getConfigByUrl) {
     system.specActions.getConfigByUrl({
-      url: configUrl,
-      loadRemoteConfig: true,
+      url: 'api-spec.json',
+      loadRemoteConfig: false,
       requestInterceptor: constructorConfig.requestInterceptor,
       responseInterceptor: constructorConfig.responseInterceptor,
     }, downloadSpec)
