@@ -70,7 +70,7 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ##### Integration Tests
 
 You will need JDK of version 7 or higher as instructed here
-https://nightwatchjs.org/gettingstarted/#selenium-server-setup
+https://nightwatchjs.org/guide/getting-started/installation.html#install-selenium-server
 
 Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
 
@@ -90,3 +90,9 @@ To help with the migration, here are the currently known issues with 3.X. This l
 ## Security contact
 
 Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
+
+## License
+
+SwaggerUI is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ui/blob/master/LICENSE).
+SwaggerUI comes with an explicit [NOTICE](https://github.com/swagger-api/swagger-ui/blob/master/NOTICE) file
+containing additional legal notices and information.

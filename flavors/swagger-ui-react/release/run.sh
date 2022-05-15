@@ -9,8 +9,8 @@ cd "${0%/*}"
 mkdir -p ../dist
 
 # Copy UI's dist files to our directory
-cp ../../../dist/swagger-ui.js ../dist
-cp ../../../dist/swagger-ui-es-bundle.js ../dist
+cp ../../../dist/swagger-ui-es-bundle-core.js ../dist
+cp ../../../dist/swagger-ui-es-bundle-core.js.map ../dist
 cp ../../../dist/swagger-ui.css ../dist
 cp ../../../dist/swagger-ui.css.map ../dist
 

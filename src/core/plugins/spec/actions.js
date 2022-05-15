@@ -1,4 +1,4 @@
-import YAML from "js-yaml"
+import YAML, { JSON_SCHEMA } from "js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
 import { serializeError } from "serialize-error"
@@ -62,7 +62,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   try {
     str = str || specStr()
     errActions.clear({ source: "parser" })
-    json = YAML.load(str)
+    json = YAML.load(str, { schema: JSON_SCHEMA })
   } catch(e) {
     // TODO: push error to state
     console.error(e)
