@@ -164,6 +164,14 @@ If set to `true`, enables passing credentials, [as defined in the Fetch standard
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `oauth2RedirectUrl`: PropTypes.string
+
+Redirect url given as parameter to the oauth2 provider. Default the url refers to oauth2-redirect.html at the same path as the Swagger UI is available.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+
+
 ## Limitations
 
 * Not all configuration bindings are available.
