@@ -78,7 +78,7 @@ docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/
 You can also provide a URL to a swagger.json on an external host:
 
 ```
-docker run -p 80:8080 -e SWAGGER_JSON_URL=https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json swaggerapi/swagger-ui
+docker run -p 80:8080 -e SWAGGER_JSON_URL=https://petstore3.swagger.io/api/v3/openapi.json swaggerapi/swagger-ui
 ```
 
 The base URL of the web application can be changed by specifying the `BASE_URL` environment variable:
