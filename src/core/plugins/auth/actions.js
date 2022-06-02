@@ -227,6 +227,23 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
       return
     }
 
+    if (getConfigs().refreshTokenAutomatically) {
+      setTimeout(() => {
+        let { schema, name, clientId, clientSecret} = auth
+        let headers = {
+          Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
+        }
+        let form = {
+          grant_type: "refresh_token",
+          refresh_token: token.refresh_token,
+          client_id: clientId,
+          client_secret: clientSecret
+        }
+
+        authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
+      }, token.expires_in * 750)
+    }
+
     authActions.authorizeOauth2WithPersistOption({ auth, token})
   })
   .catch(e => {
