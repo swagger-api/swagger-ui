@@ -72,6 +72,7 @@
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.12",
     "js-yaml": "=4.1.0",
+    "json-bigint": "=1.0.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "randexp": "^0.5.3",
