@@ -205,3 +205,10 @@ button
     height: 18px;
   }
 }
+
+// overrides for copy to clipboard button
+.opblock .opblock-summary .view-line-link.copy-to-clipboard
+{
+    height: 26px;
+    position: unset;
+}

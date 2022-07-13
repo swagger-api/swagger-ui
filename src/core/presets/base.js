@@ -63,6 +63,7 @@ import Info, {
 } from "core/components/info"
 import InfoContainer from "core/containers/info"
 import JumpToPath from "core/components/jump-to-path"
+import CopyToClipboardBtn from "core/components/copy-to-clipboard-btn"
 import Footer from "core/components/footer"
 import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
@@ -113,6 +114,7 @@ export default function() {
       info: Info,
       InfoContainer,
       JumpToPath,
+      CopyToClipboardBtn,
       onlineValidatorBadge: OnlineValidatorBadge,
       operations: Operations,
       operation: Operation,
