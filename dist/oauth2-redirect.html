@@ -38,7 +38,7 @@
                     authId: oauth2.auth.name,
                     source: "auth",
                     level: "warning",
-                    message: "Authorization may be unsafe, passed state was changed in server Passed state wasn't returned from auth server"
+                    message: "Authorization may be unsafe, passed state was changed in server. The passed state wasn't returned from auth server."
                 });
             }
 
@@ -58,7 +58,7 @@
                     authId: oauth2.auth.name,
                     source: "auth",
                     level: "error",
-                    message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server"
+                    message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server."
                 });
             }
         } else {
