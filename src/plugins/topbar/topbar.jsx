@@ -2,7 +2,6 @@ import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
-import Logo from "./logo_small.svg"
 import {parseSearch, serializeSearch} from "../../core/utils"
 
 export default class Topbar extends React.Component {
@@ -17,7 +16,7 @@ export default class Topbar extends React.Component {
     this.state = { url: props.specSelectors.url(), selectedIndex: 0 }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ url: nextProps.specSelectors.url() })
   }
 
@@ -113,6 +112,7 @@ export default class Topbar extends React.Component {
     let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
+    const Logo = getComponent("Logo")
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
@@ -150,7 +150,7 @@ export default class Topbar extends React.Component {
         <div className="wrapper">
           <div className="topbar-wrapper">
             <Link>
-              <img height="40" src={ Logo } alt="Swagger UI"/>
+              <Logo/>
             </Link>
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}

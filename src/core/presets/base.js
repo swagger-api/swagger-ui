@@ -13,6 +13,7 @@ import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 import filter from "core/plugins/filter"
 import onComplete from "core/plugins/on-complete"
+import safeRender from "core/plugins/safe-render"
 
 import OperationContainer from "core/containers/OperationContainer"
 
@@ -62,6 +63,7 @@ import Info, {
 } from "core/components/info"
 import InfoContainer from "core/containers/info"
 import JumpToPath from "core/components/jump-to-path"
+import CopyToClipboardBtn from "core/components/copy-to-clipboard-btn"
 import Footer from "core/components/footer"
 import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
@@ -112,6 +114,7 @@ export default function() {
       info: Info,
       InfoContainer,
       JumpToPath,
+      CopyToClipboardBtn,
       onlineValidatorBadge: OnlineValidatorBadge,
       operations: Operations,
       operation: Operation,
@@ -193,6 +196,7 @@ export default function() {
     deepLinkingPlugin,
     filter,
     onComplete,
-    requestSnippets
+    requestSnippets,
+    safeRender(),
   ]
 }

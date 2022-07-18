@@ -153,6 +153,23 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition, { includeReadOnly: true })).toEqual(expected)
   })
 
+
+
+  it("regex pattern test", function () {
+    let definition = {
+      type: "object",
+      properties: {
+        macAddress: {
+          type: "string",
+          pattern: "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
+        }
+      }
+    }
+    const resp = sampleFromSchema(definition)
+
+    expect(new RegExp("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", "g").test(resp.macAddress)).toBe(true)
+  })
+
   it("returns object without deprecated fields for parameter", function () {
     let definition = {
       type: "object",
@@ -792,6 +809,23 @@ describe("sampleFromSchema", () => {
     const definition = {
       type: "object",
       minProperties: 2,
+      additionalProperties: {
+        type: "string"
+      }
+    }
+
+    const expected = {
+      additionalProp1: "string",
+      additionalProp2: "string"
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minProperties in conjunction with properties and additionalProperties", () => {
+    const definition = {
+      type: "object",
+      minProperties: 2,
       additionalProperties: true,
       properties: {
         foo: {
@@ -849,6 +883,20 @@ describe("sampleFromSchema", () => {
 
     const expected = {
       foo: "string"
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maxProperties in conjunction with additionalProperties", () => {
+    const definition = {
+      type: "object",
+      maxProperties: 1,
+      additionalProperties: true
+    }
+
+    const expected = {
+      additionalProp1: {}
     }
 
     expect(sampleFromSchema(definition)).toEqual(expected)

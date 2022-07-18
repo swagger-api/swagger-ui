@@ -58,6 +58,7 @@ export default class OperationSummary extends PureComponent {
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
+    const CopyToClipboardBtn = getComponent("CopyToClipboardBtn", true)
 
     const hasSecurity = security && !!security.count()
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
@@ -96,6 +97,7 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
+        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
       </div>
     )

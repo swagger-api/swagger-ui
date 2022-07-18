@@ -31,6 +31,10 @@ const oauthBlockSchema = {
     type: "object",
     name: "additionalQueryStringParams"
   },
+  OAUTH_USE_BASIC_AUTH: {
+    type: "boolean",
+    name: "useBasicAuthenticationWithAccessCodeGrant"
+  },
   OAUTH_USE_PKCE: {
     type: "boolean",
     name: "usePkceWithAuthorizationCodeGrant"

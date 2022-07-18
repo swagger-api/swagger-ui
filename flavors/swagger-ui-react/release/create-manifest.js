@@ -1,5 +1,5 @@
 var jsonMerger = require("json-merger")
-var fs = require("fs")
+
 var result = jsonMerger.mergeFiles(["../../../package.json", "template.json"])
 
 if(process.env.REACT_FLAVOR_VERSION_IDENTIFIER) {

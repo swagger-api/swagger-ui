@@ -75,6 +75,12 @@ Or you can provide your own swagger.json on your host
 docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
 ```
 
+You can also provide a URL to a swagger.json on an external host:
+
+```
+docker run -p 80:8080 -e SWAGGER_JSON_URL=https://petstore3.swagger.io/api/v3/openapi.json swaggerapi/swagger-ui
+```
+
 The base URL of the web application can be changed by specifying the `BASE_URL` environment variable:
 
 ```
@@ -87,11 +93,70 @@ For more information on controlling Swagger UI through the Docker image, see the
 
 ### unpkg 
 
-You can embed Swagger UI's code directly in your HTML by using unpkg's interface:
+You can embed Swagger UI's code directly in your HTML by using [unpkg's](https://unpkg.com/) interface:
 
 ```html
-<script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js" charset="UTF-8"></script>
-<!-- `SwaggerUIBundle` is now available on the page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="SwaggerUI"
+  />
+  <title>SwaggerUI</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js" crossorigin></script>
+<script>
+  window.onload = () => {
+    window.ui = SwaggerUIBundle({
+      url: 'https://petstore3.swagger.io/api/v3/openapi.json',
+      dom_id: '#swagger-ui',
+    });
+  };
+</script>
+</body>
+</html>
+```
+
+Using `StandalonePreset` will render `TopBar` and `ValidatorBadge` as well.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="SwaggerUI"
+    />
+    <title>SwaggerUI</title>
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
+  </head>
+  <body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js" crossorigin></script>
+  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-standalone-preset.js" crossorigin></script>
+  <script>
+    window.onload = () => {
+      window.ui = SwaggerUIBundle({
+        url: 'https://petstore3.swagger.io/api/v3/openapi.json',
+        dom_id: '#swagger-ui',
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        layout: "StandaloneLayout",
+      });
+    };
+  </script>
+  </body>
+</html>
 ```
 
 See [unpkg's main page](https://unpkg.com/) for more information on how to use unpkg.
@@ -106,6 +171,6 @@ The folder `/dist` includes all the HTML, CSS and JS files needed to run Swagger
 
 1. Download the [latest release](https://github.com/swagger-api/swagger-ui/releases/latest).
 1. Copy the contents of the `/dist` folder to your server.
-1. Open `index.html` in your HTML editor and replace "https://petstore.swagger.io/v2/swagger.json" with the URL for your OpenAPI 3.0 spec.
+1. Open `swagger-initializer.js` in your text editor and replace "https://petstore.swagger.io/v2/swagger.json" with the URL for your OpenAPI 3.0 spec.
 
 

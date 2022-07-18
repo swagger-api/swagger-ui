@@ -83,6 +83,13 @@ The default expansion depth for models (set to -1 completely hide the models).
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `defaultModelRendering`: PropTypes.oneOf(["example", "model"])
+
+Controls how the model is shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Example Value' links.) The default value is 'example'.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+
 #### `displayOperationId`: PropTypes.bool
 
 Controls the display of operationId in operations list. The default is false.
@@ -98,6 +105,12 @@ An array of objects that augment and modify Swagger UI's functionality. See Swag
 #### `supportedSubmitMethods`: PropTypes.arrayOf(PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']))
 
 HTTP methods that have the Try it out feature enabled. An empty array disables Try it out for all operations. This does not filter the operations from the display.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `showExtensions`: PropTypes.bool
+
+Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, Responses, and Schema.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
@@ -118,6 +131,46 @@ An array of functions that augment and modify Swagger UI's functionality. See Sw
 Controls whether the "Try it out" section should start enabled. The default is false.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `displayRequestDuration`: PropTypes.bool
+
+Controls the display of the request duration (in milliseconds) for "Try it out" requests. The default is false.
+
+#### `filter`: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+
+If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag. See Swagger UI's [Plug Points](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plug-points.md#fnopsfilter) to customize the filtering behavior.
+
+#### `requestSnippetsEnabled`: PropTypes.bool,
+
+Enables the request snippet section. When disabled, the legacy curl snippet will be used. The default is false.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `requestSnippets`: PropTypes.object,
+
+Configures the request snippet core plugin. See Swagger UI's [Display Configuration](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md#display) for more details.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `persistAuthorization`: PropTypes.bool
+
+If set, it persists authorization data and it would not be lost on browser close/refresh. The default is false.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `withCredentials`: PropTypes.bool
+
+If set to `true`, enables passing credentials, [as defined in the Fetch standard](https://fetch.spec.whatwg.org/#credentials), in CORS requests that are sent by the browser. Note that Swagger UI cannot currently set cookies cross-domain (see [swagger-js#1163](https://github.com/swagger-api/swagger-js/issues/1163)) - as a result, you will have to rely on browser-supplied cookies (which this setting enables sending) that Swagger UI cannot control.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `oauth2RedirectUrl`: PropTypes.string
+
+Redirect url given as parameter to the oauth2 provider. Default the url refers to oauth2-redirect.html at the same path as the Swagger UI is available.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+
 
 ## Limitations
 
