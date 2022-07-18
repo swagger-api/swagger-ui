@@ -1,4 +1,5 @@
 import { Map } from "immutable"
+import win from "core/window"
 import {
   authorizeRequest,
   authorizeAccessCodeWithFormParams,
@@ -7,7 +8,7 @@ import {
   logoutWithPersistOption,
   persistAuthorizationIfNeeded
 } from "corePlugins/auth/actions"
-import { authorizeAccessCodeWithBasicAuthentication } from "../../../../../src/core/plugins/auth/actions"
+import {authorizeAccessCodeWithBasicAuthentication, authPopup} from "../../../../../src/core/plugins/auth/actions"
 
 describe("auth plugin - actions", () => {
 
@@ -179,7 +180,7 @@ describe("auth plugin - actions", () => {
 
   describe("tokenRequest", function () {
     it("should send the code verifier when set", () => {
-      const testCodeVerifierForAuthorizationCodeFlows = (flowAction) =>  {
+      const testCodeVerifierForAuthorizationCodeFlows = (flowAction) => {
         const data = {
           auth: {
             schema: {
@@ -324,6 +325,20 @@ describe("auth plugin - actions", () => {
         expect(localStorage.setItem).toHaveBeenCalled()
         expect(localStorage.setItem).toHaveBeenCalledWith("authorized", JSON.stringify(data))
 
+      })
+    })
+
+    describe("authPopup", () => {
+      beforeEach(() => {
+        win.open = jest.fn()
+      })
+      it("should call win.open with url", () => {
+        const windowOpenSpy = jest.spyOn(win, "open")
+
+        authPopup("http://swagger.ui", {})()
+
+        expect(windowOpenSpy.mock.calls.length).toEqual(1)
+        windowOpenSpy.mockReset()
       })
     })
 

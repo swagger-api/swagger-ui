@@ -48,7 +48,7 @@ export default class ModelCollapse extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps){
+  UNSAFE_componentWillReceiveProps(nextProps){
     if(this.props.expanded !== nextProps.expanded){
         this.setState({expanded: nextProps.expanded})
     }

@@ -22,6 +22,7 @@ describe("docker: env translator - oauth block", function() {
       OAUTH_APP_NAME: ``,
       OAUTH_SCOPE_SEPARATOR: "",
       OAUTH_ADDITIONAL_PARAMS: ``,
+      OAUTH_USE_BASIC_AUTH: false,
       OAUTH_USE_PKCE: false
     }
 
@@ -33,6 +34,7 @@ describe("docker: env translator - oauth block", function() {
       appName: "",
       scopeSeparator: "",
       additionalQueryStringParams: undefined,
+      useBasicAuthenticationWithAccessCodeGrant: false,
       usePkceWithAuthorizationCodeGrant: false,
     })`))
   })
@@ -45,6 +47,7 @@ describe("docker: env translator - oauth block", function() {
       OAUTH_APP_NAME: `myAppName`,
       OAUTH_SCOPE_SEPARATOR: "%21",
       OAUTH_ADDITIONAL_PARAMS: `{ "a": 1234, "b": "stuff" }`,
+      OAUTH_USE_BASIC_AUTH: true,
       OAUTH_USE_PKCE: true
     }
 
@@ -56,6 +59,7 @@ describe("docker: env translator - oauth block", function() {
       appName: "myAppName",
       scopeSeparator: "%21",
       additionalQueryStringParams: { "a": 1234, "b": "stuff" },
+      useBasicAuthenticationWithAccessCodeGrant: true,
       usePkceWithAuthorizationCodeGrant: true,
     })`))
   })

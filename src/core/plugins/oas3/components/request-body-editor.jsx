@@ -55,7 +55,7 @@ export default class RequestBodyEditor extends PureComponent {
     }, () => this.onChange(inputValue))
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(
       this.props.value !== nextProps.value &&
       nextProps.value !== this.state.value

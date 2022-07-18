@@ -31,7 +31,7 @@ Note: This functionality was added in 3.0.8. If you're unable to execute it, you
 
 ![Swagger UI 2](/docs/images/swagger-ui2.png)
 
-Some distinct identifiers to Swagger UI 3.x:
+Some distinct identifiers to Swagger UI 2.x:
 - The API version appears at the bottom of the page.
 - Schemes are not rendered.
 - Authorization, if rendered, will appear next to the navigation bar.
