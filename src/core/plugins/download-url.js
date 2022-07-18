@@ -1,18 +1,21 @@
 import { createSelector } from "reselect"
 import { Map } from "immutable"
 import win from "../window"
+import { applySecurities as applySecurities3 } from "swagger-client/lib/execute/oas3/build-request"
+import { applySecurities as applySecurities2  } from "swagger-client/lib/execute/swagger2/build-request"
+import { isOAS3 } from "swagger-client/es/helpers"
 
 export default function downloadUrlPlugin (toolbox) {
   let { fn } = toolbox
 
   const actions = {
-    download: (url)=> ({ errActions, specSelectors, specActions, getConfigs }) => {
+    download: (url)=> ({ errActions, specSelectors, specActions, getConfigs, authSelectors}) => {
       let { fetch } = fn
       const config = getConfigs()
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
       errActions.clear({source: "fetch"})
-      fetch({
+      let request = {
         url,
         loadSpec: true,
         requestInterceptor: config.requestInterceptor || (a => a),
@@ -21,7 +24,42 @@ export default function downloadUrlPlugin (toolbox) {
         headers: {
           "Accept": "application/json,*/*"
         }
-      }).then(next,next)
+      }
+      let reFetch = false
+      if(config.reFetchSchemaOnAuthChanged) {
+        const spec = specSelectors.specJsonWithResolvedSubtrees().toJS()
+        const authorized = authSelectors.authorized() && authSelectors.authorized().toJS()
+        if(spec && Object.keys(spec).length > 0) {
+          let securities = {
+            authorized,
+            definitions: specSelectors.securityDefinitions() && specSelectors.securityDefinitions().toJS(),
+            specSecurity:  specSelectors.security() && specSelectors.security().toJS()
+          }
+          const operation = {
+            security: Object.keys(securities.authorized).map(key => ({[key]: []}))
+          }
+          try {
+            const toApply = {
+              request,
+              securities,
+              operation,
+              spec,
+            }
+            isOAS3(spec)
+              ? applySecurities3(toApply)
+              : applySecurities2(toApply)
+          }
+          catch (ex) {
+            console.error(ex)
+          }
+        }
+        else {
+          if(authorized && Object.keys(authorized).length > 0) {
+            reFetch = true
+          }
+        }
+      }
+      fetch(request).then(next,next)
 
       function next(res) {
         if(res instanceof Error || res.status >= 400) {
@@ -35,6 +73,9 @@ export default function downloadUrlPlugin (toolbox) {
         specActions.updateSpec(res.text)
         if(specSelectors.url() !== url) {
           specActions.updateUrl(url)
+        }
+        if(reFetch) {
+          specActions.download()
         }
       }
 
