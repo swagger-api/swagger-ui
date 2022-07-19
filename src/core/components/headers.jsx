@@ -8,7 +8,7 @@ export default class Headers extends React.Component {
   static propTypes = {
     headers: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired
-  };
+  }
 
   render() {
     let { headers, getComponent } = this.props

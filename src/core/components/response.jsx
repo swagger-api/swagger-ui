@@ -54,7 +54,7 @@ export default class Response extends React.Component {
   static defaultProps = {
     response: fromJS({}),
     onContentTypeChange: () => {}
-  };
+  }
 
   _onContentTypeChange = (value) => {
     const { onContentTypeChange, controlsAcceptHeader } = this.props
