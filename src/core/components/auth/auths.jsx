@@ -4,10 +4,11 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class Auths extends React.Component {
   static propTypes = {
-    definitions: PropTypes.object.isRequired,
+    definitions: ImPropTypes.iterable.isRequired,
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
+    errSelectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired
   }
 
@@ -119,12 +120,4 @@ export default class Auths extends React.Component {
     )
   }
 
-  static propTypes = {
-    errSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    authSelectors: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
-  }
 }

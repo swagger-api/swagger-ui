@@ -4,10 +4,12 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class BasicAuth extends React.Component {
   static propTypes = {
-    authorized: PropTypes.object,
+    authorized: ImPropTypes.map,
+    schema: ImPropTypes.map,
     getComponent: PropTypes.func.isRequired,
-    schema: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    errSelectors: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -89,12 +91,4 @@ export default class BasicAuth extends React.Component {
     )
   }
 
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    errSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    onChange: PropTypes.func,
-    schema: ImPropTypes.map,
-    authorized: ImPropTypes.map
-  }
 }

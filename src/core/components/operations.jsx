@@ -23,7 +23,7 @@ export default class Operations extends React.Component {
     authSelectors: PropTypes.object.isRequired,
     getConfigs: PropTypes.func.isRequired,
     fn: PropTypes.func.isRequired
-  };
+  }
 
   render() {
     let {
