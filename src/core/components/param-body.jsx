@@ -20,14 +20,14 @@ export default class ParamBody extends PureComponent {
     isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired
-  };
+  }
 
   static defaultProp = {
     consumes: fromJS(["application/json"]),
     param: fromJS({}),
     onChange: NOOP,
     onChangeConsumes: NOOP,
-  };
+  }
 
   constructor(props, context) {
     super(props, context)

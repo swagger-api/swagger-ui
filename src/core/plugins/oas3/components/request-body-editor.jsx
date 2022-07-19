@@ -13,12 +13,12 @@ export default class RequestBodyEditor extends PureComponent {
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     errors: PropTypes.array,
-  };
+  }
 
   static defaultProps = {
     onChange: NOOP,
     userHasEditedBody: false,
-  };
+  }
 
   constructor(props, context) {
     super(props, context)
