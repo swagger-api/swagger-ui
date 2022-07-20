@@ -1,4 +1,3 @@
-
 import { JSDOM } from "jsdom"
 import Enzyme from "enzyme"
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17"
@@ -28,7 +27,6 @@ function setUpDomEnvironment() {
   global.navigator = {
     userAgent: "node.js",
   }
-
   copyProps(win, window) // use UI's built-in window wrapper
   copyProps(window, global)
 }
