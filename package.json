@@ -169,7 +169,7 @@
     "react-test-renderer": "=17.0.2",
     "release-it": "=14.12.5",
     "rimraf": "^3.0.0",
-    "sass": "^1.49.0",
+    "sass": "^1.54.0",
     "sass-loader": "^9.0.3",
     "sinon": "=12.0.1",
     "source-map-support": "^0.5.21",
