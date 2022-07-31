@@ -21,6 +21,7 @@
     .authorize
     {
         padding-right: 20px;
+        margin-left: 10px;
         margin-right: 10px;
     }
 }
@@ -68,7 +69,7 @@
         background-color: #ffeeee;
 
         color: red;
-        
+
         margin: 1em;
 
         @include text_code();
