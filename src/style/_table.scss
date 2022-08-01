@@ -39,9 +39,9 @@ table
             @include text_code();
         }
 
-        .header-example 
+        .header-example
         {
-            color: #999; 
+            color: #999;
             font-style: italic;
         }
     }
@@ -91,7 +91,7 @@ table
 {
     width: 99%; // forces other columns to shrink to their content widths
     margin-bottom: 2em;
-    input[type=text]
+    input
     {
         width: 100%;
         max-width: 340px;

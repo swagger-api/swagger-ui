@@ -25,7 +25,7 @@ import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
 import randomBytes from "randombytes"
 import shaJs from "sha.js"
-import YAML from "js-yaml"
+import YAML, { JSON_SCHEMA } from "js-yaml"
 
 
 const DEFAULT_RESPONSE_KEY = "default"
@@ -651,7 +651,7 @@ const getYamlSampleSchema = (schema, config, contentType, exampleOverride) => {
     yamlString = YAML.dump(YAML.load(jsonExample), {
 
       lineWidth: -1 // don't generate line folds
-    })
+    }, { schema: JSON_SCHEMA })
     if(yamlString[yamlString.length - 1] === "\n") {
       yamlString = yamlString.slice(0, yamlString.length - 1)
     }

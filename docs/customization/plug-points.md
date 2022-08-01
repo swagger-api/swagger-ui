@@ -41,6 +41,21 @@ const MultiplePhraseFilterPlugin = function() {
   }
 }
 ```
+### Logo component
+While using the Standalone Preset the SwaggerUI logo is rendered in the Top Bar.
+The logo can be exchanged by replacing the `Logo` component via the plugin api:
+
+```jsx
+import React from "react";
+const MyLogoPlugin = {
+  components: {
+    Logo: () => (
+      <img alt="My Logo" height="40" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTM3IiBoZWlnaHQ9IjEzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHRleHQgdHJhbnNmb3JtPSJtYXRyaXgoMy40Nzc2OSAwIDAgMy4yNjA2NyAtNjczLjEyOCAtNjkxLjk5MykiIHN0cm9rZT0iIzAwMCIgZm9udC1zdHlsZT0ibm9ybWFsIiBmb250LXdlaWdodD0ibm9ybWFsIiB4bWw6c3BhY2U9InByZXNlcnZlIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSInT3BlbiBTYW5zIEV4dHJhQm9sZCciIGZvbnQtc2l6ZT0iMjQiIGlkPSJzdmdfMSIgeT0iMjQxLjIyMTkyIiB4PSIxOTYuOTY5MjEiIHN0cm9rZS13aWR0aD0iMCIgZmlsbD0iIzYyYTAzZiI+TXkgTG9nbzwvdGV4dD4KICA8cGF0aCBpZD0ic3ZnXzIiIGQ9Im0zOTUuNjAyNSw1MS4xODM1OWw1My44Nzc3MSwwbDE2LjY0ODYzLC01MS4xODM1OGwxNi42NDg2NCw1MS4xODM1OGw1My44Nzc3LDBsLTQzLjU4NzksMzEuNjMyODNsMTYuNjQ5NDksNTEuMTgzNThsLTQzLjU4NzkyLC0zMS42MzM2OWwtNDMuNTg3OTEsMzEuNjMzNjlsMTYuNjQ5NDksLTUxLjE4MzU4bC00My41ODc5MiwtMzEuNjMyODN6IiBzdHJva2Utd2lkdGg9IjAiIHN0cm9rZT0iIzAwMCIgZmlsbD0iIzYyYTAzZiIvPgogPC9nPgo8L3N2Zz4="/>
+    )
+  }
+}
+```
+
 
 ### JSON Schema components
 In swagger there are so called JSON Schema components. These are used to render inputs for parameters and components of request bodies with `application/x-www-form-urlencoded` or `multipart/*` media-type.

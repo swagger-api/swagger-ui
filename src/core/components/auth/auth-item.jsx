@@ -4,10 +4,12 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class Auths extends React.Component {
   static propTypes = {
+    authorized: ImPropTypes.orderedMap.isRequired,
     schema: ImPropTypes.orderedMap.isRequired,
     name: PropTypes.string.isRequired,
+    getComponent: PropTypes.func.isRequired,
     onAuthChange: PropTypes.func.isRequired,
-    authorized: ImPropTypes.orderedMap.isRequired
+    errSelectors: PropTypes.object.isRequired,
   }
 
   render() {
@@ -51,12 +53,4 @@ export default class Auths extends React.Component {
     </div>)
   }
 
-  static propTypes = {
-    errSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    authSelectors: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
-  }
 }

@@ -35,6 +35,8 @@ export default class SwaggerUI extends React.Component {
       showExtensions: this.props.showExtensions,
       filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
       persistAuthorization: this.props.persistAuthorization,
+      withCredentials: this.props.withCredentials,
+      oauth2RedirectUrl: this.props.oauth2RedirectUrl
     })
 
     this.system = ui
@@ -129,6 +131,8 @@ SwaggerUI.propTypes = {
   tryItOutEnabled: PropTypes.bool,
   displayRequestDuration: PropTypes.bool,
   persistAuthorization: PropTypes.bool,
+  withCredentials: PropTypes.bool,
+  oauth2RedirectUrl: PropTypes.string,
 }
 
 SwaggerUI.defaultProps = {

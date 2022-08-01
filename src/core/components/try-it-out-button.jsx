@@ -10,7 +10,7 @@ export default class TryItOutButton extends React.Component {
     enabled: PropTypes.bool, // Try it out is enabled, ie: the user has access to the form
     hasUserEditedBody: PropTypes.bool, // Try it out is enabled, ie: the user has access to the form
     isOAS3: PropTypes.bool, // Try it out is enabled, ie: the user has access to the form
-  };
+  }
 
   static defaultProps = {
     onTryoutClick: Function.prototype,
@@ -19,7 +19,7 @@ export default class TryItOutButton extends React.Component {
     enabled: false,
     hasUserEditedBody: false,
     isOAS3: false,
-  };
+  }
 
   render() {
     const { onTryoutClick, onCancelClick, onResetClick, enabled, hasUserEditedBody, isOAS3 } = this.props
