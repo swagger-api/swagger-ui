@@ -34,6 +34,11 @@ select
     {
         min-width: 180px;
     }
+    @media (max-width: 640px)
+    {
+        width: 100%;
+        min-width: 100%;
+    }
 }
 
 label

@@ -106,6 +106,18 @@
         flex: 1 1 150px;
         font-weight: 400;
     }
+
+    @media (max-width: 640px) {
+      small
+      {
+        flex: 1;
+      }
+
+      >div
+      {
+          flex: 1;
+      }
+    }
 }
 
 .parameter__type
@@ -326,6 +338,14 @@
     {
         flex-shrink: 0;
         max-width: calc(100% - 110px - 15rem);
+    }
+
+    @media (max-width: 640px) {
+      .opblock-summary-path
+      {
+          flex-shrink: 1;
+          max-width: 100%;
+      }
     }
 
     .opblock-summary-path__deprecated
