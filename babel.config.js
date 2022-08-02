@@ -68,7 +68,10 @@ module.exports = {
               ]
             },
             "useBuiltIns": false,
-            "corejs": { version: 3 }
+            "corejs": { version: 3 },
+            "include": [
+              "@babel/plugin-proposal-logical-assignment-operators"
+            ]
           }
         ],
         "@babel/preset-react"

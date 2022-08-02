@@ -177,7 +177,6 @@
     "stream-browserify": "^3.0.0",
     "tachyons-sass": "^4.9.5",
     "terser-webpack-plugin": "^5.3.1",
-    "util": "=0.12.4",
     "webpack": "^5.65.0",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^4.9.2",
