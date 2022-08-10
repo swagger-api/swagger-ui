@@ -13,7 +13,7 @@
         var isValid, qp, arr;
 
         if (/code|token|error/.test(window.location.hash)) {
-            qp = window.location.hash.substring(1);
+            qp = window.location.hash.substring(1).replace('?', '&');
         } else {
             qp = location.search.substring(1);
         }
