@@ -2,6 +2,7 @@ import React, { Component, } from "react"
 import PropTypes from "prop-types"
 import { List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import { sanitizeUrl } from "core/utils"
 
 const braceOpen = "{"
 const braceClose = "}"
@@ -44,12 +45,15 @@ export default class ObjectModel extends Component {
     let infoProperties = schema
       .filter( ( v, key) => ["maxProperties", "minProperties", "nullable", "example"].indexOf(key) !== -1 )
     let deprecated = schema.get("deprecated")
+    let externalDocsUrl = schema.getIn(["externalDocs", "url"])
+    let externalDocsDescription = schema.getIn(["externalDocs", "description"])
 
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent("Markdown", true)
     const Model = getComponent("Model")
     const ModelCollapse = getComponent("ModelCollapse")
     const Property = getComponent("Property")
+    const Link = getComponent("Link")
 
     const JumpToPathSection = () => {
       return <span className="model-jump-to-path"><JumpToPath specPath={specPath} /></span>
@@ -94,6 +98,17 @@ export default class ObjectModel extends Component {
                   </tr>
               }
               {
+                externalDocsUrl &&
+                <tr className={"external-docs"}>
+                  <td>
+                    externalDocs:
+                  </td>
+                  <td>
+                    <Link target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
+                  </td>
+                </tr>
+              }
+              {
                 !deprecated ? null :
                   <tr className={"property"}>
                     <td>
@@ -103,7 +118,6 @@ export default class ObjectModel extends Component {
                       true
                     </td>
                   </tr>
-
               }
               {
                 !(properties && properties.size) ? null : properties.entrySeq().filter(

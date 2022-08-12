@@ -108,6 +108,12 @@
              color: #6b6b6b;
         }
     }
+
+    .external-docs
+     {
+         color: #666;
+         font-weight: normal;
+     }
 }
 
 table.model
@@ -157,6 +163,19 @@ table.model
                 vertical-align: top;
             }
         }
+
+        &.external-docs
+        {
+            td:first-child
+            {
+                font-weight: bold;
+            }
+        }
+
+        .renderedMarkdown p:first-child
+        {
+            margin-top: 0;
+        }        
     }
 }
 

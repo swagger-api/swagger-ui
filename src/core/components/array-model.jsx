@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { sanitizeUrl } from "core/utils"
 
 const propClass = "property"
 
@@ -25,12 +26,16 @@ export default class ArrayModel extends Component {
     let description = schema.get("description")
     let items = schema.get("items")
     let title = schema.get("title") || displayName || name
-    let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref"].indexOf(key) === -1 )
+    let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref", "externalDocs"].indexOf(key) === -1 )
+    let externalDocsUrl = schema.getIn(["externalDocs", "url"])
+    let externalDocsDescription = schema.getIn(["externalDocs", "description"])
+
 
     const Markdown = getComponent("Markdown", true)
     const ModelCollapse = getComponent("ModelCollapse")
     const Model = getComponent("Model")
     const Property = getComponent("Property")
+    const Link = getComponent("Link")
 
     const titleEl = title &&
       <span className="model-title">
@@ -51,6 +56,11 @@ export default class ArrayModel extends Component {
           {
             !description ? (properties.size ? <div className="markdown"></div> : null) :
               <Markdown source={ description } />
+          }
+          { externalDocsUrl &&
+            <div className="external-docs">
+               <Link target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
+             </div>
           }
           <span>
             <Model
