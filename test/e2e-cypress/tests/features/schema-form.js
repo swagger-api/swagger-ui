@@ -251,7 +251,7 @@ describe("OpenAPI 3.0 Additional JsonSchemaForm in a Parameter", () => {
           .get(".request-url pre.microlight")
           .should("contain.text", "available")
       })
-      it("should render the operation, modify value, and execute with modfied value", () => {
+      it("should render the operation, modify value, and execute with modified value", () => {
         cy.visit("/?url=/documents/features/schema-form-core.yaml")
           .get("#operations-default-findPetsByStatus")
           .click()

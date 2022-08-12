@@ -1,4 +1,4 @@
-describe("Try It Out: schema required properties can be overriden", () => {
+describe("Try It Out: schema required properties can be overridden", () => {
   it("should execute", () => {
     cy
       .visit("?tryItOutEnabled=true&url=/documents/features/try-it-out-schema-required-override-allowed.yaml")

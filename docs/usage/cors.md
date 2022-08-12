@@ -41,11 +41,11 @@ XMLHttpRequest cannot load http://sad.server.com/v2/api-docs. No 'Access-Control
 
 Swagger UI cannot easily show this error state.
 
-- Use the http://www.test-cors.org website to verify CORS support. Keep in mind this will show a successful result even if `Access-Control-Allow-Headers` is not available, which is still required for Swagger UI to function properly.
+- Use the https://www.test-cors.org website to verify CORS support. Keep in mind this will show a successful result even if `Access-Control-Allow-Headers` is not available, which is still required for Swagger UI to function properly.
 
 ### Enabling CORS
 
-The method of enabling CORS depends on the server and/or framework you use to host your application. http://enable-cors.org provides information on how to enable CORS in some common web servers.
+The method of enabling CORS depends on the server and/or framework you use to host your application. https://enable-cors.org provides information on how to enable CORS in some common web servers.
 
 Other servers/frameworks may provide you information on how to enable it specifically in their use case.
 
