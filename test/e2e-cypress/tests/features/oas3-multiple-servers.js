@@ -57,7 +57,7 @@ describe("OpenAPI 3.0 Multiple Servers", () => {
       .get(".responses-wrapper .request-url")
       .should("contains.text", "/test-url-1")
   })
-  it("should render and execute for server '/test-url-switch-1' after changing api defintion", () => {
+  it("should render and execute for server '/test-url-switch-1' after changing api definition", () => {
     cy.visit(
       "/?url=/documents/features/oas3-multiple-servers.yaml"
     )

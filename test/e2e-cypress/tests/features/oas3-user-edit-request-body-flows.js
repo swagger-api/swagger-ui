@@ -89,7 +89,7 @@ describe("OAS3 Request Body user edit flows", () => {
       })
   })
   describe("multipart/", () => {
-    // Case: User wants to execute operation with media-type multipart/ with a enum property. The user expects the first enum value to be used when execuded.
+    // Case: User wants to execute operation with media-type multipart/ with a enum property. The user expects the first enum value to be used when executed.
     it("should use the first enum value on execute if not changed by user (#6976)", () => {
       // test/e2e-cypress/static/documents/features/request-body/multipart/enum.yaml
       getExpandedTryout(

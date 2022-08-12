@@ -68,7 +68,7 @@ components:
           description: a human readable message explaining the error
           type: string
         reason:
-          description: a functionnal key about the error
+          description: a functional key about the error
           type: string
   responses:
     Unauthorized:

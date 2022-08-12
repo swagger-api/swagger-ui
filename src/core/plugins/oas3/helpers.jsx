@@ -6,7 +6,7 @@ export function isOAS3(jsSpec) {
     return false
   }
 
-  // we gate against `3.1` becasue we want to explicitly opt into supporting it
+  // we gate against `3.1` because we want to explicitly opt into supporting it
   // at some point in the future -- KS, 7/2018
 
   // starts with, but is not `3.0.` exactly
