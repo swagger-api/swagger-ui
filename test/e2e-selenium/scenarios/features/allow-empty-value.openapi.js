@@ -235,7 +235,7 @@ describe("feature: OpenAPI 3 allowEmptyValue", function () {
           .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
       })
     })
-    describe("send empty inital value behavior", function () {
+    describe("send empty initial value behavior", function () {
       it("should send an empty integer value", function (client) {
         const paramSelector = `tr[data-param-name="int"]`
 

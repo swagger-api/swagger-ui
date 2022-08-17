@@ -7,7 +7,7 @@ Swagger UI leans heavily on concepts and patterns found in React and Redux.
 If you aren't already familiar, here's some suggested reading:
 
 - [React: Quick Start (reactjs.org)](https://reactjs.org/docs/hello-world.html)
-- [Redux README (redux.js.org)](http://redux.js.org/)
+- [Redux README (redux.js.org)](https://redux.js.org/)
 
 In the following documentation, we won't take the time to define the fundamentals covered in the resources above.
 

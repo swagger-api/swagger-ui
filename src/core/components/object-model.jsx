@@ -103,7 +103,7 @@ export default class ObjectModel extends Component {
                       true
                     </td>
                   </tr>
-               
+
               }
               {
                 !(properties && properties.size) ? null : properties.entrySeq().filter(
@@ -143,7 +143,7 @@ export default class ObjectModel extends Component {
                     }).toArray()
               }
               {
-                // empty row befor extensions...
+                // empty row before extensions...
                 !showExtensions ? null : <tr><td>&nbsp;</td></tr>
               }
               {

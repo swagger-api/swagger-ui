@@ -100,7 +100,7 @@ The Action interface enables the creation of new Redux action creators within a 
 
 This action creator function will be exposed to container components as `exampleActions.updateFavoriteColor`. When this action creator is called, the return value (which should be a [Flux Standard Action](https://github.com/acdlite/flux-standard-action)) will be passed to the `example` reducer, which we'll define in the next section.
 
-For more information about the concept of actions in Redux, see the [Redux Actions documentation](http://redux.js.org/docs/basics/Actions.html).
+For more information about the concept of actions in Redux, see the [Redux Actions documentation](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow#actions).
 
 #### Reducers
 

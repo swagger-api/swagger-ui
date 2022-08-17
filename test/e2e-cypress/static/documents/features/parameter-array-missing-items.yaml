@@ -9,7 +9,7 @@ paths:
       parameters:
         - in: query
           name: basicName
-          content: 
+          content:
             application/json:
               schema:
                 type: object
@@ -21,4 +21,4 @@ paths:
                       - type: integer
       responses:
         '200':
-          description: successfull fetch
+          description: successful fetch
