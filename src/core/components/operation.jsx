@@ -133,9 +133,11 @@ export default class Operation extends PureComponent {
                 <div className="opblock-external-docs-wrapper">
                   <h4 className="opblock-title_normal">Find more details</h4>
                   <div className="opblock-external-docs">
-                    <span className="opblock-external-docs__description">
-                      <Markdown source={ externalDocs.description } />
-                    </span>
+                    {externalDocs.description &&
+                      <span className="opblock-external-docs__description">
+                        <Markdown source={ externalDocs.description } />
+                      </span> 
+                    }
                     <Link target="_blank" className="opblock-external-docs__link" href={sanitizeUrl(externalDocsUrl)}>{externalDocsUrl}</Link>
                   </div>
                 </div> : null

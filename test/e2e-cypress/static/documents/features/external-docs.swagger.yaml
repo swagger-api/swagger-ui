@@ -1,0 +1,116 @@
+swagger: "2.0"
+
+info:
+  title: External Docs
+  version: "1"
+  
+externalDocs:
+  description: Read external docs
+  url: http://swagger.io
+
+tags:
+- name: pet
+  description: Everything about your Pets
+  externalDocs:
+    description: Pet Documentation
+    url: http://swagger.io
+- name: petWithoutDescription
+  externalDocs:
+    url: http://swagger.io
+
+paths:
+  /pet:
+    put:
+      externalDocs:
+        description: More details about putting a pet
+        url: http://swagger.io
+      tags:
+      - pet
+      summary: Update an existing pet
+      description: Update an existing pet by Id
+      operationId: updatePet
+      responses:
+        200:
+          description: OK
+    post:
+      externalDocs:
+        url: http://swagger.io
+      tags:
+      - pet
+      summary: Add a new pet to the store
+      description: Add a new pet to the store
+      operationId: addPet
+      responses:
+        201:
+          description: Created
+
+definitions:
+  Pet:
+    required:
+    - name
+    - photoUrls
+    type: object
+    description: This is a Pet
+    externalDocs:
+      description: More Docs About Pet
+      url: http://swagger.io
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 10
+      name:
+        type: string
+        example: doggie
+      photoUrls:
+        type: array
+        items:
+          type: string
+      status:
+        type: string
+        description: pet status in the store
+        enum:
+        - available
+        - pending
+        - sold
+  Object:
+    type: object
+    externalDocs:
+      description: Object Docs
+      url: http://swagger.io
+    properties:
+      name:
+        type: string
+  ObjectWithoutDescription:
+    type: object
+    externalDocs:
+      url: http://swagger.io
+    properties:
+      name:
+        type: string
+  Primitive:
+    description: Just a string schema
+    type: string
+    externalDocs:
+      description: Primitive Docs
+      url: http://swagger.io
+  PrimitiveWithoutDescription:
+    description: Just a string schema
+    type: string
+    externalDocs:
+      url: http://swagger.io
+  Array:
+    description: Just an array schema
+    type: array
+    externalDocs:
+      description: Array Docs
+      url: http://swagger.io
+    items:
+      type: string
+  ArrayWithoutDescription:
+    description: Just an array schema
+    type: array
+    externalDocs:
+      url: http://swagger.io
+    items:
+      type: string
