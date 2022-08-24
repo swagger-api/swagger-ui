@@ -142,7 +142,7 @@
     "jest": "=26.6.3",
     "jsdom": "=16.6.0",
     "json-loader": "^0.5.7",
-    "json-merger": "^1.1.6",
+    "json-merger": "^1.1.9",
     "json-server": "=0.16.3",
     "less": "^4.1.1",
     "license-checker": "^25.0.0",
