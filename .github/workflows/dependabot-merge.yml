@@ -3,6 +3,9 @@ name: Merge me!
 on:
   pull_request_target:
 
+permissions:
+  contents: read
+
 jobs:
   merge-me:
     name: Merge me!
