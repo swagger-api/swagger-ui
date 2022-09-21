@@ -42,6 +42,7 @@ function ModelCollapseTest(baseUrl, urlFragment) {
     .get("#model-User .model-box .model .inner-object")
     .should("exist")
     .get("#model-User .model-box .model-box-control")
+    .first()
     .click()
     .get("#model-User .model-box .model .inner-object")
     .should("not.exist")
