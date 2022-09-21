@@ -43,9 +43,12 @@ export default {
           {
             loader: "sass-loader",
             options: {
+              // Prefer `dart-sass`
+              implementation: require("sass"),
               sourceMap: true,
               sassOptions: {
-                outputStyle: "expanded",
+                // `fibers` package is not compatible with Node.js v16.0.0 or later
+                fiber: false, // disable auto attempt to load `fiber`
                 // sourceMapContents: "true", // if sourceMap: true, sassOptions.sourceMapContents is ignored
               },
             },
