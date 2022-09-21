@@ -87,7 +87,8 @@ export default class Topbar extends React.Component {
 
     if(urls && urls.length) {
       var targetIndex = this.state.selectedIndex
-      let primaryName = configs["urls.primaryName"]
+      let search = parseSearch()
+      let primaryName = search["urls.primaryName"] || configs["urls.primaryName"]
       if(primaryName)
       {
         urls.forEach((spec, i) => {
