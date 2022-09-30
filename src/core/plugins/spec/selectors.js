@@ -477,19 +477,23 @@ export const canExecuteScheme = ( state, path, method ) => {
   return ["http", "https"].indexOf(operationScheme(state, path, method)) > -1
 }
 
-export const validateBeforeExecute = ( state, pathMethod ) => {
+export const validationErrors = (state, pathMethod) => {
   pathMethod = pathMethod || []
   let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
-  let isValid = true
+  const result = []
 
   paramValues.forEach( (p) => {
     let errors = p.get("errors")
     if ( errors && errors.count() ) {
-      isValid = false
+      errors.forEach( e => result.push(e))
     }
   })
 
-  return isValid
+  return result
+}
+
+export const validateBeforeExecute = (state, pathMethod) => {
+  return validationErrors(state, pathMethod).length === 0
 }
 
 export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {
