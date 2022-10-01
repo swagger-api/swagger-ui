@@ -158,9 +158,7 @@ export class JsonSchema_array extends PureComponent {
   addItem = () => {
     let newValue = valueOrEmptyList(this.state.value)
     this.setState(() => ({
-      value: newValue.push(getSampleSchema(this.state.schema.get("items"), false, {
-        includeWriteOnly: true
-      }))
+      value: newValue.push(null)
     }), this.onChange)
   }
 
@@ -211,6 +209,10 @@ export class JsonSchema_array extends PureComponent {
     }
 
     const Button = getComponent("Button")
+    const sampleSchema = getSampleSchema(this.state.schema.get("items"), false, {
+      includeWriteOnly: true
+    })
+
     return (
       <div className="json-schema-array">
         {shouldRenderValue ?
@@ -236,6 +238,7 @@ export class JsonSchema_array extends PureComponent {
                         onChange={(val) => this.onItemChange(val, i)}
                         disabled={disabled}
                         errors={itemErrors}
+                        description={sampleSchema}
                       />
                       : <ArrayItemsComponent {...this.props}
                         value={item}
