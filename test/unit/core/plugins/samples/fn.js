@@ -605,6 +605,74 @@ describe("sampleFromSchema", () => {
     })
   })
 
+  describe("discriminator mapping example", () => {
+    it("returns an example where discriminated field is equal to mapping value", () => {
+      let definition = {
+        "type":"array",
+        "items":{
+          "oneOf":[
+            {
+              "required":[
+                "type"
+              ],
+              "type":"object",
+              "properties":{
+                "type":{
+                  "type":"string",
+                  "enum":[
+                    "TYPE1",
+                    "TYPE2"
+                  ]
+                }
+              },
+              "discriminator":{
+                "propertyName":"type",
+                "mapping":{
+                  "TYPE1":"#/components/schemas/FirstDto",
+                  "TYPE2":"#/components/schemas/SecondDto"
+                }
+              },
+              "$$ref":"examples/swagger-config.yaml#/components/schemas/FirstDto"
+            },
+            {
+              "required":[
+                "type"
+              ],
+              "type":"object",
+              "properties":{
+                "type":{
+                  "type":"string",
+                  "enum":[
+                    "TYPE1",
+                    "TYPE2"
+                  ]
+                }
+              },
+              "discriminator":{
+                "propertyName":"type",
+                "mapping":{
+                  "TYPE1":"#/components/schemas/FirstDto",
+                  "TYPE2":"#/components/schemas/SecondDto"
+                }
+              },
+              "$$ref":"examples/swagger-config.yaml#/components/schemas/SecondDto"
+            }
+          ]
+        }
+      }
+
+      let exptected = [
+        {
+          type:"TYPE1"
+        }, {
+          type:"TYPE2"
+        }
+      ];
+
+      expect(sampleFromSchema(definition)).toEqual(exptected);
+    })
+  })
+
   it("should use overrideExample when defined", () => {
     const definition = {
       type: "object",
