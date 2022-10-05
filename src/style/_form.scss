@@ -57,6 +57,8 @@ input[type=search],
 input[type=email],
 input[type=file]
 {
+    line-height: 1;
+
     @media (max-width: 768px) {
       max-width: 175px;
     }
