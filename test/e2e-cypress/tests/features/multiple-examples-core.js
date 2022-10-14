@@ -606,6 +606,24 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           summary: "A wonderful kitten's info",
         },
       })
+      it("should display an error message when input validation fails", () => {
+        cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+          // Expand the operation
+          .get("#operations-default-post_Object")
+          .click()
+          // Switch to Try-It-Out
+          .get(".try-out__btn")
+          .click()
+          // Set an invalid value
+          .get(".parameters-container > div > table > tbody > tr > td.parameters-col_description > div:nth-child(2) > textarea")
+          .type("{{{{ [[[[ <<<< invalid JSON here.")
+          // Execute the operation
+          .get(".execute")
+          .click()
+          // Verify that an error is shown
+          .get(".validation-errors")
+          .contains("Parameter string value must be valid JSON")
+      })
     })
     describe("in a Response", () => {
       ResponsePrimitiveTestCases({
