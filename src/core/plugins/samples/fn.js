@@ -346,15 +346,15 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       if(!canAddProperty(propName)) {
         return
       }
-      if(schema.hasOwnProperty('discriminator') &&
+      if(Object.prototype.hasOwnProperty.call(schema, "discriminator") &&
         schema.discriminator &&
-        schema.discriminator.hasOwnProperty('mapping') &&
+        Object.prototype.hasOwnProperty.call(schema, "mapping") &&
         schema.discriminator.mapping &&
         schema.discriminator.propertyName === propName) {
         for (let pair in schema.discriminator.mapping){
           if (schema.$$ref.search(schema.discriminator.mapping[pair]) !== -1) {
-            res[propName] = pair;
-            break;
+            res[propName] = pair
+            break
           }
         }
       } else {

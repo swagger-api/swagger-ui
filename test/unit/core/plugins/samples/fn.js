@@ -669,7 +669,7 @@ describe("sampleFromSchema", () => {
         }
       ]
 
-      expect(sampleFromSchema(definition)).toEqual(exptected);
+      expect(sampleFromSchema(definition)).toEqual(exptected)
     })
   })
 
