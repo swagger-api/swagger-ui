@@ -667,7 +667,7 @@ describe("sampleFromSchema", () => {
         }, {
           "type": "TYPE2"
         }
-      ];
+      ]
 
       expect(sampleFromSchema(definition)).toEqual(exptected);
     })
