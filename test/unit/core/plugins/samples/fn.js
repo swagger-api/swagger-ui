@@ -608,54 +608,54 @@ describe("sampleFromSchema", () => {
   describe("discriminator mapping example", () => {
     it("returns an example where discriminated field is equal to mapping value", () => {
       let definition = {
-        "type":"array",
-        "items":{
-          "oneOf":[
+        "type": "array",
+        "items": {
+          "oneOf": [
             {
-              "required":[
+              "required": [
                 "type"
               ],
-              "type":"object",
-              "properties":{
-                "type":{
-                  "type":"string",
-                  "enum":[
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
                     "TYPE1",
                     "TYPE2"
                   ]
                 }
               },
-              "discriminator":{
-                "propertyName":"type",
-                "mapping":{
-                  "TYPE1":"#/components/schemas/FirstDto",
-                  "TYPE2":"#/components/schemas/SecondDto"
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "TYPE1": "#/components/schemas/FirstDto",
+                  "TYPE2": "#/components/schemas/SecondDto"
                 }
               },
-              "$$ref":"examples/swagger-config.yaml#/components/schemas/FirstDto"
+              "$$ref": "examples/swagger-config.yaml#/components/schemas/FirstDto"
             },
             {
-              "required":[
+              "required": [
                 "type"
               ],
-              "type":"object",
-              "properties":{
-                "type":{
-                  "type":"string",
-                  "enum":[
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
                     "TYPE1",
                     "TYPE2"
                   ]
                 }
               },
-              "discriminator":{
-                "propertyName":"type",
-                "mapping":{
-                  "TYPE1":"#/components/schemas/FirstDto",
-                  "TYPE2":"#/components/schemas/SecondDto"
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "TYPE1": "#/components/schemas/FirstDto",
+                  "TYPE2": "#/components/schemas/SecondDto"
                 }
               },
-              "$$ref":"examples/swagger-config.yaml#/components/schemas/SecondDto"
+              "$$ref": "examples/swagger-config.yaml#/components/schemas/SecondDto"
             }
           ]
         }
@@ -663,9 +663,9 @@ describe("sampleFromSchema", () => {
 
       let exptected = [
         {
-          type:"TYPE1"
+          "type": "TYPE1"
         }, {
-          type:"TYPE2"
+          "type": "TYPE2"
         }
       ];
 
