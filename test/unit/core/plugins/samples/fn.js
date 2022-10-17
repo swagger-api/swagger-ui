@@ -661,7 +661,7 @@ describe("sampleFromSchema", () => {
         }
       }
 
-      let exptected = [
+      let expected = [
         {
           "type": "TYPE1"
         }, {
@@ -669,7 +669,7 @@ describe("sampleFromSchema", () => {
         }
       ]
 
-      expect(sampleFromSchema(definition)).toEqual(exptected)
+      expect(sampleFromSchema(definition)).toEqual(expected)
     })
   })
 

@@ -348,7 +348,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       }
       if(Object.prototype.hasOwnProperty.call(schema, "discriminator") &&
         schema.discriminator &&
-        Object.prototype.hasOwnProperty.call(schema, "mapping") &&
+        Object.prototype.hasOwnProperty.call(schema.discriminator, "mapping") &&
         schema.discriminator.mapping &&
         schema.discriminator.propertyName === propName) {
         for (let pair in schema.discriminator.mapping){
