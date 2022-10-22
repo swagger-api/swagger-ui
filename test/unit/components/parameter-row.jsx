@@ -104,7 +104,9 @@ describe("<ParameterRow/>", () => {
       name: "hasId",
       in: "path",
       description: "boolean value to indicate if the pet has an id",
-      type: "boolean"
+      schema: {
+        type: "boolean"
+      }
     })
 
     const props = createProps({ param, isOAS3: true })
