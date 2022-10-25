@@ -671,6 +671,73 @@ describe("sampleFromSchema", () => {
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
+
+    it("shouldn't crash discriminated field is equal to mapping value", () => {
+      let definition = {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "required": [
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "TYPE1",
+                    "TYPE2"
+                  ]
+                }
+              },
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "TYPE1": "#/components/schemas/FirstDto",
+                  "TYPE2": "#/components/schemas/SecondDto"
+                }
+              },
+            },
+            {
+              "required": [
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "TYPE1",
+                    "TYPE2"
+                  ]
+                }
+              },
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "TYPE1": "#/components/schemas/FirstDto",
+                  "TYPE2": "#/components/schemas/SecondDto"
+                }
+              },
+            }
+          ]
+        }
+      }
+
+      let expected = [
+        {
+          "type": "TYPE1"
+        }, {
+          "type": "TYPE1"
+        }
+      ]
+
+      expect(() => {
+          sampleFromSchema(definition)
+      }).not.toThrow()
+    })
+
   })
 
   it("should use overrideExample when defined", () => {
