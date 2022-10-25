@@ -129,4 +129,100 @@ describe("auth plugin - selectors", () => {
       expect(res.toJS()).toEqual([])
     })
   })
+
+  it("should return only security definitions used by the endpoint", () => {
+    const securityDefinitions = {
+      "used": {
+        "type": "http",
+        "scheme": "basic",
+      },
+      "unused": {
+        "type": "http",
+        "scheme": "basic",
+      }
+    }
+
+    const system = {
+      authSelectors: {
+        definitionsToAuthorize() {
+          return fromJS([
+            {
+              "used": securityDefinitions["used"]
+            },
+            {
+              "unused": securityDefinitions["unused"]
+            },
+          ])
+        }
+      }
+    }
+
+    const securities = fromJS([
+      {
+        "used": [],
+        "undefined": [],
+      }
+    ])
+
+    const res = definitionsForRequirements({}, securities)(system)
+
+    expect(res.toJS()).toEqual([
+      {
+        "used": securityDefinitions["used"]
+      }
+    ])
+  })
+
+  it("should return only oauth scopes used by the endpoint", () => {
+    const securityDefinitions = {
+      "oauth2": {
+        "type": "oauth2",
+        "flow": "clientCredentials",
+        "tokenUrl": "https://api.testserver.com/oauth2/token/",
+        "scopes": {
+          "used": "foo",
+          "unused": "bar"
+        }
+      },
+      "other": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+
+    }
+
+    const system = {
+      authSelectors: {
+        definitionsToAuthorize() {
+          return fromJS([
+            {
+              "oauth2": securityDefinitions["oauth2"],
+              "other": securityDefinitions["other"],
+            },
+          ])
+        }
+      }
+    }
+
+    const securities = fromJS([
+      {
+        "oauth2": ["used", "undefined"],
+        "other": [],
+      }
+    ])
+
+    let expectedOauth2Definitions = {...securityDefinitions["oauth2"]}
+    expectedOauth2Definitions["scopes"] = {"used": "foo"}
+
+    const res = definitionsForRequirements({}, securities)(system)
+
+    expect(res.toJS()).toEqual([
+      {
+        "oauth2": expectedOauth2Definitions,
+        "other": securityDefinitions["other"]
+      }
+    ])
+  })
+
 })
