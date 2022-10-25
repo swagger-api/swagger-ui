@@ -86,7 +86,7 @@ export default function getParameterSchema(parameter, { isOAS3 } = {}) {
   }
 
   return {
-    schema: parameter.get("schema", Im.Map()),
+    schema: parameter.get("schema") ? parameter.get("schema", Im.Map()): Im.Map(),
     parameterContentMediaType: null,
   }
 }

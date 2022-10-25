@@ -49,6 +49,21 @@ describe("<ParameterRow/>", () => {
     expect(wrapper.find(".parameter__type").text()).toEqual("string")
   })
 
+  it("Can render Swagger 2 parameter type boolean without format", () => {
+    const param = fromJS({
+      name: "hasId",
+      in: "path",
+      description: "boolean value to indicate if the pet has an id",
+      type: "boolean"
+    })
+
+    const props = createProps({ param, isOAS3: false })
+    const wrapper = render(<ParameterRow {...props}/>)
+
+    expect(wrapper.find(".parameter__type").length).toEqual(1)
+    expect(wrapper.find(".parameter__type").text()).toEqual("boolean")
+  })
+
   it("Can render OAS3 parameter type with format", () => {
     const param = fromJS({
       name: "petUuid",
@@ -82,6 +97,23 @@ describe("<ParameterRow/>", () => {
 
     expect(wrapper.find(".parameter__type").length).toEqual(1)
     expect(wrapper.find(".parameter__type").text()).toEqual("string")
+  })
+
+  it("Can render OAS3 parameter type boolean without format", () => {
+    const param = fromJS({
+      name: "hasId",
+      in: "path",
+      description: "boolean value to indicate if the pet has an id",
+      schema: {
+        type: "boolean"
+      }
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props}/>)
+
+    expect(wrapper.find(".parameter__type").length).toEqual(1)
+    expect(wrapper.find(".parameter__type").text()).toEqual("boolean")
   })
 })
 
