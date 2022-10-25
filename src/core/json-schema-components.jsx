@@ -85,7 +85,7 @@ export class JsonSchema_string extends Component {
       const Select = getComponent("Select")
       return (<Select className={ errors.length ? "invalid" : ""}
                       title={ errors.length ? errors : ""}
-                      allowedValues={ enumValue }
+                      allowedValues={ [...enumValue] }
                       value={ value }
                       allowEmptyValue={ !required }
                       disabled={disabled}
@@ -335,14 +335,14 @@ export class JsonSchema_boolean extends Component {
     errors = errors.toJS ? errors.toJS() : []
     let enumValue = schema && schema.get ? schema.get("enum") : null
     let allowEmptyValue = !enumValue || !required
-    let booleanValue = !enumValue && fromJS(["true", "false"])
+    let booleanValue = !enumValue && ["true", "false"]
     const Select = getComponent("Select")
 
     return (<Select className={ errors.length ? "invalid" : ""}
                     title={ errors.length ? errors : ""}
                     value={ String(value) }
                     disabled={ disabled }
-                    allowedValues={ enumValue || booleanValue }
+                    allowedValues={ enumValue ? [...enumValue] : booleanValue }
                     allowEmptyValue={ allowEmptyValue }
                     onChange={ this.onEnumChange }/>)
   }
