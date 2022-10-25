@@ -139,7 +139,7 @@
     "eslint-plugin-react": "^7.27.1",
     "esm": "=3.2.25",
     "expect": "=28.1.3",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "git-describe": "^4.1.0",
     "html-webpack-plugin": "^5.5.0",
     "html-webpack-skip-assets-plugin": "^1.0.3",
