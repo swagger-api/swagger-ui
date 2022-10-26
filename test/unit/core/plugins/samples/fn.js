@@ -671,6 +671,65 @@ describe("sampleFromSchema", () => {
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
+
+    it("should not throw if expected $$ref is missing, and should fallback to default behavior", () => {
+      let definition = {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "required": [
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "TYPE1",
+                    "TYPE2"
+                  ]
+                }
+              },
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "TYPE1": "#/components/schemas/FirstDto",
+                  "TYPE2": "#/components/schemas/SecondDto"
+                }
+              },
+            },
+            {
+              "required": [
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "TYPE1",
+                    "TYPE2"
+                  ]
+                }
+              },
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "TYPE1": "#/components/schemas/FirstDto",
+                  "TYPE2": "#/components/schemas/SecondDto"
+                }
+              },
+            }
+          ]
+        }
+      }
+
+      expect(() => {
+          sampleFromSchema(definition)
+      }).not.toThrow()
+    })
+
   })
 
   it("should use overrideExample when defined", () => {
