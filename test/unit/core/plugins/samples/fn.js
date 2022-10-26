@@ -672,7 +672,7 @@ describe("sampleFromSchema", () => {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("shouldn't crash a crash in case of a missing $$ref and should fallback to the default behaviour", () => {
+    it("should not throw if expected $$ref is missing, and should fallback to default behavior", () => {
       let definition = {
         "type": "array",
         "items": {
