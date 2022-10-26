@@ -725,14 +725,6 @@ describe("sampleFromSchema", () => {
         }
       }
 
-      let expected = [
-        {
-          "type": "TYPE1"
-        }, {
-          "type": "TYPE1"
-        }
-      ]
-
       expect(() => {
           sampleFromSchema(definition)
       }).not.toThrow()
