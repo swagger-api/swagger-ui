@@ -672,7 +672,7 @@ describe("sampleFromSchema", () => {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("shouldn't crash discriminated field is equal to mapping value", () => {
+    it("shouldn't crash a crash in case of a missing $$ref and should fallback to the default behaviour", () => {
       let definition = {
         "type": "array",
         "items": {
