@@ -108,7 +108,7 @@
     "@babel/plugin-proposal-optional-chaining": "=7.18.9",
     "@babel/plugin-transform-modules-commonjs": "=7.16.8",
     "@babel/plugin-transform-runtime": "=7.18.9",
-    "@babel/preset-env": "=7.16.8",
+    "@babel/preset-env": "=7.19.4",
     "@babel/preset-react": "=7.14.5",
     "@babel/register": "=7.17.0",
     "@commitlint/cli": "^16.2.1",
