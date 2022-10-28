@@ -161,7 +161,10 @@ export default class Parameters extends Component {
               enabled={tryItOutEnabled}
               onCancelClick={this.props.onCancelClick}
               onTryoutClick={onTryoutClick}
-              onResetClick={() => oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })}/>
+              onResetClick={() => {
+                const defaultRequestBodyValue = oas3Selectors.defaultRequestBodyValue(...pathMethod)
+                oas3Actions.setRequestBodyValue({ value: defaultRequestBodyValue, pathMethod })
+              }}/>
           ) : null}
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
@@ -220,7 +223,7 @@ export default class Parameters extends Component {
                   onChange={(value) => {
                     this.onChangeMediaType({ value, pathMethod })
                   }}
-                  className="body-param-content-type" 
+                  className="body-param-content-type"
                   ariaLabel="Request content type" />
               </label>
             </div>
