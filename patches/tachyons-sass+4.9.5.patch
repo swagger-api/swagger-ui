@@ -1,0 +1,13 @@
+diff --git a/node_modules/tachyons-sass/scss/_clears.scss b/node_modules/tachyons-sass/scss/_clears.scss
+index d4c2fc3..9ec719e 100644
+--- a/node_modules/tachyons-sass/scss/_clears.scss
++++ b/node_modules/tachyons-sass/scss/_clears.scss
+@@ -18,7 +18,7 @@
+ .cf:before,
+ .cf:after { content: " "; display: table; }
+ .cf:after { clear: both; }
+-.cf {       *zoom: 1; }
++.cf {       zoom: 1; }
+ 
+ .cl { clear: left; }
+ .cr { clear: right; }
