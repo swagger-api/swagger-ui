@@ -81,7 +81,7 @@ export default class OperationSummary extends PureComponent {
           }
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
-
+          <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
           <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
             <use href={isShown ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={isShown ? "#large-arrow-up" : "#large-arrow-down"} />
           </svg>
@@ -97,7 +97,6 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
-        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
       </div>
     )
