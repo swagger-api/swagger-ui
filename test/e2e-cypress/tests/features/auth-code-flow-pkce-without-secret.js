@@ -1,5 +1,5 @@
 describe("Check client_secret for OAuth2 Authorization Code flow with and without PKCE (#6290)", () => {
-  it("should not display client_secret field for authorization code flow with PKCE", () => {
+  it("should display client_secret field for authorization code flow with PKCE", () => {
     cy.visit(
       "/?url=/documents/features/auth-code-flow-pkce-without-secret.yaml"
     )
@@ -19,7 +19,7 @@ describe("Check client_secret for OAuth2 Authorization Code flow with and withou
       .get(".flow")
       .contains("authorizationCode with PKCE")
       .get("#client_secret")
-      .should("not.exist")
+      .should("exist")
   })
 
   it("should display client_secret field for authorization code flow without PKCE", () => {

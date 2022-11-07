@@ -11,7 +11,7 @@ scopeSeparator | `OAUTH_SCOPE_SEPARATOR` |scope separator for passing scopes, en
 scopes | `OAUTH_SCOPES` |string array or scope separator (i.e. space) separated string of initially selected oauth scopes, default is empty array
 additionalQueryStringParams | `OAUTH_ADDITIONAL_PARAMS` |Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
 useBasicAuthenticationWithAccessCodeGrant | `OAUTH_USE_BASIC_AUTH` |Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encode(client_id + client_secret)`).  The default is `false`
-usePkceWithAuthorizationCodeGrant | `OAUTH_USE_PKCE` | Only applies to `Authorization Code` flows. [Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636) brings enhanced security for OAuth public clients. The default is `false`
+usePkceWithAuthorizationCodeGrant | `OAUTH_USE_PKCE` | Only applies to `Authorization Code` flows. [Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636) brings enhanced security for OAuth public clients. The default is `false` <br/><br/>_Note:_ This option does not hide the client secret input because [neither PKCE nor client secrets are replacements for each other](https://oauth.net/2/pkce/).
 
 ```javascript
 const ui = SwaggerUI({...})
