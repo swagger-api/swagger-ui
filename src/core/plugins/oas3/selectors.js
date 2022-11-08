@@ -61,7 +61,7 @@ export const shouldRetainRequestBodyValue = onlyOAS3((state, path, method) => {
   }
 )
 
-export const defaultRequestBodyValue = (state, path, method) => (system) => {
+export const selectDefaultRequestBodyValue = (state, path, method) => (system) => {
   const {oas3Selectors, specSelectors} = system.getSystem()
   const spec = specSelectors.specJson()
   if(isOAS3Helper(spec)) {
