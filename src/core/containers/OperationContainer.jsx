@@ -122,9 +122,9 @@ export default class OperationContainer extends PureComponent {
     this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
   }
 
-  onResetClick = () => {
-    const defaultRequestBodyValue = oas3Selectors.defaultRequestBodyValue(...pathMethod)
-    oas3Actions.setRequestBodyValue({ value: defaultRequestBodyValue, pathMethod })
+  onResetClick = (pathMethod) => {
+    const defaultRequestBodyValue = this.props.oas3Selectors.defaultRequestBodyValue(...pathMethod)
+    this.props.oas3Actions.setRequestBodyValue({ value: defaultRequestBodyValue, pathMethod })
   }
 
   onExecute = () => {

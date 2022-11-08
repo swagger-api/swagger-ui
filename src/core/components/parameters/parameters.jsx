@@ -163,7 +163,7 @@ export default class Parameters extends Component {
               enabled={tryItOutEnabled}
               onCancelClick={this.props.onCancelClick}
               onTryoutClick={onTryoutClick}
-              onResetClick={onResetClick}/>
+              onResetClick={() => onResetClick(pathMethod)}/>
           ) : null}
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
