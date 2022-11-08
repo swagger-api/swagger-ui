@@ -25,6 +25,7 @@ export default class Parameters extends Component {
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
     onTryoutClick: PropTypes.func,
+    onResetClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
     pathMethod: PropTypes.array.isRequired,
@@ -73,7 +74,7 @@ export default class Parameters extends Component {
       })
     }
   }
-
+  
   onChangeMediaType = ({ value, pathMethod }) => {
     let { specActions, oas3Selectors, oas3Actions } = this.props
     const userHasEditedBody = oas3Selectors.hasUserEditedBody(...pathMethod)
@@ -94,6 +95,7 @@ export default class Parameters extends Component {
 
     let {
       onTryoutClick,
+      onResetClick,
       parameters,
       allowTryItOut,
       tryItOutEnabled,
@@ -161,10 +163,7 @@ export default class Parameters extends Component {
               enabled={tryItOutEnabled}
               onCancelClick={this.props.onCancelClick}
               onTryoutClick={onTryoutClick}
-              onResetClick={() => {
-                const defaultRequestBodyValue = oas3Selectors.defaultRequestBodyValue(...pathMethod)
-                oas3Actions.setRequestBodyValue({ value: defaultRequestBodyValue, pathMethod })
-              }}/>
+              onResetClick={onResetClick}/>
           ) : null}
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">

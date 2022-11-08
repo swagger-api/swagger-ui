@@ -17,6 +17,7 @@ export default class Operation extends PureComponent {
 
     toggleShown: PropTypes.func.isRequired,
     onTryoutClick: PropTypes.func.isRequired,
+    onResetClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     onExecute: PropTypes.func.isRequired,
 
@@ -48,6 +49,7 @@ export default class Operation extends PureComponent {
       request,
       toggleShown,
       onTryoutClick,
+      onResetClick,
       onCancelClick,
       onExecute,
       fn,
@@ -152,6 +154,7 @@ export default class Operation extends PureComponent {
                   operation={operation}
                   onChangeKey={onChangeKey}
                   onTryoutClick = { onTryoutClick }
+                  onResetClick = { onResetClick }
                   onCancelClick = { onCancelClick }
                   tryItOutEnabled = { tryItOutEnabled }
                   allowTryItOut={allowTryItOut}
