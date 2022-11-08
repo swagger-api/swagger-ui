@@ -61,6 +61,26 @@ export const shouldRetainRequestBodyValue = onlyOAS3((state, path, method) => {
   }
 )
 
+export const selectDefaultRequestBodyValue = (state, path, method) => (system) => {
+  const {oas3Selectors, specSelectors} = system.getSystem()
+  const spec = specSelectors.specJson()
+  if(isOAS3Helper(spec)) {
+    const currentMediaType = oas3Selectors.requestContentType(path, method)
+    if (currentMediaType) {
+      return getDefaultRequestBodyValue(
+        specSelectors.specResolvedSubtree(["paths", path, method, "requestBody"]),
+        currentMediaType,
+        oas3Selectors.activeExamplesMember(
+          path, method,
+          "requestBody",
+          "requestBody",
+        )
+      )
+    }
+  }
+  return null
+}
+
 export const hasUserEditedBody = (state, path, method) => (system) => {
   const {oas3Selectors, specSelectors} = system.getSystem()
   const spec = specSelectors.specJson()
