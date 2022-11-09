@@ -35,7 +35,6 @@
     "build:es:bundle:core": "webpack --color --config webpack/es-bundle-core.babel.js",
     "clean": "rimraf ./dist",
     "predev": "npm install",
-    "postinstall": "patch-package",
     "dev": "webpack serve --config webpack/dev.babel.js",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack/bundle.babel.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
