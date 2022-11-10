@@ -1,0 +1,10 @@
+openapi: "3.0.0"
+
+info:
+  title: Sequential Import Chaining
+  description: >
+    <h4>This h4 would be hidden by the injected CSS</h4>
+
+    This document tests the ability of a `<style>` tag in a Markdown field to pull in a remote stylesheet using an `@import` directive.
+
+    <style>@import url(/documents/security/sequential-import-chaining/injection.css);</style>

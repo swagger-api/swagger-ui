@@ -1,0 +1,23 @@
+openapi: "3.0.0"
+
+paths:
+  /:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                first:
+                  type: object
+                  example:
+                    one: abc
+                    two: 123
+                second:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - "hi"

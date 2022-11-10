@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: Server Variables - One
+  description: sample OAS 3 definition to test server variables with urls
+  version: 1.0.0
+servers:
+- url: "https://localhost:3200{basePath}"
+  variables:
+    basePath:
+      default: "/oneFirstUrl"
+- url: "http://localhost:3201{basePath}"
+  variables:
+    basePath:
+      default: "/oneSecondUrl"
+paths:
+  /a:
+    post:
+      summary: simple service A
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              properties:
+                foo:
+                  type: string
+                bar:
+                  type: string
+              required:
+                - foo
+              type: object
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'string'

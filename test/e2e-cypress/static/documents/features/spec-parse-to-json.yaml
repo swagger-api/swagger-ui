@@ -1,0 +1,26 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Native date formats in YAML
+
+paths:
+  /foo:
+    get: 
+      description: Has date without quotes
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  without-quotes:
+                    type: string
+                    format: date
+                    example: 1999-11-31
+                  with-quotes:
+                    type: string
+                    format: date
+                    example: "1999-12-31"

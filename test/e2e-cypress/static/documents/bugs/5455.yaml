@@ -1,0 +1,25 @@
+openapi: 3.0.2
+info:
+  title: test
+  version: 1.0.0
+paths:
+  /foo:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Foo'
+      responses:
+        201:
+          description: Created
+
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        foo:
+          type: string
+          example: bar

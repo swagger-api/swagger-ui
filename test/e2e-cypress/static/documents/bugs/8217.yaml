@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: Example Swagger with required default body parameter
+  version: 1.0.0
+paths:
+  /pet:
+    post:
+      operationId: addPet
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BodyParameter'
+        required: true
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+components:
+  schemas:
+    BodyParameter:
+      required:
+        - bodyParameter
+      type: object
+      properties:
+        bodyParameter:
+          type: string
+          default: default

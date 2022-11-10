@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Test anonymous operations
+  version: 1.0.0
+paths:
+  /withBoth:
+    get:
+      security: [{}, {"apikeyScheme": []}, {"apikeyScheme2": []}]
+      responses:
+        200:
+          description: asdadasd
+  /onlyEmpty:
+    get:
+      security: [{}]
+      responses:
+        200:
+          description: asdadasd
+  /required:
+    get:
+      security: [{"apikeyScheme": []}]
+      responses:
+        200:
+          description: asdadasd
+security:
+  - apikeyScheme: []
+components:
+  securitySchemes:
+    apikeyScheme:
+      name: test
+      type: apiKey
+      in: header
+    apikeyScheme2:
+      name: test2
+      type: apiKey
+      in: header

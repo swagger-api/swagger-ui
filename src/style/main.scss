@@ -1,0 +1,21 @@
+.swagger-ui
+{
+    @import '~tachyons-sass/tachyons.scss';
+    @import 'mixins';
+    @import 'variables';
+    @import 'type';
+    @import 'layout';
+    @import 'buttons';
+    @import 'form';
+    @import 'modal';
+    @import 'models';
+    @import 'servers';
+    @import 'table';
+    @import 'topbar';
+    @import 'information';
+    @import 'authorize';
+    @import 'errors';
+    @include text_body();
+    @import 'split-pane-mode';
+    @import 'markdown';
+}

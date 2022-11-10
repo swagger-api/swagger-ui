@@ -1,0 +1,309 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "XML definition with oneOf & anyOf",
+    "description": "Definition to cover multiple XML examples"
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "text/xml": {
+              "schema": {
+                "description": "XML schema with oneOf for /foo request and mediaType text/xml",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OneOfOne"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfTwo"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfThree"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfFour"
+                  }
+                ]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "description": "fallback XML schema with mediaType application/xml",
+                "$ref": "#/components/schemas/OneOfTwo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/xml": {
+                "schema": {
+                  "description": "XML schema with mediaType text/xml",
+                  "$ref": "#/components/schemas/foobarResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bar": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "text/xml": {
+              "schema": {
+                "description": "XML schema with anyOf for /bar request and mediaType text/xml",
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/OneOfOne"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfTwo"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfThree"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfFour"
+                  }
+                ]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "description": "fallback XML schema with mediaType application/xml",
+                "$ref": "#/components/schemas/OneOfTwo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/xml": {
+                "schema": {
+                  "description": "XML schema with mediaType text/xml",
+                  "$ref": "#/components/schemas/foobarResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/foobar": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "description": "XML schema with oneOf for /foobar request and mediaType application/xml",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/OneOfOne"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfTwo"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfThree"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfFour"
+                  }
+                ]
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "description": "fallback XML schema with mediaType text/xml",
+                "$ref": "#/components/schemas/OneOfThree"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/xml": {
+                "schema": {
+                  "description": "XML schema with mediaType application/xml",
+                  "$ref": "#/components/schemas/foobarResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/barfoo": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "description": "XML schema with anyOf for /barfoo request and mediaType application/xml",
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/OneOfOne"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfTwo"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfThree"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OneOfFour"
+                  }
+                ]
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "description": "fallback XML schema with mediaType text/xml",
+                "$ref": "#/components/schemas/OneOfThree"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "description": "XML schema with mediaType application/xml",
+                  "$ref": "#/components/schemas/foobarResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OneOfOne": {
+        "type": "object",
+        "properties": {
+          "Body": {
+            "type": "object",
+            "properties": {
+              "fooOne": {}
+            },
+            "additionalProperties": false,
+            "xml": {
+              "prefix": "soapenv"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "xml": {
+          "prefix": "soapenv",
+          "namespace": "http://schemas.xmlsoap.org/soap/envelope/",
+          "name": "Envelope"
+        }
+      },
+      "OneOfTwo": {
+        "type": "object",
+        "properties": {
+          "Body": {
+            "type": "object",
+            "properties": {
+              "fooTwo": {}
+            },
+            "additionalProperties": false,
+            "xml": {
+              "prefix": "soapenv"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "xml": {
+          "prefix": "soapenv",
+          "namespace": "http://schemas.xmlsoap.org/soap/envelope/",
+          "name": "Envelope"
+        }
+      },
+      "OneOfThree": {
+        "type": "object",
+        "properties": {
+          "Body": {
+            "type": "object",
+            "properties": {
+              "fooThree": {}
+            },
+            "additionalProperties": false,
+            "xml": {
+              "prefix": "soapenv"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "xml": {
+          "prefix": "soapenv",
+          "namespace": "http://schemas.xmlsoap.org/soap/envelope/",
+          "name": "Envelope"
+        }
+      },
+      "OneOfFour": {
+        "type": "object",
+        "properties": {
+          "Body": {
+            "type": "object",
+            "properties": {
+              "fooFour": {}
+            },
+            "additionalProperties": false,
+            "xml": {
+              "prefix": "soapenv"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "xml": {
+          "prefix": "soapenv",
+          "namespace": "http://schemas.xmlsoap.org/soap/envelope/",
+          "name": "Envelope"
+        }
+      },
+      "foobarResponse": {
+        "type": "object",
+        "properties": {
+          "Body": {
+            "type": "object",
+            "properties": {
+              "foobarResObj": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false,
+            "xml": {
+              "prefix": "soapenv"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "xml": {
+          "prefix": "soapenv",
+          "namespace": "http://schemas.xmlsoap.org/soap/envelope/",
+          "name": "Envelope"
+        }
+      }
+    }
+  }
+}

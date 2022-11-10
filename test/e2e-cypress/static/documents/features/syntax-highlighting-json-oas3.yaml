@@ -1,0 +1,94 @@
+openapi: 3.0.1
+info:
+  title: json syntax highlighting
+  description: sample OAS 3 definition to test syntax highlighting
+  version: 1.0.0
+servers:
+- url: https://localhost:3200/v1
+- url: http://localhost:3200/v1
+paths:
+  /setServices:
+    post:
+      summary: simple service
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/setServicesBody'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setServicesResponse'
+        404:
+          description: Page not found
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    setServicesBody:
+      required:
+      - appid
+      - details
+      - station_objectid
+      - userid
+      type: object
+      properties:
+        appid:
+          type: string
+          description: application ID
+          example: Website
+        userid:
+          type: integer
+          description: user id available to test
+        station_objectid:
+          type: string
+          description: station id available to test
+          example: 22a124b4-594b-4452-bdf5-fc3ef1477ba7
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              station_serviceid:
+                type: integer
+                description: optional service id
+                example: 34
+              name:
+                type: string
+                example: hooray
+              amount:
+                type: string
+                example: "0.00"
+              quantity:
+                type: integer
+                example: 999999
+              date:
+                type: string
+                format: date-time
+    setServicesResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: true
+        count:
+          type: boolean
+          example: false
+        response:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            station_serviceid:
+              type: integer
+              example: 3
+            userid:
+              type: integer
+            statusId:
+              type: string
+              example: f0009babde9dbe204540d79cf754408e

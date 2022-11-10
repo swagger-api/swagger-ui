@@ -1,0 +1,173 @@
+// - - - - - - - - - - - - - - - - - - -
+// - - _mixins.scss module
+// styles for the _mixins.scss module
+@function calculateRem($size)
+{
+    $remSize: $size / 16px;
+    @return $remSize * 1rem;
+}
+
+@mixin font-size($size)
+{
+    font-size: $size;
+    font-size: calculateRem($size);
+}
+
+%clearfix
+{
+    &:before,
+    &:after
+    {
+        display: table;
+
+        content: ' ';
+    }
+    &:after
+    {
+        clear: both;
+    }
+}
+
+@mixin size($width, $height: $width)
+{
+    width: $width;
+    height: $height;
+}
+
+$ease: (
+  in-quad:      cubic-bezier(.550,  .085, .680, .530),
+  in-cubic:     cubic-bezier(.550,  .055, .675, .190),
+  in-quart:     cubic-bezier(.895,  .030, .685, .220),
+  in-quint:     cubic-bezier(.755,  .050, .855, .060),
+  in-sine:      cubic-bezier(.470,  .000, .745, .715),
+  in-expo:      cubic-bezier(.950,  .050, .795, .035),
+  in-circ:      cubic-bezier(.600,  .040, .980, .335),
+  in-back:      cubic-bezier(.600, -.280, .735, .045),
+  out-quad:     cubic-bezier(.250,  .460, .450, .940),
+  out-cubic:    cubic-bezier(.215,  .610, .355, 1.000),
+  out-quart:    cubic-bezier(.165,  .840, .440, 1.000),
+  out-quint:    cubic-bezier(.230,  1.000, .320, 1.000),
+  out-sine:     cubic-bezier(.390,  .575, .565, 1.000),
+  out-expo:     cubic-bezier(.190,  1.000, .220, 1.000),
+  out-circ:     cubic-bezier(.075,  .820, .165, 1.000),
+  out-back:     cubic-bezier(.175,  .885, .320, 1.275),
+  in-out-quad:  cubic-bezier(.455,  .030, .515, .955),
+  in-out-cubic: cubic-bezier(.645,  .045, .355, 1.000),
+  in-out-quart: cubic-bezier(.770,  .000, .175, 1.000),
+  in-out-quint: cubic-bezier(.860,  .000, .070, 1.000),
+  in-out-sine:  cubic-bezier(.445,  .050, .550, .950),
+  in-out-expo:  cubic-bezier(1.000,  .000, .000, 1.000),
+  in-out-circ:  cubic-bezier(.785,  .135, .150, .860),
+  in-out-back:  cubic-bezier(.680, -.550, .265, 1.550)
+);
+
+@function ease($key)
+{
+    @if map-has-key($ease, $key)
+    {
+        @return map-get($ease, $key);
+    }
+
+    @warn 'Unkown \'#{$key}\' in $ease.';
+    @return null;
+}
+
+
+@mixin ease($key)
+{
+    transition-timing-function: ease($key);
+}
+
+@mixin text-truncate
+{
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@mixin aspect-ratio($width, $height)
+{
+    position: relative;
+    &:before
+    {
+        display: block;
+
+        width: 100%;
+        padding-top: ($height / $width) * 100%;
+
+        content: '';
+    }
+    > iframe
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+$browser-context: 16;
+
+@function em($pixels, $context: $browser-context)
+{
+    @if (unitless($pixels))
+    {
+        $pixels: $pixels * 1px;
+    }
+
+    @if (unitless($context))
+    {
+        $context: $context * 1px;
+    }
+
+    @return $pixels / $context * 1em;
+}
+
+@mixin maxHeight($height)
+{
+    @media (max-height: $height)
+    {
+        @content;
+    }
+}
+
+
+@mixin breakpoint($class)
+{
+    @if $class == tablet
+    {
+        @media (min-width: 768px) and (max-width: 1024px)
+        {
+            @content;
+        }
+    }
+
+    @else if $class == mobile
+    {
+        @media (min-width: 320px) and (max-width : 736px)
+        {
+            @content;
+        }
+    }
+
+    @else if $class == desktop
+    {
+        @media (min-width: 1400px)
+        {
+            @content;
+        }
+    }
+
+    @else
+    {
+        @warn 'Breakpoint mixin supports: tablet, mobile, desktop';
+    }
+}
+
+@mixin invalidFormElement() {
+    animation: shake .4s 1;
+    border-color: $_color-delete;
+    background: lighten($_color-delete, 35%);
+}

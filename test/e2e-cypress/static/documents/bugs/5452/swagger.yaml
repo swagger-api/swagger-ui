@@ -1,0 +1,19 @@
+swagger: "2.0"
+info:
+  title: Testcase API
+  version: 2.0.0
+paths:
+  '/endpoint':
+    get:
+      parameters:
+        - name: type
+          in: query
+          x-example: fruit
+          type: string
+          enum:
+            - fruit
+            - vegetable
+            - drink
+      responses:
+        '200':
+          description: 200 response

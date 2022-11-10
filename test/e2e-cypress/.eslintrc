@@ -1,0 +1,8 @@
+globals:
+  cy: false
+  Cypress: false
+  expect: false
+  assert: false
+
+rules:
+  "no-console": 0

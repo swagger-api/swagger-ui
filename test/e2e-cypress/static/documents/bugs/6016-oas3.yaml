@@ -1,0 +1,31 @@
+openapi: 3.0.2
+info:
+  title: OAS 3.0 sample with entries as property name
+  version: 0.1.0
+paths:
+  /test/:
+    get:
+      summary: Test
+      operationId: test_test__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Testmodel'
+components:
+  schemas:
+    Testmodel:
+      title: Testmodel
+      required:
+        - name
+        - entries
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        entries:
+          title: Entries
+          type: integer

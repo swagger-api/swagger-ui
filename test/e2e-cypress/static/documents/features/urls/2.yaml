@@ -1,0 +1,12 @@
+openapi: "3.0.0"
+
+info:
+  title: Two
+
+paths:
+  /:
+    get:
+      summary: an operation
+      responses:
+        "200":
+          description: OK

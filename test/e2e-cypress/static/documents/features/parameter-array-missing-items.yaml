@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  title: test
+  version: "1.0.0"
+paths:
+  /example1:
+    get:
+      description: test fetching
+      parameters:
+        - in: query
+          name: basicName
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  color:
+                    oneOf:
+                      - type: array # invalid definition b/c type: array is missing 'items'
+                      - type: string
+                      - type: integer
+      responses:
+        '200':
+          description: successful fetch

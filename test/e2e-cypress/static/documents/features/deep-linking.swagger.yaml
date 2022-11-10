@@ -1,0 +1,34 @@
+swagger: "2.0"
+
+paths:
+  /:
+    get:
+      operationId: "myOperation"
+      tags: ["myTag"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
+  /withSpaces:
+    post:
+      operationId: "my Operation"
+      tags: ["my Tag"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
+  /utf16fragments:
+    head:
+      operationId: "пошел"
+      tags: ["шеллы"]
+  /withUnderscores:
+    patch:
+      operationId: "underscore_Operation"
+      tags: ["underscore_Tag"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
+  /noOperationId:
+    put:
+      tags: ["tagTwo"]

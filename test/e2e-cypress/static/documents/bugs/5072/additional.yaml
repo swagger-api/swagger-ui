@@ -1,0 +1,35 @@
+openapi: "3.0.0"
+info:
+  description: "A sample API for "
+  version: "1.0.0"
+  title: "Sample"
+  contact:
+    name: ""
+    url: "http://website.com"
+    email: "admin@mail.com"
+paths:
+  /:
+    post:
+      summary: Create/modify object
+      operationId: postObject
+      parameters:
+        - name: filterParams
+          in: query
+          description: Additional filter fields
+          required: false
+          schema:
+            type: object
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        '200':
+          description: Status message
+          content:
+            application/json:
+              schema:
+                  type: object

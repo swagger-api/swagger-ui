@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: "Request body file upload"
+  description: |-
+    This document has examples for examining the `schema` or content type for request bodies requiring a file upload
+    * `application/octect-stream` content type (no matter what schema format)
+    * `audio/*` content type (no matter what schema format)
+    * `image/*` content type (no matter what schema format)
+    * `video/*` content type (no matter what schema format)
+    * schema format is `base64` (no matter what content type)
+    * schema format is `binary` (no matter what content type)
+  version: "1.0.0"
+paths:
+  /upload-application-octet-stream:
+    post:
+      operationId: uploadApplicationOctetStream
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /upload-image-png:
+    post:
+      operationId: uploadImagePng
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /upload-audio-wav:
+    post:
+      operationId: uploadAudioWav
+      requestBody:
+        content:
+          audio/wav:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /upload-video-mpeg:
+    post:
+      operationId: uploadVideoMpeg
+      requestBody:
+        content:
+          video/mpeg:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /upload-schema-format-binary:
+    post:
+      operationId: uploadSchemaFormatBinary
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /upload-schema-format-base64:
+    post:
+      operationId: uploadSchemaFormatBase64
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type: string
+              format: base64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: string

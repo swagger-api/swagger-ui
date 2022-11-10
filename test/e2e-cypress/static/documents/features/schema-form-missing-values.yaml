@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  description: No type for schema
+  version: "1"
+  title: "No type"
+paths:
+  /case-one-no-schema:
+    parameters:
+      - name: namespace
+        description: The custom resource's namespace
+        # schema:
+        in: path
+        required: true
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+  /case-one-no-type-or-format:
+    parameters:
+      - name: namespace
+        description: The custom resource's namespace
+        schema:
+        in: path
+        required: true
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+  /case-one-type-only-no-format:
+    parameters:
+      - name: namespace
+        description: The custom resource's namespace
+        schema:
+          type: integer
+        in: path
+        required: true
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+  /case-one-format-only-no-type:
+    parameters:
+      - name: namespace
+        description: The custom resource's namespace
+        schema:
+          format: int64
+        in: path
+        required: true
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+  /case-two-no-schema:
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+      parameters:
+        - name: namespace
+          in: path
+          description: The custom resource's namespace
+          required: true
+          # schema:
+  /case-two-no-type-or-format:
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+      parameters:
+        - name: namespace
+          in: path
+          description: The custom resource's namespace
+          required: true
+          schema:
+  /case-two-type-only-no-format:
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+      parameters:
+        - name: namespace
+          in: path
+          description: The custom resource's namespace
+          required: true
+          schema:
+            type: integer
+  /case-two-format-only-no-type:
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+      parameters:
+        - name: namespace
+          in: path
+          description: The custom resource's namespace
+          required: true
+          schema:
+            format: int64
+  /case-two-not-a-real-type:
+    get:
+      description: sf
+      responses:
+        default:
+          description: one
+      parameters:
+        - name: namespace
+          in: path
+          description: The custom resource's namespace
+          required: true
+          schema:
+            type: "NotARealType"

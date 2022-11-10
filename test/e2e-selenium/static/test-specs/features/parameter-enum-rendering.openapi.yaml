@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  title: test
+  version: 0.0.0
+paths:
+  /report:
+    get:
+      parameters:
+        - in: query
+          name: rel_date
+          required: true
+          schema:
+            type: string
+            default: today
+            enum:
+              - today
+              - yesterday
+              - lastweek
+      responses:
+        '200':
+          description: OK

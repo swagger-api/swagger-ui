@@ -1,0 +1,26 @@
+openapi: "3.0.0"
+
+paths:
+  /aev:
+    get:
+      parameters: 
+      - name: param
+        in: query
+        allowEmptyValue: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: ok
+  /aev/and/required:
+    get:
+      parameters:
+      - name: param
+        in: query
+        allowEmptyValue: true
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: ok

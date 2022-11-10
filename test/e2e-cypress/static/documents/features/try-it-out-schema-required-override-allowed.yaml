@@ -1,0 +1,34 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: "schema required properties should not be treated like required: true"
+paths:
+  '/v1/any-path':
+    put:
+      summary: lorem
+      operationId: setDeliveryLocation
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: ipsum
+          required: false
+          schema:
+            $ref: '#/definitions/TopModel'
+      responses:
+        '200':
+          description: successful operation
+definitions:
+  TopModel:
+    type: object
+    properties:
+      testProperty:
+        $ref: '#/definitions/NestedModel'
+  NestedModel:
+    type: object
+    required:
+      - validated
+    properties:
+      validated:
+        type: boolean

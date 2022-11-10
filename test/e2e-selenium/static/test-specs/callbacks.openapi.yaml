@@ -1,0 +1,41 @@
+openapi: 3.0.0
+servers:
+- url: http://petstore.swagger.io/v2
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  "/pet":
+    post:
+      tags:
+      - pet
+      summary: Add a new pet to the store
+      description: ''
+      operationId: addPet
+      parameters: []
+      responses:
+        '405':
+          description: Invalid input
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      callbacks:
+        myWebhook:
+          '$request.body#/url':
+            post:
+              requestBody:
+                description: Callback payload
+                content:
+                  'application/json':
+                    schema:
+                      type: string
+              responses:
+                '200':
+                  description: webhook successfully processed and no retries will be performed

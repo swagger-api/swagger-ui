@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info:
+  version: "0.0.1"
+  title: "Swagger UI Webpack Setup"
+  description: "Demonstrates Swagger UI with Webpack including CSS and OAuth"
+servers:
+  - url: "https://demo.identityserver.io/api"
+    description: "Identity Server test API"
+components:
+  securitySchemes:
+    # See https://demo.identityserver.io/ for configuration details.
+    identity_server_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: "https://demo.identityserver.io/connect/authorize"
+          scopes:
+            api: "api"
+security:
+  - identity_server_auth:
+    - api
+paths:
+  /test:
+    get:
+      summary: "Runs a test request against the Identity Server demo API"
+      responses:
+        401:
+          description: "Unauthorized"
+        200:
+          description: "OK"

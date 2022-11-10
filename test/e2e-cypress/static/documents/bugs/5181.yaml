@@ -1,0 +1,27 @@
+info:
+  title: Required parameter missing, doesn't block request from executing.
+  version: '1'
+openapi: 3.0.0
+servers: 
+- url: http://httpbin.org/anything
+paths:
+  /foos:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+          # application/json:
+          # application/xml:
+            schema:
+              properties:
+                foo:
+                  type: string
+                bar:
+                  type: string
+              required:
+                - foo
+              type: object
+        required: true # Note this doesn't have an impact
+      responses:
+        default:
+          description: ok
