@@ -1,0 +1,5 @@
+semi: false
+trailingComma: es5
+endOfLine: lf
+requirePragma: true
+insertPragma: true
