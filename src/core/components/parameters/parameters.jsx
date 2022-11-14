@@ -74,7 +74,7 @@ export default class Parameters extends Component {
       })
     }
   }
-  
+
   onChangeMediaType = ({ value, pathMethod }) => {
     let { specActions, oas3Selectors, oas3Actions } = this.props
     const userHasEditedBody = oas3Selectors.hasUserEditedBody(...pathMethod)
@@ -172,8 +172,8 @@ export default class Parameters extends Component {
               <table className="parameters">
                 <thead>
                 <tr>
-                  <th className="col_header parameters-col_name">Name</th>
-                  <th className="col_header parameters-col_description">Description</th>
+                  <th className="col_header parameters-col_name">이름</th>
+                  <th className="col_header parameters-col_description">설명</th>
                 </tr>
                 </thead>
                 <tbody>

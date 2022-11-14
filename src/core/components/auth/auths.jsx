@@ -89,9 +89,10 @@ export default class Auths extends React.Component {
             <div className="auth-btn-wrapper">
               {
                 nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick }>Logout</Button>
-              : <Button type="submit" className="btn modal-btn auth authorize">Authorize</Button>
+              : <Button type="submit" className="btn modal-btn auth authorize">
+                    인증</Button>
               }
-              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>닫기</Button>
             </div>
           </form>
         }

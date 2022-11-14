@@ -6,7 +6,7 @@ describe("Try it out enabled configuration", () => {
         .get("#operations-default-get_")
         .click()
         .get(".try-out__btn")
-        .should("have.text","Cancel")
+        .should("have.text","취소")
     })
 
     it("should disable the try it out section when false", () => {
@@ -19,4 +19,3 @@ describe("Try it out enabled configuration", () => {
           .should("have.text","Try it out ")
       })
   })
-  
