@@ -29,7 +29,7 @@ export default function SwaggerUI(opts) {
     layout: "BaseLayout",
     docExpansion: "list",
     maxDisplayedTags: null,
-    filter: null,
+    filter: true,
     validatorUrl: "https://validator.swagger.io/validator",
     oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`,
     persistAuthorization: false,
