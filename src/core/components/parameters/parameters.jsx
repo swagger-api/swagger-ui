@@ -140,7 +140,7 @@ export default class Parameters extends Component {
             <div className="tab-header">
               <div onClick={() => this.toggleTab("parameters")}
                    className={`tab-item ${this.state.parametersVisible && "active"}`}>
-                <h4 className="opblock-title"><span>Parameters</span></h4>
+                <h4 className="opblock-title"><span>파라미터</span></h4>
               </div>
               {operation.get("callbacks") ?
                 (
@@ -153,7 +153,7 @@ export default class Parameters extends Component {
             </div>
           ) : (
             <div className="tab-header">
-              <h4 className="opblock-title">Parameters</h4>
+              <h4 className="opblock-title">파라미터</h4>
             </div>
           )}
           {allowTryItOut ? (
