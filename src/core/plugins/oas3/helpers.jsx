@@ -10,7 +10,9 @@ export function isOAS3(jsSpec) {
   // at some point in the future -- KS, 7/2018
 
   // starts with, but is not `3.0.` exactly
-  return oasVersion.startsWith("3.0.") && oasVersion.length > 4
+  // return oasVersion.startsWith("3.0.") && oasVersion.length > 4
+  // DEV: temp override to allow 3.1
+  return oasVersion.startsWith("3.") && oasVersion.length > 4
 }
 
 export function isSwagger2(jsSpec) {

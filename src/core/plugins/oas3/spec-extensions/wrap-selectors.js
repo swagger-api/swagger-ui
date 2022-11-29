@@ -83,3 +83,8 @@ export const isSwagger2 = (ori, system) => () => {
   const spec = system.getSystem().specSelectors.specJson()
   return isSwagger2Helper(Map.isMap(spec) ? spec : Map())
 }
+
+export const selectWebhooks = onlyOAS3(createSelector(
+  spec,
+  spec => spec.getIn(["webhooks"]) || Map()
+))
