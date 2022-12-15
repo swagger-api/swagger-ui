@@ -59,7 +59,8 @@ import Overview from "core/components/overview"
 import InitializedInput from "core/components/initialized-input"
 import Info, {
   InfoUrl,
-  InfoBasePath
+  InfoBasePath,
+  License,
 } from "core/components/info"
 import InfoContainer from "core/containers/info"
 import JumpToPath from "core/components/jump-to-path"
@@ -163,6 +164,7 @@ export default function() {
       DeepLink,
       InfoUrl,
       InfoBasePath,
+      License,
       SvgAssets,
       Example,
       ExamplesSelect,
