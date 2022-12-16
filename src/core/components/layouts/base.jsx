@@ -90,11 +90,6 @@ export default class BaseLayout extends React.Component {
         <SvgAssets />
         <VersionPragmaFilter isSwagger2={isSwagger2} isOAS3={isOAS3} alsoShow={<Errors/>}>
           <Errors/>
-          <Row className="webhooks-container">
-            <Col mobile={12} desktop={12} >
-              <Webhooks/>
-            </Col>
-          </Row>
           <Row className="information-container">
             <Col mobile={12}>
               <InfoContainer/>
@@ -116,6 +111,11 @@ export default class BaseLayout extends React.Component {
           <Row>
             <Col mobile={12} desktop={12} >
               <Operations/>
+            </Col>
+          </Row>
+          <Row className="webhooks-container">
+            <Col mobile={12} desktop={12} >
+              <Webhooks />
             </Col>
           </Row>
           <Row>

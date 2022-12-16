@@ -4,12 +4,14 @@ import PropTypes from "prop-types"
 import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
+// Todo: nice to have: similar to operation-tags, could have an expand/collapse button
+// to show/hide all webhook items
 const Webhooks = (props) => {
   const { specSelectors, getComponent, specPath } = props
   
   const webhooksPathItems = specSelectors.selectWebhooks() // OrderedMap
   if (!webhooksPathItems || webhooksPathItems?.size < 1) {
-    return <span>No webhooks</span>
+    return null
   }
   const OperationContainer = getComponent("OperationContainer", true)
 
