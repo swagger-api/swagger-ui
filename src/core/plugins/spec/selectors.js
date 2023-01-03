@@ -496,6 +496,7 @@ export const validationErrors = (state, pathMethod) => {
         .forEach( e => result.push(e))
     }
   })
+  return result
 }
 
 export const validateBeforeExecute = (state, pathMethod) => {
