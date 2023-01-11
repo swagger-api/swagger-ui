@@ -67,7 +67,7 @@ const standardVariables = {
     type: "number",
     name: "maxDisplayedTags"
   },
-  OPERATION_SORTER: {
+  OPERATIONS_SORTER: {
     type: "string",
     name: "operationsSorter"
   },
@@ -79,7 +79,7 @@ const standardVariables = {
     type: "boolean",
     name: "showCommonExtensions"
   },
-  TAG_SORTER: {
+  TAGS_SORTER: {
     type: "string",
     name: "tagsSorter"
   },
