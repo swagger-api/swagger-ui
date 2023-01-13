@@ -66,7 +66,7 @@ describe("curlify", function () {
       url: "http://swaggerhub.com/v1/one?name=john|smith",
       method: "GET",
       headers: {
-        authorization: "Basic Zm9vOmJhcg=="
+        authorization: "*****"
       }
     }
 
