@@ -1,18 +1,27 @@
 import React from "react"
 
+export function isOpenAPI30(jsSpec) {
+  const oasVersion = jsSpec.get("openapi")
+  if (typeof oasVersion !== "string") {
+    return false
+  }
+  return oasVersion.startsWith("3.0.") && oasVersion.length > 4
+}
+
+export function isOpenAPI31(jsSpec) {
+  const oasVersion = jsSpec.get("openapi")
+  if (typeof oasVersion !== "string") {
+    return false
+  }
+  return oasVersion.startsWith("3.1.") && oasVersion.length > 4
+}
+
 export function isOAS3(jsSpec) {
   const oasVersion = jsSpec.get("openapi")
   if(typeof oasVersion !== "string") {
     return false
   }
-
-  // we gate against `3.1` because we want to explicitly opt into supporting it
-  // at some point in the future -- KS, 7/2018
-
-  // starts with, but is not `3.0.` exactly
-  // return oasVersion.startsWith("3.0.") && oasVersion.length > 4
-  // DEV: temp override to allow 3.1
-  return oasVersion.startsWith("3.") && oasVersion.length > 4
+  return isOpenAPI30 || isOpenAPI31
 }
 
 export function isSwagger2(jsSpec) {
