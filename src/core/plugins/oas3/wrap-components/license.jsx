@@ -10,25 +10,28 @@ const createSPDXurl = (identifier) => {
 }
 
 const License = (props) => {
-  const { license, getComponent, selectedServer, url: specUrl } = props
+  const { license, getComponent, selectedServer, url: specUrl, specSelectors } = props
   const Link = getComponent("Link")
   const name = license.get("name") || "License"
   const url = safeBuildUrl(license.get("url"), specUrl, { selectedServer })
   const identifier = license.get("identifier") || "" // OAS3.1 field
   const identifierUrl = createSPDXurl(identifier)
+  const isOpenAPI31 = specSelectors.selectIsOpenAPI31()
 
   return (
     <div className="info__license">
       {
-        url && !identifier ? <Link target="_blank" href={sanitizeUrl(url)}>{name}</Link>
-          : <div>{name}</div>
+        !isOpenAPI31 && url && <div className="info__license__url"><Link target="_blank" href={sanitizeUrl(url)}>{name}</Link></div>
       }
       {
-        identifier && !url && <div className="info__license__identifier"><Link target="_blank" href={sanitizeUrl(baseSPDXurl)}>SPDX License</Link>: <Link target="_blank" href={sanitizeUrl(identifierUrl)}>{identifier}</Link></div>
+        isOpenAPI31 && url && !identifier && <div className="info__license__url"><Link target="_blank" href={sanitizeUrl(url)}>{name}</Link></div>
       }
       {
-        identifier && url && <div>Render Error: License.url and License.identifier are mutually exclusive fields</div>
+        isOpenAPI31 && identifier && !url && <div className="info__license__identifier"><Link target="_blank" href={sanitizeUrl(baseSPDXurl)}>SPDX License</Link>: <Link target="_blank" href={sanitizeUrl(identifierUrl)}>{identifier}</Link></div>
       }
+      {/* {
+        isOpenAPI31 && identifier && url && <div className="info__license_error">Render Error: License.url and License.identifier are mutually exclusive fields</div>
+      } */}
     </div>
   )
 }
