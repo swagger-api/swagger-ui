@@ -31,6 +31,7 @@ export default class BaseLayout extends React.Component {
     const FilterContainer = getComponent("FilterContainer", true)
     let isSwagger2 = specSelectors.isSwagger2()
     let isOAS3 = specSelectors.isOAS3()
+    const isOpenAPI31 = specSelectors.selectIsOpenAPI31()
 
     const isSpecEmpty = !specSelectors.specStr()
 
@@ -113,11 +114,13 @@ export default class BaseLayout extends React.Component {
               <Operations/>
             </Col>
           </Row>
-          <Row className="webhooks-container">
-            <Col mobile={12} desktop={12} >
-              <Webhooks />
-            </Col>
-          </Row>
+          { isOpenAPI31 &&
+            <Row className="webhooks-container">
+              <Col mobile={12} desktop={12} >
+                <Webhooks />
+              </Col>
+            </Row>
+          }
           <Row>
             <Col mobile={12} desktop={12} >
               <Models/>
