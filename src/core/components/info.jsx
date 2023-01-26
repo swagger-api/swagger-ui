@@ -23,7 +23,7 @@ export class InfoBasePath extends React.Component {
 }
 
 
-class Contact extends React.Component {
+export class Contact extends React.Component {
   static propTypes = {
     data: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
@@ -115,9 +115,6 @@ export default class Info extends React.Component {
     let termsOfServiceUrl = safeBuildUrl(info.get("termsOfService"), specUrl, {selectedServer})
     let contact = info.get("contact")
     let license = info.get("license")
-    // todo: prefer new wrap component, with info.summary
-    // note that ux may want to move summary to a sub-heading, as summary is a string that does not need to be Markdown
-    const summary = info.get("summary") // OAS3.1 field
     let rawExternalDocsUrl = externalDocs && externalDocs.get("url")
     let externalDocsUrl = safeBuildUrl(rawExternalDocsUrl, specUrl, {selectedServer})
     let externalDocsDescription = externalDocs && externalDocs.get("description")
@@ -139,11 +136,6 @@ export default class Info extends React.Component {
           { url && <InfoUrl getComponent={getComponent} url={url} /> }
         </hgroup>
 
-        {
-          summary && <div className="info__summary">
-            <Markdown source={ summary } />
-          </div>
-        }
         <div className="description">
           <Markdown source={ description } />
         </div>
