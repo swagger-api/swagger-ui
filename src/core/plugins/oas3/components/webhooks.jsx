@@ -15,7 +15,6 @@ const Webhooks = (props) => {
   }
   const OperationContainer = getComponent("OperationContainer", true)
 
-  // Todo: do we have to account for `$$ref` cases of pathItem and/or operation?
   const pathItemsElements = webhooksPathItems.entrySeq().map(([pathItemName, pathItem], i) => {
     const operationsElements = pathItem.entrySeq().map(([operationMethod, operation], j) => {
       const op = fromJS({
@@ -32,7 +31,6 @@ const Webhooks = (props) => {
         method={operationMethod}
         path={pathItemName}
         specPath={specPath.push("webhooks", pathItemName, operationMethod)}
-        // specPath={fromJS(["webhooks", pathItemName, operationMethod])}
         allowTryItOut={false}
       />
     })
@@ -42,7 +40,7 @@ const Webhooks = (props) => {
   })
 
   return (
-    <div className="webhooks-start">
+    <div className="webhooks">
       <h2>Webhooks</h2>
       {pathItemsElements}
     </div>
