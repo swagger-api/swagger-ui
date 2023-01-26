@@ -6,4 +6,3 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-    # identifier: Apache-2.0 # mutually exclusive of url; separately, for json_schema, consider const, prefix, array items can be of a different type (current assumption is all array items are the same)

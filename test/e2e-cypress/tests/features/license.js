@@ -1,4 +1,4 @@
-describe("Render License", () => {
+describe("Render License Component", () => {
   describe("OpenAPI 2", () =>{
     const baseUrl = "/?url=/documents/features/license-openAPI2.yaml"
     it("should render License URL", () => {

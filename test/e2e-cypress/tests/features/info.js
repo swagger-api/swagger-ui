@@ -1,4 +1,4 @@
-describe("Render Info", () => {
+describe("Render Info Component", () => {
   describe("OpenAPI 2.x", () => {
     const baseUrl = "/?url=/documents/features/info-openAPI2.yaml"
     it("should render Info Description", () => {
