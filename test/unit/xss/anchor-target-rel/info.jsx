@@ -1,7 +1,7 @@
 import React from "react"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
-import Info, { InfoUrl } from "components/info"
+import Info, { InfoUrl, License } from "components/info"
 import { Link } from "components/layout-utils"
 import Markdown from "components/providers/markdown"
 
@@ -10,6 +10,7 @@ describe("<Info/> Anchor Target Safety", function(){
 	const components = {
 		Markdown,
 		InfoUrl,
+		License,
 		Link
 	}
 	const baseProps = {
