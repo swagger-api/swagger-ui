@@ -21,7 +21,7 @@ export function isOAS3(jsSpec) {
   if(typeof oasVersion !== "string") {
     return false
   }
-  return isOpenAPI30 || isOpenAPI31
+  return isOpenAPI30(jsSpec) || isOpenAPI31(jsSpec)
 }
 
 export function isSwagger2(jsSpec) {
