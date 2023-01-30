@@ -85,7 +85,7 @@ describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
     cy.get(".responses-wrapper .curl-command")
       .should("not.exist")
   })
-  it.skip("should execute, if @booleanIsOptional value is 'false'", () => {
+  it("should execute, if @booleanIsOptional value is 'false'", () => {
     cy.get("@enumIsRequired")
       .select("pending")
     cy.get("@booleanIsRequired")
@@ -106,7 +106,7 @@ describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
       .get(".responses-wrapper .curl-command span")
       .should("contains.text", "expectIsOptional=false")
   })
-  it.skip("should execute, but NOT send @booleanIsOptional value if not provided", () => {
+  it("should execute, but NOT send @booleanIsOptional value if not provided", () => {
     cy.get("@enumIsRequired")
       .select("pending")
     cy.get("@booleanIsRequired")
