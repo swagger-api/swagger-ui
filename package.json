@@ -40,6 +40,7 @@
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack/bundle.babel.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
     "deps-check": "run-s deps-license deps-size",
+    "link:apidom": "npm link @swagger-api/apidom-core @swagger-api/apidom-reference @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-ns-openapi-3-0 @swagger-api/apidom-ns-json-schema-draft-4 @swagger-api/apidom-json-pointer",
     "lint": "eslint --ext \".js,.jsx\" src test dev-helpers flavors",
     "lint-errors": "eslint --quiet --ext \".js,.jsx\" src test dev-helpers flavors",
     "lint-fix": "eslint --ext \".js,.jsx\" src test dev-helpers flavors --fix",
@@ -94,7 +95,7 @@
     "reselect": "^4.1.5",
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.18.5",
+    "swagger-client": "=3.19.0-alpha.4",
     "url-parse": "^1.5.8",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
@@ -122,7 +123,7 @@
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.3",
     "babel-plugin-lodash": "=3.3.4",
-    "babel-plugin-module-resolver": "=4.1.0",
+    "babel-plugin-module-resolver": "=5.0.0",
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
     "body-parser": "^1.19.0",
     "buffer": "^6.0.3",
@@ -186,6 +187,13 @@
     "webpack-dev-server": "^4.7.4",
     "webpack-node-externals": "=3.0.0",
     "webpack-stats-plugin": "=1.0.3"
+  },
+  "overrides": {
+    "swagger-client": {
+      "@swagger-api/apidom-reference": {
+        "axios": "npm:-@0.0.1"
+      }
+    }
   },
   "config": {
     "deps_check_dir": ".deps_check"

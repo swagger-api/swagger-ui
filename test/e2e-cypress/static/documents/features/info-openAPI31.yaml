@@ -1,0 +1,7 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1 Info Object
+  version: 1.0.0
+  summary: a new 3.1.x specific field for summary
+  description: This is a sample server for a pet store.
+  

@@ -101,7 +101,7 @@ describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
       .should("not.have.class", "invalid")
       .should("not.contains.text", "expectIsOptional")
     // cURL component
-    cy.get(".responses-wrapper .curl-command")
+    cy.get(".responses-wrapper .curl-command") // hangs browser here
       .should("exist")
       .get(".responses-wrapper .curl-command span")
       .should("contains.text", "expectIsOptional=false")
@@ -120,7 +120,7 @@ describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
       .should("not.have.class", "invalid")
       .should("not.contains.text", "expectIsOptional")
     // cURL component
-    cy.get(".responses-wrapper .curl-command")
+    cy.get(".responses-wrapper .curl-command") // hangs browser here
       .should("exist")
       .get(".responses-wrapper .curl-command span")
       .should("not.contains.text", "expectIsOptional")

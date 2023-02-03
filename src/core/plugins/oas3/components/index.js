@@ -6,6 +6,7 @@ import ServersContainer from "./servers-container"
 import RequestBodyEditor from "./request-body-editor"
 import HttpAuth from "./http-auth"
 import OperationServers from "./operation-servers"
+import Webhooks from "./webhooks"
 
 export default {
   Callbacks,
@@ -15,5 +16,6 @@ export default {
   ServersContainer,
   RequestBodyEditor,
   OperationServers,
-  operationLink: OperationLink
+  operationLink: OperationLink,
+  Webhooks
 }

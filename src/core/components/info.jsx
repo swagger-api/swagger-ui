@@ -23,7 +23,7 @@ export class InfoBasePath extends React.Component {
 }
 
 
-class Contact extends React.Component {
+export class Contact extends React.Component {
   static propTypes = {
     data: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
@@ -53,7 +53,7 @@ class Contact extends React.Component {
   }
 }
 
-class License extends React.Component {
+export class License extends React.Component {
   static propTypes = {
     license: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
@@ -64,7 +64,6 @@ class License extends React.Component {
 
   render(){
     let { license, getComponent, selectedServer, url: specUrl } = this.props
-
     const Link = getComponent("Link")
     let name = license.get("name") || "License"
     let url = safeBuildUrl(license.get("url"), specUrl, {selectedServer})
@@ -125,6 +124,7 @@ export default class Info extends React.Component {
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
     const InfoBasePath = getComponent("InfoBasePath")
+    const License = getComponent("License")
 
     return (
       <div className="info">
