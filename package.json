@@ -188,6 +188,13 @@
     "webpack-node-externals": "=3.0.0",
     "webpack-stats-plugin": "=1.0.3"
   },
+  "overrides": {
+    "swagger-client": {
+      "@swagger-api/apidom-reference": {
+        "axios": "npm:-@0.0.1"
+      }
+    }
+  },
   "config": {
     "deps_check_dir": ".deps_check"
   }
