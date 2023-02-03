@@ -2,7 +2,7 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1.23.2-alpine
+FROM nginx:1.23.3-alpine
 
 RUN apk update && apk add --no-cache "nodejs>=16.17.1-r0"
 
