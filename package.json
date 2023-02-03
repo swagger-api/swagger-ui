@@ -123,7 +123,7 @@
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.3",
     "babel-plugin-lodash": "=3.3.4",
-    "babel-plugin-module-resolver": "=4.1.0",
+    "babel-plugin-module-resolver": "=5.0.0",
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
     "body-parser": "^1.19.0",
     "buffer": "^6.0.3",
