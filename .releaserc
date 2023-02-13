@@ -1,0 +1,35 @@
+{
+  "branches": [
+    {
+      "name": "master"
+    },
+    {
+      "name": "next",
+      "channel": "alpha",
+      "prerelease": "alpha"
+    }
+  ],
+  "tagFormat": "v${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    [
+      "@semantic-release/exec",
+      {
+        "verifyReleaseCmd": "echo \"NEXT_RELEASE_VERSION=${nextRelease.version}\" >> $GITHUB_ENV"
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/npm",
+    "@semantic-release/github",
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "package.json",
+          "package-lock.json"
+        ],
+        "message": "chore(release): cut the ${nextRelease.version} release\n\n${nextRelease.notes}"
+      }
+    ]
+  ]
+}

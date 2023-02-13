@@ -3,6 +3,10 @@ node_modules
 .vscode
 .deps_check
 .DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 .nyc_output
 npm-debug.log*
 .eslintcache
