@@ -73,6 +73,6 @@ jobs:
         run: |
           cd ../dist
           pwd
-          npm pack .
+          npm publish .
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
