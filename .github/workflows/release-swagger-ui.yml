@@ -31,7 +31,7 @@ jobs:
             @semantic-release/exec
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Nothing to release
         if: ${{ env.NEXT_RELEASE_VERSION == '' }}
