@@ -27,20 +27,15 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          submodules: true
           ref: next
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: https://npm.pkg.github.com/
-          scope: "@swagger-api"
 
       - name: Install dependencies (to create package manifest)
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
 
       - name: MKDIR `dist` working directory
         run: mkdir -p ../dist
@@ -75,4 +70,4 @@ jobs:
           pwd
           npm publish .
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
