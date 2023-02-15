@@ -68,6 +68,6 @@ jobs:
         run: |
           cd ../dist
           pwd
-          npm publish .
+          npm publish . --tag alpha
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
