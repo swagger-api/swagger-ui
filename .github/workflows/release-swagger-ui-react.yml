@@ -34,6 +34,12 @@ jobs:
         with:
           node-version: 16
 
+      - name: Prepare SwaggerUI dist
+        run: |
+          cd ../../../
+          npm ci
+          npm run build
+
       - name: Install dependencies (to create package manifest)
         run: npm ci
 
@@ -68,6 +74,6 @@ jobs:
         run: |
           cd ../dist
           pwd
-          npm publish . --tag alpha
+          npm pack . --tag alpha
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
