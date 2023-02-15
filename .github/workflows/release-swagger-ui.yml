@@ -43,6 +43,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Prepare release
+        run: |
+          npm run build
+
       - name: Semantic Release
         id: semantic
         uses: cycjimmy/semantic-release-action@v3
