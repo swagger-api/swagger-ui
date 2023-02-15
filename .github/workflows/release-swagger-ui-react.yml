@@ -34,6 +34,12 @@ jobs:
         with:
           node-version: 16
 
+      - name: Prepare SwaggerUI dist
+        run: |
+          cd ../../../
+          npm ci
+          npm run build
+
       - name: Install dependencies (to create package manifest)
         run: npm ci
 
