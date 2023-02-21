@@ -25,7 +25,11 @@ export default class Model extends ImmutablePureComponent {
       return ref.replace(/^.*#\/definitions\//, "")
     }
     if ( ref.indexOf("#/components/schemas/") !== -1 ) {
-      return ref.replace(/^.*#\/components\/schemas\//, "")
+      return decodeURIComponent(
+          ref.replace(/^.*#\/components\/schemas\//, "")
+             .replace(/~1/, "/")
+             .replace(/~0/, "~")
+      )
     }
   }
 
