@@ -82,8 +82,8 @@ export const withMappedContainer = (getSystem, getStore, memGetComponent) => (co
 
 export const render = (getSystem, getStore, getComponent, getComponents) => (domNode) => {
   const App = getComponent(getSystem, getStore, getComponents)("App", "root")
-  const root = createRoot(domNode);
-  root.render(<App/>);
+  const root = createRoot(domNode)
+  root.render(<App/>)
 }
 
 export const getComponent = (getSystem, getStore, getComponents) => (componentName, container, config = {}) => {
