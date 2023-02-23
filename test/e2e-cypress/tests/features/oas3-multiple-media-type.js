@@ -8,6 +8,12 @@ describe("OpenAPI 3.0 Multiple Media Types with different schemas", () => {
   const mediaTypeJson = "application/json"
 
   beforeEach(() => {
+    cy.intercept({
+      method: "POST",
+      url: "/post",
+      hostname: "httpbin.org",
+    }, {})
+
     cy.visit(
       "/?url=/documents/features/oas3-multiple-media-type.yaml"
     )

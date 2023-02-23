@@ -1,5 +1,11 @@
 describe("When trying it out", () => {
   it("should render the response headers as comma separated lists", () => {
+    cy.intercept({
+      method: "POST",
+      url: "/post",
+      hostname: "httpbin.org",
+    }, {})
+
     cy.visit("/?url=/documents/bugs/6183.yaml")
       .get("#operations-default-get_response_headers")
       .click()
