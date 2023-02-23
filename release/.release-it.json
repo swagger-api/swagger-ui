@@ -3,7 +3,9 @@
     "before:bump": [
       "./release/check-for-breaking-changes.sh ${latestVersion} ${version}",
       "npm update swagger-client",
-      "npm test"
+      "npm run test-in-node",
+      "npm run test:unit-jest",
+      "npm run test:artifact"
     ],
     "after:bump": ["npm run build"],
     "after:release": "export GIT_TAG=v${version} && echo GIT_TAG=v${version} > release/.version"
