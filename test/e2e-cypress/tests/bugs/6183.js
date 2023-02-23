@@ -1,8 +1,8 @@
 describe("When trying it out", () => {
   it("should render the response headers as comma separated lists", () => {
     cy.intercept({
-      method: "POST",
-      url: "/post",
+      method: "GET",
+      url: "/response-headers",
       hostname: "httpbin.org",
     }, {})
 
