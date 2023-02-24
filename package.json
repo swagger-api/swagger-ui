@@ -102,7 +102,7 @@
   },
   "devDependencies": {
     "@babel/cli": "=7.21.0",
-    "@babel/core": "=7.14.6",
+    "@babel/core": "=7.21.0",
     "@babel/eslint-parser": "=7.19.1",
     "@babel/plugin-proposal-class-properties": "=7.16.7",
     "@babel/plugin-proposal-nullish-coalescing-operator": "=7.18.6",
