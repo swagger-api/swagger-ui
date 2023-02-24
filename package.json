@@ -152,7 +152,7 @@
     "jsdom": "=20.0.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.9",
-    "json-server": "=0.17.0",
+    "json-server": "=0.17.2",
     "less": "^4.1.2",
     "license-checker": "^25.0.0",
     "lint-staged": "=11.2.6",
