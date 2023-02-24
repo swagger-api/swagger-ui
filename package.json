@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.18.9",
-    "@braintree/sanitize-url": "=6.0.0",
+    "@braintree/sanitize-url": "=6.0.2",
     "base64-js": "^1.5.1",
     "classnames": "^2.3.1",
     "css.escape": "1.5.1",
