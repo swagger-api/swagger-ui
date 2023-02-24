@@ -168,7 +168,7 @@
     "postcss-preset-env": "^7.4.3",
     "prettier": "^2.7.1",
     "process": "^0.11.10",
-    "react-refresh": "^0.11.0",
+    "react-refresh": "^0.14.0",
     "react-test-renderer": "=17.0.2",
     "release-it": "=15.4.2",
     "rimraf": "^3.0.0",
