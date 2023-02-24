@@ -101,7 +101,7 @@
     "zenscroll": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "=7.16.8",
+    "@babel/cli": "=7.21.0",
     "@babel/core": "=7.14.6",
     "@babel/eslint-parser": "=7.19.1",
     "@babel/plugin-proposal-class-properties": "=7.16.7",
