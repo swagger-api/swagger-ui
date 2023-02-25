@@ -130,7 +130,7 @@
     "cross-env": "=7.0.3",
     "css-loader": "=6.7.1",
     "cssnano": "=5.1.12",
-    "cypress": "=9.5.1",
+    "cypress": "=12.7.0",
     "dedent": "^0.7.0",
     "deepmerge": "^4.0.0",
     "enzyme": "=3.11.0",
