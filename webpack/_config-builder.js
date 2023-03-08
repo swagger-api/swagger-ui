@@ -105,9 +105,8 @@ export default function buildConfig(
           "@babel/runtime-corejs3": path.resolve(__dirname, "..", "node_modules/@babel/runtime-corejs3"),
           "js-yaml": path.resolve(__dirname, "..", "node_modules/js-yaml"),
           "lodash": path.resolve(__dirname, "..", "node_modules/lodash"),
-          "isarray": path.resolve(__dirname, "..", "node_modules/stream-browserify/node_modules/isarray"),
-          "react-is": path.resolve(__dirname, "..", "node_modules/react-redux/node_modules/react-is"),
-          "safe-buffer": path.resolve(__dirname, "..", "node_modules/string_decoder/node_modules/safe-buffer"),
+          "react-is": path.resolve(__dirname, "..", "node_modules/react-is"),
+          "safe-buffer": path.resolve(__dirname, "..", "node_modules/safe-buffer"),
         },
         fallback: {
           fs: false,

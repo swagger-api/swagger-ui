@@ -7,7 +7,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, next ]
 
 env:
   CYPRESS_CACHE_FOLDER: cypress/cache

@@ -2,6 +2,7 @@ name: Merge me!
 
 on:
   pull_request_target:
+    branches: [ master, next ]
 
 jobs:
   merge-me:
