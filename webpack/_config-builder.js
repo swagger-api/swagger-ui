@@ -26,9 +26,7 @@ const baseRules = [
       cacheDirectory: true,
     },
   },
-  { test: /\.(txt|yaml)$/,
-    type: "asset/source",
-  },
+  { test: /\.(txt|yaml)$/, type: "asset/source" },
   {
     test: /\.(png|jpg|jpeg|gif|svg)$/,
     type: "asset/inline",
@@ -78,11 +76,10 @@ export default function buildConfig(
           // when esm, library.name should be unset, so do not define here
           // when esm, library.export should be unset, so do not define here
           type: "umd",
-        }
+        },
       },
 
       target: "web",
-
 
       module: {
         rules: baseRules,
@@ -92,21 +89,42 @@ export default function buildConfig(
         ? {
             esprima: "esprima",
           }
-        : [nodeExternals({
-          importType: (moduleName) => {
-            return `commonjs ${moduleName}`
-          }})],
+        : [
+            nodeExternals({
+              importType: (moduleName) => {
+                return `commonjs ${moduleName}`
+              },
+            }),
+          ],
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
         alias: {
           // these aliases make sure that we don't bundle same libraries twice
           // when the versions of these libraries diverge between swagger-js and swagger-ui
-          "@babel/runtime-corejs3": path.resolve(__dirname, "..", "node_modules/@babel/runtime-corejs3"),
+          "@babel/runtime-corejs3": path.resolve(
+            __dirname,
+            "..",
+            "node_modules/@babel/runtime-corejs3"
+          ),
           "js-yaml": path.resolve(__dirname, "..", "node_modules/js-yaml"),
-          "lodash": path.resolve(__dirname, "..", "node_modules/lodash"),
+          lodash: path.resolve(__dirname, "..", "node_modules/lodash"),
           "react-is": path.resolve(__dirname, "..", "node_modules/react-is"),
-          "safe-buffer": path.resolve(__dirname, "..", "node_modules/safe-buffer"),
+          "safe-buffer": path.resolve(
+            __dirname,
+            "..",
+            "node_modules/safe-buffer"
+          ),
+          ramda: path.resolve(
+            __dirname,
+            "..",
+            "node_modules/@swagger-api/apidom-core/node_modules/ramda"
+          ),
+          "ramda-adjunct": path.resolve(
+            __dirname,
+            "..",
+            "node_modules/@swagger-api/apidom-core/node_modules/ramda-adjunct"
+          ),
         },
         fallback: {
           fs: false,
@@ -131,12 +149,12 @@ export default function buildConfig(
       optimization: {
         minimize: !!minimize,
         minimizer: [
-          compiler =>
+          (compiler) =>
             new TerserPlugin({
               terserOptions: {
                 mangle: !!mangle,
               },
-            }).apply(compiler)
+            }).apply(compiler),
         ],
       },
     },
