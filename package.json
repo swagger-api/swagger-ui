@@ -24,7 +24,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "automated-release": "release-it -VV --config ./release/.release-it.json",
+    "automated-release": "release-it major --preRelease=alpha --verbose --config ./release/.release-it.json",
     "build": "npm run build-stylesheets && rimraf ./dist/swagger-ui.js ./dist/swagger-ui.js.map && npm run build-all-bundles",
     "build-all-bundles": "run-p --aggregate-output build:core build:bundle build:standalone build:es:bundle build:es:bundle:core",
     "build-stylesheets": "webpack --color --config webpack/stylesheets.babel.js",
