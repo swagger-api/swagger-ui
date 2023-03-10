@@ -33,6 +33,7 @@ export default class SwaggerUI extends React.Component {
       showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
       deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
       showExtensions: this.props.showExtensions,
+      showCommonExtensions: this.props.showCommonExtensions,
       filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
       persistAuthorization: this.props.persistAuthorization,
       withCredentials: this.props.withCredentials,
@@ -122,6 +123,7 @@ SwaggerUI.propTypes = {
   presets: PropTypes.arrayOf(PropTypes.func),
   deepLinking: PropTypes.bool,
   showExtensions: PropTypes.bool,
+  showCommonExtensions: PropTypes.bool,
   filter: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -146,6 +148,7 @@ SwaggerUI.defaultProps = {
   deepLinking: false,
   displayRequestDuration: false,
   showExtensions: false,
+  showCommonExtensions: false,
   filter: false,
   requestSnippetsEnabled: false,
   requestSnippets: {
