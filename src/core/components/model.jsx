@@ -3,6 +3,8 @@ import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
 
+export let decodeRefName = s => decodeURIComponent(s.replace(/~1/, "/").replace(/~0/, "~"))
+
 export default class Model extends ImmutablePureComponent {
   static propTypes = {
     schema: ImPropTypes.map.isRequired,
@@ -22,14 +24,10 @@ export default class Model extends ImmutablePureComponent {
 
   getModelName =( ref )=> {
     if ( ref.indexOf("#/definitions/") !== -1 ) {
-      return ref.replace(/^.*#\/definitions\//, "")
+      return decodeRefName(ref.replace(/^.*#\/definitions\//, ""))
     }
     if ( ref.indexOf("#/components/schemas/") !== -1 ) {
-      return decodeURIComponent(
-          ref.replace(/^.*#\/components\/schemas\//, "")
-             .replace(/~1/, "/")
-             .replace(/~0/, "~")
-      )
+      return decodeRefName(ref.replace(/^.*#\/components\/schemas\//, ""))
     }
   }
 
