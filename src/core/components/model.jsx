@@ -3,7 +3,15 @@ import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
 
-export let decodeRefName = s => decodeURIComponent(s.replace(/~1/, "/").replace(/~0/, "~"))
+export let decodeRefName = uri => {
+  const unescaped = uri.replace(/~1/g, "/").replace(/~0/g, "~")
+  
+  try {
+    return decodeURIComponent(unescaped)
+  } catch {
+    return unescaped
+  }
+}
 
 export default class Model extends ImmutablePureComponent {
   static propTypes = {
