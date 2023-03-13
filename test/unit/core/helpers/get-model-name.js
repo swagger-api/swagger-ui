@@ -14,4 +14,12 @@ describe("getModelName", () => {
         expect(m.getModelName("#/definitions/custom%3A%3Anamespace%3A%3APerson"))
             .toEqual("custom::namespace::Person")
     })
+    it("decode multiple json-pointer values", () => {
+        expect(m.getModelName("#/components/schemas/~1~1~0~0"))
+            .toEqual("//~~")
+    })
+    it("support invalid URI encoding", () => {
+        expect(m.getModelName("#/components/schemas/%25%d"))
+            .toEqual("%25%d")
+    })
 })
