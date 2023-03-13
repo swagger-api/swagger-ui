@@ -3,7 +3,7 @@ import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
 
-let decodeRefName = uri => {
+const decodeRefName = uri => {
   const unescaped = uri.replace(/~1/g, "/").replace(/~0/g, "~")
 
   try {
