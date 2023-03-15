@@ -17,6 +17,7 @@ describe("oas3 plugin - auth extensions - wrapSelectors", function(){
           specJson: () => fromJS({
             openapi: "3.0.0"
           }),
+          isOAS3: () => true,
           securityDefinitions: () => {
             return fromJS({
               "oauth2AuthorizationCode": {

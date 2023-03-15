@@ -12,7 +12,8 @@ function onlyOAS3(selector) {
   return (ori, system) =>
     (...args) => {
       if (system.getSystem().specSelectors.isOAS3()) {
-        return selector(...args)
+        const result = selector(...args)
+        return typeof result === "function" ? result(system, ...args) : result
       } else {
         return ori(...args)
       }
