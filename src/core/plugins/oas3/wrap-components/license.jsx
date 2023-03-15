@@ -29,7 +29,7 @@ const License = (props) => {
 
   return (
     <div className="info__license">
-      {!isOpenAPI31 && url && (
+      {!isOAS31 && url && (
         <div className="info__license__url">
           <Link target="_blank" href={sanitizeUrl(url)}>
             {name}
