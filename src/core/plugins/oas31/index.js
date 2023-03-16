@@ -6,21 +6,30 @@ import License from "./components/license"
 import Info from "./components/info"
 import LicenseWrapper from "./wrap-components/license"
 import InfoWrapper from "./wrap-components/info"
-import { isOAS31, license, webhooks } from "./spec-extensions/selectors"
-import { isOAS3 } from "./spec-extensions/wrap-selectors"
 import {
-  makeSelectLicenseUrl,
-  selectLicenseIdentifierField,
+  license,
+  webhooks,
   selectLicenseNameField,
   selectLicenseUrlField,
-} from "./selectors"
+  selectLicenseIdentifierField,
+  makeIsOAS31,
+  makeSelectLicenseUrl,
+} from "./spec-extensions/selectors"
+import {
+  isOAS3 as isOAS3Wrapper,
+  selectLicenseUrl as selectLicenseUrlWrapper,
+} from "./spec-extensions/wrap-selectors"
+import { makeSelectLicenseUrl as makeOAS31SelectLicenseUrl } from "./selectors"
 
 const OAS31Plugin = () => {
   return {
     afterLoad(system) {
       const oas31Selectors = this.statePlugins.oas31.selectors
+      const specSelectors = this.statePlugins.spec.selectors
 
-      oas31Selectors.selectLicenseUrl = makeSelectLicenseUrl(system)
+      specSelectors.selectLicenseUrl = makeSelectLicenseUrl(system)
+      specSelectors.isOAS31 = makeIsOAS31(system)
+      oas31Selectors.selectLicenseUrl = makeOAS31SelectLicenseUrl(system)
     },
     components: {
       Webhooks,
@@ -34,20 +43,19 @@ const OAS31Plugin = () => {
     statePlugins: {
       spec: {
         selectors: {
-          isOAS31,
           license,
-          webhooks,
-        },
-        wrapSelectors: {
-          isOAS3,
-        },
-      },
-      oas31: {
-        selectors: {
           selectLicenseNameField,
           selectLicenseUrlField,
           selectLicenseIdentifierField,
+          webhooks,
         },
+        wrapSelectors: {
+          isOAS3: isOAS3Wrapper,
+          selectLicenseUrl: selectLicenseUrlWrapper,
+        },
+      },
+      oas31: {
+        selectors: {},
       },
     },
   }

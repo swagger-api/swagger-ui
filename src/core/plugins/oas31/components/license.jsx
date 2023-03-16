@@ -6,9 +6,10 @@ import PropTypes from "prop-types"
 
 import { sanitizeUrl } from "core/utils"
 
-const License = ({ getComponent, oas31Selectors }) => {
-  const name = oas31Selectors.selectLicenseNameField()
-  const url = oas31Selectors.selectLicenseUrl()
+const License = ({ getComponent, specSelectors }) => {
+  const name = specSelectors.selectLicenseNameField()
+  const url = specSelectors.selectLicenseUrl()
+
   const Link = getComponent("Link")
 
   return (
@@ -28,7 +29,7 @@ const License = ({ getComponent, oas31Selectors }) => {
 
 License.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  oas31Selectors: PropTypes.shape({
+  specSelectors: PropTypes.shape({
     selectLicenseNameField: PropTypes.func.isRequired,
     selectLicenseUrl: PropTypes.func.isRequired,
   }).isRequired,
