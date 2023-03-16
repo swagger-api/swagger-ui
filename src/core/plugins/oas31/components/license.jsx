@@ -3,50 +3,35 @@
  */
 import React from "react"
 import PropTypes from "prop-types"
-import { safeBuildUrl } from "core/utils/url"
+
 import { sanitizeUrl } from "core/utils"
 
-class License extends React.Component {
-  static propTypes = {
-    license: PropTypes.object,
-    getComponent: PropTypes.func.isRequired,
-    selectedServer: PropTypes.string,
-    url: PropTypes.string.isRequired,
-  }
+const License = ({ getComponent, oas31Selectors }) => {
+  const name = oas31Selectors.selectLicenseNameField()
+  const url = oas31Selectors.selectLicenseUrl()
+  const Link = getComponent("Link")
 
-  render() {
-    const { license, getComponent, selectedServer, url: specUrl } = this.props
-    const name = license.get("name", "License")
-    const url = sanitizeUrl(
-      safeBuildUrl(license.get("url"), specUrl, { selectedServer })
-    )
-    const identifier = license.get("identifier", "")
-    const spdxURL = sanitizeUrl(`https://spdx.org/licenses/${identifier}.html`)
+  return (
+    <div className="info__license">
+      {url ? (
+        <div className="info__license__url">
+          <Link target="_blank" href={sanitizeUrl(url)}>
+            {name}
+          </Link>
+        </div>
+      ) : (
+        <span>{name}</span>
+      )}
+    </div>
+  )
+}
 
-    const Link = getComponent("Link")
-
-    return (
-      <div className="info__license">
-        {identifier && (
-          <div className="info__license__url">
-            <Link target="_blank" href={spdxURL}>
-              {name}
-            </Link>
-          </div>
-        )}
-
-        {url && !identifier && (
-          <div className="info__license__url">
-            <Link target="_blank" href={url}>
-              {name}
-            </Link>
-          </div>
-        )}
-
-        {!url && !identifier && <span>{name}</span>}
-      </div>
-    )
-  }
+License.propTypes = {
+  getComponent: PropTypes.func.isRequired,
+  oas31Selectors: PropTypes.shape({
+    selectLicenseNameField: PropTypes.func.isRequired,
+    selectLicenseUrl: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 export default License

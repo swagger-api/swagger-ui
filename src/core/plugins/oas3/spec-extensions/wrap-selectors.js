@@ -8,6 +8,9 @@ import { Map } from "immutable"
 /**
  * Helpers
  */
+
+const map = Map()
+
 function onlyOAS3(selector) {
   return (ori, system) =>
     (...args) => {
@@ -31,9 +34,8 @@ const OAS3NullSelector = onlyOAS3(nullSelector)
 export const definitions = onlyOAS3(() => (system) => {
   const spec = system.getSystem().specSelectors.specJson()
   const schemas = spec.getIn(["components", "schemas"])
-  return Map.isMap(schemas) ? schemas : definitions.mapConst
+  return Map.isMap(schemas) ? schemas : map
 })
-definitions.mapConst = Map()
 
 export const hasHost = onlyOAS3(() => (system) => {
   const spec = system.getSystem().specSelectors.specJson()
