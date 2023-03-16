@@ -15,24 +15,24 @@ export default class BaseLayout extends React.Component {
   }
 
   render() {
-    let { errSelectors, specSelectors, getComponent } = this.props
+    const { errSelectors, specSelectors, getComponent } = this.props
 
-    let SvgAssets = getComponent("SvgAssets")
-    let InfoContainer = getComponent("InfoContainer", true)
-    let VersionPragmaFilter = getComponent("VersionPragmaFilter")
-    let Operations = getComponent("operations", true)
-    let Models = getComponent("Models", true)
-    let Webhooks = getComponent("Webhooks", true)
-    let Row = getComponent("Row")
-    let Col = getComponent("Col")
-    let Errors = getComponent("errors", true)
+    const SvgAssets = getComponent("SvgAssets")
+    const InfoContainer = getComponent("InfoContainer", true)
+    const VersionPragmaFilter = getComponent("VersionPragmaFilter")
+    const Operations = getComponent("operations", true)
+    const Models = getComponent("Models", true)
+    const Webhooks = getComponent("Webhooks", true)
+    const Row = getComponent("Row")
+    const Col = getComponent("Col")
+    const Errors = getComponent("errors", true)
 
     const ServersContainer = getComponent("ServersContainer", true)
     const SchemesContainer = getComponent("SchemesContainer", true)
     const AuthorizeBtnContainer = getComponent("AuthorizeBtnContainer", true)
     const FilterContainer = getComponent("FilterContainer", true)
-    let isSwagger2 = specSelectors.isSwagger2()
-    let isOAS3 = specSelectors.isOAS3()
+    const isSwagger2 = specSelectors.isSwagger2()
+    const isOAS3 = specSelectors.isOAS3()
     const isOAS31 = specSelectors.isOAS31()
 
     const isSpecEmpty = !specSelectors.specStr()

@@ -1,4 +1,3 @@
-// OpenAPI 3.1 feature
 import React from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
@@ -8,8 +7,8 @@ import ImPropTypes from "react-immutable-proptypes"
 // to show/hide all webhook items
 const Webhooks = (props) => {
   const { specSelectors, getComponent, specPath } = props
-  
-  const webhooksPathItems = specSelectors.selectWebhooks() // OrderedMap
+
+  const webhooksPathItems = specSelectors.webhooks()
   if (!webhooksPathItems || webhooksPathItems?.size < 1) {
     return null
   }
@@ -21,7 +20,7 @@ const Webhooks = (props) => {
         operation
       })
       // using defaultProps for `specPath`; may want to remove from props
-      // and/or if extract to separate PathItem component, allow for use 
+      // and/or if extract to separate PathItem component, allow for use
       // with both OAS3.1 "webhooks" and "components.pathItems" features
       return <OperationContainer
         {...props}
