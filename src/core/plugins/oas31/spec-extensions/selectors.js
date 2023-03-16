@@ -5,6 +5,8 @@ import { Map } from "immutable"
 
 import { isOAS31 as isOAS31Helper } from "../helpers"
 
+const map = Map()
+
 export const isOAS31 = () => (system) => {
   const spec = system.specSelectors.specJson()
   return isOAS31Helper(spec)
@@ -23,7 +25,9 @@ const onlyOAS31 =
   }
 
 export const webhooks = onlyOAS31(() => (system) => {
-  const spec = system.specSelectors.specJson()
-  return spec.get("webhooks", webhooks.mapConst)
+  return system.specSelectors.specJson().get("webhooks", map)
 })
-webhooks.mapConst = Map()
+
+export const license = () => (system) => {
+  return system.specSelectors.info().get("license", map)
+}

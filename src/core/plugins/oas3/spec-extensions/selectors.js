@@ -6,6 +6,8 @@ import { isSwagger2 as isSwagger2Helper, isOAS30 as isOAS30Helper } from "../hel
  * Helpers
  */
 
+const map = Map()
+
 export const isSwagger2 = () => (system) => {
   const spec = system.getSystem().specSelectors.specJson()
   return isSwagger2Helper(spec)
@@ -34,6 +36,5 @@ function onlyOAS3(selector) {
 
 export const servers = onlyOAS3(() => (system) => {
   const spec = system.specSelectors.specJson()
-  return spec.get("servers", servers.mapConst)
+  return spec.get("servers", map)
 })
-servers.mapConst = Map()
