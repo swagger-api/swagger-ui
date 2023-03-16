@@ -30,7 +30,7 @@ class License extends React.Component {
         {identifier && (
           <div className="info__license__url">
             <Link target="_blank" href={spdxURL}>
-              <span className="info__license__url">{name}</span>
+              {name}
             </Link>
           </div>
         )}

@@ -25,9 +25,11 @@ class License extends React.Component {
     return (
       <div className="info__license">
         {url ? (
-          <Link target="_blank" href={sanitizeUrl(url)}>
-            {name}
-          </Link>
+          <div className="info__license__url">
+            <Link target="_blank" href={sanitizeUrl(url)}>
+              {name}
+            </Link>
+          </div>
         ) : (
           <span>{name}</span>
         )}
