@@ -1,4 +1,5 @@
-swagger: 2.0.0
+swagger: "2.0"
+
 info:
   title: OpenAPI 2.0 Info Object
   version: 1.0.0

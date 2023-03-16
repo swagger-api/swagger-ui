@@ -1,7 +1,9 @@
 import React from "react"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
-import Info, { InfoUrl, License } from "components/info"
+import Info, { InfoUrl } from "components/info"
+import Contact from "components/contact"
+import License from "components/license"
 import { Link } from "components/layout-utils"
 import Markdown from "components/providers/markdown"
 
@@ -11,7 +13,8 @@ describe("<Info/> Anchor Target Safety", function(){
 		Markdown,
 		InfoUrl,
 		License,
-		Link
+    Contact,
+		Link,
 	}
 	const baseProps = {
 		getComponent: c => components[c] || dummyComponent,

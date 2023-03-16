@@ -1,6 +1,5 @@
 import { createSelector } from "reselect"
 import { List, Map, fromJS } from "immutable"
-import { isOAS3 as isOAS3Helper } from "../helpers"
 
 
 // Helpers
@@ -9,8 +8,7 @@ const state = state => state
 
 function onlyOAS3(selector) {
   return (ori, system) => (...args) => {
-    const spec = system.getSystem().specSelectors.specJson()
-    if(isOAS3Helper(spec)) {
+    if(system.getSystem().specSelectors.isOAS3()) {
       // Pass the spec plugin state to Reselect to trigger on securityDefinitions update
       let resolvedSchemes = system.getState().getIn(["spec", "resolvedSubtrees",
         "components", "securitySchemes"])

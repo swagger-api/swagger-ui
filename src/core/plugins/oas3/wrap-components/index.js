@@ -4,8 +4,6 @@ import VersionStamp from "./version-stamp"
 import OnlineValidatorBadge from "./online-validator-badge"
 import Model from "./model"
 import JsonSchema_string from "./json-schema-string"
-import License from "./license"
-import info from "./info"
 
 export default {
   Markdown,
@@ -14,6 +12,4 @@ export default {
   VersionStamp,
   model: Model,
   onlineValidatorBadge: OnlineValidatorBadge,
-  License,
-  info,
 }

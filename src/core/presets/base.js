@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import err from "core/plugins/err"
 import layout from "core/plugins/layout"
 import spec from "core/plugins/spec"
@@ -57,13 +60,10 @@ import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
 import InitializedInput from "core/components/initialized-input"
-import Info, {
-  InfoUrl,
-  InfoBasePath,
-  License,
-  Contact,
-} from "core/components/info"
+import Info, { InfoUrl, InfoBasePath } from "core/components/info"
 import InfoContainer from "core/containers/info"
+import Contact from "core/components/contact"
+import License from "core/components/license"
 import JumpToPath from "core/components/jump-to-path"
 import CopyToClipboardBtn from "core/components/copy-to-clipboard-btn"
 import Footer from "core/components/footer"
@@ -87,16 +87,12 @@ import VersionPragmaFilter from "core/components/version-pragma-filter"
 import VersionStamp from "core/components/version-stamp"
 import DeepLink from "core/components/deep-link"
 import SvgAssets from "core/components/svg-assets"
-
 import Markdown from "core/components/providers/markdown"
-
 import BaseLayout from "core/components/layouts/base"
-
 import * as LayoutUtils from "core/components/layout-utils"
 import * as JsonSchemaComponents from "core/json-schema-components"
 
-export default function() {
-
+export default function () {
   let coreComponents = {
     components: {
       App,
@@ -115,6 +111,10 @@ export default function() {
       InitializedInput,
       info: Info,
       InfoContainer,
+      InfoUrl,
+      InfoBasePath,
+      Contact,
+      License,
       JumpToPath,
       CopyToClipboardBtn,
       onlineValidatorBadge: OnlineValidatorBadge,
@@ -163,23 +163,19 @@ export default function() {
       OperationTag,
       OperationContainer,
       DeepLink,
-      InfoUrl,
-      InfoBasePath,
-      License,
-      Contact,
       SvgAssets,
       Example,
       ExamplesSelect,
       ExamplesSelectValueRetainer,
-    }
+    },
   }
 
   let formComponents = {
-    components: LayoutUtils
+    components: LayoutUtils,
   }
 
   let jsonSchemaComponents = {
-    components: JsonSchemaComponents
+    components: JsonSchemaComponents,
   }
 
   return [

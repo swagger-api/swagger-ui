@@ -70,6 +70,7 @@ class Info extends React.Component {
       url: specUrl,
     } = this.props
     const version = info.get("version")
+    const summary = info.get("summary")
     const description = info.get("description")
     const title = info.get("title")
     const termsOfServiceUrl = safeBuildUrl(
@@ -106,11 +107,14 @@ class Info extends React.Component {
           ) : null}
           {url && <InfoUrl getComponent={getComponent} url={url} />}
         </hgroup>
-
+        {summary && (
+          <div className="info__summary">
+            <Markdown source={summary} />
+          </div>
+        )}
         <div className="description">
           <Markdown source={description} />
         </div>
-
         {termsOfServiceUrl && (
           <div className="info__tos">
             <Link target="_blank" href={sanitizeUrl(termsOfServiceUrl)}>
@@ -118,7 +122,6 @@ class Info extends React.Component {
             </Link>
           </div>
         )}
-
         {contactData?.size > 0 && (
           <Contact
             getComponent={getComponent}
