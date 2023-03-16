@@ -4,6 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+
 import { sanitizeUrl } from "core/utils"
 import { safeBuildUrl } from "core/utils/url"
 

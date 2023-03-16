@@ -4,34 +4,25 @@
 import { createSelector } from "reselect"
 
 import { safeBuildUrl } from "core/utils/url"
-
-export const selectLicenseNameField = () => (system) => {
-  return system.specSelectors.license().get("name", "License")
-}
-
-export const selectLicenseUrlField = () => (system) => {
-  return system.specSelectors.license().get("url")
-}
-
-export const selectLicenseIdentifierField = () => (system) => {
-  return system.specSelectors.license().get("identifier")
-}
+import { onlyOAS31 } from "./helpers"
 
 export const makeSelectLicenseUrl = (system) =>
-  createSelector(
-    () => system.specSelectors.url(),
-    () => system.oas3Selectors.selectedServer(),
-    () => system.oas31Selectors.selectLicenseUrlField(),
-    () => system.oas31Selectors.selectLicenseIdentifierField(),
-    (specUrl, selectedServer, url, identifier) => {
-      if (url) {
-        return safeBuildUrl(url, specUrl, { selectedServer })
-      }
+  onlyOAS31(
+    createSelector(
+      () => system.specSelectors.url(),
+      () => system.oas3Selectors.selectedServer(),
+      () => system.specSelectors.selectLicenseUrlField(),
+      () => system.specSelectors.selectLicenseIdentifierField(),
+      (specUrl, selectedServer, url, identifier) => {
+        if (url) {
+          return safeBuildUrl(url, specUrl, { selectedServer })
+        }
 
-      if (identifier) {
-        return `https://spdx.org/licenses/${identifier}.html`
-      }
+        if (identifier) {
+          return `https://spdx.org/licenses/${identifier}.html`
+        }
 
-      return undefined
-    }
+        return undefined
+      }
+    )
   )
