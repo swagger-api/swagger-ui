@@ -17,7 +17,7 @@ class Contact extends React.Component {
 
   render() {
     const { data, getComponent, selectedServer, url: specUrl } = this.props
-    const name = data.get("name") || "the developer"
+    const name = data.get("name", "the developer")
     const url = safeBuildUrl(data.get("url"), specUrl, { selectedServer })
     const email = data.get("email")
 
