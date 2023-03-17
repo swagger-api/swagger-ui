@@ -21,6 +21,14 @@ import {
   makeSelectContactUrl,
   makeIsOAS31,
   makeSelectLicenseUrl,
+  selectInfoTitleField,
+  selectInfoSummaryField,
+  selectInfoDescriptionField,
+  selectInfoTermsOfServiceField,
+  makeSelectInfoTermsOfServiceUrl as makeSelectTosUrl,
+  selectExternalDocsDescriptionField,
+  selectExternalDocsUrlField,
+  makeSelectExternalDocsUrl,
 } from "./spec-extensions/selectors"
 import {
   isOAS3 as isOAS3Wrapper,
@@ -37,6 +45,8 @@ const OAS31Plugin = () => {
       specSelectors.isOAS31 = makeIsOAS31(system)
       specSelectors.selectLicenseUrl = makeSelectLicenseUrl(system)
       specSelectors.selectContactUrl = makeSelectContactUrl(system)
+      specSelectors.selectInfoTermsOfServiceUrl = makeSelectTosUrl(system)
+      specSelectors.selectExternalDocsUrl = makeSelectExternalDocsUrl(system)
 
       oas31Selectors.selectLicenseUrl = makeOAS31SelectLicenseUrl(system)
     },
@@ -47,7 +57,7 @@ const OAS31Plugin = () => {
       OAS31Contact: Contact,
     },
     wrapComponents: {
-      info: InfoWrapper,
+      InfoContainer: InfoWrapper,
       License: LicenseWrapper,
       Contact: ContactWrapper,
     },
@@ -58,10 +68,20 @@ const OAS31Plugin = () => {
           selectLicenseNameField,
           selectLicenseUrlField,
           selectLicenseIdentifierField,
+
           contact,
           selectContactNameField,
           selectContactEmailField,
           selectContactUrlField,
+
+          selectInfoTitleField,
+          selectInfoSummaryField,
+          selectInfoDescriptionField,
+          selectInfoTermsOfServiceField,
+
+          selectExternalDocsDescriptionField,
+          selectExternalDocsUrlField,
+
           webhooks,
         },
         wrapSelectors: {
