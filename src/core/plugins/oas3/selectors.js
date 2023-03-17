@@ -2,6 +2,8 @@
  * @prettier
  */
 import { OrderedMap, Map, List } from "immutable"
+import { createSelector } from "reselect"
+
 import { getDefaultRequestBodyValue } from "./components/request-body"
 import { stringify } from "../../utils"
 
@@ -279,3 +281,14 @@ export const validateShallowRequired = (
   })
   return missingRequiredKeys
 }
+
+export const validOperationMethods = createSelector(() => [
+  "get",
+  "put",
+  "post",
+  "delete",
+  "options",
+  "head",
+  "patch",
+  "trace",
+])

@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { Map } from "immutable"
+import { List, Map } from "immutable"
 import { createSelector } from "reselect"
 
 import { safeBuildUrl } from "core/utils/url"
@@ -15,6 +15,39 @@ export const makeIsOAS31 = (system) =>
 export const webhooks = onlyOAS31(() => (system) => {
   return system.specSelectors.specJson().get("webhooks", map)
 })
+
+/**
+ * `specResolvedSubtree` selector is needed as input selector,
+ * so that we regenerate the selected result whenever the lazy
+ * resolution happens.
+ */
+export const makeSelectWebhooksOperations = (system) =>
+  onlyOAS31(
+    createSelector(
+      () => system.specSelectors.webhooks(),
+      () => system.specSelectors.validOperationMethods(),
+      () => system.specSelectors.specResolvedSubtree(["webhooks"]),
+      (webhooks, validOperationMethods) => {
+        return webhooks
+          .reduce((allOperations, pathItem, pathItemName) => {
+            const pathItemOperations = pathItem
+              .entrySeq()
+              .filter(([key]) => validOperationMethods.includes(key))
+              .map(([method, operation]) => ({
+                operation: Map({ operation }),
+                method,
+                path: pathItemName,
+                specPath: List(["webhooks", pathItemName, method]),
+              }))
+
+            return allOperations.concat(pathItemOperations)
+          }, List())
+          .groupBy((operation) => operation.path)
+          .map((operations) => operations.toArray())
+          .toObject()
+      }
+    )
+  )
 
 export const license = () => (system) => {
   return system.specSelectors.info().get("license", map)

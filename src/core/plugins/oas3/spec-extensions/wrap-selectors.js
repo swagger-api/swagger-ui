@@ -16,7 +16,7 @@ function onlyOAS3(selector) {
     (...args) => {
       if (system.getSystem().specSelectors.isOAS3()) {
         const result = selector(...args)
-        return typeof result === "function" ? result(system, ...args) : result
+        return typeof result === "function" ? result(system) : result
       } else {
         return ori(...args)
       }
@@ -48,6 +48,16 @@ export const securityDefinitions = onlyOAS3(
     (spec) => spec.getIn(["components", "securitySchemes"]) || null
   )
 )
+
+export const validOperationMethods =
+  (oriSelector, system) =>
+  (state, ...args) => {
+    if (system.specSelectors.isOAS3()) {
+      return system.oas3Selectors.validOperationMethods()
+    }
+
+    return oriSelector(...args)
+  }
 
 export const host = OAS3NullSelector
 export const basePath = OAS3NullSelector

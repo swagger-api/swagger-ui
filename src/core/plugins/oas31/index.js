@@ -25,10 +25,11 @@ import {
   selectInfoSummaryField,
   selectInfoDescriptionField,
   selectInfoTermsOfServiceField,
-  makeSelectInfoTermsOfServiceUrl as makeSelectTosUrl,
+  makeSelectInfoTermsOfServiceUrl,
   selectExternalDocsDescriptionField,
   selectExternalDocsUrlField,
   makeSelectExternalDocsUrl,
+  makeSelectWebhooksOperations,
 } from "./spec-extensions/selectors"
 import {
   isOAS3 as isOAS3Wrapper,
@@ -45,8 +46,9 @@ const OAS31Plugin = () => {
       specSelectors.isOAS31 = makeIsOAS31(system)
       specSelectors.selectLicenseUrl = makeSelectLicenseUrl(system)
       specSelectors.selectContactUrl = makeSelectContactUrl(system)
-      specSelectors.selectInfoTermsOfServiceUrl = makeSelectTosUrl(system)
+      specSelectors.selectInfoTermsOfServiceUrl = makeSelectInfoTermsOfServiceUrl(system) // prettier-ignore
       specSelectors.selectExternalDocsUrl = makeSelectExternalDocsUrl(system)
+      specSelectors.selectWebhooksOperations = makeSelectWebhooksOperations(system) // prettier-ignore
 
       oas31Selectors.selectLicenseUrl = makeOAS31SelectLicenseUrl(system)
     },

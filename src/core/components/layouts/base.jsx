@@ -126,6 +126,7 @@ export default class BaseLayout extends React.Component {
               <Operations />
             </Col>
           </Row>
+
           {isOAS31 && (
             <Row className="webhooks-container">
               <Col mobile={12} desktop={12}>
@@ -133,6 +134,7 @@ export default class BaseLayout extends React.Component {
               </Col>
             </Row>
           )}
+
           <Row>
             <Col mobile={12} desktop={12}>
               <Models />
