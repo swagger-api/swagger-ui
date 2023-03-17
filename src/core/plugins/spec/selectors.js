@@ -114,6 +114,8 @@ export const paths = createSelector(
 	spec => spec.get("paths")
 )
 
+export const validOperationMethods = createSelector(() => ["get", "put", "post", "delete", "options", "head", "patch"])
+
 export const operations = createSelector(
   paths,
   paths => {
