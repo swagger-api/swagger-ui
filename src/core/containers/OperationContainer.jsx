@@ -66,8 +66,6 @@ export default class OperationContainer extends PureComponent {
       props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut)
     const security = op.getIn(["operation", "security"]) || props.specSelectors.security()
 
-    console.dir(layoutSelectors.isShown(isShownKey, docExpansion === "full" ))
-
     return {
       operationId,
       isDeepLinkingEnabled,
