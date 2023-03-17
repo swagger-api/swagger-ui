@@ -3,15 +3,22 @@
  */
 import Webhooks from "./components/webhooks"
 import License from "./components/license"
+import Contact from "./components/contact"
 import Info from "./components/info"
 import LicenseWrapper from "./wrap-components/license"
+import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
 import {
   license,
+  contact,
   webhooks,
   selectLicenseNameField,
   selectLicenseUrlField,
   selectLicenseIdentifierField,
+  selectContactNameField,
+  selectContactEmailField,
+  selectContactUrlField,
+  makeSelectContactUrl,
   makeIsOAS31,
   makeSelectLicenseUrl,
 } from "./spec-extensions/selectors"
@@ -27,18 +34,22 @@ const OAS31Plugin = () => {
       const oas31Selectors = this.statePlugins.oas31.selectors
       const specSelectors = this.statePlugins.spec.selectors
 
-      specSelectors.selectLicenseUrl = makeSelectLicenseUrl(system)
       specSelectors.isOAS31 = makeIsOAS31(system)
+      specSelectors.selectLicenseUrl = makeSelectLicenseUrl(system)
+      specSelectors.selectContactUrl = makeSelectContactUrl(system)
+
       oas31Selectors.selectLicenseUrl = makeOAS31SelectLicenseUrl(system)
     },
     components: {
       Webhooks,
       OAS31Info: Info,
       OAS31License: License,
+      OAS31Contact: Contact,
     },
     wrapComponents: {
-      License: LicenseWrapper,
       info: InfoWrapper,
+      License: LicenseWrapper,
+      Contact: ContactWrapper,
     },
     statePlugins: {
       spec: {
@@ -47,6 +58,10 @@ const OAS31Plugin = () => {
           selectLicenseNameField,
           selectLicenseUrlField,
           selectLicenseIdentifierField,
+          contact,
+          selectContactNameField,
+          selectContactEmailField,
+          selectContactUrlField,
           webhooks,
         },
         wrapSelectors: {
