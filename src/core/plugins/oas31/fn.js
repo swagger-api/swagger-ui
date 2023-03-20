@@ -11,7 +11,7 @@ export const isOAS31 = (jsSpec) => {
 }
 
 /**
- * Creates selector that returns value of the original
+ * Creates selector that returns value of the passed
  * selector when spec is OpenAPI 3.1.0., null otherwise.
  *
  * @param selector
@@ -28,6 +28,26 @@ export const createOnlyOAS31Selector =
         : selectedValue
     } else {
       return null
+    }
+  }
+
+/**
+ * Creates selector wrapper that returns value of the passed
+ * selector when spec is OpenAPI 3.1.0., calls original selector otherwise.
+ *
+ *
+ * @param selector
+ * @returns {function(*, *): function(*, ...[*]): (*)}
+ */
+export const createOnlyOAS31SelectorWrapper =
+  (selector) =>
+  (oriSelector, system) =>
+  (state, ...args) => {
+    if (system.getSystem().specSelectors.isOAS31()) {
+      const result = selector(state, ...args)
+      return typeof result === "function" ? result(system) : result
+    } else {
+      return oriSelector(...args)
     }
   }
 

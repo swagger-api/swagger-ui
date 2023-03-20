@@ -32,9 +32,10 @@ import {
   selectWebhooksOperations,
 } from "./spec-extensions/selectors"
 import {
-  isOAS3 as isOAS3Wrapper,
+  isOAS3 as isOAS3SelectorWrapper,
   selectLicenseUrl as selectLicenseUrlWrapper,
 } from "./spec-extensions/wrap-selectors"
+import { hasUserEditedBody as hasUserEditedBodySelectorWrapper } from "./oas3-extensions/wrap-selectors"
 import { selectLicenseUrl as selectOAS31LicenseUrl } from "./selectors"
 import {
   isOAS31 as isOAS31Fn,
@@ -94,8 +95,13 @@ const OAS31Plugin = ({ fn }) => {
           selectWebhooksOperations: createOnlyOAS31Selector(createSystemSelector(selectWebhooksOperations)), // prettier-ignore
         },
         wrapSelectors: {
-          isOAS3: isOAS3Wrapper,
+          isOAS3: isOAS3SelectorWrapper,
           selectLicenseUrl: selectLicenseUrlWrapper,
+        },
+      },
+      oas3: {
+        wrapSelectors: {
+          hasUserEditedBody: hasUserEditedBodySelectorWrapper,
         },
       },
       oas31: {
