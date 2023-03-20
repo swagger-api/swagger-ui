@@ -6,13 +6,13 @@ import { getCommonExtensions, getSampleSchema, stringify, isEmptyValue } from "c
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey) => {
-  const mediaTypeValue = requestBody?.getIn(["content", mediaType])
-  const schema = mediaTypeValue?.get("schema").toJS()
+  const mediaTypeValue = requestBody.getIn(["content", mediaType])
+  const schema = mediaTypeValue.get("schema").toJS()
 
-  const hasExamplesKey = mediaTypeValue?.get("examples") !== undefined
-  const exampleSchema = mediaTypeValue?.get("example")
+  const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
+  const exampleSchema = mediaTypeValue.get("example")
   const mediaTypeExample = hasExamplesKey
-    ? mediaTypeValue?.getIn([
+    ? mediaTypeValue.getIn([
       "examples",
       activeExamplesKey,
       "value"
