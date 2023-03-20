@@ -9,48 +9,48 @@ import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
 import {
-  license,
-  contact,
-  webhooks,
+  license as selectLicense,
+  contact as selectContact,
+  webhooks as selectWebhooks,
   selectLicenseNameField,
   selectLicenseUrlField,
   selectLicenseIdentifierField,
   selectContactNameField,
   selectContactEmailField,
   selectContactUrlField,
-  makeSelectContactUrl,
-  makeIsOAS31,
-  makeSelectLicenseUrl,
+  selectContactUrl,
+  isOAS31 as selectIsOAS31,
+  selectLicenseUrl,
   selectInfoTitleField,
   selectInfoSummaryField,
   selectInfoDescriptionField,
   selectInfoTermsOfServiceField,
-  makeSelectInfoTermsOfServiceUrl,
+  selectInfoTermsOfServiceUrl,
   selectExternalDocsDescriptionField,
   selectExternalDocsUrlField,
-  makeSelectExternalDocsUrl,
-  makeSelectWebhooksOperations,
+  selectExternalDocsUrl,
+  selectWebhooksOperations,
 } from "./spec-extensions/selectors"
 import {
   isOAS3 as isOAS3Wrapper,
   selectLicenseUrl as selectLicenseUrlWrapper,
 } from "./spec-extensions/wrap-selectors"
-import { makeSelectLicenseUrl as makeOAS31SelectLicenseUrl } from "./selectors"
+import { selectLicenseUrl as selectOAS31LicenseUrl } from "./selectors"
+import {
+  isOAS31 as isOAS31Fn,
+  createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
+  createSystemSelector as createSystemSelectorFn,
+} from "./fn"
 
-const OAS31Plugin = () => {
+const OAS31Plugin = ({ fn }) => {
+  const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
+  const createOnlyOAS31Selector = fn.createOnlyOAS31Selector || createOnlyOAS31SelectorFn // prettier-ignore
+
   return {
-    afterLoad(system) {
-      const oas31Selectors = this.statePlugins.oas31.selectors
-      const specSelectors = this.statePlugins.spec.selectors
-
-      specSelectors.isOAS31 = makeIsOAS31(system)
-      specSelectors.selectLicenseUrl = makeSelectLicenseUrl(system)
-      specSelectors.selectContactUrl = makeSelectContactUrl(system)
-      specSelectors.selectInfoTermsOfServiceUrl = makeSelectInfoTermsOfServiceUrl(system) // prettier-ignore
-      specSelectors.selectExternalDocsUrl = makeSelectExternalDocsUrl(system)
-      specSelectors.selectWebhooksOperations = makeSelectWebhooksOperations(system) // prettier-ignore
-
-      oas31Selectors.selectLicenseUrl = makeOAS31SelectLicenseUrl(system)
+    fn: {
+      isOAs31: isOAS31Fn,
+      createSystemSelector: createSystemSelectorFn,
+      createOnlyOAS31Selector: createOnlyOAS31SelectorFn,
     },
     components: {
       Webhooks,
@@ -66,25 +66,32 @@ const OAS31Plugin = () => {
     statePlugins: {
       spec: {
         selectors: {
-          license,
+          isOAS31: createSystemSelector(selectIsOAS31),
+
+          license: selectLicense,
           selectLicenseNameField,
           selectLicenseUrlField,
-          selectLicenseIdentifierField,
+          selectLicenseIdentifierField: createOnlyOAS31Selector(selectLicenseIdentifierField), // prettier-ignore
+          selectLicenseUrl: createSystemSelector(selectLicenseUrl),
 
-          contact,
+          contact: selectContact,
           selectContactNameField,
           selectContactEmailField,
           selectContactUrlField,
+          selectContactUrl: createSystemSelector(selectContactUrl),
 
           selectInfoTitleField,
-          selectInfoSummaryField,
+          selectInfoSummaryField: createOnlyOAS31Selector(selectInfoSummaryField), // prettier-ignore
           selectInfoDescriptionField,
           selectInfoTermsOfServiceField,
+          selectInfoTermsOfServiceUrl: createSystemSelector(selectInfoTermsOfServiceUrl), // prettier-ignore
 
           selectExternalDocsDescriptionField,
           selectExternalDocsUrlField,
+          selectExternalDocsUrl: createSystemSelector(selectExternalDocsUrl),
 
-          webhooks,
+          webhooks: createOnlyOAS31Selector(selectWebhooks),
+          selectWebhooksOperations: createOnlyOAS31Selector(createSystemSelector(selectWebhooksOperations)), // prettier-ignore
         },
         wrapSelectors: {
           isOAS3: isOAS3Wrapper,
@@ -92,7 +99,9 @@ const OAS31Plugin = () => {
         },
       },
       oas31: {
-        selectors: {},
+        selectors: {
+          selectLicenseUrl: createOnlyOAS31Selector(createSystemSelector(selectOAS31LicenseUrl)), // prettier-ignore
+        },
       },
     },
   }
