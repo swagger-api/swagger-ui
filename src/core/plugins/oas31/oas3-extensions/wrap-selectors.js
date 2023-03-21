@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import { createOnlyOAS31SelectorWrapper } from "../fn"
 
 export const hasUserEditedBody = createOnlyOAS31SelectorWrapper(
@@ -8,7 +11,5 @@ export const hasUserEditedBody = createOnlyOAS31SelectorWrapper(
       // try it out functionality is disabled for webhooks
       return false
     }
-
-    return system.oas3Selectors.hasUserEditedBody([path, method])
   }
 )

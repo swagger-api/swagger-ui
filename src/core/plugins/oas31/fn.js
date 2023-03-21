@@ -44,8 +44,10 @@ export const createOnlyOAS31SelectorWrapper =
   (oriSelector, system) =>
   (state, ...args) => {
     if (system.getSystem().specSelectors.isOAS31()) {
-      const result = selector(state, ...args)
-      return typeof result === "function" ? result(system) : result
+      const selectedValue = selector(state, ...args)
+      return typeof selectedValue === "function"
+        ? selectedValue(system)
+        : selectedValue
     } else {
       return oriSelector(...args)
     }
