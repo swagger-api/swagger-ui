@@ -154,3 +154,10 @@ export const selectExternalDocsUrl = createSelector(
     return undefined
   }
 )
+
+export const selectJsonSchemaDialectField = () => (system) => {
+  return system.specSelectors.specJson().get("jsonSchemaDialect")
+}
+
+export const selectJsonSchemaDialectDefault = () =>
+  "https://spec.openapis.org/oas/3.1/dialect/base"

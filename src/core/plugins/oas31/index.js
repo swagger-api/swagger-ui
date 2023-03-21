@@ -5,6 +5,7 @@ import Webhooks from "./components/webhooks"
 import License from "./components/license"
 import Contact from "./components/contact"
 import Info from "./components/info"
+import JsonSchemaDialect from "./components/json-schema-dialect"
 import VersionPragmaFilter from "./components/version-pragma-filter"
 import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
@@ -32,6 +33,8 @@ import {
   selectExternalDocsUrlField,
   selectExternalDocsUrl,
   selectWebhooksOperations,
+  selectJsonSchemaDialectField,
+  selectJsonSchemaDialectDefault,
 } from "./spec-extensions/selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
@@ -57,6 +60,7 @@ const OAS31Plugin = ({ fn }) => {
     },
     components: {
       Webhooks,
+      JsonSchemaDialect,
       OAS31Info: Info,
       OAS31License: License,
       OAS31Contact: Contact,
@@ -97,6 +101,9 @@ const OAS31Plugin = ({ fn }) => {
 
           webhooks: createOnlyOAS31Selector(selectWebhooks),
           selectWebhooksOperations: createOnlyOAS31Selector(createSystemSelector(selectWebhooksOperations)), // prettier-ignore
+
+          selectJsonSchemaDialectField,
+          selectJsonSchemaDialectDefault,
         },
         wrapSelectors: {
           isOAS3: isOAS3SelectorWrapper,
