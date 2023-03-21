@@ -52,7 +52,8 @@ const JsonSchemaDialect = ({ getComponent, specSelectors }) => {
 JsonSchemaDialect.propTypes = {
   getComponent: PropTypes.func.isRequired,
   specSelectors: PropTypes.shape({
-    selectJsonSchemaDialect: PropTypes.func.isRequired,
+    selectJsonSchemaDialectField: PropTypes.func.isRequired,
+    selectJsonSchemaDialectDefault: PropTypes.func.isRequired,
   }).isRequired,
 }
 
