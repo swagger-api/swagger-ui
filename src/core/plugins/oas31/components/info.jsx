@@ -27,6 +27,7 @@ const Info = ({ getComponent, specSelectors }) => {
   const InfoBasePath = getComponent("InfoBasePath")
   const License = getComponent("License", true)
   const Contact = getComponent("Contact", true)
+  const JsonSchemaDialect = getComponent("JsonSchemaDialect", true)
 
   return (
     <div className="info">
@@ -67,6 +68,8 @@ const Info = ({ getComponent, specSelectors }) => {
           {externalDocsDesc || externalDocsUrl}
         </Link>
       )}
+
+      <JsonSchemaDialect />
     </div>
   )
 }
