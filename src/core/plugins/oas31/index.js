@@ -5,9 +5,11 @@ import Webhooks from "./components/webhooks"
 import License from "./components/license"
 import Contact from "./components/contact"
 import Info from "./components/info"
+import VersionPragmaFilter from "./components/version-pragma-filter"
 import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
+import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import {
   license as selectLicense,
   contact as selectContact,
@@ -58,11 +60,13 @@ const OAS31Plugin = ({ fn }) => {
       OAS31Info: Info,
       OAS31License: License,
       OAS31Contact: Contact,
+      OAS31VersionPragmaFilter: VersionPragmaFilter,
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
       License: LicenseWrapper,
       Contact: ContactWrapper,
+      VersionPragmaFilter: VersionPragmaFilterWrapper,
     },
     statePlugins: {
       spec: {
