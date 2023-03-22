@@ -12,7 +12,7 @@ export const isOAS3 =
   }
 
 export const selectLicenseUrl = createOnlyOAS31SelectorWrapper(
-  () => (system) => {
+  () => (oriSelector, system) => {
     return system.oas31Selectors.selectLicenseUrl()
   }
 )
