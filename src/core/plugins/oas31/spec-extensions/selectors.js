@@ -27,9 +27,13 @@ export const selectWebhooksOperations = createSelector(
   (state, system) => system.specSelectors.webhooks(),
   (state, system) => system.specSelectors.validOperationMethods(),
   (state, system) => system.specSelectors.specResolvedSubtree(["webhooks"]),
-  (webhooks, validOperationMethods) =>
-    webhooks
+  (webhooks, validOperationMethods) => {
+    if (!Map.isMap(webhooks)) return {}
+
+    return webhooks
       .reduce((allOperations, pathItem, pathItemName) => {
+        if (!Map.isMap(pathItem)) return allOperations
+
         const pathItemOperations = pathItem
           .entrySeq()
           .filter(([key]) => validOperationMethods.includes(key))
@@ -42,9 +46,10 @@ export const selectWebhooksOperations = createSelector(
 
         return allOperations.concat(pathItemOperations)
       }, List())
-      .groupBy((operation) => operation.path)
+      .groupBy((operationDTO) => operationDTO.path)
       .map((operations) => operations.toArray())
       .toObject()
+  }
 )
 
 export const license = () => (system) => {
