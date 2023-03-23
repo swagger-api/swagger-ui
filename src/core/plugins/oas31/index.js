@@ -11,6 +11,7 @@ import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
+import VersionStampWrapper from "./wrap-components/version-stamp"
 import {
   license as selectLicense,
   contact as selectContact,
@@ -71,6 +72,7 @@ const OAS31Plugin = ({ fn }) => {
       License: LicenseWrapper,
       Contact: ContactWrapper,
       VersionPragmaFilter: VersionPragmaFilterWrapper,
+      VersionStamp: VersionStampWrapper,
     },
     statePlugins: {
       spec: {
