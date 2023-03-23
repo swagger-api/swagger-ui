@@ -103,6 +103,7 @@ export const selectDefaultRequestBodyValue =
 
 export const hasUserEditedBody = onlyOAS3((state, path, method) => (system) => {
   const { oas3Selectors, specSelectors } = system
+
   let userHasEditedBody = false
   const currentMediaType = oas3Selectors.requestContentType(path, method)
   let userEditedRequestBody = oas3Selectors.requestBodyValue(path, method)
@@ -112,6 +113,15 @@ export const hasUserEditedBody = onlyOAS3((state, path, method) => (system) => {
     method,
     "requestBody",
   ])
+
+  /**
+   * The only request body that can currently be edited is for Path Items that are direct values of OpenAPI.paths.
+   * Path Item contained within the Callback Object or OpenAPI.webhooks (OpenAPI 3.1.0) have `Try it out`
+   * disabled and thus body cannot be edited.
+   */
+  if (!requestBody) {
+    return false
+  }
 
   if (Map.isMap(userEditedRequestBody)) {
     // context is not application/json media-type
@@ -127,7 +137,7 @@ export const hasUserEditedBody = onlyOAS3((state, path, method) => (system) => {
     userEditedRequestBody = stringify(userEditedRequestBody)
   }
 
-  if (currentMediaType && requestBody) {
+  if (currentMediaType) {
     const currentMediaTypeDefaultBodyValue = getDefaultRequestBodyValue(
       requestBody,
       currentMediaType,
