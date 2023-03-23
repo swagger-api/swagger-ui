@@ -73,6 +73,14 @@ export const createSystemSelector =
   }
 
 /* eslint-disable  react/jsx-filename-extension */
+/**
+ * Creates component wrapper that only wraps the component
+ * when spec is OpenAPI 3.1.0. Otherwise, returns original
+ * component with passed props.
+ *
+ * @param Component
+ * @returns {function(*, *): function(*): *}
+ */
 export const createOnlyOAS31ComponentWrapper =
   (Component) => (Original, system) => (props) => {
     if (system.specSelectors.isOAS31()) {
