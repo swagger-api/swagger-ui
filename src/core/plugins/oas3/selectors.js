@@ -9,16 +9,19 @@ import { stringify } from "../../utils"
 
 // Helpers
 
-function onlyOAS3(selector) {
-  return (...args) =>
-    (system) => {
-      if (system.getSystem().specSelectors.isOAS3()) {
-        return selector(...args)
-      } else {
-        return null
-      }
+const onlyOAS3 =
+  (selector) =>
+  (state, ...args) =>
+  (system) => {
+    if (system.getSystem().specSelectors.isOAS3()) {
+      const selectedValue = selector(state, ...args)
+      return typeof selectedValue === "function"
+        ? selectedValue(system)
+        : selectedValue
+    } else {
+      return null
     }
-}
+  }
 
 function validateRequestBodyIsRequired(selector) {
   return (...args) =>
@@ -98,51 +101,49 @@ export const selectDefaultRequestBodyValue =
     return null
   }
 
-export const hasUserEditedBody = (state, path, method) => (system) => {
-  const { oas3Selectors, specSelectors } = system.getSystem()
+export const hasUserEditedBody = onlyOAS3((state, path, method) => (system) => {
+  const { oas3Selectors, specSelectors } = system
+  let userHasEditedBody = false
+  const currentMediaType = oas3Selectors.requestContentType(path, method)
+  let userEditedRequestBody = oas3Selectors.requestBodyValue(path, method)
+  const requestBody = specSelectors.specResolvedSubtree([
+    "paths",
+    path,
+    method,
+    "requestBody",
+  ])
 
-  if (specSelectors.isOAS3()) {
-    let userHasEditedBody = false
-    const currentMediaType = oas3Selectors.requestContentType(path, method)
-    let userEditedRequestBody = oas3Selectors.requestBodyValue(path, method)
-    if (Map.isMap(userEditedRequestBody)) {
-      // context is not application/json media-type
-      userEditedRequestBody = stringify(
-        userEditedRequestBody
-          .mapEntries((kv) =>
-            Map.isMap(kv[1]) ? [kv[0], kv[1].get("value")] : kv
-          )
-          .toJS()
-      )
-    }
-    if (List.isList(userEditedRequestBody)) {
-      userEditedRequestBody = stringify(userEditedRequestBody)
-    }
-    if (currentMediaType) {
-      const currentMediaTypeDefaultBodyValue = getDefaultRequestBodyValue(
-        specSelectors.specResolvedSubtree([
-          "paths",
-          path,
-          method,
-          "requestBody",
-        ]),
-        currentMediaType,
-        oas3Selectors.activeExamplesMember(
-          path,
-          method,
-          "requestBody",
-          "requestBody"
+  if (Map.isMap(userEditedRequestBody)) {
+    // context is not application/json media-type
+    userEditedRequestBody = stringify(
+      userEditedRequestBody
+        .mapEntries((kv) =>
+          Map.isMap(kv[1]) ? [kv[0], kv[1].get("value")] : kv
         )
-      )
-      userHasEditedBody =
-        !!userEditedRequestBody &&
-        userEditedRequestBody !== currentMediaTypeDefaultBodyValue
-    }
-    return userHasEditedBody
-  } else {
-    return null
+        .toJS()
+    )
   }
-}
+  if (List.isList(userEditedRequestBody)) {
+    userEditedRequestBody = stringify(userEditedRequestBody)
+  }
+
+  if (currentMediaType && requestBody) {
+    const currentMediaTypeDefaultBodyValue = getDefaultRequestBodyValue(
+      requestBody,
+      currentMediaType,
+      oas3Selectors.activeExamplesMember(
+        path,
+        method,
+        "requestBody",
+        "requestBody"
+      )
+    )
+    userHasEditedBody =
+      !!userEditedRequestBody &&
+      userEditedRequestBody !== currentMediaTypeDefaultBodyValue
+  }
+  return userHasEditedBody
+})
 
 export const requestBodyInclusionSetting = onlyOAS3((state, path, method) => {
   return state.getIn(["requestData", path, method, "bodyInclusion"]) || Map()
