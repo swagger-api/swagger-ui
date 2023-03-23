@@ -32,3 +32,18 @@ export function OAS3ComponentWrapFactory(Component) {
     }
   }
 }
+
+export function OAS30ComponentWrapFactory(Component) {
+  return (Ori, system) => (props) => {
+    if (typeof system.specSelectors?.isOAS30 === "function") {
+      if (system.specSelectors.isOAS30()) {
+        return <Component {...props} {...system} Ori={Ori}></Component>
+      } else {
+        return <Ori {...props}></Ori>
+      }
+    } else {
+      console.warn("OAS30 wrapper: couldn't get spec")
+      return null
+    }
+  }
+}

@@ -5,7 +5,7 @@ describe("#4865: multiple invocations + OAS3 plugin", () => {
     cy.visit("/?url=/documents/petstore-expanded.openapi.yaml")
       .get("#swagger-ui")
       .get("pre.version")
-      .contains("OAS3")
+      .contains("OAS 3.0")
   })
 
   it("test: should render the OAS3 badge correctly after re-initializing the UI", () => {
@@ -14,6 +14,6 @@ describe("#4865: multiple invocations + OAS3 plugin", () => {
       .then(win => win.onload()) // re-initializes Swagger UI
       .get("#swagger-ui")
       .get("pre.version")
-      .contains("OAS3")
+      .contains("OAS 3.0")
   })
 })
