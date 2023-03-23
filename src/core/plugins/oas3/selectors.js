@@ -9,7 +9,9 @@ const onlyOAS3 =
   (selector) =>
   (state, ...args) =>
   (system) => {
-    if (system.getSystem().specSelectors.isOAS3()) {
+    const spec = system.getSystem().specSelectors.specJson()
+
+    if (isOAS3Helper(spec)) {
       const selectedValue = selector(state, ...args)
       return typeof selectedValue === "function"
         ? selectedValue(system)
