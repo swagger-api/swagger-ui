@@ -3,19 +3,17 @@
  */
 import React from "react"
 
-const VersionStampWrapper = (Original, system) => (props) => {
-  if (system.specSelectors.isOAS31()) {
-    return (
-      <span>
-        <Original {...props} />
-        <small className="version-stamp">
-          <pre className="version">OAS 3.1</pre>
-        </small>
-      </span>
-    )
-  }
+import { createOnlyOAS31ComponentWrapper } from "../fn"
 
-  return <Original {...props} />
-}
+const VersionStampWrapper = createOnlyOAS31ComponentWrapper(
+  ({ originalComponent: Original, ...restProps }) => (
+    <span>
+      <Original {...restProps} />
+      <small className="version-stamp">
+        <pre className="version">OAS 3.1</pre>
+      </small>
+    </span>
+  )
+)
 
 export default VersionStampWrapper

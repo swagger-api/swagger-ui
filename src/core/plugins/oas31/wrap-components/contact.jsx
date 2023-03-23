@@ -3,14 +3,13 @@
  */
 import React from "react"
 
-const ContactWrapper = (Original, system) => (props) => {
-  if (system.specSelectors.isOAS31()) {
-    const OAS31Contact = system.getComponent("OAS31Contact", true)
+import { createOnlyOAS31ComponentWrapper } from "../fn"
 
-    return <OAS31Contact />
-  }
+const ContactWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
+  const system = getSystem()
+  const OAS31Contact = system.getComponent("OAS31Contact", true)
 
-  return <Original {...props} />
-}
+  return <OAS31Contact />
+})
 
 export default ContactWrapper

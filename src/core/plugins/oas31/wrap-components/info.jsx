@@ -3,14 +3,13 @@
  */
 import React from "react"
 
-const InfoWrapper = (Original, system) => (props) => {
-  if (system.specSelectors.isOAS31()) {
-    const OAS31Info = system.getComponent("OAS31Info", true)
+import { createOnlyOAS31ComponentWrapper } from "../fn"
 
-    return <OAS31Info />
-  }
+const InfoWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
+  const system = getSystem()
+  const OAS31Info = system.getComponent("OAS31Info", true)
 
-  return <Original {...props} />
-}
+  return <OAS31Info />
+})
 
 export default InfoWrapper
