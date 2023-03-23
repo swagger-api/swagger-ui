@@ -1,6 +1,7 @@
 /**
  * @prettier
  */
+import React from "react"
 
 export const isOAS31 = (jsSpec) => {
   const oasVersion = jsSpec.get("openapi")
@@ -70,3 +71,20 @@ export const createSystemSelector =
       ? selectedValue(system)
       : selectedValue
   }
+
+/* eslint-disable  react/jsx-filename-extension */
+export const createOnlyOAS31ComponentWrapper =
+  (Component) => (Original, system) => (props) => {
+    if (system.specSelectors.isOAS31()) {
+      return (
+        <Component
+          {...props}
+          originalComponent={Original}
+          getSystem={system.getSystem}
+        />
+      )
+    }
+
+    return <Original {...props} />
+  }
+/* eslint-enable  react/jsx-filename-extension */
