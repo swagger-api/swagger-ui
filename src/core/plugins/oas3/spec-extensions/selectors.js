@@ -1,6 +1,12 @@
-import { Map } from "immutable"
-import { isSwagger2 as isSwagger2Helper, isOAS30 as isOAS30Helper } from "../helpers"
+/**
+ * @prettier
+ */
+import { List, Map } from "immutable"
 
+import {
+  isSwagger2 as isSwagger2Helper,
+  isOAS30 as isOAS30Helper,
+} from "../helpers"
 
 /**
  * Helpers
@@ -23,18 +29,54 @@ export const isOAS3 = () => (system) => {
 }
 
 function onlyOAS3(selector) {
-  return () => (system, ...args) => {
-    const spec = system.getSystem().specSelectors.specJson()
-    if(system.specSelectors.isOAS3(spec)) {
-      const result = selector(...args)
-      return typeof result === "function" ? result(system, ...args) : result
-    } else {
-      return null
+  return (state, ...args) =>
+    (system) => {
+      if (system.specSelectors.isOAS3()) {
+        const selectedValue = selector(state, ...args)
+        return typeof selectedValue === "function"
+          ? selectedValue(system)
+          : selectedValue
+      } else {
+        return null
+      }
     }
-  }
 }
 
 export const servers = onlyOAS3(() => (system) => {
   const spec = system.specSelectors.specJson()
   return spec.get("servers", map)
 })
+
+export const callbacksOperations = onlyOAS3(
+  (state, { callbacks, specPath }) =>
+    (system) => {
+      const validOperationMethods = system.specSelectors.validOperationMethods()
+
+      if (!Map.isMap(callbacks)) return {}
+
+      return callbacks
+        .reduce((allOperations, callback, callbackName) => {
+          if (!Map.isMap(callback)) return allOperations
+
+          return callback.reduce((callbackOperations, pathItem, expression) => {
+            if (!Map.isMap(pathItem)) return callbackOperations
+
+            const pathItemOperations = pathItem
+              .entrySeq()
+              .filter(([key]) => validOperationMethods.includes(key))
+              .map(([method, operation]) => ({
+                operation: Map({ operation }),
+                method,
+                path: expression,
+                callbackName,
+                specPath: specPath.concat([callbackName, expression, method]),
+              }))
+
+            return callbackOperations.concat(pathItemOperations)
+          }, List())
+        }, List())
+        .groupBy((operationDTO) => operationDTO.callbackName)
+        .map((operations) => operations.toArray())
+        .toObject()
+    }
+)
