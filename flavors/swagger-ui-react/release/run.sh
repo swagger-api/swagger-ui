@@ -32,7 +32,7 @@ cp ../../../NOTICE ../dist
 cd ../dist
 
 if [ "$PUBLISH_FLAVOR_REACT" = "true" ] ; then
-  npm publish .
+  npm publish . --tag alpha
 else
   npm pack .
 fi
