@@ -81,12 +81,8 @@ export default class OperationSummary extends PureComponent {
           }
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
-          <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
-          <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
-            <use href={isShown ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={isShown ? "#large-arrow-up" : "#large-arrow-down"} />
-          </svg>
         </button>
-
+        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn
@@ -97,8 +93,20 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
+        <button
+          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
+          className="opblock-control-arrow"
+          aria-expanded={isShown}
+          onClick={toggleShown}>
+          <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
+            <use href={isShown ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={isShown ? "#large-arrow-up" : "#large-arrow-down"} />
+          </svg>
+        </button>
+
+
+
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
-      </div>
+        </div>
     )
 
   }
