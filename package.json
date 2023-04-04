@@ -128,7 +128,7 @@
     "buffer": "^6.0.3",
     "cors": "^2.8.5",
     "cross-env": "=7.0.3",
-    "css-loader": "=6.7.1",
+    "css-loader": "=6.7.3",
     "cssnano": "=6.0.0",
     "cypress": "=9.5.1",
     "dedent": "^0.7.0",
