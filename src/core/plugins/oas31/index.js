@@ -7,9 +7,11 @@ import Contact from "./components/contact"
 import Info from "./components/info"
 import JsonSchemaDialect from "./components/json-schema-dialect"
 import VersionPragmaFilter from "./components/version-pragma-filter"
+import Models from "./components/models"
 import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
+import ModelsWrapper from "./wrap-components/models"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import VersionStampWrapper from "./wrap-components/version-stamp"
 import {
@@ -36,6 +38,7 @@ import {
   selectWebhooksOperations,
   selectJsonSchemaDialectField,
   selectJsonSchemaDialectDefault,
+  selectSchemas,
 } from "./spec-extensions/selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
@@ -65,6 +68,7 @@ const OAS31Plugin = ({ fn }) => {
       OAS31License: License,
       OAS31Contact: Contact,
       OAS31VersionPragmaFilter: VersionPragmaFilter,
+      OAS31Models: Models,
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
@@ -72,6 +76,7 @@ const OAS31Plugin = ({ fn }) => {
       Contact: ContactWrapper,
       VersionPragmaFilter: VersionPragmaFilterWrapper,
       VersionStamp: VersionStampWrapper,
+      Models: ModelsWrapper,
     },
     statePlugins: {
       spec: {
@@ -105,6 +110,8 @@ const OAS31Plugin = ({ fn }) => {
 
           selectJsonSchemaDialectField,
           selectJsonSchemaDialectDefault,
+
+          selectSchemas: createSystemSelector(selectSchemas),
         },
         wrapSelectors: {
           isOAS3: isOAS3SelectorWrapper,

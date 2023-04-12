@@ -166,3 +166,10 @@ export const selectJsonSchemaDialectField = () => (system) => {
 
 export const selectJsonSchemaDialectDefault = () =>
   "https://spec.openapis.org/oas/3.1/dialect/base"
+
+export const selectSchemas = createSelector(
+  (state, system) => system.specSelectors.definitions(),
+  (schemas) => {
+    return Map.isMap(schemas) ? schemas.toJS() : {}
+  }
+)
