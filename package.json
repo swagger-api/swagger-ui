@@ -115,7 +115,7 @@
     "@babel/register": "=7.21.0",
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
-    "@jest/globals": "=29.4.3",
+    "@jest/globals": "=29.5.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@release-it/conventional-changelog": "=5.1.0",
     "@wojtekmaj/enzyme-adapter-react-17": "=0.6.6",
