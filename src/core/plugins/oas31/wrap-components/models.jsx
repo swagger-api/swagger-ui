@@ -12,6 +12,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const BooleanJSONSchema = getComponent("BooleanJSONSchema202012")
   const KeywordProperties = getComponent("JSONSchema202012KeywordProperties")
   const Accordion = getComponent("JSONSchema202012Accordion")
+  const ExpandDeepButton = getComponent("JSONSchema202012ExpandDeepButton")
   const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
   const withSchemaContext = getComponent("withJSONSchema202012Context")
   const ModelsWithJSONContext = withSchemaContext(Models, {
@@ -23,6 +24,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
       BooleanJSONSchema,
       KeywordProperties,
       Accordion,
+      ExpandDeepButton,
       ChevronRightIcon,
     },
     fn: {

@@ -18,7 +18,11 @@ const Accordion = ({ expanded, children, onChange }) => {
   )
 
   return (
-    <button className="json-schema-2020-12-accordion" onClick={handleExpansion}>
+    <button
+      type="button"
+      className="json-schema-2020-12-accordion"
+      onClick={handleExpansion}
+    >
       <div className="json-schema-2020-12-accordion__children">{children}</div>
       <span
         className={classNames("json-schema-2020-12-accordion__icon", {
