@@ -30,6 +30,7 @@ const JSONSchema = ({ schema, name }) => {
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
+  const KeywordTitle = useComponent("KeywordTitle")
   const KeywordDescription = useComponent("KeywordDescription")
   const ExpandDeepButton = useComponent("ExpandDeepButton")
 
@@ -73,9 +74,7 @@ const JSONSchema = ({ schema, name }) => {
         >
           <div className="json-schema-2020-12-head">
             <Accordion expanded={expanded} onChange={handleExpansion}>
-              <div className="json-schema-2020-12__title">
-                {name || fn.getTitle(schema)}
-              </div>
+              <KeywordTitle title={name} schema={schema} />
             </Accordion>
             <ExpandDeepButton
               expanded={expanded}
