@@ -38,11 +38,6 @@
     }
   }
 
-  &__description {
-    color: #6b6b6b;
-    font-size: 12px;
-  }
-
   &__limit {
     @include text_code();
     margin-left: 10px;
