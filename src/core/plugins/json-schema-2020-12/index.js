@@ -5,6 +5,7 @@ import JSONSchema from "./components/JSONSchema/JSONSchema"
 import BooleanJSONSchema from "./components/BooleanJSONSchema/BooleanJSONSchema"
 import JSONSchemaKeywordProperties from "./components/keywords/Properties"
 import Accordion from "./components/Accordion/Accordion"
+import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
 import { upperFirst } from "./fn"
 import { withJSONSchemaContext } from "./hoc"
@@ -15,6 +16,7 @@ const JSONSchema202012Plugin = () => ({
     BooleanJSONSchema202012: BooleanJSONSchema,
     JSONSchema202012KeywordProperties: JSONSchemaKeywordProperties,
     JSONSchema202012Accordion: Accordion,
+    JSONSchema202012ExpandDeepButton: ExpandDeepButton,
     JSONSchema202012ChevronRightIcon: ChevronRightIcon,
     withJSONSchema202012Context: withJSONSchemaContext,
   },

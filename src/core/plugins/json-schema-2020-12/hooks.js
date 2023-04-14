@@ -3,7 +3,11 @@
  */
 import { useContext } from "react"
 
-import { JSONSchemaContext, JSONSchemaLevelContext } from "./context"
+import {
+  JSONSchemaContext,
+  JSONSchemaLevelContext,
+  JSONSchemaDeepExpansionContext,
+} from "./context"
 
 export const useConfig = () => {
   const { config } = useContext(JSONSchemaContext)
@@ -31,4 +35,8 @@ export const useIsEmbedded = () => {
   const [level] = useLevel()
 
   return level > 0
+}
+
+export const useIsExpandedDeeply = () => {
+  return useContext(JSONSchemaDeepExpansionContext)
 }
