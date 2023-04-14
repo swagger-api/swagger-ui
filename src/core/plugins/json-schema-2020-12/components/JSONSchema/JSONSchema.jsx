@@ -30,6 +30,7 @@ const JSONSchema = ({ schema, name }) => {
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
+  const KeywordDescription = useComponent("KeywordDescription")
   const ExpandDeepButton = useComponent("ExpandDeepButton")
 
   /**
@@ -85,6 +86,7 @@ const JSONSchema = ({ schema, name }) => {
           </div>
           {expanded && (
             <div className="json-schema-2020-12-body">
+              <KeywordDescription schema={schema} />
               <KeywordProperties schema={schema} />
             </div>
           )}
