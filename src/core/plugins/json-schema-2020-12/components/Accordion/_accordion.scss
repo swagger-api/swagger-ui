@@ -1,18 +1,17 @@
 .json-schema-2020-12-accordion {
   outline: none;
   border: none;
-  display: flex;
-  align-items: center;
+  padding-left: 0;
 
   &__children {
     display: inline-block;
   }
 
   &__icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: inline-block;
-    vertical-align: center;
+    vertical-align: bottom;
 
     &--expanded {
       transition: transform .15s ease-in;
