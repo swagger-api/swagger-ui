@@ -20,14 +20,14 @@ const Accordion = ({ expanded, children, onChange }) => {
   return (
     <button className="json-schema-2020-12-accordion" onClick={handleExpansion}>
       <div className="json-schema-2020-12-accordion__children">{children}</div>
-      <div
+      <span
         className={classNames("json-schema-2020-12-accordion__icon", {
           "json-schema-2020-12-accordion__icon--expanded": expanded,
           "json-schema-2020-12-accordion__icon--collapsed": !expanded,
         })}
       >
         <ChevronRightIcon />
-      </div>
+      </span>
     </button>
   )
 }
@@ -35,7 +35,7 @@ const Accordion = ({ expanded, children, onChange }) => {
 Accordion.propTypes = {
   expanded: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 Accordion.defaultProps = {

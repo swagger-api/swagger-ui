@@ -3,7 +3,7 @@
  */
 import { useContext } from "react"
 
-import JSONSchemaContext from "./context"
+import { JSONSchemaContext, JSONSchemaLevelContext } from "./context"
 
 export const useConfig = () => {
   const { config } = useContext(JSONSchemaContext)
@@ -19,4 +19,16 @@ export const useFn = (fnName = undefined) => {
   const { fn } = useContext(JSONSchemaContext)
 
   return typeof fnName !== "undefined" ? fn[fnName] : fn
+}
+
+export const useLevel = () => {
+  const level = useContext(JSONSchemaLevelContext)
+
+  return [level, level + 1]
+}
+
+export const useIsEmbedded = () => {
+  const [level] = useLevel()
+
+  return level > 0
 }

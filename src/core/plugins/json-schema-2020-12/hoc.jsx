@@ -5,9 +5,10 @@ import React from "react"
 
 import JSONSchema from "./components/JSONSchema/JSONSchema"
 import BooleanJSONSchema from "./components/BooleanJSONSchema/BooleanJSONSchema"
+import KeywordProperties from "./components/keywords/Properties"
 import Accordion from "./components/Accordion/Accordion"
 import ChevronRightIcon from "./components/icons/ChevronRight"
-import JSONSchemaContext from "./context"
+import { JSONSchemaContext } from "./context"
 import { getTitle, isBooleanJSONSchema, upperFirst } from "./fn"
 
 export const withJSONSchemaContext = (Component, overrides = {}) => {
@@ -15,6 +16,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
     components: {
       JSONSchema,
       BooleanJSONSchema,
+      KeywordProperties,
       Accordion,
       ChevronRightIcon,
       ...overrides.components,

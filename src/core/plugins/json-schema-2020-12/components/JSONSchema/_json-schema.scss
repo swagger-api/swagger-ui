@@ -19,6 +19,7 @@
 
   &__title {
     @include text_headline($section-models-model-title-font-color);
+    display: inline-block;
     font-weight: bold;
   }
 
@@ -31,8 +32,9 @@
     margin: 7px 0;
 
     .json-schema-2020-12__title {
-      font-size: 12px;
       @include text_code();
+      font-size: 12px;
+      vertical-align: bottom;
     }
   }
 
@@ -42,7 +44,6 @@
     font-size: 12px;
     text-transform: capitalize;
     font-weight: bold;
-    margin-left: 10px;
 
     &:before {
       content: "{";
