@@ -17,25 +17,9 @@
     padding: 0 inherit 0 inherit;
   }
 
-  &__title {
-    @include text_headline($section-models-model-title-font-color);
-    display: inline-block;
-    font-weight: bold;
-  }
-
   &-body {
     margin: 2px 0;
     border-left: 1px dashed rgba($section-models-model-container-background-color, 0.1);
-  }
-
-  &-property {
-    margin: 7px 0;
-
-    .json-schema-2020-12__title {
-      @include text_code();
-      font-size: 12px;
-      vertical-align: bottom;
-    }
   }
 
   &__limit {

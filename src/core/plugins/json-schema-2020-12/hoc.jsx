@@ -8,6 +8,7 @@ import BooleanJSONSchema from "./components/BooleanJSONSchema/BooleanJSONSchema"
 import KeywordProperties from "./components/keywords/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
+import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
@@ -23,6 +24,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordProperties,
       KeywordType,
       KeywordFormat,
+      KeywordTitle,
       KeywordDescription,
       Accordion,
       ExpandDeepButton,
