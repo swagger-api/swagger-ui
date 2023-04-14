@@ -2,7 +2,6 @@
  * @prettier
  */
 import JSONSchema from "./components/JSONSchema/JSONSchema"
-import BooleanJSONSchema from "./components/BooleanJSONSchema/BooleanJSONSchema"
 import KeywordProperties from "./components/keywords/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
@@ -17,7 +16,6 @@ import { withJSONSchemaContext } from "./hoc"
 const JSONSchema202012Plugin = () => ({
   components: {
     JSONSchema202012: JSONSchema,
-    BooleanJSONSchema202012: BooleanJSONSchema,
     JSONSchema202012KeywordProperties: KeywordProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,
