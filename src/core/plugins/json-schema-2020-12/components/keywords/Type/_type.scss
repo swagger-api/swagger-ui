@@ -1,0 +1,7 @@
+.json-schema-2020-12__type {
+  @include text_code();
+  color: $prop-type-font-color;
+  font-size: 12px;
+  text-transform: lowercase;
+  font-weight: bold;
+}

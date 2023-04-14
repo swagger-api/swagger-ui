@@ -38,21 +38,6 @@
     }
   }
 
-  &__type {
-    @include text_code();
-    color: $prop-type-font-color;
-    font-size: 12px;
-    text-transform: capitalize;
-    font-weight: bold;
-
-    &:before {
-      content: "{";
-    }
-    &:after {
-      content: "}";
-    }
-  }
-
   &__description {
     color: #6b6b6b;
     font-size: 12px;
@@ -66,6 +51,7 @@
     color: white;
     background-color: #D69E2E;
     border-radius: 4px;
+    text-transform: lowercase;
 
     &:before {
       content: "format: ";

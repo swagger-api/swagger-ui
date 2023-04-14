@@ -3,7 +3,8 @@
  */
 import JSONSchema from "./components/JSONSchema/JSONSchema"
 import BooleanJSONSchema from "./components/BooleanJSONSchema/BooleanJSONSchema"
-import JSONSchemaKeywordProperties from "./components/keywords/Properties"
+import KeywordProperties from "./components/keywords/Properties"
+import KeywordType from "./components/keywords/Type/Type"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
@@ -14,7 +15,8 @@ const JSONSchema202012Plugin = () => ({
   components: {
     JSONSchema202012: JSONSchema,
     BooleanJSONSchema202012: BooleanJSONSchema,
-    JSONSchema202012KeywordProperties: JSONSchemaKeywordProperties,
+    JSONSchema202012KeywordProperties: KeywordProperties,
+    JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012Accordion: Accordion,
     JSONSchema202012ExpandDeepButton: ExpandDeepButton,
     JSONSchema202012ChevronRightIcon: ChevronRightIcon,
