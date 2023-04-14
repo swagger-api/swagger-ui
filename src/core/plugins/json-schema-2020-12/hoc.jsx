@@ -6,11 +6,12 @@ import React from "react"
 import JSONSchema from "./components/JSONSchema/JSONSchema"
 import BooleanJSONSchema from "./components/BooleanJSONSchema/BooleanJSONSchema"
 import KeywordProperties from "./components/keywords/Properties"
+import KeywordType from "./components/keywords/Type/Type"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
 import { JSONSchemaContext } from "./context"
-import { getTitle, isBooleanJSONSchema, upperFirst } from "./fn"
+import { getTitle, isBooleanJSONSchema, upperFirst, getType } from "./fn"
 
 export const withJSONSchemaContext = (Component, overrides = {}) => {
   const value = {
@@ -18,6 +19,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       JSONSchema,
       BooleanJSONSchema,
       KeywordProperties,
+      KeywordType,
       Accordion,
       ExpandDeepButton,
       ChevronRightIcon,
@@ -30,6 +32,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
     fn: {
       upperFirst,
       getTitle,
+      getType,
       isBooleanJSONSchema,
       ...overrides.fn,
     },

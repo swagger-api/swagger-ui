@@ -28,6 +28,7 @@ const JSONSchema = ({ schema, name }) => {
   const BooleanJSONSchema = useComponent("BooleanJSONSchema")
   const Accordion = useComponent("Accordion")
   const KeywordProperties = useComponent("KeywordProperties")
+  const KeywordType = useComponent("KeywordType")
   const ExpandDeepButton = useComponent("ExpandDeepButton")
 
   /**
@@ -78,6 +79,7 @@ const JSONSchema = ({ schema, name }) => {
               expanded={expanded}
               onClick={handleExpansionDeep}
             />
+            <KeywordType schema={schema} />
           </div>
           {expanded && (
             <div className="json-schema-2020-12-body">
