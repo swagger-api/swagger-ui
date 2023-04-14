@@ -25,7 +25,6 @@ const JSONSchema = ({ schema, name }) => {
   const fn = useFn()
   const [level, nextLevel] = useLevel()
   const isEmbedded = useIsEmbedded()
-  const BooleanJSONSchema = useComponent("BooleanJSONSchema")
   const Accordion = useComponent("Accordion")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
@@ -55,13 +54,6 @@ const JSONSchema = ({ schema, name }) => {
   useEffect(() => {
     setExpandedDeeply(expandedDeeply)
   }, [expandedDeeply])
-
-  /**
-   * Rendering handlers.
-   */
-  if (fn.isBooleanJSONSchema(schema)) {
-    return <BooleanJSONSchema schema={schema} name={name} />
-  }
 
   return (
     <JSONSchemaLevelContext.Provider value={nextLevel}>

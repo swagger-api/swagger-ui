@@ -6,7 +6,7 @@ import React from "react"
 import { schema } from "../../../prop-types"
 
 const Description = ({ schema }) => {
-  if (!schema.description) return null
+  if (!schema?.description) return null
 
   return (
     <div className="json-schema-2020-12__description">{schema.description}</div>

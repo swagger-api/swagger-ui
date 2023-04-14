@@ -9,12 +9,7 @@ import { useFn, useComponent } from "../../hooks"
 const Properties = ({ schema }) => {
   const fn = useFn()
   const JSONSchema = useComponent("JSONSchema")
-
-  if (fn.isBooleanJSONSchema(schema)) {
-    return null
-  }
-
-  const properties = schema.properties || {}
+  const properties = schema?.properties || {}
 
   if (Object.keys(properties).length === 0) {
     return null
