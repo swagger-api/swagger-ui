@@ -43,21 +43,6 @@
     font-size: 12px;
   }
 
-  &__format {
-    @include text_code();
-    margin-left: 10px;
-    line-height: 1.5;
-    padding: 1px;
-    color: white;
-    background-color: #D69E2E;
-    border-radius: 4px;
-    text-transform: lowercase;
-
-    &:before {
-      content: "format: ";
-    }
-  }
-
   &__limit {
     @include text_code();
     margin-left: 10px;
