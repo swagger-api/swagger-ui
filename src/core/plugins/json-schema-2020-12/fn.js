@@ -117,6 +117,7 @@ export const isExpandable = (schema) => {
     schema?.$vocabulary ||
     schema?.$id ||
     schema?.$anchor ||
+    schema?.$dynamicAnchor ||
     schema?.description ||
     schema?.properties
   )
