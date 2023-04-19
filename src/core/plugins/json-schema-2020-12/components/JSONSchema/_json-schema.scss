@@ -35,11 +35,13 @@
   &-core-keyword {
     color: #6b6b6b;
     font-size: 12px;
+    font-style: italic;
     margin-left: 20px;
     font-weight: bold;
 
     &__value {
       color: #6b6b6b;
+      font-style: italic;
       font-size: 12px;
       font-weight: normal;
     }

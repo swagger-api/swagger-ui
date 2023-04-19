@@ -23,6 +23,7 @@ const $vocabulary = ({ schema }) => {
     <div className="json-schema-2020-12__$vocabulary">
       <Accordion expanded={expanded} onChange={handleExpansion}>
         <span className="json-schema-2020-12-core-keyword">$vocabulary</span>
+        <span className="json-schema-2020-12__type">object</span>
       </Accordion>
       <ul>
         {expanded &&
