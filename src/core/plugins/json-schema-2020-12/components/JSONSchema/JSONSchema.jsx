@@ -8,7 +8,6 @@ import classNames from "classnames"
 import * as propTypes from "../../prop-types"
 import {
   useComponent,
-  useFn,
   useLevel,
   useIsEmbedded,
   useIsExpandedDeeply,
@@ -22,7 +21,6 @@ const JSONSchema = ({ schema, name }) => {
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
-  const fn = useFn()
   const [level, nextLevel] = useLevel()
   const isEmbedded = useIsEmbedded()
   const Accordion = useComponent("Accordion")
