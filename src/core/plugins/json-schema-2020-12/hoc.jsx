@@ -5,6 +5,7 @@ import React from "react"
 
 import JSONSchema from "./components/JSONSchema/JSONSchema"
 import Keyword$schema from "./components/keywords/$schema"
+import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
 import KeywordProperties from "./components/keywords/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
@@ -27,6 +28,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
     components: {
       JSONSchema,
       Keyword$schema,
+      Keyword$vocabulary,
       KeywordProperties,
       KeywordType,
       KeywordFormat,

@@ -33,6 +33,7 @@ const JSONSchema = ({ schema, name }) => {
   const renderedSchemas = useRenderedSchemas(schema)
   const Accordion = useComponent("Accordion")
   const Keyword$schema = useComponent("Keyword$schema")
+  const Keyword$vocabulary = useComponent("Keyword$vocabulary")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
@@ -97,6 +98,7 @@ const JSONSchema = ({ schema, name }) => {
                   <KeywordProperties schema={schema} />
                 )}
                 <Keyword$schema schema={schema} />
+                <Keyword$vocabulary schema={schema} />
               </div>
             )}
           </article>

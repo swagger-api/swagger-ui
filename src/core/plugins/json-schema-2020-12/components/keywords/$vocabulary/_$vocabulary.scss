@@ -1,0 +1,14 @@
+.json-schema-2020-12 {
+  &__\$vocabulary {
+    ul {
+      margin: 0 0 0 20px;
+      border-left: 1px dashed rgba($section-models-model-container-background-color, 0.1);
+    }
+  }
+
+  &__\$vocabulary-uri {
+    &--disabled {
+      text-decoration: line-through;
+    }
+  }
+}

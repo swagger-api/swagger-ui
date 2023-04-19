@@ -4,6 +4,7 @@
 import JSONSchema from "./components/JSONSchema/JSONSchema"
 import KeywordProperties from "./components/keywords/Properties"
 import Keyword$schema from "./components/keywords/$schema"
+import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -18,6 +19,7 @@ const JSONSchema202012Plugin = () => ({
   components: {
     JSONSchema202012: JSONSchema,
     JSONSchema202012Keyword$schema: Keyword$schema,
+    JSONSchema202012Keyword$vocabulary: Keyword$vocabulary,
     JSONSchema202012KeywordProperties: KeywordProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,

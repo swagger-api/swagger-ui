@@ -112,5 +112,10 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
 export const isBooleanJSONSchema = (schema) => typeof schema === "boolean"
 
 export const isExpandable = (schema) => {
-  return schema?.description || schema?.properties || schema?.$schema
+  return (
+    schema?.$schema ||
+    schema?.$vocabulary ||
+    schema?.description ||
+    schema?.properties
+  )
 }
