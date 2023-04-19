@@ -12,10 +12,13 @@ import {
   useFn,
   useIsEmbedded,
   useIsExpandedDeeply,
+  useIsCircular,
+  useRenderedSchemas,
 } from "../../hooks"
 import {
   JSONSchemaLevelContext,
   JSONSchemaDeepExpansionContext,
+  JSONSchemaCyclesContext,
 } from "../../context"
 
 const JSONSchema = ({ schema, name }) => {
@@ -26,6 +29,8 @@ const JSONSchema = ({ schema, name }) => {
   const [level, nextLevel] = useLevel()
   const isEmbedded = useIsEmbedded()
   const isExpandable = fn.isExpandable(schema)
+  const isCircular = useIsCircular(schema)
+  const renderedSchemas = useRenderedSchemas(schema)
   const Accordion = useComponent("Accordion")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
@@ -59,36 +64,41 @@ const JSONSchema = ({ schema, name }) => {
   return (
     <JSONSchemaLevelContext.Provider value={nextLevel}>
       <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
-        <article
-          data-json-schema-level={level}
-          className={classNames("json-schema-2020-12", {
-            "json-schema-2020-12--embedded": isEmbedded,
-          })}
-        >
-          <div className="json-schema-2020-12-head">
-            {isExpandable ? (
-              <>
-                <Accordion expanded={expanded} onChange={handleExpansion}>
-                  <KeywordTitle title={name} schema={schema} />
-                </Accordion>
-                <ExpandDeepButton
-                  expanded={expanded}
-                  onClick={handleExpansionDeep}
-                />
-              </>
-            ) : (
-              <KeywordTitle title={name} schema={schema} />
-            )}
-            <KeywordType schema={schema} />
-            <KeywordFormat schema={schema} />
-          </div>
-          {expanded && (
-            <div className="json-schema-2020-12-body">
-              <KeywordDescription schema={schema} />
-              <KeywordProperties schema={schema} />
+        <JSONSchemaCyclesContext.Provider value={renderedSchemas}>
+          <article
+            data-json-schema-level={level}
+            className={classNames("json-schema-2020-12", {
+              "json-schema-2020-12--embedded": isEmbedded,
+              "json-schema-2020-12--circular": isCircular,
+            })}
+          >
+            <div className="json-schema-2020-12-head">
+              {isExpandable && !isCircular ? (
+                <>
+                  <Accordion expanded={expanded} onChange={handleExpansion}>
+                    <KeywordTitle title={name} schema={schema} />
+                  </Accordion>
+                  <ExpandDeepButton
+                    expanded={expanded}
+                    onClick={handleExpansionDeep}
+                  />
+                </>
+              ) : (
+                <KeywordTitle title={name} schema={schema} />
+              )}
+              <KeywordType schema={schema} isCircular={isCircular} />
+              <KeywordFormat schema={schema} />
             </div>
-          )}
-        </article>
+            {expanded && (
+              <div className="json-schema-2020-12-body">
+                <KeywordDescription schema={schema} />
+                {!isCircular && isExpandable && (
+                  <KeywordProperties schema={schema} />
+                )}
+              </div>
+            )}
+          </article>
+        </JSONSchemaCyclesContext.Provider>
       </JSONSchemaDeepExpansionContext.Provider>
     </JSONSchemaLevelContext.Provider>
   )

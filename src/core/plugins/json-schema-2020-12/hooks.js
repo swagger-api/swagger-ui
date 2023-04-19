@@ -7,6 +7,7 @@ import {
   JSONSchemaContext,
   JSONSchemaLevelContext,
   JSONSchemaDeepExpansionContext,
+  JSONSchemaCyclesContext,
 } from "./context"
 
 export const useConfig = () => {
@@ -39,4 +40,17 @@ export const useIsEmbedded = () => {
 
 export const useIsExpandedDeeply = () => {
   return useContext(JSONSchemaDeepExpansionContext)
+}
+
+export const useRenderedSchemas = (schema = undefined) => {
+  if (typeof schema === "undefined") {
+    return useContext(JSONSchemaCyclesContext)
+  }
+
+  const renderedSchemas = useContext(JSONSchemaCyclesContext)
+  return new Set([...renderedSchemas, schema])
+}
+export const useIsCircular = (schema) => {
+  const renderedSchemas = useRenderedSchemas()
+  return renderedSchemas.has(schema)
 }
