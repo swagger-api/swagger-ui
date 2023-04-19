@@ -13,7 +13,13 @@ import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
 import { JSONSchemaContext } from "./context"
-import { getTitle, isBooleanJSONSchema, upperFirst, getType } from "./fn"
+import {
+  getTitle,
+  isBooleanJSONSchema,
+  upperFirst,
+  getType,
+  isExpandable,
+} from "./fn"
 
 export const withJSONSchemaContext = (Component, overrides = {}) => {
   const value = {
@@ -38,6 +44,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       getTitle,
       getType,
       isBooleanJSONSchema,
+      isExpandable,
       ...overrides.fn,
     },
   }
