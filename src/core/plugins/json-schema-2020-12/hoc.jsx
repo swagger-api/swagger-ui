@@ -9,6 +9,7 @@ import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
 import Keyword$id from "./components/keywords/$id"
 import Keyword$anchor from "./components/keywords/$anchor"
 import Keyword$dynamicAnchor from "./components/keywords/$dynamicAnchor"
+import Keyword$ref from "./components/keywords/$ref"
 import KeywordProperties from "./components/keywords/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
@@ -35,6 +36,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       Keyword$id,
       Keyword$anchor,
       Keyword$dynamicAnchor,
+      Keyword$ref,
       KeywordProperties,
       KeywordType,
       KeywordFormat,

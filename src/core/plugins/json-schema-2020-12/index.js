@@ -8,6 +8,7 @@ import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
 import Keyword$id from "./components/keywords/$id"
 import Keyword$anchor from "./components/keywords/$anchor"
 import Keyword$dynamicAnchor from "./components/keywords/$dynamicAnchor"
+import Keyword$ref from "./components/keywords/$ref"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -26,6 +27,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012Keyword$id: Keyword$id,
     JSONSchema202012Keyword$anchor: Keyword$anchor,
     JSONSchema202012Keyword$dynamicAnchor: Keyword$dynamicAnchor,
+    JSONSchema202012Keyword$ref: Keyword$ref,
     JSONSchema202012KeywordProperties: KeywordProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,
