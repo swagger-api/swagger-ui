@@ -32,6 +32,7 @@ const JSONSchema = ({ schema, name }) => {
   const isCircular = useIsCircular(schema)
   const renderedSchemas = useRenderedSchemas(schema)
   const Accordion = useComponent("Accordion")
+  const Keyword$schema = useComponent("Keyword$schema")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
@@ -95,6 +96,7 @@ const JSONSchema = ({ schema, name }) => {
                 {!isCircular && isExpandable && (
                   <KeywordProperties schema={schema} />
                 )}
+                <Keyword$schema schema={schema} />
               </div>
             )}
           </article>
