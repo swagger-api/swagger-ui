@@ -7,6 +7,7 @@ import JSONSchema from "./components/JSONSchema/JSONSchema"
 import Keyword$schema from "./components/keywords/$schema"
 import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
 import Keyword$id from "./components/keywords/$id"
+import Keyword$anchor from "./components/keywords/$anchor"
 import KeywordProperties from "./components/keywords/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
@@ -31,6 +32,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       Keyword$schema,
       Keyword$vocabulary,
       Keyword$id,
+      Keyword$anchor,
       KeywordProperties,
       KeywordType,
       KeywordFormat,
