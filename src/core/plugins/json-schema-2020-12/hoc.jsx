@@ -11,7 +11,8 @@ import Keyword$anchor from "./components/keywords/$anchor"
 import Keyword$dynamicAnchor from "./components/keywords/$dynamicAnchor"
 import Keyword$ref from "./components/keywords/$ref"
 import Keyword$dynamicRef from "./components/keywords/$dynamicRef"
-import KeywordProperties from "./components/keywords/Properties"
+import Keyword$defs from "./components/keywords/$defs/$defs"
+import KeywordProperties from "./components/keywords/Properties/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -39,6 +40,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       Keyword$dynamicAnchor,
       Keyword$ref,
       Keyword$dynamicRef,
+      Keyword$defs,
       KeywordProperties,
       KeywordType,
       KeywordFormat,

@@ -120,6 +120,7 @@ export const isExpandable = (schema) => {
     schema?.$dynamicAnchor ||
     schema?.$ref ||
     schema?.$dynamicRef ||
+    schema?.$defs ||
     schema?.description ||
     schema?.properties
   )
