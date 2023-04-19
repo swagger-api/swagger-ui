@@ -63,7 +63,7 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
       schema.exclusiveMaximum ||
       schema.multipleOf
     ) {
-      return "number|integer"
+      return "number | integer"
     } else if (schema.const !== undefined) {
       if (schema.const === null) {
         return "null"
@@ -110,3 +110,7 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
 }
 
 export const isBooleanJSONSchema = (schema) => typeof schema === "boolean"
+
+export const isExpandable = (schema) => {
+  return schema?.description || schema?.properties
+}

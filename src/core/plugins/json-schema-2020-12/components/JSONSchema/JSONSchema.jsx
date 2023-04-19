@@ -9,6 +9,7 @@ import * as propTypes from "../../prop-types"
 import {
   useComponent,
   useLevel,
+  useFn,
   useIsEmbedded,
   useIsExpandedDeeply,
 } from "../../hooks"
@@ -18,11 +19,13 @@ import {
 } from "../../context"
 
 const JSONSchema = ({ schema, name }) => {
+  const fn = useFn()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
   const [level, nextLevel] = useLevel()
   const isEmbedded = useIsEmbedded()
+  const isExpandable = fn.isExpandable(schema)
   const Accordion = useComponent("Accordion")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
@@ -63,13 +66,19 @@ const JSONSchema = ({ schema, name }) => {
           })}
         >
           <div className="json-schema-2020-12-head">
-            <Accordion expanded={expanded} onChange={handleExpansion}>
+            {isExpandable ? (
+              <>
+                <Accordion expanded={expanded} onChange={handleExpansion}>
+                  <KeywordTitle title={name} schema={schema} />
+                </Accordion>
+                <ExpandDeepButton
+                  expanded={expanded}
+                  onClick={handleExpansionDeep}
+                />
+              </>
+            ) : (
               <KeywordTitle title={name} schema={schema} />
-            </Accordion>
-            <ExpandDeepButton
-              expanded={expanded}
-              onClick={handleExpansionDeep}
-            />
+            )}
             <KeywordType schema={schema} />
             <KeywordFormat schema={schema} />
           </div>

@@ -4,10 +4,9 @@
 import React from "react"
 
 import { schema } from "../../prop-types"
-import { useFn, useComponent } from "../../hooks"
+import { useComponent } from "../../hooks"
 
 const Properties = ({ schema }) => {
-  const fn = useFn()
   const JSONSchema = useComponent("JSONSchema")
   const properties = schema?.properties || {}
 
