@@ -12,7 +12,7 @@ const $schema = ({ schema }) => {
     <div className="json-schema-2020-12__$schema">
       <span className="json-schema-2020-12-core-keyword">$schema</span>
       <span className="json-schema-2020-12-core-keyword__value">
-        ={schema.$schema}
+        {schema.$schema}
       </span>
     </div>
   )

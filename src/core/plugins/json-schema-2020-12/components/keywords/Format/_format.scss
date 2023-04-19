@@ -8,7 +8,7 @@
   border-radius: 4px;
   text-transform: lowercase;
 
-  &:before {
+  &::before {
     content: "format: ";
   }
 }
