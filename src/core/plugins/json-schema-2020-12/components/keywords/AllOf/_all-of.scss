@@ -1,0 +1,18 @@
+.json-schema-2020-12 {
+  &__allOf {
+    & ul {
+      padding: 0;
+      margin: 0 0 0 20px;
+      border-left: 1px dashed rgba($section-models-model-container-background-color, 0.1);
+    }
+  }
+
+  &-core-keyword {
+    &--allOf {
+      color: $text-code-default-font-color;
+      font-style: normal;
+    }
+  }
+}
+
+
