@@ -94,7 +94,7 @@
     "reselect": "^4.1.5",
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.19.5",
+    "swagger-client": "^3.19.6",
     "url-parse": "^1.5.8",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
