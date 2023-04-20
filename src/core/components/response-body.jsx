@@ -59,6 +59,7 @@ export default class ResponseBody extends React.PureComponent {
     url = url || ""
 
     if (
+      content.size > 0 &&
       /^application\/octet-stream/i.test(contentType) ||
       (headers["Content-Disposition"] && (/attachment/i).test(headers["Content-Disposition"])) ||
       (headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"])) ||
