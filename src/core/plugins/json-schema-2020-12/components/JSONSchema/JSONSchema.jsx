@@ -40,6 +40,7 @@ const JSONSchema = ({ schema, name }) => {
   const Keyword$ref = useComponent("Keyword$ref")
   const Keyword$dynamicRef = useComponent("Keyword$dynamicRef")
   const Keyword$defs = useComponent("Keyword$defs")
+  const Keyword$comment = useComponent("Keyword$comment")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
@@ -111,6 +112,7 @@ const JSONSchema = ({ schema, name }) => {
                 <Keyword$ref schema={schema} />
                 <Keyword$dynamicRef schema={schema} />
                 <Keyword$defs schema={schema} />
+                <Keyword$comment schema={schema} />
               </div>
             )}
           </article>
