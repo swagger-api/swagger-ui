@@ -41,6 +41,7 @@ const JSONSchema = ({ schema, name }) => {
   const Keyword$dynamicRef = useComponent("Keyword$dynamicRef")
   const Keyword$defs = useComponent("Keyword$defs")
   const Keyword$comment = useComponent("Keyword$comment")
+  const KeywordAllOf = useComponent("KeywordAllOf")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
@@ -104,14 +105,17 @@ const JSONSchema = ({ schema, name }) => {
                 {!isCircular && isExpandable && (
                   <KeywordProperties schema={schema} />
                 )}
+                <KeywordAllOf schema={schema} />
                 <Keyword$schema schema={schema} />
                 <Keyword$vocabulary schema={schema} />
                 <Keyword$id schema={schema} />
                 <Keyword$anchor schema={schema} />
                 <Keyword$dynamicAnchor schema={schema} />
                 <Keyword$ref schema={schema} />
+                {!isCircular && isExpandable && (
+                  <Keyword$defs schema={schema} />
+                )}
                 <Keyword$dynamicRef schema={schema} />
-                <Keyword$defs schema={schema} />
                 <Keyword$comment schema={schema} />
               </div>
             )}

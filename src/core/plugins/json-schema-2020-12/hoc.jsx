@@ -13,6 +13,7 @@ import Keyword$ref from "./components/keywords/$ref"
 import Keyword$dynamicRef from "./components/keywords/$dynamicRef"
 import Keyword$defs from "./components/keywords/$defs/$defs"
 import Keyword$comment from "./components/keywords/$comment"
+import KeywordAllOf from "./components/keywords/AllOf/AllOf"
 import KeywordProperties from "./components/keywords/Properties/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
@@ -43,6 +44,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       Keyword$dynamicRef,
       Keyword$defs,
       Keyword$comment,
+      KeywordAllOf,
       KeywordProperties,
       KeywordType,
       KeywordFormat,
