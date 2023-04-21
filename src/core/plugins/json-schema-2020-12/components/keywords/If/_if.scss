@@ -1,0 +1,10 @@
+.json-schema-2020-12 {
+  &__if {
+    .json-schema-2020-12-core-keyword--if {
+      @extend .json-schema-2020-12-core-keyword--allOf;
+    }
+  }
+}
+
+
+

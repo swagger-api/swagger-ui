@@ -17,6 +17,7 @@ import KeywordAllOf from "./components/keywords/AllOf/AllOf"
 import KeywordAnyOf from "./components/keywords/AnyOf/AnyOf"
 import KeywordOneOf from "./components/keywords/OneOf/OneOf"
 import KeywordNot from "./components/keywords/Not/Not"
+import KeywordIf from "./components/keywords/If/If"
 import KeywordProperties from "./components/keywords/Properties/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
@@ -51,6 +52,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordAnyOf,
       KeywordOneOf,
       KeywordNot,
+      KeywordIf,
       KeywordProperties,
       KeywordType,
       KeywordFormat,
