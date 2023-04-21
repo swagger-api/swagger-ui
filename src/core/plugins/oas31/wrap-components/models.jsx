@@ -26,6 +26,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const KeywordNot = getComponent("JSONSchema202012KeywordNot")
   const KeywordIf = getComponent("JSONSchema202012KeywordIf")
   const KeywordThen = getComponent("JSONSchema202012KeywordThen")
+  const KeywordElse = getComponent("JSONSchema202012KeywordElse")
   const KeywordProperties = getComponent("JSONSchema202012KeywordProperties")
   const KeywordType = getComponent("JSONSchema202012KeywordType")
   const KeywordFormat = getComponent("JSONSchema202012KeywordFormat")
@@ -60,6 +61,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
       KeywordNot,
       KeywordIf,
       KeywordThen,
+      KeywordElse,
       KeywordProperties,
       KeywordType,
       KeywordFormat,
