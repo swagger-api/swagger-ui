@@ -123,6 +123,7 @@ export const isExpandable = (schema) => {
     schema?.$defs ||
     schema?.$comment ||
     schema?.allOf ||
+    schema?.anyOf ||
     schema?.description ||
     schema?.properties
   )
