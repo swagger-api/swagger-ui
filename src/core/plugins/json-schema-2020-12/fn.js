@@ -124,6 +124,7 @@ export const isExpandable = (schema) => {
     schema?.$comment ||
     schema?.allOf ||
     schema?.anyOf ||
+    schema?.oneOf ||
     schema?.description ||
     schema?.properties
   )

@@ -14,6 +14,7 @@ import Keyword$defs from "./components/keywords/$defs/$defs"
 import Keyword$comment from "./components/keywords/$comment"
 import KeywordAllOf from "./components/keywords/AllOf/AllOf"
 import KeywordAnyOf from "./components/keywords/AnyOf/AnyOf"
+import KeywordOneOf from "./components/keywords/OneOf/OneOf"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -38,6 +39,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012Keyword$comment: Keyword$comment,
     JSONSchema202012KeywordAllOf: KeywordAllOf,
     JSONSchema202012KeywordAnyOf: KeywordAnyOf,
+    JSONSchema202012KeywordOneOf: KeywordOneOf,
     JSONSchema202012KeywordProperties: KeywordProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,
