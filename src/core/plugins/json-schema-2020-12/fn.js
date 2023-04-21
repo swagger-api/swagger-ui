@@ -133,6 +133,7 @@ export const isExpandable = (schema) => {
     schema?.if ||
     schema?.then ||
     schema?.else ||
+    schema?.dependentSchemas ||
     schema?.description ||
     schema?.properties
   )
