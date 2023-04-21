@@ -80,6 +80,10 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
     return null
   }
 
+  if (schema.not && getType(schema.not) === "any") {
+    return "never"
+  }
+
   const typeString = Array.isArray(type)
     ? type.map((t) => (t === "array" ? getArrayType() : t)).join(" | ")
     : type && type.includes("array")
@@ -125,6 +129,7 @@ export const isExpandable = (schema) => {
     schema?.allOf ||
     schema?.anyOf ||
     schema?.oneOf ||
+    schema?.not ||
     schema?.description ||
     schema?.properties
   )

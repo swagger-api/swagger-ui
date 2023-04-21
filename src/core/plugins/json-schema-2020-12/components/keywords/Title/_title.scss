@@ -3,7 +3,13 @@
     @include text_headline($section-models-model-title-font-color);
     display: inline-block;
     font-weight: bold;
+
+    & .json-schema-2020-12-core-keyword {
+      margin: 0;
+    }
   }
+
+
 
   &-property {
     margin: 7px 0;
