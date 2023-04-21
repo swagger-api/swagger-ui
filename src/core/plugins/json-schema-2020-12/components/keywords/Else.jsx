@@ -3,21 +3,21 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
-import { useComponent } from "../../../hooks"
+import { schema } from "../../prop-types"
+import { useComponent } from "../../hooks"
 
 const Else = ({ schema }) => {
   if (!schema?.else) return null
 
   const JSONSchema = useComponent("JSONSchema")
   const name = (
-    <span className="json-schema-2020-12-core-keyword json-schema-2020-12-core-keyword--else">
+    <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
       Else
     </span>
   )
 
   return (
-    <div className="json-schema-2020-12__else">
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--if">
       <JSONSchema name={name} schema={schema.else} />
     </div>
   )

@@ -9,9 +9,11 @@ const $anchor = ({ schema }) => {
   if (!schema?.$anchor) return null
 
   return (
-    <div className="json-schema-2020-12__$anchor">
-      <span className="json-schema-2020-12-core-keyword">$anchor</span>
-      <span className="json-schema-2020-12-core-keyword__value">
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$anchor">
+      <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+        $anchor
+      </span>
+      <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--secondary">
         {schema.$anchor}
       </span>
     </div>

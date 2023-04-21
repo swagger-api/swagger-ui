@@ -9,9 +9,11 @@ const $comment = ({ schema }) => {
   if (!schema?.$comment) return null
 
   return (
-    <div className="json-schema-2020-12__$comment">
-      <span className="json-schema-2020-12-core-keyword">$comment</span>
-      <span className="json-schema-2020-12-core-keyword__value">
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$comment">
+      <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+        $comment
+      </span>
+      <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--secondary">
         {schema.$comment}
       </span>
     </div>

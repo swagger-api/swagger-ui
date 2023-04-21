@@ -9,9 +9,11 @@ const $dynamicAnchor = ({ schema }) => {
   if (!schema?.$dynamicAnchor) return null
 
   return (
-    <div className="json-schema-2020-12__$dynamicAnchor">
-      <span className="json-schema-2020-12-core-keyword">$dynamicAnchor</span>
-      <span className="json-schema-2020-12-core-keyword__value">
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$dynamicAnchor">
+      <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+        $dynamicAnchor
+      </span>
+      <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--secondary">
         {schema.$dynamicAnchor}
       </span>
     </div>
