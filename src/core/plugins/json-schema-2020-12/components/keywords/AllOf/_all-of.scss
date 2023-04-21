@@ -1,9 +1,10 @@
 .json-schema-2020-12 {
   &__allOf {
-    & ul {
+    margin: 5px 0 5px 0;
+
+    & > ul {
+      @include expansion-border;
       padding: 0;
-      margin: 0 0 0 20px;
-      border-left: 1px dashed rgba($section-models-model-container-background-color, 0.1);
     }
   }
 
