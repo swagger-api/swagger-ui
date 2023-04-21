@@ -27,7 +27,7 @@ const OneOf = ({ schema }) => {
     <div className="json-schema-2020-12__oneOf">
       <Accordion expanded={expanded} onChange={handleExpansion}>
         <span className="json-schema-2020-12-core-keyword json-schema-2020-12-core-keyword--oneOf">
-          OneOf
+          One of
         </span>
         <span className="json-schema-2020-12__type">
           {fn.getType({ oneOf })}

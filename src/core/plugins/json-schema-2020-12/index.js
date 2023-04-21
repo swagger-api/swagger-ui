@@ -19,6 +19,7 @@ import KeywordNot from "./components/keywords/Not/Not"
 import KeywordIf from "./components/keywords/If/If"
 import KeywordThen from "./components/keywords/Then/Then"
 import KeywordElse from "./components/keywords/Else/Else"
+import KeywordDependentSchemas from "./components/keywords/DependentSchemas/DependentSchemas"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -48,6 +49,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012KeywordIf: KeywordIf,
     JSONSchema202012KeywordThen: KeywordThen,
     JSONSchema202012KeywordElse: KeywordElse,
+    JSONSchema202012KeywordDependentSchemas: KeywordDependentSchemas,
     JSONSchema202012KeywordProperties: KeywordProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,

@@ -20,6 +20,7 @@ import KeywordNot from "./components/keywords/Not/Not"
 import KeywordIf from "./components/keywords/If/If"
 import KeywordThen from "./components/keywords/Then/Then"
 import KeywordElse from "./components/keywords/Else/Else"
+import KeywordDependentSchemas from "./components/keywords/DependentSchemas/DependentSchemas"
 import KeywordProperties from "./components/keywords/Properties/Properties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
@@ -57,6 +58,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordIf,
       KeywordThen,
       KeywordElse,
+      KeywordDependentSchemas,
       KeywordProperties,
       KeywordType,
       KeywordFormat,

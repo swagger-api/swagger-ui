@@ -48,6 +48,7 @@ const JSONSchema = ({ schema, name }) => {
   const KeywordIf = useComponent("KeywordIf")
   const KeywordThen = useComponent("KeywordThen")
   const KeywordElse = useComponent("KeywordElse")
+  const KeywordDependentSchemas = useComponent("KeywordDependentSchemas")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
@@ -119,6 +120,7 @@ const JSONSchema = ({ schema, name }) => {
                 <KeywordIf schema={schema} />
                 <KeywordThen schema={schema} />
                 <KeywordElse schema={schema} />
+                <KeywordDependentSchemas schema={schema} />
                 <Keyword$schema schema={schema} />
                 <Keyword$vocabulary schema={schema} />
                 <Keyword$id schema={schema} />
