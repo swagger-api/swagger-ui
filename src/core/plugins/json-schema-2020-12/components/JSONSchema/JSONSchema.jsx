@@ -52,12 +52,13 @@ const JSONSchema = ({ schema, name }) => {
   /**
    * Event handlers.
    */
-  const handleExpansion = useCallback(() => {
-    setExpanded((prev) => !prev)
+  const handleExpansion = useCallback((e, expandedNew) => {
+    setExpanded(expandedNew)
+    !expandedNew && setExpandedDeeply(false)
   }, [])
-  const handleExpansionDeep = useCallback(() => {
-    setExpanded((prev) => !prev)
-    setExpandedDeeply((prev) => !prev)
+  const handleExpansionDeep = useCallback((e, expandedDeepNew) => {
+    setExpanded(expandedDeepNew)
+    setExpandedDeeply(expandedDeepNew)
   }, [])
 
   /**

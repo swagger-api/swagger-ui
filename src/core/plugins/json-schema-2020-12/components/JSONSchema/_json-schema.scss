@@ -18,8 +18,8 @@
   }
 
   &-body {
+    @include expansion-border;
     margin: 2px 0;
-    border-left: 1px dashed rgba($section-models-model-container-background-color, 0.1);
   }
 
   &__limit {
