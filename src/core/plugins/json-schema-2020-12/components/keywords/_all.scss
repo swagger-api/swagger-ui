@@ -1,0 +1,51 @@
+.json-schema-2020-12-keyword {
+  margin: 5px 0 5px 0;
+
+  & > ul {
+    @include expansion-border;
+    padding: 0;
+  }
+
+  &__name {
+    font-size: 12px;
+    margin-left: 20px;
+    font-weight: bold;
+
+    &--primary {
+      color: $text-code-default-font-color;
+      font-style: normal;
+    }
+
+    &--secondary {
+      color: #6b6b6b;
+      font-style: italic;
+    }
+  }
+
+  &__value {
+    color: #6b6b6b;
+    font-style: italic;
+    font-size: 12px;
+    font-weight: normal;
+
+    &--primary {
+      color: $text-code-default-font-color;
+      font-style: normal;
+    }
+
+    &--secondary {
+      color: #6b6b6b;
+      font-style: italic;
+    }
+  }
+}
+.json-schema-2020-12-keyword__name--secondary + .json-schema-2020-12-keyword__value--secondary::before {
+  content: '='
+}
+
+@import './$vocabulary/$vocabulary';
+@import './Type/type';
+@import './Format/format';
+@import './Description/description';
+@import './Title/title';
+@import './Properties/properties';

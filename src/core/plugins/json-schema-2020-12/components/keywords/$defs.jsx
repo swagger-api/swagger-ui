@@ -3,14 +3,15 @@
  */
 import React, { useCallback, useState } from "react"
 
-import { schema } from "../../../prop-types"
-import { useComponent, useIsExpandedDeeply } from "../../../hooks"
+import { schema } from "../../prop-types"
+import { useComponent, useIsExpandedDeeply } from "../../hooks"
 
-const DependentSchemas = ({ schema }) => {
-  const dependentSchemas = schema?.dependentSchemas || []
+const $defs = ({ schema }) => {
+  const $defs = schema?.$defs || {}
 
-  if (typeof dependentSchemas !== "object") return null
-  if (Object.keys(dependentSchemas).length === 0) return null
+  if (Object.keys($defs).length === 0) {
+    return null
+  }
 
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
@@ -22,16 +23,16 @@ const DependentSchemas = ({ schema }) => {
   }, [])
 
   return (
-    <div className="json-schema-2020-12__dependentSchemas">
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$defs">
       <Accordion expanded={expanded} onChange={handleExpansion}>
-        <span className="json-schema-2020-12-core-keyword json-schema-2020-12-core-keyword--dependentSchemas">
-          Dependent schemas
+        <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+          $defs
         </span>
-        <span className="json-schema-2020-12__type">object</span>
       </Accordion>
+      <span className="json-schema-2020-12__type">object</span>
       {expanded && (
         <ul>
-          {Object.entries(dependentSchemas).map(([schemaName, schema]) => (
+          {Object.entries($defs).map(([schemaName, schema]) => (
             <li key={schemaName} className="json-schema-2020-12-property">
               <JSONSchema name={schemaName} schema={schema} />
             </li>
@@ -42,8 +43,8 @@ const DependentSchemas = ({ schema }) => {
   )
 }
 
-DependentSchemas.propTypes = {
+$defs.propTypes = {
   schema: schema.isRequired,
 }
 
-export default DependentSchemas
+export default $defs

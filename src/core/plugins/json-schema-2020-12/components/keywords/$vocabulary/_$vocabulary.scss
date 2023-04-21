@@ -1,11 +1,13 @@
 .json-schema-2020-12 {
-  &__\$vocabulary {
+  &-keyword--\$vocabulary {
     ul {
       @include expansion-border;
     }
   }
 
-  &__\$vocabulary-uri {
+  &-\$vocabulary-uri {
+    margin-left: 35px;
+
     &--disabled {
       text-decoration: line-through;
     }

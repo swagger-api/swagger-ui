@@ -11,8 +11,10 @@ const JSONSchema202012KeywordDescriptionWrapper =
     const MarkDown = getComponent("Markdown")
 
     return (
-      <div className="json-schema-2020-12__description">
-        <MarkDown source={schema.description} />
+      <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--description">
+        <div className="json-schema-2020-12-core-keyword__value json-schema-2020-12-core-keyword__value--secondary">
+          <MarkDown source={schema.description} />
+        </div>
       </div>
     )
   })

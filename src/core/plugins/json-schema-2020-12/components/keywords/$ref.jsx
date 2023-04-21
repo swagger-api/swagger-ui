@@ -9,9 +9,11 @@ const $ref = ({ schema }) => {
   if (!schema?.$ref) return null
 
   return (
-    <div className="json-schema-2020-12__$ref">
-      <span className="json-schema-2020-12-core-keyword">$ref</span>
-      <span className="json-schema-2020-12-core-keyword__value">
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$ref">
+      <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+        $ref
+      </span>
+      <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--secondary">
         {schema.$ref}
       </span>
     </div>

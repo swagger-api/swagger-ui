@@ -20,21 +20,23 @@ const $vocabulary = ({ schema }) => {
   }, [])
 
   return (
-    <div className="json-schema-2020-12__$vocabulary">
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$vocabulary">
       <Accordion expanded={expanded} onChange={handleExpansion}>
-        <span className="json-schema-2020-12-core-keyword">$vocabulary</span>
-        <span className="json-schema-2020-12__type">object</span>
+        <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+          $vocabulary
+        </span>
       </Accordion>
+      <span className="json-schema-2020-12__type">object</span>
       <ul>
         {expanded &&
           Object.entries(schema.$vocabulary).map(([uri, enabled]) => (
             <li
               key={uri}
-              className={classNames("json-schema-2020-12__$vocabulary-uri", {
-                "json-schema-2020-12__$vocabulary-uri--disabled": !enabled,
+              className={classNames("json-schema-2020-12-$vocabulary-uri", {
+                "json-schema-2020-12-$vocabulary-uri--disabled": !enabled,
               })}
             >
-              <span className="json-schema-2020-12-core-keyword__value">
+              <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--secondary">
                 {uri}
               </span>
             </li>
