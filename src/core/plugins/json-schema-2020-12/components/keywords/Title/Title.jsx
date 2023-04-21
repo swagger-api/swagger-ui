@@ -18,7 +18,7 @@ const Title = ({ title, schema }) => {
 }
 
 Title.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   schema: schema.isRequired,
 }
 

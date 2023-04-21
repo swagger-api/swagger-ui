@@ -44,6 +44,7 @@ const JSONSchema = ({ schema, name }) => {
   const KeywordAllOf = useComponent("KeywordAllOf")
   const KeywordAnyOf = useComponent("KeywordAnyOf")
   const KeywordOneOf = useComponent("KeywordOneOf")
+  const KeywordNot = useComponent("KeywordNot")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
@@ -111,6 +112,7 @@ const JSONSchema = ({ schema, name }) => {
                 <KeywordAllOf schema={schema} />
                 <KeywordAnyOf schema={schema} />
                 <KeywordOneOf schema={schema} />
+                <KeywordNot schema={schema} />
                 <Keyword$schema schema={schema} />
                 <Keyword$vocabulary schema={schema} />
                 <Keyword$id schema={schema} />
@@ -132,7 +134,7 @@ const JSONSchema = ({ schema, name }) => {
 }
 
 JSONSchema.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   schema: propTypes.schema.isRequired,
 }
 
