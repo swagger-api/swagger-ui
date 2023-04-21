@@ -43,6 +43,7 @@ const JSONSchema = ({ schema, name }) => {
   const Keyword$comment = useComponent("Keyword$comment")
   const KeywordAllOf = useComponent("KeywordAllOf")
   const KeywordAnyOf = useComponent("KeywordAnyOf")
+  const KeywordOneOf = useComponent("KeywordOneOf")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
@@ -109,6 +110,7 @@ const JSONSchema = ({ schema, name }) => {
                 )}
                 <KeywordAllOf schema={schema} />
                 <KeywordAnyOf schema={schema} />
+                <KeywordOneOf schema={schema} />
                 <Keyword$schema schema={schema} />
                 <Keyword$vocabulary schema={schema} />
                 <Keyword$id schema={schema} />
