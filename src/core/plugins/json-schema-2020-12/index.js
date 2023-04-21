@@ -17,6 +17,7 @@ import KeywordAnyOf from "./components/keywords/AnyOf/AnyOf"
 import KeywordOneOf from "./components/keywords/OneOf/OneOf"
 import KeywordNot from "./components/keywords/Not/Not"
 import KeywordIf from "./components/keywords/If/If"
+import KeywordThen from "./components/keywords/Then/Then"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -44,6 +45,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012KeywordOneOf: KeywordOneOf,
     JSONSchema202012KeywordNot: KeywordNot,
     JSONSchema202012KeywordIf: KeywordIf,
+    JSONSchema202012KeywordThen: KeywordThen,
     JSONSchema202012KeywordProperties: KeywordProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,
