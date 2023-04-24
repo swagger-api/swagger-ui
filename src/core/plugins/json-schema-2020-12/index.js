@@ -22,6 +22,7 @@ import KeywordElse from "./components/keywords/Else"
 import KeywordDependentSchemas from "./components/keywords/DependentSchemas"
 import KeywordPrefixItems from "./components/keywords/PrefixItems"
 import KeywordItems from "./components/keywords/Items"
+import KeywordContains from "./components/keywords/Contains"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -54,6 +55,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012KeywordDependentSchemas: KeywordDependentSchemas,
     JSONSchema202012KeywordPrefixItems: KeywordPrefixItems,
     JSONSchema202012KeywordItems: KeywordItems,
+    JSONSchema202012KeywordContains: KeywordContains,
     JSONSchema202012KeywordProperties: KeywordProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,
