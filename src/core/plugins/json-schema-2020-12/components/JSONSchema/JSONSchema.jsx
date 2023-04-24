@@ -54,6 +54,9 @@ const JSONSchema = ({ schema, name }) => {
   const KeywordContains = useComponent("KeywordContains")
   const KeywordProperties = useComponent("KeywordProperties")
   const KeywordPatternProperties = useComponent("KeywordPatternProperties")
+  const KeywordAdditionalProperties = useComponent(
+    "KeywordAdditionalProperties"
+  )
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
   const KeywordTitle = useComponent("KeywordTitle")
@@ -118,19 +121,20 @@ const JSONSchema = ({ schema, name }) => {
                   <>
                     <KeywordProperties schema={schema} />
                     <KeywordPatternProperties schema={schema} />
+                    <KeywordAdditionalProperties schema={schema} />
+                    <KeywordAllOf schema={schema} />
+                    <KeywordAnyOf schema={schema} />
+                    <KeywordOneOf schema={schema} />
+                    <KeywordNot schema={schema} />
+                    <KeywordIf schema={schema} />
+                    <KeywordThen schema={schema} />
+                    <KeywordElse schema={schema} />
+                    <KeywordDependentSchemas schema={schema} />
+                    <KeywordPrefixItems schema={schema} />
+                    <KeywordItems schema={schema} />
+                    <KeywordContains schema={schema} />
                   </>
                 )}
-                <KeywordAllOf schema={schema} />
-                <KeywordAnyOf schema={schema} />
-                <KeywordOneOf schema={schema} />
-                <KeywordNot schema={schema} />
-                <KeywordIf schema={schema} />
-                <KeywordThen schema={schema} />
-                <KeywordElse schema={schema} />
-                <KeywordDependentSchemas schema={schema} />
-                <KeywordPrefixItems schema={schema} />
-                <KeywordItems schema={schema} />
-                <KeywordContains schema={schema} />
                 <Keyword$schema schema={schema} />
                 <Keyword$vocabulary schema={schema} />
                 <Keyword$id schema={schema} />

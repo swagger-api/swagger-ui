@@ -4,10 +4,12 @@
 import React from "react"
 
 import { schema } from "../../prop-types"
-import { useComponent } from "../../hooks"
+import { useFn, useComponent } from "../../hooks"
 
 const Not = ({ schema }) => {
-  if (!Object.hasOwn(schema, "contains")) return null
+  const fn = useFn()
+
+  if (!fn.hasKeyword(schema, "not")) return null
 
   const JSONSchema = useComponent("JSONSchema")
   const name = (

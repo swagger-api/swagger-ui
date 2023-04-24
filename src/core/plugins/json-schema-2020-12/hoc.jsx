@@ -26,6 +26,7 @@ import KeywordItems from "./components/keywords/Items"
 import KeywordContains from "./components/keywords/Contains"
 import KeywordProperties from "./components/keywords/Properties/Properties"
 import KeywordPatternProperties from "./components/keywords/PatternProperties/PatternProperties"
+import KeywordAdditionalProperties from "./components/keywords/AdditionalProperties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -39,6 +40,7 @@ import {
   isBooleanJSONSchema,
   upperFirst,
   getType,
+  hasKeyword,
   isExpandable,
 } from "./fn"
 
@@ -68,6 +70,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordContains,
       KeywordProperties,
       KeywordPatternProperties,
+      KeywordAdditionalProperties,
       KeywordType,
       KeywordFormat,
       KeywordTitle,
@@ -86,6 +89,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       getTitle,
       getType,
       isBooleanJSONSchema,
+      hasKeyword,
       isExpandable,
       ...overrides.fn,
     },
