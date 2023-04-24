@@ -1,7 +1,10 @@
 .json-schema-2020-12 {
-  &__properties {
-    margin: 0;
-    padding: 0;
+  &-keyword--properties {
+    ul {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
   }
 
   &-property {

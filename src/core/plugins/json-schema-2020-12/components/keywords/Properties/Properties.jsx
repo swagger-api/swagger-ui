@@ -16,13 +16,15 @@ const Properties = ({ schema }) => {
   const JSONSchema = useComponent("JSONSchema")
 
   return (
-    <ul className="json-schema-2020-12__properties">
-      {Object.entries(properties).map(([propertyName, schema]) => (
-        <li key={propertyName} className="json-schema-2020-12-property">
-          <JSONSchema name={propertyName} schema={schema} />
-        </li>
-      ))}
-    </ul>
+    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--properties">
+      <ul>
+        {Object.entries(properties).map(([propertyName, schema]) => (
+          <li key={propertyName} className="json-schema-2020-12-property">
+            <JSONSchema name={propertyName} schema={schema} />
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
