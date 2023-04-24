@@ -53,6 +53,7 @@ const JSONSchema = ({ schema, name }) => {
   const KeywordItems = useComponent("KeywordItems")
   const KeywordContains = useComponent("KeywordContains")
   const KeywordProperties = useComponent("KeywordProperties")
+  const KeywordPatternProperties = useComponent("KeywordPatternProperties")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
   const KeywordTitle = useComponent("KeywordTitle")
@@ -114,7 +115,10 @@ const JSONSchema = ({ schema, name }) => {
               <div className="json-schema-2020-12-body">
                 <KeywordDescription schema={schema} />
                 {!isCircular && isExpandable && (
-                  <KeywordProperties schema={schema} />
+                  <>
+                    <KeywordProperties schema={schema} />
+                    <KeywordPatternProperties schema={schema} />
+                  </>
                 )}
                 <KeywordAllOf schema={schema} />
                 <KeywordAnyOf schema={schema} />

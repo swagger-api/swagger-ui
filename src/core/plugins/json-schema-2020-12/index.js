@@ -2,7 +2,6 @@
  * @prettier
  */
 import JSONSchema from "./components/JSONSchema/JSONSchema"
-import KeywordProperties from "./components/keywords/Properties/Properties"
 import Keyword$schema from "./components/keywords/$schema"
 import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
 import Keyword$id from "./components/keywords/$id"
@@ -23,6 +22,8 @@ import KeywordDependentSchemas from "./components/keywords/DependentSchemas"
 import KeywordPrefixItems from "./components/keywords/PrefixItems"
 import KeywordItems from "./components/keywords/Items"
 import KeywordContains from "./components/keywords/Contains"
+import KeywordProperties from "./components/keywords/Properties/Properties"
+import KeywordPatternProperties from "./components/keywords/PatternProperties/PatternProperties"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -57,6 +58,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012KeywordItems: KeywordItems,
     JSONSchema202012KeywordContains: KeywordContains,
     JSONSchema202012KeywordProperties: KeywordProperties,
+    JSONSchema202012KeywordPatternProperties: KeywordPatternProperties,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,
     JSONSchema202012KeywordTitle: KeywordTitle,
