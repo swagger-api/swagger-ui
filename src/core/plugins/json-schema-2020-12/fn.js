@@ -136,14 +136,14 @@ export const isExpandable = (schema) => {
     schema?.allOf ||
     schema?.anyOf ||
     schema?.oneOf ||
-    schema?.not ||
-    schema?.if ||
-    schema?.then ||
-    schema?.else ||
+    Object.hasOwn(schema, "not") ||
+    Object.hasOwn(schema, "if") ||
+    Object.hasOwn(schema, "then") ||
+    Object.hasOwn(schema, "else") ||
     schema?.dependentSchemas ||
     schema?.prefixItems ||
     schema?.items ||
-    schema?.contains ||
+    Object.hasOwn(schema, "contains") ||
     schema?.properties ||
     schema?.patternProperties ||
     schema?.description
