@@ -1,6 +1,8 @@
 /**
  * @prettier
  */
+import { useFn } from "./hooks"
+
 export const upperFirst = (value) => {
   if (typeof value === "string") {
     return `${value.charAt(0).toUpperCase()}${value.slice(1)}`
@@ -17,11 +19,13 @@ export const getTitle = (schema) => {
 }
 
 export const getType = (schema, processedSchemas = new WeakSet()) => {
+  const fn = useFn()
+
   if (schema == null) {
     return "any"
   }
 
-  if (typeof schema === "boolean") {
+  if (fn.isBooleanJSONSchema(schema)) {
     return schema ? "any" : "never"
   }
 
@@ -122,7 +126,12 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
 
 export const isBooleanJSONSchema = (schema) => typeof schema === "boolean"
 
+export const hasKeyword = (schema, keyword) =>
+  typeof schema === "object" && Object.hasOwn(schema, keyword)
+
 export const isExpandable = (schema) => {
+  const fn = useFn()
+
   return (
     schema?.$schema ||
     schema?.$vocabulary ||
@@ -136,16 +145,17 @@ export const isExpandable = (schema) => {
     schema?.allOf ||
     schema?.anyOf ||
     schema?.oneOf ||
-    Object.hasOwn(schema, "not") ||
-    Object.hasOwn(schema, "if") ||
-    Object.hasOwn(schema, "then") ||
-    Object.hasOwn(schema, "else") ||
+    fn.hasKeyword(schema, "not") ||
+    fn.hasKeyword(schema, "if") ||
+    fn.hasKeyword(schema, "then") ||
+    fn.hasKeyword(schema, "else") ||
     schema?.dependentSchemas ||
     schema?.prefixItems ||
     schema?.items ||
-    Object.hasOwn(schema, "contains") ||
+    fn.hasKeyword(schema, "contains") ||
     schema?.properties ||
     schema?.patternProperties ||
+    fn.hasKeyword(schema, "additionalProperties") ||
     schema?.description
   )
 }
