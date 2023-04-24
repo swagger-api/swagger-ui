@@ -34,18 +34,25 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
   }
   processedSchemas.add(schema)
 
-  const { type, items } = schema
+  const { type, prefixItems, items } = schema
 
   const getArrayType = () => {
-    if (!items) {
+    if (prefixItems) {
+      const prefixItemsTypes = prefixItems.map((itemSchema) =>
+        getType(itemSchema, processedSchemas)
+      )
+      const itemsType = items ? getType(items, processedSchemas) : "any"
+      return `array<[${prefixItemsTypes.join(", ")}], ${itemsType}>`
+    } else if (items) {
+      const itemsType = getType(items, processedSchemas)
+      return `array<${itemsType}>`
+    } else {
       return "array<any>"
     }
-    const itemsType = getType(items, processedSchemas)
-    return `array<${itemsType}>`
   }
 
   const inferType = () => {
-    if (items) {
+    if (prefixItems || items) {
       return getArrayType()
     } else if (schema.properties || schema.additionalProperties) {
       return "object"
@@ -134,6 +141,7 @@ export const isExpandable = (schema) => {
     schema?.then ||
     schema?.else ||
     schema?.dependentSchemas ||
+    schema?.prefixItems ||
     schema?.description ||
     schema?.properties
   )
