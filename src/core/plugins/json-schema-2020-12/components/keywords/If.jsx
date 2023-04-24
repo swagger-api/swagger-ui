@@ -7,7 +7,7 @@ import { schema } from "../../prop-types"
 import { useComponent } from "../../hooks"
 
 const If = ({ schema }) => {
-  if (!schema?.if) return null
+  if (!Object.hasOwn(schema, "if")) return null
 
   const JSONSchema = useComponent("JSONSchema")
   const name = (
