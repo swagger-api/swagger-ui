@@ -2,18 +2,15 @@
  * @prettier
  */
 import React, { useCallback, useState } from "react"
+import classNames from "classnames"
 
 import { schema } from "../../prop-types"
-import { useComponent, useIsExpandedDeeply } from "../../hooks"
+import { useConfig, useComponent, useIsExpandedDeeply } from "../../hooks"
 import { JSONSchemaDeepExpansionContext } from "../../context"
 
 const $defs = ({ schema }) => {
   const $defs = schema?.$defs || {}
-
-  if (Object.keys($defs).length === 0) {
-    return null
-  }
-
+  const config = useConfig()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
@@ -32,6 +29,13 @@ const $defs = ({ schema }) => {
     setExpandedDeeply(expandedDeepNew)
   }, [])
 
+  /**
+   * Rendering.
+   */
+  if (Object.keys($defs).length === 0) {
+    return null
+  }
+
   return (
     <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
       <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$defs">
@@ -42,15 +46,21 @@ const $defs = ({ schema }) => {
         </Accordion>
         <ExpandDeepButton expanded={expanded} onClick={handleExpansionDeep} />
         <span className="json-schema-2020-12__type">object</span>
-        {expanded && (
-          <ul>
-            {Object.entries($defs).map(([schemaName, schema]) => (
-              <li key={schemaName} className="json-schema-2020-12-property">
-                <JSONSchema name={schemaName} schema={schema} />
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul
+          className={classNames("json-schema-2020-12-keyword__children", {
+            "json-schema-2020-12-keyword__children--collapsed": !expanded,
+          })}
+        >
+          {!expanded && config.optimizeExpansion ? null : (
+            <>
+              {Object.entries($defs).map(([schemaName, schema]) => (
+                <li key={schemaName} className="json-schema-2020-12-property">
+                  <JSONSchema name={schemaName} schema={schema} />
+                </li>
+              ))}
+            </>
+          )}
+        </ul>
       </div>
     </JSONSchemaDeepExpansionContext.Provider>
   )

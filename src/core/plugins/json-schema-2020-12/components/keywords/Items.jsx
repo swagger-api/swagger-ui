@@ -7,9 +7,13 @@ import { schema } from "../../prop-types"
 import { useComponent } from "../../hooks"
 
 const Items = ({ schema }) => {
+  const JSONSchema = useComponent("JSONSchema")
+
+  /**
+   * Rendering.
+   */
   if (!schema?.items) return null
 
-  const JSONSchema = useComponent("JSONSchema")
   const name = (
     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
       Items

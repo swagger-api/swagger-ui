@@ -8,11 +8,14 @@ import { useFn, useComponent } from "../../hooks"
 
 const AdditionalProperties = ({ schema }) => {
   const fn = useFn()
+  const { additionalProperties } = schema
+  const JSONSchema = useComponent("JSONSchema")
 
   if (!fn.hasKeyword(schema, "additionalProperties")) return null
 
-  const { additionalProperties } = schema
-  const JSONSchema = useComponent("JSONSchema")
+  /**
+   * Rendering.
+   */
   const name = (
     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
       Additional properties

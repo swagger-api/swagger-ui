@@ -8,9 +8,6 @@ import { useFn, useComponent } from "../../hooks"
 
 const PropertyNames = ({ schema }) => {
   const fn = useFn()
-
-  if (!fn.hasKeyword(schema, "propertyNames")) return null
-
   const { propertyNames } = schema
   const JSONSchema = useComponent("JSONSchema")
   const name = (
@@ -18,6 +15,11 @@ const PropertyNames = ({ schema }) => {
       Property names
     </span>
   )
+
+  /**
+   * Rendering.
+   */
+  if (!fn.hasKeyword(schema, "propertyNames")) return null
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--propertyNames">

@@ -2,19 +2,21 @@
  * @prettier
  */
 import React, { useCallback, useState } from "react"
+import classNames from "classnames"
 
 import { schema } from "../../prop-types"
-import { useFn, useComponent, useIsExpandedDeeply } from "../../hooks"
+import {
+  useFn,
+  useConfig,
+  useComponent,
+  useIsExpandedDeeply,
+} from "../../hooks"
 import { JSONSchemaDeepExpansionContext } from "../../context"
 
 const AnyOf = ({ schema }) => {
   const anyOf = schema?.anyOf || []
-
-  if (!Array.isArray(anyOf) || anyOf.length === 0) {
-    return null
-  }
-
   const fn = useFn()
+  const config = useConfig()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
@@ -34,6 +36,13 @@ const AnyOf = ({ schema }) => {
     setExpandedDeeply(expandedDeepNew)
   }, [])
 
+  /**
+   * Rendering.
+   */
+  if (!Array.isArray(anyOf) || anyOf.length === 0) {
+    return null
+  }
+
   return (
     <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
       <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--anyOf">
@@ -44,18 +53,24 @@ const AnyOf = ({ schema }) => {
         </Accordion>
         <ExpandDeepButton expanded={expanded} onClick={handleExpansionDeep} />
         <KeywordType schema={{ anyOf }} />
-        {expanded && (
-          <ul>
-            {anyOf.map((schema, index) => (
-              <li key={`#${index}`} className="json-schema-2020-12-property">
-                <JSONSchema
-                  name={`#${index} ${fn.getTitle(schema)}`}
-                  schema={schema}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul
+          className={classNames("json-schema-2020-12-keyword__children", {
+            "json-schema-2020-12-keyword__children--collapsed": !expanded,
+          })}
+        >
+          {!expanded && config.optimizeExpansion ? null : (
+            <>
+              {anyOf.map((schema, index) => (
+                <li key={`#${index}`} className="json-schema-2020-12-property">
+                  <JSONSchema
+                    name={`#${index} ${fn.getTitle(schema)}`}
+                    schema={schema}
+                  />
+                </li>
+              ))}
+            </>
+          )}
+        </ul>
       </div>
     </JSONSchemaDeepExpansionContext.Provider>
   )

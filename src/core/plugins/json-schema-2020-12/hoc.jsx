@@ -88,6 +88,23 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
     },
     config: {
       default$schema: "https://json-schema.org/draft/2020-12/schema",
+      /**
+       * Defines an upper exclusive boundary of the level range for automatic expansion.
+       *
+       * 0 -> do nothing
+       * 1 -> [0]...(1)
+       * 2 -> [0]...(2)
+       * 3 -> [0]...(3)
+       */
+      defaultExpandedLevels: 0, // 2 = 0...2
+      /**
+       * Can be turned on for complex and extensive schemas.
+       * Child schemas are not rendered until parent schema is expanded.
+       *
+       * By default, entire schema tree is rendered and collapsed parts of the
+       * tree are hidden with css.
+       */
+      optimizeExpansion: false,
       ...overrides.config,
     },
     fn: {

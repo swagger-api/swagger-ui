@@ -8,12 +8,14 @@ import { useComponent } from "../../../hooks"
 
 const PatternProperties = ({ schema }) => {
   const patternProperties = schema?.patternProperties || {}
+  const JSONSchema = useComponent("JSONSchema")
 
+  /**
+   * Rendering.
+   */
   if (Object.keys(patternProperties).length === 0) {
     return null
   }
-
-  const JSONSchema = useComponent("JSONSchema")
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--patternProperties">

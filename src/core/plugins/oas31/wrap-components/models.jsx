@@ -6,7 +6,8 @@ import React from "react"
 import { createOnlyOAS31ComponentWrapper } from "../fn"
 
 const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
-  const { getComponent, fn } = getSystem()
+  const { getComponent, fn, getConfigs } = getSystem()
+  const configs = getConfigs()
 
   if (ModelsWrapper.ModelsWithJSONContext) {
     return <ModelsWrapper.ModelsWithJSONContext />
@@ -61,7 +62,6 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     "JSONSchema202012KeywordDescription",
     true
   )
-
   const Accordion = getComponent("JSONSchema202012Accordion")
   const ExpandDeepButton = getComponent("JSONSchema202012ExpandDeepButton")
   const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
@@ -70,6 +70,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   ModelsWrapper.ModelsWithJSONContext = withSchemaContext(Models, {
     config: {
       default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
+      defaultExpandedLevels: configs.defaultModelsExpandDepth - 1,
     },
     components: {
       JSONSchema,

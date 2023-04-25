@@ -9,6 +9,7 @@ import * as propTypes from "../../prop-types"
 import {
   useComponent,
   useLevel,
+  useConfig,
   useFn,
   useIsEmbedded,
   useIsExpandedDeeply,
@@ -23,6 +24,7 @@ import {
 
 const JSONSchema = forwardRef(({ schema, name }, ref) => {
   const fn = useFn()
+  const config = useConfig()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
@@ -120,43 +122,49 @@ const JSONSchema = forwardRef(({ schema, name }, ref) => {
               <KeywordType schema={schema} isCircular={isCircular} />
               <KeywordFormat schema={schema} />
             </div>
-            {expanded && (
-              <div className="json-schema-2020-12-body">
-                <KeywordDescription schema={schema} />
-                {!isCircular && isExpandable && (
-                  <>
-                    <KeywordProperties schema={schema} />
-                    <KeywordPatternProperties schema={schema} />
-                    <KeywordAdditionalProperties schema={schema} />
-                    <KeywordUnevaluatedProperties schema={schema} />
-                    <KeywordPropertyNames schema={schema} />
-                    <KeywordAllOf schema={schema} />
-                    <KeywordAnyOf schema={schema} />
-                    <KeywordOneOf schema={schema} />
-                    <KeywordNot schema={schema} />
-                    <KeywordIf schema={schema} />
-                    <KeywordThen schema={schema} />
-                    <KeywordElse schema={schema} />
-                    <KeywordDependentSchemas schema={schema} />
-                    <KeywordPrefixItems schema={schema} />
-                    <KeywordItems schema={schema} />
-                    <KeywordUnevaluatedItems schema={schema} />
-                    <KeywordContains schema={schema} />
-                  </>
-                )}
-                <Keyword$schema schema={schema} />
-                <Keyword$vocabulary schema={schema} />
-                <Keyword$id schema={schema} />
-                <Keyword$anchor schema={schema} />
-                <Keyword$dynamicAnchor schema={schema} />
-                <Keyword$ref schema={schema} />
-                {!isCircular && isExpandable && (
-                  <Keyword$defs schema={schema} />
-                )}
-                <Keyword$dynamicRef schema={schema} />
-                <Keyword$comment schema={schema} />
-              </div>
-            )}
+            <div
+              className={classNames("json-schema-2020-12-body", {
+                "json-schema-2020-12-body--collapsed": !expanded,
+              })}
+            >
+              {!expanded && config.optimizeExpansion ? null : (
+                <>
+                  <KeywordDescription schema={schema} />
+                  {!isCircular && isExpandable && (
+                    <>
+                      <KeywordProperties schema={schema} />
+                      <KeywordPatternProperties schema={schema} />
+                      <KeywordAdditionalProperties schema={schema} />
+                      <KeywordUnevaluatedProperties schema={schema} />
+                      <KeywordPropertyNames schema={schema} />
+                      <KeywordAllOf schema={schema} />
+                      <KeywordAnyOf schema={schema} />
+                      <KeywordOneOf schema={schema} />
+                      <KeywordNot schema={schema} />
+                      <KeywordIf schema={schema} />
+                      <KeywordThen schema={schema} />
+                      <KeywordElse schema={schema} />
+                      <KeywordDependentSchemas schema={schema} />
+                      <KeywordPrefixItems schema={schema} />
+                      <KeywordItems schema={schema} />
+                      <KeywordUnevaluatedItems schema={schema} />
+                      <KeywordContains schema={schema} />
+                    </>
+                  )}
+                  <Keyword$schema schema={schema} />
+                  <Keyword$vocabulary schema={schema} />
+                  <Keyword$id schema={schema} />
+                  <Keyword$anchor schema={schema} />
+                  <Keyword$dynamicAnchor schema={schema} />
+                  <Keyword$ref schema={schema} />
+                  {!isCircular && isExpandable && (
+                    <Keyword$defs schema={schema} />
+                  )}
+                  <Keyword$dynamicRef schema={schema} />
+                  <Keyword$comment schema={schema} />
+                </>
+              )}
+            </div>
           </article>
         </JSONSchemaCyclesContext.Provider>
       </JSONSchemaDeepExpansionContext.Provider>

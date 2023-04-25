@@ -8,10 +8,13 @@ import { useFn, useComponent } from "../../hooks"
 
 const If = ({ schema }) => {
   const fn = useFn()
+  const JSONSchema = useComponent("JSONSchema")
 
+  /**
+   * Rendering.
+   */
   if (!fn.hasKeyword(schema, "if")) return null
 
-  const JSONSchema = useComponent("JSONSchema")
   const name = (
     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
       If

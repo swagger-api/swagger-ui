@@ -1,9 +1,13 @@
 .json-schema-2020-12-keyword {
   margin: 5px 0 5px 0;
 
-  & > ul {
+  &__children {
     @include expansion-border;
     padding: 0;
+
+    &--collapsed {
+      display: none;
+    }
   }
 
   &__name {
