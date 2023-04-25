@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { useState, useCallback, useEffect } from "react"
+import React, { forwardRef, useState, useCallback, useEffect } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 
@@ -21,7 +21,7 @@ import {
   JSONSchemaCyclesContext,
 } from "../../context"
 
-const JSONSchema = ({ schema, name }) => {
+const JSONSchema = forwardRef(({ schema, name }, ref) => {
   const fn = useFn()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
@@ -96,6 +96,7 @@ const JSONSchema = ({ schema, name }) => {
       <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
         <JSONSchemaCyclesContext.Provider value={renderedSchemas}>
           <article
+            ref={ref}
             data-json-schema-level={level}
             className={classNames("json-schema-2020-12", {
               "json-schema-2020-12--embedded": isEmbedded,
@@ -161,7 +162,7 @@ const JSONSchema = ({ schema, name }) => {
       </JSONSchemaDeepExpansionContext.Provider>
     </JSONSchemaLevelContext.Provider>
   )
-}
+})
 
 JSONSchema.propTypes = {
   name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

@@ -1,11 +1,12 @@
 /**
  * @prettier
  */
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 
 const Models = ({
+  specActions,
   specSelectors,
   layoutSelectors,
   layoutActions,
@@ -21,12 +22,39 @@ const Models = ({
   const Collapse = getComponent("Collapse")
   const JSONSchema202012 = getComponent("JSONSchema202012")
 
+  /**
+   * Effects.
+   */
+  useEffect(() => {
+    if (isOpen && specSelectors.specResolvedSubtree(schemasPath) == null) {
+      specActions.requestResolvedSubtree(schemasPath)
+    }
+  }, [isOpen])
+
+  /**
+   * Event handlers.
+   */
   const handleCollapse = useCallback(() => {
     layoutActions.show(schemasPath, !isOpen)
   }, [layoutActions, schemasPath, isOpen])
 
+  const handleModelsRef = useCallback((node) => {
+    if (node !== null) {
+      layoutActions.readyToScroll(schemasPath, node)
+    }
+  }, [])
+
+  const handleJSONSchema202012Ref = (schemaName) => (node) => {
+    if (node !== null) {
+      layoutActions.readyToScroll([...schemasPath, schemaName], node)
+    }
+  }
+
   return (
-    <section className={classNames("models", { "is-open": isOpen })}>
+    <section
+      className={classNames("models", { "is-open": isOpen })}
+      ref={handleModelsRef}
+    >
       <h4>
         <button
           aria-expanded={isOpen}
@@ -43,6 +71,7 @@ const Models = ({
         {Object.entries(schemas).map(([schemaName, schema]) => (
           <JSONSchema202012
             key={schemaName}
+            ref={handleJSONSchema202012Ref(schemaName)}
             schema={schema}
             name={fn.upperFirst(schemaName)}
           />
@@ -57,6 +86,9 @@ Models.propTypes = {
   getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.shape({
     selectSchemas: PropTypes.func.isRequired,
+  }).isRequired,
+  specActions: PropTypes.shape({
+    requestResolvedSubtree: PropTypes.func.isRequired,
   }).isRequired,
   layoutSelectors: PropTypes.shape({
     isShown: PropTypes.func.isRequired,

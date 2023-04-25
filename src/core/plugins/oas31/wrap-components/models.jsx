@@ -7,6 +7,11 @@ import { createOnlyOAS31ComponentWrapper } from "../fn"
 
 const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const { getComponent, fn } = getSystem()
+
+  if (ModelsWrapper.ModelsWithJSONContext) {
+    return <ModelsWrapper.ModelsWithJSONContext />
+  }
+
   const Models = getComponent("OAS31Models", true)
   const JSONSchema = getComponent("JSONSchema202012")
   const Keyword$schema = getComponent("JSONSchema202012Keyword$schema")
@@ -61,7 +66,8 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const ExpandDeepButton = getComponent("JSONSchema202012ExpandDeepButton")
   const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
   const withSchemaContext = getComponent("withJSONSchema202012Context")
-  const ModelsWithJSONContext = withSchemaContext(Models, {
+
+  ModelsWrapper.ModelsWithJSONContext = withSchemaContext(Models, {
     config: {
       default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
     },
@@ -106,7 +112,9 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     },
   })
 
-  return <ModelsWithJSONContext />
+  return <ModelsWrapper.ModelsWithJSONContext />
 })
+
+ModelsWrapper.ModelsWithJSONContext = null
 
 export default ModelsWrapper
