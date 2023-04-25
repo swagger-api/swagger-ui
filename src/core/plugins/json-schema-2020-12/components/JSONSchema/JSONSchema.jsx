@@ -57,6 +57,7 @@ const JSONSchema = ({ schema, name }) => {
   const KeywordAdditionalProperties = useComponent(
     "KeywordAdditionalProperties"
   )
+  const KeywordPropertyNames = useComponent("KeywordPropertyNames")
   const KeywordType = useComponent("KeywordType")
   const KeywordFormat = useComponent("KeywordFormat")
   const KeywordTitle = useComponent("KeywordTitle")
@@ -122,6 +123,7 @@ const JSONSchema = ({ schema, name }) => {
                     <KeywordProperties schema={schema} />
                     <KeywordPatternProperties schema={schema} />
                     <KeywordAdditionalProperties schema={schema} />
+                    <KeywordPropertyNames schema={schema} />
                     <KeywordAllOf schema={schema} />
                     <KeywordAnyOf schema={schema} />
                     <KeywordOneOf schema={schema} />

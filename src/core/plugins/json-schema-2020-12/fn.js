@@ -156,6 +156,7 @@ export const isExpandable = (schema) => {
     schema?.properties ||
     schema?.patternProperties ||
     fn.hasKeyword(schema, "additionalProperties") ||
+    fn.hasKeyword(schema, "propertyNames") ||
     schema?.description
   )
 }

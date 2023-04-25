@@ -40,6 +40,9 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const KeywordAdditionalProperties = getComponent(
     "JSONSchema202012KeywordAdditionalProperties"
   )
+  const KeywordPropertyNames = getComponent(
+    "JSONSchema202012KeywordPropertyNames"
+  )
   const KeywordType = getComponent("JSONSchema202012KeywordType")
   const KeywordFormat = getComponent("JSONSchema202012KeywordFormat")
   const KeywordTitle = getComponent("JSONSchema202012KeywordTitle")
@@ -81,6 +84,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
       KeywordProperties,
       KeywordPatternProperties,
       KeywordAdditionalProperties,
+      KeywordPropertyNames,
       KeywordType,
       KeywordFormat,
       KeywordTitle,
