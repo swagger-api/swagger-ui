@@ -46,6 +46,9 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const KeywordUnevaluatedItems = getComponent(
     "JSONSchema202012KeywordUnevaluatedItems"
   )
+  const KeywordUnevaluatedProperties = getComponent(
+    "JSONSchema202012KeywordUnevaluatedProperties"
+  )
   const KeywordType = getComponent("JSONSchema202012KeywordType")
   const KeywordFormat = getComponent("JSONSchema202012KeywordFormat")
   const KeywordTitle = getComponent("JSONSchema202012KeywordTitle")
@@ -89,6 +92,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
       KeywordAdditionalProperties,
       KeywordPropertyNames,
       KeywordUnevaluatedItems,
+      KeywordUnevaluatedProperties,
       KeywordType,
       KeywordFormat,
       KeywordTitle,
