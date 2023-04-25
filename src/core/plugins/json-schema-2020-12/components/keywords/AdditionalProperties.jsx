@@ -15,7 +15,7 @@ const AdditionalProperties = ({ schema }) => {
   const JSONSchema = useComponent("JSONSchema")
   const name = (
     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
-      Additional Properties
+      Additional properties
     </span>
   )
 
