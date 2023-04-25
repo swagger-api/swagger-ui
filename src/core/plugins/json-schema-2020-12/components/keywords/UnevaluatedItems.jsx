@@ -8,11 +8,14 @@ import { useFn, useComponent } from "../../hooks"
 
 const UnevaluatedItems = ({ schema }) => {
   const fn = useFn()
-
-  if (!fn.hasKeyword(schema, "unevaluatedItems")) return null
-
   const { unevaluatedItems } = schema
   const JSONSchema = useComponent("JSONSchema")
+
+  /**
+   * Rendering.
+   */
+  if (!fn.hasKeyword(schema, "unevaluatedItems")) return null
+
   const name = (
     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
       Unevaluated items

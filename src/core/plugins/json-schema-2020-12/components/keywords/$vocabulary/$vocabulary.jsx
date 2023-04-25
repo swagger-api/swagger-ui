@@ -8,9 +8,6 @@ import { schema } from "../../../prop-types"
 import { useComponent, useIsExpandedDeeply } from "../../../hooks"
 
 const $vocabulary = ({ schema }) => {
-  if (!schema?.$vocabulary) return null
-  if (typeof schema.$vocabulary !== "object") return null
-
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const Accordion = useComponent("Accordion")
@@ -18,6 +15,12 @@ const $vocabulary = ({ schema }) => {
   const handleExpansion = useCallback(() => {
     setExpanded((prev) => !prev)
   }, [])
+
+  /**
+   * Rendering.
+   */
+  if (!schema?.$vocabulary) return null
+  if (typeof schema.$vocabulary !== "object") return null
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--$vocabulary">

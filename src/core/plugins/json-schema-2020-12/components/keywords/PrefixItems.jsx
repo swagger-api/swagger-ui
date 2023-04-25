@@ -2,19 +2,21 @@
  * @prettier
  */
 import React, { useCallback, useState } from "react"
+import classNames from "classnames"
 
 import { schema } from "../../prop-types"
-import { useFn, useComponent, useIsExpandedDeeply } from "../../hooks"
+import {
+  useFn,
+  useConfig,
+  useComponent,
+  useIsExpandedDeeply,
+} from "../../hooks"
 import { JSONSchemaDeepExpansionContext } from "../../context"
 
 const PrefixItems = ({ schema }) => {
   const prefixItems = schema?.prefixItems || []
-
-  if (!Array.isArray(prefixItems) || prefixItems.length === 0) {
-    return null
-  }
-
   const fn = useFn()
+  const config = useConfig()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
@@ -34,6 +36,13 @@ const PrefixItems = ({ schema }) => {
     setExpandedDeeply(expandedDeepNew)
   }, [])
 
+  /**
+   * Rendering.
+   */
+  if (!Array.isArray(prefixItems) || prefixItems.length === 0) {
+    return null
+  }
+
   return (
     <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
       <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--prefixItems">
@@ -44,18 +53,24 @@ const PrefixItems = ({ schema }) => {
         </Accordion>
         <ExpandDeepButton expanded={expanded} onClick={handleExpansionDeep} />
         <KeywordType schema={{ prefixItems }} />
-        {expanded && (
-          <ul>
-            {prefixItems.map((schema, index) => (
-              <li key={`#${index}`} className="json-schema-2020-12-property">
-                <JSONSchema
-                  name={`#${index} ${fn.getTitle(schema)}`}
-                  schema={schema}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul
+          className={classNames("json-schema-2020-12-keyword__children", {
+            "json-schema-2020-12-keyword__children--collapsed": !expanded,
+          })}
+        >
+          {!expanded && config.optimizeExpansion ? null : (
+            <>
+              {prefixItems.map((schema, index) => (
+                <li key={`#${index}`} className="json-schema-2020-12-property">
+                  <JSONSchema
+                    name={`#${index} ${fn.getTitle(schema)}`}
+                    schema={schema}
+                  />
+                </li>
+              ))}
+            </>
+          )}
+        </ul>
       </div>
     </JSONSchemaDeepExpansionContext.Provider>
   )

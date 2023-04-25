@@ -20,6 +20,10 @@
   &-body {
     @include expansion-border;
     margin: 2px 0;
+
+    &--collapsed {
+      display: none;
+    }
   }
 
   &__limit {

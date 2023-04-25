@@ -15,6 +15,7 @@ const Models = ({
   fn,
 }) => {
   const schemas = specSelectors.selectSchemas()
+  const hasSchemas = Object.keys(schemas).length > 0
   const schemasPath = ["components", "schemas"]
   const { docExpansion, defaultModelsExpandDepth } = getConfigs()
   const isOpenDefault = defaultModelsExpandDepth > 0 && docExpansion !== "none"
@@ -34,20 +35,32 @@ const Models = ({
   /**
    * Event handlers.
    */
+
   const handleCollapse = useCallback(() => {
     layoutActions.show(schemasPath, !isOpen)
-  }, [layoutActions, schemasPath, isOpen])
+  }, [isOpen, layoutActions])
 
-  const handleModelsRef = useCallback((node) => {
-    if (node !== null) {
-      layoutActions.readyToScroll(schemasPath, node)
-    }
-  }, [])
+  const handleModelsRef = useCallback(
+    (node) => {
+      if (node !== null) {
+        layoutActions.readyToScroll(schemasPath, node)
+      }
+    },
+    [layoutActions]
+  )
 
   const handleJSONSchema202012Ref = (schemaName) => (node) => {
     if (node !== null) {
       layoutActions.readyToScroll([...schemasPath, schemaName], node)
     }
+  }
+
+  /**
+   * Rendering.
+   */
+
+  if (!hasSchemas || defaultModelsExpandDepth < 0) {
+    return null
   }
 
   return (
@@ -86,6 +99,7 @@ Models.propTypes = {
   getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.shape({
     selectSchemas: PropTypes.func.isRequired,
+    specResolvedSubtree: PropTypes.func.isRequired,
   }).isRequired,
   specActions: PropTypes.shape({
     requestResolvedSubtree: PropTypes.func.isRequired,
@@ -95,6 +109,7 @@ Models.propTypes = {
   }).isRequired,
   layoutActions: PropTypes.shape({
     show: PropTypes.func.isRequired,
+    readyToScroll: PropTypes.func.isRequired,
   }).isRequired,
   fn: PropTypes.shape({
     upperFirst: PropTypes.func.isRequired,
