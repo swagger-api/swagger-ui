@@ -169,7 +169,20 @@ export const selectJsonSchemaDialectDefault = () =>
 
 export const selectSchemas = createSelector(
   (state, system) => system.specSelectors.definitions(),
-  (schemas) => {
-    return Map.isMap(schemas) ? schemas.toJS() : {}
+  (state, system) =>
+    system.specSelectors.specResolvedSubtree(["components", "schemas"]),
+
+  (rawSchemas, resolvedSchemas) => {
+    if (!Map.isMap(rawSchemas)) return {}
+    if (!Map.isMap(resolvedSchemas)) return rawSchemas.toJS()
+
+    return Object.entries(rawSchemas.toJS()).reduce(
+      (acc, [schemaName, rawSchema]) => {
+        const resolvedSchema = resolvedSchemas.get(schemaName)
+        acc[schemaName] = resolvedSchema?.toJS() || rawSchema
+        return acc
+      },
+      {}
+    )
   }
 )
