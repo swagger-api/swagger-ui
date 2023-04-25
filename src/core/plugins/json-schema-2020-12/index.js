@@ -26,6 +26,7 @@ import KeywordProperties from "./components/keywords/Properties/Properties"
 import KeywordPatternProperties from "./components/keywords/PatternProperties/PatternProperties"
 import KeywordAdditionalProperties from "./components/keywords/AdditionalProperties"
 import KeywordPropertyNames from "./components/keywords/PropertyNames"
+import KeywordUnevaluatedItems from "./components/keywords/UnevaluatedItems"
 import KeywordType from "./components/keywords/Type/Type"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -63,6 +64,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012KeywordPatternProperties: KeywordPatternProperties,
     JSONSchema202012KeywordAdditionalProperties: KeywordAdditionalProperties,
     JSONSchema202012KeywordPropertyNames: KeywordPropertyNames,
+    JSONSchema202012KeywordUnevaluatedItems: KeywordUnevaluatedItems,
     JSONSchema202012KeywordType: KeywordType,
     JSONSchema202012KeywordFormat: KeywordFormat,
     JSONSchema202012KeywordTitle: KeywordTitle,
