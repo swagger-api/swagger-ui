@@ -22,6 +22,11 @@ function setUpDomEnvironment() {
   })
   const { window } = jsdom
 
+  // https://github.com/jsdom/jsdom/issues/1721
+  if (typeof global.window.URL.createObjectURL === "undefined") {
+    Object.defineProperty(global.window.URL, "createObjectURL", { value: () => "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==" })
+  }
+
   global.window = window
   global.document = window.document
   global.navigator = {
