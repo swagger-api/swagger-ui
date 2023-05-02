@@ -104,7 +104,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
        * By default, entire schema tree is rendered and collapsed parts of the
        * tree are hidden with css.
        */
-      optimizeExpansion: false,
+      optimizeExpansion: true,
       ...overrides.config,
     },
     fn: {
