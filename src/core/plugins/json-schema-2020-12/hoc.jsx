@@ -97,14 +97,6 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
        * 3 -> [0]...(3)
        */
       defaultExpandedLevels: 0, // 2 = 0...2
-      /**
-       * Can be turned on for complex and extensive schemas.
-       * Child schemas are not rendered until parent schema is expanded.
-       *
-       * By default, entire schema tree is rendered and collapsed parts of the
-       * tree are hidden with css.
-       */
-      optimizeExpansion: true,
       ...overrides.config,
     },
     fn: {

@@ -5,18 +5,12 @@ import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
 import { schema } from "../../prop-types"
-import {
-  useFn,
-  useConfig,
-  useComponent,
-  useIsExpandedDeeply,
-} from "../../hooks"
+import { useFn, useComponent, useIsExpandedDeeply } from "../../hooks"
 import { JSONSchemaDeepExpansionContext } from "../../context"
 
 const OneOf = ({ schema }) => {
   const oneOf = schema?.oneOf || []
   const fn = useFn()
-  const config = useConfig()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
@@ -58,7 +52,7 @@ const OneOf = ({ schema }) => {
             "json-schema-2020-12-keyword__children--collapsed": !expanded,
           })}
         >
-          {!expanded && config.optimizeExpansion ? null : (
+          {expanded && (
             <>
               {oneOf.map((schema, index) => (
                 <li key={`#${index}`} className="json-schema-2020-12-property">

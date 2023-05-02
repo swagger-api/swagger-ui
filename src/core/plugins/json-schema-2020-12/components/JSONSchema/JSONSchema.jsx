@@ -9,7 +9,6 @@ import * as propTypes from "../../prop-types"
 import {
   useComponent,
   useLevel,
-  useConfig,
   useFn,
   useIsEmbedded,
   useIsExpandedDeeply,
@@ -24,7 +23,6 @@ import {
 
 const JSONSchema = forwardRef(({ schema, name }, ref) => {
   const fn = useFn()
-  const config = useConfig()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
@@ -127,7 +125,7 @@ const JSONSchema = forwardRef(({ schema, name }, ref) => {
                 "json-schema-2020-12-body--collapsed": !expanded,
               })}
             >
-              {!expanded && config.optimizeExpansion ? null : (
+              {expanded && (
                 <>
                   <KeywordDescription schema={schema} />
                   {!isCircular && isExpandable && (
