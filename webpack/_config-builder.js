@@ -115,16 +115,6 @@ export default function buildConfig(
             "..",
             "node_modules/safe-buffer"
           ),
-          ramda: path.resolve(
-            __dirname,
-            "..",
-            "node_modules/@swagger-api/apidom-core/node_modules/ramda"
-          ),
-          "ramda-adjunct": path.resolve(
-            __dirname,
-            "..",
-            "node_modules/@swagger-api/apidom-core/node_modules/ramda-adjunct"
-          ),
         },
         fallback: {
           fs: false,
