@@ -176,7 +176,7 @@
     "sass-loader": "^12.6.0",
     "sinon": "=15.0.1",
     "source-map-support": "^0.5.21",
-    "start-server-and-test": "^1.14.0",
+    "start-server-and-test": "^2.0.0",
     "stream-browserify": "^3.0.0",
     "tachyons-sass": "^4.9.5",
     "terser-webpack-plugin": "^5.3.7",
