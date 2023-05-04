@@ -21,11 +21,11 @@ import {
   JSONSchemaCyclesContext,
 } from "../../context"
 
-const JSONSchema = forwardRef(({ schema, name }, ref) => {
+const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
   const fn = useFn()
   const isExpandedDeeply = useIsExpandedDeeply()
   const [expanded, setExpanded] = useState(isExpandedDeeply)
-  const [expandedDeeply, setExpandedDeeply] = useState(false)
+  const [expandedDeeply, setExpandedDeeply] = useState(isExpandedDeeply)
   const [level, nextLevel] = useLevel()
   const isEmbedded = useIsEmbedded()
   const isExpandable = fn.isExpandable(schema)
@@ -69,18 +69,6 @@ const JSONSchema = forwardRef(({ schema, name }, ref) => {
   const ExpandDeepButton = useComponent("ExpandDeepButton")
 
   /**
-   * Event handlers.
-   */
-  const handleExpansion = useCallback((e, expandedNew) => {
-    setExpanded(expandedNew)
-    !expandedNew && setExpandedDeeply(false)
-  }, [])
-  const handleExpansionDeep = useCallback((e, expandedDeepNew) => {
-    setExpanded(expandedDeepNew)
-    setExpandedDeeply(expandedDeepNew)
-  }, [])
-
-  /**
    * Effects handlers.
    */
   useEffect(() => {
@@ -90,6 +78,26 @@ const JSONSchema = forwardRef(({ schema, name }, ref) => {
   useEffect(() => {
     setExpandedDeeply(expandedDeeply)
   }, [expandedDeeply])
+
+  /**
+   * Event handlers.
+   */
+  const handleExpansion = useCallback(
+    (e, expandedNew) => {
+      setExpanded(expandedNew)
+      !expandedNew && setExpandedDeeply(false)
+      onExpand(e, expandedNew, false)
+    },
+    [onExpand]
+  )
+  const handleExpansionDeep = useCallback(
+    (e, expandedDeepNew) => {
+      setExpanded(expandedDeepNew)
+      setExpandedDeeply(expandedDeepNew)
+      onExpand(e, expandedDeepNew, true)
+    },
+    [onExpand]
+  )
 
   return (
     <JSONSchemaLevelContext.Provider value={nextLevel}>
@@ -173,10 +181,12 @@ const JSONSchema = forwardRef(({ schema, name }, ref) => {
 JSONSchema.propTypes = {
   name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   schema: propTypes.schema.isRequired,
+  onExpand: PropTypes.func,
 }
 
 JSONSchema.defaultProps = {
   name: "",
+  onExpand: () => {},
 }
 
 export default JSONSchema

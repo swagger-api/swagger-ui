@@ -27,31 +27,37 @@ const Models = ({
    * Effects.
    */
   useEffect(() => {
-    if (isOpen && specSelectors.specResolvedSubtree(schemasPath) == null) {
+    const isOpenAndExpanded = isOpen && defaultModelsExpandDepth > 1
+    const isResolved = specSelectors.specResolvedSubtree(schemasPath) != null
+    if (isOpenAndExpanded && !isResolved) {
       specActions.requestResolvedSubtree(schemasPath)
     }
-  }, [isOpen])
+  }, [isOpen, defaultModelsExpandDepth])
 
   /**
    * Event handlers.
    */
 
-  const handleCollapse = useCallback(() => {
+  const handleModelsExpand = useCallback(() => {
     layoutActions.show(schemasPath, !isOpen)
-  }, [isOpen, layoutActions])
-
-  const handleModelsRef = useCallback(
-    (node) => {
-      if (node !== null) {
-        layoutActions.readyToScroll(schemasPath, node)
-      }
-    },
-    [layoutActions]
-  )
-
+  }, [isOpen])
+  const handleModelsRef = useCallback((node) => {
+    if (node !== null) {
+      layoutActions.readyToScroll(schemasPath, node)
+    }
+  }, [])
   const handleJSONSchema202012Ref = (schemaName) => (node) => {
     if (node !== null) {
       layoutActions.readyToScroll([...schemasPath, schemaName], node)
+    }
+  }
+  const handleJSONSchema202012Expand = (schemaName) => (e, expanded) => {
+    if (expanded) {
+      const schemaPath = [...schemasPath, schemaName]
+      const isResolved = specSelectors.specResolvedSubtree(schemaPath) != null
+      if (!isResolved) {
+        specActions.requestResolvedSubtree([...schemasPath, schemaName])
+      }
     }
   }
 
@@ -72,7 +78,7 @@ const Models = ({
         <button
           aria-expanded={isOpen}
           className="models-control"
-          onClick={handleCollapse}
+          onClick={handleModelsExpand}
         >
           <span>Schemas</span>
           <svg width="20" height="20" aria-hidden="true" focusable="false">
@@ -87,6 +93,7 @@ const Models = ({
             ref={handleJSONSchema202012Ref(schemaName)}
             schema={schema}
             name={fn.upperFirst(schemaName)}
+            onExpand={handleJSONSchema202012Expand(schemaName)}
           />
         ))}
       </Collapse>
