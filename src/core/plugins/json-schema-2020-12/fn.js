@@ -159,6 +159,22 @@ export const isExpandable = (schema) => {
     fn.hasKeyword(schema, "propertyNames") ||
     fn.hasKeyword(schema, "unevaluatedItems") ||
     fn.hasKeyword(schema, "unevaluatedProperties") ||
-    schema?.description
+    schema?.description ||
+    fn.hasKeyword(schema, "const")
   )
+}
+
+export const stringify = (value) => {
+  if (
+    value === null ||
+    ["number", "bigint", "boolean"].includes(typeof value)
+  ) {
+    return String(value)
+  }
+
+  if (Array.isArray(value)) {
+    return `[${value.map(stringify).join(", ")}]`
+  }
+
+  return JSON.stringify(value)
 }

@@ -41,6 +41,18 @@
       color: #6b6b6b;
       font-style: italic;
     }
+
+    &--const {
+      @include text_code();
+      color: #6b6b6b;
+      font-style: normal;
+      display: inline-block;
+      margin-left: 10px;
+      line-height: 1.5;
+      padding: 1px 4px 1px 4px;
+      border: 1px dashed #6b6b6b;
+      border-radius: 4px;
+    }
   }
 }
 .json-schema-2020-12-keyword__name--secondary + .json-schema-2020-12-keyword__value--secondary::before {
