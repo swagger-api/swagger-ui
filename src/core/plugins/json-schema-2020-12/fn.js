@@ -162,3 +162,18 @@ export const isExpandable = (schema) => {
     schema?.description
   )
 }
+
+export const stringify = (value) => {
+  if (
+    value === null ||
+    ["number", "bigint", "boolean"].includes(typeof value)
+  ) {
+    return String(value)
+  }
+
+  if (Array.isArray(value)) {
+    return `[${value.map(stringify).join(", ")}]`
+  }
+
+  return JSON.stringify(value)
+}

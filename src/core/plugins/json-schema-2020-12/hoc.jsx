@@ -31,6 +31,7 @@ import KeywordPropertyNames from "./components/keywords/PropertyNames"
 import KeywordUnevaluatedItems from "./components/keywords/UnevaluatedItems"
 import KeywordUnevaluatedProperties from "./components/keywords/UnevaluatedProperties"
 import KeywordType from "./components/keywords/Type/Type"
+import KeywordConst from "./components/keywords/Const"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
@@ -45,6 +46,7 @@ import {
   getType,
   hasKeyword,
   isExpandable,
+  stringify,
 } from "./fn"
 
 export const withJSONSchemaContext = (Component, overrides = {}) => {
@@ -78,6 +80,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordUnevaluatedItems,
       KeywordUnevaluatedProperties,
       KeywordType,
+      KeywordConst,
       KeywordFormat,
       KeywordTitle,
       KeywordDescription,
@@ -106,6 +109,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       isBooleanJSONSchema,
       hasKeyword,
       isExpandable,
+      stringify,
       ...overrides.fn,
     },
   }
