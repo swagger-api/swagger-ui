@@ -156,9 +156,9 @@ const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
                       <KeywordItems schema={schema} />
                       <KeywordUnevaluatedItems schema={schema} />
                       <KeywordContains schema={schema} />
-                      <KeywordConst schema={schema} />
                     </>
                   )}
+                  <KeywordConst schema={schema} />
                   <Keyword$schema schema={schema} />
                   <Keyword$vocabulary schema={schema} />
                   <Keyword$id schema={schema} />
