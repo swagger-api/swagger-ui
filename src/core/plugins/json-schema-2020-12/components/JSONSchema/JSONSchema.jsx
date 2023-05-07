@@ -63,6 +63,7 @@ const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
     "KeywordUnevaluatedProperties"
   )
   const KeywordType = useComponent("KeywordType")
+  const KeywordEnum = useComponent("KeywordEnum")
   const KeywordConst = useComponent("KeywordConst")
   const KeywordFormat = useComponent("KeywordFormat")
   const KeywordTitle = useComponent("KeywordTitle")
@@ -158,6 +159,7 @@ const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
                       <KeywordContains schema={schema} />
                     </>
                   )}
+                  <KeywordEnum schema={schema} />
                   <KeywordConst schema={schema} />
                   <Keyword$schema schema={schema} />
                   <Keyword$vocabulary schema={schema} />

@@ -31,6 +31,7 @@ import KeywordPropertyNames from "./components/keywords/PropertyNames"
 import KeywordUnevaluatedItems from "./components/keywords/UnevaluatedItems"
 import KeywordUnevaluatedProperties from "./components/keywords/UnevaluatedProperties"
 import KeywordType from "./components/keywords/Type/Type"
+import KeywordEnum from "./components/keywords/Enum/Enum"
 import KeywordConst from "./components/keywords/Const"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
@@ -80,6 +81,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordUnevaluatedItems,
       KeywordUnevaluatedProperties,
       KeywordType,
+      KeywordEnum,
       KeywordConst,
       KeywordFormat,
       KeywordTitle,
