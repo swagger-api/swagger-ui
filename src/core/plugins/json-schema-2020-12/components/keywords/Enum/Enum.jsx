@@ -17,13 +17,17 @@ const Enum = ({ schema }) => {
         Allowed values
       </span>
       <ul>
-        {schema.enum.map((element) => (
-          <li>
-            <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--const">
-              {fn.stringify(element)}
-            </span>
-          </li>
-        ))}
+        {schema.enum.map((element) => {
+          const strigifiedElement = fn.stringify(element)
+
+          return (
+            <li key={strigifiedElement}>
+              <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--const">
+                {strigifiedElement}
+              </span>
+            </li>
+          )
+        })}
       </ul>
     </div>
   )
