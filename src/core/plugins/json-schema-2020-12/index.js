@@ -32,6 +32,7 @@ import KeywordType from "./components/keywords/Type/Type"
 import KeywordEnum from "./components/keywords/Enum/Enum"
 import KeywordConst from "./components/keywords/Const"
 import KeywordConstraint from "./components/keywords/Constraint/Constraint"
+import KeywordDependentRequired from "./components/keywords/DependentRequired/DependentRequired"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
@@ -74,6 +75,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012KeywordEnum: KeywordEnum,
     JSONSchema202012KeywordConst: KeywordConst,
     JSONSchema202012KeywordConstraint: KeywordConstraint,
+    JSONSchema202012KeywordDependentRequired: KeywordDependentRequired,
     JSONSchema202012KeywordFormat: KeywordFormat,
     JSONSchema202012KeywordTitle: KeywordTitle,
     JSONSchema202012KeywordDescription: KeywordDescription,

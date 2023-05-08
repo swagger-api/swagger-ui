@@ -34,6 +34,7 @@ import KeywordType from "./components/keywords/Type/Type"
 import KeywordEnum from "./components/keywords/Enum/Enum"
 import KeywordConst from "./components/keywords/Const"
 import KeywordConstraint from "./components/keywords/Constraint/Constraint"
+import KeywordDependentRequired from "./components/keywords/DependentRequired/DependentRequired"
 import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
@@ -50,6 +51,7 @@ import {
   isExpandable,
   stringify,
   stringifyConstraints,
+  getDependentRequired,
 } from "./fn"
 
 export const withJSONSchemaContext = (Component, overrides = {}) => {
@@ -86,6 +88,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordEnum,
       KeywordConst,
       KeywordConstraint,
+      KeywordDependentRequired,
       KeywordFormat,
       KeywordTitle,
       KeywordDescription,
@@ -116,6 +119,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       isExpandable,
       stringify,
       stringifyConstraints,
+      getDependentRequired,
       ...overrides.fn,
     },
   }
