@@ -231,15 +231,44 @@ const stringifyConstraintNumberRange = (schema) => {
   return null
 }
 
+const stringifyConstraintRange = (label, min, max) => {
+  const hasMin = typeof min === "number"
+  const hasMax = typeof max === "number"
+
+  if (hasMin && hasMax) {
+    if (min === max) {
+      return `${min} ${label}`
+    } else {
+      return `[${min}, ${max}] ${label}`
+    }
+  }
+  if (hasMin) {
+    return `>= ${min} ${label}`
+  }
+  if (hasMax) {
+    return `<= ${max} ${label}`
+  }
+
+  return null
+}
+
 export const stringifyConstraints = (schema) => {
   const constraints = []
 
-  // Validation Keywords for Numeric Instances (number and integer)
+  // validation Keywords for Numeric Instances (number and integer)
   const constraintMultipleOf = stringifyConstraintMultipleOf(schema)
   if (constraintMultipleOf !== null) constraints.push(constraintMultipleOf)
-
   const constraintNumberRange = stringifyConstraintNumberRange(schema)
   if (constraintNumberRange !== null) constraints.push(constraintNumberRange)
+
+  // validation Keywords for Strings
+  const constraintStringRange = stringifyConstraintRange(
+    "characters",
+    schema?.minLength,
+    schema?.maxLength
+  )
+  if (constraintStringRange !== null) constraints.push(constraintStringRange)
+  if (schema?.pattern) constraints.push(`matches ${schema?.pattern}`)
 
   return constraints
 }
