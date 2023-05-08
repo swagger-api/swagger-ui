@@ -179,3 +179,67 @@ export const stringify = (value) => {
 
   return JSON.stringify(value)
 }
+
+const stringifyConstraintMultipleOf = (schema) => {
+  if (typeof schema?.multipleOf !== "number") return null
+  if (schema.multipleOf <= 0) return null
+  if (schema.multipleOf === 1) return null
+
+  const { multipleOf } = schema
+
+  if (Number.isInteger(multipleOf)) {
+    return `multiple of ${multipleOf}`
+  }
+
+  const decimalPlaces = multipleOf.toString().split(".")[1].length
+  const factor = 10 ** decimalPlaces
+  const numerator = multipleOf * factor
+  const denominator = factor
+  return `multiple of ${numerator}/${denominator}`
+}
+
+const stringifyConstraintNumberRange = (schema) => {
+  const minimum = schema?.minimum
+  const maximum = schema?.maximum
+  const exclusiveMinimum = schema?.exclusiveMinimum
+  const exclusiveMaximum = schema?.exclusiveMaximum
+  const hasMinimum = typeof minimum === "number"
+  const hasMaximum = typeof maximum === "number"
+  const hasExclusiveMinimum = typeof exclusiveMinimum === "number"
+  const hasExclusiveMaximum = typeof exclusiveMaximum === "number"
+  const isMinExclusive = hasExclusiveMinimum && minimum < exclusiveMinimum
+  const isMaxExclusive = hasExclusiveMaximum && maximum > exclusiveMaximum
+
+  if (hasMinimum && hasMaximum) {
+    const minSymbol = isMinExclusive ? "(" : "["
+    const maxSymbol = isMaxExclusive ? ")" : "]"
+    const minValue = isMinExclusive ? exclusiveMinimum : minimum
+    const maxValue = isMaxExclusive ? exclusiveMaximum : maximum
+    return `${minSymbol}${minValue}, ${maxValue}${maxSymbol}`
+  }
+  if (hasMinimum) {
+    const minSymbol = isMinExclusive ? ">" : "≥"
+    const minValue = isMinExclusive ? exclusiveMinimum : minimum
+    return `${minSymbol} ${minValue}`
+  }
+  if (hasMaximum) {
+    const maxSymbol = isMaxExclusive ? "<" : "≤"
+    const maxValue = isMaxExclusive ? exclusiveMaximum : maximum
+    return `${maxSymbol} ${maxValue}`
+  }
+
+  return null
+}
+
+export const stringifyConstraints = (schema) => {
+  const constraints = []
+
+  // Validation Keywords for Numeric Instances (number and integer)
+  const constraintMultipleOf = stringifyConstraintMultipleOf(schema)
+  if (constraintMultipleOf !== null) constraints.push(constraintMultipleOf)
+
+  const constraintNumberRange = stringifyConstraintNumberRange(schema)
+  if (constraintNumberRange !== null) constraints.push(constraintNumberRange)
+
+  return constraints
+}
