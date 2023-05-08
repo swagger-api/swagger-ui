@@ -9,5 +9,13 @@
 
   &-property {
     list-style-type: none;
+
+    &--required {
+      .json-schema-2020-12__title:after {
+        content: '*';
+        color: red;
+        font-weight: bold;
+      }
+    }
   }
 }
