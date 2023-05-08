@@ -20,7 +20,6 @@ import {
   JSONSchemaDeepExpansionContext,
   JSONSchemaCyclesContext,
 } from "../../context"
-import { stringifyConstraints } from "core/plugins/json-schema-2020-12/fn"
 
 const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
   const fn = useFn()
