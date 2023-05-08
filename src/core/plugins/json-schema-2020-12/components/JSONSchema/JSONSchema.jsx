@@ -20,6 +20,7 @@ import {
   JSONSchemaDeepExpansionContext,
   JSONSchemaCyclesContext,
 } from "../../context"
+import { stringifyConstraints } from "core/plugins/json-schema-2020-12/fn"
 
 const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
   const fn = useFn()
@@ -31,6 +32,7 @@ const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
   const isExpandable = fn.isExpandable(schema)
   const isCircular = useIsCircular(schema)
   const renderedSchemas = useRenderedSchemas(schema)
+  const constraints = fn.stringifyConstraints(schema)
   const Accordion = useComponent("Accordion")
   const Keyword$schema = useComponent("Keyword$schema")
   const Keyword$vocabulary = useComponent("Keyword$vocabulary")
@@ -65,6 +67,7 @@ const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
   const KeywordType = useComponent("KeywordType")
   const KeywordEnum = useComponent("KeywordEnum")
   const KeywordConst = useComponent("KeywordConst")
+  const KeywordConstraint = useComponent("KeywordConstraint")
   const KeywordFormat = useComponent("KeywordFormat")
   const KeywordTitle = useComponent("KeywordTitle")
   const KeywordDescription = useComponent("KeywordDescription")
@@ -129,6 +132,10 @@ const JSONSchema = forwardRef(({ schema, name, onExpand }, ref) => {
               )}
               <KeywordType schema={schema} isCircular={isCircular} />
               <KeywordFormat schema={schema} />
+              {constraints.length > 0 &&
+                constraints.map((constraint) => (
+                  <KeywordConstraint key={constraint} constraint={constraint} />
+                ))}
             </div>
             <div
               className={classNames("json-schema-2020-12-body", {

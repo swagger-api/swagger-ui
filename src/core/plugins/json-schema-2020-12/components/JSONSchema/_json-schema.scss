@@ -25,23 +25,6 @@
       display: none;
     }
   }
-
-  &__limit {
-    @include text_code();
-    margin-left: 10px;
-    line-height: 1.5;
-    padding: 1px;
-    color: white;
-    background-color: #805AD5;
-    border-radius: 4px;
-  }
-
-  //&-note {
-  //  @include text_headline($section-models-model-title-font-color);
-  //  padding: 10px 0 0 20px;
-  //  font-size: 11px;
-  //  color: #6b6b6b;
-  //}
 }
 
 
