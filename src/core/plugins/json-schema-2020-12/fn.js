@@ -284,5 +284,13 @@ export const stringifyConstraints = (schema) => {
   )
   if (containsRange !== null) constraints.push(containsRange)
 
+  // validation Keywords for Objects
+  const objectRange = stringifyConstraintRange(
+    "properties",
+    schema?.minProperties,
+    schema?.maxProperties
+  )
+  if (objectRange !== null) constraints.push(objectRange)
+
   return constraints
 }
