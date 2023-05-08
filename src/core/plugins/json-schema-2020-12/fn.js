@@ -256,19 +256,33 @@ export const stringifyConstraints = (schema) => {
   const constraints = []
 
   // validation Keywords for Numeric Instances (number and integer)
-  const constraintMultipleOf = stringifyConstraintMultipleOf(schema)
-  if (constraintMultipleOf !== null) constraints.push(constraintMultipleOf)
-  const constraintNumberRange = stringifyConstraintNumberRange(schema)
-  if (constraintNumberRange !== null) constraints.push(constraintNumberRange)
+  const multipleOf = stringifyConstraintMultipleOf(schema)
+  if (multipleOf !== null) constraints.push(multipleOf)
+  const numberRange = stringifyConstraintNumberRange(schema)
+  if (numberRange !== null) constraints.push(numberRange)
 
   // validation Keywords for Strings
-  const constraintStringRange = stringifyConstraintRange(
+  const stringRange = stringifyConstraintRange(
     "characters",
     schema?.minLength,
     schema?.maxLength
   )
-  if (constraintStringRange !== null) constraints.push(constraintStringRange)
+  if (stringRange !== null) constraints.push(stringRange)
   if (schema?.pattern) constraints.push(`matches ${schema?.pattern}`)
+
+  // validation Keywords for Arrays
+  const arrayRange = stringifyConstraintRange(
+    schema?.hasUniqueItems ? "unique items" : "items",
+    schema?.minItems,
+    schema?.maxItems
+  )
+  if (arrayRange !== null) constraints.push(arrayRange)
+  const containsRange = stringifyConstraintRange(
+    "contained items",
+    schema?.minContains,
+    schema?.maxContains
+  )
+  if (containsRange !== null) constraints.push(containsRange)
 
   return constraints
 }
