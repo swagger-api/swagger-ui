@@ -294,3 +294,18 @@ export const stringifyConstraints = (schema) => {
 
   return constraints
 }
+
+export const getDependentRequired = (propertyName, schema) => {
+  if (!schema?.dependentRequired) return []
+
+  return Array.from(
+    Object.entries(schema.dependentRequired).reduce((acc, [prop, list]) => {
+      if (!Array.isArray(list)) return acc
+      if (!list.includes(propertyName)) return acc
+
+      acc.add(prop)
+
+      return acc
+    }, new Set())
+  )
+}

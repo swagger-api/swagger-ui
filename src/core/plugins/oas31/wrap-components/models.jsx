@@ -59,6 +59,9 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const KeywordEnum = getComponent("JSONSchema202012KeywordEnum")
   const KeywordConst = getComponent("JSONSchema202012KeywordConst")
   const KeywordConstraint = getComponent("JSONSchema202012KeywordConstraint")
+  const KeywordDependentRequired = getComponent(
+    "JSONSchema202012KeywordDependentRequired"
+  )
   const KeywordFormat = getComponent("JSONSchema202012KeywordFormat")
   const KeywordTitle = getComponent("JSONSchema202012KeywordTitle")
   const KeywordDescription = getComponent(
@@ -107,6 +110,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
       KeywordEnum,
       KeywordConst,
       KeywordConstraint,
+      KeywordDependentRequired,
       KeywordFormat,
       KeywordTitle,
       KeywordDescription,

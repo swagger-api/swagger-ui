@@ -53,6 +53,12 @@
       border: 1px dashed #6b6b6b;
       border-radius: 4px;
     }
+
+    &--warning {
+      @extend .json-schema-2020-12-keyword__value--const;
+      color: red;
+      border: 1px dashed red;
+    }
   }
 }
 .json-schema-2020-12-keyword__name--secondary + .json-schema-2020-12-keyword__value--secondary::before {
@@ -68,3 +74,4 @@
 @import './PatternProperties/pattern-properties';
 @import './Enum/enum';
 @import './Constraint/constraint';
+@import './DependentRequired/dependent-required';
