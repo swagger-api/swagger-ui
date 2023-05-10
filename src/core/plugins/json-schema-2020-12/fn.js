@@ -296,6 +296,9 @@ export const stringifyConstraints = (schema) => {
   if (schema?.contentMediaType) {
     constraints.push(`media type: ${schema.contentMediaType}`)
   }
+  if (schema?.contentEncoding) {
+    constraints.push(`encoding: ${schema.contentEncoding}`)
+  }
 
   return constraints
 }

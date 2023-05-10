@@ -10,10 +10,11 @@ import classNames from "classnames"
  * from JSON Schema 2020-12 validation vocabulary.
  */
 const Constraint = ({ constraint }) => {
-  const isPattern = /^matches /.test(constraint)
-  const isStringRange = /characters$/.test(constraint)
-  const isContentMediaType = /^media type: /
-  const isStringRelated = isPattern || isStringRange || isContentMediaType
+  const isStringRelated =
+    /^matches /.test(constraint) || // pattern keyword
+    /characters$/.test(constraint) || // minLength, maxLength keywords
+    /^media type: /.test(constraint) || // contentMediaType keyword
+    /^encoding: /.test(constraint) // contentEncoding keyword
 
   return (
     <span
