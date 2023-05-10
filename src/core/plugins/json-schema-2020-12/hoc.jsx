@@ -38,6 +38,7 @@ import KeywordDependentRequired from "./components/keywords/DependentRequired/De
 import KeywordContentSchema from "./components/keywords/ContentSchema"
 import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
+import KeywordDefault from "./components/keywords/Default"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
@@ -92,6 +93,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordContentSchema,
       KeywordTitle,
       KeywordDescription,
+      KeywordDefault,
       Accordion,
       ExpandDeepButton,
       ChevronRightIcon,
