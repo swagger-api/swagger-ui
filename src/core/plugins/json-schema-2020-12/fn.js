@@ -258,9 +258,18 @@ export const stringifyConstraints = (schema) => {
 
   // validation Keywords for Numeric Instances (number and integer)
   const multipleOf = stringifyConstraintMultipleOf(schema)
-  if (multipleOf !== null) constraints.push(multipleOf)
+  if (multipleOf !== null) {
+    constraints.push({ scope: "number", value: multipleOf })
+  }
   const numberRange = stringifyConstraintNumberRange(schema)
-  if (numberRange !== null) constraints.push(numberRange)
+  if (numberRange !== null) {
+    constraints.push({ scope: "number", value: numberRange })
+  }
+
+  // vocabularies for Semantic Content With "format"
+  if (schema?.format) {
+    constraints.push({ scope: "string", value: schema.format })
+  }
 
   // validation Keywords for Strings
   const stringRange = stringifyConstraintRange(
@@ -268,8 +277,26 @@ export const stringifyConstraints = (schema) => {
     schema?.minLength,
     schema?.maxLength
   )
-  if (stringRange !== null) constraints.push(stringRange)
-  if (schema?.pattern) constraints.push(`matches ${schema?.pattern}`)
+  if (stringRange !== null) {
+    constraints.push({ scope: "string", value: stringRange })
+  }
+  if (schema?.pattern) {
+    constraints.push({ scope: "string", value: `matches ${schema?.pattern}` })
+  }
+
+  // vocabulary for the Contents of String-Encoded Data
+  if (schema?.contentMediaType) {
+    constraints.push({
+      scope: "string",
+      value: `media type: ${schema.contentMediaType}`,
+    })
+  }
+  if (schema?.contentEncoding) {
+    constraints.push({
+      scope: "string",
+      value: `encoding: ${schema.contentEncoding}`,
+    })
+  }
 
   // validation Keywords for Arrays
   const arrayRange = stringifyConstraintRange(
@@ -277,13 +304,17 @@ export const stringifyConstraints = (schema) => {
     schema?.minItems,
     schema?.maxItems
   )
-  if (arrayRange !== null) constraints.push(arrayRange)
+  if (arrayRange !== null) {
+    constraints.push({ scope: "array", value: arrayRange })
+  }
   const containsRange = stringifyConstraintRange(
     "contained items",
     schema?.minContains,
     schema?.maxContains
   )
-  if (containsRange !== null) constraints.push(containsRange)
+  if (containsRange !== null) {
+    constraints.push({ scope: "array", value: containsRange })
+  }
 
   // validation Keywords for Objects
   const objectRange = stringifyConstraintRange(
@@ -291,14 +322,8 @@ export const stringifyConstraints = (schema) => {
     schema?.minProperties,
     schema?.maxProperties
   )
-  if (objectRange !== null) constraints.push(objectRange)
-
-  // a Vocabulary for the Contents of String-Encoded Data
-  if (schema?.contentMediaType) {
-    constraints.push(`media type: ${schema.contentMediaType}`)
-  }
-  if (schema?.contentEncoding) {
-    constraints.push(`encoding: ${schema.contentEncoding}`)
+  if (objectRange !== null) {
+    constraints.push({ scope: "object", value: objectRange })
   }
 
   return constraints
