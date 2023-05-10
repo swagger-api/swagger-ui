@@ -37,6 +37,7 @@ import KeywordContentSchema from "./components/keywords/ContentSchema"
 import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
 import KeywordDefault from "./components/keywords/Default"
+import KeywordDeprecated from "./components/keywords/Deprecated/Deprecated"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
@@ -81,6 +82,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012KeywordTitle: KeywordTitle,
     JSONSchema202012KeywordDescription: KeywordDescription,
     JSONSchema202012KeywordDefault: KeywordDefault,
+    JSONSchema202012KeywordDeprecated: KeywordDeprecated,
     JSONSchema202012Accordion: Accordion,
     JSONSchema202012ExpandDeepButton: ExpandDeepButton,
     JSONSchema202012ChevronRightIcon: ChevronRightIcon,
