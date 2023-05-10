@@ -162,7 +162,8 @@ export const isExpandable = (schema) => {
     schema?.description ||
     schema?.enum ||
     fn.hasKeyword(schema, "const") ||
-    fn.hasKeyword(schema, "contentSchema")
+    fn.hasKeyword(schema, "contentSchema") ||
+    fn.hasKeyword(schema, "default")
   )
 }
 

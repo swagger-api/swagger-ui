@@ -72,6 +72,7 @@ const JSONSchema = forwardRef(
     const KeywordContentSchema = useComponent("KeywordContentSchema")
     const KeywordTitle = useComponent("KeywordTitle")
     const KeywordDescription = useComponent("KeywordDescription")
+    const KeywordDefault = useComponent("KeywordDefault")
     const ExpandDeepButton = useComponent("ExpandDeepButton")
 
     /**
@@ -176,6 +177,7 @@ const JSONSchema = forwardRef(
                       schema={schema}
                       dependentRequired={dependentRequired}
                     />
+                    <KeywordDefault schema={schema} />
                     <Keyword$schema schema={schema} />
                     <Keyword$vocabulary schema={schema} />
                     <Keyword$id schema={schema} />
