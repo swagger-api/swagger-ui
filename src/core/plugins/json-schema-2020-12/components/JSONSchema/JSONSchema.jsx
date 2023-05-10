@@ -70,6 +70,7 @@ const JSONSchema = forwardRef(
     const KeywordConstraint = useComponent("KeywordConstraint")
     const KeywordDependentRequired = useComponent("KeywordDependentRequired")
     const KeywordFormat = useComponent("KeywordFormat")
+    const KeywordContentSchema = useComponent("KeywordContentSchema")
     const KeywordTitle = useComponent("KeywordTitle")
     const KeywordDescription = useComponent("KeywordDescription")
     const ExpandDeepButton = useComponent("ExpandDeepButton")
@@ -168,6 +169,7 @@ const JSONSchema = forwardRef(
                         <KeywordItems schema={schema} />
                         <KeywordUnevaluatedItems schema={schema} />
                         <KeywordContains schema={schema} />
+                        <KeywordContentSchema schema={schema} />
                       </>
                     )}
                     <KeywordEnum schema={schema} />
