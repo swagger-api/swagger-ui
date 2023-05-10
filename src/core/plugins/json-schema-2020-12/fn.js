@@ -292,6 +292,11 @@ export const stringifyConstraints = (schema) => {
   )
   if (objectRange !== null) constraints.push(objectRange)
 
+  // a Vocabulary for the Contents of String-Encoded Data
+  if (schema?.contentMediaType) {
+    constraints.push(`media type: ${schema.contentMediaType}`)
+  }
+
   return constraints
 }
 

@@ -11,8 +11,9 @@ import classNames from "classnames"
  */
 const Constraint = ({ constraint }) => {
   const isPattern = /^matches /.test(constraint)
-  const isStringRange = /characters/.test(constraint)
-  const isStringRelated = isPattern || isStringRange
+  const isStringRange = /characters$/.test(constraint)
+  const isContentMediaType = /^media type: /
+  const isStringRelated = isPattern || isStringRange || isContentMediaType
 
   return (
     <span
