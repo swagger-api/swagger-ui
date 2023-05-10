@@ -35,7 +35,6 @@ import KeywordEnum from "./components/keywords/Enum/Enum"
 import KeywordConst from "./components/keywords/Const"
 import KeywordConstraint from "./components/keywords/Constraint/Constraint"
 import KeywordDependentRequired from "./components/keywords/DependentRequired/DependentRequired"
-import KeywordFormat from "./components/keywords/Format/Format"
 import KeywordContentSchema from "./components/keywords/ContentSchema"
 import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
@@ -90,7 +89,6 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordConst,
       KeywordConstraint,
       KeywordDependentRequired,
-      KeywordFormat,
       KeywordContentSchema,
       KeywordTitle,
       KeywordDescription,

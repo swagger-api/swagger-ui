@@ -69,7 +69,6 @@ const JSONSchema = forwardRef(
     const KeywordConst = useComponent("KeywordConst")
     const KeywordConstraint = useComponent("KeywordConstraint")
     const KeywordDependentRequired = useComponent("KeywordDependentRequired")
-    const KeywordFormat = useComponent("KeywordFormat")
     const KeywordContentSchema = useComponent("KeywordContentSchema")
     const KeywordTitle = useComponent("KeywordTitle")
     const KeywordDescription = useComponent("KeywordDescription")
@@ -133,11 +132,10 @@ const JSONSchema = forwardRef(
                   <KeywordTitle title={name} schema={schema} />
                 )}
                 <KeywordType schema={schema} isCircular={isCircular} />
-                <KeywordFormat schema={schema} />
                 {constraints.length > 0 &&
                   constraints.map((constraint) => (
                     <KeywordConstraint
-                      key={constraint}
+                      key={`${constraint.scope}-${constraint.value}`}
                       constraint={constraint}
                     />
                   ))}
