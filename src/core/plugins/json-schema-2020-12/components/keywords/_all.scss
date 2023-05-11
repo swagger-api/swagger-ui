@@ -65,8 +65,27 @@
   content: '='
 }
 
+.json-schema-2020-12__attribute {
+  font-family: monospace;
+  color: $text-code-default-font-color;
+  font-size: 12px;
+  text-transform: lowercase;
+  padding-left: 10px;
+
+  &--primary  {
+    color: $prop-type-font-color;
+  }
+
+  &--muted {
+    color: gray;
+  }
+
+  &--warning {
+    color: red;
+  }
+}
+
 @import './$vocabulary/$vocabulary';
-@import './Type/type';
 @import './Description/description';
 @import './Title/title';
 @import './Properties/properties';
@@ -74,6 +93,3 @@
 @import './Enum/enum';
 @import './Constraint/constraint';
 @import './DependentRequired/dependent-required';
-@import './Deprecated/deprecated';
-@import './ReadOnly/read-only';
-@import './WriteOnly/write-only';
