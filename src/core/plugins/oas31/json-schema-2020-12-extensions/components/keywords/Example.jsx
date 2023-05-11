@@ -12,7 +12,7 @@ const Example = ({ schema, getSystem }) => {
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--example">
-      <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
+      <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
         Example
       </span>
       <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--const">
