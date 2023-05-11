@@ -109,12 +109,7 @@ const Xml = ({ schema, getSystem }) => {
 
 Xml.propTypes = {
   schema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  fn: PropTypes.shape({
-    jsonSchema202012: PropTypes.shape({
-      useIsExpandedDeeply: PropTypes.func.isRequired,
-      useComponent: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
+  getSystem: PropTypes.func.isRequired,
 }
 
 export default Xml
