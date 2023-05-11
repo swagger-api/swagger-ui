@@ -14,7 +14,7 @@ import InfoWrapper from "./wrap-components/info"
 import ModelsWrapper from "./wrap-components/models"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import VersionStampWrapper from "./wrap-components/version-stamp"
-import JSONSchema202012KeywordDescriptionWrapper from "./wrap-components/json-schema-2020-12-keyword-description"
+import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
 import {
   license as selectLicense,
   contact as selectContact,
