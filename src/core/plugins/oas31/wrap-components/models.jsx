@@ -4,9 +4,11 @@
 import React from "react"
 
 import { createOnlyOAS31ComponentWrapper } from "../fn"
+import { makeIsExpandable } from "../json-schema-2020-12-extensions/fn"
 
 const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
-  const { getComponent, fn, getConfigs } = getSystem()
+  const system = getSystem()
+  const { getComponent, fn, getConfigs } = system
   const configs = getConfigs()
 
   if (ModelsWrapper.ModelsWithJSONContext) {
@@ -66,10 +68,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     "JSONSchema202012KeywordContentSchema"
   )
   const KeywordTitle = getComponent("JSONSchema202012KeywordTitle")
-  const KeywordDescription = getComponent(
-    "JSONSchema202012KeywordDescription",
-    true
-  )
+  const KeywordDescription = getComponent("JSONSchema202012KeywordDescription")
   const KeywordDefault = getComponent("JSONSchema202012KeywordDefault")
   const KeywordDeprecated = getComponent("JSONSchema202012KeywordDeprecated")
   const KeywordReadOnly = getComponent("JSONSchema202012KeywordReadOnly")
@@ -130,6 +129,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     },
     fn: {
       upperFirst: fn.upperFirst,
+      isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
     },
   })
 

@@ -14,7 +14,11 @@ import InfoWrapper from "./wrap-components/info"
 import ModelsWrapper from "./wrap-components/models"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import VersionStampWrapper from "./wrap-components/version-stamp"
-import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
+import {
+  isOAS31 as isOAS31Fn,
+  createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
+  createSystemSelector as createSystemSelectorFn,
+} from "./fn"
 import {
   license as selectLicense,
   contact as selectContact,
@@ -46,22 +50,31 @@ import {
   selectLicenseUrl as selectLicenseUrlWrapper,
 } from "./spec-extensions/wrap-selectors"
 import { selectLicenseUrl as selectOAS31LicenseUrl } from "./selectors"
-import {
-  isOAS31 as isOAS31Fn,
-  createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
-  createSystemSelector as createSystemSelectorFn,
-} from "./fn"
+import JSONSchema202012KeywordExample from "./json-schema-2020-12-extensions/components/keywords/Example"
+import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
+import JSONSchema202012KeywordDefaultWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Default"
+import { makeIsExpandable } from "./json-schema-2020-12-extensions/fn"
 
-const OAS31Plugin = ({ fn }) => {
+const OAS31Plugin = ({ getSystem }) => {
+  const system = getSystem()
+  const { fn } = system
   const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
   const createOnlyOAS31Selector = fn.createOnlyOAS31Selector || createOnlyOAS31SelectorFn // prettier-ignore
 
+  const pluginFn = {
+    isOAs31: isOAS31Fn,
+    createSystemSelector: createSystemSelectorFn,
+    createOnlyOAS31Selector: createOnlyOAS31SelectorFn,
+  }
+  if (typeof fn.jsonSchema202012?.isExpandable === "function") {
+    pluginFn.jsonSchema202012 = {
+      ...fn.jsonSchema202012,
+      isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
+    }
+  }
+
   return {
-    fn: {
-      isOAs31: isOAS31Fn,
-      createSystemSelector: createSystemSelectorFn,
-      createOnlyOAS31Selector: createOnlyOAS31SelectorFn,
-    },
+    fn: pluginFn,
     components: {
       Webhooks,
       JsonSchemaDialect,
@@ -70,6 +83,7 @@ const OAS31Plugin = ({ fn }) => {
       OAS31Contact: Contact,
       OAS31VersionPragmaFilter: VersionPragmaFilter,
       OAS31Models: Models,
+      JSONSchema202012KeywordExample,
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
@@ -80,6 +94,7 @@ const OAS31Plugin = ({ fn }) => {
       Models: ModelsWrapper,
       JSONSchema202012KeywordDescription:
         JSONSchema202012KeywordDescriptionWrapper,
+      JSONSchema202012KeywordDefault: JSONSchema202012KeywordDefaultWrapper,
     },
     statePlugins: {
       spec: {

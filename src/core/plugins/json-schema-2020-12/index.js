@@ -43,7 +43,8 @@ import KeywordWriteOnly from "./components/keywords/WriteOnly/WriteOnly"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
-import { upperFirst } from "./fn"
+import { upperFirst, hasKeyword, isExpandable } from "./fn"
+import { useFn } from "./hooks"
 import { withJSONSchemaContext } from "./hoc"
 
 const JSONSchema202012Plugin = () => ({
@@ -94,6 +95,11 @@ const JSONSchema202012Plugin = () => ({
   },
   fn: {
     upperFirst,
+    jsonSchema202012: {
+      isExpandable,
+      hasKeyword,
+      useFn,
+    },
   },
 })
 
