@@ -52,6 +52,9 @@ const Discriminator = ({ schema, getSystem }) => {
             {discriminator.propertyName}
           </span>
         )}
+        <strong className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
+          object
+        </strong>
         <ul
           className={classNames("json-schema-2020-12-keyword__children", {
             "json-schema-2020-12-keyword__children--collapsed": !expanded,

@@ -12,12 +12,16 @@ const DefaultWrapper = createOnlyOAS31ComponentWrapper(
     )
     const KeywordXml = getComponent("JSONSchema202012KeywordXml")
     const KeywordExample = getComponent("JSONSchema202012KeywordExample")
+    const KeywordExternalDocs = getComponent(
+      "JSONSchema202012KeywordExternalDocs"
+    )
 
     return (
       <>
         <KeywordDefault schema={schema} />
         <KeywordDiscriminator schema={schema} getSystem={getSystem} />
         <KeywordXml schema={schema} getSystem={getSystem} />
+        <KeywordExternalDocs schema={schema} getSystem={getSystem} />
         <KeywordExample schema={schema} getSystem={getSystem} />
       </>
     )
