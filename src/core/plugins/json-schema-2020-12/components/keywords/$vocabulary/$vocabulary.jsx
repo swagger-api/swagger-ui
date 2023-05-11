@@ -29,7 +29,9 @@ const $vocabulary = ({ schema }) => {
           $vocabulary
         </span>
       </Accordion>
-      <span className="json-schema-2020-12__type">object</span>
+      <strong className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
+        object
+      </strong>
       <ul>
         {expanded &&
           Object.entries(schema.$vocabulary).map(([uri, enabled]) => (

@@ -43,7 +43,9 @@ const DependentSchemas = ({ schema }) => {
           </span>
         </Accordion>
         <ExpandDeepButton expanded={expanded} onClick={handleExpansionDeep} />
-        <span className="json-schema-2020-12__type">object</span>
+        <strong className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
+          object
+        </strong>
         <ul
           className={classNames("json-schema-2020-12-keyword__children", {
             "json-schema-2020-12-keyword__children--collapsed": !expanded,

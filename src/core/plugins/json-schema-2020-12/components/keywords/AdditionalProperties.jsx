@@ -27,12 +27,16 @@ const AdditionalProperties = ({ schema }) => {
       {additionalProperties === true ? (
         <>
           {name}
-          <span className="json-schema-2020-12__type">allowed</span>
+          <span className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
+            allowed
+          </span>
         </>
       ) : additionalProperties === false ? (
         <>
           {name}
-          <span className="json-schema-2020-12__type">forbidden</span>
+          <span className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
+            forbidden
+          </span>
         </>
       ) : (
         <JSONSchema name={name} schema={additionalProperties} />
