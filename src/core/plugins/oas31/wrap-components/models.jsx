@@ -72,6 +72,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   )
   const KeywordDefault = getComponent("JSONSchema202012KeywordDefault")
   const KeywordDeprecated = getComponent("JSONSchema202012KeywordDeprecated")
+  const KeywordReadOnly = getComponent("JSONSchema202012KeywordReadOnly")
   const Accordion = getComponent("JSONSchema202012Accordion")
   const ExpandDeepButton = getComponent("JSONSchema202012ExpandDeepButton")
   const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
@@ -120,6 +121,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
       KeywordDescription,
       KeywordDefault,
       KeywordDeprecated,
+      KeywordReadOnly,
       Accordion,
       ExpandDeepButton,
       ChevronRightIcon,
