@@ -2,6 +2,7 @@
  * @prettier
  */
 import React from "react"
+import PropTypes from "prop-types"
 
 const Description = ({ schema, getSystem }) => {
   if (!schema?.description) return null
@@ -16,6 +17,11 @@ const Description = ({ schema, getSystem }) => {
       </div>
     </div>
   )
+}
+
+Description.propTypes = {
+  schema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  getSystem: PropTypes.func.isRequired,
 }
 
 export default Description
