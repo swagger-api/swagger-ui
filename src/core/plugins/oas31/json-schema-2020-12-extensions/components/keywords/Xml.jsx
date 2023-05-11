@@ -76,7 +76,8 @@ const Xml = ({ schema, getSystem }) => {
                     </span>
                   </div>
                 )}
-
+              </li>
+              <li className="json-schema-2020-12-property">
                 {xml.namespace && (
                   <div className="json-schema-2020-12-keyword">
                     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
@@ -87,7 +88,8 @@ const Xml = ({ schema, getSystem }) => {
                     </span>
                   </div>
                 )}
-
+              </li>
+              <li className="json-schema-2020-12-property">
                 {xml.prefix && (
                   <div className="json-schema-2020-12-keyword">
                     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
