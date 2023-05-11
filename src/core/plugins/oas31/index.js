@@ -51,6 +51,7 @@ import {
 } from "./spec-extensions/wrap-selectors"
 import { selectLicenseUrl as selectOAS31LicenseUrl } from "./selectors"
 import JSONSchema202012KeywordExample from "./json-schema-2020-12-extensions/components/keywords/Example"
+import JSONSchema202012KeywordXml from "./json-schema-2020-12-extensions/components/keywords/Xml"
 import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
 import JSONSchema202012KeywordDefaultWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Default"
 import { makeIsExpandable } from "./json-schema-2020-12-extensions/fn"
@@ -84,6 +85,7 @@ const OAS31Plugin = ({ getSystem }) => {
       OAS31VersionPragmaFilter: VersionPragmaFilter,
       OAS31Models: Models,
       JSONSchema202012KeywordExample,
+      JSONSchema202012KeywordXml,
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,

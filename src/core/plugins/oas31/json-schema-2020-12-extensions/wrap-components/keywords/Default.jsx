@@ -8,11 +8,13 @@ const DefaultWrapper = createOnlyOAS31ComponentWrapper(
   ({ schema, getSystem, originalComponent: KeywordDefault }) => {
     const { getComponent, fn } = getSystem()
     const KeywordExample = getComponent("JSONSchema202012KeywordExample")
+    const KeywordXml = getComponent("JSONSchema202012KeywordXml")
 
     return (
       <>
         <KeywordDefault schema={schema} />
-        <KeywordExample schema={schema} fn={fn} />
+        <KeywordExample schema={schema} getSystem={getSystem} />
+        <KeywordXml schema={schema} getSystem={getSystem} />
       </>
     )
   }
