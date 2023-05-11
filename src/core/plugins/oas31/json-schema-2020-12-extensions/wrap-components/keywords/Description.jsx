@@ -2,11 +2,11 @@
  * @prettier
  */
 import React from "react"
-import { createOnlyOAS31ComponentWrapper } from "../fn"
+import { createOnlyOAS31ComponentWrapper } from "../../../fn"
 
-const JSONSchema202012KeywordDescriptionWrapper =
-  createOnlyOAS31ComponentWrapper(({ schema, getComponent }) => {
-    if (!schema.description) return null
+const DescriptionWrapper = createOnlyOAS31ComponentWrapper(
+  ({ schema, getComponent }) => {
+    if (!schema?.description) return null
 
     const MarkDown = getComponent("Markdown")
 
@@ -17,6 +17,7 @@ const JSONSchema202012KeywordDescriptionWrapper =
         </div>
       </div>
     )
-  })
+  }
+)
 
-export default JSONSchema202012KeywordDescriptionWrapper
+export default DescriptionWrapper
