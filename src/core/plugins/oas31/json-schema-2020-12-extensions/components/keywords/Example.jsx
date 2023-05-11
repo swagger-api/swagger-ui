@@ -4,7 +4,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const Example = ({ schema, fn }) => {
+const Example = ({ schema, getSystem }) => {
+  const { fn } = getSystem()
   const { hasKeyword, stringify } = fn.jsonSchema202012.useFn()
 
   if (!hasKeyword(schema, "example")) return null
@@ -23,11 +24,7 @@ const Example = ({ schema, fn }) => {
 
 Example.propTypes = {
   schema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  fn: PropTypes.shape({
-    jsonSchema202012: PropTypes.shape({
-      useFn: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
+  getSystem: PropTypes.func.isRequired,
 }
 
 export default Example

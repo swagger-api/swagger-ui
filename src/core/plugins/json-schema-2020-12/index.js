@@ -44,7 +44,8 @@ import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
 import { upperFirst, hasKeyword, isExpandable } from "./fn"
-import { useFn } from "./hooks"
+import { JSONSchemaDeepExpansionContext } from "./context"
+import { useFn, useComponent, useIsExpandedDeeply } from "./hooks"
 import { withJSONSchemaContext } from "./hoc"
 
 const JSONSchema202012Plugin = () => ({
@@ -92,6 +93,7 @@ const JSONSchema202012Plugin = () => ({
     JSONSchema202012ExpandDeepButton: ExpandDeepButton,
     JSONSchema202012ChevronRightIcon: ChevronRightIcon,
     withJSONSchema202012Context: withJSONSchemaContext,
+    JSONSchema202012DeepExpansionContext: () => JSONSchemaDeepExpansionContext,
   },
   fn: {
     upperFirst,
@@ -99,6 +101,8 @@ const JSONSchema202012Plugin = () => ({
       isExpandable,
       hasKeyword,
       useFn,
+      useComponent,
+      useIsExpandedDeeply,
     },
   },
 })

@@ -8,5 +8,6 @@ export const makeIsExpandable = (original, { fn }) => {
 
   const { hasKeyword } = fn.jsonSchema202012
 
-  return (schema) => original(schema) || hasKeyword(schema, "example")
+  return (schema) =>
+    original(schema) || hasKeyword(schema, "example") || schema?.xml
 }
