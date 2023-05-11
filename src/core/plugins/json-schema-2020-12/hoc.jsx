@@ -41,6 +41,7 @@ import KeywordDescription from "./components/keywords/Description/Description"
 import KeywordDefault from "./components/keywords/Default"
 import KeywordDeprecated from "./components/keywords/Deprecated/Deprecated"
 import KeywordReadOnly from "./components/keywords/ReadOnly/ReadOnly"
+import KeywordWriteOnly from "./components/keywords/WriteOnly/WriteOnly"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
@@ -98,6 +99,7 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordDefault,
       KeywordDeprecated,
       KeywordReadOnly,
+      KeywordWriteOnly,
       Accordion,
       ExpandDeepButton,
       ChevronRightIcon,

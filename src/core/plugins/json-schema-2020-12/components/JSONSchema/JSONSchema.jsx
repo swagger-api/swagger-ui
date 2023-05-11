@@ -75,6 +75,7 @@ const JSONSchema = forwardRef(
     const KeywordDefault = useComponent("KeywordDefault")
     const KeywordDeprecated = useComponent("KeywordDeprecated")
     const KeywordReadOnly = useComponent("KeywordReadOnly")
+    const KeywordWriteOnly = useComponent("KeywordWriteOnly")
     const ExpandDeepButton = useComponent("ExpandDeepButton")
 
     /**
@@ -136,6 +137,7 @@ const JSONSchema = forwardRef(
                 )}
                 <KeywordDeprecated schema={schema} />
                 <KeywordReadOnly schema={schema} />
+                <KeywordWriteOnly schema={schema} />
                 <KeywordType schema={schema} isCircular={isCircular} />
                 {constraints.length > 0 &&
                   constraints.map((constraint) => (
