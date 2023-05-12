@@ -10,6 +10,7 @@ const Xml = ({ schema, getSystem }) => {
   const { fn, getComponent } = getSystem()
   const { useIsExpandedDeeply, useComponent } = fn.jsonSchema202012
   const isExpandedDeeply = useIsExpandedDeeply()
+  const isExpandable = !!(xml.name || xml.namespace || xml.prefix)
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
   const Accordion = useComponent("Accordion")
@@ -39,12 +40,23 @@ const Xml = ({ schema, getSystem }) => {
   return (
     <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
       <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--xml">
-        <Accordion expanded={expanded} onChange={handleExpansion}>
+        {isExpandable ? (
+          <>
+            <Accordion expanded={expanded} onChange={handleExpansion}>
+              <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+                XML
+              </span>
+            </Accordion>
+            <ExpandDeepButton
+              expanded={expanded}
+              onClick={handleExpansionDeep}
+            />
+          </>
+        ) : (
           <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
             XML
           </span>
-        </Accordion>
-        <ExpandDeepButton expanded={expanded} onClick={handleExpansionDeep} />
+        )}
         {xml.attribute === true && (
           <span className="json-schema-2020-12__attribute json-schema-2020-12__attribute--muted">
             attribute

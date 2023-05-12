@@ -12,6 +12,7 @@ const ExternalDocs = ({ schema, getSystem }) => {
   const { fn, getComponent } = getSystem()
   const { useIsExpandedDeeply, useComponent } = fn.jsonSchema202012
   const isExpandedDeeply = useIsExpandedDeeply()
+  const isExpandable = !!(externalDocs.description || externalDocs.url)
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
   const Accordion = useComponent("Accordion")
@@ -43,12 +44,23 @@ const ExternalDocs = ({ schema, getSystem }) => {
   return (
     <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
       <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--externalDocs">
-        <Accordion expanded={expanded} onChange={handleExpansion}>
+        {isExpandable ? (
+          <>
+            <Accordion expanded={expanded} onChange={handleExpansion}>
+              <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+                External documentation
+              </span>
+            </Accordion>
+            <ExpandDeepButton
+              expanded={expanded}
+              onClick={handleExpansionDeep}
+            />
+          </>
+        ) : (
           <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
             External documentation
           </span>
-        </Accordion>
-        <ExpandDeepButton expanded={expanded} onClick={handleExpansionDeep} />
+        )}
         <strong className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
           object
         </strong>

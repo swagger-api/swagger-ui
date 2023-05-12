@@ -12,6 +12,7 @@ const Discriminator = ({ schema, getSystem }) => {
   const { fn, getComponent } = getSystem()
   const { useIsExpandedDeeply, useComponent } = fn.jsonSchema202012
   const isExpandedDeeply = useIsExpandedDeeply()
+  const isExpandable = !!discriminator.mapping
   const [expanded, setExpanded] = useState(isExpandedDeeply)
   const [expandedDeeply, setExpandedDeeply] = useState(false)
   const Accordion = useComponent("Accordion")
@@ -41,12 +42,24 @@ const Discriminator = ({ schema, getSystem }) => {
   return (
     <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
       <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--discriminator">
-        <Accordion expanded={expanded} onChange={handleExpansion}>
+        {isExpandable ? (
+          <>
+            <Accordion expanded={expanded} onChange={handleExpansion}>
+              <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
+                Discriminator
+              </span>
+            </Accordion>
+            <ExpandDeepButton
+              expanded={expanded}
+              onClick={handleExpansionDeep}
+            />
+          </>
+        ) : (
           <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
             Discriminator
           </span>
-        </Accordion>
-        <ExpandDeepButton expanded={expanded} onClick={handleExpansionDeep} />
+        )}
+
         {discriminator.propertyName && (
           <span className="json-schema-2020-12__attribute json-schema-2020-12__attribute--muted">
             {discriminator.propertyName}
