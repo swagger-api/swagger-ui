@@ -12,6 +12,8 @@ import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
 import ModelsWrapper from "./wrap-components/models"
+import OperationsWrapper from "./wrap-components/operations"
+import WebhooksWrapper from "./wrap-components/webhooks"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import VersionStampWrapper from "./wrap-components/version-stamp"
 import {
@@ -98,6 +100,8 @@ const OAS31Plugin = ({ getSystem }) => {
       VersionPragmaFilter: VersionPragmaFilterWrapper,
       VersionStamp: VersionStampWrapper,
       Models: ModelsWrapper,
+      Operations: OperationsWrapper,
+      Webhooks: WebhooksWrapper,
       JSONSchema202012KeywordDescription:
         JSONSchema202012KeywordDescriptionWrapper,
       JSONSchema202012KeywordDefault: JSONSchema202012KeywordDefaultWrapper,

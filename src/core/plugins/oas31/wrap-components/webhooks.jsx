@@ -6,16 +6,16 @@ import React from "react"
 import { createOnlyOAS31ComponentWrapper } from "../fn"
 import { makeIsExpandable } from "../json-schema-2020-12-extensions/fn"
 
-const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
+const WebhooksWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const system = getSystem()
   const { getComponent, fn, getConfigs } = system
   const configs = getConfigs()
 
-  if (ModelsWrapper.ModelsWithJSONSchemaContext) {
-    return <ModelsWrapper.ModelsWithJSONSchemaContext />
+  if (WebhooksWrapper.WebhooksWithJSONSchemaContext) {
+    return <WebhooksWrapper.WebhooksWithJSONSchemaContext />
   }
 
-  const Models = getComponent("OAS31Models", true)
+  const Webhooks = getComponent("Webhooks", true)
   const JSONSchema = getComponent("JSONSchema202012")
   const Keyword$schema = getComponent("JSONSchema202012Keyword$schema")
   const Keyword$vocabulary = getComponent("JSONSchema202012Keyword$vocabulary")
@@ -78,10 +78,10 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
   const withSchemaContext = getComponent("withJSONSchema202012Context")
 
-  ModelsWrapper.ModelsWithJSONSchemaContext = withSchemaContext(Models, {
+  WebhooksWrapper.WebhooksWithJSONSchemaContext = withSchemaContext(Webhooks, {
     config: {
       default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
-      defaultExpandedLevels: configs.defaultModelsExpandDepth - 1,
+      defaultExpandedLevels: configs.defaultModelExpandDepth - 1,
     },
     components: {
       JSONSchema,
@@ -133,9 +133,9 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     },
   })
 
-  return <ModelsWrapper.ModelsWithJSONSchemaContext />
+  return <WebhooksWrapper.WebhooksWithJSONSchemaContext />
 })
 
-ModelsWrapper.ModelsWithJSONSchemaContext = null
+WebhooksWrapper.WebhooksWithJSONSchemaContext = null
 
-export default ModelsWrapper
+export default WebhooksWrapper

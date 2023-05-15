@@ -6,16 +6,16 @@ import React from "react"
 import { createOnlyOAS31ComponentWrapper } from "../fn"
 import { makeIsExpandable } from "../json-schema-2020-12-extensions/fn"
 
-const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
+const OperationsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const system = getSystem()
   const { getComponent, fn, getConfigs } = system
   const configs = getConfigs()
 
-  if (ModelsWrapper.ModelsWithJSONSchemaContext) {
-    return <ModelsWrapper.ModelsWithJSONSchemaContext />
+  if (OperationsWrapper.OperationsWithJSONSchemaContext) {
+    return <OperationsWrapper.OperationsWithJSONSchemaContext />
   }
 
-  const Models = getComponent("OAS31Models", true)
+  const Operations = getComponent("operations", true)
   const JSONSchema = getComponent("JSONSchema202012")
   const Keyword$schema = getComponent("JSONSchema202012Keyword$schema")
   const Keyword$vocabulary = getComponent("JSONSchema202012Keyword$vocabulary")
@@ -78,64 +78,70 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
   const withSchemaContext = getComponent("withJSONSchema202012Context")
 
-  ModelsWrapper.ModelsWithJSONSchemaContext = withSchemaContext(Models, {
-    config: {
-      default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
-      defaultExpandedLevels: configs.defaultModelsExpandDepth - 1,
-    },
-    components: {
-      JSONSchema,
-      Keyword$schema,
-      Keyword$vocabulary,
-      Keyword$id,
-      Keyword$anchor,
-      Keyword$dynamicAnchor,
-      Keyword$ref,
-      Keyword$dynamicRef,
-      Keyword$defs,
-      Keyword$comment,
-      KeywordAllOf,
-      KeywordAnyOf,
-      KeywordOneOf,
-      KeywordNot,
-      KeywordIf,
-      KeywordThen,
-      KeywordElse,
-      KeywordDependentSchemas,
-      KeywordPrefixItems,
-      KeywordItems,
-      KeywordContains,
-      KeywordProperties,
-      KeywordPatternProperties,
-      KeywordAdditionalProperties,
-      KeywordPropertyNames,
-      KeywordUnevaluatedItems,
-      KeywordUnevaluatedProperties,
-      KeywordType,
-      KeywordEnum,
-      KeywordConst,
-      KeywordConstraint,
-      KeywordDependentRequired,
-      KeywordContentSchema,
-      KeywordTitle,
-      KeywordDescription,
-      KeywordDefault,
-      KeywordDeprecated,
-      KeywordReadOnly,
-      KeywordWriteOnly,
-      Accordion,
-      ExpandDeepButton,
-      ChevronRightIcon,
-    },
-    fn: {
-      upperFirst: fn.upperFirst,
-      isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
-    },
-  })
+  OperationsWrapper.OperationsWithJSONSchemaContext = withSchemaContext(
+    Operations,
+    {
+      config: {
+        default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
+        defaultExpandedLevels: configs.defaultModelExpandDepth - 1,
+      },
+      components: {
+        JSONSchema,
+        Keyword$schema,
+        Keyword$vocabulary,
+        Keyword$id,
+        Keyword$anchor,
+        Keyword$dynamicAnchor,
+        Keyword$ref,
+        Keyword$dynamicRef,
+        Keyword$defs,
+        Keyword$comment,
+        KeywordAllOf,
+        KeywordAnyOf,
+        KeywordOneOf,
+        KeywordNot,
+        KeywordIf,
+        KeywordThen,
+        KeywordElse,
+        KeywordDependentSchemas,
+        KeywordPrefixItems,
+        KeywordItems,
+        KeywordContains,
+        KeywordProperties,
+        KeywordPatternProperties,
+        KeywordAdditionalProperties,
+        KeywordPropertyNames,
+        KeywordUnevaluatedItems,
+        KeywordUnevaluatedProperties,
+        KeywordType,
+        KeywordEnum,
+        KeywordConst,
+        KeywordConstraint,
+        KeywordDependentRequired,
+        KeywordContentSchema,
+        KeywordTitle,
+        KeywordDescription,
+        KeywordDefault,
+        KeywordDeprecated,
+        KeywordReadOnly,
+        KeywordWriteOnly,
+        Accordion,
+        ExpandDeepButton,
+        ChevronRightIcon,
+      },
+      fn: {
+        upperFirst: fn.upperFirst,
+        isExpandable: makeIsExpandable(
+          fn.jsonSchema202012.isExpandable,
+          system
+        ),
+      },
+    }
+  )
 
-  return <ModelsWrapper.ModelsWithJSONSchemaContext />
+  return <OperationsWrapper.OperationsWithJSONSchemaContext />
 })
 
-ModelsWrapper.ModelsWithJSONSchemaContext = null
+OperationsWrapper.OperationsWithJSONSchemaContext = null
 
-export default ModelsWrapper
+export default OperationsWrapper
