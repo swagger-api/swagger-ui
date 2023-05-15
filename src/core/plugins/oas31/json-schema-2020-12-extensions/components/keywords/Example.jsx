@@ -23,7 +23,7 @@ const Example = ({ schema, getSystem }) => {
 }
 
 Example.propTypes = {
-  schema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  schema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
   getSystem: PropTypes.func.isRequired,
 }
 
