@@ -15,3 +15,23 @@ export const makeIsExpandable = (original, { fn }) => {
     schema?.discriminator ||
     schema?.externalDocs
 }
+
+export const getProperties = (
+  schema,
+  { includeReadOnly, includeWriteOnly }
+) => {
+  // shortcut
+  if (!schema?.properties) return {}
+
+  const properties = Object.entries(schema.properties)
+  const filteredProperties = properties.filter(([, value]) => {
+    const isReadOnly = value?.readOnly === true
+    const isWriteOnly = value?.writeOnly === true
+
+    return (
+      (!isReadOnly || includeReadOnly) && (!isWriteOnly || includeWriteOnly)
+    )
+  })
+
+  return Object.fromEntries(filteredProperties)
+}

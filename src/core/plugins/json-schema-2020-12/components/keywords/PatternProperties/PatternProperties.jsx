@@ -21,10 +21,7 @@ const PatternProperties = ({ schema }) => {
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--patternProperties">
       <ul>
         {Object.entries(patternProperties).map(([propertyName, schema]) => (
-          <li
-            key={propertyName}
-            className="json-schema-2020-12-property json-schema-2020-12-property"
-          >
+          <li key={propertyName} className="json-schema-2020-12-property">
             <JSONSchema name={propertyName} schema={schema} />
           </li>
         ))}

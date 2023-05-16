@@ -4,7 +4,10 @@
 import React from "react"
 
 import { createOnlyOAS31ComponentWrapper } from "../fn"
-import { makeIsExpandable } from "../json-schema-2020-12-extensions/fn"
+import {
+  makeIsExpandable,
+  getProperties,
+} from "../json-schema-2020-12-extensions/fn"
 
 const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const system = getSystem()
@@ -83,6 +86,8 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     config: {
       default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
       defaultExpandedLevels: configs.defaultModelsExpandDepth - 1,
+      includeReadOnly: true,
+      includeWriteOnly: true,
     },
     components: {
       JSONSchema,
@@ -131,6 +136,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     fn: {
       upperFirst: fn.upperFirst,
       isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
+      getProperties,
     },
   })
 

@@ -4,7 +4,10 @@
 import React from "react"
 
 import { createOnlyOAS31ComponentWrapper } from "../fn"
-import { makeIsExpandable } from "../json-schema-2020-12-extensions/fn"
+import {
+  makeIsExpandable,
+  getProperties,
+} from "../json-schema-2020-12-extensions/fn"
 
 const ModelWrapper = createOnlyOAS31ComponentWrapper(
   ({ getSystem, ...props }) => {
@@ -140,6 +143,7 @@ const ModelWrapper = createOnlyOAS31ComponentWrapper(
           fn.jsonSchema202012.isExpandable,
           system
         ),
+        getProperties,
       },
     })
 
