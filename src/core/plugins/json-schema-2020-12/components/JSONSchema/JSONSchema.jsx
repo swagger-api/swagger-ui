@@ -11,6 +11,7 @@ import {
   useLevel,
   useFn,
   useIsEmbedded,
+  useIsExpanded,
   useIsExpandedDeeply,
   useIsCircular,
   useRenderedSchemas,
@@ -24,8 +25,9 @@ import {
 const JSONSchema = forwardRef(
   ({ schema, name, dependentRequired, onExpand }, ref) => {
     const fn = useFn()
+    const isExpanded = useIsExpanded()
     const isExpandedDeeply = useIsExpandedDeeply()
-    const [expanded, setExpanded] = useState(isExpandedDeeply)
+    const [expanded, setExpanded] = useState(isExpanded || isExpandedDeeply)
     const [expandedDeeply, setExpandedDeeply] = useState(isExpandedDeeply)
     const [level, nextLevel] = useLevel()
     const isEmbedded = useIsEmbedded()

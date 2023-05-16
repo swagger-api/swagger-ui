@@ -38,12 +38,15 @@ export const useIsEmbedded = () => {
   return level > 0
 }
 
-export const useIsExpandedDeeply = () => {
+export const useIsExpanded = () => {
   const [level] = useLevel()
   const { defaultExpandedLevels } = useConfig()
-  const isExpandedByDefault = defaultExpandedLevels - level > 0
 
-  return isExpandedByDefault || useContext(JSONSchemaDeepExpansionContext)
+  return defaultExpandedLevels - level > 0
+}
+
+export const useIsExpandedDeeply = () => {
+  return useContext(JSONSchemaDeepExpansionContext)
 }
 
 export const useRenderedSchemas = (schema = undefined) => {

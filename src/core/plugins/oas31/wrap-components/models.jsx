@@ -78,6 +78,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
   const withSchemaContext = getComponent("withJSONSchema202012Context")
 
+  // we cache the HOC as recreating it with every re-render is quite expensive
   ModelsWrapper.ModelsWithJSONSchemaContext = withSchemaContext(Models, {
     config: {
       default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
