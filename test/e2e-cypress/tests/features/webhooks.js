@@ -9,7 +9,7 @@ describe("Render Webhooks Component", () => {
     })
     it("should render an operation component", () => {
       cy.visit(baseUrl)
-        .get(".webhooks #operations--postnewPet > .opblock-summary")
+        .get(".webhooks #operations-webhooks-postnewPet > .opblock-summary")
         .should("exist")
         .should("contains.text", "POST")
         .should("contains.text", "newPet")
