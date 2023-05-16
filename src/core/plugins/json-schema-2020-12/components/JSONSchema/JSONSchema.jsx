@@ -80,8 +80,6 @@ const JSONSchema = forwardRef(
     const KeywordWriteOnly = useComponent("KeywordWriteOnly")
     const ExpandDeepButton = useComponent("ExpandDeepButton")
 
-    console.dir(expandedDeeply)
-
     /**
      * Effects handlers.
      */
