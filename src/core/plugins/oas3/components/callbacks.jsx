@@ -26,7 +26,7 @@ const Callbacks = ({ callbacks, specPath, specSelectors, getComponent }) => {
             <OperationContainer
               key={`${callbackName}-${operationDTO.path}-${operationDTO.method}`}
               op={operationDTO.operation}
-              tag=""
+              tag="callbacks"
               method={operationDTO.method}
               path={operationDTO.path}
               specPath={operationDTO.specPath}

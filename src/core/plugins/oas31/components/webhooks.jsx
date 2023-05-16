@@ -22,7 +22,7 @@ const Webhooks = ({ specSelectors, getComponent }) => {
             <OperationContainer
               key={`${pathItemName}-${operationDTO.method}-webhook`}
               op={operationDTO.operation}
-              tag=""
+              tag="webhooks"
               method={operationDTO.method}
               path={pathItemName}
               specPath={operationDTO.specPath}
