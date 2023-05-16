@@ -45,7 +45,7 @@ import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
 import { upperFirst, hasKeyword, isExpandable } from "./fn"
 import { JSONSchemaDeepExpansionContext } from "./context"
-import { useFn, useComponent, useIsExpandedDeeply } from "./hooks"
+import { useFn, useConfig, useComponent, useIsExpandedDeeply } from "./hooks"
 import { withJSONSchemaContext } from "./hoc"
 
 const JSONSchema202012Plugin = () => ({
@@ -101,6 +101,7 @@ const JSONSchema202012Plugin = () => ({
       isExpandable,
       hasKeyword,
       useFn,
+      useConfig,
       useComponent,
       useIsExpandedDeeply,
     },

@@ -58,7 +58,11 @@ import JSONSchema202012KeywordDiscriminator from "./json-schema-2020-12-extensio
 import JSONSchema202012KeywordExternalDocs from "./json-schema-2020-12-extensions/components/keywords/ExternalDocs"
 import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
 import JSONSchema202012KeywordDefaultWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Default"
-import { makeIsExpandable } from "./json-schema-2020-12-extensions/fn"
+import JSONSchema202012KeywordPropertiesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Properties"
+import {
+  makeIsExpandable,
+  getProperties,
+} from "./json-schema-2020-12-extensions/fn"
 
 const OAS31Plugin = ({ getSystem }) => {
   const system = getSystem()
@@ -75,6 +79,7 @@ const OAS31Plugin = ({ getSystem }) => {
     pluginFn.jsonSchema202012 = {
       ...fn.jsonSchema202012,
       isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
+      getProperties,
     }
   }
 
@@ -105,6 +110,8 @@ const OAS31Plugin = ({ getSystem }) => {
       JSONSchema202012KeywordDescription:
         JSONSchema202012KeywordDescriptionWrapper,
       JSONSchema202012KeywordDefault: JSONSchema202012KeywordDefaultWrapper,
+      JSONSchema202012KeywordProperties:
+        JSONSchema202012KeywordPropertiesWrapper,
     },
     statePlugins: {
       spec: {
