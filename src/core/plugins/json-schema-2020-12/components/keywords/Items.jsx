@@ -4,15 +4,16 @@
 import React from "react"
 
 import { schema } from "../../prop-types"
-import { useComponent } from "../../hooks"
+import { useFn, useComponent } from "../../hooks"
 
 const Items = ({ schema }) => {
+  const fn = useFn()
   const JSONSchema = useComponent("JSONSchema")
 
   /**
    * Rendering.
    */
-  if (!schema?.items) return null
+  if (!fn.hasKeyword(schema, "items")) return null
 
   const name = (
     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
