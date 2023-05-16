@@ -7,13 +7,13 @@ import Contact from "./components/contact"
 import Info from "./components/info"
 import JsonSchemaDialect from "./components/json-schema-dialect"
 import VersionPragmaFilter from "./components/version-pragma-filter"
-import Models from "./components/models"
+import Model from "./components/model/model"
+import Models from "./components/models/models"
 import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
+import ModelWrapper from "./wrap-components/model"
 import ModelsWrapper from "./wrap-components/models"
-import OperationsWrapper from "./wrap-components/operations"
-import WebhooksWrapper from "./wrap-components/webhooks"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import VersionStampWrapper from "./wrap-components/version-stamp"
 import {
@@ -87,6 +87,7 @@ const OAS31Plugin = ({ getSystem }) => {
       OAS31License: License,
       OAS31Contact: Contact,
       OAS31VersionPragmaFilter: VersionPragmaFilter,
+      OAS31Model: Model,
       OAS31Models: Models,
       JSONSchema202012KeywordExample,
       JSONSchema202012KeywordXml,
@@ -99,9 +100,8 @@ const OAS31Plugin = ({ getSystem }) => {
       Contact: ContactWrapper,
       VersionPragmaFilter: VersionPragmaFilterWrapper,
       VersionStamp: VersionStampWrapper,
+      Model: ModelWrapper,
       Models: ModelsWrapper,
-      Operations: OperationsWrapper,
-      Webhooks: WebhooksWrapper,
       JSONSchema202012KeywordDescription:
         JSONSchema202012KeywordDescriptionWrapper,
       JSONSchema202012KeywordDefault: JSONSchema202012KeywordDefaultWrapper,

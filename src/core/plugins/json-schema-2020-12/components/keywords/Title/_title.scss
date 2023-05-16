@@ -3,6 +3,8 @@
     @include text_headline($section-models-model-title-font-color);
     display: inline-block;
     font-weight: bold;
+    font-size: 12px;
+    line-height: normal;
 
     & .json-schema-2020-12-keyword__name {
       margin: 0;
