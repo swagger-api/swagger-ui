@@ -31,7 +31,7 @@ const Callbacks = (props) => {
               {...props}
               op={op}
               key={method}
-              tag={""}
+              tag="callbacks"
               method={method}
               path={pathItemName}
               specPath={specPath.push(callbackName, pathItemName, method)}
