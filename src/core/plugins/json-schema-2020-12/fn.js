@@ -127,7 +127,9 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
 export const isBooleanJSONSchema = (schema) => typeof schema === "boolean"
 
 export const hasKeyword = (schema, keyword) =>
-  typeof schema === "object" && Object.hasOwn(schema, keyword)
+  schema !== null &&
+  typeof schema === "object" &&
+  Object.hasOwn(schema, keyword)
 
 export const isExpandable = (schema) => {
   const fn = useFn()
