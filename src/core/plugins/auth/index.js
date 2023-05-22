@@ -2,7 +2,7 @@ import reducers from "./reducers"
 import * as actions from "./actions"
 import * as selectors from "./selectors"
 import { execute as wrappedExecuteAction } from "./spec-extensions/wrap-actions"
-import { loaded as wrappedLoadedAction } from "./config-extensions/wrap-actions"
+import { loaded as wrappedLoadedAction } from "./configs-extensions/wrap-actions"
 import { authorize as wrappedAuthorizeAction, logout as wrappedLogoutAction } from "./wrap-actions"
 
 export default function() {

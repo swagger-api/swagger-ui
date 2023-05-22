@@ -38,7 +38,7 @@ export const logout = (oriAction, system) => (payload) => {
   const configs = system.getConfigs()
   const authorized = system.authSelectors.authorized()
 
-  // dispose of cookie
+  // deleting cookie
   try {
     if (configs.persistAuthorization && Array.isArray(payload)) {
       payload.forEach((authorizedName) => {
