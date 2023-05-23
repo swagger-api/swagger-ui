@@ -177,6 +177,19 @@ Redirect url given as parameter to the oauth2 provider. Default the url refers t
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
 
+## Nextjs
+
+When using nextjs make sure to enable transpilation for swagger-ui-react in your `next.config.js`.
+
+```js
+const nextConfig = {
+  transpilePackages: [
+    'react-syntax-highlighter',
+    'swagger-client',
+    'swagger-ui-react',
+  ],
+}
+```
 
 ## Limitations
 
