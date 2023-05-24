@@ -11,8 +11,10 @@ export const upperFirst = (value) => {
 }
 
 export const getTitle = (schema) => {
-  if (schema?.title) return upperFirst(schema.title)
-  if (schema?.$anchor) return upperFirst(schema.$anchor)
+  const fn = useFn()
+
+  if (schema?.title) return fn.upperFirst(schema.title)
+  if (schema?.$anchor) return fn.upperFirst(schema.$anchor)
   if (schema?.$id) return schema.$id
 
   return ""

@@ -92,7 +92,7 @@ const Models = ({
             key={schemaName}
             ref={handleJSONSchema202012Ref(schemaName)}
             schema={schema}
-            name={fn.upperFirst(schemaName)}
+            name={schemaName}
             onExpand={handleJSONSchema202012Expand(schemaName)}
           />
         ))}
@@ -117,9 +117,6 @@ Models.propTypes = {
   layoutActions: PropTypes.shape({
     show: PropTypes.func.isRequired,
     readyToScroll: PropTypes.func.isRequired,
-  }).isRequired,
-  fn: PropTypes.shape({
-    upperFirst: PropTypes.func.isRequired,
   }).isRequired,
 }
 
