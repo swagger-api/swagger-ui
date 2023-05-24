@@ -12,7 +12,6 @@ const Models = ({
   layoutActions,
   getComponent,
   getConfigs,
-  fn,
 }) => {
   const schemas = specSelectors.selectSchemas()
   const hasSchemas = Object.keys(schemas).length > 0
