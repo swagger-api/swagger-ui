@@ -150,7 +150,7 @@
     "jest-environment-jsdom": "=29.5.0",
     "jsdom": "=21.1.1",
     "json-loader": "^0.5.7",
-    "json-merger": "^1.1.9",
+    "json-merger": "^1.1.10",
     "json-server": "=0.17.3",
     "less": "^4.1.2",
     "license-checker": "^25.0.0",
