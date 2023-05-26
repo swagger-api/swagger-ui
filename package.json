@@ -117,7 +117,7 @@
     "@jest/globals": "=29.5.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@release-it/conventional-changelog": "=5.1.0",
-    "@wojtekmaj/enzyme-adapter-react-17": "=0.6.6",
+    "@wojtekmaj/enzyme-adapter-react-17": "=0.8.0",
     "autoprefixer": "^10.4.12",
     "babel-loader": "^9.1.2",
     "babel-plugin-lodash": "=3.3.4",
