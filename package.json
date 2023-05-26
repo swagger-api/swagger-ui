@@ -182,7 +182,7 @@
     "webpack": "^5.82.1",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.7.4",
+    "webpack-dev-server": "^4.15.0",
     "webpack-node-externals": "=3.0.0",
     "webpack-stats-plugin": "=1.1.1"
   },
