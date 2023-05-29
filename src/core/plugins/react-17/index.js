@@ -12,3 +12,5 @@ const React17Plugin = ({ getSystem }) => {
         rootInjects,
     }
 }
+
+export default React17Plugin
