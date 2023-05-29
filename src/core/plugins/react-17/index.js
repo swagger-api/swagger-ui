@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import { render } from "./root-injects"
 
 const React17Plugin = ({ getSystem }) => {
