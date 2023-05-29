@@ -5,7 +5,7 @@ const React17Plugin = ({ getSystem }) => {
     const rootInjects = {}
 
     if (React.version?.match(/^17/)) {
-        rootInjects.render = render;
+        rootInjects.render = render
     }
 
     return {
