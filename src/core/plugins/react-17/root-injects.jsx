@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import React from "react"
 
 export const render = (getSystem, getStore, getComponent, getComponents) => (domNode) => {
