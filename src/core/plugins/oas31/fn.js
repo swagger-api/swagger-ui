@@ -98,7 +98,7 @@ export const createOnlyOAS31ComponentWrapper =
 /* eslint-enable  react/jsx-filename-extension */
 
 /** Utilize JSON Schema 2020-12 samples **/
-export const wrapSampleFn =
+const wrapSampleFn =
   (fnName) =>
   (getSystem) =>
   (...args) => {
@@ -111,7 +111,6 @@ export const wrapSampleFn =
     return fn[fnName](...args)
   }
 
-export const wrapInferSchema = wrapSampleFn("inferSchema")
 export const wrapSampleFromSchema = wrapSampleFn("sampleFromSchema")
 export const wrapSampleFromSchemaGeneric = wrapSampleFn(
   "sampleFromSchemaGeneric"

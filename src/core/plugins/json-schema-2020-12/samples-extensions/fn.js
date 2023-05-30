@@ -709,16 +709,6 @@ export const sampleFromSchemaGeneric = (
   return value
 }
 
-export const inferSchema = (thing) => {
-  if (thing.schema) thing = thing.schema
-
-  if (thing.properties) {
-    thing.type = "object"
-  }
-
-  return thing // Hopefully this will have something schema like in it... `type` for example
-}
-
 export const createXMLExample = (schema, config, o) => {
   const json = sampleFromSchemaGeneric(schema, config, o, true)
   if (!json) {

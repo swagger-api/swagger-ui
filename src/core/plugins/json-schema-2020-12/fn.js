@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { useFn } from "../hooks"
+import { useFn } from "./hooks"
 
 export const upperFirst = (value) => {
   if (typeof value === "string") {
