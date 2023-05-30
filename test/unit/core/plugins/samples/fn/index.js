@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { createXMLExample, sampleFromSchema, memoizedCreateXMLExample, memoizedSampleFromSchema } from "corePlugins/samples/fn"
+import { createXMLExample, sampleFromSchema, memoizedCreateXMLExample, memoizedSampleFromSchema } from "corePlugins/samples/fn/index"
 
 describe("sampleFromSchema", () => {
   it("handles Immutable.js objects for nested schemas", function () {

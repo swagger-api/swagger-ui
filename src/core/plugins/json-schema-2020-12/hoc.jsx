@@ -56,7 +56,7 @@ import {
   stringify,
   stringifyConstraints,
   getDependentRequired,
-} from "./fn/index"
+} from "./fn"
 
 export const withJSONSchemaContext = (Component, overrides = {}) => {
   const value = {

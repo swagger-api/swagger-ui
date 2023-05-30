@@ -3,7 +3,7 @@ import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 
-import memoizeN from "../../../helpers/memoizeN"
+import memoizeN from "../../../../helpers/memoizeN"
 
 const generateStringFromRegex = (pattern) => {
   try {

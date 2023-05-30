@@ -20,7 +20,6 @@ import {
   isOAS31 as isOAS31Fn,
   createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
   createSystemSelector as createSystemSelectorFn,
-  wrapInferSchema,
   wrapSampleFromSchema,
   wrapSampleFromSchemaGeneric,
   wrapCreateXMLExample,
@@ -90,7 +89,6 @@ const OAS31Plugin = ({ getSystem }) => {
   }
   // wraps schema generators and make them specific to OpenAPI version
   if (typeof system.fn.inferSchema === "function") {
-    pluginFn.inferSchema = wrapInferSchema(getSystem)
     pluginFn.sampleFromSchema = wrapSampleFromSchema(getSystem)
     pluginFn.sampleFromSchemaGeneric = wrapSampleFromSchemaGeneric(getSystem)
     pluginFn.createXMLExample = wrapCreateXMLExample(getSystem)
