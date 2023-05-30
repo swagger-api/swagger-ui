@@ -76,7 +76,7 @@ export const shouldRetainRequestBodyValue = onlyOAS3((state, path, method) => {
 
 export const selectDefaultRequestBodyValue =
   (state, path, method) => (system) => {
-    const { oas3Selectors, specSelectors } = system.getSystem()
+    const { oas3Selectors, specSelectors, fn } = system.getSystem()
 
     if (specSelectors.isOAS3()) {
       const currentMediaType = oas3Selectors.requestContentType(path, method)
@@ -94,7 +94,8 @@ export const selectDefaultRequestBodyValue =
             method,
             "requestBody",
             "requestBody"
-          )
+          ),
+          fn
         )
       }
     }

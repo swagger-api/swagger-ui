@@ -104,7 +104,6 @@ const JSONSchema202012Plugin = () => ({
   },
   fn: {
     upperFirst,
-    memoizedSampleFromSchema: null,
     jsonSchema202012: {
       isExpandable,
       hasKeyword,

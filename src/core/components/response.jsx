@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
-import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
@@ -93,7 +93,7 @@ export default class Response extends React.Component {
       oas3Actions,
     } = this.props
 
-    let { inferSchema } = fn
+    let { inferSchema, getSampleSchema } = fn
     let isOAS3 = specSelectors.isOAS3()
     const { showExtensions } = getConfigs()
 
