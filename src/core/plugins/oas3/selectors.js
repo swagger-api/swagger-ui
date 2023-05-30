@@ -103,7 +103,7 @@ export const selectDefaultRequestBodyValue =
   }
 
 export const hasUserEditedBody = onlyOAS3((state, path, method) => (system) => {
-  const { oas3Selectors, specSelectors } = system
+  const { oas3Selectors, specSelectors, fn } = system
 
   let userHasEditedBody = false
   const currentMediaType = oas3Selectors.requestContentType(path, method)
@@ -147,7 +147,8 @@ export const hasUserEditedBody = onlyOAS3((state, path, method) => (system) => {
         method,
         "requestBody",
         "requestBody"
-      )
+      ),
+      fn
     )
     userHasEditedBody =
       !!userEditedRequestBody &&

@@ -175,7 +175,7 @@ const RequestBody = ({
               }
               if (type === "object" || useInitialValue) {
                 // TODO: what about example or examples from requestBody could be passed as exampleOverride
-                initialValue = getSampleSchema(prop, false, {
+                initialValue = fn.getSampleSchema(prop, false, {
                   includeWriteOnly: true
                 })
               }
@@ -242,6 +242,7 @@ const RequestBody = ({
     requestBody,
     contentType,
     activeExamplesKey,
+    fn,
   )
   let language = null
   let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleRequestBody)
