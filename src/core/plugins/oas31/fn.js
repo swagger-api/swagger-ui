@@ -96,3 +96,30 @@ export const createOnlyOAS31ComponentWrapper =
     return <Original {...props} />
   }
 /* eslint-enable  react/jsx-filename-extension */
+
+/** Utilize JSON Schema 2020-12 samples **/
+export const wrapSampleFn =
+  (fnName) =>
+  (getSystem) =>
+  (...args) => {
+    const { fn, specSelectors } = getSystem()
+
+    if (specSelectors.isOpenAPI31()) {
+      return fn.jsonSchema202012[fnName](...args)
+    }
+
+    return fn[fnName](...args)
+  }
+
+export const wrapInferSchema = wrapSampleFn("inferSchema")
+export const wrapSampleFromSchema = wrapSampleFn("sampleFromSchema")
+export const wrapSampleFromSchemaGeneric = wrapSampleFn(
+  "sampleFromSchemaGeneric"
+)
+export const wrapCreateXMLExample = wrapSampleFn("createXMLExample")
+export const wrapMemoizedSampleFromSchema = wrapSampleFn(
+  "memoizedSampleFromSchema"
+)
+export const wrapMemoizedCreateXMLExample = wrapSampleFn(
+  "memoizedCreateXMLExample"
+)

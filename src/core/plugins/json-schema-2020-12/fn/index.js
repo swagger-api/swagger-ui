@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { useFn } from "./hooks"
+import { useFn } from "../hooks"
 
 export const upperFirst = (value) => {
   if (typeof value === "string") {
@@ -58,9 +58,13 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
   }
 
   const inferType = () => {
-    if (prefixItems || items) {
+    if (prefixItems || items || schema.contains) {
       return getArrayType()
-    } else if (schema.properties || schema.additionalProperties) {
+    } else if (
+      schema.properties ||
+      schema.additionalProperties ||
+      schema.patternProperties
+    ) {
       return "object"
     } else if (
       schema.pattern ||
@@ -77,7 +81,7 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
       schema.multipleOf
     ) {
       return "number | integer"
-    } else if (schema.const !== undefined) {
+    } else if (typeof schema.const !== "undefined") {
       if (schema.const === null) {
         return "null"
       } else if (typeof schema.const === "boolean") {

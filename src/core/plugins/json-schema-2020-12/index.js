@@ -43,7 +43,15 @@ import KeywordWriteOnly from "./components/keywords/WriteOnly"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
-import { upperFirst, hasKeyword, isExpandable } from "./fn"
+import { upperFirst, hasKeyword, isExpandable } from "./fn/index"
+import {
+  inferSchema,
+  sampleFromSchema,
+  sampleFromSchemaGeneric,
+  createXMLExample,
+  memoizedSampleFromSchema,
+  memoizedCreateXMLExample,
+} from "./fn/samples"
 import { JSONSchemaDeepExpansionContext } from "./context"
 import { useFn, useConfig, useComponent, useIsExpandedDeeply } from "./hooks"
 import { withJSONSchemaContext } from "./hoc"
@@ -97,6 +105,7 @@ const JSONSchema202012Plugin = () => ({
   },
   fn: {
     upperFirst,
+    memoizedSampleFromSchema: null,
     jsonSchema202012: {
       isExpandable,
       hasKeyword,
@@ -104,6 +113,12 @@ const JSONSchema202012Plugin = () => ({
       useConfig,
       useComponent,
       useIsExpandedDeeply,
+      inferSchema,
+      sampleFromSchema,
+      sampleFromSchemaGeneric,
+      createXMLExample,
+      memoizedSampleFromSchema,
+      memoizedCreateXMLExample,
     },
   },
 })

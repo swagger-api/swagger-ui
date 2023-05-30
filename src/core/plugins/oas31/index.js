@@ -20,6 +20,12 @@ import {
   isOAS31 as isOAS31Fn,
   createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
   createSystemSelector as createSystemSelectorFn,
+  wrapInferSchema,
+  wrapSampleFromSchema,
+  wrapSampleFromSchemaGeneric,
+  wrapCreateXMLExample,
+  wrapMemoizedSampleFromSchema,
+  wrapMemoizedCreateXMLExample,
 } from "./fn"
 import {
   license as selectLicense,
@@ -81,6 +87,15 @@ const OAS31Plugin = ({ getSystem }) => {
       isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
       getProperties,
     }
+  }
+  // wraps schema generators and make them specific to OpenAPI version
+  if (typeof system.fn.inferSchema === "function") {
+    pluginFn.inferSchema = wrapInferSchema(getSystem)
+    pluginFn.sampleFromSchema = wrapSampleFromSchema(getSystem)
+    pluginFn.sampleFromSchemaGeneric = wrapSampleFromSchemaGeneric(getSystem)
+    pluginFn.createXMLExample = wrapCreateXMLExample(getSystem)
+    pluginFn.memoizedSampleFromSchema = wrapMemoizedSampleFromSchema(getSystem)
+    pluginFn.memoizedCreateXMLExample = wrapMemoizedCreateXMLExample(getSystem)
   }
 
   return {
