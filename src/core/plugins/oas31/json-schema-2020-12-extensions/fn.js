@@ -1,7 +1,9 @@
 /**
  * @prettier
  */
-export const makeIsExpandable = (original, { fn }) => {
+export const makeIsExpandable = (original, getSystem) => {
+  const { fn } = getSystem()
+
   if (typeof original !== "function") {
     return null
   }

@@ -10,8 +10,7 @@ import {
 } from "../json-schema-2020-12-extensions/fn"
 
 const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
-  const system = getSystem()
-  const { getComponent, fn, getConfigs } = system
+  const { getComponent, fn, getConfigs } = getSystem()
   const configs = getConfigs()
 
   if (ModelsWrapper.ModelsWithJSONSchemaContext) {
@@ -135,7 +134,10 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
     },
     fn: {
       upperFirst: fn.upperFirst,
-      isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
+      isExpandable: makeIsExpandable(
+        fn.jsonSchema202012.isExpandable,
+        getSystem
+      ),
       getProperties,
     },
   })

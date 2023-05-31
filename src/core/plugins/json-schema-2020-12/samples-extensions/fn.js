@@ -4,6 +4,7 @@
 import XML from "xml"
 import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
+
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import memoizeN from "../../../../helpers/memoizeN"
 
@@ -11,8 +12,8 @@ const generateStringFromRegex = (pattern) => {
   try {
     const randexp = new RandExp(pattern)
     return randexp.gen()
-  } catch (e) {
-    // Invalid regex should not cause a crash (regex syntax varies across languages)
+  } catch {
+    // invalid regex should not cause a crash (regex syntax varies across languages)
     return "string"
   }
 }
@@ -36,17 +37,16 @@ const primitives = {
 
 const primitive = (schema) => {
   schema = objectify(schema)
-  let { type, format } = schema
+  const { type, format } = schema
+  const fn = primitives[`${type}_${format}`] || primitives[type]
 
-  let fn = primitives[`${type}_${format}`] || primitives[type]
-
-  if (isFunc(fn)) return fn(schema)
-
-  return "Unknown Type: " + schema.type
+  return typeof fn === "function" ? fn(schema) : `Unknown Type: ${schema.type}`
 }
 
-// do a couple of quick sanity tests to ensure the value
-// looks like a $$ref that swagger-client generates.
+/**
+ * Do a couple of quick sanity tests to ensure the value
+ * looks like a $$ref that swagger-client generates.
+ */
 const sanitizeRef = (value) =>
   deeplyStripKey(
     value,
@@ -720,8 +720,9 @@ export const createXMLExample = (schema, config, o) => {
   return XML(json, { declaration: true, indent: "\t" })
 }
 
-export const sampleFromSchema = (schema, config, o) =>
-  sampleFromSchemaGeneric(schema, config, o, false)
+export const sampleFromSchema = (schema, config, o) => {
+  return sampleFromSchemaGeneric(schema, config, o, false)
+}
 
 const resolver = (arg1, arg2, arg3) => [
   arg1,
