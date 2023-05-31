@@ -20,11 +20,6 @@ import {
   isOAS31 as isOAS31Fn,
   createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
   createSystemSelector as createSystemSelectorFn,
-  wrapSampleFromSchema,
-  wrapSampleFromSchemaGeneric,
-  wrapCreateXMLExample,
-  wrapMemoizedSampleFromSchema,
-  wrapMemoizedCreateXMLExample,
 } from "./fn"
 import {
   license as selectLicense,
@@ -64,40 +59,19 @@ import JSONSchema202012KeywordExternalDocs from "./json-schema-2020-12-extension
 import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
 import JSONSchema202012KeywordDefaultWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Default"
 import JSONSchema202012KeywordPropertiesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Properties"
-import {
-  makeIsExpandable,
-  getProperties,
-} from "./json-schema-2020-12-extensions/fn"
+import afterLoad from "./after-load"
 
-const OAS31Plugin = ({ getSystem }) => {
-  const system = getSystem()
-  const { fn } = system
+const OAS31Plugin = ({ fn }) => {
   const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
   const createOnlyOAS31Selector = fn.createOnlyOAS31Selector || createOnlyOAS31SelectorFn // prettier-ignore
 
-  const pluginFn = {
-    isOAs31: isOAS31Fn,
-    createSystemSelector: createSystemSelectorFn,
-    createOnlyOAS31Selector: createOnlyOAS31SelectorFn,
-  }
-  if (typeof fn.jsonSchema202012?.isExpandable === "function") {
-    pluginFn.jsonSchema202012 = {
-      ...fn.jsonSchema202012,
-      isExpandable: makeIsExpandable(fn.jsonSchema202012.isExpandable, system),
-      getProperties,
-    }
-  }
-  // wraps schema generators and make them specific to OpenAPI version
-  if (typeof system.fn.inferSchema === "function") {
-    pluginFn.sampleFromSchema = wrapSampleFromSchema(getSystem)
-    pluginFn.sampleFromSchemaGeneric = wrapSampleFromSchemaGeneric(getSystem)
-    pluginFn.createXMLExample = wrapCreateXMLExample(getSystem)
-    pluginFn.memoizedSampleFromSchema = wrapMemoizedSampleFromSchema(getSystem)
-    pluginFn.memoizedCreateXMLExample = wrapMemoizedCreateXMLExample(getSystem)
-  }
-
   return {
-    fn: pluginFn,
+    afterLoad,
+    fn: {
+      isOAS31: isOAS31Fn,
+      createSystemSelector: createSystemSelectorFn,
+      createOnlyOAS31Selector: createOnlyOAS31SelectorFn,
+    },
     components: {
       Webhooks,
       JsonSchemaDialect,

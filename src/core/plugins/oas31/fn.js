@@ -97,28 +97,28 @@ export const createOnlyOAS31ComponentWrapper =
   }
 /* eslint-enable  react/jsx-filename-extension */
 
-/** Utilize JSON Schema 2020-12 samples **/
-const wrapSampleFn =
-  (fnName) =>
-  (getSystem) =>
-  (...args) => {
-    const { fn, specSelectors } = getSystem()
+/**
+ * Runs the fn replacement implementation when spec is OpenAPI 3.1.
+ * Runs the fn original implementation otherwise.
+ *
+ * @param fn
+ * @param system
+ * @returns {{[p: string]: function(...[*]): *}}
+ */
+export const wrapOAS31Fn = (fn, system) => {
+  const { fn: systemFn, specSelectors } = system
 
-    if (specSelectors.isOpenAPI31()) {
-      return fn.jsonSchema202012[fnName](...args)
-    }
+  return Object.fromEntries(
+    Object.entries(fn).map(([name, newImpl]) => {
+      const oriImpl = systemFn[name]
+      const impl = (...args) =>
+        specSelectors.isOAS31()
+          ? newImpl(...args)
+          : typeof oriImpl === "function"
+          ? oriImpl(...args)
+          : undefined
 
-    return fn[fnName](...args)
-  }
-
-export const wrapSampleFromSchema = wrapSampleFn("sampleFromSchema")
-export const wrapSampleFromSchemaGeneric = wrapSampleFn(
-  "sampleFromSchemaGeneric"
-)
-export const wrapCreateXMLExample = wrapSampleFn("createXMLExample")
-export const wrapMemoizedSampleFromSchema = wrapSampleFn(
-  "memoizedSampleFromSchema"
-)
-export const wrapMemoizedCreateXMLExample = wrapSampleFn(
-  "memoizedCreateXMLExample"
-)
+      return [name, impl]
+    })
+  )
+}
