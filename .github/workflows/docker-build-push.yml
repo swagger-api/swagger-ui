@@ -13,6 +13,9 @@ on:
         type: string
         required: true
 
+  repository_dispatch:
+    type: [docker_build_push]
+
 env:
   REGISTRY_IMAGE: swaggerapi/swagger-ui
 
@@ -21,8 +24,8 @@ jobs:
     name: Normalize inputs
     runs-on: ubuntu-latest
     outputs:
-      git_ref: ${{ steps.workflow_dispatch.outputs.git_ref }}
-      docker_tag: ${{ steps.workflow_dispatch.outputs.git_ref }}
+      git_ref: ${{ steps.workflow_dispatch.outputs.git_ref || steps.repository_dispatch.outputs.git_ref }}
+      docker_tag: ${{ steps.workflow_dispatch.outputs.docker_tag || steps.repository_dispatch.outputs.docker_tag }}
 
     steps:
       - name: Normalize inputs of `workflow_dispatch` event
@@ -31,6 +34,14 @@ jobs:
         run: |
           echo "git_ref=${{ inputs.git_ref }}" >> "$GITHUB_OUTPUT"
           echo "docker_tag=${{ inputs.docker_tag }}" >> "$GITHUB_OUTPUT"
+
+      - name: Normalize inputs of `repository_dispatch` event
+        id: repository_dispatch
+        if: ${{ github.event_name == 'repository_dispatch' }}
+        run: |
+          echo "git_ref=${{ github.event.client_payload.git_ref }}" >> "$GITHUB_OUTPUT"
+          echo "docker_tag=${{ github.event.client_payload.docker_tag }}" >> "$GITHUB_OUTPUT"
+
 
 
   build:
