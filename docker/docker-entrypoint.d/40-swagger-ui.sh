@@ -1,17 +1,12 @@
 #! /bin/sh
 
 set -e
-BASE_URL=${BASE_URL:-/}
 NGINX_ROOT=/usr/share/nginx/html
 INITIALIZER_SCRIPT=$NGINX_ROOT/swagger-initializer.js
-NGINX_CONF=/etc/nginx/nginx.conf
+NGINX_CONF=/etc/nginx/conf.d/default.conf
 
 node /usr/share/nginx/configurator $INITIALIZER_SCRIPT
 
-
-if [[ "${BASE_URL}" != "/" ]]; then
-  sed -i "s|location / {|location $BASE_URL {|g" $NGINX_CONF
-fi
 
 if [ "$SWAGGER_JSON_URL" ]; then
   sed -i "s|https://petstore.swagger.io/v2/swagger.json|$SWAGGER_JSON_URL|g" $INITIALIZER_SCRIPT
@@ -41,12 +36,7 @@ fi
 
 # enable/disable the address and port for IPv6 addresses that nginx listens on
 if [[ -n "${PORT_IPV6}" ]]; then
-    sed -i "s|8080;|8080;\n    listen            [::]:${PORT_IPV6};|g" $NGINX_CONF
-fi
-
-# replace the PORT that nginx listens on if PORT is supplied
-if [[ -n "${PORT}" ]]; then
-    sed -i "s|8080|${PORT}|g" $NGINX_CONF
+    sed -i "s|${PORT};|${PORT};\n    listen            [::]:${PORT_IPV6};|g" $NGINX_CONF
 fi
 
 find $NGINX_ROOT -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
