@@ -25,7 +25,7 @@ jobs:
       docker_tag: ${{ steps.workflow_dispatch.outputs.git_ref }}
 
     steps:
-      - name: Set up environment variables for `workflow_dispatch` event
+      - name: Normalize inputs of `workflow_dispatch` event
         id: workflow_dispatch
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
