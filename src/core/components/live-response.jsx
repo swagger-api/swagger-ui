@@ -62,6 +62,7 @@ export default class LiveResponse extends React.Component {
     const contentType = headers["content-type"] || headers["Content-Type"]
 
     const ResponseBody = getComponent("responseBody")
+    const NrAdditionalOptions = getComponent("NrAdditionalOptions")
     const returnObject = headersKeys.map(key => {
       var joinedHeaders = Array.isArray(headers[key]) ? headers[key].join() : headers[key]
       return <span className="headerline" key={key}> {key}: {joinedHeaders} </span>
@@ -116,6 +117,15 @@ export default class LiveResponse extends React.Component {
                                        getComponent={ getComponent }/>
                        : null
                 }
+                {
+                    body ? <NrAdditionalOptions content={ body }
+                                       contentType={ contentType }
+                                       url={ url }
+                                       headers={ headers }
+                                       getConfigs={ getConfigs }
+                                       getComponent={ getComponent }/>
+                       : null
+                  }
                 {
                   hasHeaders ? <Headers headers={ returnObject }/> : null
                 }

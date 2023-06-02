@@ -33,6 +33,8 @@ import ExamplesSelectValueRetainer from "core/components/examples-select-value-r
 import Oauth2 from "core/components/auth/oauth2"
 import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
+import NrAdditionalOptions from "core/components/nr-additional-options"
+import NrCsvDownload from "core/components/nr-csv-download"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
 import OperationTag from "core/components/operation-tag"
@@ -167,6 +169,8 @@ export default function() {
       Example,
       ExamplesSelect,
       ExamplesSelectValueRetainer,
+      NrAdditionalOptions,
+      NrCsvDownload
     }
   }
 
