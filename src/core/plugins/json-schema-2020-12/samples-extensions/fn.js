@@ -18,22 +18,39 @@ const generateStringFromRegex = (pattern) => {
   }
 }
 
+/* eslint-disable camelcase */
 const primitives = {
   string: (schema) =>
     schema.pattern ? generateStringFromRegex(schema.pattern) : "string",
   string_email: () => "user@example.com",
-  "string_date-time": () => new Date().toISOString(),
-  string_date: () => new Date().toISOString().substring(0, 10),
-  string_uuid: () => "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "string_idn-email": () => "실례@example.com",
   string_hostname: () => "example.com",
+  "string_idn-hostname": () => "실례.com",
   string_ipv4: () => "198.51.100.42",
   string_ipv6: () => "2001:0db8:5b96:0000:0000:426f:8e17:642a",
+  string_uri: () => "https://example.com/",
+  "string_uri-reference": () => "path/index.html",
+  string_iri: () => "https://실례.com/",
+  "string_iri-reference": () => "path/실례.html",
+  string_uuid: () => "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "string_uri-template": () => "https://example.com/dictionary/{term:1}/{term}",
+  "string_json-pointer": () => "/a/b/c",
+  "string_relative-json-pointer": () => "1/0",
+  "string_date-time": () => new Date().toISOString(),
+  string_date: () => new Date().toISOString().substring(0, 10),
+  string_time: () => new Date().toISOString().substring(11),
+  string_duration: () => "P3D", // expresses a duration of 3 days
+  string_password: () => "********",
   number: () => 0,
-  number_float: () => 0.0,
+  number_float: () => 0.1,
+  number_double: () => 0.1,
   integer: () => 0,
+  integer_int32: () => (2 ** 30) >>> 0,
+  integer_int64: () => 2 ** 53 - 1,
   boolean: (schema) =>
     typeof schema.default === "boolean" ? schema.default : true,
 }
+/* eslint-enable camelcase */
 
 const primitive = (schema) => {
   schema = objectify(schema)
