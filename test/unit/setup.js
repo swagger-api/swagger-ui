@@ -1,10 +1,10 @@
 import { JSDOM } from "jsdom"
 import Enzyme from "enzyme"
-import Adapter from "@cfaester/enzyme-adapter-react-18"
+const ReactEighteenAdapter = require("@cfaester/enzyme-adapter-react-18")
 
 import win from "../../src/core/window"
 
-Enzyme.configure({ adapter: new Adapter() })
+Enzyme.configure({ adapter: new ReactEighteenAdapter.default() })
 
 function copyProps(src, target) {
   const props = Object.getOwnPropertyNames(src)

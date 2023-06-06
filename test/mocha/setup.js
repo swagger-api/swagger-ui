@@ -1,10 +1,10 @@
 const { JSDOM } = require("jsdom")
 const Enzyme = require("enzyme")
-const Adapter = require("@cfaester/enzyme-adapter-react-18")
+const ReactEighteenAdapter = require("@cfaester/enzyme-adapter-react-18")
 
 const win = require("../../src/core/window")
 
-Enzyme.configure({ adapter: Adapter.default })
+Enzyme.configure({ adapter: new ReactEighteenAdapter.default() })
 
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>")
 const { window } = jsdom
