@@ -82,6 +82,34 @@ describe("sampleFromSchema", () => {
       2 ** 53 - 1
     )
     expect(sample({ type: "boolean" })).toStrictEqual(true)
+    expect(sample({ type: "null" })).toStrictEqual(null)
+  })
+
+  it("should handle type keyword defined as list of types", function () {
+    const definition = fromJS({
+      type: ["object", "string"],
+    })
+    const expected = {}
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should prioritize array when array and object defined as list of types", function () {
+    const definition = fromJS({
+      type: ["object", "array"],
+    })
+    const expected = []
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle primitive types defined as list of types", function () {
+    const definition = fromJS({
+      type: ["string", "number"],
+    })
+    const expected = "string"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("handles Immutable.js objects for nested schemas", function () {
@@ -353,9 +381,9 @@ describe("sampleFromSchema", () => {
         value: {
           message: "Hello, World!",
         },
-        $$ref: "#/components/examples/WelcomeExample",
+        $$ref: "https://example.com/#/components/examples/WelcomeExample",
       },
-      $$ref: "#/components/schemas/Welcome",
+      $$ref: "https://example.com/#/components/schemas/Welcome",
     }
 
     const expected = {
@@ -382,10 +410,10 @@ describe("sampleFromSchema", () => {
           value: {
             message: "Hello, World!",
           },
-          $$ref: "#/components/examples/WelcomeExample",
+          $$ref: "https://example.com/#/components/examples/WelcomeExample",
         },
       },
-      $$ref: "#/components/schemas/Welcome",
+      $$ref: "https://example.com/#/components/schemas/Welcome",
     }
 
     const expected = {
@@ -414,10 +442,10 @@ describe("sampleFromSchema", () => {
           value: {
             message: "Hello, World!",
           },
-          $$ref: "#/components/examples/WelcomeExample",
+          $$ref: "https://example.com/#/components/examples/WelcomeExample",
         },
       },
-      $$ref: "#/components/schemas/Welcome",
+      $$ref: "https://example.com/#/components/schemas/Welcome",
     }
 
     const expected = {

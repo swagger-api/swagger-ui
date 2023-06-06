@@ -49,15 +49,26 @@ const primitives = {
   integer_int64: () => 2 ** 53 - 1,
   boolean: (schema) =>
     typeof schema.default === "boolean" ? schema.default : true,
+  null: () => null,
 }
 /* eslint-enable camelcase */
 
 const primitive = (schema) => {
   schema = objectify(schema)
-  const { type, format } = schema
+  const { type: typeList, format } = schema
+  const type = Array.isArray(typeList) ? typeList.at(0) : typeList
+
   const fn = primitives[`${type}_${format}`] || primitives[type]
 
   return typeof fn === "function" ? fn(schema) : `Unknown Type: ${schema.type}`
+}
+
+const isURI = (uri) => {
+  try {
+    return new URL(uri) && true
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -65,11 +76,7 @@ const primitive = (schema) => {
  * looks like a $$ref that swagger-client generates.
  */
 const sanitizeRef = (value) =>
-  deeplyStripKey(
-    value,
-    "$$ref",
-    (val) => typeof val === "string" && val.indexOf("#") > -1
-  )
+  deeplyStripKey(value, "$$ref", (val) => typeof val === "string" && isURI(val))
 
 const objectContracts = ["maxProperties", "minProperties"]
 const arrayContracts = ["minItems", "maxItems"]
@@ -117,7 +124,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     }
     let props = objectify(oldSchema.properties)
     for (let propName in props) {
-      if (!Object.prototype.hasOwnProperty.call(props, propName)) {
+      if (!Object.hasOwn(props, propName)) {
         continue
       }
       if (props[propName] && props[propName].deprecated) {
@@ -193,7 +200,7 @@ export const sampleFromSchemaGeneric = (
       }
       let props = objectify(schemaToAdd.properties)
       for (let propName in props) {
-        if (!Object.prototype.hasOwnProperty.call(props, propName)) {
+        if (!Object.hasOwn(props, propName)) {
           continue
         }
         if (props[propName] && props[propName].deprecated) {
@@ -256,10 +263,9 @@ export const sampleFromSchemaGeneric = (
     res[displayName] = []
   }
 
-  const schemaHasAny = (keys) =>
-    keys.some((key) => Object.prototype.hasOwnProperty.call(schema, key))
+  const schemaHasAny = (keys) => keys.some((key) => Object.hasOwn(schema, key))
   // try recover missing type
-  if (schema && !type) {
+  if (schema && typeof type !== "string" && !Array.isArray(type)) {
     if (properties || additionalProperties || schemaHasAny(objectContracts)) {
       type = "object"
     } else if (items || schemaHasAny(arrayContracts)) {
@@ -419,11 +425,11 @@ export const sampleFromSchemaGeneric = (
         return
       }
       if (
-        Object.prototype.hasOwnProperty.call(schema, "discriminator") &&
+        Object.hasOwn(schema, "discriminator") &&
         schema.discriminator &&
-        Object.prototype.hasOwnProperty.call(schema.discriminator, "mapping") &&
+        Object.hasOwn(schema.discriminator, "mapping") &&
         schema.discriminator.mapping &&
-        Object.prototype.hasOwnProperty.call(schema, "$$ref") &&
+        Object.hasOwn(schema, "$$ref") &&
         schema.$$ref &&
         schema.discriminator.propertyName === propName
       ) {
@@ -459,11 +465,11 @@ export const sampleFromSchemaGeneric = (
     // if json just return
     if (!respectXML) {
       // spacial case yaml parser can not know about
-      if (typeof sample === "number" && type === "string") {
+      if (typeof sample === "number" && type?.includes("string")) {
         return `${sample}`
       }
       // return if sample does not need any parsing
-      if (typeof sample !== "string" || type === "string") {
+      if (typeof sample !== "string" || type?.includes("string")) {
         return sample
       }
       // check if sample is parsable or just a plain string
@@ -481,7 +487,7 @@ export const sampleFromSchemaGeneric = (
     }
 
     // generate xml sample recursively for array case
-    if (type === "array") {
+    if (type?.includes("array")) {
       if (!Array.isArray(sample)) {
         if (typeof sample === "string") {
           return sample
@@ -509,13 +515,13 @@ export const sampleFromSchemaGeneric = (
     }
 
     // generate xml sample recursively for object case
-    if (type === "object") {
+    if (type?.includes("object")) {
       // case literal example
       if (typeof sample === "string") {
         return sample
       }
       for (let propName in sample) {
-        if (!Object.prototype.hasOwnProperty.call(sample, propName)) {
+        if (!Object.hasOwn(sample, propName)) {
           continue
         }
         if (
@@ -557,10 +563,56 @@ export const sampleFromSchemaGeneric = (
   }
 
   // use schema to generate sample
+  if (type?.includes("array")) {
+    if (!items) {
+      return []
+    }
 
-  if (type === "object") {
+    let sampleArray
+    if (respectXML) {
+      items.xml = items.xml || schema?.xml || {}
+      items.xml.name = items.xml.name || xml.name
+    }
+
+    if (Array.isArray(items.anyOf)) {
+      sampleArray = items.anyOf.map((i) =>
+        sampleFromSchemaGeneric(
+          liftSampleHelper(items, i, config),
+          config,
+          undefined,
+          respectXML
+        )
+      )
+    } else if (Array.isArray(items.oneOf)) {
+      sampleArray = items.oneOf.map((i) =>
+        sampleFromSchemaGeneric(
+          liftSampleHelper(items, i, config),
+          config,
+          undefined,
+          respectXML
+        )
+      )
+    } else if (!respectXML || (respectXML && xml.wrapped)) {
+      sampleArray = [
+        sampleFromSchemaGeneric(items, config, undefined, respectXML),
+      ]
+    } else {
+      return sampleFromSchemaGeneric(items, config, undefined, respectXML)
+    }
+    sampleArray = handleMinMaxItems(sampleArray)
+    if (respectXML && xml.wrapped) {
+      res[displayName] = sampleArray
+      if (!isEmpty(_attr)) {
+        res[displayName].push({ _attr: _attr })
+      }
+      return res
+    }
+    return sampleArray
+  }
+
+  if (type?.includes("object")) {
     for (let propName in props) {
-      if (!Object.prototype.hasOwnProperty.call(props, propName)) {
+      if (!Object.hasOwn(props, propName)) {
         continue
       }
       if (props[propName] && props[propName].deprecated) {
@@ -630,53 +682,6 @@ export const sampleFromSchemaGeneric = (
     return res
   }
 
-  if (type === "array") {
-    if (!items) {
-      return
-    }
-
-    let sampleArray
-    if (respectXML) {
-      items.xml = items.xml || schema?.xml || {}
-      items.xml.name = items.xml.name || xml.name
-    }
-
-    if (Array.isArray(items.anyOf)) {
-      sampleArray = items.anyOf.map((i) =>
-        sampleFromSchemaGeneric(
-          liftSampleHelper(items, i, config),
-          config,
-          undefined,
-          respectXML
-        )
-      )
-    } else if (Array.isArray(items.oneOf)) {
-      sampleArray = items.oneOf.map((i) =>
-        sampleFromSchemaGeneric(
-          liftSampleHelper(items, i, config),
-          config,
-          undefined,
-          respectXML
-        )
-      )
-    } else if (!respectXML || (respectXML && xml.wrapped)) {
-      sampleArray = [
-        sampleFromSchemaGeneric(items, config, undefined, respectXML),
-      ]
-    } else {
-      return sampleFromSchemaGeneric(items, config, undefined, respectXML)
-    }
-    sampleArray = handleMinMaxItems(sampleArray)
-    if (respectXML && xml.wrapped) {
-      res[displayName] = sampleArray
-      if (!isEmpty(_attr)) {
-        res[displayName].push({ _attr: _attr })
-      }
-      return res
-    }
-    return sampleArray
-  }
-
   let value
   if (schema && Array.isArray(schema.enum)) {
     //display enum first value
@@ -712,9 +717,6 @@ export const sampleFromSchemaGeneric = (
       }
     }
   } else {
-    return
-  }
-  if (type === "file") {
     return
   }
 
