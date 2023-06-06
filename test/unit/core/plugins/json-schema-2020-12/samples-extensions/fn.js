@@ -1298,13 +1298,11 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should handle minimum with exclusive", () => {
+  it("should handle exclusiveMinimum", () => {
     const definition = {
       type: "number",
-      minimum: 5,
-      exclusiveMinimum: true,
+      exclusiveMinimum: 5,
     }
-
     const expected = 6
 
     expect(sampleFromSchema(definition)).toEqual(expected)
@@ -1321,11 +1319,10 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should handle maximum with exclusive", () => {
+  it("should handle exclusiveMaximum", () => {
     const definition = {
       type: "number",
-      maximum: -1,
-      exclusiveMaximum: true,
+      exclusiveMaximum: -1,
     }
 
     const expected = -2
