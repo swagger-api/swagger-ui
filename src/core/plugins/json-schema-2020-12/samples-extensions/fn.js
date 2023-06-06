@@ -694,22 +694,25 @@ export const sampleFromSchemaGeneric = (
     // display schema default
     value = primitive(schema)
     if (typeof value === "number") {
-      let minValue = null
-      let maxValue = null
       const { minimum, maximum, exclusiveMinimum, exclusiveMaximum } = schema
-      if (typeof minimum === "number") {
-        minValue = minimum
+      const epsilon = Number.isInteger(value) ? 1 : Number.EPSILON
+      let minValue = typeof minimum === "number" ? minimum : null
+      let maxValue = typeof maximum === "number" ? maximum : null
+
+      if (typeof exclusiveMinimum === "number") {
+        minValue =
+          minValue !== null
+            ? Math.max(minValue, exclusiveMinimum + epsilon)
+            : exclusiveMinimum + epsilon
       }
-      if (typeof exclusiveMinimum === "number" && exclusiveMinimum > minValue) {
-        minValue = exclusiveMinimum + 1
+      if (typeof exclusiveMaximum === "number") {
+        maxValue =
+          maxValue !== null
+            ? Math.min(maxValue, exclusiveMaximum - epsilon)
+            : exclusiveMaximum - epsilon
       }
-      if (typeof maximum === "number") {
-        maxValue = maximum
-      }
-      if (typeof exclusiveMaximum === "number" && exclusiveMaximum < maxValue) {
-        maxValue = exclusiveMaximum - 1
-      }
-      value = minValue || maxValue || value
+
+      value = (minValue > maxValue && value) || minValue || maxValue || value
     }
     if (typeof value === "string") {
       if (schema.maxLength !== null && schema.maxLength !== undefined) {
