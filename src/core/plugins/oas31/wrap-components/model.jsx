@@ -141,7 +141,7 @@ const ModelWrapper = createOnlyOAS31ComponentWrapper(
         upperFirst: fn.upperFirst,
         isExpandable: makeIsExpandable(
           fn.jsonSchema202012.isExpandable,
-          system
+          getSystem
         ),
         getProperties,
       },
