@@ -1,12 +1,11 @@
 /**
  * @prettier
  */
-
 const {
   ParameterPrimitiveTestCases,
   RequestBodyPrimitiveTestCases,
   ResponsePrimitiveTestCases,
-} = require("../../helpers/multiple-examples")
+} = require("../../support/helpers/multiple-examples")
 describe("OpenAPI 3.0 Multiple Examples - core features", () => {
   describe("/String", () => {
     describe("in a parameter", () => {
@@ -607,7 +606,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
         },
       })
       it("should display an error message when input validation fails", () => {
-        cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           // Expand the operation
           .get("#operations-default-post_Object")
           .click()
@@ -615,7 +616,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".try-out__btn")
           .click()
           // Set an invalid value
-          .get(".parameters-container > div > table > tbody > tr > td.parameters-col_description > div:nth-child(2) > textarea")
+          .get(
+            ".parameters-container > div > table > tbody > tr > td.parameters-col_description > div:nth-child(2) > textarea"
+          )
           .type("{{{{ [[[[ <<<< invalid JSON here.")
           // Execute the operation
           .get(".execute")
