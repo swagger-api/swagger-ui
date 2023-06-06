@@ -101,6 +101,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     "enum",
     "xml",
     "type",
+    "const",
     ...objectContracts,
     ...arrayContracts,
     ...numberContracts,
@@ -683,7 +684,10 @@ export const sampleFromSchemaGeneric = (
   }
 
   let value
-  if (schema && Array.isArray(schema.enum)) {
+  if (typeof schema?.const !== "undefined") {
+    // display const value
+    value = schema.const
+  } else if (schema && Array.isArray(schema.enum)) {
     //display enum first value
     value = normalizeArray(schema.enum)[0]
   } else if (schema) {
