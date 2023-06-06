@@ -1489,7 +1489,7 @@ describe("utils", () => {
       expect(buildUrl(urlRelativeToHost, specUrlOas2NonUrlString, { selectedServer: noServerSelected })).toBe("http://localhost/relative-url/base-path/path")
     })
 
-    xit("throws error when server url contains non-transcluded server variables", () => {
+    it("throws error when server url contains non-transcluded server variables", () => {
       const buildUrlThunk = () => buildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlWithVariables })
 
       expect(buildUrlThunk).toThrow(/^Invalid/)
