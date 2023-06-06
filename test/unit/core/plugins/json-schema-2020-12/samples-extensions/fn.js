@@ -86,30 +86,31 @@ describe("sampleFromSchema", () => {
   })
 
   it("should handle type keyword defined as list of types", function () {
-    const definition = fromJS({
-      type: ["object", "string"],
-    })
+    const definition = fromJS({ type: ["object", "string"] })
     const expected = {}
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("should prioritize array when array and object defined as list of types", function () {
-    const definition = fromJS({
-      type: ["object", "array"],
-    })
+    const definition = fromJS({ type: ["object", "array"] })
     const expected = []
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("should handle primitive types defined as list of types", function () {
-    const definition = fromJS({
-      type: ["string", "number"],
-    })
+    const definition = fromJS({ type: ["string", "number"] })
     const expected = "string"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should return const value", function () {
+    const definition = fromJS({ const: 3 })
+    const expected = 3
+
+    expect(sampleFromSchema(definition)).toStrictEqual(expected)
   })
 
   it("handles Immutable.js objects for nested schemas", function () {
