@@ -1,10 +1,6 @@
 describe("OAuth2 Password flow", function() {
   beforeEach(() => {
-    cy.server()
-    cy.route({
-      url: "**/oauth/*",
-      method: "POST"
-    }).as("tokenRequest")
+    cy.intercept("POST", "**/oauth/*").as("tokenRequest")
   })
 
   it("should make a password flow Authorization header request", () => {
