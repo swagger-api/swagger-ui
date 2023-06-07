@@ -80,11 +80,12 @@ const sanitizeRef = (value) =>
 
 const objectContracts = ["maxProperties", "minProperties"]
 const arrayContracts = ["minItems", "maxItems"]
-const numberContracts = [
+const numberConstraints = [
   "minimum",
   "maximum",
   "exclusiveMinimum",
   "exclusiveMaximum",
+  "multipleOf",
 ]
 const stringContracts = ["minLength", "maxLength"]
 
@@ -104,7 +105,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     "const",
     ...objectContracts,
     ...arrayContracts,
-    ...numberContracts,
+    ...numberConstraints,
     ...stringContracts,
   ].forEach((key) => setIfNotDefinedInTarget(key))
 
@@ -271,7 +272,7 @@ export const sampleFromSchemaGeneric = (
       type = "object"
     } else if (items || schemaHasAny(arrayContracts)) {
       type = "array"
-    } else if (schemaHasAny(numberContracts)) {
+    } else if (schemaHasAny(numberConstraints)) {
       type = "number"
       schema.type = "number"
     } else if (!usePlainValue && !schema.enum) {
