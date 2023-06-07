@@ -41,6 +41,7 @@ const primitives = {
   string_time: () => new Date().toISOString().substring(11),
   string_duration: () => "P3D", // expresses a duration of 3 days
   string_password: () => "********",
+  string_regex: () => "^[a-z]+$",
   number: () => 0,
   number_float: () => 0.1,
   number_double: () => 0.1,

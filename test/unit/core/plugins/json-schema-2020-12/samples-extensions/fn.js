@@ -71,6 +71,9 @@ describe("sampleFromSchema", () => {
     expect(sample({ type: "string", format: "password" })).toStrictEqual(
       "********"
     )
+    expect(sample({ type: "string", format: "regex" })).toStrictEqual(
+      "^[a-z]+$"
+    )
     expect(sample({ type: "number" })).toStrictEqual(0)
     expect(sample({ type: "number", format: "float" })).toStrictEqual(0.1)
     expect(sample({ type: "number", format: "double" })).toStrictEqual(0.1)
