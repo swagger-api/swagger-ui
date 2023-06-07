@@ -1330,6 +1330,18 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
+  it("should handle multipleOf", () => {
+    const definition = {
+      type: "number",
+      minimum: 22,
+      multipleOf: 3,
+    }
+
+    const expected = 24
+
+    expect(sampleFromSchema(definition)).toStrictEqual(expected)
+  })
+
   it("should handle minLength", () => {
     const definition = {
       type: "string",

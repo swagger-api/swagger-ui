@@ -695,6 +695,7 @@ export const sampleFromSchemaGeneric = (
     value = primitive(schema)
     if (typeof value === "number") {
       const { minimum, maximum, exclusiveMinimum, exclusiveMaximum } = schema
+      const { multipleOf } = schema
       const epsilon = Number.isInteger(value) ? 1 : Number.EPSILON
       let minValue = typeof minimum === "number" ? minimum : null
       let maxValue = typeof maximum === "number" ? maximum : null
@@ -711,8 +712,12 @@ export const sampleFromSchemaGeneric = (
             ? Math.min(maxValue, exclusiveMaximum - epsilon)
             : exclusiveMaximum - epsilon
       }
-
       value = (minValue > maxValue && value) || minValue || maxValue || value
+
+      if (typeof multipleOf === "number" && multipleOf > 0) {
+        const remainder = value % multipleOf
+        value = remainder === 0 ? value : value + multipleOf - remainder
+      }
     }
     if (typeof value === "string") {
       if (schema.maxLength !== null && schema.maxLength !== undefined) {
