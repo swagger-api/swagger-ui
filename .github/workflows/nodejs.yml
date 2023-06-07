@@ -56,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: ['+(a11y|security|bugs)/**/*.js', 'features/**/+(o|d)*.js', 'features/**/m*.js', 'features/**/!(o|d|m)*.js']
+        containers: ['+(a11y|security|bugs)/**/*cy.js', 'features/**/+(o|d)*.cy.js', 'features/**/m*.cy.js', 'features/**/!(o|d|m)*.cy.js']
 
     steps:
       - uses: actions/checkout@v3
@@ -80,4 +80,4 @@ jobs:
         run: npm ci
 
       - name: Cypress Test
-        run: npx start-server-and-test cy:start http://localhost:3204 'npm run cy:run -- --spec "test/e2e-cypress/tests/${{ matrix.containers }}"'
+        run: npx start-server-and-test cy:start http://localhost:3204 'npm run cy:run -- --spec "test/e2e-cypress/e2e/${{ matrix.containers }}"'
