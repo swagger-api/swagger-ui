@@ -87,7 +87,7 @@ const numberConstraints = [
   "exclusiveMaximum",
   "multipleOf",
 ]
-const stringContracts = ["minLength", "maxLength"]
+const stringConstraints = ["minLength", "maxLength", "pattern"]
 
 const liftSampleHelper = (oldSchema, target, config = {}) => {
   const setIfNotDefinedInTarget = (key) => {
@@ -106,7 +106,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     ...objectContracts,
     ...arrayContracts,
     ...numberConstraints,
-    ...stringContracts,
+    ...stringConstraints,
   ].forEach((key) => setIfNotDefinedInTarget(key))
 
   if (oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
@@ -721,10 +721,10 @@ export const sampleFromSchemaGeneric = (
       }
     }
     if (typeof value === "string") {
-      if (schema.maxLength !== null && schema.maxLength !== undefined) {
+      if (typeof schema.maxLength === "number") {
         value = value.slice(0, schema.maxLength)
       }
-      if (schema.minLength !== null && schema.minLength !== undefined) {
+      if (typeof schema.minLength === "number") {
         let i = 0
         while (value.length < schema.minLength) {
           value += value[i++ % value.length]
