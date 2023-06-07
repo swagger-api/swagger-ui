@@ -288,6 +288,7 @@ describe("OpenAPI 3.0 Additional JsonSchemaForm in a Parameter", () => {
           .click()
           .get(".json-schema-form-item > input")
           .type("{selectall}spotted")
+          .blur()
           // Assert against the input fields
           .get(".json-schema-form-item > input")
           .then((inputs) => {
@@ -308,6 +309,7 @@ describe("OpenAPI 3.0 Additional JsonSchemaForm in a Parameter", () => {
           .click()
           .get(".json-schema-form-item:last-of-type > input")
           .type("{selectall}spotted")
+          .blur()
           // Assert against the input fields
           .get(".json-schema-form-item > input")
           .then((inputs) => {
@@ -335,6 +337,7 @@ describe("OpenAPI 3.0 Additional JsonSchemaForm in a Parameter", () => {
           .click()
           .get(".json-schema-form-item:last-of-type > input")
           .type("{selectall}spotted")
+          .blur()
           // Assert against the input fields
           .get(".json-schema-form-item > input")
           .then((inputs) => {
@@ -431,6 +434,7 @@ describe("OpenAPI 3.0 Additional JsonSchemaForm in a Parameter", () => {
           .click()
           .get(".json-schema-form-item > input")
           .type("{selectall}spotted")
+          .blur()
           // Assert against the input fields
           .get(".json-schema-form-item > input")
           .then((inputs) => {
@@ -460,6 +464,7 @@ describe("OpenAPI 3.0 Additional JsonSchemaForm in a Parameter", () => {
           .click()
           .get(".json-schema-form-item:last-of-type > input")
           .type("{selectall}spotted")
+          .blur()
           // Assert against the input fields
           .get(".json-schema-form-item > input")
           .then((inputs) => {

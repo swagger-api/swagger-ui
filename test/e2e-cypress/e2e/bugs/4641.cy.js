@@ -24,13 +24,9 @@ const clickLogoutAndReauthorise = () => {
 
 describe("#4641: The Logout button in Authorize popup not clearing API Key", () => {
   beforeEach(() => {
-    cy.server()
-    cy
-      .route({
-        url: "/4641*",
-        response: "OK",
-      })
-      .as("request")
+    cy.intercept("GET", "/4641*", {
+      body: "OK",
+    }).as("request")
   })
 
   it("should include the given api key in requests", () => {

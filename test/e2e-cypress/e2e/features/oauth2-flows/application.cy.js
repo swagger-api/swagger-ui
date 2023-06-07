@@ -1,10 +1,6 @@
 describe("OAuth2 Application flow", function() {
   beforeEach(() => {
-    cy.server()
-    cy.route({
-      url: "**/oauth/*",
-      method: "POST"
-    }).as("tokenRequest")
+    cy.intercept("POST", "**/oauth/*").as("tokenRequest")
   })
 
   // https://github.com/swagger-api/swagger-ui/issues/6395
