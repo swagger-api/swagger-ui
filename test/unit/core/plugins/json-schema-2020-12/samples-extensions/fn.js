@@ -1233,6 +1233,37 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
+  it("should handle maxItems", () => {
+    const definition = {
+      type: "array",
+      minItems: 4,
+      maxItems: 7,
+      items: {
+        type: "string",
+      },
+    }
+
+    const expected = sampleFromSchema(definition).length
+
+    expect(expected).toBeGreaterThanOrEqual(4)
+    expect(expected).toBeLessThanOrEqual(7)
+  })
+
+  it("should handle uniqueItems", () => {
+    const definition = {
+      type: "array",
+      minItems: 2,
+      uniqueItems: true,
+      items: {
+        type: "string",
+      },
+    }
+
+    const expected = ["string"]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   it("should handle minItems with example", () => {
     const definition = {
       type: "array",

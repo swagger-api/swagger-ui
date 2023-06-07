@@ -72,6 +72,31 @@ const isURI = (uri) => {
   }
 }
 
+const applyArrayConstraints = (array, constraints = {}) => {
+  const { minItems, maxItems, uniqueItems } = constraints
+  let constrainedArray = [...array]
+
+  if (Number.isInteger(maxItems) && maxItems > 0) {
+    constrainedArray = array.slice(0, maxItems)
+  }
+  if (Number.isInteger(minItems) && minItems > 0) {
+    for (let i = 0; constrainedArray.length < minItems; i += 1) {
+      constrainedArray.push(constrainedArray[i % constrainedArray.length])
+    }
+  }
+  /**
+   *  If uniqueItems is true, it implies that every item in the array must be unique.
+   *  This overrides any minItems constraint that cannot be satisfied with unique items.
+   *  So if minItems is greater than the number of unique items,
+   *  it should be reduced to the number of unique items.
+   */
+  if (uniqueItems === true) {
+    constrainedArray = Array.from(new Set(constrainedArray))
+  }
+
+  return constrainedArray
+}
+
 /**
  * Do a couple of quick sanity tests to ensure the value
  * looks like a $$ref that swagger-client generates.
@@ -80,7 +105,7 @@ const sanitizeRef = (value) =>
   deeplyStripKey(value, "$$ref", (val) => typeof val === "string" && isURI(val))
 
 const objectContracts = ["maxProperties", "minProperties"]
-const arrayContracts = ["minItems", "maxItems"]
+const arrayConstraints = ["minItems", "maxItems", "uniqueItems"]
 const numberConstraints = [
   "minimum",
   "maximum",
@@ -105,7 +130,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     "type",
     "const",
     ...objectContracts,
-    ...arrayContracts,
+    ...arrayConstraints,
     ...numberConstraints,
     ...stringConstraints,
   ].forEach((key) => setIfNotDefinedInTarget(key))
@@ -271,7 +296,7 @@ export const sampleFromSchemaGeneric = (
   if (schema && typeof type !== "string" && !Array.isArray(type)) {
     if (properties || additionalProperties || schemaHasAny(objectContracts)) {
       type = "object"
-    } else if (items || schemaHasAny(arrayContracts)) {
+    } else if (items || schemaHasAny(arrayConstraints)) {
       type = "array"
     } else if (schemaHasAny(numberConstraints)) {
       type = "number"
@@ -294,19 +319,6 @@ export const sampleFromSchemaGeneric = (
       type = "string"
       schema.type = "string"
     }
-  }
-
-  const handleMinMaxItems = (sampleArray) => {
-    if (schema?.maxItems !== null && schema?.maxItems !== undefined) {
-      sampleArray = sampleArray.slice(0, schema?.maxItems)
-    }
-    if (schema?.minItems !== null && schema?.minItems !== undefined) {
-      let i = 0
-      while (sampleArray.length < schema?.minItems) {
-        sampleArray.push(sampleArray[i++ % sampleArray.length])
-      }
-    }
-    return sampleArray
   }
 
   // add to result helper init for xml or json
@@ -505,7 +517,7 @@ export const sampleFromSchemaGeneric = (
       let itemSamples = sample.map((s) =>
         sampleFromSchemaGeneric(itemSchema, config, s, respectXML)
       )
-      itemSamples = handleMinMaxItems(itemSamples)
+      itemSamples = applyArrayConstraints(itemSamples, schema)
       if (xml.wrapped) {
         res[displayName] = itemSamples
         if (!isEmpty(_attr)) {
@@ -602,7 +614,7 @@ export const sampleFromSchemaGeneric = (
     } else {
       return sampleFromSchemaGeneric(items, config, undefined, respectXML)
     }
-    sampleArray = handleMinMaxItems(sampleArray)
+    sampleArray = applyArrayConstraints(sampleArray, schema)
     if (respectXML && xml.wrapped) {
       res[displayName] = sampleArray
       if (!isEmpty(_attr)) {
