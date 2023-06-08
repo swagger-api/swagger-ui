@@ -122,7 +122,7 @@ const applyArrayConstraints = (array, constraints = {}) => {
 const sanitizeRef = (value) =>
   deeplyStripKey(value, "$$ref", (val) => typeof val === "string" && isURI(val))
 
-const objectContracts = ["maxProperties", "minProperties"]
+const objectConstraints = ["maxProperties", "minProperties", "required"]
 const arrayConstraints = [
   "minItems",
   "maxItems",
@@ -153,7 +153,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     "xml",
     "type",
     "const",
-    ...objectContracts,
+    ...objectConstraints,
     ...arrayConstraints,
     ...numberConstraints,
     ...stringConstraints,
@@ -325,7 +325,7 @@ export const sampleFromSchemaGeneric = (
   const schemaHasAny = (keys) => keys.some((key) => Object.hasOwn(schema, key))
   // try recover missing type
   if (schema && typeof type !== "string" && !Array.isArray(type)) {
-    if (properties || additionalProperties || schemaHasAny(objectContracts)) {
+    if (properties || additionalProperties || schemaHasAny(objectConstraints)) {
       type = "object"
     } else if (items || contains || schemaHasAny(arrayConstraints)) {
       type = "array"
@@ -359,8 +359,8 @@ export const sampleFromSchemaGeneric = (
 
   const hasExceededMaxProperties = () =>
     schema &&
-    schema.maxProperties !== null &&
-    schema.maxProperties !== undefined &&
+    Number.isInteger(schema.maxProperties) &&
+    schema.maxProperties > 0 &&
     propertyAddedCounter >= schema.maxProperties
 
   const requiredPropertiesToAdd = () => {
@@ -392,11 +392,7 @@ export const sampleFromSchemaGeneric = (
   }
 
   const canAddProperty = (propName) => {
-    if (
-      !schema ||
-      schema.maxProperties === null ||
-      schema.maxProperties === undefined
-    ) {
+    if (!schema || schema.maxProperties == null) {
       return true
     }
     if (hasExceededMaxProperties()) {
@@ -759,8 +755,8 @@ export const sampleFromSchemaGeneric = (
         res[displayName].push(additionalPropSample)
       } else {
         const toGenerateCount =
-          schema.minProperties !== null &&
-          schema.minProperties !== undefined &&
+          Number.isInteger(schema.minProperties) &&
+          schema.minProperties > 0 &&
           propertyAddedCounter < schema.minProperties
             ? schema.minProperties - propertyAddedCounter
             : 3
