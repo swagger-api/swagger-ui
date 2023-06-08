@@ -819,10 +819,10 @@ export const sampleFromSchemaGeneric = (
       }
     }
     if (typeof value === "string") {
-      if (typeof schema.maxLength === "number") {
+      if (Number.isInteger(schema.maxLength) && schema.maxLength > 0) {
         value = value.slice(0, schema.maxLength)
       }
-      if (typeof schema.minLength === "number") {
+      if (Number.isInteger(schema.minLength) && schema.minLength > 0) {
         let i = 0
         while (value.length < schema.minLength) {
           value += value[i++ % value.length]
