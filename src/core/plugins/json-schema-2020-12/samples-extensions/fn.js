@@ -8,7 +8,7 @@ import isEmpty from "lodash/isEmpty"
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import memoizeN from "../../../../helpers/memoizeN"
 
-const generateStringFromRegex = (pattern) => {
+const stringFromRegex = (pattern) => {
   try {
     const randexp = new RandExp(pattern)
     return randexp.gen()
@@ -18,30 +18,191 @@ const generateStringFromRegex = (pattern) => {
   }
 }
 
+const contentEncodings = {
+  "7bit": (content) => Buffer.from(content).toString("ascii"),
+  "8bit": (content) => Buffer.from(content).toString("utf8"),
+  binary: (content) => Buffer.from(content).toString("binary"),
+  "quoted-printable": (content) => {
+    let quotedPrintable = ""
+
+    for (let i = 0; i < content.length; i++) {
+      const charCode = content.charCodeAt(i)
+
+      if (charCode === 61) {
+        // ASCII content of "="
+        quotedPrintable += "=3D"
+      } else if (
+        (charCode >= 33 && charCode <= 60) ||
+        (charCode >= 62 && charCode <= 126) ||
+        charCode === 9 ||
+        charCode === 32
+      ) {
+        quotedPrintable += content.charAt(i)
+      } else if (charCode === 13 || charCode === 10) {
+        quotedPrintable += "\r\n"
+      } else if (charCode > 126) {
+        // convert non-ASCII characters to UTF-8 and encode each byte
+        const utf8 = unescape(encodeURIComponent(content.charAt(i)))
+        for (let j = 0; j < utf8.length; j++) {
+          quotedPrintable +=
+            "=" +
+            ("0" + utf8.charCodeAt(j).toString(16)).slice(-2).toUpperCase()
+        }
+      } else {
+        quotedPrintable +=
+          "=" + ("0" + charCode.toString(16)).slice(-2).toUpperCase()
+      }
+    }
+
+    return quotedPrintable
+  },
+  base16: (content) => Buffer.from(content).toString("hex"),
+  base32: (content) => {
+    const utf8Value = Buffer.from(content).toString("utf8")
+    const base32Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+    let paddingCount = 0
+    let base32Str = ""
+    let buffer = 0
+    let bufferLength = 0
+
+    for (let i = 0; i < utf8Value.length; i++) {
+      buffer = (buffer << 8) | utf8Value.charCodeAt(i)
+      bufferLength += 8
+
+      while (bufferLength >= 5) {
+        base32Str += base32Alphabet.charAt((buffer >>> (bufferLength - 5)) & 31)
+        bufferLength -= 5
+      }
+    }
+
+    if (bufferLength > 0) {
+      base32Str += base32Alphabet.charAt((buffer << (5 - bufferLength)) & 31)
+      paddingCount = (8 - ((utf8Value.length * 8) % 5)) % 5
+    }
+
+    for (let i = 0; i < paddingCount; i++) {
+      base32Str += "="
+    }
+
+    return base32Str
+  },
+  base64: (content) => Buffer.from(content).toString("base64"),
+}
+
+const encodeContent = (content, encoding) => {
+  if (typeof contentEncodings[encoding] === "function") {
+    return contentEncodings[encoding](content)
+  }
+  return content
+}
+
 /* eslint-disable camelcase */
 const primitives = {
-  string: (schema) =>
-    schema.pattern ? generateStringFromRegex(schema.pattern) : "string",
-  string_email: () => "user@example.com",
-  "string_idn-email": () => "실례@example.com",
-  string_hostname: () => "example.com",
-  "string_idn-hostname": () => "실례.com",
-  string_ipv4: () => "198.51.100.42",
-  string_ipv6: () => "2001:0db8:5b96:0000:0000:426f:8e17:642a",
-  string_uri: () => "https://example.com/",
-  "string_uri-reference": () => "path/index.html",
-  string_iri: () => "https://실례.com/",
-  "string_iri-reference": () => "path/실례.html",
-  string_uuid: () => "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "string_uri-template": () => "https://example.com/dictionary/{term:1}/{term}",
-  "string_json-pointer": () => "/a/b/c",
-  "string_relative-json-pointer": () => "1/0",
-  "string_date-time": () => new Date().toISOString(),
-  string_date: () => new Date().toISOString().substring(0, 10),
-  string_time: () => new Date().toISOString().substring(11),
-  string_duration: () => "P3D", // expresses a duration of 3 days
-  string_password: () => "********",
-  string_regex: () => "^[a-z]+$",
+  string: (schema) => {
+    const { pattern, contentEncoding } = schema
+    const content = pattern ? stringFromRegex(pattern) : "string"
+    return encodeContent(content, contentEncoding)
+  },
+  string_email: (schema) => {
+    const { contentEncoding } = schema
+    const content = "user@example.com"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_idn-email": (schema) => {
+    const { contentEncoding } = schema
+    const content = "실례@example.com"
+    return encodeContent(content, contentEncoding)
+  },
+  string_hostname: (schema) => {
+    const { contentEncoding } = schema
+    const content = "example.com"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_idn-hostname": (schema) => {
+    const { contentEncoding } = schema
+    const content = "실례.com"
+    return encodeContent(content, contentEncoding)
+  },
+  string_ipv4: (schema) => {
+    const { contentEncoding } = schema
+    const content = "198.51.100.42"
+    return encodeContent(content, contentEncoding)
+  },
+  string_ipv6: (schema) => {
+    const { contentEncoding } = schema
+    const content = "2001:0db8:5b96:0000:0000:426f:8e17:642a"
+    return encodeContent(content, contentEncoding)
+  },
+  string_uri: (schema) => {
+    const { contentEncoding } = schema
+    const content = "https://example.com/"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_uri-reference": (schema) => {
+    const { contentEncoding } = schema
+    const content = "path/index.html"
+    return encodeContent(content, contentEncoding)
+  },
+  string_iri: (schema) => {
+    const { contentEncoding } = schema
+    const content = "https://실례.com/"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_iri-reference": (schema) => {
+    const { contentEncoding } = schema
+    const content = "path/실례.html"
+    return encodeContent(content, contentEncoding)
+  },
+  string_uuid: (schema) => {
+    const { contentEncoding } = schema
+    const content = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_uri-template": (schema) => {
+    const { contentEncoding } = schema
+    const content = "https://example.com/dictionary/{term:1}/{term}"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_json-pointer": (schema) => {
+    const { contentEncoding } = schema
+    const content = "/a/b/c"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_relative-json-pointer": (schema) => {
+    const { contentEncoding } = schema
+    const content = "1/0"
+    return encodeContent(content, contentEncoding)
+  },
+  "string_date-time": (schema) => {
+    const { contentEncoding } = schema
+    const content = new Date().toISOString()
+    return encodeContent(content, contentEncoding)
+  },
+  string_date: (schema) => {
+    const { contentEncoding } = schema
+    const content = new Date().toISOString().substring(0, 10)
+    return encodeContent(content, contentEncoding)
+  },
+  string_time: (schema) => {
+    const { contentEncoding } = schema
+    const content = new Date().toISOString().substring(11)
+    return encodeContent(content, contentEncoding)
+  },
+  string_duration: (schema) => {
+    const { contentEncoding } = schema
+    const content = "P3D" // expresses a duration of 3 days
+    return encodeContent(content, contentEncoding)
+  },
+  string_password: (schema) => {
+    const { contentEncoding } = schema
+    const content = "********"
+    return encodeContent(content, contentEncoding)
+  },
+  string_regex: (schema) => {
+    const { contentEncoding } = schema
+    const content = "^[a-z]+$"
+    return encodeContent(content, contentEncoding)
+  },
   number: () => 0,
   number_float: () => 0.1,
   number_double: () => 0.1,
