@@ -276,6 +276,57 @@ const applyArrayConstraints = (array, constraints = {}) => {
   return constrainedArray
 }
 
+const applyNumberConstraints = (number, constraints = {}) => {
+  const { minimum, maximum, exclusiveMinimum, exclusiveMaximum } = constraints
+  const { multipleOf } = constraints
+  const epsilon = Number.isInteger(number) ? 1 : Number.EPSILON
+  let minValue = typeof minimum === "number" ? minimum : null
+  let maxValue = typeof maximum === "number" ? maximum : null
+  let constrainedNumber = number
+
+  if (typeof exclusiveMinimum === "number") {
+    minValue =
+      minValue !== null
+        ? Math.max(minValue, exclusiveMinimum + epsilon)
+        : exclusiveMinimum + epsilon
+  }
+  if (typeof exclusiveMaximum === "number") {
+    maxValue =
+      maxValue !== null
+        ? Math.min(maxValue, exclusiveMaximum - epsilon)
+        : exclusiveMaximum - epsilon
+  }
+  constrainedNumber =
+    (minValue > maxValue && number) || minValue || maxValue || constrainedNumber
+
+  if (typeof multipleOf === "number" && multipleOf > 0) {
+    const remainder = constrainedNumber % multipleOf
+    constrainedNumber =
+      remainder === 0
+        ? constrainedNumber
+        : constrainedNumber + multipleOf - remainder
+  }
+
+  return constrainedNumber
+}
+
+const applyStringConstraints = (string, constraints = {}) => {
+  const { maxLength, minLength } = constraints
+  let constrainedString = string
+
+  if (Number.isInteger(maxLength) && maxLength > 0) {
+    constrainedString = constrainedString.slice(0, maxLength)
+  }
+  if (Number.isInteger(minLength) && minLength > 0) {
+    let i = 0
+    while (constrainedString.length < minLength) {
+      constrainedString += constrainedString[i++ % constrainedString.length]
+    }
+  }
+
+  return constrainedString
+}
+
 /**
  * Do a couple of quick sanity tests to ensure the value
  * looks like a $$ref that swagger-client generates.
@@ -950,41 +1001,10 @@ export const sampleFromSchemaGeneric = (
     // display schema default
     value = primitive(schema)
     if (typeof value === "number") {
-      const { minimum, maximum, exclusiveMinimum, exclusiveMaximum } = schema
-      const { multipleOf } = schema
-      const epsilon = Number.isInteger(value) ? 1 : Number.EPSILON
-      let minValue = typeof minimum === "number" ? minimum : null
-      let maxValue = typeof maximum === "number" ? maximum : null
-
-      if (typeof exclusiveMinimum === "number") {
-        minValue =
-          minValue !== null
-            ? Math.max(minValue, exclusiveMinimum + epsilon)
-            : exclusiveMinimum + epsilon
-      }
-      if (typeof exclusiveMaximum === "number") {
-        maxValue =
-          maxValue !== null
-            ? Math.min(maxValue, exclusiveMaximum - epsilon)
-            : exclusiveMaximum - epsilon
-      }
-      value = (minValue > maxValue && value) || minValue || maxValue || value
-
-      if (typeof multipleOf === "number" && multipleOf > 0) {
-        const remainder = value % multipleOf
-        value = remainder === 0 ? value : value + multipleOf - remainder
-      }
+      value = applyNumberConstraints(value, schema)
     }
     if (typeof value === "string") {
-      if (Number.isInteger(schema.maxLength) && schema.maxLength > 0) {
-        value = value.slice(0, schema.maxLength)
-      }
-      if (Number.isInteger(schema.minLength) && schema.minLength > 0) {
-        let i = 0
-        while (value.length < schema.minLength) {
-          value += value[i++ % value.length]
-        }
-      }
+      value = applyStringConstraints(value, schema)
     }
   } else {
     return
