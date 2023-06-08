@@ -1321,6 +1321,99 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
+  it("should handle contains", () => {
+    const definition = {
+      type: "array",
+      contains: {
+        type: "number",
+      },
+    }
+
+    const expected = [0]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle contains with items", () => {
+    const definition = {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      contains: {
+        type: "number",
+      },
+    }
+
+    const expected = [0, "string"]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minContains", () => {
+    const definition = {
+      type: "array",
+      minContains: 3,
+      contains: {
+        type: "number",
+      },
+    }
+
+    const expected = [0, 0, 0]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minContains with minItems", () => {
+    const definition = {
+      type: "array",
+      minContains: 3,
+      minItems: 4,
+      contains: {
+        type: "number",
+      },
+      items: {
+        type: "string",
+      },
+    }
+
+    const expected = [0, 0, 0, "string"]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maxContains", () => {
+    const definition = {
+      type: "array",
+      maxContains: 3,
+      contains: {
+        type: "number",
+      },
+    }
+
+    const expected = [0]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maxContains with maxItems", () => {
+    const definition = {
+      type: "array",
+      maxContains: 10,
+      maxItem: 10,
+      contains: {
+        type: "number",
+      },
+      items: {
+        type: "string",
+      },
+    }
+
+    const expected = [0, "string"]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   it("should handle minimum", () => {
     const definition = {
       type: "number",
