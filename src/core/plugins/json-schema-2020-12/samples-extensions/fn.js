@@ -74,7 +74,24 @@ const isURI = (uri) => {
 
 const applyArrayConstraints = (array, constraints = {}) => {
   const { minItems, maxItems, uniqueItems } = constraints
+  const { contains, minContains, maxContains } = constraints
   let constrainedArray = [...array]
+
+  if (contains != null && typeof contains === "object") {
+    if (Number.isInteger(minContains) && minContains > 1) {
+      const containsItem = constrainedArray.at(0)
+      for (let i = 1; i < minContains; i += 1) {
+        constrainedArray.unshift(containsItem)
+      }
+    }
+    if (Number.isInteger(maxContains) && maxContains > 0) {
+      /**
+       * This is noop. `minContains` already generate minimum required
+       * number of items that satisfies `contains`. `maxContains` would
+       * have no effect.
+       */
+    }
+  }
 
   if (Number.isInteger(maxItems) && maxItems > 0) {
     constrainedArray = array.slice(0, maxItems)
@@ -84,13 +101,14 @@ const applyArrayConstraints = (array, constraints = {}) => {
       constrainedArray.push(constrainedArray[i % constrainedArray.length])
     }
   }
-  /**
-   *  If uniqueItems is true, it implies that every item in the array must be unique.
-   *  This overrides any minItems constraint that cannot be satisfied with unique items.
-   *  So if minItems is greater than the number of unique items,
-   *  it should be reduced to the number of unique items.
-   */
+
   if (uniqueItems === true) {
+    /**
+     *  If uniqueItems is true, it implies that every item in the array must be unique.
+     *  This overrides any minItems constraint that cannot be satisfied with unique items.
+     *  So if minItems is greater than the number of unique items,
+     *  it should be reduced to the number of unique items.
+     */
     constrainedArray = Array.from(new Set(constrainedArray))
   }
 
@@ -105,7 +123,13 @@ const sanitizeRef = (value) =>
   deeplyStripKey(value, "$$ref", (val) => typeof val === "string" && isURI(val))
 
 const objectContracts = ["maxProperties", "minProperties"]
-const arrayConstraints = ["minItems", "maxItems", "uniqueItems"]
+const arrayConstraints = [
+  "minItems",
+  "maxItems",
+  "uniqueItems",
+  "minContains",
+  "maxContains",
+]
 const numberConstraints = [
   "minimum",
   "maximum",
@@ -266,8 +290,15 @@ export const sampleFromSchemaGeneric = (
     }
   }
   const _attr = {}
-  let { xml, type, example, properties, additionalProperties, items } =
-    schema || {}
+  let {
+    xml,
+    type,
+    example,
+    properties,
+    additionalProperties,
+    items,
+    contains,
+  } = schema || {}
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -296,7 +327,7 @@ export const sampleFromSchemaGeneric = (
   if (schema && typeof type !== "string" && !Array.isArray(type)) {
     if (properties || additionalProperties || schemaHasAny(objectContracts)) {
       type = "object"
-    } else if (items || schemaHasAny(arrayConstraints)) {
+    } else if (items || contains || schemaHasAny(arrayConstraints)) {
       type = "array"
     } else if (schemaHasAny(numberConstraints)) {
       type = "number"
@@ -509,14 +540,26 @@ export const sampleFromSchemaGeneric = (
         }
         sample = [sample]
       }
-      const itemSchema = schema ? schema.items : undefined
-      if (itemSchema) {
-        itemSchema.xml = itemSchema.xml || xml || {}
-        itemSchema.xml.name = itemSchema.xml.name || xml.name
+
+      let itemSamples = []
+
+      if (items != null && typeof items === "object") {
+        items.xml = items.xml || xml || {}
+        items.xml.name = items.xml.name || xml.name
+        itemSamples = sample.map((s) =>
+          sampleFromSchemaGeneric(items, config, s, respectXML)
+        )
       }
-      let itemSamples = sample.map((s) =>
-        sampleFromSchemaGeneric(itemSchema, config, s, respectXML)
-      )
+
+      if (contains != null && typeof contains === "object") {
+        contains.xml = contains.xml || xml || {}
+        contains.xml.name = contains.xml.name || xml.name
+        itemSamples = [
+          sampleFromSchemaGeneric(contains, config, undefined, respectXML),
+          ...itemSamples,
+        ]
+      }
+
       itemSamples = applyArrayConstraints(itemSamples, schema)
       if (xml.wrapped) {
         res[displayName] = itemSamples
@@ -579,41 +622,82 @@ export const sampleFromSchemaGeneric = (
 
   // use schema to generate sample
   if (type?.includes("array")) {
-    if (!items) {
-      return []
+    let sampleArray = []
+
+    if (contains != null && typeof contains === "object") {
+      if (respectXML) {
+        contains.xml = contains.xml || schema?.xml || {}
+        contains.xml.name = contains.xml.name || xml.name
+      }
+
+      if (Array.isArray(contains.anyOf)) {
+        sampleArray.push(
+          ...contains.anyOf.map((i) =>
+            sampleFromSchemaGeneric(
+              liftSampleHelper(contains, i, config),
+              config,
+              undefined,
+              respectXML
+            )
+          )
+        )
+      } else if (Array.isArray(contains.oneOf)) {
+        sampleArray.push(
+          ...contains.oneOf.map((i) =>
+            sampleFromSchemaGeneric(
+              liftSampleHelper(contains, i, config),
+              config,
+              undefined,
+              respectXML
+            )
+          )
+        )
+      } else if (!respectXML || (respectXML && xml.wrapped)) {
+        sampleArray.push(
+          sampleFromSchemaGeneric(contains, config, undefined, respectXML)
+        )
+      } else {
+        return sampleFromSchemaGeneric(contains, config, undefined, respectXML)
+      }
     }
 
-    let sampleArray
-    if (respectXML) {
-      items.xml = items.xml || schema?.xml || {}
-      items.xml.name = items.xml.name || xml.name
+    if (items != null && typeof items === "object") {
+      if (respectXML) {
+        items.xml = items.xml || schema?.xml || {}
+        items.xml.name = items.xml.name || xml.name
+      }
+
+      if (Array.isArray(items.anyOf)) {
+        sampleArray.push(
+          ...items.anyOf.map((i) =>
+            sampleFromSchemaGeneric(
+              liftSampleHelper(items, i, config),
+              config,
+              undefined,
+              respectXML
+            )
+          )
+        )
+      } else if (Array.isArray(items.oneOf)) {
+        sampleArray.push(
+          ...items.oneOf.map((i) =>
+            sampleFromSchemaGeneric(
+              liftSampleHelper(items, i, config),
+              config,
+              undefined,
+              respectXML
+            )
+          )
+        )
+      } else if (!respectXML || (respectXML && xml.wrapped)) {
+        sampleArray.push(
+          sampleFromSchemaGeneric(items, config, undefined, respectXML)
+        )
+      } else {
+        return sampleFromSchemaGeneric(items, config, undefined, respectXML)
+      }
     }
 
-    if (Array.isArray(items.anyOf)) {
-      sampleArray = items.anyOf.map((i) =>
-        sampleFromSchemaGeneric(
-          liftSampleHelper(items, i, config),
-          config,
-          undefined,
-          respectXML
-        )
-      )
-    } else if (Array.isArray(items.oneOf)) {
-      sampleArray = items.oneOf.map((i) =>
-        sampleFromSchemaGeneric(
-          liftSampleHelper(items, i, config),
-          config,
-          undefined,
-          respectXML
-        )
-      )
-    } else if (!respectXML || (respectXML && xml.wrapped)) {
-      sampleArray = [
-        sampleFromSchemaGeneric(items, config, undefined, respectXML),
-      ]
-    } else {
-      return sampleFromSchemaGeneric(items, config, undefined, respectXML)
-    }
     sampleArray = applyArrayConstraints(sampleArray, schema)
     if (respectXML && xml.wrapped) {
       res[displayName] = sampleArray
@@ -622,6 +706,7 @@ export const sampleFromSchemaGeneric = (
       }
       return res
     }
+
     return sampleArray
   }
 
