@@ -123,7 +123,13 @@ const sanitizeRef = (value) =>
   deeplyStripKey(value, "$$ref", (val) => typeof val === "string" && isURI(val))
 
 const objectContracts = ["maxProperties", "minProperties"]
-const arrayConstraints = ["minItems", "maxItems", "uniqueItems"]
+const arrayConstraints = [
+  "minItems",
+  "maxItems",
+  "uniqueItems",
+  "minContains",
+  "maxContains",
+]
 const numberConstraints = [
   "minimum",
   "maximum",
@@ -321,7 +327,7 @@ export const sampleFromSchemaGeneric = (
   if (schema && typeof type !== "string" && !Array.isArray(type)) {
     if (properties || additionalProperties || schemaHasAny(objectContracts)) {
       type = "object"
-    } else if (items || schemaHasAny(arrayConstraints)) {
+    } else if (items || contains || schemaHasAny(arrayConstraints)) {
       type = "array"
     } else if (schemaHasAny(numberConstraints)) {
       type = "number"
