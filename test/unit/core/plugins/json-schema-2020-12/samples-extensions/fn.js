@@ -88,6 +88,65 @@ describe("sampleFromSchema", () => {
     expect(sample({ type: "null" })).toStrictEqual(null)
   })
 
+  it("should return appropriate example given contentEncoding", function () {
+    const sample = (schema) => sampleFromSchema(fromJS(schema))
+
+    expect(sample({ type: "string", contentEncoding: "7bit" })).toStrictEqual(
+      "string"
+    )
+    expect(
+      sample({
+        type: "string",
+        format: "idn-email",
+        contentEncoding: "8bit",
+      })
+    ).toStrictEqual("실례@example.com")
+    expect(
+      sample({
+        type: "string",
+        format: "idn-hostname",
+        contentEncoding: "binary",
+      })
+    ).toStrictEqual("ì\x8B¤ë¡\x80.com")
+    expect(
+      sample({
+        type: "string",
+        format: "iri-reference",
+        contentEncoding: "quoted-printable",
+      })
+    ).toStrictEqual("path/=EC=8B=A4=EB=A1=80.html")
+    expect(
+      sample({
+        type: "string",
+        format: "ipv4",
+        contentEncoding: "base16",
+      })
+    ).toStrictEqual("3139382e35312e3130302e3432")
+    expect(
+      sample({
+        type: "string",
+        format: "iri",
+        contentEncoding: "base32",
+      })
+    ).toStrictEqual("NB2HI4DTHIXS7ZCAFZRW63JP")
+    expect(
+      sample({
+        type: "string",
+        format: "uri-template",
+        contentEncoding: "base64",
+      })
+    ).toStrictEqual(
+      "aHR0cHM6Ly9leGFtcGxlLmNvbS9kaWN0aW9uYXJ5L3t0ZXJtOjF9L3t0ZXJtfQ=="
+    )
+    expect(
+      sample({
+        type: "string",
+        format: "iri-reference",
+        contentEncoding: "custom-encoding",
+      })
+    ).toStrictEqual("path/실례.html") // act as an identity function when unknown encoding
+  })
+
   it("should handle type keyword defined as list of types", function () {
     const definition = fromJS({ type: ["object", "string"] })
     const expected = {}
