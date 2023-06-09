@@ -2,7 +2,6 @@
  * @prettier
  *
  */
-import { Buffer } from "node:buffer"
 import { fromJS } from "immutable"
 import {
   createXMLExample,
@@ -289,6 +288,58 @@ describe("sampleFromSchema", () => {
       /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
 
     expect(sampleFromSchema(definition)).toMatch(base64Regex)
+  })
+
+  it("should handle contentSchema defined as type=object", function () {
+    const definition = fromJS({
+      type: "string",
+      contentMediaType: "application/json",
+      contentSchema: {
+        type: "object",
+        properties: {
+          a: { const: "b" },
+        },
+      },
+    })
+
+    expect(sampleFromSchema(definition)).toStrictEqual('{"a":"b"}')
+  })
+
+  it("should handle contentSchema defined as type=string", function () {
+    const definition = fromJS({
+      type: "string",
+      contentMediaType: "text/plain",
+      contentSchema: {
+        type: "string",
+      },
+    })
+
+    expect(sampleFromSchema(definition)).toStrictEqual("string")
+  })
+
+  it("should handle contentSchema defined as type=number", function () {
+    const definition = fromJS({
+      type: "string",
+      contentMediaType: "text/plain",
+      contentSchema: {
+        type: "number",
+      },
+    })
+
+    expect(sampleFromSchema(definition)).toStrictEqual("0")
+  })
+
+  it("should handle contentSchema defined as type=number + contentEncoding", function () {
+    const definition = fromJS({
+      type: "string",
+      contentEncoding: "base16",
+      contentMediaType: "text/plain",
+      contentSchema: {
+        type: "number",
+      },
+    })
+
+    expect(sampleFromSchema(definition)).toStrictEqual("30")
   })
 
   it("should handle type keyword defined as list of types", function () {
