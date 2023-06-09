@@ -4,6 +4,7 @@
 import identity from "lodash/identity"
 
 import { string as randomString, randexp } from "../core/random"
+import { isJSONSchema } from "../core/predicates"
 import emailGenerator from "../generators/email"
 import idnEmailGenerator from "../generators/idn-email"
 import hostnameGenerator from "../generators/hostname"
@@ -118,8 +119,9 @@ const applyStringConstraints = (string, constraints = {}) => {
 
   return constrainedString
 }
-const stringType = (schema) => {
-  const { pattern, format, contentEncoding, contentMediaType } = schema
+const stringType = (schema, { sample } = {}) => {
+  const { contentEncoding, contentMediaType, contentSchema } = schema
+  const { pattern, format } = schema
   const encode = encoderAPI(contentEncoding) || identity
   let generatedString
 
@@ -127,7 +129,17 @@ const stringType = (schema) => {
     generatedString = randexp(pattern)
   } else if (typeof format === "string") {
     generatedString = generateFormat(schema)
-  } else if (typeof contentMediaType === "string") {
+  } else if (
+    isJSONSchema(contentSchema) &&
+    typeof contentMediaType !== "undefined" &&
+    typeof sample !== "undefined"
+  ) {
+    if (Array.isArray(sample) || typeof sample === "object") {
+      generatedString = JSON.stringify(sample)
+    } else {
+      generatedString = String(sample)
+    }
+  } else if (typeof contentMediaType !== "undefined") {
     const mediaTypeGenerator = mediaTypeAPI(contentMediaType)
     if (typeof mediaTypeGenerator === "function") {
       generatedString = mediaTypeGenerator(schema)

@@ -19,4 +19,12 @@ const typeMap = {
   null: nullType,
 }
 
-export default typeMap
+export default new Proxy(typeMap, {
+  get(target, prop) {
+    if (Object.hasOwn(target, prop)) {
+      return target[prop]
+    }
+
+    return () => `Unknown Type: ${prop}`
+  },
+})

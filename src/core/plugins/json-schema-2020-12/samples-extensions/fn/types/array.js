@@ -45,8 +45,8 @@ export const applyArrayConstraints = (array, constraints = {}) => {
   return constrainedArray
 }
 
-const arrayType = (schema, sampleArray) => {
-  return applyArrayConstraints(sampleArray, schema)
+const arrayType = (schema, { sample }) => {
+  return applyArrayConstraints(sample, schema)
 }
 
 export default arrayType

@@ -4,22 +4,12 @@
 import XML from "xml"
 import isEmpty from "lodash/isEmpty"
 
-import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
+import { objectify, normalizeArray, deeplyStripKey } from "core/utils"
 import memoizeN from "../../../../../helpers/memoizeN"
 import typeMap from "./types/index"
-import { isURI } from "./core/utils"
-
-const primitive = (schema) => {
-  schema = objectify(schema)
-  const { type: typeList } = schema
-  const type = Array.isArray(typeList) ? typeList.at(0) : typeList
-
-  if (Object.hasOwn(typeMap, type)) {
-    return typeMap[type](schema)
-  }
-
-  return `Unknown Type: ${type}`
-}
+import { isURI } from "./core/predicates"
+import foldType from "./core/fold-type"
+import { typeCast } from "./core/utils"
 
 /**
  * Do a couple of quick sanity tests to ensure the value
@@ -140,7 +130,9 @@ export const sampleFromSchemaGeneric = (
   exampleOverride = undefined,
   respectXML = false
 ) => {
-  if (schema && isFunc(schema.toJS)) schema = schema.toJS()
+  if (typeof schema?.toJS === "function") schema = schema.toJS()
+  schema = typeCast(schema)
+
   let usePlainValue =
     exampleOverride !== undefined ||
     (schema && schema.example !== undefined) ||
@@ -151,7 +143,7 @@ export const sampleFromSchemaGeneric = (
   const hasAnyOf =
     !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
   if (!usePlainValue && (hasOneOf || hasAnyOf)) {
-    const schemaToAdd = objectify(hasOneOf ? schema.oneOf[0] : schema.anyOf[0])
+    const schemaToAdd = typeCast(hasOneOf ? schema.oneOf[0] : schema.anyOf[0])
     liftSampleHelper(schemaToAdd, schema, config)
     if (!schema.xml && schemaToAdd.xml) {
       schema.xml = schemaToAdd.xml
@@ -211,6 +203,7 @@ export const sampleFromSchemaGeneric = (
     items,
     contains,
   } = schema || {}
+  type = foldType(type)
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -339,9 +332,9 @@ export const sampleFromSchemaGeneric = (
           } else if (enumAttrVal !== undefined) {
             _attr[props[propName].xml.name || propName] = enumAttrVal
           } else {
-            _attr[props[propName].xml.name || propName] = primitive(
-              props[propName]
-            )
+            const propSchema = typeCast(props[propName])
+            const attrName = props[propName].xml.name || propName
+            _attr[attrName] = typeMap[propSchema.type](propSchema)
           }
 
           return
@@ -468,7 +461,7 @@ export const sampleFromSchemaGeneric = (
         ]
       }
 
-      itemSamples = typeMap.array(schema, itemSamples)
+      itemSamples = typeMap.array(schema, { sample: itemSamples })
       if (xml.wrapped) {
         res[displayName] = itemSamples
         if (!isEmpty(_attr)) {
@@ -606,7 +599,7 @@ export const sampleFromSchemaGeneric = (
       }
     }
 
-    sampleArray = typeMap.array(schema, sampleArray)
+    sampleArray = typeMap.array(schema, { sample: sampleArray })
     if (respectXML && xml.wrapped) {
       res[displayName] = sampleArray
       if (!isEmpty(_attr)) {
@@ -650,7 +643,7 @@ export const sampleFromSchemaGeneric = (
       }
       propertyAddedCounter++
     } else if (additionalProperties) {
-      const additionalProps = objectify(additionalProperties)
+      const additionalProps = typeCast(additionalProperties)
       const additionalPropSample = sampleFromSchemaGeneric(
         additionalProps,
         config,
@@ -699,7 +692,15 @@ export const sampleFromSchemaGeneric = (
     value = normalizeArray(schema.enum)[0]
   } else if (schema) {
     // display schema default
-    value = primitive(schema)
+    const contentSample = Object.hasOwn(schema, "contentSchema")
+      ? sampleFromSchemaGeneric(
+          typeCast(schema.contentSchema),
+          config,
+          undefined,
+          respectXML
+        )
+      : undefined
+    value = typeMap[type](schema, { sample: contentSample })
   } else {
     return
   }
