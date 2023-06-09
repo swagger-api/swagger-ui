@@ -2,6 +2,7 @@
  * @prettier
  *
  */
+import { Buffer } from "node:buffer"
 import { fromJS } from "immutable"
 import {
   createXMLExample,
@@ -145,6 +146,149 @@ describe("sampleFromSchema", () => {
         contentEncoding: "custom-encoding",
       })
     ).toStrictEqual("path/실례.html") // act as an identity function when unknown encoding
+  })
+
+  it("should return appropriate example given contentMediaType", function () {
+    const sample = (schema) => sampleFromSchema(fromJS(schema))
+
+    expect(
+      sample({ type: "string", contentMediaType: "text/plain" })
+    ).toStrictEqual("string")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "text/css",
+      })
+    ).toStrictEqual(".selector { border: 1px solid red }")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "text/csv",
+      })
+    ).toStrictEqual("value1,value2,value3")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "text/html",
+      })
+    ).toStrictEqual("<p>content</p>")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "text/calendar",
+      })
+    ).toStrictEqual("BEGIN:VCALENDAR")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "text/javascript",
+      })
+    ).toStrictEqual("console.dir('Hello world!');")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "text/xml",
+      })
+    ).toStrictEqual('<person age="30">John Doe</person>')
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "text/cql", // unknown mime type
+      })
+    ).toStrictEqual("string")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "image/png",
+      })
+    ).toHaveLength(25)
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "audio/mp4",
+      })
+    ).toHaveLength(25)
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "video/3gpp",
+      })
+    ).toHaveLength(25)
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "application/json",
+      })
+    ).toStrictEqual('{"key":"value"}')
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "application/ld+json",
+      })
+    ).toStrictEqual('{"name": "John Doe"}')
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "application/x-httpd-php",
+      })
+    ).toStrictEqual("<?php echo '<p>Hello World!</p>'; ?>")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "application/rtf",
+      })
+    ).toStrictEqual(String.raw`{\rtf1\adeflang1025\ansi\ansicpg1252\uc1`)
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "application/x-sh",
+      })
+    ).toStrictEqual('echo "Hello World!"')
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "application/xhtml+xml",
+      })
+    ).toStrictEqual("<p>content</p>")
+    expect(
+      sample({
+        type: "string",
+        contentMediaType: "application/unknown",
+      })
+    ).toHaveLength(25)
+  })
+
+  it("should strip parameters from contentMediaType and recognizes it", function () {
+    const definition = fromJS({
+      type: "string",
+      contentMediaType: "text/css",
+    })
+
+    expect(sampleFromSchema(definition)).toStrictEqual(
+      ".selector { border: 1px solid red }"
+    )
+  })
+
+  it("should handle combination of format + contentMediaType", function () {
+    const definition = fromJS({
+      type: "string",
+      format: "hostname",
+      contentMediaType: "text/css",
+    })
+
+    expect(sampleFromSchema(definition)).toStrictEqual("example.com")
+  })
+
+  it("should handle combination of contentEncoding + contentMediaType", function () {
+    const definition = fromJS({
+      type: "string",
+      contentEncoding: "base64",
+      contentMediaType: "image/png",
+    })
+    const base64Regex =
+      /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
+    expect(sampleFromSchema(definition)).toMatch(base64Regex)
   })
 
   it("should handle type keyword defined as list of types", function () {

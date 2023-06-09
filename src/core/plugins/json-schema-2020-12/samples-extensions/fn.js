@@ -4,9 +4,12 @@
 import XML from "xml"
 import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
+import randomBytes from "randombytes"
 
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import memoizeN from "../../../../helpers/memoizeN"
+
+const twentyFiveRandomBytesString = randomBytes(25).toString("binary")
 
 const stringFromRegex = (pattern) => {
   try {
@@ -96,11 +99,57 @@ const encodeContent = (content, encoding) => {
   return content
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+const contentMediaTypes = {
+  // text media type subtypes
+  "text/plain": () => "string",
+  "text/css": () => ".selector { border: 1px solid red }",
+  "text/csv": () => "value1,value2,value3",
+  "text/html": () => "<p>content</p>",
+  "text/calendar": () => "BEGIN:VCALENDAR",
+  "text/javascript": () => "console.dir('Hello world!');",
+  "text/xml": () => '<person age="30">John Doe</person>',
+  "text/*": () => "string",
+  // image media type subtypes
+  "image/*": () => twentyFiveRandomBytesString,
+  // audio media type subtypes
+  "audio/*": () => twentyFiveRandomBytesString,
+  // video media type subtypes
+  "video/*": () => twentyFiveRandomBytesString,
+  // application media type subtypes
+  "application/json": () => '{"key":"value"}',
+  "application/ld+json": () => '{"name": "John Doe"}',
+  "application/x-httpd-php": () => "<?php echo '<p>Hello World!</p>'; ?>",
+  "application/rtf": () => String.raw`{\rtf1\adeflang1025\ansi\ansicpg1252\uc1`,
+  "application/x-sh": () => 'echo "Hello World!"',
+  "application/xhtml+xml": () => "<p>content</p>",
+  "application/*": () => twentyFiveRandomBytesString,
+}
+
+const contentFromMediaType = (mediaType) => {
+  const mediaTypeNoParams = mediaType.split(";").at(0)
+  const topLevelMediaType = `${mediaTypeNoParams.split("/").at(0)}/*`
+
+  if (typeof contentMediaTypes[mediaTypeNoParams] === "function") {
+    return contentMediaTypes[mediaTypeNoParams]()
+  }
+  if (typeof contentMediaTypes[topLevelMediaType] === "function") {
+    return contentMediaTypes[topLevelMediaType]()
+  }
+
+  return "string"
+}
+
 /* eslint-disable camelcase */
 const primitives = {
   string: (schema) => {
-    const { pattern, contentEncoding } = schema
-    const content = pattern ? stringFromRegex(pattern) : "string"
+    const { pattern, contentEncoding, contentMediaType } = schema
+    const content =
+      typeof pattern === "string"
+        ? stringFromRegex(pattern)
+        : typeof contentMediaType === "string"
+        ? contentFromMediaType(contentMediaType)
+        : "string"
     return encodeContent(content, contentEncoding)
   },
   string_email: (schema) => {
@@ -349,7 +398,13 @@ const numberConstraints = [
   "exclusiveMaximum",
   "multipleOf",
 ]
-const stringConstraints = ["minLength", "maxLength", "pattern"]
+const stringConstraints = [
+  "minLength",
+  "maxLength",
+  "pattern",
+  "contentEncoding",
+  "contentMediaType",
+]
 
 const liftSampleHelper = (oldSchema, target, config = {}) => {
   const setIfNotDefinedInTarget = (key) => {
