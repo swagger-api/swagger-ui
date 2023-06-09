@@ -2,378 +2,23 @@
  * @prettier
  */
 import XML from "xml"
-import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
-import randomBytes from "randombytes"
 
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
-import memoizeN from "../../../../helpers/memoizeN"
-
-const twentyFiveRandomBytesString = randomBytes(25).toString("binary")
-
-const stringFromRegex = (pattern) => {
-  try {
-    const randexp = new RandExp(pattern)
-    return randexp.gen()
-  } catch {
-    // invalid regex should not cause a crash (regex syntax varies across languages)
-    return "string"
-  }
-}
-
-const contentEncodings = {
-  "7bit": (content) => Buffer.from(content).toString("ascii"),
-  "8bit": (content) => Buffer.from(content).toString("utf8"),
-  binary: (content) => Buffer.from(content).toString("binary"),
-  "quoted-printable": (content) => {
-    let quotedPrintable = ""
-
-    for (let i = 0; i < content.length; i++) {
-      const charCode = content.charCodeAt(i)
-
-      if (charCode === 61) {
-        // ASCII content of "="
-        quotedPrintable += "=3D"
-      } else if (
-        (charCode >= 33 && charCode <= 60) ||
-        (charCode >= 62 && charCode <= 126) ||
-        charCode === 9 ||
-        charCode === 32
-      ) {
-        quotedPrintable += content.charAt(i)
-      } else if (charCode === 13 || charCode === 10) {
-        quotedPrintable += "\r\n"
-      } else if (charCode > 126) {
-        // convert non-ASCII characters to UTF-8 and encode each byte
-        const utf8 = unescape(encodeURIComponent(content.charAt(i)))
-        for (let j = 0; j < utf8.length; j++) {
-          quotedPrintable +=
-            "=" +
-            ("0" + utf8.charCodeAt(j).toString(16)).slice(-2).toUpperCase()
-        }
-      } else {
-        quotedPrintable +=
-          "=" + ("0" + charCode.toString(16)).slice(-2).toUpperCase()
-      }
-    }
-
-    return quotedPrintable
-  },
-  base16: (content) => Buffer.from(content).toString("hex"),
-  base32: (content) => {
-    const utf8Value = Buffer.from(content).toString("utf8")
-    const base32Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
-    let paddingCount = 0
-    let base32Str = ""
-    let buffer = 0
-    let bufferLength = 0
-
-    for (let i = 0; i < utf8Value.length; i++) {
-      buffer = (buffer << 8) | utf8Value.charCodeAt(i)
-      bufferLength += 8
-
-      while (bufferLength >= 5) {
-        base32Str += base32Alphabet.charAt((buffer >>> (bufferLength - 5)) & 31)
-        bufferLength -= 5
-      }
-    }
-
-    if (bufferLength > 0) {
-      base32Str += base32Alphabet.charAt((buffer << (5 - bufferLength)) & 31)
-      paddingCount = (8 - ((utf8Value.length * 8) % 5)) % 5
-    }
-
-    for (let i = 0; i < paddingCount; i++) {
-      base32Str += "="
-    }
-
-    return base32Str
-  },
-  base64: (content) => Buffer.from(content).toString("base64"),
-}
-
-const encodeContent = (content, encoding) => {
-  if (typeof contentEncodings[encoding] === "function") {
-    return contentEncodings[encoding](content)
-  }
-  return content
-}
-
-// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-const contentMediaTypes = {
-  // text media type subtypes
-  "text/plain": () => "string",
-  "text/css": () => ".selector { border: 1px solid red }",
-  "text/csv": () => "value1,value2,value3",
-  "text/html": () => "<p>content</p>",
-  "text/calendar": () => "BEGIN:VCALENDAR",
-  "text/javascript": () => "console.dir('Hello world!');",
-  "text/xml": () => '<person age="30">John Doe</person>',
-  "text/*": () => "string",
-  // image media type subtypes
-  "image/*": () => twentyFiveRandomBytesString,
-  // audio media type subtypes
-  "audio/*": () => twentyFiveRandomBytesString,
-  // video media type subtypes
-  "video/*": () => twentyFiveRandomBytesString,
-  // application media type subtypes
-  "application/json": () => '{"key":"value"}',
-  "application/ld+json": () => '{"name": "John Doe"}',
-  "application/x-httpd-php": () => "<?php echo '<p>Hello World!</p>'; ?>",
-  "application/rtf": () => String.raw`{\rtf1\adeflang1025\ansi\ansicpg1252\uc1`,
-  "application/x-sh": () => 'echo "Hello World!"',
-  "application/xhtml+xml": () => "<p>content</p>",
-  "application/*": () => twentyFiveRandomBytesString,
-}
-
-const contentFromMediaType = (mediaType) => {
-  const mediaTypeNoParams = mediaType.split(";").at(0)
-  const topLevelMediaType = `${mediaTypeNoParams.split("/").at(0)}/*`
-
-  if (typeof contentMediaTypes[mediaTypeNoParams] === "function") {
-    return contentMediaTypes[mediaTypeNoParams]()
-  }
-  if (typeof contentMediaTypes[topLevelMediaType] === "function") {
-    return contentMediaTypes[topLevelMediaType]()
-  }
-
-  return "string"
-}
-
-/* eslint-disable camelcase */
-const primitives = {
-  string: (schema) => {
-    const { pattern, contentEncoding, contentMediaType } = schema
-    const content =
-      typeof pattern === "string"
-        ? stringFromRegex(pattern)
-        : typeof contentMediaType === "string"
-        ? contentFromMediaType(contentMediaType)
-        : "string"
-    return encodeContent(content, contentEncoding)
-  },
-  string_email: (schema) => {
-    const { contentEncoding } = schema
-    const content = "user@example.com"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_idn-email": (schema) => {
-    const { contentEncoding } = schema
-    const content = "실례@example.com"
-    return encodeContent(content, contentEncoding)
-  },
-  string_hostname: (schema) => {
-    const { contentEncoding } = schema
-    const content = "example.com"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_idn-hostname": (schema) => {
-    const { contentEncoding } = schema
-    const content = "실례.com"
-    return encodeContent(content, contentEncoding)
-  },
-  string_ipv4: (schema) => {
-    const { contentEncoding } = schema
-    const content = "198.51.100.42"
-    return encodeContent(content, contentEncoding)
-  },
-  string_ipv6: (schema) => {
-    const { contentEncoding } = schema
-    const content = "2001:0db8:5b96:0000:0000:426f:8e17:642a"
-    return encodeContent(content, contentEncoding)
-  },
-  string_uri: (schema) => {
-    const { contentEncoding } = schema
-    const content = "https://example.com/"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_uri-reference": (schema) => {
-    const { contentEncoding } = schema
-    const content = "path/index.html"
-    return encodeContent(content, contentEncoding)
-  },
-  string_iri: (schema) => {
-    const { contentEncoding } = schema
-    const content = "https://실례.com/"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_iri-reference": (schema) => {
-    const { contentEncoding } = schema
-    const content = "path/실례.html"
-    return encodeContent(content, contentEncoding)
-  },
-  string_uuid: (schema) => {
-    const { contentEncoding } = schema
-    const content = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_uri-template": (schema) => {
-    const { contentEncoding } = schema
-    const content = "https://example.com/dictionary/{term:1}/{term}"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_json-pointer": (schema) => {
-    const { contentEncoding } = schema
-    const content = "/a/b/c"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_relative-json-pointer": (schema) => {
-    const { contentEncoding } = schema
-    const content = "1/0"
-    return encodeContent(content, contentEncoding)
-  },
-  "string_date-time": (schema) => {
-    const { contentEncoding } = schema
-    const content = new Date().toISOString()
-    return encodeContent(content, contentEncoding)
-  },
-  string_date: (schema) => {
-    const { contentEncoding } = schema
-    const content = new Date().toISOString().substring(0, 10)
-    return encodeContent(content, contentEncoding)
-  },
-  string_time: (schema) => {
-    const { contentEncoding } = schema
-    const content = new Date().toISOString().substring(11)
-    return encodeContent(content, contentEncoding)
-  },
-  string_duration: (schema) => {
-    const { contentEncoding } = schema
-    const content = "P3D" // expresses a duration of 3 days
-    return encodeContent(content, contentEncoding)
-  },
-  string_password: (schema) => {
-    const { contentEncoding } = schema
-    const content = "********"
-    return encodeContent(content, contentEncoding)
-  },
-  string_regex: (schema) => {
-    const { contentEncoding } = schema
-    const content = "^[a-z]+$"
-    return encodeContent(content, contentEncoding)
-  },
-  number: () => 0,
-  number_float: () => 0.1,
-  number_double: () => 0.1,
-  integer: () => 0,
-  integer_int32: () => (2 ** 30) >>> 0,
-  integer_int64: () => 2 ** 53 - 1,
-  boolean: (schema) =>
-    typeof schema.default === "boolean" ? schema.default : true,
-  null: () => null,
-}
-/* eslint-enable camelcase */
+import memoizeN from "../../../../../helpers/memoizeN"
+import typeMap from "./types/index"
+import { isURI } from "./core/utils"
 
 const primitive = (schema) => {
   schema = objectify(schema)
-  const { type: typeList, format } = schema
+  const { type: typeList } = schema
   const type = Array.isArray(typeList) ? typeList.at(0) : typeList
 
-  const fn = primitives[`${type}_${format}`] || primitives[type]
-
-  return typeof fn === "function" ? fn(schema) : `Unknown Type: ${schema.type}`
-}
-
-const isURI = (uri) => {
-  try {
-    return new URL(uri) && true
-  } catch {
-    return false
-  }
-}
-
-const applyArrayConstraints = (array, constraints = {}) => {
-  const { minItems, maxItems, uniqueItems } = constraints
-  const { contains, minContains, maxContains } = constraints
-  let constrainedArray = [...array]
-
-  if (contains != null && typeof contains === "object") {
-    if (Number.isInteger(minContains) && minContains > 1) {
-      const containsItem = constrainedArray.at(0)
-      for (let i = 1; i < minContains; i += 1) {
-        constrainedArray.unshift(containsItem)
-      }
-    }
-    if (Number.isInteger(maxContains) && maxContains > 0) {
-      /**
-       * This is noop. `minContains` already generate minimum required
-       * number of items that satisfies `contains`. `maxContains` would
-       * have no effect.
-       */
-    }
+  if (Object.hasOwn(typeMap, type)) {
+    return typeMap[type](schema)
   }
 
-  if (Number.isInteger(maxItems) && maxItems > 0) {
-    constrainedArray = array.slice(0, maxItems)
-  }
-  if (Number.isInteger(minItems) && minItems > 0) {
-    for (let i = 0; constrainedArray.length < minItems; i += 1) {
-      constrainedArray.push(constrainedArray[i % constrainedArray.length])
-    }
-  }
-
-  if (uniqueItems === true) {
-    /**
-     *  If uniqueItems is true, it implies that every item in the array must be unique.
-     *  This overrides any minItems constraint that cannot be satisfied with unique items.
-     *  So if minItems is greater than the number of unique items,
-     *  it should be reduced to the number of unique items.
-     */
-    constrainedArray = Array.from(new Set(constrainedArray))
-  }
-
-  return constrainedArray
-}
-
-const applyNumberConstraints = (number, constraints = {}) => {
-  const { minimum, maximum, exclusiveMinimum, exclusiveMaximum } = constraints
-  const { multipleOf } = constraints
-  const epsilon = Number.isInteger(number) ? 1 : Number.EPSILON
-  let minValue = typeof minimum === "number" ? minimum : null
-  let maxValue = typeof maximum === "number" ? maximum : null
-  let constrainedNumber = number
-
-  if (typeof exclusiveMinimum === "number") {
-    minValue =
-      minValue !== null
-        ? Math.max(minValue, exclusiveMinimum + epsilon)
-        : exclusiveMinimum + epsilon
-  }
-  if (typeof exclusiveMaximum === "number") {
-    maxValue =
-      maxValue !== null
-        ? Math.min(maxValue, exclusiveMaximum - epsilon)
-        : exclusiveMaximum - epsilon
-  }
-  constrainedNumber =
-    (minValue > maxValue && number) || minValue || maxValue || constrainedNumber
-
-  if (typeof multipleOf === "number" && multipleOf > 0) {
-    const remainder = constrainedNumber % multipleOf
-    constrainedNumber =
-      remainder === 0
-        ? constrainedNumber
-        : constrainedNumber + multipleOf - remainder
-  }
-
-  return constrainedNumber
-}
-
-const applyStringConstraints = (string, constraints = {}) => {
-  const { maxLength, minLength } = constraints
-  let constrainedString = string
-
-  if (Number.isInteger(maxLength) && maxLength > 0) {
-    constrainedString = constrainedString.slice(0, maxLength)
-  }
-  if (Number.isInteger(minLength) && minLength > 0) {
-    let i = 0
-    while (constrainedString.length < minLength) {
-      constrainedString += constrainedString[i++ % constrainedString.length]
-    }
-  }
-
-  return constrainedString
+  return `Unknown Type: ${type}`
 }
 
 /**
@@ -823,7 +468,7 @@ export const sampleFromSchemaGeneric = (
         ]
       }
 
-      itemSamples = applyArrayConstraints(itemSamples, schema)
+      itemSamples = typeMap.array(schema, itemSamples)
       if (xml.wrapped) {
         res[displayName] = itemSamples
         if (!isEmpty(_attr)) {
@@ -961,7 +606,7 @@ export const sampleFromSchemaGeneric = (
       }
     }
 
-    sampleArray = applyArrayConstraints(sampleArray, schema)
+    sampleArray = typeMap.array(schema, sampleArray)
     if (respectXML && xml.wrapped) {
       res[displayName] = sampleArray
       if (!isEmpty(_attr)) {
@@ -1055,12 +700,6 @@ export const sampleFromSchemaGeneric = (
   } else if (schema) {
     // display schema default
     value = primitive(schema)
-    if (typeof value === "number") {
-      value = applyNumberConstraints(value, schema)
-    }
-    if (typeof value === "string") {
-      value = applyStringConstraints(value, schema)
-    }
   } else {
     return
   }

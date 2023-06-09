@@ -50,7 +50,10 @@ import {
   createXMLExample,
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
-} from "./samples-extensions/fn"
+  encoderAPI,
+  mediaTypeAPI,
+  formatAPI,
+} from "./samples-extensions/fn/index"
 import { JSONSchemaDeepExpansionContext } from "./context"
 import { useFn, useConfig, useComponent, useIsExpandedDeeply } from "./hooks"
 import { withJSONSchemaContext } from "./hoc"
@@ -113,6 +116,9 @@ const JSONSchema202012Plugin = () => ({
       useIsExpandedDeeply,
       sampleFromSchema,
       sampleFromSchemaGeneric,
+      sampleEncoderAPI: encoderAPI,
+      sampleFormatAPI: formatAPI,
+      sampleMediaTypeAPI: mediaTypeAPI,
       createXMLExample,
       memoizedSampleFromSchema,
       memoizedCreateXMLExample,
