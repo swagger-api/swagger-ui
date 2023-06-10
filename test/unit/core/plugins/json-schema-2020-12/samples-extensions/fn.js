@@ -1758,6 +1758,23 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
+    it("returns item from examples value when provided", function () {
+      const expected =
+        '<?xml version="1.0" encoding="UTF-8"?>\n<newtagname>three</newtagname>'
+      const definition = {
+        type: "string",
+        default: "one",
+        example: "two",
+        examples: ["three", "four"],
+        enum: ["two", "one"],
+        xml: {
+          name: "newtagname",
+        },
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
     it("sets first enum if provided", function () {
       const expected =
         '<?xml version="1.0" encoding="UTF-8"?>\n<newtagname>one</newtagname>'
