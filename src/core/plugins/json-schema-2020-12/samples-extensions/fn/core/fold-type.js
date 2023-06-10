@@ -4,7 +4,7 @@
 import { ALL_TYPES } from "./constants"
 
 const foldType = (type) => {
-  if (Array.isArray(type)) {
+  if (Array.isArray(type) && type.length >= 1) {
     if (type.includes("array")) {
       return "array"
     } else if (type.includes("object")) {

@@ -131,7 +131,7 @@ const stringType = (schema, { sample } = {}) => {
     generatedString = generateFormat(schema)
   } else if (
     isJSONSchema(contentSchema) &&
-    typeof contentMediaType !== "undefined" &&
+    typeof contentMediaType === "string" &&
     typeof sample !== "undefined"
   ) {
     if (Array.isArray(sample) || typeof sample === "object") {
@@ -139,7 +139,7 @@ const stringType = (schema, { sample } = {}) => {
     } else {
       generatedString = String(sample)
     }
-  } else if (typeof contentMediaType !== "undefined") {
+  } else if (typeof contentMediaType === "string") {
     const mediaTypeGenerator = mediaTypeAPI(contentMediaType)
     if (typeof mediaTypeGenerator === "function") {
       generatedString = mediaTypeGenerator(schema)

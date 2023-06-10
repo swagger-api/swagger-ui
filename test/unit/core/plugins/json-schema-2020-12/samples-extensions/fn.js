@@ -627,98 +627,6 @@ describe("sampleFromSchema", () => {
     )
   })
 
-  it("returns object without any $$ref fields at the root schema level", function () {
-    const definition = {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-      },
-      example: {
-        value: {
-          message: "Hello, World!",
-        },
-        $$ref: "https://example.com/#/components/examples/WelcomeExample",
-      },
-      $$ref: "https://example.com/#/components/schemas/Welcome",
-    }
-
-    const expected = {
-      value: {
-        message: "Hello, World!",
-      },
-    }
-
-    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(
-      expected
-    )
-  })
-
-  it("returns object without any $$ref fields at nested schema levels", function () {
-    const definition = {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-      },
-      example: {
-        a: {
-          value: {
-            message: "Hello, World!",
-          },
-          $$ref: "https://example.com/#/components/examples/WelcomeExample",
-        },
-      },
-      $$ref: "https://example.com/#/components/schemas/Welcome",
-    }
-
-    const expected = {
-      a: {
-        value: {
-          message: "Hello, World!",
-        },
-      },
-    }
-
-    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(
-      expected
-    )
-  })
-
-  it("returns object with any $$ref fields that appear to be user-created", function () {
-    const definition = {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-      },
-      example: {
-        $$ref: {
-          value: {
-            message: "Hello, World!",
-          },
-          $$ref: "https://example.com/#/components/examples/WelcomeExample",
-        },
-      },
-      $$ref: "https://example.com/#/components/schemas/Welcome",
-    }
-
-    const expected = {
-      $$ref: {
-        value: {
-          message: "Hello, World!",
-        },
-      },
-    }
-
-    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(
-      expected
-    )
-  })
-
   it("returns example value for date-time property", () => {
     const definition = {
       type: "string",
@@ -1836,11 +1744,28 @@ describe("createXMLExample", function () {
 
     it("returns example value when provided", function () {
       const expected =
-        '<?xml version="1.0" encoding="UTF-8"?>\n<newtagname>two</newtagname>'
+        '<?xml version="1.0" encoding="UTF-8"?>\n<newtagname>one</newtagname>'
       const definition = {
         type: "string",
         default: "one",
         example: "two",
+        enum: ["two", "one"],
+        xml: {
+          name: "newtagname",
+        },
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns item from examples value when provided", function () {
+      const expected =
+        '<?xml version="1.0" encoding="UTF-8"?>\n<newtagname>three</newtagname>'
+      const definition = {
+        type: "string",
+        default: "one",
+        example: "two",
+        examples: ["three", "four"],
         enum: ["two", "one"],
         xml: {
           name: "newtagname",

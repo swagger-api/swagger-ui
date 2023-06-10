@@ -3,14 +3,6 @@
  */
 import isPlainObject from "lodash/isPlainObject"
 
-export const isURI = (uri) => {
-  try {
-    return new URL(uri) && true
-  } catch {
-    return false
-  }
-}
-
 export const isBooleanJSONSchema = (schema) => {
   return typeof schema === "boolean"
 }
