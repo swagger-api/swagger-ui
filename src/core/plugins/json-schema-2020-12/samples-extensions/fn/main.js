@@ -4,19 +4,13 @@
 import XML from "xml"
 import isEmpty from "lodash/isEmpty"
 
-import { objectify, normalizeArray, deeplyStripKey } from "core/utils"
+import { objectify, normalizeArray } from "core/utils"
 import memoizeN from "../../../../../helpers/memoizeN"
 import typeMap from "./types/index"
-import { isURI } from "./core/predicates"
 import foldType from "./core/fold-type"
 import { typeCast } from "./core/utils"
-
-/**
- * Do a couple of quick sanity tests to ensure the value
- * looks like a $$ref that swagger-client generates.
- */
-const sanitizeRef = (value) =>
-  deeplyStripKey(value, "$$ref", (val) => typeof val === "string" && isURI(val))
+import { hasExample, extractExample } from "./core/example"
+import { pick as randomPick } from "./core/random"
 
 const objectConstraints = ["maxProperties", "minProperties", "required"]
 const arrayConstraints = [
@@ -133,22 +127,21 @@ export const sampleFromSchemaGeneric = (
   if (typeof schema?.toJS === "function") schema = schema.toJS()
   schema = typeCast(schema)
 
-  let usePlainValue =
-    exampleOverride !== undefined ||
-    (schema && schema.example !== undefined) ||
-    (schema && schema.default !== undefined)
+  let usePlainValue = exampleOverride !== undefined || hasExample(schema)
   // first check if there is the need of combining this schema with others required by allOf
   const hasOneOf =
     !usePlainValue && schema && schema.oneOf && schema.oneOf.length > 0
   const hasAnyOf =
     !usePlainValue && schema && schema.anyOf && schema.anyOf.length > 0
   if (!usePlainValue && (hasOneOf || hasAnyOf)) {
-    const schemaToAdd = typeCast(hasOneOf ? schema.oneOf[0] : schema.anyOf[0])
+    const schemaToAdd = typeCast(
+      hasOneOf ? randomPick(schema.oneOf) : randomPick(schema.anyOf)
+    )
     liftSampleHelper(schemaToAdd, schema, config)
     if (!schema.xml && schemaToAdd.xml) {
       schema.xml = schemaToAdd.xml
     }
-    if (schema.example !== undefined && schemaToAdd.example !== undefined) {
+    if (hasExample(schema) && hasExample(schemaToAdd)) {
       usePlainValue = true
     } else if (schemaToAdd.properties) {
       if (!schema.properties) {
@@ -194,16 +187,8 @@ export const sampleFromSchemaGeneric = (
     }
   }
   const _attr = {}
-  let {
-    xml,
-    type,
-    example,
-    properties,
-    additionalProperties,
-    items,
-    contains,
-  } = schema || {}
-  type = foldType(type)
+  let { xml, properties, additionalProperties, items, contains } = schema || {}
+  let type = foldType(schema.type)
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
@@ -320,15 +305,12 @@ export const sampleFromSchemaGeneric = (
 
         if (props[propName].xml.attribute) {
           const enumAttrVal = Array.isArray(props[propName].enum)
-            ? props[propName].enum[0]
+            ? randomPick(props[propName].enum)
             : undefined
-          const attrExample = props[propName].example
-          const attrDefault = props[propName].default
-
-          if (attrExample !== undefined) {
-            _attr[props[propName].xml.name || propName] = attrExample
-          } else if (attrDefault !== undefined) {
-            _attr[props[propName].xml.name || propName] = attrDefault
+          if (hasExample(props[propName])) {
+            _attr[props[propName].xml.name || propName] = extractExample(
+              props[propName]
+            )
           } else if (enumAttrVal !== undefined) {
             _attr[props[propName].xml.name || propName] = enumAttrVal
           } else {
@@ -402,21 +384,19 @@ export const sampleFromSchemaGeneric = (
   if (usePlainValue) {
     let sample
     if (exampleOverride !== undefined) {
-      sample = sanitizeRef(exampleOverride)
-    } else if (example !== undefined) {
-      sample = sanitizeRef(example)
+      sample = exampleOverride
     } else {
-      sample = sanitizeRef(schema.default)
+      sample = extractExample(schema)
     }
 
     // if json just return
     if (!respectXML) {
       // spacial case yaml parser can not know about
-      if (typeof sample === "number" && type?.includes("string")) {
+      if (typeof sample === "number" && type === "string") {
         return `${sample}`
       }
       // return if sample does not need any parsing
-      if (typeof sample !== "string" || type?.includes("string")) {
+      if (typeof sample !== "string" || type === "string") {
         return sample
       }
       // check if sample is parsable or just a plain string
@@ -434,7 +414,7 @@ export const sampleFromSchemaGeneric = (
     }
 
     // generate xml sample recursively for array case
-    if (type?.includes("array")) {
+    if (type === "array") {
       if (!Array.isArray(sample)) {
         if (typeof sample === "string") {
           return sample
@@ -474,7 +454,7 @@ export const sampleFromSchemaGeneric = (
     }
 
     // generate xml sample recursively for object case
-    if (type?.includes("object")) {
+    if (type === "object") {
       // case literal example
       if (typeof sample === "string") {
         return sample
@@ -522,7 +502,7 @@ export const sampleFromSchemaGeneric = (
   }
 
   // use schema to generate sample
-  if (type?.includes("array")) {
+  if (type === "array") {
     let sampleArray = []
 
     if (contains != null && typeof contains === "object") {
@@ -611,7 +591,7 @@ export const sampleFromSchemaGeneric = (
     return sampleArray
   }
 
-  if (type?.includes("object")) {
+  if (type === "object") {
     for (let propName in props) {
       if (!Object.hasOwn(props, propName)) {
         continue
@@ -689,7 +669,7 @@ export const sampleFromSchemaGeneric = (
     value = schema.const
   } else if (schema && Array.isArray(schema.enum)) {
     //display enum first value
-    value = normalizeArray(schema.enum)[0]
+    value = randomPick(normalizeArray(schema.enum))
   } else if (schema) {
     // display schema default
     const contentSample = Object.hasOwn(schema, "contentSchema")
