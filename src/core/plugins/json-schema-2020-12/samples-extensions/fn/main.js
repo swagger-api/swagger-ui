@@ -43,6 +43,7 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
   }
 
   ;[
+    "examples",
     "example",
     "default",
     "enum",
