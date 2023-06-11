@@ -43,7 +43,7 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
   const { type, prefixItems, items } = schema
 
   const getArrayType = () => {
-    if (prefixItems) {
+    if (Array.isArray(prefixItems)) {
       const prefixItemsTypes = prefixItems.map((itemSchema) =>
         getType(itemSchema, processedSchemas)
       )
@@ -58,27 +58,31 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
   }
 
   const inferType = () => {
-    if (prefixItems || items || schema.contains) {
+    if (
+      Object.hasOwn(schema, "prefixItems") ||
+      Object.hasOwn(schema, "items") ||
+      Object.hasOwn(schema, "contains")
+    ) {
       return getArrayType()
     } else if (
-      schema.properties ||
-      schema.additionalProperties ||
-      schema.patternProperties
+      Object.hasOwn(schema, "properties") ||
+      Object.hasOwn(schema, "additionalProperties") ||
+      Object.hasOwn(schema, "patternProperties")
     ) {
       return "object"
     } else if (
-      schema.pattern ||
-      schema.format ||
-      schema.minLength ||
-      schema.maxLength
+      Object.hasOwn(schema, "pattern") ||
+      Object.hasOwn(schema, "format") ||
+      Object.hasOwn(schema, "minLength") ||
+      Object.hasOwn(schema, "maxLength")
     ) {
       return "string"
     } else if (
-      schema.minimum ||
-      schema.maximum ||
-      schema.exclusiveMinimum ||
-      schema.exclusiveMaximum ||
-      schema.multipleOf
+      Object.hasOwn(schema, "minimum") ||
+      Object.hasOwn(schema, "maximum") ||
+      Object.hasOwn(schema, "exclusiveMinimum") ||
+      Object.hasOwn(schema, "exclusiveMaximum") ||
+      Object.hasOwn(schema, "multipleOf")
     ) {
       return "number | integer"
     } else if (typeof schema.const !== "undefined") {
@@ -90,6 +94,8 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
         return Number.isInteger(schema.const) ? "integer" : "number"
       } else if (typeof schema.const === "string") {
         return "string"
+      } else if (Array.isArray(schema.const)) {
+        return "array<any>"
       } else if (typeof schema.const === "object") {
         return "object"
       }
@@ -103,9 +109,11 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
 
   const typeString = Array.isArray(type)
     ? type.map((t) => (t === "array" ? getArrayType() : t)).join(" | ")
-    : type && type.includes("array")
+    : type === "array"
     ? getArrayType()
-    : type || inferType()
+    : ["null", "boolean", "object", "array", "number", "string"].includes(type)
+    ? type
+    : inferType()
 
   const handleCombiningKeywords = (keyword, separator) => {
     if (Array.isArray(schema[keyword])) {

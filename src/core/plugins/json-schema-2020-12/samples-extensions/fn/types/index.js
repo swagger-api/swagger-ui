@@ -21,7 +21,7 @@ const typeMap = {
 
 export default new Proxy(typeMap, {
   get(target, prop) {
-    if (Object.hasOwn(target, prop)) {
+    if (typeof prop === "string" && Object.hasOwn(target, prop)) {
       return target[prop]
     }
 
