@@ -4,6 +4,7 @@
 import { ALL_TYPES } from "./constants"
 import { isJSONSchemaObject } from "./predicates"
 import { pick as randomPick } from "./random"
+import { hasExample, extractExample } from "./example"
 
 const inferringKeywords = {
   array: [
@@ -49,6 +50,15 @@ const inferringKeywords = {
 inferringKeywords.number = inferringKeywords.integer
 
 const fallbackType = "string"
+
+const inferTypeFromValue = (value) => {
+  if (typeof value === "undefined") return null
+  if (value === null) return "null"
+  if (Array.isArray(value)) return "array"
+  if (Number.isInteger(value)) return "integer"
+
+  return typeof value
+}
 
 export const foldType = (type) => {
   if (Array.isArray(type) && type.length >= 1) {
@@ -100,17 +110,8 @@ export const inferType = (schema, processedSchemas = new WeakSet()) => {
 
   // inferring type from const keyword
   if (typeof type !== "string" && typeof constant !== "undefined") {
-    if (constant === null) {
-      type = "null"
-    } else if (typeof constant === "boolean") {
-      type = "boolean"
-    } else if (typeof constant === "number") {
-      type = Number.isInteger(constant) ? "integer" : "number"
-    } else if (typeof constant === "string") {
-      type = "string"
-    } else if (typeof constant === "object") {
-      type = "object"
-    }
+    const constType = inferTypeFromValue(constant)
+    type = typeof constType === "string" ? constType : type
   }
 
   // inferring type from combining schemas
@@ -133,6 +134,13 @@ export const inferType = (schema, processedSchemas = new WeakSet()) => {
     if (allOf || anyOf || oneOf || not) {
       type = foldType([allOf, anyOf, oneOf, not].filter(Boolean))
     }
+  }
+
+  // inferring type from example
+  if (typeof type !== "string" && hasExample(schema)) {
+    const example = extractExample(schema)
+    const exampleType = inferTypeFromValue(example)
+    type = typeof exampleType === "string" ? exampleType : type
   }
 
   processedSchemas.delete(schema)
