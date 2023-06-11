@@ -7,7 +7,7 @@ import isEmpty from "lodash/isEmpty"
 import { objectify, normalizeArray } from "core/utils"
 import memoizeN from "../../../../../helpers/memoizeN"
 import typeMap from "./types/index"
-import foldType from "./core/fold-type"
+import { getType } from "./core/type"
 import { typeCast } from "./core/utils"
 import { hasExample, extractExample } from "./core/example"
 import { pick as randomPick } from "./core/random"
@@ -189,12 +189,16 @@ export const sampleFromSchemaGeneric = (
   }
   const _attr = {}
   let { xml, properties, additionalProperties, items, contains } = schema || {}
-  let type = foldType(schema.type)
+  let type = getType(schema)
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
   let { name, prefix, namespace } = xml
   let displayName
   let res = {}
+
+  if (!Object.hasOwn(schema, "type")) {
+    schema.type = type
+  }
 
   // set xml naming and attributes
   if (respectXML) {
@@ -211,36 +215,6 @@ export const sampleFromSchemaGeneric = (
   // init xml default response sample obj
   if (respectXML) {
     res[displayName] = []
-  }
-
-  const schemaHasAny = (keys) => keys.some((key) => Object.hasOwn(schema, key))
-  // try recover missing type
-  if (schema && typeof type !== "string" && !Array.isArray(type)) {
-    if (properties || additionalProperties || schemaHasAny(objectConstraints)) {
-      type = "object"
-    } else if (items || contains || schemaHasAny(arrayConstraints)) {
-      type = "array"
-    } else if (schemaHasAny(numberConstraints)) {
-      type = "number"
-      schema.type = "number"
-    } else if (!usePlainValue && !schema.enum) {
-      // implicit cover schemaHasAny(stringContracts) or A schema without a type matches any data type is:
-      // components:
-      //   schemas:
-      //     AnyValue:
-      //       anyOf:
-      //         - type: string
-      //         - type: number
-      //         - type: integer
-      //         - type: boolean
-      //         - type: array
-      //           items: {}
-      //         - type: object
-      //
-      // which would resolve to type: string
-      type = "string"
-      schema.type = "string"
-    }
   }
 
   // add to result helper init for xml or json
@@ -316,8 +290,9 @@ export const sampleFromSchemaGeneric = (
             _attr[props[propName].xml.name || propName] = enumAttrVal
           } else {
             const propSchema = typeCast(props[propName])
+            const propSchemaType = getType(propSchema)
             const attrName = props[propName].xml.name || propName
-            _attr[attrName] = typeMap[propSchema.type](propSchema)
+            _attr[attrName] = typeMap[propSchemaType](propSchema)
           }
 
           return
