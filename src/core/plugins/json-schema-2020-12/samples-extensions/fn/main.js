@@ -11,113 +11,8 @@ import { getType } from "./core/type"
 import { typeCast } from "./core/utils"
 import { hasExample, extractExample } from "./core/example"
 import { pick as randomPick } from "./core/random"
-
-const objectConstraints = ["maxProperties", "minProperties", "required"]
-const arrayConstraints = [
-  "minItems",
-  "maxItems",
-  "uniqueItems",
-  "minContains",
-  "maxContains",
-]
-const numberConstraints = [
-  "minimum",
-  "maximum",
-  "exclusiveMinimum",
-  "exclusiveMaximum",
-  "multipleOf",
-]
-const stringConstraints = [
-  "minLength",
-  "maxLength",
-  "pattern",
-  "contentEncoding",
-  "contentMediaType",
-]
-
-const liftSampleHelper = (oldSchema, target, config = {}) => {
-  const setIfNotDefinedInTarget = (key) => {
-    if (target[key] === undefined && oldSchema[key] !== undefined) {
-      target[key] = oldSchema[key]
-    }
-  }
-
-  ;[
-    "examples",
-    "example",
-    "default",
-    "enum",
-    "xml",
-    "type",
-    "const",
-    ...objectConstraints,
-    ...arrayConstraints,
-    ...numberConstraints,
-    ...stringConstraints,
-  ].forEach((key) => setIfNotDefinedInTarget(key))
-
-  if (oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
-    if (target.required === undefined || !target.required.length) {
-      target.required = []
-    }
-    oldSchema.required.forEach((key) => {
-      if (target.required.includes(key)) {
-        return
-      }
-      target.required.push(key)
-    })
-  }
-  if (oldSchema.properties) {
-    if (!target.properties) {
-      target.properties = {}
-    }
-    let props = objectify(oldSchema.properties)
-    for (let propName in props) {
-      if (!Object.hasOwn(props, propName)) {
-        continue
-      }
-      if (props[propName] && props[propName].deprecated) {
-        continue
-      }
-      if (
-        props[propName] &&
-        props[propName].readOnly &&
-        !config.includeReadOnly
-      ) {
-        continue
-      }
-      if (
-        props[propName] &&
-        props[propName].writeOnly &&
-        !config.includeWriteOnly
-      ) {
-        continue
-      }
-      if (!target.properties[propName]) {
-        target.properties[propName] = props[propName]
-        if (
-          !oldSchema.required &&
-          Array.isArray(oldSchema.required) &&
-          oldSchema.required.indexOf(propName) !== -1
-        ) {
-          if (!target.required) {
-            target.required = [propName]
-          } else {
-            target.required.push(propName)
-          }
-        }
-      }
-    }
-  }
-  if (oldSchema.items) {
-    if (!target.items) {
-      target.items = {}
-    }
-    target.items = liftSampleHelper(oldSchema.items, target.items, config)
-  }
-
-  return target
-}
+import merge from "./core/merge"
+import { isBooleanJSONSchema, isJSONSchemaObject } from "./core/predicates"
 
 export const sampleFromSchemaGeneric = (
   schema,
@@ -138,7 +33,7 @@ export const sampleFromSchemaGeneric = (
     const schemaToAdd = typeCast(
       hasOneOf ? randomPick(schema.oneOf) : randomPick(schema.anyOf)
     )
-    liftSampleHelper(schemaToAdd, schema, config)
+    schema = merge(schema, schemaToAdd, config)
     if (!schema.xml && schemaToAdd.xml) {
       schema.xml = schemaToAdd.xml
     }
@@ -489,9 +384,9 @@ export const sampleFromSchemaGeneric = (
 
       if (Array.isArray(contains.anyOf)) {
         sampleArray.push(
-          ...contains.anyOf.map((i) =>
+          ...contains.anyOf.map((anyOfSchema) =>
             sampleFromSchemaGeneric(
-              liftSampleHelper(contains, i, config),
+              merge(anyOfSchema, contains, config),
               config,
               undefined,
               respectXML
@@ -500,9 +395,9 @@ export const sampleFromSchemaGeneric = (
         )
       } else if (Array.isArray(contains.oneOf)) {
         sampleArray.push(
-          ...contains.oneOf.map((i) =>
+          ...contains.oneOf.map((oneOfSchema) =>
             sampleFromSchemaGeneric(
-              liftSampleHelper(contains, i, config),
+              merge(oneOfSchema, contains, config),
               config,
               undefined,
               respectXML
@@ -528,7 +423,7 @@ export const sampleFromSchemaGeneric = (
         sampleArray.push(
           ...items.anyOf.map((i) =>
             sampleFromSchemaGeneric(
-              liftSampleHelper(items, i, config),
+              merge(i, items, config),
               config,
               undefined,
               respectXML
@@ -539,7 +434,7 @@ export const sampleFromSchemaGeneric = (
         sampleArray.push(
           ...items.oneOf.map((i) =>
             sampleFromSchemaGeneric(
-              liftSampleHelper(items, i, config),
+              merge(i, items, config),
               config,
               undefined,
               respectXML
@@ -591,14 +486,14 @@ export const sampleFromSchemaGeneric = (
       return res
     }
 
-    if (additionalProperties === true) {
+    if (isBooleanJSONSchema(additionalProperties)) {
       if (respectXML) {
         res[displayName].push({ additionalProp: "Anything can be here" })
       } else {
         res.additionalProp1 = {}
       }
       propertyAddedCounter++
-    } else if (additionalProperties) {
+    } else if (isJSONSchemaObject(additionalProperties)) {
       const additionalProps = typeCast(additionalProperties)
       const additionalPropSample = sampleFromSchemaGeneric(
         additionalProps,

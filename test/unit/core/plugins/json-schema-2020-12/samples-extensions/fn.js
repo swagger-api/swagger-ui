@@ -1154,7 +1154,7 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should lift items with anyOf", () => {
+  it("should merge items with anyOf", () => {
     const definition = {
       type: "array",
       anyOf: [
@@ -1172,7 +1172,7 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should lift items with oneOf", () => {
+  it("should merge items with oneOf", () => {
     const definition = {
       type: "array",
       oneOf: [
