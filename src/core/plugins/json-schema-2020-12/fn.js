@@ -70,13 +70,12 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
       Object.hasOwn(schema, "patternProperties")
     ) {
       return "object"
-    } else if (
-      Object.hasOwn(schema, "pattern") ||
-      Object.hasOwn(schema, "format") ||
-      Object.hasOwn(schema, "minLength") ||
-      Object.hasOwn(schema, "maxLength")
-    ) {
-      return "string"
+    } else if (["int32", "int64"].includes(schema.format)) {
+      // OpenAPI 3.1.0 integer custom formats
+      return "integer"
+    } else if (["float", "double"].includes(schema.format)) {
+      // OpenAPI 3.1.0 number custom formats
+      return "number"
     } else if (
       Object.hasOwn(schema, "minimum") ||
       Object.hasOwn(schema, "maximum") ||
@@ -85,6 +84,13 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
       Object.hasOwn(schema, "multipleOf")
     ) {
       return "number | integer"
+    } else if (
+      Object.hasOwn(schema, "pattern") ||
+      Object.hasOwn(schema, "format") ||
+      Object.hasOwn(schema, "minLength") ||
+      Object.hasOwn(schema, "maxLength")
+    ) {
+      return "string"
     } else if (typeof schema.const !== "undefined") {
       if (schema.const === null) {
         return "null"
