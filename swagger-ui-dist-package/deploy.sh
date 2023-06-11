@@ -17,7 +17,7 @@ cp ../LICENSE .
 cp ../NOTICE .
 
 if [ "$PUBLISH_DIST" = "true" ] || [ "$TRAVIS" = "true" ] ; then
-  npm publish . --tag alpha
+  npm publish . --tag beta
 else
   npm pack .
 fi
