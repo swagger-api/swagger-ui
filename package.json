@@ -63,7 +63,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.21.5",
+    "@babel/runtime-corejs3": "^7.22.5",
     "@braintree/sanitize-url": "=6.0.2",
     "base64-js": "^1.5.1",
     "classnames": "^2.3.1",
@@ -136,7 +136,7 @@
     "enzyme": "=3.11.0",
     "eslint": "^8.41.0",
     "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^26.1.1",
+    "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-mocha": "^10.1.0",
     "eslint-plugin-react": "^7.27.1",
     "esm": "=3.2.25",
@@ -149,7 +149,7 @@
     "inspectpack": "=4.7.1",
     "jest": "=29.5.0",
     "jest-environment-jsdom": "=29.5.0",
-    "jsdom": "=21.1.1",
+    "jsdom": "=22.1.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.10",
     "json-server": "=0.17.3",

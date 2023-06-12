@@ -317,7 +317,7 @@ RequestBody.propTypes = {
   userHasEditedBody: PropTypes.bool.isRequired,
   requestBody: ImPropTypes.orderedMap.isRequired,
   requestBodyValue: ImPropTypes.orderedMap.isRequired,
-  requestBodyInclusionSetting: ImPropTypes.Map.isRequired,
+  requestBodyInclusionSetting: ImPropTypes.map.isRequired,
   requestBodyErrors: ImPropTypes.list.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
