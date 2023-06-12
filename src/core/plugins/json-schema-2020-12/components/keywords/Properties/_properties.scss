@@ -1,0 +1,21 @@
+.json-schema-2020-12 {
+  &-keyword--properties {
+    & > ul {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+  }
+
+  &-property {
+    list-style-type: none;
+
+    &--required {
+      & > .json-schema-2020-12:first-of-type > .json-schema-2020-12-head .json-schema-2020-12__title:after {
+        content: '*';
+        color: red;
+        font-weight: bold;
+      }
+    }
+  }
+}

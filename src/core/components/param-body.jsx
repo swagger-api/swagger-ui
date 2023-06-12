@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { fromJS, List } from "immutable"
-import { getSampleSchema } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 const NOOP = Function.prototype
@@ -67,10 +66,10 @@ export default class ParamBody extends PureComponent {
   }
 
   sample = (xml) => {
-    let { param, fn:{inferSchema} } = this.props
-    let schema = inferSchema(param.toJS())
+    let { param, fn} = this.props
+    let schema = fn.inferSchema(param.toJS())
 
-    return getSampleSchema(schema, xml, {
+    return fn.getSampleSchema(schema, xml, {
       includeWriteOnly: true
     })
   }

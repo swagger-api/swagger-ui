@@ -1,0 +1,7 @@
+swagger: "2.0"
+
+info:
+  title: OpenAPI 2.0 Info Object
+  version: 1.0.0
+  summary: This 3.1.x field should not render in OpenAPI2.x.x
+  description: This is a sample server for a pet store.
