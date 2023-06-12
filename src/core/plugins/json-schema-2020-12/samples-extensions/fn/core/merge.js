@@ -1,6 +1,7 @@
 /**
  * @prettier
  */
+import { normalizeArray as ensureArray } from "core/utils"
 import { isBooleanJSONSchema, isJSONSchema } from "./predicates"
 
 const merge = (target, source, config = {}) => {
@@ -17,6 +18,14 @@ const merge = (target, source, config = {}) => {
    * only if they do not already exist in the target object.
    */
   const merged = { ...source, ...target }
+
+  // merging the type keyword
+  if (source.type && target.type) {
+    if (Array.isArray(source.type) && typeof source.type === "string") {
+      const mergedType = ensureArray(source.type).concat(target.type)
+      merged.type = Array.from(new Set(mergedType))
+    }
+  }
 
   // merging required keyword
   if (Array.isArray(source.required) && Array.isArray(target.required)) {
