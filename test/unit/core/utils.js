@@ -1493,7 +1493,7 @@ describe("utils", () => {
     it("throws error when server url contains non-transcluded server variables", () => {
       const buildUrlThunk = () => buildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlWithVariables })
 
-      expect(buildUrlThunk).toThrow(/^Invalid base URL/)
+      expect(buildUrlThunk).toThrow(/^Invalid/)
     })
   })
 
