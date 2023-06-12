@@ -34,10 +34,9 @@ export default {
                 sourceMap: true,
                 plugins: [
                   require("cssnano")(),
-                  "postcss-preset-env" // applies autoprefixer
+                  "postcss-preset-env", // applies autoprefixer
                 ],
-
-              }
+              },
             },
           },
           {
@@ -47,9 +46,7 @@ export default {
               implementation: require("sass"),
               sourceMap: true,
               sassOptions: {
-                // `fibers` package is not compatible with Node.js v16.0.0 or later
-                fiber: false, // disable auto attempt to load `fiber`
-                // sourceMapContents: "true", // if sourceMap: true, sassOptions.sourceMapContents is ignored
+                quietDeps: true,
               },
             },
           },

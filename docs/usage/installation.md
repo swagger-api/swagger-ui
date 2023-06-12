@@ -4,9 +4,11 @@
 
 ### NPM Registry
 
-We publish two modules to npm: **`swagger-ui`** and **`swagger-ui-dist`**.
+We publish three modules to npm: **`swagger-ui`**, **`swagger-ui-dist`** and **`swagger-ui-react`**.
 
-**`swagger-ui`** is meant for consumption by JavaScript web projects that include module bundlers, such as Webpack, Browserify, and Rollup. Its main file exports Swagger UI's main function, and the module also includes a namespaced stylesheet at `swagger-ui/dist/swagger-ui.css`. Here's an example:
+**`swagger-ui`** is meant for consumption by JavaScript web projects that include module bundlers,
+such as Webpack, Browserify, and Rollup. Its main file exports Swagger UI's main function,
+and the module also includes a namespaced stylesheet at `swagger-ui/dist/swagger-ui.css`. Here's an example:
 
 ```javascript
 import SwaggerUI from 'swagger-ui'

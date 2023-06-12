@@ -114,6 +114,12 @@ Controls the display of vendor extension (`x-`) fields and values for Operations
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `showCommonExtensions`: PropTypes.bool
+
+Controls the display of extensions (pattern, maxLength, minLength, maximum, minimum) fields and values for Parameters.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 #### `showMutatedRequest`: PropTypes.bool
 
 If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
@@ -170,6 +176,49 @@ Redirect url given as parameter to the oauth2 provider. Default the url refers t
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+
+## Next.js
+
+When using [Next.js](https://nextjs.org/), following options are available for seamless integration of `swagger-ui-react`:
+
+#### 1. Make sure to enable transpilation for following dependencies `next.config.js`.
+
+```js
+const nextConfig = {
+  transpilePackages: [
+    'swagger-ui-react',
+    'swagger-client',
+    'react-syntax-highlighter',    
+  ],
+}
+```
+or 
+```js
+const withTM = require('next-transpile-modules')([
+  'swagger-ui-react',
+  'swagger-client'
+  'react-syntax-highlighter',  
+]);
+
+const nextConfig = {
+  reactStrictMode: true,
+}
+
+module.exports = withTM(nextConfig);
+```
+
+#### 2. Use dynamic import
+
+```js
+import dynamic from "next/dynamic";
+
+const SwaggerUI = dynamic(import('swagger-ui-react'), {ssr: false})
+
+const Test = () => <SwaggerUI spec={data}/>
+export default Test
+```
+
+More information about Next.js integration can be found in [#7970](https://github.com/swagger-api/swagger-ui/issues/7970) and (#8245)[https://github.com/swagger-api/swagger-ui/issues/8245].
 
 
 ## Limitations
