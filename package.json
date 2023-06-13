@@ -186,7 +186,7 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.15.0",
     "webpack-node-externals": "=3.0.0",
-    "webpack-stats-plugin": "=1.1.1"
+    "webpack-stats-plugin": "=1.1.3"
   },
   "config": {
     "deps_check_dir": ".deps_check"
