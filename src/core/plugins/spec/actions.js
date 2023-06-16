@@ -5,6 +5,8 @@ import { serializeError } from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
+import assocPath from "lodash/fp/assocPath"
+
 import { paramToValue, isEmptyValue } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
@@ -175,7 +177,7 @@ const debResolveSubtrees = debounce(async () => {
 
   try {
     var batchResult = await requestBatch.reduce(async (prev, path) => {
-      const { resultMap, specWithCurrentSubtrees } = await prev
+      let { resultMap, specWithCurrentSubtrees } = await prev
       const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
         baseDoc: specSelectors.url(),
         modelPropertyMacro,
@@ -230,7 +232,7 @@ const debResolveSubtrees = debounce(async () => {
           }))
       }
       set(resultMap, path, spec)
-      set(specWithCurrentSubtrees, path, spec)
+      specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
 
       return {
         resultMap,
