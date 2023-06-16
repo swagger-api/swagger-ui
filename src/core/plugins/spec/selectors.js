@@ -38,6 +38,11 @@ export const specJson = createSelector(
   spec => spec.get("json", Map())
 )
 
+export const specJS = createSelector(
+  specJson,
+  (spec) => spec.toJS()
+)
+
 export const specResolved = createSelector(
   state,
   spec => spec.get("resolved", Map())

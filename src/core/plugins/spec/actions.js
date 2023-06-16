@@ -238,7 +238,7 @@ const debResolveSubtrees = debounce(async () => {
       }
     }, Promise.resolve({
       resultMap: (specSelectors.specResolvedSubtree([]) || Map()).toJS(),
-      specWithCurrentSubtrees: specSelectors.specJson().toJS()
+      specWithCurrentSubtrees: specSelectors.specJS()
     }))
 
     delete requestBatch.system
