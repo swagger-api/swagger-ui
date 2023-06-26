@@ -101,7 +101,7 @@ table
         border-width: 1px;
     }
 
-    .markdown {
+    .markdown, .renderedMarkdown {
         p {
             margin: 0;
         }
@@ -186,7 +186,7 @@ table
 .response-col_description {
     width: 99%; // forces other columns to shrink to their content widths
 
-    .markdown {
+    .markdown, .renderedMarkdown {
         p {
             margin: 0;
         }
