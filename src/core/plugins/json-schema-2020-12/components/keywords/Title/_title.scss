@@ -1,0 +1,23 @@
+.json-schema-2020-12 {
+  &__title {
+    @include text_headline($section-models-model-title-font-color);
+    display: inline-block;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: normal;
+
+    & .json-schema-2020-12-keyword__name {
+      margin: 0;
+    }
+  }
+
+  &-property {
+    margin: 7px 0;
+
+    .json-schema-2020-12__title {
+      @include text_code();
+      font-size: 12px;
+      vertical-align: middle;
+    }
+  }
+}

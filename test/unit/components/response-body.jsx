@@ -39,4 +39,18 @@ describe("<ResponseBody />", function () {
     console.warn(wrapper.debug())
     expect(wrapper.find("highlightCodeComponent[canCopy]").length).toEqual(1)
   })
+
+  it("should render Download file link for non-empty response", function () {
+    props.contentType = "application/octet-stream"
+    props.content = new Blob(["\"test\""], { type: props.contentType })
+    const wrapper = shallow(<ResponseBody {...props} />)
+    expect(wrapper.text()).toMatch(/Download file/)
+  })
+
+  it("should not render Download file link for empty response", function () {
+    props.contentType = "application/octet-stream"
+    props.content = new Blob()
+    const wrapper = shallow(<ResponseBody {...props} />)
+    expect(wrapper.text()).not.toMatch(/Download file/)
+  })
 })

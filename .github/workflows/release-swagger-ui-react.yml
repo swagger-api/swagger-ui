@@ -1,0 +1,79 @@
+name: Build & Release SwaggerUI-React@next
+
+# single-stage
+on:
+  workflow_dispatch:
+    branches:
+      - next
+
+# multi-stage automation
+# on:
+#   workflow_run:
+#     workflows: ["Release SwaggerUI@next"]
+#     types:
+#       - completed
+#     branches: [next]
+
+defaults:
+  run:
+    working-directory: flavors/swagger-ui-react/release
+jobs:
+  release-swagger-ui-react:
+    name: Release SwaggerUI React
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: next
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Prepare SwaggerUI dist
+        run: |
+          cd ../../../
+          npm ci
+          npm run build
+
+      - name: Install dependencies (to create package manifest)
+        run: npm ci
+
+      - name: MKDIR `dist` working directory
+        run: mkdir -p ../dist
+
+      - name: Copy SwaggerUI dist files to MKDIR
+        run: |
+          ls ../dist
+          cp ../../../dist/swagger-ui-es-bundle-core.js ../dist
+          cp ../../../dist/swagger-ui-es-bundle-core.js.map ../dist
+          cp ../../../dist/swagger-ui.css ../dist
+          cp ../../../dist/swagger-ui.css.map ../dist
+
+      - name: Create a releasable package manifest
+        run: node create-manifest.js > ../dist/package.json
+
+      - name: Transpile our top-level React Component
+        run: |
+          ../../../node_modules/.bin/cross-env BABEL_ENV=commonjs ../../../node_modules/.bin/babel --config-file ../../../babel.config.js ../index.jsx > ../dist/commonjs.js
+          ../../../node_modules/.bin/cross-env BABEL_ENV=es ../../../node_modules/.bin/babel --config-file ../../../babel.config.js ../index.jsx > ../dist/index.js
+
+      - name: Copy our README into the dist folder for npm
+        run: cp ../README.md ../dist
+
+      - name: Copy LICENSE & NOTICE into the dist folder for npm
+        run: |
+          cp ../../../LICENSE ../dist
+          cp ../../../NOTICE ../dist
+
+      - name: Run the release from the dist folder
+        run: |
+          cd ../dist
+          pwd
+          npm publish . --tag alpha
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

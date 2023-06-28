@@ -38,6 +38,11 @@ export const specJson = createSelector(
   spec => spec.get("json", Map())
 )
 
+export const specJS = createSelector(
+  specJson,
+  (spec) => spec.toJS()
+)
+
 export const specResolved = createSelector(
   state,
   spec => spec.get("resolved", Map())
@@ -113,6 +118,8 @@ export const paths = createSelector(
 	specJsonWithResolvedSubtrees,
 	spec => spec.get("paths")
 )
+
+export const validOperationMethods = createSelector(() => ["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,

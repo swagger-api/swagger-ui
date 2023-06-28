@@ -1,85 +1,66 @@
+/**
+ * @prettier
+ */
 import { createSelector } from "reselect"
 import { specJsonWithResolvedSubtrees } from "../../spec/selectors"
 import { Map } from "immutable"
-import { isOAS3 as isOAS3Helper, isSwagger2 as isSwagger2Helper } from "../helpers"
 
+/**
+ * Helpers
+ */
 
-// Helpers
+const map = Map()
 
 function onlyOAS3(selector) {
-  return (ori, system) => (...args) => {
-    const spec = system.getSystem().specSelectors.specJson()
-    if(isOAS3Helper(spec)) {
-      return selector(...args)
-    } else {
-      return ori(...args)
+  return (ori, system) =>
+    (...args) => {
+      if (system.getSystem().specSelectors.isOAS3()) {
+        const result = selector(...args)
+        return typeof result === "function" ? result(system) : result
+      } else {
+        return ori(...args)
+      }
     }
-  }
-}
-
-const state = state => {
-  return state || Map()
 }
 
 const nullSelector = createSelector(() => null)
 
 const OAS3NullSelector = onlyOAS3(nullSelector)
 
-const specJson = createSelector(
-  state,
-  spec => spec.get("json", Map())
-)
+/**
+ * Wrappers
+ */
 
-const specResolved = createSelector(
-  state,
-  spec => spec.get("resolved", Map())
-)
-
-const spec = state => {
-  let res = specResolved(state)
-  if(res.count() < 1)
-    res = specJson(state)
-  return res
-}
-
-// Wrappers
-
-export const definitions = onlyOAS3(createSelector(
-  spec,
-  spec => {
-    const res = spec.getIn(["components", "schemas"])
-    return Map.isMap(res) ? res : Map()
-  }
-))
-
-export const hasHost = onlyOAS3((state) => {
-  return spec(state).hasIn(["servers", 0])
+export const definitions = onlyOAS3(() => (system) => {
+  const spec = system.getSystem().specSelectors.specJson()
+  const schemas = spec.getIn(["components", "schemas"])
+  return Map.isMap(schemas) ? schemas : map
 })
 
-export const securityDefinitions = onlyOAS3(createSelector(
-  specJsonWithResolvedSubtrees,
-  spec => spec.getIn(["components", "securitySchemes"]) || null
-))
+export const hasHost = onlyOAS3(() => (system) => {
+  const spec = system.getSystem().specSelectors.specJson()
+  return spec.hasIn(["servers", 0])
+})
+
+export const securityDefinitions = onlyOAS3(
+  createSelector(
+    specJsonWithResolvedSubtrees,
+    (spec) => spec.getIn(["components", "securitySchemes"]) || null
+  )
+)
+
+export const validOperationMethods =
+  (oriSelector, system) =>
+  (state, ...args) => {
+    if (system.specSelectors.isOAS3()) {
+      return system.oas3Selectors.validOperationMethods()
+    }
+
+    return oriSelector(...args)
+  }
 
 export const host = OAS3NullSelector
 export const basePath = OAS3NullSelector
 export const consumes = OAS3NullSelector
 export const produces = OAS3NullSelector
 export const schemes = OAS3NullSelector
-
-// New selectors
-
-export const servers = onlyOAS3(createSelector(
-  spec,
-  spec => spec.getIn(["servers"]) || Map()
-))
-
-export const isOAS3 = (ori, system) => () => {
-  const spec = system.getSystem().specSelectors.specJson()
-  return isOAS3Helper(Map.isMap(spec) ? spec : Map())
-}
-
-export const isSwagger2 = (ori, system) => () => {
-  const spec = system.getSystem().specSelectors.specJson()
-  return isSwagger2Helper(Map.isMap(spec) ? spec : Map())
-}

@@ -4,8 +4,7 @@ import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
-import { stringify, getSampleSchema } from "core/utils"
-//import "less/json-schema-form"
+import { stringify } from "core/utils"
 
 const noop = ()=> {}
 const JsonSchemaPropShape = {
@@ -156,9 +155,10 @@ export class JsonSchema_array extends PureComponent {
   }
 
   addItem = () => {
+    const { fn } = this.props
     let newValue = valueOrEmptyList(this.state.value)
     this.setState(() => ({
-      value: newValue.push(getSampleSchema(this.state.schema.get("items"), false, {
+      value: newValue.push(fn.getSampleSchema(this.state.schema.get("items"), false, {
         includeWriteOnly: true
       }))
     }), this.onChange)

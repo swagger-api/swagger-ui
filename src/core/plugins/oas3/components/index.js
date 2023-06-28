@@ -15,5 +15,5 @@ export default {
   ServersContainer,
   RequestBodyEditor,
   OperationServers,
-  operationLink: OperationLink
+  operationLink: OperationLink,
 }
