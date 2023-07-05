@@ -48,8 +48,31 @@
         }
         else
         {
-          url += ( new RegExp(/v1/).test(location.pathname)) ? "r_v1" : "r_v2";
+          url += if ( new RegExp(/v1/).test(location.pathname))
+                 { "r_v1" }
+                 else if (new RegExp(/v2/).test(location.pathname))
+                 { "r_v2" }
+                 else
+                 { "r_v3" }
         }
+
+        var intro = document.getElementById('intro'); //or grab it by tagname etc
+        intro.href = "somelink url";
+
+        var workflow = document.getElementById('workflow'); //or grab it by tagname etc
+        workflow.href = "somelink url"
+
+        var authentication = document.getElementById('authentication'); //or grab it by tagname etc
+        authentication.href = "somelink url"
+
+        var specs = document.getElementById('specs'); //or grab it by tagname etc
+        specs.href = "somelink url"
+
+        var errors = document.getElementById('errors'); //or grab it by tagname etc
+        errors.href = "somelink url"
+
+        var test_swagger = document.getElementById('test_swagger'); //or grab it by tagname etc
+        test_swagger.href = "somelink url"
       }
 
       hljs.configure({
@@ -113,26 +136,26 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="/docs/v2/#intro">Lead Seller <small>API Documentation</small></a>
+            <a class="navbar-brand page-scroll" href="/docs/v2/#intro" id="into">Lead Seller <small>API Documentation</small></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                 <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
                 <li>
-                    <a class="page-scroll" href="/docs/v2/#workflow">Workflow</a>
+                    <a class="page-scroll" href="/docs/v2/#workflow" id="workflow">Workflow</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/docs/v2/#authentication">Authentication</a>
+                    <a class="page-scroll" href="/docs/v2/#authentication" id="authentication">Authentication</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/docs/v2/#specs">Specs</a>
+                    <a class="page-scroll" href="/docs/v2/#specs" id="specs">Specs</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/docs/v2/#errors">Errors</a>
+                    <a class="page-scroll" href="/docs/v2/#errors" id="errors">Errors</a>
                 </li>
                 <li style="background-color: #772953;">
-                    <a href="/swagger/v1/" style="color: #fff">Test BY Swagger UI</a>
+                    <a href="/swagger/v2/" style="color: #fff" id="test_swagger">Test BY Swagger UI</a>
                 </li>
             </ul>
         </div>
