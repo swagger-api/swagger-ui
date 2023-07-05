@@ -4,6 +4,7 @@
 import App from "core/components/app"
 import AuthorizationPopup from "core/components/auth/authorization-popup"
 import AuthorizeBtn from "core/components/auth/authorize-btn"
+import AuthorizeButton from "core/components/authorize-button"
 import AuthorizeBtnContainer from "core/containers/authorize-btn"
 import AuthorizeOperationBtn from "core/components/auth/authorize-operation-btn"
 import Auths from "core/components/auth/auths"
@@ -78,6 +79,7 @@ const CoreComponentsPlugin = () => ({
     App,
     authorizationPopup: AuthorizationPopup,
     authorizeBtn: AuthorizeBtn,
+    AuthorizeButton: AuthorizeButton,
     AuthorizeBtnContainer,
     authorizeOperationBtn: AuthorizeOperationBtn,
     auths: Auths,
