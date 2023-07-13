@@ -16,7 +16,7 @@ export default {
   },
 
   [RECEIVE_OTP]: (state, { payload } ) =>{
-    return state.setIn( [ "authorized", "otpSent" ], payload )
+    return state.setIn( [ "otpSent" ], payload )
   },
 
   [AUTHORIZE]: (state, { payload } ) =>{
@@ -26,23 +26,24 @@ export default {
     // refactor withMutations
     securities.entrySeq().forEach( ([ key, security ]) => {
       let type = security.getIn(["schema", "type"])
+      let isOtpOrSaml = security.getIn(["schema", "otp"]) || security.getIn(["schema", "saml"])
       let tokenUrl = security.getIn(["schema", "tokenUrl"])
 
       if ( type === "apiKey") {
-        if(!tokenUrl) {
+        if(!(isOtpOrSaml || tokenUrl)) {
           map = map.set(key, security)
         } else {
           let name = security.get("name")
           map = map.setIn([name, "name"], name)
 
           let apiSchema = {
-            'type' : 'apiKey',
-            'in' : 'header',
-            'name' : 'Authorization'
+            "type" : "apiKey",
+            "in" : "header",
+            "name" : "Authorization"
           }
           map = map.setIn([name, "schema"], fromJS(apiSchema))
 
-          let value = 'Bearer ' + security.get("token")
+          let value = "Bearer " + security.get("token")
           map = map.setIn([name, "value"], value)
 
           let username = security.get("username")

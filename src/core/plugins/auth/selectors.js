@@ -8,6 +8,11 @@ export const shownDefinitions = createSelector(
     auth => auth.get( "showDefinitions" )
 )
 
+export const otpSent = createSelector(
+  state,
+  auth => auth.get( "otpSent" )
+)
+
 export const definitionsToAuthorize = createSelector(
     state,
     () =>( { specSelectors } ) => {

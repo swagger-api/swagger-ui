@@ -59,6 +59,7 @@ export default class OtpJwtAuth extends React.Component {
     this.setState({ email: "", otp: ""})
     errActions.clear({ authId: name })
     authActions.logout([ name ])
+    authActions.showDefinitions(false)
   }
 
   render() {
@@ -67,53 +68,42 @@ export default class OtpJwtAuth extends React.Component {
     const Row = getComponent("Row")
     const Col = getComponent("Col")
     const Button = getComponent("Button")
-    const AuthError = getComponent("authError")
 
     let authorizedAuth = authSelectors.authorized()
     let isAuthorized = !!authorizedAuth.get(name)
-    let isOtpSent = !!authorizedAuth.get("otpSent")
+    let isOtpSent = !!authSelectors.otpSent()
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
     return (
-      <div>
-        <Row>
-          <label htmlFor="jwt_email">Email:</label>
-          <Col>
-            <Input id="jwt_email"
-                   type="email"
-                   value={this.state.email}
-                   required="required"
-                   data-name="email"
-                   onChange={ this.onChange }
-                   disabled={ isAuthorized } />
-          </Col>
-        </Row>
-        <Row>
-          <label htmlFor="jwt_otp">OTP:</label>
-          <Col>
-            <Input id="jwt_otp"
-                   type="text"
-                   value={this.state.otp}
-                   required="required"
-                   data-name="otp"
-                   onChange={ this.onChange }
-                   disabled={ isAuthorized } />
-          </Col>
-        </Row>
-        <div className="auth-msg-wrapper">
-          {
-            errors.valueSeq().map( (error, key) => {
-              return <AuthError error={ error }
-                                key={ key }/>
-            } )
-          }
-          {
-            isOtpSent ? <div className="info" style={{ backgroundColor: "#eeffee", color: "green" }}>
-                          <span>OTP sent. Please check your email inbox.</span>
-                        </div>
-                      : null
-          }
-        </div>
+      <div className="otp-form">
+        {!isAuthorized &&
+          <div>
+            <Row className="field">
+              <label htmlFor="jwt_email">Email</label>
+              <Col className="input-group">
+                <Input id="jwt_email"
+                      type="email"
+                      value={this.state.email}
+                      required="required"
+                      data-name="email"
+                      onChange={ this.onChange }
+                      disabled={ isAuthorized } />
+              </Col>
+            </Row>
+            <Row className="field">
+              <label htmlFor="jwt_otp">OTP</label>
+              <Col className="input-group">
+                <Input id="jwt_otp"
+                      type="text"
+                      value={this.state.otp}
+                      required="required"
+                      data-name="otp"
+                      onChange={ this.onChange }
+                      disabled={ isAuthorized } />
+              </Col>
+            </Row>
+          </div>
+        }
         <div className="auth-btn-wrapper">
         { isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
                        : <div>
@@ -121,6 +111,22 @@ export default class OtpJwtAuth extends React.Component {
                            <Button className="btn modal-btn auth authorize" onClick={ this.authorize } disabled={ !this.state.email || !this.state.otp }>Authorize</Button>
                          </div>
         }
+        </div>
+        <div className="auth-msg-wrapper">
+          {
+            errors.valueSeq().map( (error, key) => {
+              return (<div key={key} className="login-error">
+                {error.get("message")}
+              </div>)
+            } )
+
+          }
+          {
+            isOtpSent ? <div className="login-info">
+                          OTP sent. Please check your email inbox.
+                        </div>
+                      : null
+          }
         </div>
 
       </div>

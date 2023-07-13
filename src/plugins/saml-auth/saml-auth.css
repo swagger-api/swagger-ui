@@ -1,0 +1,103 @@
+/* Auth options */
+.definition-select {
+  padding: 25px 0 15px;
+}
+
+.swagger-ui .modal-ux-content .btn.definition-option-btn {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 15px;
+  line-height: 150%;
+  text-align: left;
+  width: 100%;
+}
+
+.swagger-ui .modal-ux-content .btn.definition-option-btn p {
+  font-family: Titillium Web, sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+/* Auth form */
+.saml-auth {
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  align-items: baseline;
+}
+
+.swagger-ui .field label {
+  width: 20%;
+  font-size: 14px;
+}
+
+.field .input-group {
+  flex: 1;
+}
+
+/* Auth info */
+.login-error, .login-info {
+  font-family: Open Sans, sans-serif;
+  display: flex;
+  margin: 15px 0px;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.login-error {
+  color: #e01f27;
+}
+
+.login-info {
+  color: #80cbc4;
+}
+
+.swagger-ui .dialog-ux div.modal-ux-content p.login-disclaimer {
+  margin-top: auto;
+  padding: 15px;
+  background: #f3fffe;
+  font-weight: 300;
+  line-height: 125%;
+  border-radius: 4px;
+}
+
+/* Overrides AuthorizationPopup */
+.modal-ux-content .auth-container {
+  border: none;
+}
+
+.swagger-ui .dialog-ux div.modal-ux {
+  height: 580px;
+  width: 560px;
+}
+
+.modal-dialog-ux,
+.modal-ux-inner,
+div.modal-ux-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-ux-header .logo {
+  height: 50px;
+  width: 250px;
+  margin-top: 30px;
+  flex: none;
+}
+
+.swagger-ui .dialog-ux div.modal-ux-header {
+  justify-content: center;
+  padding: 0px;
+  border-bottom: none;
+}
+
+.swagger-ui .dialog-ux .modal-ux-header .close-modal {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}

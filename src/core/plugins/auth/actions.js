@@ -256,7 +256,7 @@ export const authorizeBasicToken = ( auth ) => ( { fn, authActions, errActions }
     // workaround for actual error response, e.g. failed authentication, masked
     // by general failed to fetch error due to missing CORS header from rowdy
     // for error responses
-    err.message = 'Unauthorized. Please check your username and password.'
+    err.message = "Unauthorized. Please check your username and password."
 
     errActions.newAuthErr( {
       authId: name,
@@ -267,12 +267,12 @@ export const authorizeBasicToken = ( auth ) => ( { fn, authActions, errActions }
   })
 }
 
-export const sendOtp = ( auth ) => ( { fn, authActions, errActions } ) => {
+export const sendOtp = ( auth ) => ( { fn, authActions, errActions, specSelectors } ) => {
   authActions.receiveOtp(false)
 
-  let { schema, name, email } = auth
+  let { name, email } = auth
 
-  let fetchUrl = urljoin(schema.get("tokenUrl"), "/otps")
+  let fetchUrl = urljoin(specSelectors.tokenUrl(), "/otps")
   let body = JSON.stringify({ email })
 
   let headers = {
@@ -322,74 +322,71 @@ export const sendOtp = ( auth ) => ( { fn, authActions, errActions } ) => {
       level: "",
       source: "",
       message: err.message
-    } )
+    })
+
   })
 }
 
-export const authorizeOtpToken = ( auth ) => ( { fn, authActions, errActions } ) => {
-  authActions.receiveOtp(false)
-
-  let { schema, name, email, otp } = auth
-
-  let fetchUrl = urljoin(schema.get("tokenUrl"), "/tokens")
-
-  let query = {
-    service: schema.get("service"),
-    expiry: schema.get("tokenExpiry")
+export const exchangeToken = (fn, specSelectors, body) => {
+  const fetchUrl = urljoin(specSelectors.tokenUrl(), "/tokens")
+  const query = {
+    service: specSelectors.service(),
+    expiry: specSelectors.tokenExpiry()
   }
-
-  let body = JSON.stringify({ email, otp })
-
-  let headers = {
-    "Accept":"application/json, text/plain, */*",
+  const headers = {
+    "Accept": "application/json",
     "Content-Type": "application/json"
   }
 
-  fn.fetch({
+  return fn.fetch({
     url: fetchUrl,
     method: "post",
     headers,
     query,
-    body
-  })
-  .then(function (response) {
-    let response_data = JSON.parse(response.data)
-    let error = response_data && ( response_data.error || "" )
-    let parseError = response_data && ( response_data.parseError || "" )
+    body: JSON.stringify(body)
+  }).then((response) => {
+    const data = JSON.parse(response.data)
+    const error = data && ( data.error || "" )
+    let parseError = data && ( data.parseError || "" )
 
     if ( !response.ok ) {
-      errActions.newAuthErr( {
-        authId: name,
-        level: "error",
-        source: "auth",
-        message: response.statusText
-      } )
-      return
+      throw new Error(response.statusText)
     }
-
     if ( error || parseError ) {
-      errActions.newAuthErr({
-        authId: name,
-        level: "error",
-        source: "auth",
-        message: JSON.stringify(response_data)
-      })
-      return
+      throw new Error(JSON.stringify(data))
     }
 
-    auth.token = response_data.token
-    auth.email = email
-    authActions.authorize({ auth })
+    return data.token
+  })
+}
+
+export const authorizeOtpToken = ( auth ) => ( { fn, authActions, errActions, specSelectors } ) => {
+  authActions.receiveOtp(false)
+
+  let { name: authId, email, otp } = auth
+
+  exchangeToken(fn, specSelectors, { email, otp })
+  .then(function (token) {
+    authActions.authorize({
+      [authId]: {
+        ...auth,
+        email,
+        token,
+      }
+    })
+
+    authActions.showDefinitions(false)
   })
   .catch(e => {
-    let err = new Error(e)
-    err.message = "Unauthorized. " + e.response.body.message
+    const errMessage = e.response && e.response.body
+    ? e.response.body.message // prioritise response error
+    : e.message // normal error message
 
     errActions.newAuthErr( {
-      authId: name,
+      authId,
       level: "",
       source: "",
-      message: err.message
-    } )
+      message: `Unauthorized. ${errMessage}`
+    })
   })
 }

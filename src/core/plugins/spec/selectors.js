@@ -149,10 +149,24 @@ export const email = createSelector(
     spec => spec.get("email")
 )
 
-
 export const copyright = createSelector(
     spec,
     spec => spec.get("copyright")
+)
+
+export const tokenUrl = createSelector(
+  spec,
+  spec => spec.get("tokenUrl")
+)
+
+export const service = createSelector(
+  spec,
+  spec => spec.get("service")
+)
+
+export const tokenExpiry = createSelector(
+  spec,
+  spec => spec.get("tokenExpiry")
 )
 
 export const schemes = createSelector(

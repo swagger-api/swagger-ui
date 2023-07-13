@@ -8,7 +8,8 @@ export default class Auths extends React.Component {
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired
+    errSelectors: PropTypes.object.isRequired,
+    samlAuthActions: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -43,24 +44,25 @@ export default class Auths extends React.Component {
   }
 
   render() {
-    let { definitions, getComponent, authSelectors, errSelectors } = this.props
+    const {
+      definitions, getComponent, authSelectors, errSelectors, samlAuthActions
+    } = this.props
+
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
     const BasicJwtAuth = getComponent("basicJwtAuth", true)
     const OtpJwtAuth = getComponent("otpJwtAuth", true)
+    const SamlAuth = getComponent("samlAuth", true)
     const Oauth2 = getComponent("oauth2", true)
-    const Button = getComponent("Button")
 
     let authorized = authSelectors.authorized()
-
-    let authorizedAuth = definitions.filter( (definition, key) => {
-      return !!authorized.get(key)
-    })
-
-    let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2" && !(schema.get("type") === "apiKey" && schema.get("tokenUrl")))
+    let isOtpAuthDefinition = (schema) => schema.get("type") === "apiKey" && schema.get("otp")
+    let isSamlAuthDefinition = (schema) => schema.get("type") === "apiKey" && schema.get("saml")
+    let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2" && !isOtpAuthDefinition(schema) && !isSamlAuthDefinition(schema))
     let oauthDefinitions = definitions.filter( schema => schema.get("type") === "oauth2")
-    let basicJwtDefinitions = definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl") && !schema.get("otp"))
-    let otpJwtDefinitions = definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl") && schema.get("otp"))
+    let basicJwtDefinitions = definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl") && !schema.get("otp") && !schema.get("saml"))
+    let otpJwtDefinitions = definitions.filter(isOtpAuthDefinition)
+    let samlDefinitions = definitions.filter(isSamlAuthDefinition)
 
     return (
       <div className="auth-container">
@@ -97,12 +99,6 @@ export default class Auths extends React.Component {
 
               }).toArray()
             }
-            <div className="auth-btn-wrapper">
-              {
-                nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick }>Logout</Button>
-              : <Button type="submit" className="btn modal-btn auth authorize">Authorize</Button>
-              }
-            </div>
           </form>
         }
 
@@ -155,16 +151,27 @@ export default class Auths extends React.Component {
           </div> : null
         }
 
+
+        {
+          samlDefinitions && samlDefinitions.size ? <div>
+            {
+              samlDefinitions.map( (schema, name) =>{
+                  return (<div key={ name }>
+                    <SamlAuth
+                      schema={schema}
+                      name={name}
+                      authorized={authorized}
+                      getComponent={getComponent}
+                      samlAuthActions={samlAuthActions}
+                    />
+                  </div>)
+                }
+                ).toArray()
+            }
+          </div> : null
+        }
+
       </div>
     )
-  }
-
-  static propTypes = {
-    errSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    authSelectors: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
   }
 }
