@@ -33,7 +33,7 @@ These props map to [Swagger UI configuration options](https://github.com/swagger
 
 #### `spec`: PropTypes.object
 
-An OpenAPI document respresented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
+An OpenAPI document represented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
 
 ⚠️ Don't use this in conjunction with `url` - unpredictable behavior may occur.
 
