@@ -55,7 +55,7 @@ export const authenticateWithSamlToken = (authId, schema, samlToken, done) =>
 
 export const loginSaml = () => async ({ specSelectors }) => {
   const loginUrl = `${specSelectors.service()}/saml/sso`
-  const redirectUrl = encodeURIComponent(window.location.origin)
+  const redirectUrl = encodeURIComponent(window.location.href)
 
   window.location.href = urljoin(loginUrl, `?RelayState=${redirectUrl}`)
 }
@@ -63,7 +63,7 @@ export const loginSaml = () => async ({ specSelectors }) => {
 export const logoutSaml = (name) =>
     async ( { authSelectors, specSelectors } ) => {
   const logoutUrl = `${specSelectors.service()}/saml/slo`
-  const redirectUrl = encodeURIComponent(window.location.origin)
+  const redirectUrl = encodeURIComponent(window.location.href)
   const email = authSelectors.authorized().getIn([name, "email"])
 
   window.location.href = urljoin(logoutUrl, `?email=${email}&RelayState=${redirectUrl}`)
