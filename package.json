@@ -175,7 +175,7 @@
     "rimraf": "^5.0.1",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.0",
-    "sinon": "=15.1.0",
+    "sinon": "=15.2.0",
     "source-map-support": "^0.5.21",
     "start-server-and-test": "^2.0.0",
     "stream-browserify": "^3.0.0",
