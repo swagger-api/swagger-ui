@@ -9,7 +9,6 @@
   If you're refactoring something in here, feel free to break it out to a file
   in `./helpers` if you have the time.
 */
-
 import Im, { fromJS, Set } from "immutable"
 import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
 import camelCase from "lodash/camelCase"
@@ -19,14 +18,11 @@ import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
 import isFunction from "lodash/isFunction"
-import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
 import randomBytes from "randombytes"
 import shaJs from "sha.js"
-import YAML, { JSON_SCHEMA } from "js-yaml"
-
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -599,84 +595,12 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 
   let paramRequired = param.get("required")
 
-  let { schema: paramDetails, parameterContentMediaType } = getParameterSchema(param, { isOAS3 })
+  let {
+    schema: paramDetails,
+    parameterContentMediaType
+  } = getParameterSchema(param, { isOAS3 })
 
   return validateValueBySchema(value, paramDetails, paramRequired, bypassRequiredCheck, parameterContentMediaType)
-}
-
-const getXmlSampleSchema = (schema, config, exampleOverride) => {
-  if (schema && !schema.xml) {
-    schema.xml = {}
-  }
-  if (schema && !schema.xml.name) {
-    if (!schema.$$ref && (schema.type || schema.items || schema.properties || schema.additionalProperties)) {
-      return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
-    }
-    if (schema.$$ref) {
-      let match = schema.$$ref.match(/\S*\/(\S+)$/)
-      schema.xml.name = match[1]
-    }
-  }
-
-  return memoizedCreateXMLExample(schema, config, exampleOverride)
-}
-
-const shouldStringifyTypesConfig = [
-  {
-    when: /json/,
-    shouldStringifyTypes: ["string"]
-  }
-]
-
-const defaultStringifyTypes = ["object"]
-
-const getStringifiedSampleForSchema = (schema, config, contentType, exampleOverride) => {
-  const res = memoizedSampleFromSchema(schema, config, exampleOverride)
-  const resType = typeof res
-
-  const typesToStringify = shouldStringifyTypesConfig.reduce(
-    (types, nextConfig) => nextConfig.when.test(contentType)
-      ? [...types, ...nextConfig.shouldStringifyTypes]
-      : types,
-    defaultStringifyTypes)
-
-  return some(typesToStringify, x => x === resType)
-    ? JSON.stringify(res, null, 2)
-    : res
-}
-
-const getYamlSampleSchema = (schema, config, contentType, exampleOverride) => {
-  const jsonExample = getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
-  let yamlString
-  try {
-    yamlString = YAML.dump(YAML.load(jsonExample), {
-
-      lineWidth: -1 // don't generate line folds
-    }, { schema: JSON_SCHEMA })
-    if(yamlString[yamlString.length - 1] === "\n") {
-      yamlString = yamlString.slice(0, yamlString.length - 1)
-    }
-  } catch (e) {
-    console.error(e)
-    return "error: could not generate yaml example"
-  }
-  return yamlString
-    .replace(/\t/g, "  ")
-}
-
-export const getSampleSchema = (schema, contentType="", config={}, exampleOverride = undefined) => {
-  if(schema && isFunc(schema.toJS))
-    schema = schema.toJS()
-  if(exampleOverride && isFunc(exampleOverride.toJS))
-    exampleOverride = exampleOverride.toJS()
-
-  if (/xml/.test(contentType)) {
-    return getXmlSampleSchema(schema, config, exampleOverride)
-  }
-  if (/(yaml|yml)/.test(contentType)) {
-    return getYamlSampleSchema(schema, config, contentType, exampleOverride)
-  }
-  return getStringifiedSampleForSchema(schema, config, contentType, exampleOverride)
 }
 
 export const parseSearch = () => {
