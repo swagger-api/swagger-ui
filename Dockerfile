@@ -4,7 +4,7 @@
 
 FROM nginx:1.25.1-alpine
 
-RUN apk update && apk add --no-cache "nodejs>=18.14.1-r0 "
+RUN apk update && apk add --no-cache "nodejs>=18.14.1-r0 " && apk del tiff nginx-module-image-filter
 
 LABEL maintainer="fehguy"
 
