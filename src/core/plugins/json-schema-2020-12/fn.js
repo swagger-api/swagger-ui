@@ -117,7 +117,15 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
     ? type.map((t) => (t === "array" ? getArrayType() : t)).join(" | ")
     : type === "array"
     ? getArrayType()
-    : ["null", "boolean", "object", "array", "number", "string"].includes(type)
+    : [
+        "null",
+        "boolean",
+        "object",
+        "array",
+        "number",
+        "integer",
+        "string",
+      ].includes(type)
     ? type
     : inferType()
 
