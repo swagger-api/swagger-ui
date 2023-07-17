@@ -124,7 +124,7 @@ SwaggerUI.propTypes = {
 }
 
 SwaggerUI.defaultProps = {
-  spec: {},
+  spec: "",
   url: "",
   layout: "BaseLayout",
   requestInterceptor: req => req,
