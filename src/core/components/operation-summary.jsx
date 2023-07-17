@@ -59,6 +59,9 @@ export default class OperationSummary extends PureComponent {
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
     const CopyToClipboardBtn = getComponent("CopyToClipboardBtn", true)
+    
+    const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
+    const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
 
     const hasSecurity = security && !!security.count()
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
@@ -82,14 +85,14 @@ export default class OperationSummary extends PureComponent {
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
 
-          <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
-            <use href={isShown ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={isShown ? "#large-arrow-up" : "#large-arrow-down"} />
-          </svg>
+          {isShown ? <LargeArrowUpIcon className="arrow" /> : <LargeArrowDownIcon className="arrow" />}
+          
         </button>
 
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn
+              getComponent={getComponent}
               isAuthorized={isAuthorized}
               onClick={() => {
                 const applicableDefinitions = authSelectors.definitionsForRequirements(security)
@@ -97,7 +100,10 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
-        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
+        <CopyToClipboardBtn 
+          getComponent={getComponent} 
+          textToCopy={`${specPath.get(1)}`} 
+        />
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
       </div>
     )

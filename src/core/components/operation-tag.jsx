@@ -54,6 +54,9 @@ export default class OperationTag extends React.Component {
     const DeepLink = getComponent("DeepLink")
     const Link = getComponent("Link")
 
+    const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
+    const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
+
     let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
     let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
@@ -107,9 +110,7 @@ export default class OperationTag extends React.Component {
             title={showTag ? "Collapse operation" : "Expand operation"}
             onClick={() => layoutActions.show(isShownKey, !showTag)}>
 
-            <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
-              <use href={showTag ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={showTag ? "#large-arrow-up" : "#large-arrow-down"} />
-            </svg>
+            {showTag ? <LargeArrowUpIcon className="arrow" /> : <LargeArrowDownIcon className="arrow" />}
           </button>
         </h3>
 

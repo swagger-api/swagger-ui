@@ -57,6 +57,9 @@ export default class Models extends Component {
     const ModelCollapse = getComponent("ModelCollapse")
     const JumpToPath = getComponent("JumpToPath", true)
 
+    const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
+    const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
+
     return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
       <h4>
         <button
@@ -65,9 +68,7 @@ export default class Models extends Component {
           onClick={() => layoutActions.show(specPathBase, !showModels)}
         >
           <span>{isOAS3 ? "Schemas" : "Models"}</span>
-          <svg width="20" height="20" aria-hidden="true" focusable="false">
-            <use xlinkHref={showModels ? "#large-arrow-up" : "#large-arrow-down"} />
-          </svg>
+          {showModels ? <LargeArrowUpIcon /> : <LargeArrowDownIcon />}
         </button>
       </h4>
       <Collapse isOpened={showModels}>
