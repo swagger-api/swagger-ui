@@ -231,22 +231,25 @@ const stringifyConstraintNumberRange = (schema) => {
   const hasMaximum = typeof maximum === "number"
   const hasExclusiveMinimum = typeof exclusiveMinimum === "number"
   const hasExclusiveMaximum = typeof exclusiveMaximum === "number"
-  const isMinExclusive = hasExclusiveMinimum && minimum < exclusiveMinimum
-  const isMaxExclusive = hasExclusiveMaximum && maximum > exclusiveMaximum
+  const isMinExclusive = hasExclusiveMinimum && (!hasMinimum || minimum < exclusiveMinimum) // prettier-ignore
+  const isMaxExclusive = hasExclusiveMaximum && (!hasMaximum || maximum > exclusiveMaximum) // prettier-ignore
 
-  if (hasMinimum && hasMaximum) {
+  if (
+    (hasMinimum || hasExclusiveMinimum) &&
+    (hasMaximum || hasExclusiveMaximum)
+  ) {
     const minSymbol = isMinExclusive ? "(" : "["
     const maxSymbol = isMaxExclusive ? ")" : "]"
     const minValue = isMinExclusive ? exclusiveMinimum : minimum
     const maxValue = isMaxExclusive ? exclusiveMaximum : maximum
     return `${minSymbol}${minValue}, ${maxValue}${maxSymbol}`
   }
-  if (hasMinimum) {
+  if (hasMinimum || hasExclusiveMinimum) {
     const minSymbol = isMinExclusive ? ">" : "≥"
     const minValue = isMinExclusive ? exclusiveMinimum : minimum
     return `${minSymbol} ${minValue}`
   }
-  if (hasMaximum) {
+  if (hasMaximum || hasExclusiveMaximum) {
     const maxSymbol = isMaxExclusive ? "<" : "≤"
     const maxValue = isMaxExclusive ? exclusiveMaximum : maximum
     return `${maxSymbol} ${maxValue}`
