@@ -37,7 +37,7 @@ export default class SwaggerUI extends React.Component {
       filter: this.props.filter,
       persistAuthorization: this.props.persistAuthorization,
       withCredentials: this.props.withCredentials,
-      ...(typeof this.props.oauth2RedirectUrl === 'string' ? { oauth2RedirectUrl: this.props.oauth2RedirectUrl} : {})
+      ...(typeof this.props.oauth2RedirectUrl === "string" ? { oauth2RedirectUrl: this.props.oauth2RedirectUrl} : {})
     })
 
     this.system = ui
