@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const Unlocked = ({
+const UnlockedAuthOperationBtn = ({
     className = null,
     width = 20,
     height = 20
@@ -22,10 +22,10 @@ const Unlocked = ({
     </svg>
 )
 
-Unlocked.propTypes = {
+UnlockedAuthOperationBtn.propTypes = {
     className: PropTypes.string,
     width: PropTypes.string,
     height: PropTypes.string,
 }
 
-export default Unlocked
+export default UnlockedAuthOperationBtn
