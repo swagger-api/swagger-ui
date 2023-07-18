@@ -12,7 +12,6 @@ export default class AuthorizationPopup extends React.Component {
     let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
-
     const CloseIcon = getComponent("CloseIcon")
 
     return (

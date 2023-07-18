@@ -21,7 +21,6 @@ const Models = ({
   const isOpen = layoutSelectors.isShown(schemasPath, isOpenDefault)
   const Collapse = getComponent("Collapse")
   const JSONSchema202012 = getComponent("JSONSchema202012")
-
   const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
   const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
 

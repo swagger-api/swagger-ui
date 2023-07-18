@@ -56,7 +56,6 @@ export default class Models extends Component {
     const Collapse = getComponent("Collapse")
     const ModelCollapse = getComponent("ModelCollapse")
     const JumpToPath = getComponent("JumpToPath", true)
-
     const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
     const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
 

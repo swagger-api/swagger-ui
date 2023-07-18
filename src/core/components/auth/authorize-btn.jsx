@@ -14,7 +14,6 @@ export default class AuthorizeBtn extends React.Component {
 
     //must be moved out of button component
     const AuthorizationPopup = getComponent("authorizationPopup", true)
-
     const LockedIcon = getComponent("LockedIcon")
     const UnlockedIcon = getComponent("UnlockedIcon")
 

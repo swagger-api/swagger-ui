@@ -54,12 +54,11 @@ export default class OperationSummary extends PureComponent {
 
     let security = operationProps.get("security")
 
-    const AuthorizeOperationBtn = getComponent("authorizeOperationBtn")
+    const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
     const CopyToClipboardBtn = getComponent("CopyToClipboardBtn", true)
-    
     const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
     const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
 
@@ -92,7 +91,6 @@ export default class OperationSummary extends PureComponent {
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn
-              getComponent={getComponent}
               isAuthorized={isAuthorized}
               onClick={() => {
                 const applicableDefinitions = authSelectors.definitionsForRequirements(security)
@@ -101,7 +99,6 @@ export default class OperationSummary extends PureComponent {
             />
         }
         <CopyToClipboardBtn 
-          getComponent={getComponent} 
           textToCopy={`${specPath.get(1)}`} 
         />
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
