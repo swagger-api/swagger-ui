@@ -24,10 +24,10 @@ export default class AuthorizeOperationBtn extends React.Component {
     const UnlockedAuthOperationBtnIcon = getComponent("UnlockedAuthOperationBtnIcon")
 
     return (
-      <button className={isAuthorized ? "authorization__btn locked" : "authorization__btn unlocked"}
+      <button className="authorization__btn"
         aria-label={isAuthorized ? "authorization button locked" : "authorization button unlocked"}
         onClick={this.onClick}>
-        {isAuthorized ? <LockedAuthOperationBtnIcon /> : <UnlockedAuthOperationBtnIcon />}
+        {isAuthorized ? <LockedAuthOperationBtnIcon className="locked" /> : <UnlockedAuthOperationBtnIcon className="unlocked"/>}
       </button>
 
     )
