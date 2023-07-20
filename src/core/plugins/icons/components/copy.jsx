@@ -4,11 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const Copy = ({
-    className = null,
-    width = 15,
-    height = 16
-}) => (
+const Copy = ({ className, width, height }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 15 16"
@@ -31,6 +27,12 @@ Copy.propTypes = {
     className: PropTypes.string,
     width: PropTypes.string,
     height: PropTypes.string,
+}
+
+Copy.defaultProps = {
+    className: null,
+    width: 15,
+    height: 16,
 }
 
 export default Copy
