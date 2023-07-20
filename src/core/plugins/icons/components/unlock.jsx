@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const UnlockedAuth = ({ className, width, height }) => (
+const Unlock = ({ className, width, height }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
@@ -18,16 +18,16 @@ const UnlockedAuth = ({ className, width, height }) => (
     </svg>
 )
 
-UnlockedAuth.propTypes = {
+Unlock.propTypes = {
     className: PropTypes.string,
     width: PropTypes.string,
     height: PropTypes.string,
 }
 
-UnlockedAuth.defaultProps = {
+Unlock.defaultProps = {
     className: null,
     width: 20,
     height: 20,
 }
 
-export default UnlockedAuth
+export default Unlock

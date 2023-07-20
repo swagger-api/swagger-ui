@@ -59,8 +59,8 @@ export default class OperationSummary extends PureComponent {
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
     const CopyToClipboardBtn = getComponent("CopyToClipboardBtn", true)
-    const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
-    const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
+    const ArrowUpIcon = getComponent("ArrowUpIcon")
+    const ArrowDownIcon = getComponent("ArrowDownIcon")
 
     const hasSecurity = security && !!security.count()
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
@@ -84,7 +84,7 @@ export default class OperationSummary extends PureComponent {
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
 
-          {isShown ? <LargeArrowUpIcon className="arrow" /> : <LargeArrowDownIcon className="arrow" />}
+          {isShown ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
           
         </button>
 

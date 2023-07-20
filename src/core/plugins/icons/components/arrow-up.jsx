@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const LargeArrowUp = ({ className, width, height }) => (
+const ArrowUp = ({ className, width, height }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
@@ -18,16 +18,16 @@ const LargeArrowUp = ({ className, width, height }) => (
   </svg>
 )
 
-LargeArrowUp.propTypes = {
+ArrowUp.propTypes = {
   className: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
 }
 
-LargeArrowUp.defaultProps = {
+ArrowUp.defaultProps = {
   className: null,
   width: 20,
   height: 20,
 }
 
-export default LargeArrowUp
+export default ArrowUp

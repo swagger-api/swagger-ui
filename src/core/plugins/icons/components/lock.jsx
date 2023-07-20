@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const LockedAuth = ({ className, width, height }) => (
+const Lock = ({ className, width, height }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
@@ -18,16 +18,16 @@ const LockedAuth = ({ className, width, height }) => (
     </svg>
 )
 
-LockedAuth.propTypes = {
+Lock.propTypes = {
     className: PropTypes.string,
     width: PropTypes.string,
     height: PropTypes.string,
 }
 
-LockedAuth.defaultProps = {
+Lock.defaultProps = {
     className: null,
     width: 20,
     height: 20,
 }
 
-export default LockedAuth
+export default Lock

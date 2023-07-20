@@ -40,8 +40,8 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
   const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
   const rootRef = useRef(null)
 
-  const LargeArrowIcon = getComponent("LargeArrowUpIcon")
-  const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
+  const ArrowIcon = getComponent("ArrowUpIcon")
+  const ArrowDownIcon = getComponent("ArrowDownIcon")
 
   const [activeLanguage, setActiveLanguage] = useState(requestSnippetsSelectors.getSnippetGenerators()?.keySeq().first())
   const [isExpanded, setIsExpanded] = useState(requestSnippetsSelectors?.getDefaultExpanded())
@@ -122,7 +122,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
           style={{ border: "none", background: "none" }}
           title={isExpanded ? "Collapse operation" : "Expand operation"}
         >
-          {isExpanded ? <LargeArrowDownIcon className="arrow" width="10" height="10" /> : <LargeArrowIcon className="arrow" width="10" height="10" />}
+          {isExpanded ? <ArrowDownIcon className="arrow" width="10" height="10" /> : <ArrowIcon className="arrow" width="10" height="10" />}
         </button>
       </div>
       {

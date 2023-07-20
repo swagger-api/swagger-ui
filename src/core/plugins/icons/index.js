@@ -1,27 +1,23 @@
 /**
  * @prettier
  */
-import LargeArrowUpIcon from "./components/large-arrow-up"
-import LargeArrowDownIcon from "./components/large-arrow-down"
-import LargeArrowIcon from "./components/large-arrow"
-import LockedAuthIcon from "./components/locked-auth"
-import UnlockedAuthIcon from "./components/unlocked-auth"
-import LockedAuthOperationIcon from "./components/locked-auth-operation"
-import UnlockedAuthOperationIcon from "./components/unlocked-auth-operation"
-import CopyIcon from "./components/copy"
+import ArrowUpIcon from "./components/arrow-up"
+import ArrowDownIcon from "./components/arrow-down"
+import ArrowIcon from "./components/arrow"
 import CloseIcon from "./components/close"
+import CopyIcon from "./components/copy"
+import LockIcon from "./components/lock"
+import UnlockIcon from "./components/unlock"
 
 const IconsPlugin = () => ({
     components: {
-        LargeArrowUpIcon,
-        LargeArrowDownIcon,
-        LargeArrowIcon,
-        LockedAuthIcon,
-        UnlockedAuthIcon,
-        LockedAuthOperationIcon,
-        UnlockedAuthOperationIcon,
-        CopyIcon,
+        ArrowUpIcon,
+        ArrowDownIcon,
+        ArrowIcon,
         CloseIcon,
+        CopyIcon,
+        LockIcon,
+        UnlockIcon,
     }
 })
 

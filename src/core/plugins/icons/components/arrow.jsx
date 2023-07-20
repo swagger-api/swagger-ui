@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const LargeArrow = ({ className, width, height }) => (
+const Arrow = ({ className, width, height }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
@@ -18,16 +18,16 @@ const LargeArrow = ({ className, width, height }) => (
   </svg>
 )
 
-LargeArrow.propTypes = {
+Arrow.propTypes = {
   className: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
 }
 
-LargeArrow.defaultProps = {
+Arrow.defaultProps = {
   className: null,
   width: 20,
   height: 20,
 }
 
-export default LargeArrow
+export default Arrow

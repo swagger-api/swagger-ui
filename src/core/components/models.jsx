@@ -56,8 +56,8 @@ export default class Models extends Component {
     const Collapse = getComponent("Collapse")
     const ModelCollapse = getComponent("ModelCollapse")
     const JumpToPath = getComponent("JumpToPath", true)
-    const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
-    const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
+    const ArrowUpIcon = getComponent("ArrowUpIcon")
+    const ArrowDownIcon = getComponent("ArrowDownIcon")
 
     return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
       <h4>
@@ -67,7 +67,7 @@ export default class Models extends Component {
           onClick={() => layoutActions.show(specPathBase, !showModels)}
         >
           <span>{isOAS3 ? "Schemas" : "Models"}</span>
-          {showModels ? <LargeArrowUpIcon /> : <LargeArrowDownIcon />}
+          {showModels ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </button>
       </h4>
       <Collapse isOpened={showModels}>

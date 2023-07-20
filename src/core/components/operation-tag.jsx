@@ -53,8 +53,8 @@ export default class OperationTag extends React.Component {
     const Markdown = getComponent("Markdown", true)
     const DeepLink = getComponent("DeepLink")
     const Link = getComponent("Link")
-    const LargeArrowUpIcon = getComponent("LargeArrowUpIcon")
-    const LargeArrowDownIcon = getComponent("LargeArrowDownIcon")
+    const ArrowUpIcon = getComponent("ArrowUpIcon")
+    const ArrowDownIcon = getComponent("ArrowDownIcon")
 
     let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
@@ -109,7 +109,7 @@ export default class OperationTag extends React.Component {
             title={showTag ? "Collapse operation" : "Expand operation"}
             onClick={() => layoutActions.show(isShownKey, !showTag)}>
 
-            {showTag ? <LargeArrowUpIcon className="arrow" /> : <LargeArrowDownIcon className="arrow" />}
+            {showTag ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
           </button>
         </h3>
 
