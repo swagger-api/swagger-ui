@@ -4,10 +4,10 @@
 import LargeArrowUpIcon from "./components/large-arrow-up"
 import LargeArrowDownIcon from "./components/large-arrow-down"
 import LargeArrowIcon from "./components/large-arrow"
-import LockedAuthBtnIcon from "./components/locked-auth-btn"
-import UnlockedAuthBtnIcon from "./components/unlocked-auth-btn"
-import LockedAuthOperationBtnIcon from "./components/locked-auth-operation-btn"
-import UnlockedAuthOperationBtnIcon from "./components/unlocked-auth-operation-btn"
+import LockedAuthIcon from "./components/locked-auth"
+import UnlockedAuthIcon from "./components/unlocked-auth"
+import LockedAuthOperationIcon from "./components/locked-auth-operation"
+import UnlockedAuthOperationIcon from "./components/unlocked-auth-operation"
 import CopyIcon from "./components/copy"
 import CloseIcon from "./components/close"
 
@@ -16,10 +16,10 @@ const IconsPlugin = () => ({
         LargeArrowUpIcon,
         LargeArrowDownIcon,
         LargeArrowIcon,
-        LockedAuthBtnIcon,
-        UnlockedAuthBtnIcon,
-        LockedAuthOperationBtnIcon,
-        UnlockedAuthOperationBtnIcon,
+        LockedAuthIcon,
+        UnlockedAuthIcon,
+        LockedAuthOperationIcon,
+        UnlockedAuthOperationIcon,
         CopyIcon,
         CloseIcon,
     }

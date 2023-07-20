@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const LockedAuthOperationBtn = ({
+const LockedAuth = ({
     className = null,
     width = 20,
     height = 20
@@ -22,10 +22,10 @@ const LockedAuthOperationBtn = ({
     </svg>
 )
 
-LockedAuthOperationBtn.propTypes = {
+LockedAuth.propTypes = {
     className: PropTypes.string,
     width: PropTypes.string,
     height: PropTypes.string,
 }
 
-export default LockedAuthOperationBtn
+export default LockedAuth
