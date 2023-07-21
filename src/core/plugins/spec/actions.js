@@ -267,8 +267,6 @@ const debResolveSubtrees = debounce(async () => {
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
-  if(path.length < 1)
-    return;
 
   // poor-man's array comparison
   // if this ever inadequate, this should be rewritten to use Im.List
