@@ -148,7 +148,7 @@ const debResolveSubtrees = debounce(async () => {
     const specUrl = requestBatchForSpec;
     const requestBatchesForSpec = requestBatch[requestBatchForSpec].map(r => r.path);
     //Assume all system are the same for a given specUrl
-    const system = requestBatch[requestBatchForSpec][0].system; 
+    const system = requestBatch[requestBatchForSpec].system; 
 
     if(!system) {
       console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
@@ -273,7 +273,8 @@ export const requestResolvedSubtree = path => system => {
 
   const specUrl = system.spec().get('url');
   requestBatch[specUrl] ??= [];
-  requestBatch[specUrl].push({path, system});
+  requestBatch[specUrl].push({path});
+  requestBatch[specUrl].system = system;
   
   debResolveSubtrees();
 }
