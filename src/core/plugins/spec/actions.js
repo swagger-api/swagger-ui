@@ -138,39 +138,10 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     })
 }
 
-let requestBatch = Array();
-
-const addToRequestBatch = (item, system) => {
-  //NOTE: requestBatch isn't updated via a redux reducer as they are scoped to `spec` properties or actions currently and
-  //      updating anything in the spec causes re-rendering (and re-evaluation of the subtrees; causing infinite looping)
-  //NOTE: we must not assume a single `system` object for all requests as we can have mutliple instances of this running at once
-  //      so system needs to be specified per request, not for all in the batch
-
-  const specUrl = system.spec().get('url');
-
-  if(specUrl.length < 1){
-    debugger;
-  }
-    
-
-  if(requestBatch[specUrl] === undefined){
-    requestBatch[specUrl] = [];
-  }
-
-  console.log(`Added requestBatch item for: ${item} for specUrl: ${specUrl}`)
-  requestBatch[specUrl].push([item, system]);
-}
-
-const clearRequestBatchForSpec = (specUrl) => {
-  delete requestBatch[specUrl];
-}
+let requestBatch = [];
 
 const debResolveSubtrees = debounce(async () => {
 
-
-    
-
-  //TODO: don't add empty arrays, then we don't need to filter them
   for(let requestBatchForSpec in requestBatch){
    
     //TODO: work out why this is needed
@@ -286,11 +257,7 @@ const debResolveSubtrees = debounce(async () => {
         specWithCurrentSubtrees: specSelectors.specJS()
       }))
   
-      // delete requestBatch.system
-      // requestBatch = [] // Clear stack
-
-      //TODO: make this per spec url? This would wip all future specs so may cause beyond first one to fail?
-      clearRequestBatchForSpec(specUrl);
+      delete requestBatch[specUrl];
     } catch(e) {
       console.error(e)
     }
@@ -313,8 +280,9 @@ export const requestResolvedSubtree = path => system => {
     return
   }
 
-  addToRequestBatch(path, system);
-
+  const specUrl = system.spec().get('url');
+  requestBatch[specUrl] ??= [];
+  requestBatch[specUrl].push([path, system]);
   
   debResolveSubtrees();
 }
