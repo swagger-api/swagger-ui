@@ -144,18 +144,11 @@ const debResolveSubtrees = debounce(async () => {
 
   for(let requestBatchForSpec in requestBatch){
    
-    //TODO: work out why this is needed
-    if(requestBatch[requestBatchForSpec] === undefined){
-      console.log("empty request batch given but this feels like it shouldn't happen");
-      //This seems to happen as we call each action twice (a react thing from componentDidMount I believe)
-      continue;
-    }
-
     //Scope our inquiry to the current spec
     const specUrl = requestBatchForSpec;
-    const requestBatchesForSpec = requestBatch[requestBatchForSpec].map(x => x[0]); //First item in array is the requestBatch
+    const requestBatchesForSpec = requestBatch[requestBatchForSpec].map(r => r.path);
     //Assume all system are the same for a given specUrl
-    const system = requestBatch[requestBatchForSpec][0][1]; //0 = first requestBatch and 1 refers to the 2nd parameter (ie system object).
+    const system = requestBatch[requestBatchForSpec][0].system; 
 
     if(!system) {
       console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
@@ -280,7 +273,7 @@ export const requestResolvedSubtree = path => system => {
 
   const specUrl = system.spec().get('url');
   requestBatch[specUrl] ??= [];
-  requestBatch[specUrl].push([path, system]);
+  requestBatch[specUrl].push({path, system});
   
   debResolveSubtrees();
 }
