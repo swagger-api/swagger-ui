@@ -138,121 +138,171 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     })
 }
 
-let requestBatch = []
+let requestBatch = Array();
+
+const addToRequestBatch = (item, system) => {
+  //NOTE: requestBatch isn't updated via a redux reducer as they are scoped to `spec` properties or actions currently and
+  //      updating anything in the spec causes re-rendering (and re-evaluation of the subtrees; causing infinite looping)
+  //NOTE: we must not assume a single `system` object for all requests as we can have mutliple instances of this running at once
+  //      so system needs to be specified per request, not for all in the batch
+
+  const specUrl = system.spec().get('url');
+
+  if(specUrl.length < 1){
+    debugger;
+  }
+    
+
+  if(requestBatch[specUrl] === undefined){
+    requestBatch[specUrl] = [];
+  }
+
+  console.log(`Added requestBatch item for: ${item} for specUrl: ${specUrl}`)
+  requestBatch[specUrl].push([item, system]);
+}
+
+const clearRequestBatchForSpec = (specUrl) => {
+  delete requestBatch[specUrl];
+}
 
 const debResolveSubtrees = debounce(async () => {
-  const system = requestBatch.system // Just a reference to the "latest" system
 
-  if(!system) {
-    console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
-    return
-  }
+
+    
+
+  //TODO: don't add empty arrays, then we don't need to filter them
+  for(let requestBatchForSpec in requestBatch){
+   
+    //TODO: work out why this is needed
+    if(requestBatch[requestBatchForSpec] === undefined){
+      console.log("empty request batch given but this feels like it shouldn't happen");
+      //This seems to happen as we call each action twice (a react thing from componentDidMount I believe)
+      continue;
+    }
+
+    //Scope our inquiry to the current spec
+    const specUrl = requestBatchForSpec;
+    const requestBatchesForSpec = requestBatch[requestBatchForSpec].map(x => x[0]); //First item in array is the requestBatch
+    //Assume all system are the same for a given specUrl
+    const system = requestBatch[requestBatchForSpec][0][1]; //0 = first requestBatch and 1 refers to the 2nd parameter (ie system object).
+
+    if(!system) {
+      console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
+      return
+    }
+      const {
+        errActions,
+        errSelectors,
+        fn: {
+          resolveSubtree,
+          fetch,
+          AST = {}
+        },
+        specSelectors,
+        specActions,
+      } = system
+  
+    if(!resolveSubtree) {
+      console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
+      return
+    }
+  
+    let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
+  
+    const specStr = specSelectors.specStr()
+  
     const {
-      errActions,
-      errSelectors,
-      fn: {
-        resolveSubtree,
-        fetch,
-        AST = {}
-      },
-      specSelectors,
-      specActions,
-    } = system
-
-  if(!resolveSubtree) {
-    console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
-    return
-  }
-
-  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
-
-  const specStr = specSelectors.specStr()
-
-  const {
-    modelPropertyMacro,
-    parameterMacro,
-    requestInterceptor,
-    responseInterceptor
-  } = system.getConfigs()
-
-  try {
-    var batchResult = await requestBatch.reduce(async (prev, path) => {
-      let { resultMap, specWithCurrentSubtrees } = await prev
-      const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
-        baseDoc: specSelectors.url(),
-        modelPropertyMacro,
-        parameterMacro,
-        requestInterceptor,
-        responseInterceptor
-      })
-
-      if(errSelectors.allErrors().size) {
-        errActions.clearBy(err => {
-          // keep if...
-          return err.get("type") !== "thrown" // it's not a thrown error
-            || err.get("source") !== "resolver" // it's not a resolver error
-            || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
+      modelPropertyMacro,
+      parameterMacro,
+      requestInterceptor,
+      responseInterceptor
+    } = system.getConfigs()
+  
+    try {
+      var batchResult = await requestBatchesForSpec.reduce(async (prev, path) => {
+        let { resultMap, specWithCurrentSubtrees } = await prev
+        const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
+          baseDoc: specSelectors.url(),
+          modelPropertyMacro,
+          parameterMacro,
+          requestInterceptor,
+          responseInterceptor
         })
-      }
-
-      if(Array.isArray(errors) && errors.length > 0) {
-        let preparedErrors = errors
-          .map(err => {
-            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
-            err.path = err.fullPath ? err.fullPath.join(".") : null
-            err.level = "error"
-            err.type = "thrown"
-            err.source = "resolver"
-            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
-            return err
+  
+        if(errSelectors.allErrors().size) {
+          errActions.clearBy(err => {
+            // keep if...
+            return err.get("type") !== "thrown" // it's not a thrown error
+              || err.get("source") !== "resolver" // it's not a resolver error
+              || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
           })
-        errActions.newThrownErrBatch(preparedErrors)
-      }
-
-      if (spec && specSelectors.isOAS3() && path[0] === "components" && path[1] === "securitySchemes") {
-        // Resolve OIDC URLs if present
-        await Promise.all(Object.values(spec)
-          .filter((scheme) => scheme.type === "openIdConnect")
-          .map(async (oidcScheme) => {
-            const req = {
-              url: oidcScheme.openIdConnectUrl,
-              requestInterceptor: requestInterceptor,
-              responseInterceptor: responseInterceptor
-            }
-            try {
-              const res = await fetch(req)
-              if (res instanceof Error || res.status >= 400) {
-                console.error(res.statusText + " " + req.url)
-              } else {
-                oidcScheme.openIdConnectData = JSON.parse(res.text)
+        }
+  
+        if(Array.isArray(errors) && errors.length > 0) {
+          let preparedErrors = errors
+            .map(err => {
+              err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+              err.path = err.fullPath ? err.fullPath.join(".") : null
+              err.level = "error"
+              err.type = "thrown"
+              err.source = "resolver"
+              Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+              return err
+            })
+          errActions.newThrownErrBatch(preparedErrors)
+        }
+  
+        if (spec && specSelectors.isOAS3() && path[0] === "components" && path[1] === "securitySchemes") {
+          // Resolve OIDC URLs if present
+          await Promise.all(Object.values(spec)
+            .filter((scheme) => scheme.type === "openIdConnect")
+            .map(async (oidcScheme) => {
+              const req = {
+                url: oidcScheme.openIdConnectUrl,
+                requestInterceptor: requestInterceptor,
+                responseInterceptor: responseInterceptor
               }
-            } catch (e) {
-              console.error(e)
-            }
-          }))
-      }
-      set(resultMap, path, spec)
-      specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
+              try {
+                const res = await fetch(req)
+                if (res instanceof Error || res.status >= 400) {
+                  console.error(res.statusText + " " + req.url)
+                } else {
+                  oidcScheme.openIdConnectData = JSON.parse(res.text)
+                }
+              } catch (e) {
+                console.error(e)
+              }
+            }))
+        }
+        set(resultMap, path, spec)
+        specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
+  
+        return {
+          resultMap,
+          specWithCurrentSubtrees
+        }
+      }, Promise.resolve({
+        resultMap: (specSelectors.specResolvedSubtree([]) || Map()).toJS(),
+        specWithCurrentSubtrees: specSelectors.specJS()
+      }))
+  
+      // delete requestBatch.system
+      // requestBatch = [] // Clear stack
 
-      return {
-        resultMap,
-        specWithCurrentSubtrees
-      }
-    }, Promise.resolve({
-      resultMap: (specSelectors.specResolvedSubtree([]) || Map()).toJS(),
-      specWithCurrentSubtrees: specSelectors.specJS()
-    }))
-
-    delete requestBatch.system
-    requestBatch = [] // Clear stack
-  } catch(e) {
-    console.error(e)
+      //TODO: make this per spec url? This would wip all future specs so may cause beyond first one to fail?
+      clearRequestBatchForSpec(specUrl);
+    } catch(e) {
+      console.error(e)
+    }
+  
+    specActions.updateResolvedSubtree([], batchResult.resultMap)
   }
-
-  specActions.updateResolvedSubtree([], batchResult.resultMap)
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
+  if(path.length < 1)
+    return;
+
   // poor-man's array comparison
   // if this ever inadequate, this should be rewritten to use Im.List
   const isPathAlreadyBatched = requestBatch
@@ -263,9 +313,10 @@ export const requestResolvedSubtree = path => system => {
     return
   }
 
-  requestBatch.push(path)
-  requestBatch.system = system
-  debResolveSubtrees()
+  addToRequestBatch(path, system);
+
+  
+  debResolveSubtrees();
 }
 
 export function changeParam( path, paramName, paramIn, value, isXml ){
