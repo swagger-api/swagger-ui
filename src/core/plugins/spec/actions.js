@@ -141,13 +141,10 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 let requestBatch = [];
 
 const debResolveSubtrees = debounce(async () => {
-
   for(let requestBatchForSpec in requestBatch){
-   
-    //Scope our inquiry to the current spec
+
     const specUrl = requestBatchForSpec;
     const requestBatchesForSpec = requestBatch[requestBatchForSpec].map(r => r.path);
-    //Assume all system are the same for a given specUrl
     const system = requestBatch[requestBatchForSpec].system; 
 
     if(!system) {
@@ -260,7 +257,6 @@ const debResolveSubtrees = debounce(async () => {
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
-
   // poor-man's array comparison
   // if this ever inadequate, this should be rewritten to use Im.List
   const isPathAlreadyBatched = requestBatch
