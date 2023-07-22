@@ -99,12 +99,12 @@
     border: none;
     background: none;
 
-    &.locked
+    .locked
     {
         opacity: 1;
     }
 
-    &.unlocked
+    .unlocked
     {
         opacity: .4;
     }
