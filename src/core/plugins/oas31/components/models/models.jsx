@@ -21,6 +21,8 @@ const Models = ({
   const isOpen = layoutSelectors.isShown(schemasPath, isOpenDefault)
   const Collapse = getComponent("Collapse")
   const JSONSchema202012 = getComponent("JSONSchema202012")
+  const ArrowUpIcon = getComponent("ArrowUpIcon")
+  const ArrowDownIcon = getComponent("ArrowDownIcon")
 
   /**
    * Effects.
@@ -80,9 +82,7 @@ const Models = ({
           onClick={handleModelsExpand}
         >
           <span>Schemas</span>
-          <svg width="20" height="20" aria-hidden="true" focusable="false">
-            <use xlinkHref={isOpen ? "#large-arrow-up" : "#large-arrow-down"} />
-          </svg>
+          {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </button>
       </h4>
       <Collapse isOpened={isOpen}>

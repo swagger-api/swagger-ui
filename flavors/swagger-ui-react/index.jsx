@@ -37,7 +37,7 @@ export default class SwaggerUI extends React.Component {
       filter: this.props.filter,
       persistAuthorization: this.props.persistAuthorization,
       withCredentials: this.props.withCredentials,
-      oauth2RedirectUrl: this.props.oauth2RedirectUrl
+      ...(typeof this.props.oauth2RedirectUrl === "string" ? { oauth2RedirectUrl: this.props.oauth2RedirectUrl} : {})
     })
 
     this.system = ui
@@ -124,7 +124,7 @@ SwaggerUI.propTypes = {
 }
 
 SwaggerUI.defaultProps = {
-  spec: {},
+  spec: "",
   url: "",
   layout: "BaseLayout",
   requestInterceptor: req => req,
@@ -166,7 +166,7 @@ SwaggerUI.defaultProps = {
   displayRequestDuration: false,
   withCredentials: undefined,
   persistAuthorization: false,
-  oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`,
+  oauth2RedirectUrl: undefined,
 }
 
 SwaggerUI.presets = swaggerUIConstructor.presets
