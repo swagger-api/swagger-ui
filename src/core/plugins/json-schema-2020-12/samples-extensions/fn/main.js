@@ -420,10 +420,7 @@ export const sampleFromSchemaGeneric = (
       return res
     }
 
-    if (
-      isBooleanJSONSchema(additionalProperties) &&
-      additionalProperties === true
-    ) {
+    if (isBooleanJSONSchema(additionalProperties) && additionalProperties) {
       if (respectXML) {
         res[displayName].push({ additionalProp: "Anything can be here" })
       } else {
