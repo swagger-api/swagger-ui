@@ -17,7 +17,7 @@ Swagger UI includes a development server that provides hot module reloading and 
 
 ### Using your own local api definition with local dev build
 
-You can specify a local file in `dev-helpers/swagger-initializer.js` by changing the `url` parameter. This local file MUST be located in the `dev-helpers` directory or a subdirectory. As a convenience and best practice, we recommend that you create a subdirectory, `dev-helpers/examples`, which is already specified in `.gitignore`.
+You can specify a local file in `dev-helpers/dev-helper-initializer.js` by changing the `url` parameter. This local file MUST be located in the `dev-helpers` directory or a subdirectory. As a convenience and best practice, we recommend that you create a subdirectory, `dev-helpers/examples`, which is already specified in `.gitignore`.
 
 replace
 ```
@@ -29,7 +29,7 @@ with
 url: "./examples/your-local-api-definition.yaml",
 ```
 
-Files in `dev-helpers` should NOT be committed to git. The exception is if you are fixing something in `index.html`, `oauth2-redirect.html`, `swagger-initializer.js`, or introducing a new support file.
+Files in `dev-helpers` should NOT be committed to git. The exception is if you are fixing something in `index.html`, `oauth2-redirect.html`, `dev-helper-initializer.js`, or introducing a new support file.
 
 ## Bonus points
 
