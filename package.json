@@ -141,7 +141,7 @@
     "eslint-plugin-mocha": "^10.1.0",
     "eslint-plugin-react": "^7.33.0",
     "esm": "=3.2.25",
-    "expect": "=29.6.1",
+    "expect": "=29.6.2",
     "express": "^4.18.2",
     "git-describe": "^4.1.0",
     "html-webpack-plugin": "^5.5.1",
