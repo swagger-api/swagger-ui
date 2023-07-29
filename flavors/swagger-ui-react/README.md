@@ -227,7 +227,6 @@ More information about Next.js integration can be found in [#7970](https://githu
 * Some props are only applied on mount, and cannot be updated reliably.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
-* Custom plugins are not supported.
 
 We intend to address these limitations based on user demand, so please open an issue or pull request if you have a specific request.
 
