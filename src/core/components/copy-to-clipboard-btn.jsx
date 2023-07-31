@@ -14,11 +14,11 @@ export default class CopyToClipboardBtn extends React.Component {
     const CopyIcon = getComponent("CopyIcon")
 
     return (
-      <div className="view-line-link copy-to-clipboard" title="Copy to clipboard">
-        <CopyToClipboard text={this.props.textToCopy}>
+      <CopyToClipboard text={this.props.textToCopy}>
+        <div className="view-line-link copy-to-clipboard" title="Copy to clipboard">
           <CopyIcon />
-        </CopyToClipboard>
-      </div>
+        </div>
+      </CopyToClipboard>
     )
   }
 
