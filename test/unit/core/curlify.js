@@ -200,6 +200,27 @@ describe("curlify", function () {
     expect(curlified).toEqual("curl -X 'POST' \\\n  'http://example.com' \\\n  -H 'content-type: multipart/form-data' \\\n  -F 'id=123' \\\n  -F 'file=@file.txt;type=text/plain'")
   })
 
+  it("should print a curl with object formData and file", function () {
+    let file = new win.File([""], "file.txt", { type: "text/plain" })
+
+    let req = {
+      url: "http://example.com",
+      method: "POST",
+      headers: { "content-type": "multipart/form-data" },
+      body: {
+        options: JSON.stringify({
+          some_array: ["string"],
+          max_bar: 300,
+        }),
+        file
+      }
+    }
+
+    let curlified = curl(Im.fromJS(req))
+
+    expect(curlified).toEqual(`curl -X 'POST' \\\n  'http://example.com' \\\n  -H 'content-type: multipart/form-data' \\\n  -F 'options={"some_array":["string"],"max_bar":300}' \\\n  -F 'file=@file.txt;type=text/plain'`)
+  })
+
   it("should print a curl without form data type if type is unknown", function () {
     let file = new win.File([""], "file.txt", { type: "" })
     // file.name = "file.txt"
