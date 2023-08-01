@@ -231,7 +231,7 @@ describe("curlify", function () {
     let optionsJSON = JSON.stringify({ some_array: ["string"], max_bar: 300 })
     let options = new FileWithData(optionsJSON, "", { type: "application/json;charset=utf-8" })
 
-    let formData = new FormData()
+    let formData = new win.FormData()
     formData.set("options", options)
     formData.set("file", file)
 
