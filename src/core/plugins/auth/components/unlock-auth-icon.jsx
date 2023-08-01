@@ -22,6 +22,7 @@ class UnlockAuthIcon extends React.Component {
 UnlockAuthIcon.propTypes = {
   getComponent: PropTypes.func.isRequired,
   getSystem: PropTypes.func.isRequired,
+  ownProps: PropTypes.shape({}).isRequired,
 }
 
 export default UnlockAuthIcon
