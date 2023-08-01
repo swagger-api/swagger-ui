@@ -21,7 +21,6 @@ class LockAuthIcon extends React.Component {
 
 LockAuthIcon.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  getSystem: PropTypes.func.isRequired,
   ownProps: PropTypes.shape({}).isRequired,
 }
 
