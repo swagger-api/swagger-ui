@@ -5,7 +5,6 @@ function makeWindow() {
     open: () => {},
     close: () => {},
     File: function() {},
-    Blob: function() {},
     FormData: function() {},
   }
 
