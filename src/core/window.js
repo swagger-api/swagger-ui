@@ -4,7 +4,9 @@ function makeWindow() {
     history: {},
     open: () => {},
     close: () => {},
-    File: function() {}
+    File: function() {},
+    Blob: function() {},
+    FormData: function() {},
   }
 
   if(typeof window === "undefined") {
