@@ -5,10 +5,8 @@ import { execute as wrappedExecuteAction } from "./spec-extensions/wrap-actions"
 import { loaded as wrappedLoadedAction } from "./configs-extensions/wrap-actions"
 import { authorize as wrappedAuthorizeAction, logout as wrappedLogoutAction } from "./wrap-actions"
 
-import LockAuthIcon from "./components/lock-auth"
-import UnlockAuthIcon from "./components/unlock-auth"
-import LockAuthOperationIcon from "./components/lock-auth-operation"
-import UnlockAuthOperationIcon from "./components/unlock-auth-operation"
+import LockAuthIcon from "./components/lock-auth-icon"
+import UnlockAuthIcon from "./components/unlock-auth-icon"
 
 export default function() {
   return {
@@ -21,8 +19,8 @@ export default function() {
     components: {
       LockAuthIcon: LockAuthIcon,
       UnlockAuthIcon: UnlockAuthIcon,
-      LockAuthOperationIcon: LockAuthOperationIcon,
-      UnlockAuthOperationIcon: UnlockAuthOperationIcon,
+      LockAuthOperationIcon: LockAuthIcon,
+      UnlockAuthOperationIcon: UnlockAuthIcon,
     },
     statePlugins: {
       auth: {
