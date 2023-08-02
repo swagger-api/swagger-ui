@@ -6,8 +6,8 @@ import { getCommonExtensions, stringify, isEmptyValue } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
-  const mediaTypeValue = requestBody.getIn(["content", mediaType])
-  const schema = mediaTypeValue.get("schema").toJS()
+  const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
+  const schema = mediaTypeValue.get("schema", OrderedMap()).toJS()
 
   const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
   const exampleSchema = mediaTypeValue.get("example")
@@ -78,11 +78,11 @@ const RequestBody = ({
 
   const { showCommonExtensions } = getConfigs()
 
-  const requestBodyDescription = (requestBody && requestBody.get("description")) || null
-  const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
+  const requestBodyDescription = requestBody?.get("description") ?? null
+  const requestBodyContent = requestBody?.get("content") ?? new OrderedMap()
   contentType = contentType || requestBodyContent.keySeq().first() || ""
 
-  const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
+  const mediaTypeValue = requestBodyContent.get(contentType) ?? OrderedMap()
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
   const rawExamplesOfMediaType = mediaTypeValue.get("examples", null)
   const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
