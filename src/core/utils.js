@@ -424,15 +424,19 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let maxItems = schema.get("maxItems")
   let minItems = schema.get("minItems")
   let pattern = schema.get("pattern")
+  const isReadOnly = schema.get("readOnly", false)
 
-  const schemaRequiresValue = requiredByParam || requiredBySchema === true
+  let isRequired = isReadOnly
+    ? false
+    : requiredByParam || requiredBySchema === true
+
   const hasValue = value !== undefined && value !== null
-  const isValidEmpty = !schemaRequiresValue && !hasValue
+  const isValidEmpty = !isRequired && !hasValue
 
   const needsExplicitConstraintValidation = hasValue && type === "array"
 
   const requiresFurtherValidation =
-    schemaRequiresValue
+    isRequired
     || needsExplicitConstraintValidation
     || !isValidEmpty
 
@@ -467,7 +471,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
 
   const passedAnyCheck = allChecks.some(v => !!v)
 
-  if (schemaRequiresValue && !passedAnyCheck && !bypassRequiredCheck) {
+  if (isRequired && !passedAnyCheck && !bypassRequiredCheck) {
     errors.push("Required field is not provided")
     return errors
   }
@@ -487,7 +491,8 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
     }
     if(schema && schema.has("required") && isFunc(requiredBySchema.isList) && requiredBySchema.isList()) {
       requiredBySchema.forEach(key => {
-        if(objectVal[key] === undefined) {
+        const propIsReadOnly = schema.getIn(["properties", key, "readOnly"], false)
+        if (!propIsReadOnly && objectVal[key] === undefined) {
           errors.push({ propKey: key, error: "Required property not found" })
         }
       })

@@ -607,6 +607,108 @@ describe("utils", () => {
       assertValidateOas3Param(param, value, [])
     })
 
+    it("bypass required check if readOnly", () => {
+      // valid any because readOnly true
+      param = {
+        schema: {
+          type: "string",
+          readOnly: true
+        }
+      }
+      value = "test"
+      assertValidateOas3Param(param, value, [])
+
+      // should validate if provided never the less
+      param = {
+        schema: {
+          type: "string",
+          minLength: 10,
+          readOnly: true
+        }
+      }
+      value = "123"
+      assertValidateOas3Param(param, value, [`Value must be at least ${param.schema.minLength} characters`])
+
+      // valid undefined because of bypass required: true if readOnly true
+      param = {
+        schema: {
+          required: true,
+          type: "string",
+          readOnly: true
+        }
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, [])
+
+      // invalid undefined because required: true if readOnly false
+      param = {
+        schema: {
+          required: true,
+          type: "string",
+          readOnly: false
+        }
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+
+      // invalid undefined because required: true if readOnly undefined
+      param = {
+        schema: {
+          required: true,
+          type: "string"
+        }
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+
+      // valid undefined property if required: [key] because properties.key.readOnly true
+      param = {
+        schema: {
+          required: ["probe"],
+          type: "object",
+          properties: {
+            probe: {
+              type: "string",
+              readOnly: true
+            }
+          }
+        }
+      }
+      value = {}
+      assertValidateOas3Param(param, value, [])
+
+      // invalid undefined property if required: [key] because properties.key.readOnly false
+      param = {
+        schema: {
+          required: ["probe"],
+          type: "object",
+          properties: {
+            probe: {
+              type: "string",
+              readOnly: false
+            }
+          }
+        }
+      }
+      value = {}
+      assertValidateOas3Param(param, value, [{ propKey: "probe", error: "Required property not found" }])
+
+      // invalid undefined property if required: [key] because properties.key.readOnly undefined
+      param = {
+        schema: {
+          required: ["probe"],
+          type: "object",
+          properties: {
+            probe: {
+              type: "string"
+            }
+          }
+        }
+      }
+      value = {}
+      assertValidateOas3Param(param, value, [{ propKey: "probe", error: "Required property not found" }])
+    })
+
     it("validates required strings with min and max length", () => {
       // invalid string with max length
       param = {
