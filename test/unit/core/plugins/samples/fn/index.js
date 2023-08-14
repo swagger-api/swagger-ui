@@ -914,6 +914,68 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
+
+
+  it("should handle additionalProperties", () => {
+    const definition = {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
+      properties: {
+        foo: {
+          type: "string",
+        },
+      },
+    }
+
+    const expected = {
+      foo: "string",
+      additionalProp1: "string",
+      additionalProp2: "string",
+      additionalProp3: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties=true", () => {
+    const definition = {
+      type: "object",
+      additionalProperties: true,
+      properties: {
+        foo: {
+          type: "string",
+        },
+      },
+    }
+
+    const expected = {
+      foo: "string",
+      additionalProp1: {},
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties=false", () => {
+    const definition = {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        foo: {
+          type: "string",
+        },
+      },
+    }
+
+    const expected = {
+      foo: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   it("should ignore minProperties if cannot extend object", () => {
     const definition = {
       type: "object",
@@ -2141,6 +2203,24 @@ describe("createXMLExample", function () {
           }
         },
         additionalProperties: true,
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with additional props =false", function () {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n</animals>"
+      let definition = {
+        type: "object",
+        properties: {
+          dog: {
+            type: "string"
+          }
+        },
+        additionalProperties: false,
         xml: {
           name: "animals"
         }

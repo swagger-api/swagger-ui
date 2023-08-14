@@ -111,7 +111,18 @@ const curlify = (request, escape, newLine, ext = "") => {
         addNewLine()
         addIndent()
         addWordsWithoutLeadingSpace("-F")
-        if (v instanceof win.File) {
+
+        /**
+         * SwaggerClient produces specialized sub-class of File class, that only
+         * accepts string data and retain this data in `data`
+         * public property throughout the lifecycle of its instances.
+         *
+         * This sub-class is exclusively used only when Encoding Object
+         * is defined within the Media Type Object (OpenAPI 3.x.y).
+         */
+        if (v instanceof win.File && typeof v.valueOf() === "string") {
+          addWords(`${extractedKey}=${v.data}${v.type ? `;type=${v.type}` : ""}`)
+        } else if (v instanceof win.File) {
           addWords(`${extractedKey}=@${v.name}${v.type ? `;type=${v.type}` : ""}`)
         } else {
           addWords(`${extractedKey}=${v}`)

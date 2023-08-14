@@ -5,6 +5,9 @@ import { execute as wrappedExecuteAction } from "./spec-extensions/wrap-actions"
 import { loaded as wrappedLoadedAction } from "./configs-extensions/wrap-actions"
 import { authorize as wrappedAuthorizeAction, logout as wrappedLogoutAction } from "./wrap-actions"
 
+import LockAuthIcon from "./components/lock-auth-icon"
+import UnlockAuthIcon from "./components/unlock-auth-icon"
+
 export default function() {
   return {
     afterLoad(system) {
@@ -12,6 +15,12 @@ export default function() {
       this.rootInjects.initOAuth = system.authActions.configureAuth
       this.rootInjects.preauthorizeApiKey = preauthorizeApiKey.bind(null, system)
       this.rootInjects.preauthorizeBasic = preauthorizeBasic.bind(null, system)
+    },
+    components: {
+      LockAuthIcon: LockAuthIcon,
+      UnlockAuthIcon: UnlockAuthIcon,
+      LockAuthOperationIcon: LockAuthIcon,
+      UnlockAuthOperationIcon: UnlockAuthIcon,
     },
     statePlugins: {
       auth: {
