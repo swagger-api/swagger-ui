@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 
 export const OperationExtRow = ({ xKey, xVal }) => {
-  const xNormalizedValue = !xVal ? null : xVal.toJS ? xVal.toJS() : xVal
+  const xNormalizedValue = (xVal === null) ? null : xVal.toJS ? xVal.toJS() : xVal
 
     return (<tr>
         <td>{ xKey }</td>
