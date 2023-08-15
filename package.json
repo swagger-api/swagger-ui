@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "5.3.1",
+  "version": "5.3.2",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -64,7 +64,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.22.6",
+    "@babel/runtime-corejs3": "^7.22.10",
     "@braintree/sanitize-url": "=6.0.4",
     "base64-js": "^1.5.1",
     "classnames": "^2.3.1",
@@ -102,7 +102,7 @@
     "zenscroll": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "=7.22.9",
+    "@babel/cli": "=7.22.10",
     "@babel/core": "=7.22.10",
     "@babel/eslint-parser": "=7.22.9",
     "@babel/plugin-proposal-class-properties": "=7.18.6",
@@ -110,8 +110,8 @@
     "@babel/plugin-proposal-object-rest-spread": "=7.20.7",
     "@babel/plugin-proposal-optional-chaining": "=7.21.0",
     "@babel/plugin-transform-modules-commonjs": "=7.22.5",
-    "@babel/plugin-transform-runtime": "=7.22.9",
-    "@babel/preset-env": "=7.22.9",
+    "@babel/plugin-transform-runtime": "=7.22.10",
+    "@babel/preset-env": "=7.22.10",
     "@babel/preset-react": "=7.22.5",
     "@babel/register": "=7.22.5",
     "@commitlint/cli": "^17.6.7",
