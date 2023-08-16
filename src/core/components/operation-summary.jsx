@@ -54,11 +54,13 @@ export default class OperationSummary extends PureComponent {
 
     let security = operationProps.get("security")
 
-    const AuthorizeOperationBtn = getComponent("authorizeOperationBtn")
+    const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
     const CopyToClipboardBtn = getComponent("CopyToClipboardBtn", true)
+    const ArrowUpIcon = getComponent("ArrowUpIcon")
+    const ArrowDownIcon = getComponent("ArrowDownIcon")
 
     const hasSecurity = security && !!security.count()
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
@@ -81,12 +83,8 @@ export default class OperationSummary extends PureComponent {
           }
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
-
-          <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
-            <use href={isShown ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={isShown ? "#large-arrow-up" : "#large-arrow-down"} />
-          </svg>
         </button>
-
+        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn
@@ -97,10 +95,16 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
-        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
+        <button
+          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
+          className="opblock-control-arrow"
+          aria-expanded={isShown}
+          tabIndex="-1"
+          onClick={toggleShown}>
+          {isShown ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
+        </button>
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
       </div>
     )
-
   }
 }
