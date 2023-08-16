@@ -94,15 +94,17 @@
 
 .authorization__btn
 {
+  padding: 0 0 0 10px;
+
   border: none;
   background: none;
 
-  &.locked
+  .locked
   {
     opacity: 1;
   }
 
-  &.unlocked
+  .unlocked
   {
     opacity: .4;
   }
@@ -122,7 +124,6 @@
     outline: auto;
   }
 }
-
 
 .expand-methods,
 .expand-operation
