@@ -180,7 +180,7 @@ const debResolveSubtrees = debounce(() => {
     } = system.getConfigs()
 
     try {
-      var batchResult = await systemRequestBatch.reduce(async (prev, path) => {
+      const batchResult = await systemRequestBatch.reduce(async (prev, path) => {
         let { resultMap, specWithCurrentSubtrees } = await prev
         const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
           baseDoc: specSelectors.url(),
@@ -246,11 +246,11 @@ const debResolveSubtrees = debounce(() => {
         resultMap: (specSelectors.specResolvedSubtree([]) || ImmutableMap()).toJS(),
         specWithCurrentSubtrees: specSelectors.specJS()
       }))
+
+      specActions.updateResolvedSubtree([], batchResult.resultMap)
     } catch(e) {
       console.error(e)
     }
-
-    specActions.updateResolvedSubtree([], batchResult.resultMap)
   })
 }, 35)
 
