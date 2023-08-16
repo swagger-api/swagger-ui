@@ -141,11 +141,10 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 let requestBatch = [];
 
 const debResolveSubtrees = debounce(async () => {
-  for(let requestBatchForSpec in requestBatch){
+  for(var i = 0; i < requestBatch.length; i++){
 
-    const specUrl = requestBatchForSpec;
-    const requestBatchesForSpec = requestBatch[requestBatchForSpec].map(r => r.path);
-    const system = requestBatch[requestBatchForSpec].system; 
+    const currentRequestBatchItem = [requestBatch[i].path];
+    const system = requestBatch[i].system; 
 
     if(!system) {
       console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
@@ -180,7 +179,7 @@ const debResolveSubtrees = debounce(async () => {
     } = system.getConfigs()
   
     try {
-      var batchResult = await requestBatchesForSpec.reduce(async (prev, path) => {
+      var batchResult = await currentRequestBatchItem.reduce(async (prev, path) => {
         let { resultMap, specWithCurrentSubtrees } = await prev
         const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
           baseDoc: specSelectors.url(),
@@ -247,7 +246,7 @@ const debResolveSubtrees = debounce(async () => {
         specWithCurrentSubtrees: specSelectors.specJS()
       }))
   
-      delete requestBatch[specUrl];
+      delete requestBatch[i];
     } catch(e) {
       console.error(e)
     }
@@ -260,17 +259,14 @@ export const requestResolvedSubtree = path => system => {
   // poor-man's array comparison
   // if this ever inadequate, this should be rewritten to use Im.List
   const isPathAlreadyBatched = requestBatch
-    .map(arr => arr.join("@@"))
+    .map(arr => arr.path.join("@@"))
     .indexOf(path.join("@@")) > -1
 
   if(isPathAlreadyBatched) {
     return
   }
 
-  const specUrl = system.spec().get('url');
-  requestBatch[specUrl] ??= [];
-  requestBatch[specUrl].push({path});
-  requestBatch[specUrl].system = system;
+  requestBatch.push({path, system});
   
   debResolveSubtrees();
 }
