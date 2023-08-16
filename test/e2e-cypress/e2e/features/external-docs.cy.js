@@ -35,7 +35,7 @@ function ExternalDocsTest(baseUrl) {
         .and("have.attr", "href", "http://swagger.io")
     })
   })
-  
+
   describe("for Tags", () => {
     it("should display link to external docs with description", () => {
       cy.visit(baseUrl)
@@ -87,7 +87,7 @@ function ExternalDocsTest(baseUrl) {
   describe("for Operation", () => {
     it("should display link to external docs with description", () => {
       cy.visit(baseUrl)
-      .get("#operations-pet-updatePet button")
+      .get("#operations-pet-updatePet button.opblock-summary-control")
       .click()
       .get("#operations-pet-updatePet .opblock-external-docs-wrapper .opblock-external-docs__description")
       .should("contain.text", "More details about putting a pet")
@@ -97,7 +97,7 @@ function ExternalDocsTest(baseUrl) {
 
     it("should display link to external docs without description", () => {
       cy.visit(baseUrl)
-      .get("#operations-pet-addPet button")
+      .get("#operations-pet-addPet button.opblock-summary-control")
       .click()
       .get("#operations-pet-addPet .opblock-external-docs-wrapper .opblock-external-docs__description")
       .should("not.exist")
