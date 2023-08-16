@@ -76,7 +76,7 @@
     "js-file-download": "^0.4.12",
     "js-yaml": "=4.1.0",
     "lodash": "^4.17.21",
-    "patch-package": "^7.0.2",
+    "patch-package": "^8.0.0",
     "prop-types": "^15.8.1",
     "randexp": "^0.5.3",
     "randombytes": "^2.1.0",
