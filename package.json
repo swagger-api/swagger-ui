@@ -8,8 +8,18 @@
     "./dist/oauth2-redirect.html": "./dist/oauth2-redirect.html",
     "./dist/swagger-ui-standalone-preset": "./dist/swagger-ui-standalone-preset.js",
     ".": {
-      "import": "./dist/swagger-ui-es-bundle-core.js",
-      "require": "./dist/swagger-ui.js"
+      "browser": {
+        "import": "./dist/swagger-ui-es-bundle-core.js",
+        "require": "./dist/swagger-ui.js"
+      },
+      "node": {
+        "import": "./dist/swagger-ui-bundle.js",
+        "require": "./dist/swagger-ui-es-bundle.js"
+      },
+      "default": {
+        "import": "./dist/swagger-ui-bundle.js",
+        "require": "./dist/swagger-ui-es-bundle.js"
+      }
     }
   },
   "homepage": "https://github.com/swagger-api/swagger-ui",
