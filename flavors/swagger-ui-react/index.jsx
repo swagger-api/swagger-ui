@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor from "./swagger-ui-es-bundle-core"
+import SwaggerUIConstructor from "#swagger-ui"
 
-export default class SwaggerUI extends React.Component {
+class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
     this.SwaggerUIComponent = null
@@ -10,14 +10,14 @@ export default class SwaggerUI extends React.Component {
   }
 
   componentDidMount() {
-    const ui = swaggerUIConstructor({
+    const ui = SwaggerUIConstructor({
       plugins: this.props.plugins,
       spec: this.props.spec,
       url: this.props.url,
       layout: this.props.layout,
       defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
       defaultModelRendering: this.props.defaultModelRendering,
-      presets: [swaggerUIConstructor.presets.apis, ...this.props.presets],
+      presets: [SwaggerUIConstructor.presets.apis, ...this.props.presets],
       requestInterceptor: this.props.requestInterceptor,
       responseInterceptor: this.props.responseInterceptor,
       onComplete: this.onComplete,
@@ -169,5 +169,7 @@ SwaggerUI.defaultProps = {
   oauth2RedirectUrl: undefined,
 }
 
-SwaggerUI.presets = swaggerUIConstructor.presets
-SwaggerUI.plugins = swaggerUIConstructor.plugins
+SwaggerUI.presets = SwaggerUIConstructor.presets
+SwaggerUI.plugins = SwaggerUIConstructor.plugins
+
+export default SwaggerUI

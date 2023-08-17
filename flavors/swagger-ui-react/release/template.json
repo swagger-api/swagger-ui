@@ -13,39 +13,39 @@
   "devDependencies": {
     "$remove": true
   },
-  "bundlesize": {
-    "$remove": true
-  },
-  "nyc": {
-    "$remove": true
-  },
-  "browserslist": {
-    "$remove": true
-  },
   "config": {
     "$remove": true
   },
   "name": "swagger-ui-react",
-  "main": "commonjs.js",
-  "module": "index.js",
+  "main": "index.cjs",
+  "module": "index.mjs",
   "exports": {
-    "./swagger-ui.css": "./swagger-ui.css",
-    ".": {
-      "import": "./index.js",
-      "require": "./commonjs.js"
+    "$replace": {
+      "./swagger-ui.css": "./swagger-ui.css",
+      ".": {
+        "import": "./index.mjs",
+        "require": "./index.cjs"
+      }
     }
   },
-  "repository": "git@github.com:swagger-api/swagger-ui.git",
-  "contributors": [
-    "(in alphabetical order)",
-    "Anna Bodnia <anna.bodnia@gmail.com>",
-    "Buu Nguyen <buunguyen@gmail.com>",
-    "Josh Ponelat <jponelat@gmail.com>",
-    "Kyle Shockey <kyleshockey1@gmail.com>",
-    "Robert Barnwell <robert@robertismy.name>",
-    "Sahar Jafari <shr.jafari@gmail.com>"
-  ],
-  "license": "Apache-2.0",
+  "imports": {
+    "$replace": {
+      "#swagger-ui": {
+        "browser": {
+          "import": "./swagger-ui-es-bundle-core.js",
+          "require": "./swagger-ui.js"
+        },
+        "node": {
+          "import": "./swagger-ui-bundle.js",
+          "require": "./swagger-ui-es-bundle.js"
+        },
+        "default": {
+          "import": "./swagger-ui-bundle.js",
+          "require": "./swagger-ui-es-bundle.js"
+        }
+      }
+    }
+  },
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
