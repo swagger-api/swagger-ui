@@ -45,17 +45,17 @@ const HighlightCode = ({value, fileName, className, downloadable, getConfigs, ca
 
   return (
     <div className="highlight-code" ref={rootRef}>
-      {!downloadable ? null :
-        <div className="download-contents" onClick={handleDownload}>
-          Download
-        </div>
-      }
-
       {canCopy && (
         <div className="copy-to-clipboard">
           <CopyToClipboard text={value}><button/></CopyToClipboard>
         </div>
       )}
+
+      {!downloadable ? null :
+        <button className="download-contents" onClick={handleDownload}>
+          Download
+        </button>
+      }
 
       {canSyntaxHighlight
         ? <SyntaxHighlighter
