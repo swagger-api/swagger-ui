@@ -231,7 +231,7 @@ Parameter name | Docker variable | Description
         <td><code>String=["agate"*, "arta", "monokai", "nord", "obsidian",
             "tomorrow-night", "idea"]</code>. <a
                 href="https://highlightjs.org/static/demo/" rel="nofollow">Highlight.js</a>
-            syntax coloring theme to use. (Only these 6 styles are available.)
+            syntax coloring theme to use. (Only these 7 styles are available.)
         </td>
     </tr>
     <tr>
