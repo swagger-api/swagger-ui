@@ -146,7 +146,7 @@
     "deepmerge": "^4.3.1",
     "enzyme": "=3.11.0",
     "eslint": "^8.47.0",
-    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jest": "^27.2.2",
     "eslint-plugin-mocha": "^10.1.0",
     "eslint-plugin-react": "^7.33.2",
