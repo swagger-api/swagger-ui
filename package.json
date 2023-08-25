@@ -164,7 +164,7 @@
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.10",
     "json-server": "=0.17.3",
-    "less": "^4.1.2",
+    "less": "^4.2.0",
     "license-checker": "^25.0.0",
     "lint-staged": "^14.0.1",
     "local-web-server": "^5.3.0",
