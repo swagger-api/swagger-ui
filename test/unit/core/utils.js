@@ -1064,6 +1064,26 @@ describe("utils", () => {
       const result = fromJSOrdered(param).toJS()
       expect( result ).toEqual( [1, 1, 2, 3, 5, 8] )
     })
+
+    it("should replace circular object references", () => {
+      const param = {
+        value: "test"
+      }
+      param.circular = param
+
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( { value: "test", circular: {} } )
+    })
+
+    it("should replace circular array references", () => {
+      const param = [
+        { value: "test"}
+      ]
+      param[0].circular = param
+
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( [ { value: "test", circular: [] } ] )
+    })
   })
 
   describe("getAcceptControllingResponse", () => {
