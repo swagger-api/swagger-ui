@@ -15,7 +15,6 @@ import InfoWrapper from "./wrap-components/info"
 import ModelWrapper from "./wrap-components/model"
 import ModelsWrapper from "./wrap-components/models"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
-import VersionStampWrapper from "./wrap-components/version-stamp"
 import {
   isOAS31 as isOAS31Fn,
   createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
@@ -91,7 +90,6 @@ const OAS31Plugin = ({ fn }) => {
       License: LicenseWrapper,
       Contact: ContactWrapper,
       VersionPragmaFilter: VersionPragmaFilterWrapper,
-      VersionStamp: VersionStampWrapper,
       Model: ModelWrapper,
       Models: ModelsWrapper,
       JSONSchema202012KeywordDescription:
