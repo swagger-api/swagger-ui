@@ -86,6 +86,7 @@ import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionPragmaFilter from "core/components/version-pragma-filter"
 import VersionStamp from "core/components/version-stamp"
+import OpenAPIVersion from "core/components/openapi-version"
 import DeepLink from "core/components/deep-link"
 import SvgAssets from "core/components/svg-assets"
 import Markdown from "core/components/providers/markdown"
@@ -157,6 +158,7 @@ export default function () {
       BaseLayout,
       VersionPragmaFilter,
       VersionStamp,
+      OpenAPIVersion,
       OperationExt,
       OperationExtRow,
       ParameterExt,
