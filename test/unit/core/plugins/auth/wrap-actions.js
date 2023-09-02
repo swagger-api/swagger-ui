@@ -38,7 +38,82 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
       authorize(jest.fn(), system)(payload)
 
       expect(document.cookie).toEqual(
-        "apiKeyCookie=test; SameSite=None; Secure"
+        "apiKeyCookie=test;samesite=None;path=/"
+      )
+    })
+
+    it("should persist secure cookie in document.cookie for non-SSL targets", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "http://example.org"
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: fromJS({
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          }),
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test;samesite=None;path=/"
+      )
+    })
+
+    it("should persist secure cookie in document.cookie for SSL targets", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "https://example.org"
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: fromJS({
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          }),
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test;samesite=None;secure;path=/"
+      )
+    })
+
+    it("should persist secure cookie in document.cookie for non-root SSL targets", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "https://example.org/api"
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: fromJS({
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          }),
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test;samesite=None;secure;path=/api"
       )
     })
 
@@ -64,7 +139,7 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
 
       logout(jest.fn(), system)(["api_key"])
 
-      expect(document.cookie).toEqual("apiKeyCookie=; Max-Age=-99999999")
+      expect(document.cookie).toEqual("apiKeyCookie=;max-age=-99999999;path=/")
     })
   })
 
