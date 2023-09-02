@@ -25,7 +25,7 @@ export const authorize = (oriAction, system) => (payload) => {
 
     if (isApiKeyInCookie) {
       const secure = `${configs.url?.split("/")[0] === "https:" ? ";secure" : ""}`
-      const urlBasePath = configs.url?.split("/")[3]
+      const urlBasePath = configs.url?.split("/").splice(3).join("/")
       const path = `${urlBasePath === undefined ? ";path=/" : ";path=/".concat(urlBasePath)}`
       let cookieStr = `${schema.get("name")}=${value};samesite=None${secure}${path}`
       document.cookie = cookieStr
@@ -53,7 +53,7 @@ export const logout = (oriAction, system) => (payload) => {
 
         if (isApiKeyInCookie) {
           const cookieName = auth.getIn(["schema", "name"])
-          const urlBasePath = configs.url?.split("/")[3]
+          const urlBasePath = configs.url?.split("/").splice(3).join("/")
           const path = `${urlBasePath === undefined ? ";path=/" : ";path=/".concat(urlBasePath)}`
           document.cookie = `${cookieName}=;max-age=-99999999${path}`
         }
