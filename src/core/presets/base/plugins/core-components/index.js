@@ -1,26 +1,6 @@
 /**
  * @prettier
  */
-import err from "core/plugins/err"
-import layout from "core/plugins/layout"
-import spec from "core/plugins/spec"
-import view from "core/plugins/view"
-import samples from "core/plugins/samples"
-import requestSnippets from "core/plugins/request-snippets"
-import logs from "core/plugins/logs"
-import swaggerJs from "core/plugins/swagger-js"
-import auth from "core/plugins/auth"
-import util from "core/plugins/util"
-import downloadUrlPlugin from "core/plugins/download-url"
-import configsPlugin from "core/plugins/configs"
-import deepLinkingPlugin from "core/plugins/deep-linking"
-import filter from "core/plugins/filter"
-import onComplete from "core/plugins/on-complete"
-import safeRender from "core/plugins/safe-render"
-import iconsPlugin from "core/plugins/icons"
-
-import OperationContainer from "core/containers/OperationContainer"
-
 import App from "core/components/app"
 import AuthorizationPopup from "core/components/auth/authorization-popup"
 import AuthorizeBtn from "core/components/auth/authorize-btn"
@@ -41,6 +21,7 @@ import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
 import OperationTag from "core/components/operation-tag"
 import Operation from "core/components/operation"
+import OperationContainer from "core/containers/OperationContainer"
 import OperationSummary from "core/components/operation-summary"
 import OperationSummaryMethod from "core/components/operation-summary-method"
 import OperationSummaryPath from "core/components/operation-summary-path"
@@ -91,116 +72,83 @@ import DeepLink from "core/components/deep-link"
 import SvgAssets from "core/components/svg-assets"
 import Markdown from "core/components/providers/markdown"
 import BaseLayout from "core/components/layouts/base"
-import * as LayoutUtils from "core/components/layout-utils"
-import * as JsonSchemaComponents from "core/json-schema-components"
 
-export default function () {
-  let coreComponents = {
-    components: {
-      App,
-      authorizationPopup: AuthorizationPopup,
-      authorizeBtn: AuthorizeBtn,
-      AuthorizeBtnContainer,
-      authorizeOperationBtn: AuthorizeOperationBtn,
-      auths: Auths,
-      AuthItem: AuthItem,
-      authError: AuthError,
-      oauth2: Oauth2,
-      apiKeyAuth: ApiKeyAuth,
-      basicAuth: BasicAuth,
-      clear: Clear,
-      liveResponse: LiveResponse,
-      InitializedInput,
-      info: Info,
-      InfoContainer,
-      InfoUrl,
-      InfoBasePath,
-      Contact,
-      License,
-      JumpToPath,
-      CopyToClipboardBtn,
-      onlineValidatorBadge: OnlineValidatorBadge,
-      operations: Operations,
-      operation: Operation,
-      OperationSummary,
-      OperationSummaryMethod,
-      OperationSummaryPath,
-      highlightCode: HighlightCode,
-      responses: Responses,
-      response: Response,
-      ResponseExtension: ResponseExtension,
-      responseBody: ResponseBody,
-      parameters: Parameters,
-      parameterRow: ParameterRow,
-      execute: Execute,
-      headers: Headers,
-      errors: Errors,
-      contentType: ContentType,
-      overview: Overview,
-      footer: Footer,
-      FilterContainer,
-      ParamBody: ParamBody,
-      curl: Curl,
-      schemes: Schemes,
-      SchemesContainer,
-      modelExample: ModelExample,
-      ModelWrapper,
-      ModelCollapse,
-      Model,
-      Models,
-      EnumModel,
-      ObjectModel,
-      ArrayModel,
-      PrimitiveModel,
-      Property,
-      TryItOutButton,
-      Markdown,
-      BaseLayout,
-      VersionPragmaFilter,
-      VersionStamp,
-      OpenAPIVersion,
-      OperationExt,
-      OperationExtRow,
-      ParameterExt,
-      ParameterIncludeEmpty,
-      OperationTag,
-      OperationContainer,
-      DeepLink,
-      SvgAssets,
-      Example,
-      ExamplesSelect,
-      ExamplesSelectValueRetainer,
-    },
-  }
+const CoreComponentsPlugin = () => ({
+  components: {
+    App,
+    authorizationPopup: AuthorizationPopup,
+    authorizeBtn: AuthorizeBtn,
+    AuthorizeBtnContainer,
+    authorizeOperationBtn: AuthorizeOperationBtn,
+    auths: Auths,
+    AuthItem: AuthItem,
+    authError: AuthError,
+    oauth2: Oauth2,
+    apiKeyAuth: ApiKeyAuth,
+    basicAuth: BasicAuth,
+    clear: Clear,
+    liveResponse: LiveResponse,
+    InitializedInput,
+    info: Info,
+    InfoContainer,
+    InfoUrl,
+    InfoBasePath,
+    Contact,
+    License,
+    JumpToPath,
+    CopyToClipboardBtn,
+    onlineValidatorBadge: OnlineValidatorBadge,
+    operations: Operations,
+    operation: Operation,
+    OperationSummary,
+    OperationSummaryMethod,
+    OperationSummaryPath,
+    highlightCode: HighlightCode,
+    responses: Responses,
+    response: Response,
+    ResponseExtension: ResponseExtension,
+    responseBody: ResponseBody,
+    parameters: Parameters,
+    parameterRow: ParameterRow,
+    execute: Execute,
+    headers: Headers,
+    errors: Errors,
+    contentType: ContentType,
+    overview: Overview,
+    footer: Footer,
+    FilterContainer,
+    ParamBody: ParamBody,
+    curl: Curl,
+    schemes: Schemes,
+    SchemesContainer,
+    modelExample: ModelExample,
+    ModelWrapper,
+    ModelCollapse,
+    Model,
+    Models,
+    EnumModel,
+    ObjectModel,
+    ArrayModel,
+    PrimitiveModel,
+    Property,
+    TryItOutButton,
+    Markdown,
+    BaseLayout,
+    VersionPragmaFilter,
+    VersionStamp,
+    OperationExt,
+    OperationExtRow,
+    ParameterExt,
+    ParameterIncludeEmpty,
+    OperationTag,
+    OperationContainer,
+    OpenAPIVersion,
+    DeepLink,
+    SvgAssets,
+    Example,
+    ExamplesSelect,
+    ExamplesSelectValueRetainer,
+  },
+})
 
-  let formComponents = {
-    components: LayoutUtils,
-  }
-
-  let jsonSchemaComponents = {
-    components: JsonSchemaComponents,
-  }
-
-  return [
-    configsPlugin,
-    util,
-    logs,
-    view,
-    spec,
-    err,
-    layout,
-    samples,
-    coreComponents,
-    formComponents,
-    swaggerJs,
-    jsonSchemaComponents,
-    auth,
-    downloadUrlPlugin,
-    deepLinkingPlugin,
-    filter,
-    onComplete,
-    requestSnippets,
-    iconsPlugin,
-    safeRender(),
-  ]
-}
+export default CoreComponentsPlugin

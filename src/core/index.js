@@ -1,8 +1,31 @@
 import deepExtend from "deep-extend"
 
 import System from "./system"
+// presets
+import BasePreset from "./presets/base"
 import ApisPreset from "./presets/apis"
-import AllPlugins from "./plugins/all"
+// plugins
+import AuthPlugin from "./plugins/auth/"
+import ConfigsPlugin from "./plugins/configs"
+import DeepLinkingPlugin from "./plugins/deep-linking"
+import ErrPlugin from "./plugins/err"
+import FilterPlugin from "./plugins/filter"
+import IconsPlugin from "./plugins/icons"
+import JSONSchema202012Plugin from "./plugins/json-schema-2020-12"
+import LayoutPlugin from "./plugins/layout"
+import LogsPlugin from "./plugins/logs"
+import OpenAPI30Plugin from "./plugins/oas3"
+import OpenAPI31Plugin from "./plugins/oas3"
+import OnCompletePlugin from "./plugins/on-complete"
+import RequestSnippetsPlugin from "./plugins/request-snippets"
+import SamplesPlugin from "./plugins/samples"
+import SpecPlugin from "./plugins/spec"
+import SwaggerClientPlugin from "./plugins/swagger-client"
+import UtilPlugin from "./plugins/util"
+import ViewPlugin from "./plugins/view"
+import DownloadUrlPlugin from "./plugins/download-url"
+import SafeRenderPlugin from "./plugins/safe-render"
+
 import { parseSearch } from "./utils"
 import win from "./window"
 
@@ -216,10 +239,30 @@ export default function SwaggerUI(opts) {
   return system
 }
 
-// Add presets
 SwaggerUI.presets = {
+  base: BasePreset,
   apis: ApisPreset,
 }
 
-// All Plugins
-SwaggerUI.plugins = AllPlugins
+SwaggerUI.plugins = {
+  Auth: AuthPlugin,
+  Configs: ConfigsPlugin,
+  DeepLining: DeepLinkingPlugin,
+  Err: ErrPlugin,
+  Filter: FilterPlugin,
+  Icons: IconsPlugin,
+  JSONSchema202012: JSONSchema202012Plugin,
+  Layout: LayoutPlugin,
+  Logs: LogsPlugin,
+  OpenAPI30: OpenAPI30Plugin,
+  OpenAPI31: OpenAPI31Plugin,
+  OnComplete: OnCompletePlugin,
+  RequestSnippets: RequestSnippetsPlugin,
+  Samples: SamplesPlugin,
+  Spec: SpecPlugin,
+  SwaggerClient: SwaggerClientPlugin,
+  Util: UtilPlugin,
+  View: ViewPlugin,
+  DownloadUrl: DownloadUrlPlugin,
+  SafeRender: SafeRenderPlugin,
+}

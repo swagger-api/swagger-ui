@@ -18,11 +18,12 @@ import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
 import isFunction from "lodash/isFunction"
-import win from "./window"
 import cssEscape from "css.escape"
-import getParameterSchema from "../helpers/get-parameter-schema"
 import randomBytes from "randombytes"
 import shaJs from "sha.js"
+import win from "core/window"
+import getParameterSchema from "core/utils/get-parameter-schema"
+
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -117,11 +118,11 @@ export function createObjWithHashedKeys (fdObj) {
 }
 
 export function bindToState(obj, state) {
-	var newObj = {}
-	Object.keys(obj)
-  .filter(key => typeof obj[key] === "function")
-  .forEach(key => newObj[key] = obj[key].bind(null, state))
-	return newObj
+  var newObj = {}
+  Object.keys(obj)
+    .filter(key => typeof obj[key] === "function")
+    .forEach(key => newObj[key] = obj[key].bind(null, state))
+  return newObj
 }
 
 export function normalizeArray(arr) {
@@ -344,21 +345,21 @@ export const validateString = ( val ) => {
 }
 
 export const validateDateTime = (val) => {
-    if (isNaN(Date.parse(val))) {
-        return "Value must be a DateTime"
-    }
+  if (isNaN(Date.parse(val))) {
+    return "Value must be a DateTime"
+  }
 }
 
 export const validateGuid = (val) => {
-    val = val.toString().toLowerCase()
-    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[)}]?$/.test(val)) {
-        return "Value must be a Guid"
-    }
+  val = val.toString().toLowerCase()
+  if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[)}]?$/.test(val)) {
+    return "Value must be a Guid"
+  }
 }
 
 export const validateMaxLength = (val, max) => {
   if (val.length > max) {
-      return `Value must be no longer than ${max} character${max !== 1 ? "s" : ""}`
+    return `Value must be no longer than ${max} character${max !== 1 ? "s" : ""}`
   }
 }
 
@@ -386,7 +387,7 @@ export const validateUniqueItems = (val, uniqueItems) => {
 
 export const validateMinItems = (val, min) => {
   if (!val && min >= 1 || val && val.length < min) {
-      return `Array must contain at least ${min} item${min === 1 ? "" : "s"}`
+    return `Array must contain at least ${min} item${min === 1 ? "" : "s"}`
   }
 }
 
@@ -398,14 +399,14 @@ export const validateMaxItems = (val, max) => {
 
 export const validateMinLength = (val, min) => {
   if (val.length < min) {
-      return `Value must be at least ${min} character${min !== 1 ? "s" : ""}`
+    return `Value must be at least ${min} character${min !== 1 ? "s" : ""}`
   }
 }
 
 export const validatePattern = (val, rxPattern) => {
   var patt = new RegExp(rxPattern)
   if (!patt.test(val)) {
-      return "Value must follow pattern " + rxPattern
+    return "Value must follow pattern " + rxPattern
   }
 }
 
@@ -823,10 +824,10 @@ export function generateCodeVerifier() {
 
 export function createCodeChallenge(codeVerifier) {
   return b64toB64UrlEncoded(
-      shaJs("sha256")
+    shaJs("sha256")
       .update(codeVerifier)
       .digest("base64")
-    )
+  )
 }
 
 function b64toB64UrlEncoded(str) {

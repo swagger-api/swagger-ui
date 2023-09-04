@@ -2,8 +2,7 @@ import React from "react"
 import Immutable, { List } from "immutable"
 import { Select, Input, TextArea } from "components/layout-utils"
 import { mount, render } from "enzyme"
-import * as JsonSchemaComponents from "core/json-schema-components"
-import { JsonSchemaForm } from "core/json-schema-components"
+import * as JsonSchemaComponents from "core/components/json-schema-components"
 
 const components = {...JsonSchemaComponents, Select, Input, TextArea}
 
@@ -13,7 +12,7 @@ const getComponentStub = (name) => {
   return null
 }
 
-describe("<JsonSchemaForm/>", function(){
+describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
   describe("strings", function() {
     it("should render the correct options for a string enum parameter", function(){
 

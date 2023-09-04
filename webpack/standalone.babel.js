@@ -12,7 +12,9 @@ const result = configBuilder(
   },
   {
     entry: {
-      "swagger-ui-standalone-preset": ["./src/standalone/index.js"],
+      "swagger-ui-standalone-preset": [
+        "./src/standalone/presets/standalone/index.js",
+      ],
     },
 
     output: {

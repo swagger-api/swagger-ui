@@ -18,17 +18,15 @@ const devE2eConfig = configBuilder(
   {
     mode: "development",
     entry: {
-      "swagger-ui-bundle": [
-        "./src/core/index.js",
-      ],
+      "swagger-ui-bundle": ["./src/core/index.js"],
       "swagger-ui-standalone-preset": [
-        "./src/standalone/index.js",
+        "./src/standalone/presets/standalone/index.js",
       ],
       "swagger-ui": "./src/style/main.scss",
     },
 
     performance: {
-      hints: false
+      hints: false,
     },
 
     output: {
@@ -61,7 +59,7 @@ const devE2eConfig = configBuilder(
       },
       devMiddleware: {},
     },
-  },
+  }
 )
 
 // mix in the style config's plugins and loader rules

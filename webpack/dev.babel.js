@@ -23,18 +23,16 @@ const devConfig = configBuilder(
   {
     mode: "development",
     entry: {
-      "swagger-ui-bundle": [
-        "./src/core/index.js",
-      ],
+      "swagger-ui-bundle": ["./src/core/index.js"],
       "swagger-ui-standalone-preset": [
-        "./src/standalone/index.js",
+        "./src/standalone/presets/standalone/index.js",
       ],
       "swagger-ui": "./src/style/main.scss",
       vendors: ["react-refresh/runtime"],
     },
 
     performance: {
-      hints: false
+      hints: false,
     },
 
     output: {
@@ -79,7 +77,9 @@ const devConfig = configBuilder(
           options: {
             retainLines: true,
             cacheDirectory: true,
-            plugins: [isDevelopment && require.resolve("react-refresh/babel")].filter(Boolean),
+            plugins: [
+              isDevelopment && require.resolve("react-refresh/babel"),
+            ].filter(Boolean),
           },
         },
         {
@@ -106,7 +106,7 @@ const devConfig = configBuilder(
     optimization: {
       runtimeChunk: "single", // for multiple entry points using ReactRefreshWebpackPlugin
     },
-  },
+  }
 )
 
 // mix in the style config's plugins and loader rules
