@@ -5,7 +5,7 @@
 const path = require("path")
 
 const configBuilder = require("./_config-builder")
-const styleConfig = require("./stylesheets.babel")
+const styleConfig = require("./stylesheets")
 
 // Pretty much the same as devConfig, but with changes to port and static.directory
 const devE2eConfig = configBuilder(
