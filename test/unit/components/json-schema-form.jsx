@@ -28,7 +28,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("option").length).toEqual(3)
@@ -52,7 +52,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         disabled: true
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.attr("disabled")).toEqual("disabled")
     })
@@ -73,7 +73,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(2)
@@ -95,7 +95,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(3)
@@ -119,7 +119,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(2)
@@ -142,7 +142,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(3)
@@ -167,7 +167,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(1)
@@ -199,7 +199,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = mount(<JsonSchemaForm {...props}/>)
+      let wrapper = mount(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       updateQueue.forEach(newProps => wrapper.setProps(newProps))
 
@@ -222,7 +222,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
       }
 
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.length).toEqual(1)
       expect(wrapper.get(0).name).toEqual("input")
@@ -245,7 +245,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
       }
 
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.length).toEqual(1)
       expect(wrapper.get(0).name).toEqual("input")
