@@ -1,4 +1,4 @@
-import { loaded } from "corePlugins/swagger-client/configs-wrap-actions"
+import { loaded } from "core/plugins/swagger-client/configs-wrap-actions"
 
 describe("swagger-client plugin - withCredentials", () => {
   it("should have no effect by default", () => {

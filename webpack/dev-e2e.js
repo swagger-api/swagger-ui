@@ -2,10 +2,10 @@
  * @prettier
  */
 
-import path from "path"
+const path = require("path")
 
-import configBuilder from "./_config-builder"
-import styleConfig from "./stylesheets.babel"
+const configBuilder = require("./_config-builder")
+const styleConfig = require("./stylesheets.babel")
 
 // Pretty much the same as devConfig, but with changes to port and static.directory
 const devE2eConfig = configBuilder(
@@ -71,4 +71,4 @@ devE2eConfig.module.rules = [
   ...styleConfig.module.rules,
 ]
 
-export default devE2eConfig
+module.exports = devE2eConfig

@@ -5,8 +5,8 @@ import React from "react"
 import { shallow } from "enzyme"
 import { fromJS, List } from "immutable"
 
-import Response from "components/response"
-import ModelExample from "components/model-example"
+import Response from "core/components/response"
+import ModelExample from "core/components/model-example"
 import {
   inferSchema,
   memoizedSampleFromSchema,

@@ -1,6 +1,6 @@
 import React from "react"
 import { render } from "enzyme"
-import Markdown from "components/providers/markdown"
+import Markdown from "core/components/providers/markdown"
 
 describe("UI-3199: Sanitized Markdown causing code examples to be double escaped", function(){
   it("should single-escape quotes", function(){

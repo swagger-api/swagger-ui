@@ -1,6 +1,6 @@
 import { fromJS, List } from "immutable"
-import { fromJSOrdered, validateParam, paramToValue } from "core/utils"
-import win from "../../window"
+import { fromJSOrdered, validateParam, paramToValue, paramToIdentifier } from "core/utils"
+import win from "core/window"
 
 // selector-in-reducer is suboptimal, but `operationWithMeta` is more of a helper
 import {
@@ -27,7 +27,6 @@ import {
   CLEAR_VALIDATE_PARAMS,
   SET_SCHEME
 } from "./actions"
-import { paramToIdentifier } from "../../utils"
 
 export default {
 

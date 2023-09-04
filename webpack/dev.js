@@ -2,13 +2,15 @@
  * @prettier
  */
 
-import path from "path"
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
-import HtmlWebpackPlugin from "html-webpack-plugin"
-import { HtmlWebpackSkipAssetsPlugin } from "html-webpack-skip-assets-plugin"
+const path = require("path")
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const {
+  HtmlWebpackSkipAssetsPlugin,
+} = require("html-webpack-skip-assets-plugin")
 
-import configBuilder from "./_config-builder"
-import styleConfig from "./stylesheets.babel"
+const configBuilder = require("./_config-builder")
+const styleConfig = require("./stylesheets")
 
 const projectBasePath = path.join(__dirname, "../")
 const isDevelopment = process.env.NODE_ENV !== "production"
@@ -118,4 +120,4 @@ devConfig.module.rules = [
   ...styleConfig.module.rules,
 ]
 
-export default devConfig
+module.exports = devConfig

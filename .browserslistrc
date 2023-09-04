@@ -1,0 +1,17 @@
+[esm]
+last 3 chrome versions
+last 3 edge version
+last 3 firefox versions
+last 3 safari versions
+opera >= 90
+
+[production]
+> 1%
+last 2 versions
+Firefox ESR
+not dead
+
+[development]
+last 1 chrome version
+last 1 firefox version
+last 1 safari version

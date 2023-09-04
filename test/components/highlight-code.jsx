@@ -1,7 +1,7 @@
 import React from "react"
 import expect from "expect"
 import { shallow } from "enzyme"
-import HighlightCode from "components/highlight-code"
+import HighlightCode from "core/components/highlight-code"
 
 const fakeGetConfigs = () => ({syntaxHighlight: {activated: true, theme: "agate"}})
 

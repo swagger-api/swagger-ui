@@ -1,8 +1,8 @@
 import React from "react"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
-import Info from "components/info"
-import Markdown from "components/providers/markdown"
+import Info from "core/components/info"
+import Markdown from "core/components/providers/markdown"
 
 describe("<Info/> Sanitization", function(){
 	const dummyComponent = () => null

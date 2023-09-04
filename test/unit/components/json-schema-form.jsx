@@ -1,6 +1,6 @@
 import React from "react"
 import Immutable, { List } from "immutable"
-import { Select, Input, TextArea } from "components/layout-utils"
+import { Select, Input, TextArea } from "core/components/layout-utils"
 import { mount, render } from "enzyme"
 import * as JsonSchemaComponents from "core/components/json-schema-components"
 

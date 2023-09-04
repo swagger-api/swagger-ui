@@ -2,29 +2,28 @@
  * @prettier
  */
 
-import configBuilder from "./_config-builder"
+const configBuilder = require("./_config-builder")
 
 const result = configBuilder(
   {
     minimize: true,
     mangle: true,
     sourcemaps: true,
+    includeDependencies: false,
   },
   {
     entry: {
-      "swagger-ui-standalone-preset": [
-        "./src/standalone/presets/standalone/index.js",
-      ],
+      "swagger-ui": ["./src/index.js"],
     },
 
     output: {
       globalObject: "this",
       library: {
-        name: "SwaggerUIStandalonePreset",
+        name: "SwaggerUICore",
         export: "default",
       },
     },
   }
 )
 
-export default result
+module.exports = result
