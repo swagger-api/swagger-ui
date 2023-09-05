@@ -1,5 +1,21 @@
 module.exports = {
   "env": {
+    "commonjs": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "debug": false,
+            "modules": "commonjs",
+            "loose": true,
+            "targets": "maintained node versions",
+            "forceAllTransforms": false,
+            "ignoreBrowserslistConfig": true,
+          }
+        ],
+        "@babel/preset-react",
+      ],
+    },
     "esm": {
       "presets": [
         [
