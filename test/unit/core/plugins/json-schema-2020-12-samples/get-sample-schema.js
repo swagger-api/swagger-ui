@@ -4,21 +4,23 @@
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
-} from "core/plugins/json-schema-2020-12/samples-extensions/fn"
-import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
-import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
-import makeGetYamlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-yaml-sample-schema"
-import makeGetXmlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-xml-sample-schema"
+} from "core/plugins/json-schema-2020-12-samples/fn/index"
+import makeGetSampleSchema from "core/plugins/json-schema-2020-12-samples/fn/get-sample-schema"
+import makeGetJsonSampleSchema from "core/plugins/json-schema-2020-12-samples/fn/get-json-sample-schema"
+import makeGetYamlSampleSchema from "core/plugins/json-schema-2020-12-samples/fn/get-yaml-sample-schema"
+import makeGetXmlSampleSchema from "core/plugins/json-schema-2020-12-samples/fn/get-xml-sample-schema"
 
 describe("getSampleSchema", () => {
   const oriDate = Date
   const getSystem = () => ({
     fn: {
-      memoizedSampleFromSchema,
-      memoizedCreateXMLExample,
-      getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
-      getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
-      getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
+      jsonSchema202012: {
+        memoizedSampleFromSchema,
+        memoizedCreateXMLExample,
+        getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
+        getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
+        getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
+      },
     },
   })
   const getSampleSchema = makeGetSampleSchema(getSystem)

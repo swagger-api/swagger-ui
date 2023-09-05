@@ -4,11 +4,11 @@
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
-} from "core/plugins/samples/fn/index"
-import makeGetSampleSchema from "core/plugins/samples/fn/get-sample-schema"
-import makeGetJsonSampleSchema from "core/plugins/samples/fn/get-json-sample-schema"
-import makeGetYamlSampleSchema from "core/plugins/samples/fn/get-yaml-sample-schema"
-import makeGetXmlSampleSchema from "core/plugins/samples/fn/get-xml-sample-schema"
+} from "core/plugins/json-schema-5-samples/fn/index"
+import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
+import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
+import makeGetYamlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-yaml-sample-schema"
+import makeGetXmlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-xml-sample-schema"
 
 describe("getSampleSchema", () => {
   const oriDate = Date

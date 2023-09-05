@@ -8,7 +8,7 @@ import {
   sampleFromSchema,
   memoizedCreateXMLExample,
   memoizedSampleFromSchema,
-} from "core/plugins/json-schema-2020-12/samples-extensions/fn"
+} from "core/plugins/json-schema-2020-12-samples/fn"
 
 describe("sampleFromSchema", () => {
   it("should return appropriate example for primitive types + format", function () {

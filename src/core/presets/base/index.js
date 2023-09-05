@@ -11,7 +11,7 @@ import LayoutPlugin from "core/plugins/layout"
 import LogsPlugin from "core/plugins/logs"
 import OnCompletePlugin from "core/plugins/on-complete"
 import RequestSnippetsPlugin from "core/plugins/request-snippets"
-import SamplesPlugin from "core/plugins/samples"
+import JSONSchema5SamplesPlugin from "core/plugins/json-schema-5-samples"
 import SpecPlugin from "core/plugins/spec"
 import SwaggerClientPlugin from "core/plugins/swagger-client"
 import UtilPlugin from "core/plugins/util"
@@ -32,7 +32,7 @@ const BasePreset = () => [
   ErrPlugin,
   IconsPlugin,
   LayoutPlugin,
-  SamplesPlugin,
+  JSONSchema5SamplesPlugin,
   CoreComponentsPlugin,
   FormComponentsPlugin,
   SwaggerClientPlugin,
