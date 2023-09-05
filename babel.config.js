@@ -5,11 +5,10 @@ module.exports = {
         [
           "@babel/env",
           {
-            "debug": false,
+            "debug": true,
             "modules": false,
             "ignoreBrowserslistConfig": false,
             "useBuiltIns": false,
-            "corejs": { version: 3 },
             "include": [
               "@babel/plugin-proposal-logical-assignment-operators"
             ]
@@ -18,10 +17,6 @@ module.exports = {
         "@babel/preset-react"
       ],
       "plugins": [
-        "@babel/plugin-transform-class-properties",
-        "@babel/plugin-transform-nullish-coalescing-operator",
-        "@babel/plugin-transform-object-rest-spread",
-        "@babel/plugin-transform-optional-chaining",
         [
           "@babel/plugin-transform-runtime",
           {
@@ -59,7 +54,6 @@ module.exports = {
             },
             "ignoreBrowserslistConfig": true,
             "useBuiltIns": false,
-            "corejs": { version: 3 }
           }
         ],
         "@babel/preset-react"
@@ -99,7 +93,6 @@ module.exports = {
           {
             "ignoreBrowserslistConfig": false,
             "useBuiltIns": false,
-            "corejs": { version: 3 },
             "include": [
               "@babel/plugin-proposal-logical-assignment-operators"
             ]
@@ -142,7 +135,6 @@ module.exports = {
           {
             "ignoreBrowserslistConfig": false,
             "useBuiltIns": false,
-            "corejs": { version: 3 },
             "include": [
               "@babel/plugin-proposal-logical-assignment-operators"
             ]

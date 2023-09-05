@@ -27,6 +27,7 @@ const result = configBuilder(
     includeDependencies: false,
   },
   {
+    target: "browserslist",
     entry: {
       "swagger-ui-es-bundle-core": ["./src/index.js"],
     },
@@ -54,7 +55,7 @@ const result = configBuilder(
           "deep-extend", // uses Buffer as global symbol
           "randombytes", // uses require('safe-buffer')
           "sha.js", // uses require('safe-buffer')
-          /xml\/lib/, // uses require('stream')
+          /xml/, // uses require('stream')
           /process\/browser/, // is injected via ProvidePlugin
           /readable-stream/, // byproduct of buffer ProvidePlugin injection
           "util-deprecate", // dependency of readable-stream
