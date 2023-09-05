@@ -2,14 +2,14 @@
  * @prettier
  */
 
-import path from "path"
-import deepExtend from "deep-extend"
-import webpack from "webpack"
-import TerserPlugin from "terser-webpack-plugin"
-import nodeExternals from "webpack-node-externals"
+const path = require("path")
+const deepExtend = require("deep-extend")
+const webpack = require("webpack")
+const TerserPlugin = require("terser-webpack-plugin")
+const nodeExternals = require("webpack-node-externals")
 
-import { getRepoInfo } from "./_helpers"
-import pkg from "../package.json"
+const { getRepoInfo } = require("./_helpers")
+const pkg = require("../package.json")
 
 const projectBasePath = path.join(__dirname, "../")
 
@@ -33,7 +33,7 @@ const baseRules = [
   },
 ]
 
-export default function buildConfig(
+function buildConfig(
   {
     minimize = true,
     mangle = true,
@@ -143,6 +143,13 @@ export default function buildConfig(
             new TerserPlugin({
               terserOptions: {
                 mangle: !!mangle,
+                keep_classnames:
+                  !customConfig.mode || customConfig.mode === "production",
+                keep_fnames:
+                  !customConfig.mode || customConfig.mode === "production",
+                output: {
+                  comments: false,
+                },
               },
             }).apply(compiler),
         ],
@@ -156,3 +163,5 @@ export default function buildConfig(
 
   return completeConfig
 }
+
+module.exports = buildConfig

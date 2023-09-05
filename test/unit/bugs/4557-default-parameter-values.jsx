@@ -5,7 +5,7 @@ import React from "react"
 import { List, fromJS } from "immutable"
 import { render } from "enzyme"
 
-import ParameterRow from "components/parameter-row"
+import ParameterRow from "core/components/parameter-row"
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,

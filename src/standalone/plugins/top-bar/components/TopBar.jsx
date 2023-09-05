@@ -1,10 +1,9 @@
 import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
-//import "./topbar.less"
-import {parseSearch, serializeSearch} from "../../core/utils"
+import {parseSearch, serializeSearch} from "core/utils"
 
-export default class Topbar extends React.Component {
+class TopBar extends React.Component {
 
   static propTypes = {
     layoutActions: PropTypes.object.isRequired,
@@ -163,9 +162,11 @@ export default class Topbar extends React.Component {
   }
 }
 
-Topbar.propTypes = {
+TopBar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired
 }
+
+export default TopBar

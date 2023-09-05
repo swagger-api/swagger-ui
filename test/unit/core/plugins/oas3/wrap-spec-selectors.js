@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { definitions } from "corePlugins/oas3/spec-extensions/wrap-selectors"
+import { definitions } from "core/plugins/oas3/spec-extensions/wrap-selectors"
 
 describe("oas3 plugin - spec extensions - wrapSelectors", function(){
 

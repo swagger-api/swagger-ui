@@ -1,5 +1,6 @@
-import win from "../../window"
 import { Map } from "immutable"
+import win from "../../window"
+
 
 /**
  * if duplicate key name existed from FormData entries,

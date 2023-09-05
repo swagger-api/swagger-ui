@@ -2,18 +2,19 @@
  * @prettier
  */
 
- /** Dev Note:
+/** Dev Note:
  * StatsWriterPlugin is disabled by default; uncomment to enable
  * when enabled, rebuilding the bundle will cause error for assetSizeLimit,
  * which we want to keep out of CI/CD
  * post build, cli command: npx webpack-bundle-analyzer <path>
  */
-
-import configBuilder from "./_config-builder"
-import { DuplicatesPlugin } from "inspectpack/plugin"
-import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
-import nodeExternals from "webpack-node-externals"
-// import { StatsWriterPlugin } from "webpack-stats-plugin"
+const configBuilder = require("./_config-builder")
+const { DuplicatesPlugin } = require("inspectpack/plugin")
+const {
+  WebpackBundleSizeAnalyzerPlugin,
+} = require("webpack-bundle-size-analyzer")
+const nodeExternals = require("webpack-node-externals")
+// const { StatsWriterPlugin } = require("webpack-stats-plugin")
 
 const minimize = true
 const sourcemaps = true
@@ -26,10 +27,9 @@ const result = configBuilder(
     includeDependencies: false,
   },
   {
+    target: "browserslist",
     entry: {
-      "swagger-ui-es-bundle-core": [
-        "./src/index.js",
-      ],
+      "swagger-ui-es-bundle-core": ["./src/index.js"],
     },
     experiments: {
       outputModule: true,
@@ -52,11 +52,10 @@ const result = configBuilder(
       },
       nodeExternals({
         allowlist: [
-          /object\/define-property/, // @babel/runtime-corejs3 import which makes fragment work with Jest
           "deep-extend", // uses Buffer as global symbol
           "randombytes", // uses require('safe-buffer')
           "sha.js", // uses require('safe-buffer')
-          "xml", // uses require('stream')
+          /xml/, // uses require('stream')
           /process\/browser/, // is injected via ProvidePlugin
           /readable-stream/, // byproduct of buffer ProvidePlugin injection
           "util-deprecate", // dependency of readable-stream
@@ -68,20 +67,23 @@ const result = configBuilder(
         ],
         importType: (moduleName) => {
           return `module ${moduleName}`
-      }})
+        },
+      }),
     ],
     plugins: [
       new DuplicatesPlugin({
         emitErrors: false,
         verbose: false,
       }),
-      new WebpackBundleSizeAnalyzerPlugin("log.es-bundle-core-sizes.swagger-ui.txt"),
+      new WebpackBundleSizeAnalyzerPlugin(
+        "log.es-bundle-core-sizes.swagger-ui.txt"
+      ),
       // new StatsWriterPlugin({
       //   filename: path.join("log.es-bundle-core-stats.swagger-ui.json"),
       //   fields: null,
       // }),
-    ]
+    ],
   }
 )
 
-export default result
+module.exports = result

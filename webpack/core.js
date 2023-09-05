@@ -2,7 +2,7 @@
  * @prettier
  */
 
-import configBuilder from "./_config-builder"
+const configBuilder = require("./_config-builder")
 
 const result = configBuilder(
   {
@@ -13,9 +13,7 @@ const result = configBuilder(
   },
   {
     entry: {
-      "swagger-ui": [
-        "./src/index.js",
-      ],
+      "swagger-ui": ["./src/index.js"],
     },
 
     output: {
@@ -28,4 +26,4 @@ const result = configBuilder(
   }
 )
 
-export default result
+module.exports = result

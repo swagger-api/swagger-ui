@@ -5,10 +5,10 @@
 // NOTE: this config *does not* inherit from `_config-builder`.
 // It is also used in the dev config.
 
-import path from "path"
-import MiniCssExtractPlugin from "mini-css-extract-plugin"
+const path = require("path")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
-export default {
+module.exports = {
   mode: "production",
 
   entry: {

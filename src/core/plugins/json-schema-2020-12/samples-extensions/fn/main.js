@@ -6,7 +6,7 @@ import isEmpty from "lodash/isEmpty"
 import isPlainObject from "lodash/isPlainObject"
 
 import { objectify, normalizeArray } from "core/utils"
-import memoizeN from "../../../../../helpers/memoizeN"
+import memoizeN from "core/utils/memoizeN"
 import typeMap from "./types/index"
 import { getType } from "./core/type"
 import { typeCast } from "./core/utils"

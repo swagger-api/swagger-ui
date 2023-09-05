@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export default class StandaloneLayout extends React.Component {
+class StandaloneLayout extends React.Component {
 
   static propTypes = {
     errSelectors: PropTypes.object.isRequired,
@@ -36,3 +36,5 @@ export default class StandaloneLayout extends React.Component {
   }
 
 }
+
+export default StandaloneLayout

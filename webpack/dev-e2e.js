@@ -2,10 +2,10 @@
  * @prettier
  */
 
-import path from "path"
+const path = require("path")
 
-import configBuilder from "./_config-builder"
-import styleConfig from "./stylesheets.babel"
+const configBuilder = require("./_config-builder")
+const styleConfig = require("./stylesheets")
 
 // Pretty much the same as devConfig, but with changes to port and static.directory
 const devE2eConfig = configBuilder(
@@ -18,17 +18,15 @@ const devE2eConfig = configBuilder(
   {
     mode: "development",
     entry: {
-      "swagger-ui-bundle": [
-        "./src/core/index.js",
-      ],
+      "swagger-ui-bundle": ["./src/core/index.js"],
       "swagger-ui-standalone-preset": [
-        "./src/standalone/index.js",
+        "./src/standalone/presets/standalone/index.js",
       ],
       "swagger-ui": "./src/style/main.scss",
     },
 
     performance: {
-      hints: false
+      hints: false,
     },
 
     output: {
@@ -61,7 +59,7 @@ const devE2eConfig = configBuilder(
       },
       devMiddleware: {},
     },
-  },
+  }
 )
 
 // mix in the style config's plugins and loader rules
@@ -73,4 +71,4 @@ devE2eConfig.module.rules = [
   ...styleConfig.module.rules,
 ]
 
-export default devE2eConfig
+module.exports = devE2eConfig

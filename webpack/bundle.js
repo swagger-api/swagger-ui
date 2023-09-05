@@ -9,9 +9,12 @@
  * post build, cli command: npx webpack-bundle-analyzer <path>
  */
 
-import configBuilder from "./_config-builder"
-import { DuplicatesPlugin } from "inspectpack/plugin"
-import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
+const { DuplicatesPlugin } = require("inspectpack/plugin")
+const {
+  WebpackBundleSizeAnalyzerPlugin,
+} = require("webpack-bundle-size-analyzer")
+const configBuilder = require("./_config-builder")
+
 // import path from "path"
 // import { StatsWriterPlugin } from "webpack-stats-plugin"
 
@@ -24,14 +27,12 @@ const result = configBuilder(
   },
   {
     entry: {
-      "swagger-ui-es-bundle": [
-        "./src/index.js",
-      ],
+      "swagger-ui-bundle": ["./src/index.js"],
     },
     output: {
       globalObject: "this",
       library: {
-        type: "commonjs2",
+        name: "SwaggerUIBundle",
         export: "default",
       },
     },
@@ -42,13 +43,13 @@ const result = configBuilder(
         // display full duplicates information? (Default: `false`)
         verbose: false,
       }),
-      new WebpackBundleSizeAnalyzerPlugin("log.es-bundle-sizes.swagger-ui.txt"),
+      new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-ui.txt"),
       // new StatsWriterPlugin({
-      //   filename: path.join("log.es-bundle-stats.swagger-ui.json"),
+      //   filename: path.join("log.bundle-stats.swagger-ui.json"),
       //   fields: null,
       // }),
-    ]
+    ],
   }
 )
 
-export default result
+module.exports = result

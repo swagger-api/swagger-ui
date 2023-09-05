@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { isOAS30, isSwagger2 } from "corePlugins/oas3/helpers"
+import { isOAS30, isSwagger2 } from "core/plugins/oas3/helpers"
 
 const isOAS3Shorthand = (version) => isOAS30(fromJS({
   openapi: version

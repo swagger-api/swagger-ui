@@ -2,13 +2,15 @@
  * @prettier
  */
 
-import path from "path"
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin"
-import HtmlWebpackPlugin from "html-webpack-plugin"
-import { HtmlWebpackSkipAssetsPlugin } from "html-webpack-skip-assets-plugin"
+const path = require("path")
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const {
+  HtmlWebpackSkipAssetsPlugin,
+} = require("html-webpack-skip-assets-plugin")
 
-import configBuilder from "./_config-builder"
-import styleConfig from "./stylesheets.babel"
+const configBuilder = require("./_config-builder")
+const styleConfig = require("./stylesheets")
 
 const projectBasePath = path.join(__dirname, "../")
 const isDevelopment = process.env.NODE_ENV !== "production"
@@ -23,18 +25,16 @@ const devConfig = configBuilder(
   {
     mode: "development",
     entry: {
-      "swagger-ui-bundle": [
-        "./src/core/index.js",
-      ],
+      "swagger-ui-bundle": ["./src/core/index.js"],
       "swagger-ui-standalone-preset": [
-        "./src/standalone/index.js",
+        "./src/standalone/presets/standalone/index.js",
       ],
       "swagger-ui": "./src/style/main.scss",
       vendors: ["react-refresh/runtime"],
     },
 
     performance: {
-      hints: false
+      hints: false,
     },
 
     output: {
@@ -79,7 +79,9 @@ const devConfig = configBuilder(
           options: {
             retainLines: true,
             cacheDirectory: true,
-            plugins: [isDevelopment && require.resolve("react-refresh/babel")].filter(Boolean),
+            plugins: [
+              isDevelopment && require.resolve("react-refresh/babel"),
+            ].filter(Boolean),
           },
         },
         {
@@ -106,7 +108,7 @@ const devConfig = configBuilder(
     optimization: {
       runtimeChunk: "single", // for multiple entry points using ReactRefreshWebpackPlugin
     },
-  },
+  }
 )
 
 // mix in the style config's plugins and loader rules
@@ -118,4 +120,4 @@ devConfig.module.rules = [
   ...styleConfig.module.rules,
 ]
 
-export default devConfig
+module.exports = devConfig

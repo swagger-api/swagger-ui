@@ -1,4 +1,4 @@
-import { execute } from "corePlugins/auth/spec-extensions/wrap-actions"
+import { execute } from "core/plugins/auth/spec-extensions/wrap-actions"
 
 describe("spec plugin - actions", function(){
 
