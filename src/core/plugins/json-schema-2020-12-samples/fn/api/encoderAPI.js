@@ -2,7 +2,7 @@
  * @prettier
  */
 
-import EncoderRegistry from "core/plugins/json-schema-2020-12/samples-extensions/fn/class/EncoderRegistry"
+import EncoderRegistry from "../class/EncoderRegistry"
 
 const registry = new EncoderRegistry()
 

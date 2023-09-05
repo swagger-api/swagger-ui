@@ -12,13 +12,14 @@ import ErrPlugin from "./plugins/err"
 import FilterPlugin from "./plugins/filter"
 import IconsPlugin from "./plugins/icons"
 import JSONSchema202012Plugin from "./plugins/json-schema-2020-12"
+import JSONSchema202012SamplesPlugin from "./plugins/json-schema-2020-12-samples"
 import LayoutPlugin from "./plugins/layout"
 import LogsPlugin from "./plugins/logs"
 import OpenAPI30Plugin from "./plugins/oas3"
 import OpenAPI31Plugin from "./plugins/oas3"
 import OnCompletePlugin from "./plugins/on-complete"
 import RequestSnippetsPlugin from "./plugins/request-snippets"
-import SamplesPlugin from "./plugins/samples"
+import JSONSchema5SamplesPlugin from "./plugins/json-schema-5-samples"
 import SpecPlugin from "./plugins/spec"
 import SwaggerClientPlugin from "./plugins/swagger-client"
 import UtilPlugin from "./plugins/util"
@@ -239,6 +240,8 @@ export default function SwaggerUI(opts) {
   return system
 }
 
+SwaggerUI.System = System
+
 SwaggerUI.presets = {
   base: BasePreset,
   apis: ApisPreset,
@@ -251,14 +254,15 @@ SwaggerUI.plugins = {
   Err: ErrPlugin,
   Filter: FilterPlugin,
   Icons: IconsPlugin,
+  JSONSchema5Samples: JSONSchema5SamplesPlugin,
   JSONSchema202012: JSONSchema202012Plugin,
+  JSONSchema202012Samples: JSONSchema202012SamplesPlugin,
   Layout: LayoutPlugin,
   Logs: LogsPlugin,
   OpenAPI30: OpenAPI30Plugin,
   OpenAPI31: OpenAPI31Plugin,
   OnComplete: OnCompletePlugin,
   RequestSnippets: RequestSnippetsPlugin,
-  Samples: SamplesPlugin,
   Spec: SpecPlugin,
   SwaggerClient: SwaggerClientPlugin,
   Util: UtilPlugin,
