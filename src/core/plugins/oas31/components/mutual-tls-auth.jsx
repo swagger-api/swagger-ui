@@ -14,8 +14,8 @@ const MutualTLSAuth = ({ schema, getComponent }) => {
         <JumpToPath path={["securityDefinitions", schema.name]} />
       </h4>
       <p>
-        Mutual TLS is required by this API/Operation. Certificates are
-        automatically managed for you via your Operating System or your browser.
+        Mutual TLS is required by this API/Operation. Certificates are managed
+        via your Operating System and/or your browser.
       </p>
       <p>{schema.description}</p>
     </div>
