@@ -9,6 +9,8 @@ import JsonSchemaDialect from "./components/json-schema-dialect"
 import VersionPragmaFilter from "./components/version-pragma-filter"
 import Model from "./components/model/model"
 import Models from "./components/models/models"
+import MutualTLSAuth from "./components/mutual-tls-auth"
+import Auths from "./components/auths"
 import LicenseWrapper from "./wrap-components/license"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
@@ -52,7 +54,7 @@ import {
   isOAS3 as isOAS3SelectorWrapper,
   selectLicenseUrl as selectLicenseUrlWrapper,
 } from "./spec-extensions/wrap-selectors"
-import { definitionsToAuthorize as definitionsToAuthorizeWrapper} from "./auth-extensions/wrap-selectors"
+import { definitionsToAuthorize as definitionsToAuthorizeWrapper } from "./auth-extensions/wrap-selectors"
 import { selectLicenseUrl as selectOAS31LicenseUrl } from "./selectors"
 import JSONSchema202012KeywordExample from "./json-schema-2020-12-extensions/components/keywords/Example"
 import JSONSchema202012KeywordXml from "./json-schema-2020-12-extensions/components/keywords/Xml"
@@ -62,7 +64,6 @@ import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-ext
 import JSONSchema202012KeywordDefaultWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Default"
 import JSONSchema202012KeywordPropertiesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Properties"
 import afterLoad from "./after-load"
-import Auths from "./components/auths"
 
 const OAS31Plugin = ({ fn }) => {
   const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
@@ -78,17 +79,18 @@ const OAS31Plugin = ({ fn }) => {
     components: {
       Webhooks,
       JsonSchemaDialect,
+      MutualTLSAuth,
       OAS31Info: Info,
       OAS31License: License,
       OAS31Contact: Contact,
       OAS31VersionPragmaFilter: VersionPragmaFilter,
       OAS31Model: Model,
       OAS31Models: Models,
+      OAS31Auths: Auths,
       JSONSchema202012KeywordExample,
       JSONSchema202012KeywordXml,
       JSONSchema202012KeywordDiscriminator,
       JSONSchema202012KeywordExternalDocs,
-      OAS31Auths: Auths
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
@@ -98,7 +100,7 @@ const OAS31Plugin = ({ fn }) => {
       Model: ModelWrapper,
       Models: ModelsWrapper,
       AuthItem: AuthItemWrapper,
-      Auths: AuthsWrapper,
+      auths: AuthsWrapper,
       JSONSchema202012KeywordDescription:
         JSONSchema202012KeywordDescriptionWrapper,
       JSONSchema202012KeywordDefault: JSONSchema202012KeywordDefaultWrapper,
@@ -108,7 +110,7 @@ const OAS31Plugin = ({ fn }) => {
     statePlugins: {
       auth: {
         wrapSelectors: {
-          definitionsToAuthorize: definitionsToAuthorizeWrapper
+          definitionsToAuthorize: definitionsToAuthorizeWrapper,
         },
       },
       spec: {
