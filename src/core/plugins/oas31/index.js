@@ -15,6 +15,8 @@ import InfoWrapper from "./wrap-components/info"
 import ModelWrapper from "./wrap-components/model"
 import ModelsWrapper from "./wrap-components/models"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
+import AuthItemWrapper from "./wrap-components/auth-item"
+import AuthsWrapper from "./wrap-components/auths"
 import {
   isOAS31 as isOAS31Fn,
   createOnlyOAS31Selector as createOnlyOAS31SelectorFn,
@@ -50,6 +52,7 @@ import {
   isOAS3 as isOAS3SelectorWrapper,
   selectLicenseUrl as selectLicenseUrlWrapper,
 } from "./spec-extensions/wrap-selectors"
+import { definitionsToAuthorize as definitionsToAuthorizeWrapper} from "./auth-extensions/wrap-selectors"
 import { selectLicenseUrl as selectOAS31LicenseUrl } from "./selectors"
 import JSONSchema202012KeywordExample from "./json-schema-2020-12-extensions/components/keywords/Example"
 import JSONSchema202012KeywordXml from "./json-schema-2020-12-extensions/components/keywords/Xml"
@@ -59,6 +62,7 @@ import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-ext
 import JSONSchema202012KeywordDefaultWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Default"
 import JSONSchema202012KeywordPropertiesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Properties"
 import afterLoad from "./after-load"
+import Auths from "./components/auths"
 
 const OAS31Plugin = ({ fn }) => {
   const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
@@ -84,6 +88,7 @@ const OAS31Plugin = ({ fn }) => {
       JSONSchema202012KeywordXml,
       JSONSchema202012KeywordDiscriminator,
       JSONSchema202012KeywordExternalDocs,
+      OAS31Auths: Auths
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
@@ -92,6 +97,8 @@ const OAS31Plugin = ({ fn }) => {
       VersionPragmaFilter: VersionPragmaFilterWrapper,
       Model: ModelWrapper,
       Models: ModelsWrapper,
+      AuthItem: AuthItemWrapper,
+      Auths: AuthsWrapper,
       JSONSchema202012KeywordDescription:
         JSONSchema202012KeywordDescriptionWrapper,
       JSONSchema202012KeywordDefault: JSONSchema202012KeywordDefaultWrapper,
@@ -99,6 +106,11 @@ const OAS31Plugin = ({ fn }) => {
         JSONSchema202012KeywordPropertiesWrapper,
     },
     statePlugins: {
+      auth: {
+        wrapSelectors: {
+          definitionsToAuthorize: definitionsToAuthorizeWrapper
+        },
+      },
       spec: {
         selectors: {
           isOAS31: createSystemSelector(selectIsOAS31),
