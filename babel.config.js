@@ -15,13 +15,23 @@ module.exports = {
         ],
         "@babel/preset-react",
       ],
+      "plugins": [
+        [
+          "transform-react-remove-prop-types",
+          {
+            "additionalLibraries": [
+              "react-immutable-proptypes"
+            ]
+          }
+        ],
+      ],
     },
     "esm": {
       "presets": [
         [
           "@babel/env",
           {
-            "debug": true,
+            "debug": false,
             "modules": false,
             "ignoreBrowserslistConfig": false,
             "useBuiltIns": false,
