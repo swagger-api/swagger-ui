@@ -82,8 +82,6 @@ class Auths extends React.Component {
       (schema) => schema.get("type") === "mutualTLS"
     )
 
-    console.dir("rendering auths")
-
     return (
       <div className="auth-container">
         {nonOauthDefinitions.size > 0 && (
