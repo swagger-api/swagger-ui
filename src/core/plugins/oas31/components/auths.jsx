@@ -1,15 +1,18 @@
+/**
+ * @prettier
+ */
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
-export default class Auths extends React.Component {
+class Auths extends React.Component {
   static propTypes = {
     definitions: ImPropTypes.iterable.isRequired,
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired
+    specSelectors: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -24,30 +27,34 @@ export default class Auths extends React.Component {
     this.setState({ [name]: auth })
   }
 
-  submitAuth =(e) => {
+  submitAuth = (e) => {
     e.preventDefault()
 
     let { authActions } = this.props
     authActions.authorizeWithPersistOption(this.state)
   }
 
-  logoutClick =(e) => {
+  logoutClick = (e) => {
     e.preventDefault()
 
     let { authActions, definitions } = this.props
-    let auths = definitions.map( (val, key) => {
-      return key
-    }).toArray()
+    let auths = definitions
+      .map((val, key) => {
+        return key
+      })
+      .toArray()
 
-    this.setState(auths.reduce((prev, auth) => {
-      prev[auth] = ""
-      return prev
-    }, {}))
+    this.setState(
+      auths.reduce((prev, auth) => {
+        prev[auth] = ""
+        return prev
+      }, {})
+    )
 
     authActions.logoutWithPersistOption(auths)
   }
 
-  close =(e) => {
+  close = (e) => {
     e.preventDefault()
     let { authActions } = this.props
 
@@ -59,83 +66,117 @@ export default class Auths extends React.Component {
     const AuthItem = getComponent("AuthItem")
     const Oauth2 = getComponent("oauth2", true)
     const Button = getComponent("Button")
-    let authorized = authSelectors.authorized()
 
-    let authorizedAuth = definitions.filter( (definition, key) => {
+    const authorized = authSelectors.authorized()
+    const authorizedAuth = definitions.filter((definition, key) => {
       return !!authorized.get(key)
     })
+    const nonOauthDefinitions = definitions.filter(
+      (schema) =>
+        schema.get("type") !== "oauth2" && schema.get("type") !== "mutualTLS"
+    )
+    const oauthDefinitions = definitions.filter(
+      (schema) => schema.get("type") === "oauth2"
+    )
+    const mutualTLSDefinitions = definitions.filter(
+      (schema) => schema.get("type") === "mutualTLS"
+    )
 
-    let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2" && schema.get("type") !== "mutualTLS")
-    let oauthDefinitions = definitions.filter( schema => schema.get("type") === "oauth2")
-    let mutualTLSDefinitions = definitions.filter( schema => schema.get("type") === "mutualTLS")
+    console.dir("rendering auths")
 
     return (
       <div className="auth-container">
-        {
-          !!nonOauthDefinitions.size && <form onSubmit={ this.submitAuth }>
-            {
-              nonOauthDefinitions.map( (schema, name) => {
-                return <AuthItem
-                  key={name}
-                  schema={schema}
-                  name={name}
-                  getComponent={getComponent}
-                  onAuthChange={this.onAuthChange}
-                  authorized={authorized}
-                  errSelectors={errSelectors}
+        {nonOauthDefinitions.size > 0 && (
+          <form onSubmit={this.submitAuth}>
+            {nonOauthDefinitions
+              .map((schema, name) => {
+                return (
+                  <AuthItem
+                    key={name}
+                    schema={schema}
+                    name={name}
+                    getComponent={getComponent}
+                    onAuthChange={this.onAuthChange}
+                    authorized={authorized}
+                    errSelectors={errSelectors}
                   />
-              }).toArray()
-            }
+                )
+              })
+              .toArray()}
             <div className="auth-btn-wrapper">
-              {
-                nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick }>Logout</Button>
-              : <Button type="submit" className="btn modal-btn auth authorize">Authorize</Button>
-              }
-              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+              {nonOauthDefinitions.size === authorizedAuth.size ? (
+                <Button
+                  className="btn modal-btn auth"
+                  onClick={this.logoutClick}
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button type="submit" className="btn modal-btn auth authorize">
+                  Authorize
+                </Button>
+              )}
+              <Button
+                className="btn modal-btn auth btn-done"
+                onClick={this.close}
+              >
+                Close
+              </Button>
             </div>
           </form>
-        }
+        )}
 
-        {
-          oauthDefinitions && oauthDefinitions.size ? <div>
-          <div className="scope-def">
-            <p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.</p>
-            <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
+        {oauthDefinitions.size > 0 ? (
+          <div>
+            <div className="scope-def">
+              <p>
+                Scopes are used to grant an application different levels of
+                access to data on behalf of the end user. Each API may declare
+                one or more scopes.
+              </p>
+              <p>
+                API requires the following scopes. Select which ones you want to
+                grant to Swagger UI.
+              </p>
+            </div>
+            {definitions
+              .filter((schema) => schema.get("type") === "oauth2")
+              .map((schema, name) => {
+                return (
+                  <div key={name}>
+                    <Oauth2
+                      authorized={authorized}
+                      schema={schema}
+                      name={name}
+                    />
+                  </div>
+                )
+              })
+              .toArray()}
           </div>
-            {
-              definitions.filter( schema => schema.get("type") === "oauth2")
-                .map( (schema, name) =>{
-                  return (<div key={ name }>
-                    <Oauth2 authorized={ authorized }
-                            schema={ schema }
-                            name={ name } />
-                  </div>)
-                }
-                ).toArray()
-            }
-          </div> : null
-        }
-        {
-          !!mutualTLSDefinitions.size && <div>
-            {
-              mutualTLSDefinitions.map( (schema, name) => {
-                return <AuthItem
-                  key={name}
-                  schema={schema}
-                  name={name}
-                  getComponent={getComponent}
-                  onAuthChange={this.onAuthChange}
-                  authorized={authorized}
-                  errSelectors={errSelectors}
+        ) : null}
+        {mutualTLSDefinitions.size > 0 && (
+          <div>
+            {mutualTLSDefinitions
+              .map((schema, name) => {
+                return (
+                  <AuthItem
+                    key={name}
+                    schema={schema}
+                    name={name}
+                    getComponent={getComponent}
+                    onAuthChange={this.onAuthChange}
+                    authorized={authorized}
+                    errSelectors={errSelectors}
                   />
-              }).toArray()
-            }
+                )
+              })
+              .toArray()}
           </div>
-        }
-        
+        )}
       </div>
     )
   }
-
 }
 
+export default Auths
