@@ -14,6 +14,15 @@ describe("OAuth2 Application flow", function() {
       .should("have.id", "oauth_username")
   })
 
+  it("should have specific OAuth2 description for authorization button", () => {
+    cy
+      .visit("/?url=http://localhost:3231/swagger.yaml")
+      .get(".btn.authorize")
+      .click()
+      .get(".auth-btn-wrapper > .authorize")
+      .should("have.attr", "aria-label", "Apply given OAuth2 credentials")
+  })
+
   it("should make an application flow Authorization header request", () => {
     cy
       .visit("/?url=http://localhost:3231/swagger.yaml")

@@ -114,11 +114,11 @@ export default class Oauth2 extends React.Component {
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
+    const Button = getComponent("Button")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent("Markdown", true)
     const InitializedInput = getComponent("InitializedInput")
-    const AuthorizeButton = getComponent("AuthorizeButton")
 
     const { isOAS3 } = specSelectors
 
@@ -266,17 +266,15 @@ export default class Oauth2 extends React.Component {
                               key={ key }/>
           } )
         }
+        <div className="auth-btn-wrapper">
+        { isValid &&
+          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout } aria-label="Remove authorization">Logout</Button>
+        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize } aria-label="Apply given OAuth2 credentials">Authorize</Button>
+          )
+        }
+          <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+        </div>
 
-        <AuthorizeButton
-          authKey="oauth"
-          caption="Authorize"
-          description="Apply given OAuth2 credentials"
-          validAuthorizationData={isValid}
-          authorizationDataProvided={isAuthorized}
-          applyAuthorization={this.authorize}
-          removeAuthorization={this.logout}
-          close={this.close}
-          getComponent={getComponent} />
       </div>
     )
   }

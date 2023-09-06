@@ -16,7 +16,7 @@ const fillInApiKeyAndAuthorise = apiKey => () => {
 
 const clickLogoutAndReauthorise = () => {
   return cy
-    .get(".auth-btn-wrapper button:nth-child(2)") // logout button
+    .get(".auth-btn-wrapper button:nth-child(1)") // logout button
     .click()
     .get(".auth-btn-wrapper > .authorize") // authorise button
     .click()
