@@ -1,5 +1,5 @@
 import React from "react"
-import { OAS3ComponentWrapFactory } from "../helpers"
+import { OAS3ComponentWrapFactory } from "../../helpers"
 
 export default OAS3ComponentWrapFactory(({ Ori, ...props }) => {
   const {
@@ -8,6 +8,7 @@ export default OAS3ComponentWrapFactory(({ Ori, ...props }) => {
 
   const HttpAuth = getComponent("HttpAuth")
   const type = schema.get("type")
+
 
   if(type === "http") {
     return <HttpAuth key={ name }
