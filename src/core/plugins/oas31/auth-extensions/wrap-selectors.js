@@ -9,6 +9,8 @@ export const definitionsToAuthorize = createOnlyOAS31SelectorWrapper(
     const definitions = system.specSelectors.securityDefinitions()
     let list = oriSelector()
 
+    if (!definitions) return list
+
     definitions.entrySeq().forEach(([defName, definition]) => {
       const type = definition.get("type")
 
