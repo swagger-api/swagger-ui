@@ -7,7 +7,7 @@ describe("ApiKey Authorization", function() {
       .get(".modal-ux-content > :nth-child(2)") // only deal with api_key for this test
       .within(() => {
         cy.get(".auth-btn-wrapper .authorize")
-          .should("have.attr", "aria-label", "Apply authorization credentials")
+          .should("have.attr", "aria-label", "Apply credentials")
       })
   })
 })
