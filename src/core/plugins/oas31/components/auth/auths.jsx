@@ -81,7 +81,6 @@ class Auths extends React.Component {
     const mutualTLSDefinitions = definitions.filter(
       (schema) => schema.get("type") === "mutualTLS"
     )
-
     return (
       <div className="auth-container">
         {nonOauthDefinitions.size > 0 && (
@@ -106,11 +105,16 @@ class Auths extends React.Component {
                 <Button
                   className="btn modal-btn auth"
                   onClick={this.logoutClick}
+                  aria-label="Remove authorization"
                 >
                   Logout
                 </Button>
               ) : (
-                <Button type="submit" className="btn modal-btn auth authorize">
+                <Button 
+                  type="submit"
+                  className="btn modal-btn auth authorize"
+                  aria-label="Apply credentials"
+                >
                   Authorize
                 </Button>
               )}

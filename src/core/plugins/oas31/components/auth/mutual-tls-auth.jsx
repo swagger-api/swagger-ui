@@ -6,27 +6,23 @@ import PropTypes from "prop-types"
 
 const MutualTLSAuth = ({ schema, getComponent }) => {
   const JumpToPath = getComponent("JumpToPath", true)
-
   return (
     <div>
       <h4>
-        {schema.name} (mutualTLS){" "}
-        <JumpToPath path={["securityDefinitions", schema.name]} />
+        {schema.get("name")} (mutualTLS){" "}
+        <JumpToPath path={["securityDefinitions", schema.get("name")]} />
       </h4>
       <p>
         Mutual TLS is required by this API/Operation. Certificates are managed
         via your Operating System and/or your browser.
       </p>
-      <p>{schema.description}</p>
+      <p>{schema.get("description")}</p>
     </div>
   )
 }
 
 MutualTLSAuth.propTypes = {
-  schema: PropTypes.shape({
-    name: PropTypes.string,
-    description: PropTypes.string,
-  }).isRequired,
+  schema: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
 }
 
