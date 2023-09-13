@@ -155,7 +155,7 @@ export default function SwaggerUI(opts) {
         spec: "",
         // support Relative References
         url: constructorConfig.url
-          ? new URL(constructorConfig.url, document.baseURI || location.href).toString()
+          ? new URL(constructorConfig.url, document.baseURI).toString()
           : constructorConfig.url,
       },
       requestSnippets: constructorConfig.requestSnippets
@@ -195,13 +195,13 @@ export default function SwaggerUI(opts) {
 
     // support Relative References in `url` config option
     if (mergedConfig.url) {
-      mergedConfig.url = new URL(mergedConfig.url, document.baseURI || location.href).toString()
+      mergedConfig.url = new URL(mergedConfig.url, document.baseURI).toString()
     }
 
     // support Relative References in `urls` config option
     if (Array.isArray(mergedConfig.urls)) {
       mergedConfig.urls = mergedConfig.urls.map(({ url , ...rest}) => ({
-        url: new URL(url, document.baseURI || location.href).toString(),
+        url: new URL(url, document.baseURI).toString(),
         ...rest,
       }))
     }
