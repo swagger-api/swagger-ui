@@ -153,7 +153,10 @@ export default function SwaggerUI(opts) {
       },
       spec: {
         spec: "",
+        // support Relative References
         url: constructorConfig.url
+          ? new URL(constructorConfig.url, document.baseURI || location.href).toString()
+          : constructorConfig.url,
       },
       requestSnippets: constructorConfig.requestSnippets
     }, constructorConfig.initialState)
@@ -189,6 +192,19 @@ export default function SwaggerUI(opts) {
   const downloadSpec = (fetchedConfig) => {
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
+
+    // support Relative References in `url` config option
+    if (mergedConfig.url) {
+      mergedConfig.url = new URL(mergedConfig.url, document.baseURI || location.href).toString()
+    }
+
+    // support Relative References in `urls` config option
+    if (Array.isArray(mergedConfig.urls)) {
+      mergedConfig.urls = mergedConfig.urls.map(({ url , ...rest}) => ({
+        url: new URL(url, document.baseURI || location.href).toString(),
+        ...rest,
+      }))
+    }
 
     // deep extend mangles domNode, we need to set it manually
     if(domNode) {
