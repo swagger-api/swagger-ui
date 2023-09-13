@@ -76,7 +76,7 @@ module.exports = {
           "@babel/env",
           {
             "targets": {
-              "node": "16.13.2"
+              "node": "20.3.0"
             },
             "ignoreBrowserslistConfig": true,
             "useBuiltIns": false,
