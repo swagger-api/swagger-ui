@@ -111,7 +111,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
   return resolve({
     fetch,
     spec: json,
-    baseDoc: url,
+    baseDoc: String(new URL(url, document.baseURI)),
     modelPropertyMacro,
     parameterMacro,
     requestInterceptor,
@@ -183,7 +183,7 @@ const debResolveSubtrees = debounce(() => {
       const batchResult = await systemRequestBatch.reduce(async (prev, path) => {
         let { resultMap, specWithCurrentSubtrees } = await prev
         const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
-          baseDoc: specSelectors.url(),
+          baseDoc: String(new URL(specSelectors.url(), document.baseURI)),
           modelPropertyMacro,
           parameterMacro,
           requestInterceptor,
