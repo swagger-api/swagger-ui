@@ -26,9 +26,16 @@ const baseRules = [
       cacheDirectory: true,
     },
   },
-  { test: /\.(txt|yaml)$/, type: "asset/source" },
   {
-    test: /\.(png|jpg|jpeg|gif|svg)$/,
+    test: /\.(txt|yaml)$/,
+    type: "asset/source",
+  },
+  {
+    test: /\.svg$/,
+    use: ["@svgr/webpack"],
+  },
+  {
+    test: /\.(png|jpg|jpeg|gif)$/,
     type: "asset/inline",
   },
 ]
