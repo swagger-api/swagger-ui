@@ -68,7 +68,7 @@ export default class Model extends ImmutablePureComponent {
     if(!schema) {
       return <span className="model model-title">
               <span className="model-title__text">{ displayName || name }</span>
-              <img src={RollingLoadSVG} height={"20px"} width={"20px"} />
+              <RollingLoadSVG height="20px" width="20px" />
             </span>
     }
 

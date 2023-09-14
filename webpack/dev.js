@@ -89,7 +89,11 @@ const devConfig = configBuilder(
           type: "asset/source",
         },
         {
-          test: /\.(png|jpg|jpeg|gif|svg)$/,
+          test: /\.svg$/,
+          use: ["@svgr/webpack"],
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif)$/,
           type: "asset/inline",
         },
       ],

@@ -124,6 +124,7 @@
     "@jest/globals": "=29.6.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@release-it/conventional-changelog": "=5.1.0",
+    "@svgr/webpack": "=8.1.0",
     "@wojtekmaj/enzyme-adapter-react-17": "=0.8.0",
     "autoprefixer": "^10.4.15",
     "babel-loader": "^9.1.3",

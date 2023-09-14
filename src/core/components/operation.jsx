@@ -123,7 +123,7 @@ export default class Operation extends PureComponent {
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
               { (operation && operation.size) || operation === null ? null :
-                <img height={"32px"} width={"32px"} src={RollingLoadSVG} className="opblock-loading-animation" />
+                <RollingLoadSVG height="32px" width="32px" className="opblock-loading-animation" />
               }
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
