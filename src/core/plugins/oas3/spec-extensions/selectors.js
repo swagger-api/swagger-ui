@@ -54,29 +54,36 @@ export const callbacksOperations = onlyOAS3(
 
       if (!Map.isMap(callbacks)) return {}
 
-      return callbacks
+      const result = callbacks
         .reduce((allOperations, callback, callbackName) => {
           if (!Map.isMap(callback)) return allOperations
 
-          return callback.reduce((callbackOperations, pathItem, expression) => {
-            if (!Map.isMap(pathItem)) return callbackOperations
+          const callbackOperations = callback.reduce(
+            (callbackOps, pathItem, expression) => {
+              if (!Map.isMap(pathItem)) return callbackOps
 
-            const pathItemOperations = pathItem
-              .entrySeq()
-              .filter(([key]) => validOperationMethods.includes(key))
-              .map(([method, operation]) => ({
-                operation: Map({ operation }),
-                method,
-                path: expression,
-                callbackName,
-                specPath: specPath.concat([callbackName, expression, method]),
-              }))
+              const pathItemOperations = pathItem
+                .entrySeq()
+                .filter(([key]) => validOperationMethods.includes(key))
+                .map(([method, operation]) => ({
+                  operation: Map({ operation }),
+                  method,
+                  path: expression,
+                  callbackName,
+                  specPath: specPath.concat([callbackName, expression, method]),
+                }))
 
-            return callbackOperations.concat(pathItemOperations)
-          }, List())
+              return callbackOps.concat(pathItemOperations)
+            },
+            List()
+          )
+
+          return allOperations.concat(callbackOperations)
         }, List())
         .groupBy((operationDTO) => operationDTO.callbackName)
         .map((operations) => operations.toArray())
         .toObject()
+
+      return result
     }
 )
