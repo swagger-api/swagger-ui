@@ -54,7 +54,7 @@ export const callbacksOperations = onlyOAS3(
 
       if (!Map.isMap(callbacks)) return {}
 
-      const result = callbacks
+      return callbacks
         .reduce((allOperations, callback, callbackName) => {
           if (!Map.isMap(callback)) return allOperations
 
@@ -83,7 +83,5 @@ export const callbacksOperations = onlyOAS3(
         .groupBy((operationDTO) => operationDTO.callbackName)
         .map((operations) => operations.toArray())
         .toObject()
-
-      return result
     }
 )
