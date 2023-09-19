@@ -121,7 +121,7 @@
     "@babel/register": "=7.22.5",
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "@jest/globals": "=29.6.4",
+    "@jest/globals": "=29.7.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@release-it/conventional-changelog": "=5.1.0",
     "@svgr/webpack": "=8.1.0",
