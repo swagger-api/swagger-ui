@@ -95,6 +95,7 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
+        <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
         <button
           aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
           className="opblock-control-arrow"
@@ -103,7 +104,6 @@ export default class OperationSummary extends PureComponent {
           onClick={toggleShown}>
           {isShown ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
         </button>
-        <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
       </div>
     )
   }
