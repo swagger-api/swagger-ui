@@ -141,6 +141,15 @@ describe("sampleFromSchema", () => {
     expect(
       sample({
         type: "string",
+        format: "uri-template",
+        contentEncoding: "base64url",
+      })
+    ).toStrictEqual(
+      "aHR0cHM6Ly9leGFtcGxlLmNvbS9kaWN0aW9uYXJ5L3t0ZXJtOjF9L3t0ZXJtfQ"
+    )
+    expect(
+      sample({
+        type: "string",
         format: "iri-reference",
         contentEncoding: "custom-encoding",
       })
