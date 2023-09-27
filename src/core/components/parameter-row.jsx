@@ -134,6 +134,8 @@ export default class ParameterRow extends Component {
           ? paramWithMeta.getIn(["content", parameterMediaType, "example"])
           : paramWithMeta.get("example") !== undefined
           ? paramWithMeta.get("example")
+          : (schema && schema.get("type") === "array" && schema.get("example"))
+          ? undefined  // when type is array, it starts with 0 items, so skip initial value
           : (schema && schema.get("example")) !== undefined
           ? (schema && schema.get("example"))
           : (schema && schema.get("default")) !== undefined
