@@ -35,8 +35,10 @@ const Info = ({ getComponent, specSelectors }) => {
       <hgroup className="main">
         <h2 className="title">
           {title}
-          {version && <VersionStamp version={version} />}
-          <OpenAPIVersion oasVersion="3.1" />
+          <span>
+            {version && <VersionStamp version={version} />}
+            <OpenAPIVersion oasVersion="3.1" />
+          </span>
         </h2>
 
         {(host || basePath) && <InfoBasePath host={host} basePath={basePath} />}
