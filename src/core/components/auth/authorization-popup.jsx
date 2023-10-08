@@ -8,6 +8,20 @@ export default class AuthorizationPopup extends React.Component {
     authActions.showDefinitions(false)
   }
 
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown)
+  }
+
+  handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      this.close()
+    }
+  }
+
   render() {
     let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
