@@ -30,6 +30,7 @@ export default class Oauth2 extends React.Component {
     if (typeof scopes === "string") {
       scopes = scopes.split(authConfigs.scopeSeparator || " ")
     }
+    let oauth2FlowOverwrites = auth && auth.get("oauth2FlowOverwrites") || authConfigs.oauth2FlowOverwrites || ""
 
     this.state = {
       appName: authConfigs.appName,
@@ -38,6 +39,7 @@ export default class Oauth2 extends React.Component {
       scopes: scopes,
       clientId: clientId,
       clientSecret: clientSecret,
+      oauth2FlowOverwrites: oauth2FlowOverwrites && new Map(oauth2FlowOverwrites),
       username: username,
       password: "",
       passwordType: passwordType
@@ -141,6 +143,8 @@ export default class Oauth2 extends React.Component {
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
     let isValid = !errors.filter( err => err.get("source") === "validation").size
     let description = schema.get("description")
+    let clientId = (this.state.oauth2FlowOverwrites && this.state.oauth2FlowOverwrites.get(flow) && this.state.oauth2FlowOverwrites.get(flow).clientId) || this.state.clientId
+    let clientSecret = (this.state.oauth2FlowOverwrites && this.state.oauth2FlowOverwrites.get(flow) && this.state.oauth2FlowOverwrites.get(flow).clientSecret) || this.state.clientSecret
 
     return (
       <div>
@@ -195,7 +199,7 @@ export default class Oauth2 extends React.Component {
         }
         {
           ( flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD ) &&
-          ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
+          ( !isAuthorized || isAuthorized && clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
             {
               isAuthorized ? <code> ****** </code>
@@ -203,7 +207,7 @@ export default class Oauth2 extends React.Component {
                                <InitializedInput id="client_id"
                                       type="text"
                                       required={ flow === AUTH_FLOW_PASSWORD }
-                                      initialValue={ this.state.clientId }
+                                      initialValue={ clientId }
                                       data-name="clientId"
                                       onChange={ this.onInputChange }/>
                              </Col>
@@ -218,7 +222,7 @@ export default class Oauth2 extends React.Component {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
                                <InitializedInput id="client_secret"
-                                      initialValue={ this.state.clientSecret }
+                                      initialValue={ clientSecret }
                                       type="password"
                                       data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
