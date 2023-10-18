@@ -325,6 +325,7 @@
         font-size: 16px;
         @media (max-width: 768px) {
           font-size: 12px;
+        white-space: nowrap;
         }
 
 
@@ -350,6 +351,7 @@
       {
           flex-shrink: 1;
           max-width: 100%;
+          white-space: nowrap;
       }
     }
 
@@ -369,7 +371,7 @@
 
         flex: 1 1 auto;
 
-        word-break: break-word;
+        word-break: keep-all;
 
         @include text_body();
     }
