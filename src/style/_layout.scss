@@ -790,6 +790,10 @@
     {
         display: flex;
         align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        gap: 10px;
 
         > label
         {
@@ -808,6 +812,27 @@
                 min-width: 130px;
 
                 text-transform: uppercase;
+            }
+        }
+
+        /* 
+        Target Authorize Button in schemes wrapper
+        This was added here to fix responsiveness issues with the authorize button
+        within the schemes wrapper without affecting other instances of it's usage
+        */
+        .auth-wrapper 
+        {
+            flex: none;
+            justify-content: none;
+            
+            .authorize
+            {
+                padding-right: 20px;
+                margin: 0;
+
+                display: flex;
+
+                flex-wrap: nowrap;
             }
         }
     }
