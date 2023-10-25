@@ -119,7 +119,7 @@
     "@babel/preset-env": "=7.23.2",
     "@babel/preset-react": "=7.22.15",
     "@babel/register": "=7.22.15",
-    "@commitlint/cli": "^18.0.0",
+    "@commitlint/cli": "^18.1.0",
     "@commitlint/config-conventional": "^17.8.0",
     "@jest/globals": "=29.7.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
