@@ -39,6 +39,13 @@ describe("<ResponseBody />", function () {
     console.warn(wrapper.debug())
     expect(wrapper.find("highlightCodeComponent[canCopy]").length).toEqual(1)
   })
+  
+  it("should render Download file link for text non-empty response", function () {
+    props.contentType = "text/plain"
+    props.content = "test text"
+    const wrapper = shallow(<ResponseBody {...props} />)
+    expect(wrapper.text()).toMatch(/Download file/)
+  })
 
   it("should render Download file link for non-empty response", function () {
     props.contentType = "application/octet-stream"
