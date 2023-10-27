@@ -2,7 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { opId } from "swagger-client/es/helpers"
-import { Iterable, fromJS, Map } from "immutable"
+import { Iterable, fromJS, Map, OrderedMap } from "immutable"
 
 export default class OperationContainer extends PureComponent {
   constructor(props, context) {
@@ -124,7 +124,7 @@ export default class OperationContainer extends PureComponent {
 
   onResetClick = (pathMethod) => {
     const defaultRequestBodyValue = this.props.oas3Selectors.selectDefaultRequestBodyValue(...pathMethod)
-    this.props.oas3Actions.setRequestBodyValue({ value: defaultRequestBodyValue, pathMethod })
+    this.props.oas3Actions.setRequestBodyValue({ value: OrderedMap(JSON.parse(defaultRequestBodyValue)), pathMethod })
   }
 
   onExecute = () => {
