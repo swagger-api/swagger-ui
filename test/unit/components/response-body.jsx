@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
-import ResponseBody from "components/response-body"
+import ResponseBody from "core/components/response-body"
 
 describe("<ResponseBody />", function () {
   const highlightCodeComponent = () => null

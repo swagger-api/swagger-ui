@@ -1,6 +1,6 @@
 import React from "react"
 import { mount } from "enzyme"
-import OnlineValidatorBadge from "components/online-validator-badge"
+import OnlineValidatorBadge from "core/components/online-validator-badge"
 
 describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
   it("should render a validator link with safe `rel` attributes", function () {

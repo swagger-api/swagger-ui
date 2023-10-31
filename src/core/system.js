@@ -5,7 +5,7 @@ import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
 import { serializeError } from "serialize-error"
 import merge from "lodash/merge"
-import { NEW_THROWN_ERR } from "corePlugins/err/actions"
+import { NEW_THROWN_ERR } from "core/plugins/err/actions"
 import win from "core/window"
 
 import { systemThunkMiddleware, isFn, objMap, objReduce, isObject, isArray, isFunc } from "core/utils"

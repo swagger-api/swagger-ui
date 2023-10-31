@@ -3,7 +3,7 @@ import React from "react"
 import expect from "expect"
 import { mount } from "enzyme"
 import { fromJS, Map } from "immutable"
-import OnlineValidatorBadge from "components/online-validator-badge"
+import OnlineValidatorBadge from "core/components/online-validator-badge"
 
 describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
   it("should render a validator link with safe `rel` attributes", function () {

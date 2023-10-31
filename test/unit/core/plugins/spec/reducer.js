@@ -1,6 +1,6 @@
 
 import { fromJS } from "immutable"
-import reducer from "corePlugins/spec/reducers"
+import reducer from "core/plugins/spec/reducers"
 
 describe("spec plugin - reducer", function(){
 

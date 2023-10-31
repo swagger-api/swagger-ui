@@ -5,7 +5,7 @@ import { OrderedMap, Map, List } from "immutable"
 import { createSelector } from "reselect"
 
 import { getDefaultRequestBodyValue } from "./components/request-body"
-import { stringify } from "../../utils"
+import { stringify } from "core/utils"
 
 // Helpers
 

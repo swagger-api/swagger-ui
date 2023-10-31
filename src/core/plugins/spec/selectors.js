@@ -1,7 +1,6 @@
 import { createSelector } from "reselect"
-import { sorters } from "core/utils"
+import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
-import { paramToIdentifier } from "../../utils"
 
 const DEFAULT_TAG = "default"
 

@@ -23,9 +23,9 @@ export default function () {
         wrapSelectors: authWrapSelectors,
       },
       oas3: {
-        actions,
+        actions: { ...actions },
         reducers,
-        selectors,
+        selectors: { ...selectors },
       },
     },
   }
