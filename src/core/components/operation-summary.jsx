@@ -68,7 +68,6 @@ export default class OperationSummary extends PureComponent {
     return (
       <div className={`opblock-summary opblock-summary-${method}`} >
         <button
-          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
           aria-expanded={isShown}
           className="opblock-summary-control"
           onClick={toggleShown}
