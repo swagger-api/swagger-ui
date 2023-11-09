@@ -59,13 +59,12 @@ export default class ResponseBody extends React.PureComponent {
     url = url || ""
 
     if (
-      (/^text\/([A-z])*/i.test(contentType) && content.length > 0) ||
       (/^application\/octet-stream/i.test(contentType) ||
-      (headers["Content-Disposition"] && /attachment/i.test(headers["Content-Disposition"])) ||
-      (headers["content-disposition"] && /attachment/i.test(headers["content-disposition"])) ||
-      (headers["Content-Description"] && /File Transfer/i.test(headers["Content-Description"])) ||
-      (headers["content-description"] && /File Transfer/i.test(headers["content-description"]))) &&
-      content.size > 0
+        (headers["Content-Disposition"] && /attachment/i.test(headers["Content-Disposition"])) ||
+        (headers["content-disposition"] && /attachment/i.test(headers["content-disposition"])) ||
+        (headers["Content-Description"] && /File Transfer/i.test(headers["Content-Description"])) ||
+        (headers["content-description"] && /File Transfer/i.test(headers["content-description"]))) &&
+      (content.size > 0 || content.length > 0)
     ) {
       // Download
 
