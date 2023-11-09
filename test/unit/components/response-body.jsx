@@ -49,7 +49,7 @@ describe("<ResponseBody />", function () {
     props.contentType = "text/plain"
     props.content = "test text"
     props.headers = {
-      'Content-Disposition': 'attachment; filename="test.txt"',
+      "Content-Disposition": "attachment; filename=\"test.txt\"",
     }
     const wrapper = shallow(<ResponseBody {...props} />)
     expect(wrapper.text()).toMatch(/Download file/)
