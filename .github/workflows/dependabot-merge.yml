@@ -4,6 +4,9 @@ on:
   pull_request_target:
     branches: [ master, next ]
 
+permissions:
+  contents: read
+
 jobs:
   merge-me:
     name: Merge me!

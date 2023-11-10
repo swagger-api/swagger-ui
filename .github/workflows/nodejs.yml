@@ -12,6 +12,9 @@ on:
 env:
   CYPRESS_CACHE_FOLDER: cypress/cache
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
