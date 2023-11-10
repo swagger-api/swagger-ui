@@ -7,7 +7,17 @@
     {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
     }
+    @media (max-width: 550px) {
+        .topbar-wrapper
+        {
+            flex-direction: column;
+            align-items: start;
+        }
+    }
+
     a
     {
         font-size: 1.5em;
@@ -39,6 +49,7 @@
         input[type=text]
         {
             width: 100%;
+            max-width: 100%;
             margin: 0;
 
             border: 2px solid $topbar-download-url-wrapper-element-border-color;
@@ -91,6 +102,12 @@
             background: $topbar-download-url-button-background-color;
 
             @include text_headline($topbar-download-url-button-font-color);
+        }
+    }
+    @media (max-width: 550px) {
+        .download-url-wrapper
+        {
+            width: 100%;
         }
     }
 }

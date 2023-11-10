@@ -73,13 +73,15 @@ export default class OperationSummary extends PureComponent {
           onClick={toggleShown}
         >
           <OperationSummaryMethod method={method} />
-          <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
+          <div className="opblock-summary-path-description-wrapper">
+            <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
 
-          {!showSummary ? null :
-            <div className="opblock-summary-description">
-              {toString(resolvedSummary || summary)}
-            </div>
-          }
+            {!showSummary ? null :
+              <div className="opblock-summary-description">
+                {toString(resolvedSummary || summary)}
+              </div>
+            }
+          </div>
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
         </button>
