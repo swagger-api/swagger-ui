@@ -122,6 +122,11 @@ export default class OperationContainer extends PureComponent {
     this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
   }
 
+  onResetClick = (pathMethod) => {
+    const defaultRequestBodyValue = this.props.oas3Selectors.selectDefaultRequestBodyValue(...pathMethod)
+    this.props.oas3Actions.setRequestBodyValue({ value: defaultRequestBodyValue, pathMethod })
+  }
+
   onExecute = () => {
     this.setState({ executeInProgress: true })
   }
@@ -225,6 +230,7 @@ export default class OperationContainer extends PureComponent {
 
         toggleShown={this.toggleShown}
         onTryoutClick={this.onTryoutClick}
+        onResetClick={this.onResetClick}
         onCancelClick={this.onCancelClick}
         onExecute={this.onExecute}
         specPath={specPath}

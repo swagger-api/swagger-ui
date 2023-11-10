@@ -2,6 +2,7 @@ name: Merge me!
 
 on:
   pull_request_target:
+    branches: [ master, next ]
 
 permissions:
   contents: read
@@ -12,9 +13,28 @@ jobs:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Merge me!
-        uses: ahmadnassri/action-dependabot-auto-merge@v2
+      # This first step will fail if there's no metadata and so the approval
+      # will not occur.
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v1.1.1
         with:
-          target: minor
-          github-token: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          command: squash and merge
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      # Here the PR gets approved.
+      - name: Approve a PR
+        if: ${{ steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major' }}
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+      # Finally, tell dependabot to merge the PR if all checks are successful
+      - name: Instruct dependabot to squash & merge
+        if: ${{ steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major' }}
+        uses: mshick/add-pr-comment@v2
+        with:
+          repo-token: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+          allow-repeats: true
+          message: |
+            @dependabot squash and merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}

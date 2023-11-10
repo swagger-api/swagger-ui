@@ -7,7 +7,7 @@ import {
   authorizeOauth2WithPersistOption,
   logoutWithPersistOption,
   persistAuthorizationIfNeeded
-} from "corePlugins/auth/actions"
+} from "core/plugins/auth/actions"
 import {authorizeAccessCodeWithBasicAuthentication, authPopup} from "../../../../../src/core/plugins/auth/actions"
 
 describe("auth plugin - actions", () => {

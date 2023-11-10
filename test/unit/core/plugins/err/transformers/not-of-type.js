@@ -1,5 +1,5 @@
 import { Map, List } from "immutable"
-import { transform } from "corePlugins/err/error-transformers/transformers/not-of-type"
+import { transform } from "core/plugins/err/error-transformers/transformers/not-of-type"
 
 describe("err plugin - tranformers - not of type", () => {
 

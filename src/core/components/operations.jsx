@@ -2,13 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import Im from "immutable"
 
-const SWAGGER2_OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch"
-]
-
-const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
-
-
 export default class Operations extends React.Component {
 
   static propTypes = {
@@ -53,6 +46,7 @@ export default class Operations extends React.Component {
       layoutActions,
       getConfigs,
     } = this.props
+    const validOperationMethods = specSelectors.validOperationMethods()
     const OperationContainer = getComponent("OperationContainer", true)
     const OperationTag = getComponent("OperationTag")
     const operations = tagObj.get("operations")
@@ -74,16 +68,7 @@ export default class Operations extends React.Component {
               const method = op.get("method")
               const specPath = Im.List(["paths", path, method])
 
-
-              // FIXME: (someday) this logic should probably be in a selector,
-              // but doing so would require further opening up
-              // selectors to the plugin system, to allow for dynamic
-              // overriding of low-level selectors that other selectors
-              // rely on. --KS, 12/17
-              const validMethods = specSelectors.isOAS3() ?
-                OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
-
-              if (validMethods.indexOf(method) === -1) {
+              if (validOperationMethods.indexOf(method) === -1) {
                 return null
               }
 

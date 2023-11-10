@@ -1,10 +1,13 @@
 import YAML, { JSON_SCHEMA } from "js-yaml"
-import { Map } from "immutable"
+import { Map as ImmutableMap } from "immutable"
 import parseUrl from "url-parse"
 import { serializeError } from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
+import assocPath from "lodash/fp/assocPath"
+import constant from "lodash/constant"
+
 import { paramToValue, isEmptyValue } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
@@ -108,43 +111,54 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
   return resolve({
     fetch,
     spec: json,
-    baseDoc: url,
+    baseDoc: String(new URL(url, document.baseURI)),
     modelPropertyMacro,
     parameterMacro,
     requestInterceptor,
     responseInterceptor
   }).then( ({spec, errors}) => {
-      errActions.clear({
-        type: "thrown"
-      })
-      if(Array.isArray(errors) && errors.length > 0) {
-        let preparedErrors = errors
-          .map(err => {
-            console.error(err)
-            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
-            err.path = err.fullPath ? err.fullPath.join(".") : null
-            err.level = "error"
-            err.type = "thrown"
-            err.source = "resolver"
-            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
-            return err
-          })
-        errActions.newThrownErrBatch(preparedErrors)
-      }
-
-      return specActions.updateResolved(spec)
+    errActions.clear({
+      type: "thrown"
     })
+    if(Array.isArray(errors) && errors.length > 0) {
+      let preparedErrors = errors
+        .map(err => {
+          console.error(err)
+          err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+          err.path = err.fullPath ? err.fullPath.join(".") : null
+          err.level = "error"
+          err.type = "thrown"
+          err.source = "resolver"
+          Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+          return err
+        })
+      errActions.newThrownErrBatch(preparedErrors)
+    }
+
+    return specActions.updateResolved(spec)
+  })
 }
 
 let requestBatch = []
 
-const debResolveSubtrees = debounce(async () => {
-  const system = requestBatch.system // Just a reference to the "latest" system
+const debResolveSubtrees = debounce(() => {
+  const systemPartitionedBatches = requestBatch.reduce((acc, { path, system }) => {
+    if (!acc.has(system)) acc.set(system, [])
+    acc.get(system).push(path)
+    return acc
+  }, new Map())
 
-  if(!system) {
-    console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
-    return
-  }
+  requestBatch = [] // clear stack
+
+  systemPartitionedBatches.forEach(async (systemRequestBatch, system) => {
+    if(!system) {
+      console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
+      return
+    }
+    if(!system.fn.resolveSubtree) {
+      console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
+      return
+    }
     const {
       errActions,
       errSelectors,
@@ -156,113 +170,101 @@ const debResolveSubtrees = debounce(async () => {
       specSelectors,
       specActions,
     } = system
+    const getLineNumberForPath = AST.getLineNumberForPath ?? constant(undefined)
+    const specStr = specSelectors.specStr()
+    const {
+      modelPropertyMacro,
+      parameterMacro,
+      requestInterceptor,
+      responseInterceptor
+    } = system.getConfigs()
 
-  if(!resolveSubtree) {
-    console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
-    return
-  }
-
-  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
-
-  const specStr = specSelectors.specStr()
-
-  const {
-    modelPropertyMacro,
-    parameterMacro,
-    requestInterceptor,
-    responseInterceptor
-  } = system.getConfigs()
-
-  try {
-    var batchResult = await requestBatch.reduce(async (prev, path) => {
-      const { resultMap, specWithCurrentSubtrees } = await prev
-      const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
-        baseDoc: specSelectors.url(),
-        modelPropertyMacro,
-        parameterMacro,
-        requestInterceptor,
-        responseInterceptor
-      })
-
-      if(errSelectors.allErrors().size) {
-        errActions.clearBy(err => {
-          // keep if...
-          return err.get("type") !== "thrown" // it's not a thrown error
-            || err.get("source") !== "resolver" // it's not a resolver error
-            || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
+    try {
+      const batchResult = await systemRequestBatch.reduce(async (prev, path) => {
+        let { resultMap, specWithCurrentSubtrees } = await prev
+        const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
+          baseDoc: String(new URL(specSelectors.url(), document.baseURI)),
+          modelPropertyMacro,
+          parameterMacro,
+          requestInterceptor,
+          responseInterceptor
         })
-      }
 
-      if(Array.isArray(errors) && errors.length > 0) {
-        let preparedErrors = errors
-          .map(err => {
-            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
-            err.path = err.fullPath ? err.fullPath.join(".") : null
-            err.level = "error"
-            err.type = "thrown"
-            err.source = "resolver"
-            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
-            return err
+        if(errSelectors.allErrors().size) {
+          errActions.clearBy(err => {
+            // keep if...
+            return err.get("type") !== "thrown" // it's not a thrown error
+              || err.get("source") !== "resolver" // it's not a resolver error
+              || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
           })
-        errActions.newThrownErrBatch(preparedErrors)
-      }
+        }
 
-      if (spec && specSelectors.isOAS3() && path[0] === "components" && path[1] === "securitySchemes") {
-        // Resolve OIDC URLs if present
-        await Promise.all(Object.values(spec)
-          .filter((scheme) => scheme.type === "openIdConnect")
-          .map(async (oidcScheme) => {
-            const req = {
-              url: oidcScheme.openIdConnectUrl,
-              requestInterceptor: requestInterceptor,
-              responseInterceptor: responseInterceptor
-            }
-            try {
-              const res = await fetch(req)
-              if (res instanceof Error || res.status >= 400) {
-                console.error(res.statusText + " " + req.url)
-              } else {
-                oidcScheme.openIdConnectData = JSON.parse(res.text)
+        if(Array.isArray(errors) && errors.length > 0) {
+          let preparedErrors = errors
+            .map(err => {
+              err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+              err.path = err.fullPath ? err.fullPath.join(".") : null
+              err.level = "error"
+              err.type = "thrown"
+              err.source = "resolver"
+              Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+              return err
+            })
+          errActions.newThrownErrBatch(preparedErrors)
+        }
+
+        if (spec && specSelectors.isOAS3() && path[0] === "components" && path[1] === "securitySchemes") {
+          // Resolve OIDC URLs if present
+          await Promise.all(Object.values(spec)
+            .filter((scheme) => scheme.type === "openIdConnect")
+            .map(async (oidcScheme) => {
+              const req = {
+                url: oidcScheme.openIdConnectUrl,
+                requestInterceptor: requestInterceptor,
+                responseInterceptor: responseInterceptor
               }
-            } catch (e) {
-              console.error(e)
-            }
-          }))
-      }
-      set(resultMap, path, spec)
-      set(specWithCurrentSubtrees, path, spec)
+              try {
+                const res = await fetch(req)
+                if (res instanceof Error || res.status >= 400) {
+                  console.error(res.statusText + " " + req.url)
+                } else {
+                  oidcScheme.openIdConnectData = JSON.parse(res.text)
+                }
+              } catch (e) {
+                console.error(e)
+              }
+            }))
+        }
+        set(resultMap, path, spec)
+        specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
 
-      return {
-        resultMap,
-        specWithCurrentSubtrees
-      }
-    }, Promise.resolve({
-      resultMap: (specSelectors.specResolvedSubtree([]) || Map()).toJS(),
-      specWithCurrentSubtrees: specSelectors.specJson().toJS()
-    }))
+        return {
+          resultMap,
+          specWithCurrentSubtrees
+        }
+      }, Promise.resolve({
+        resultMap: (specSelectors.specResolvedSubtree([]) || ImmutableMap()).toJS(),
+        specWithCurrentSubtrees: specSelectors.specJS()
+      }))
 
-    delete requestBatch.system
-    requestBatch = [] // Clear stack
-  } catch(e) {
-    console.error(e)
-  }
-
-  specActions.updateResolvedSubtree([], batchResult.resultMap)
+      specActions.updateResolvedSubtree([], batchResult.resultMap)
+    } catch(e) {
+      console.error(e)
+    }
+  })
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
-  // poor-man's array comparison
-  // if this ever inadequate, this should be rewritten to use Im.List
-  const isPathAlreadyBatched = requestBatch
-    .map(arr => arr.join("@@"))
-    .indexOf(path.join("@@")) > -1
+  const isPathAlreadyBatched = requestBatch.find(({ path: batchedPath, system: batchedSystem }) => {
+    return batchedSystem === system && batchedPath.toString() === path.toString()
+  })
 
   if(isPathAlreadyBatched) {
     return
   }
 
-  requestBatch.push(path)
-  requestBatch.system = system
+  requestBatch.push({ path, system })
+
   debResolveSubtrees()
 }
 
@@ -292,7 +294,7 @@ export const invalidateResolvedSubtreeCache = () => {
     type: UPDATE_RESOLVED_SUBTREE,
     payload: {
       path: [],
-      value: Map()
+      value: ImmutableMap()
     }
   }
 }
@@ -430,7 +432,7 @@ export const executeRequest = (req) =>
         req.requestBody = requestBody
           .map(
             (val) => {
-              if (Map.isMap(val)) {
+              if (ImmutableMap.isMap(val)) {
                 return val.get("value")
               }
               return val
@@ -438,8 +440,8 @@ export const executeRequest = (req) =>
           )
           .filter(
             (value, key) => (Array.isArray(value)
-              ? value.length !== 0
-              : !isEmptyValue(value)
+                ? value.length !== 0
+                : !isEmptyValue(value)
             ) || requestBodyInclusionSetting.get(key)
           )
           .toJS()
@@ -468,22 +470,22 @@ export const executeRequest = (req) =>
 
 
     return fn.execute(req)
-    .then( res => {
-      res.duration = Date.now() - startTime
-      specActions.setResponse(req.pathName, req.method, res)
-    } )
-    .catch(
-      err => {
-        // console.error(err)
-        if(err.message === "Failed to fetch") {
-          err.name = ""
-          err.message = "**Failed to fetch.**  \n**Possible Reasons:** \n  - CORS \n  - Network Failure \n  - URL scheme must be \"http\" or \"https\" for CORS request."
+      .then( res => {
+        res.duration = Date.now() - startTime
+        specActions.setResponse(req.pathName, req.method, res)
+      } )
+      .catch(
+        err => {
+          // console.error(err)
+          if(err.message === "Failed to fetch") {
+            err.name = ""
+            err.message = "**Failed to fetch.**  \n**Possible Reasons:** \n  - CORS \n  - Network Failure \n  - URL scheme must be \"http\" or \"https\" for CORS request."
+          }
+          specActions.setResponse(req.pathName, req.method, {
+            error: true, err: serializeError(err)
+          })
         }
-        specActions.setResponse(req.pathName, req.method, {
-          error: true, err: serializeError(err)
-        })
-      }
-    )
+      )
   }
 
 

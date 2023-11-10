@@ -33,7 +33,7 @@ These props map to [Swagger UI configuration options](https://github.com/swagger
 
 #### `spec`: PropTypes.object
 
-An OpenAPI document respresented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
+An OpenAPI document represented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
 
 ⚠️ Don't use this in conjunction with `url` - unpredictable behavior may occur.
 
@@ -114,6 +114,12 @@ Controls the display of vendor extension (`x-`) fields and values for Operations
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `showCommonExtensions`: PropTypes.bool
+
+Controls the display of extensions (pattern, maxLength, minLength, maximum, minimum) fields and values for Parameters.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 #### `showMutatedRequest`: PropTypes.bool
 
 If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
@@ -171,14 +177,12 @@ Redirect url given as parameter to the oauth2 provider. Default the url refers t
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
 
-
 ## Limitations
 
 * Not all configuration bindings are available.
 * Some props are only applied on mount, and cannot be updated reliably.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
-* Custom plugins are not supported.
 
 We intend to address these limitations based on user demand, so please open an issue or pull request if you have a specific request.
 

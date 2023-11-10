@@ -1,7 +1,6 @@
 import { createSelector } from "reselect"
-import { sorters } from "core/utils"
+import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
-import { paramToIdentifier } from "../../utils"
 
 const DEFAULT_TAG = "default"
 
@@ -36,6 +35,11 @@ export const specSource = createSelector(
 export const specJson = createSelector(
   state,
   spec => spec.get("json", Map())
+)
+
+export const specJS = createSelector(
+  specJson,
+  (spec) => spec.toJS()
 )
 
 export const specResolved = createSelector(
@@ -113,6 +117,8 @@ export const paths = createSelector(
 	specJsonWithResolvedSubtrees,
 	spec => spec.get("paths")
 )
+
+export const validOperationMethods = createSelector(() => ["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,
@@ -477,19 +483,23 @@ export const canExecuteScheme = ( state, path, method ) => {
   return ["http", "https"].indexOf(operationScheme(state, path, method)) > -1
 }
 
-export const validateBeforeExecute = ( state, pathMethod ) => {
+export const validationErrors = (state, pathMethod) => {
   pathMethod = pathMethod || []
   let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
-  let isValid = true
+  const result = []
 
   paramValues.forEach( (p) => {
     let errors = p.get("errors")
     if ( errors && errors.count() ) {
-      isValid = false
+      errors.forEach( e => result.push(e))
     }
   })
 
-  return isValid
+  return result
+}
+
+export const validateBeforeExecute = (state, pathMethod) => {
+  return validationErrors(state, pathMethod).length === 0
 }
 
 export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {

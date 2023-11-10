@@ -4,7 +4,7 @@ import OperationLink from "./operation-link"
 import Servers from "./servers"
 import ServersContainer from "./servers-container"
 import RequestBodyEditor from "./request-body-editor"
-import HttpAuth from "./http-auth"
+import HttpAuth from "./auth/http-auth"
 import OperationServers from "./operation-servers"
 
 export default {
@@ -15,5 +15,5 @@ export default {
   ServersContainer,
   RequestBodyEditor,
   OperationServers,
-  operationLink: OperationLink
+  operationLink: OperationLink,
 }

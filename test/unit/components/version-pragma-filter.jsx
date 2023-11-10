@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
-import VersionPragmaFilter from "components/version-pragma-filter"
+import VersionPragmaFilter from "core/components/version-pragma-filter"
 
 describe("<VersionPragmaFilter/>", function(){
   it("renders children for a Swagger 2 definition", function(){

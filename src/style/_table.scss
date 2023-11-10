@@ -100,6 +100,12 @@ table
     select {
         border-width: 1px;
     }
+
+    .markdown, .renderedMarkdown {
+        p {
+            margin: 0;
+        }
+    }
 }
 
 .parameter__name
@@ -163,6 +169,7 @@ table
 
     input {
         margin-right: 7px;
+        width: auto;
     }
 
     &.disabled {
@@ -179,6 +186,12 @@ table
 
 .response-col_description {
     width: 99%; // forces other columns to shrink to their content widths
+
+    .markdown, .renderedMarkdown {
+        p {
+            margin: 0;
+        }
+    }
 }
 
 .response-col_links {

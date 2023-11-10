@@ -1,6 +1,6 @@
 
 import { fromJS } from "immutable"
-import { execute, executeRequest, changeParamByIdentity, updateEmptyParamInclusion } from "corePlugins/spec/actions"
+import { execute, executeRequest, changeParamByIdentity, updateEmptyParamInclusion } from "core/plugins/spec/actions"
 
 describe("spec plugin - actions", function(){
 
