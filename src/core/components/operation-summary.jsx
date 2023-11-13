@@ -68,19 +68,20 @@ export default class OperationSummary extends PureComponent {
     return (
       <div className={`opblock-summary opblock-summary-${method}`} >
         <button
-          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
           aria-expanded={isShown}
           className="opblock-summary-control"
           onClick={toggleShown}
         >
           <OperationSummaryMethod method={method} />
-          <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
+          <div className="opblock-summary-path-description-wrapper">
+            <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
 
-          {!showSummary ? null :
-            <div className="opblock-summary-description">
-              {toString(resolvedSummary || summary)}
-            </div>
-          }
+            {!showSummary ? null :
+              <div className="opblock-summary-description">
+                {toString(resolvedSummary || summary)}
+              </div>
+            }
+          </div>
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
         </button>
