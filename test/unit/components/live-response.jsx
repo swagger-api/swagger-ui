@@ -1,9 +1,9 @@
 import React from "react"
 import { fromJSOrdered } from "core/utils"
 import { shallow } from "enzyme"
-import Curl from "components/curl"
-import LiveResponse from "components/live-response"
-import ResponseBody from "components/response-body"
+import Curl from "core/components/curl"
+import LiveResponse from "core/components/live-response"
+import ResponseBody from "core/components/response-body"
 
 describe("<LiveResponse/>", function(){
   let request = fromJSOrdered({
@@ -49,7 +49,7 @@ describe("<LiveResponse/>", function(){
       })
 
       let mutatedRequestForSpy = jest.fn().mockImplementation(function(mutatedRequest) { return mutatedRequest })
-      let requestForSpy = jest.fn().mockImplementation(function(request) { return request }) 
+      let requestForSpy = jest.fn().mockImplementation(function(request) { return request })
 
       let components = {
         curl: Curl,
@@ -57,7 +57,7 @@ describe("<LiveResponse/>", function(){
       }
 
       let props = {
-        response: response, 
+        response: response,
         specSelectors: {
           mutatedRequestFor: mutatedRequestForSpy,
           requestFor: requestForSpy,

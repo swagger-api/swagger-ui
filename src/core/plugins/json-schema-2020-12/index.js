@@ -44,16 +44,6 @@ import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
 import { upperFirst, hasKeyword, isExpandable } from "./fn"
-import {
-  sampleFromSchema,
-  sampleFromSchemaGeneric,
-  createXMLExample,
-  memoizedSampleFromSchema,
-  memoizedCreateXMLExample,
-  encoderAPI,
-  mediaTypeAPI,
-  formatAPI,
-} from "./samples-extensions/fn/index"
 import { JSONSchemaDeepExpansionContext } from "./context"
 import { useFn, useConfig, useComponent, useIsExpandedDeeply } from "./hooks"
 import { withJSONSchemaContext } from "./hoc"
@@ -114,14 +104,6 @@ const JSONSchema202012Plugin = () => ({
       useConfig,
       useComponent,
       useIsExpandedDeeply,
-      sampleFromSchema,
-      sampleFromSchemaGeneric,
-      sampleEncoderAPI: encoderAPI,
-      sampleFormatAPI: formatAPI,
-      sampleMediaTypeAPI: mediaTypeAPI,
-      createXMLExample,
-      memoizedSampleFromSchema,
-      memoizedCreateXMLExample,
     },
   },
 })

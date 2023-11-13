@@ -4,8 +4,8 @@ import { fromJSOrdered } from "core/utils"
 import sinon from "sinon"
 import expect from "expect"
 import { shallow } from "enzyme"
-import LiveResponse from "components/live-response"
-import ResponseBody from "components/response-body"
+import LiveResponse from "core/components/live-response"
+import ResponseBody from "core/components/response-body"
 import RequestSnippets from "core/plugins/request-snippets/request-snippets"
 
 describe("<LiveResponse/>", function () {

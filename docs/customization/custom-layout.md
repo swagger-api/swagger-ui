@@ -21,7 +21,7 @@ class OperationsLayout extends React.Component {
     const Operations = getComponent("operations", true)
 
     return (
-      <div>
+      <div className="swagger-ui">
         <Operations />
       </div>
     )

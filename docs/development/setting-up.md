@@ -5,7 +5,7 @@ Swagger UI includes a development server that provides hot module reloading and 
 ### Prerequisites
 
 - git, any version
-- **Node.js >=16.13.2** and **npm >=8.1.2** are the minimum required versions that this repo runs on, but we recommend using the latest version of Node.js@16
+- **Node.js >=20.3.0** and **npm >=9.6.7** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
 
 ### Steps
 

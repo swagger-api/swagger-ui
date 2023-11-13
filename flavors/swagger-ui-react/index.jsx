@@ -169,6 +169,7 @@ SwaggerUI.defaultProps = {
   oauth2RedirectUrl: undefined,
 }
 
+SwaggerUI.System = SwaggerUIConstructor.System
 SwaggerUI.presets = SwaggerUIConstructor.presets
 SwaggerUI.plugins = SwaggerUIConstructor.plugins
 

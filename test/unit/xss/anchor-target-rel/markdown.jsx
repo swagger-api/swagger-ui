@@ -1,7 +1,7 @@
 import React from "react"
 import { render } from "enzyme"
-import Markdown from "components/providers/markdown"
-import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markdown.jsx"
+import Markdown from "core/components/providers/markdown"
+import { Markdown as OAS3Markdown } from "core/plugins/oas3/wrap-components/markdown.jsx"
 
 describe("Markdown Link Anchor Safety", function () {
   describe("Swagger 2.0", function () {
