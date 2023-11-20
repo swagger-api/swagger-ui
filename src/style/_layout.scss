@@ -795,24 +795,46 @@
 
         gap: 10px;
 
-        > label
+        /*
+        This wraps the servers or schemes selector.
+        This was added to make sure the Authorize button is always on the right
+        and the servers or schemes selector is always on the left.
+        */
+        > .schemes-server-container
         {
-            font-size: 12px;
-            font-weight: bold;
-
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
 
-            margin: -20px 15px 0 0;
+            gap: 10px;
 
-            @include text_headline();
-
-            select
+            > label
             {
-                min-width: 130px;
+                font-size: 12px;
+                font-weight: bold;
 
-                text-transform: uppercase;
+                display: flex;
+                flex-direction: column;
+
+                margin: -20px 15px 0 0;
+
+                @include text_headline();
+
+                select
+                {
+                    min-width: 130px;
+
+                    text-transform: uppercase;
+                }
             }
+        }
+
+        /*
+        This checks if the schemes-server-container is not present and
+        aligns the authorize button to the right
+        */
+        &:not(:has(.schemes-server-container))
+        {
+            justify-content: flex-end;
         }
 
         /* 
