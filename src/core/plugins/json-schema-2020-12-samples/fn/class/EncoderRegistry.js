@@ -9,6 +9,7 @@ import encodeQuotedPrintable from "../encoders/quoted-printable"
 import encodeBase16 from "../encoders/base16"
 import encodeBase32 from "../encoders/base32"
 import encodeBase64 from "../encoders/base64"
+import encodeBase64Url from "../encoders/base64url"
 
 class EncoderRegistry extends Registry {
   #defaults = {
@@ -19,6 +20,7 @@ class EncoderRegistry extends Registry {
     base16: encodeBase16,
     base32: encodeBase32,
     base64: encodeBase64,
+    base64url: encodeBase64Url,
   }
 
   data = { ...this.#defaults }
