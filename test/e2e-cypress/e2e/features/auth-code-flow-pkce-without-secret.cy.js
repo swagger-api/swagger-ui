@@ -18,7 +18,7 @@ describe("Check client_secret for OAuth2 Authorization Code flow with and withou
       .contains("authorizationCode with PKCE")
       .get(".flow")
       .contains("authorizationCode with PKCE")
-      .get("#client_secret")
+      .get("#client_secret_authorizationCode")
       .should("exist")
   })
 
@@ -41,7 +41,7 @@ describe("Check client_secret for OAuth2 Authorization Code flow with and withou
       .contains("authorizationCode")
       .get(".flow")
       .contains("authorizationCode")
-      .get("#client_secret")
+      .get("#client_secret_authorizationCode")
       .should("exist")
   })
 })
