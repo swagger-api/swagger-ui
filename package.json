@@ -157,7 +157,7 @@
     "jest": "=29.7.0",
     "jest-environment-jsdom": "=29.7.0",
     "jest-transform-stub": "=2.0.0",
-    "jsdom": "=22.1.0",
+    "jsdom": "=23.0.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.10",
     "json-server": "=0.17.4",
