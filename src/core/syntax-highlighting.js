@@ -14,6 +14,7 @@ import monokai from "react-syntax-highlighter/dist/esm/styles/hljs/monokai"
 import nord from "react-syntax-highlighter/dist/esm/styles/hljs/nord"
 import obsidian from "react-syntax-highlighter/dist/esm/styles/hljs/obsidian"
 import tomorrowNight from "react-syntax-highlighter/dist/esm/styles/hljs/tomorrow-night"
+import idea from "react-syntax-highlighter/dist/esm/styles/hljs/idea"
 
 SyntaxHighlighter.registerLanguage("json", json)
 SyntaxHighlighter.registerLanguage("js", js)
@@ -24,7 +25,7 @@ SyntaxHighlighter.registerLanguage("bash", bash)
 SyntaxHighlighter.registerLanguage("powershell", powershell)
 SyntaxHighlighter.registerLanguage("javascript", javascript)
 
-const styles = {agate, arta, monokai, nord, obsidian, "tomorrow-night": tomorrowNight}
+const styles = {agate, arta, monokai, nord, obsidian, "tomorrow-night": tomorrowNight, idea}
 export const availableStyles = Object.keys(styles)
 
 export const getStyle = name => {

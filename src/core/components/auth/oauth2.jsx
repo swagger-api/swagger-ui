@@ -196,11 +196,11 @@ export default class Oauth2 extends React.Component {
         {
           ( flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
-            <label htmlFor="client_id">client_id:</label>
+            <label htmlFor={ `client_id_${flow}` }>client_id:</label>
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
-                               <InitializedInput id="client_id"
+                               <InitializedInput id={`client_id_${flow}`}
                                       type="text"
                                       required={ flow === AUTH_FLOW_PASSWORD }
                                       initialValue={ this.state.clientId }
@@ -213,11 +213,11 @@ export default class Oauth2 extends React.Component {
 
         {
           ( (flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD) && <Row>
-            <label htmlFor="client_secret">client_secret:</label>
+            <label htmlFor={ `client_secret_${flow}` }>client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
-                               <InitializedInput id="client_secret"
+                               <InitializedInput id={ `client_secret_${flow}` }
                                       initialValue={ this.state.clientSecret }
                                       type="password"
                                       data-name="clientSecret"
@@ -268,8 +268,8 @@ export default class Oauth2 extends React.Component {
         }
         <div className="auth-btn-wrapper">
         { isValid &&
-          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
-        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
+          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout } aria-label="Remove authorization">Logout</Button>
+        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize } aria-label="Apply given OAuth2 credentials">Authorize</Button>
           )
         }
           <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>

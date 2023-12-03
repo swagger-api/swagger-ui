@@ -32,7 +32,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Prepare SwaggerUI dist
         run: |
@@ -74,6 +74,6 @@ jobs:
         run: |
           cd ../dist
           pwd
-          npm pack . --tag alpha
+          npm publish . --tag alpha
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -15,7 +15,7 @@ import {
   consumesOptionsFor,
   taggedOperations,
   isMediaTypeSchemaPropertiesEqual
-} from "corePlugins/spec/selectors"
+} from "core/plugins/spec/selectors"
 
 import Petstore from "./assets/petstore.json"
 

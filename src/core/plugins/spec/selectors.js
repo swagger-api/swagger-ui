@@ -1,7 +1,6 @@
 import { createSelector } from "reselect"
-import { sorters } from "core/utils"
+import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
-import { paramToIdentifier } from "../../utils"
 
 const DEFAULT_TAG = "default"
 
@@ -36,6 +35,11 @@ export const specSource = createSelector(
 export const specJson = createSelector(
   state,
   spec => spec.get("json", Map())
+)
+
+export const specJS = createSelector(
+  specJson,
+  (spec) => spec.toJS()
 )
 
 export const specResolved = createSelector(
@@ -113,6 +117,8 @@ export const paths = createSelector(
 	specJsonWithResolvedSubtrees,
 	spec => spec.get("paths")
 )
+
+export const validOperationMethods = createSelector(() => ["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,
