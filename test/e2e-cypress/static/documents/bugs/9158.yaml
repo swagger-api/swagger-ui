@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /users:
+    post:
+      summary: Create a user
+      description: Create a user, one of various ways
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserSource'
+      responses:
+        '204':
+          description: Successfully opened document
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: string
+                    example: "Invalid request"
+components:
+  schemas:
+    UserSource:
+      type: object
+      properties:
+        name:
+          description: Full name
+          type: string
+          example: "default name"
+        badgeid:
+          description: Badge number
+          type: integer
+          format: uint32
+          example: 12345
+        email:
+          description: E-mail
+          type: string
+          example: "jsmith@business.com"
+      minProperties: 1
+      maxProperties: 3
