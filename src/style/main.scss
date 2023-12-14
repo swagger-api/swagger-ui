@@ -1,11 +1,5 @@
 .swagger-ui
 {
-    /**
-     * Instead of @media queries, we use @container queries relative to the
-     * .swagger-ui element. This allows us to cover usecases like SwaggerEditor.
-     */
-    container-type: inline-size;
-
     @import '~tachyons-sass/tachyons.scss';
     @import 'mixins';
     @import 'variables';
