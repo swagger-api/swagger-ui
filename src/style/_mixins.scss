@@ -127,7 +127,7 @@ $browser-context: 16;
 
 @mixin maxHeight($height)
 {
-    @media (max-height: $height)
+    @container (max-height: $height)
     {
         @content;
     }
@@ -138,7 +138,7 @@ $browser-context: 16;
 {
     @if $class == tablet
     {
-        @media (min-width: 768px) and (max-width: 1024px)
+        @container (min-width: 768px) and (max-width: 1024px)
         {
             @content;
         }
@@ -146,7 +146,7 @@ $browser-context: 16;
 
     @else if $class == mobile
     {
-        @media (min-width: 320px) and (max-width : 736px)
+        @container (min-width: 320px) and (max-width : 736px)
         {
             @content;
         }
@@ -154,7 +154,7 @@ $browser-context: 16;
 
     @else if $class == desktop
     {
-        @media (min-width: 1400px)
+        @container (min-width: 1400px)
         {
             @content;
         }

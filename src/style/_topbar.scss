@@ -10,7 +10,7 @@
         flex-wrap: wrap;
         gap: 10px;
     }
-    @media (max-width: 550px) {
+    @container (max-width: 550px) {
         .topbar-wrapper
         {
             flex-direction: column;
@@ -104,7 +104,7 @@
             @include text_headline($topbar-download-url-button-font-color);
         }
     }
-    @media (max-width: 550px) {
+    @container (max-width: 550px) {
         .download-url-wrapper
         {
             width: 100%;

@@ -30,11 +30,11 @@ select
 .opblock-body select
 {
     min-width: 230px;
-    @media (max-width: 768px)
+    @container (max-width: 768px)
     {
         min-width: 180px;
     }
-    @media (max-width: 640px)
+    @container (max-width: 640px)
     {
         width: 100%;
         min-width: 100%;
@@ -59,7 +59,7 @@ input[type=file]
 {
     line-height: 1;
 
-    @media (max-width: 768px) {
+    @container (max-width: 768px) {
       max-width: 175px;
     }
 }

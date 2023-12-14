@@ -1,3 +1,8 @@
+.swagger-ui {
+  container-type: inline-size;
+}
+
+
 .wrapper
 {
     width: 100%;
@@ -107,7 +112,7 @@
         font-weight: 400;
     }
 
-    @media (max-width: 640px) {
+    @container (max-width: 640px) {
       small
       {
         flex: 1;
@@ -305,7 +310,7 @@
     {
         font-size: 14px;
         font-weight: bold;
-        @media (max-width: 768px) {
+        @container (max-width: 768px) {
           font-size: 12px;
         }
 
@@ -326,7 +331,7 @@
     .opblock-summary-path__deprecated
     {
         font-size: 16px;
-        @media (max-width: 768px) {
+        @container (max-width: 768px) {
           font-size: 12px;
         }
 
@@ -342,13 +347,12 @@
 
     .opblock-summary-path
     {
-        flex-shrink: 0;
+        flex-shrink: 1;
     }
 
-    @media (max-width: 640px) {
+    @container (max-width: 640px) {
       .opblock-summary-path
       {
-        flex-shrink: 1;
         max-width: 100%;
       }
     }
@@ -375,6 +379,7 @@
     .opblock-summary-path-description-wrapper
     {
         display: flex;
+        flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
         gap: 0px 10px;
@@ -384,12 +389,11 @@
         width: 100%;
     }
 
-    @media (max-width: 550px) {
-        .opblock-summary-path-description-wrapper
-        {
-            flex-direction: column;
-            align-items: start;
-        }
+    @container (max-width: 550px) {
+      .opblock-summary-path-description-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     .opblock-summary
@@ -837,16 +841,16 @@
             justify-content: flex-end;
         }
 
-        /* 
+        /*
         Target Authorize Button in schemes wrapper
         This was added here to fix responsiveness issues with the authorize button
         within the schemes wrapper without affecting other instances of it's usage
         */
-        .auth-wrapper 
+        .auth-wrapper
         {
             flex: none;
             justify-content: none;
-            
+
             .authorize
             {
                 padding-right: 20px;
