@@ -4,10 +4,11 @@
 import { getComponent } from "core/plugins/view/root-injects"
 import { render } from "./root-injects"
 
-const ViewReact17Plugin = ({ React, getSystem, getStore, getComponents }) => {
+const ViewLegacyPlugin = ({ React, getSystem, getStore, getComponents }) => {
   const rootInjects = {}
+  const reactMajorVersion = parseInt(React?.version, 10)
 
-  if (/^1[67]\./.test(React?.version)) {
+  if (reactMajorVersion >= 16 && reactMajorVersion < 18) {
     rootInjects.render = render(
       getSystem,
       getStore,
@@ -21,4 +22,4 @@ const ViewReact17Plugin = ({ React, getSystem, getStore, getComponents }) => {
   }
 }
 
-export default ViewReact17Plugin
+export default ViewLegacyPlugin

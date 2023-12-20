@@ -24,6 +24,7 @@ import SpecPlugin from "./plugins/spec"
 import SwaggerClientPlugin from "./plugins/swagger-client"
 import UtilPlugin from "./plugins/util"
 import ViewPlugin from "./plugins/view"
+import ViewLegacyPlugin from "core/plugins/view-legacy"
 import DownloadUrlPlugin from "./plugins/download-url"
 import SafeRenderPlugin from "./plugins/safe-render"
 
@@ -101,7 +102,7 @@ export default function SwaggerUI(opts) {
       "patch",
       "trace"
     ],
-    queryConfigEnabled: true,
+    queryConfigEnabled: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
@@ -268,6 +269,7 @@ SwaggerUI.plugins = {
   SwaggerClient: SwaggerClientPlugin,
   Util: UtilPlugin,
   View: ViewPlugin,
+  ViewLegacy: ViewLegacyPlugin,
   DownloadUrl: DownloadUrlPlugin,
   SafeRender: SafeRenderPlugin,
 }
