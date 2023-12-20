@@ -102,7 +102,7 @@
     "redux": "^5.0.0",
     "redux-immutable": "^4.0.0",
     "remarkable": "^2.0.1",
-    "reselect": "^4.1.8",
+    "reselect": "^5.0.1",
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
     "swagger-client": "^3.24.6",

@@ -1,4 +1,5 @@
 import { createSelector } from "reselect"
+import constant from "lodash/constant"
 import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 
@@ -118,7 +119,7 @@ export const paths = createSelector(
 	spec => spec.get("paths")
 )
 
-export const validOperationMethods = createSelector(() => ["get", "put", "post", "delete", "options", "head", "patch"])
+export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,
@@ -204,9 +205,11 @@ export const schemes = createSelector(
 )
 
 export const operationsWithRootInherited = createSelector(
-  operations,
-  consumes,
-  produces,
+  [
+    operations,
+    consumes,
+    produces
+  ],
   (operations, consumes, produces) => {
     return operations.map( ops => ops.update("operation", op => {
       if(op) {
