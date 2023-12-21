@@ -116,6 +116,7 @@ export default class Response extends React.Component {
     const activeContentType = this.state.responseContentType || contentType
     const activeMediaType = response.getIn(["content", activeContentType], Map({}))
     const examplesForMediaType = activeMediaType.get("examples", null)
+    const hasContent = !isOAS3 || response.get("content")
 
     // Goal: find a schema value for `schema`
     if(isOAS3) {
@@ -235,7 +236,7 @@ export default class Response extends React.Component {
             </section>
           ) : null}
 
-          { example || schema ? (
+          { hasContent && (example || schema) ? (
             <ModelExample
               specPath={specPathWithPossibleSchema}
               getComponent={ getComponent }

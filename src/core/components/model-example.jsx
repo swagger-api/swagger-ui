@@ -19,7 +19,7 @@ export default class ModelExample extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    let { getConfigs, isExecute } = this.props
+    let { getConfigs, isExecute, schema } = this.props
     let { defaultModelRendering } = getConfigs()
 
     let activeTab = defaultModelRendering
@@ -28,7 +28,7 @@ export default class ModelExample extends React.Component {
       activeTab = "example"
     }
 
-    if(isExecute) {
+    if(isExecute || !schema) {
       activeTab = "example"
     }
 
@@ -114,7 +114,7 @@ export default class ModelExample extends React.Component {
           </div>
         )}
 
-        {this.state.activeTab === "model" && (
+        {schema && this.state.activeTab === "model" && (
           <div
             aria-hidden={this.state.activeTab === "example"}
             aria-labelledby={modelTabId}
