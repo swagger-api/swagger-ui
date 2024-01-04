@@ -7,7 +7,7 @@ import PropTypes from "prop-types"
 import { schema } from "../../prop-types"
 import { useFn } from "../../hooks"
 
-const Type = ({ schema, isCircular }) => {
+const Type = ({ schema, isCircular = false }) => {
   const fn = useFn()
   const type = fn.getType(schema)
   const circularSuffix = isCircular ? " [circular]" : ""
@@ -22,10 +22,6 @@ const Type = ({ schema, isCircular }) => {
 Type.propTypes = {
   schema: schema.isRequired,
   isCircular: PropTypes.bool,
-}
-
-Type.defaultProps = {
-  isCircular: false,
 }
 
 export default Type

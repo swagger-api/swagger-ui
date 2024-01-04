@@ -7,7 +7,7 @@ import classNames from "classnames"
 
 import { useComponent } from "../../hooks"
 
-const Accordion = ({ expanded, children, onChange }) => {
+const Accordion = ({ expanded = false, children, onChange }) => {
   const ChevronRightIcon = useComponent("ChevronRightIcon")
 
   const handleExpansion = useCallback(
@@ -40,10 +40,6 @@ Accordion.propTypes = {
   expanded: PropTypes.bool,
   children: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,
-}
-
-Accordion.defaultProps = {
-  expanded: false,
 }
 
 export default Accordion
