@@ -116,7 +116,7 @@
     "@babel/core": "=7.23.7",
     "@babel/eslint-parser": "=7.23.3",
     "@babel/plugin-transform-runtime": "=7.23.6",
-    "@babel/preset-env": "=7.23.7",
+    "@babel/preset-env": "=7.23.8",
     "@babel/preset-react": "=7.23.3",
     "@babel/register": "=7.22.15",
     "@commitlint/cli": "^18.4.4",
