@@ -74,7 +74,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.23.7",
+    "@babel/runtime-corejs3": "^7.23.8",
     "@braintree/sanitize-url": "=7.0.0",
     "base64-js": "^1.5.1",
     "classnames": "^2.5.1",
