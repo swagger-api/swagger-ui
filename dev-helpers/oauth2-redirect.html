@@ -8,7 +8,7 @@
     function run () {
         if (!window.opener) {
             prompt("Run this in devtools on the Swagger UI page to complete auth:", [
-                `swaggerUIRedirectOauth2.auth.code = "${JSON.stringify((new URLSearchParams(location.search)).get('code'))}";`
+                `swaggerUIRedirectOauth2.auth.code = ${JSON.stringify((new URLSearchParams(location.search)).get('code'))};`,
                 `delete swaggerUIRedirectOauth2.state;`,
                 `swaggerUIRedirectOauth2.callback({ auth: swaggerUIRedirectOauth2.auth, redirectUrl: swaggerUIRedirectOauth2.redirectUrl});`,
             ].join(" "));
