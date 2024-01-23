@@ -1,7 +1,7 @@
 import Swagger from "swagger-client"
 
 const createPreFetch = (origPreFetch) => (req) => {
-  let request = origPreFetch(req)
+  let request = origPreFetch ? origPreFetch(req) : req
 
   // never send cookie
   if(typeof request === "string") {
