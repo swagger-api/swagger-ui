@@ -7,7 +7,6 @@ const createExecutor = (origExecutor) => (opts) => {
     ...opts,
     requestInterceptor: (req) => {
       let request = origRequestInterceptor ? origRequestInterceptor(req) : req
-      // never send cookie
       if(typeof request === "string") {
         request = {
           url: req,
@@ -28,8 +27,8 @@ const createExecutor = (origExecutor) => (opts) => {
 module.exports = function({ configs }) {
   return {
     fn: {
-      fetch: Swagger.makeHttp(createPreFetch(configs.preFetch), configs.postFetch),
-      buildRequest: createBuildRequest(Swagger.buildRequest),
+      fetch: Swagger.makeHttp(configs.preFetch, configs.postFetch),
+      buildRequest: Swagger.buildRequest,
       execute: createExecutor(Swagger.execute),
       resolve: Swagger.resolve,
       serializeRes: Swagger.serializeRes,
