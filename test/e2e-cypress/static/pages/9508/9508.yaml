@@ -1,0 +1,78 @@
+openapi: "3.1.0"
+info:
+  version: "0.0.1"
+  title: "Swagger UI Webpack Setup"
+  description: "Demonstrates Swagger UI"
+components:
+  schemas: {}
+security: []
+paths:
+  /pets:
+    get:
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - oneOf:
+                      - type: object
+                        properties:
+                          oneOf1-p1:
+                            type: object
+                            properties:
+                              oneOf1-p1-p1:
+                                type: string
+                              oneOf1-p1-p2:
+                                type: object
+                                properties:
+                                  oneOf1-p1-p2-p1:
+                                    type: string
+                          oneOf1-p2:
+                            type: string
+                      - type: object
+                        properties:
+                          oneOf2-p1:
+                            type: string
+                          oneOf2-p2:
+                            type: string
+                  - anyOf:
+                      - type: object
+                        properties:
+                          anyOf1-p1:
+                            type: object
+                            properties:
+                              anyOf1-p1-p1:
+                                type: string
+                              anyOf1-p1-p2:
+                                type: object
+                                properties:
+                                  anyOf1-p1-p2-p1:
+                                    type: string
+                          anyOf1-p2:
+                            type: string
+                      - type: object
+                        properties:
+                          anyOf2-p1:
+                            type: object
+                            properties:
+                              anyOf2-p1-p1:
+                                type: string
+                          anyOf2-p2:
+                            type: string
+                  - type: object
+                    properties:
+                      p1:
+                        type: object
+                        properties:
+                          p1-p1:
+                            type: string
+                          p1-p2:
+                            type: object
+                            properties:
+                              p1-p2-p1:
+                                type: string
+                      p2:
+                        type: string
+tags: []
