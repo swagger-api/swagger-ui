@@ -108,7 +108,9 @@ describe("parameterValue", function(){
             get: {
               parameters: [
                 { name: "one", in: "query", value: 1},
-                { name: "two", in: "query", value: "duos"}
+                { name: "two", in: "query", value: "duos"},
+                { name: "three", in: "query", value: ["v1","","v2"]},
+                { name: "four", in: "query", value: [""]}
               ]
             }
           }
@@ -122,7 +124,9 @@ describe("parameterValue", function(){
     // Then
     expect(paramValues.toJS()).toEqual({
       "query.one": 1,
-      "query.two": "duos"
+      "query.two": "duos",
+      "query.three": ["v1","v2"],
+      "query.four": []
     })
 
   })
