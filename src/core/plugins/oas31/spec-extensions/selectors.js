@@ -15,7 +15,8 @@ export const isOAS31 = createSelector(
 )
 
 export const webhooks = () => (system) => {
-  return system.specSelectors.specJson().get("webhooks", map)
+  const webhooks = system.specSelectors.specJson().get("webhooks")
+  return Map.isMap(webhooks) ? webhooks : map
 }
 
 /**
@@ -29,10 +30,8 @@ export const selectWebhooksOperations = createSelector(
     (state, system) => system.specSelectors.validOperationMethods(),
     (state, system) => system.specSelectors.specResolvedSubtree(["webhooks"]),
   ],
-  (webhooks, validOperationMethods) => {
-    if (!Map.isMap(webhooks)) return {}
-
-    return webhooks
+  (webhooks, validOperationMethods) =>
+    webhooks
       .reduce((allOperations, pathItem, pathItemName) => {
         if (!Map.isMap(pathItem)) return allOperations
 
@@ -51,11 +50,11 @@ export const selectWebhooksOperations = createSelector(
       .groupBy((operationDTO) => operationDTO.path)
       .map((operations) => operations.toArray())
       .toObject()
-  }
 )
 
 export const license = () => (system) => {
-  return system.specSelectors.info().get("license", map)
+  const license = system.specSelectors.info().get("license")
+  return Map.isMap(license) ? license : map
 }
 
 export const selectLicenseNameField = () => (system) => {
@@ -86,7 +85,8 @@ export const selectLicenseIdentifierField = () => (system) => {
 }
 
 export const contact = () => (system) => {
-  return system.specSelectors.info().get("contact", map)
+  const contact = system.specSelectors.info().get("contact")
+  return Map.isMap(contact) ? contact : map
 }
 
 export const selectContactNameField = () => (system) => {
