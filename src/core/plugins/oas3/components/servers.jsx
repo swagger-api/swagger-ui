@@ -21,11 +21,11 @@ export default class Servers extends React.Component {
       return
     }
 
-    //fire 'change' event to set default 'value' of select
-    this.setServer(servers.first().get("url"))
+    // fire 'change' event to set default 'value' of select
+    this.setServer(servers.first()?.get("url"))
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     let {
       servers,
       setServerVariableValue,
@@ -95,7 +95,7 @@ export default class Servers extends React.Component {
     } = this.props
 
 
-    let currentServerDefinition = servers.find(v => v.get("url") === currentServer) || OrderedMap()
+    let currentServerDefinition = servers.find(s => s.get("url") === currentServer) || OrderedMap()
 
     let currentServerVariableDefs = currentServerDefinition.get("variables") || OrderedMap()
 

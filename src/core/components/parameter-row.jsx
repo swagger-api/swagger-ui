@@ -33,7 +33,7 @@ export default class ParameterRow extends Component {
     this.setDefaultValue()
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     let { specSelectors, pathMethod, rawParam } = props
     let isOAS3 = specSelectors.isOAS3()
 
@@ -184,7 +184,7 @@ export default class ParameterRow extends Component {
     return `${param.get("name")}-${param.get("in")}`
   }
 
-  //OutSystem - get the example text
+  // OutSystem - get the example text
   getExampleText(paramExample, schema, type, param) {
     let exampleText
 
@@ -405,7 +405,7 @@ export default class ParameterRow extends Component {
                               value={ value }
                               required={ required }
                               disabled={!isExecute}
-                              description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
+                              description={param.get("name")}
                               onChange={ this.onChangeWrapper }
                               errors={ paramWithMeta.get("errors") }
                               schema={ schema }/>
@@ -414,7 +414,7 @@ export default class ParameterRow extends Component {
 
         {/* OutSystems change:  Show always the model example, and not just when the input is sent in the body. Remove the condition and add to 2 props to the ModelExample component*/}
         <td className="parameters-col_name">
-          < ModelExample getComponent={getComponent}
+          <ModelExample getComponent={getComponent}
             specPath={specPath.push("schema")}
             getConfigs={getConfigs}
             isExecute={isExecute}

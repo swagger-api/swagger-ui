@@ -13,8 +13,10 @@ object-assign
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
-/** @license React v16.8.6
- * react-is.production.min.js
+/*! js-yaml 4.1.0 https://github.com/nodeca/js-yaml @license MIT */
+
+/** @license React v17.0.2
+ * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *

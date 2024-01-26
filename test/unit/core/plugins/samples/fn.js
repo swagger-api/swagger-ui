@@ -792,6 +792,23 @@ describe("sampleFromSchema", () => {
     const definition = {
       type: "object",
       minProperties: 2,
+      additionalProperties: {
+        type: "string"
+      }
+    }
+
+    const expected = {
+      additionalProp1: "string",
+      additionalProp2: "string"
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle minProperties in conjunction with properties and additionalProperties", () => {
+    const definition = {
+      type: "object",
+      minProperties: 2,
       additionalProperties: true,
       properties: {
         foo: {
@@ -849,6 +866,20 @@ describe("sampleFromSchema", () => {
 
     const expected = {
       foo: "string"
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maxProperties in conjunction with additionalProperties", () => {
+    const definition = {
+      type: "object",
+      maxProperties: 1,
+      additionalProperties: true
+    }
+
+    const expected = {
+      additionalProp1: {}
     }
 
     expect(sampleFromSchema(definition)).toEqual(expected)
