@@ -72,7 +72,7 @@ const Servers = ({
   return (
     <div className="servers">
       <label htmlFor="servers">
-        <select onChange={handleServerChange} value={currentServer}>
+        <select onChange={handleServerChange} value={currentServer} id="servers">
           {servers
             .valueSeq()
             .map((server) => (
