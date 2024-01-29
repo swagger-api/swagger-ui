@@ -103,6 +103,16 @@ You can specify an IPv6 port via `PORT_IPV6` variable. By default, IPv6 port is 
 docker run -p 80:80 -e PORT_IPV6=8080 swaggerapi/swagger-ui
 ```
 
+You can allow/disallow [embedding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) via `EMBEDDING` variable. By default, embedding is disabled.
+
+```sh
+docker run -p 80:80 -e EMBEDDING=true swaggerapi/swagger-ui
+```
+
+```sh
+docker run -p 80:80 -e PORT_IPV6=8080 swaggerapi/swagger-ui
+```
+
 For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](configuration.md#docker).
 
 ### unpkg 
