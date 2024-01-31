@@ -1,0 +1,37 @@
+openapi: '3.0.0'
+info:
+  description: >-
+    Repro API
+  title: Repro API
+  version: '1.0'
+paths:
+  /5176:
+    get:
+      summary: Test get
+      parameters:
+        - name: fields
+          in: query
+          required: false
+          allowEmptyValue: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - friends
+                - family
+          example:
+            - friends
+          style: form
+      responses:
+        200:
+          description: Success!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
