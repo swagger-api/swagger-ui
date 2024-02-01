@@ -181,7 +181,7 @@
     "release-it": "=17.0.3",
     "rimraf": "^5.0.5",
     "sass": "^1.70.0",
-    "sass-loader": "^14.0.0",
+    "sass-loader": "^14.1.0",
     "sinon": "=17.0.1",
     "source-map-support": "^0.5.21",
     "start-server-and-test": "^2.0.3",
