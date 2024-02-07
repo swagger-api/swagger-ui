@@ -1,7 +1,6 @@
 import YAML, { JSON_SCHEMA } from "js-yaml"
 import { Map as ImmutableMap } from "immutable"
 import parseUrl from "url-parse"
-import { serializeError } from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
@@ -481,19 +480,9 @@ export const executeRequest = (req) =>
             err.name = ""
             err.message = "**Failed to fetch.**  \n**Possible Reasons:** \n  - CORS \n  - Network Failure \n  - URL scheme must be \"http\" or \"https\" for CORS request."
           }
-          if (err.response.data !== undefined && err.response.data !== null) {
-            const res = serializeError(err)
-            res.response.data = err.response.data
-            res.response.text = err.response.text
-            specActions.setResponse(req.pathName, req.method, {
-              error: true, err: res
-            })
-          }
-          else {
-            specActions.setResponse(req.pathName, req.method, {
-              error: true, err: serializeError(err),
-            })
-          }
+          specActions.setResponse(req.pathName, req.method, {
+            error: true, err
+          })
         }
       )
   }
