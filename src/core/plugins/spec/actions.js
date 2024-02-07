@@ -481,9 +481,19 @@ export const executeRequest = (req) =>
             err.name = ""
             err.message = "**Failed to fetch.**  \n**Possible Reasons:** \n  - CORS \n  - Network Failure \n  - URL scheme must be \"http\" or \"https\" for CORS request."
           }
-          specActions.setResponse(req.pathName, req.method, {
-            error: true, err: serializeError(err)
-          })
+          if (err.response.data !== undefined && err.response.data !== null) {
+            const res = serializeError(err)
+            res.response.data = err.response.data
+            res.response.text = err.response.text
+            specActions.setResponse(req.pathName, req.method, {
+              error: true, err: res
+            })
+          }
+          else {
+            specActions.setResponse(req.pathName, req.method, {
+              error: true, err: serializeError(err),
+            })
+          }
         }
       )
   }

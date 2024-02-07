@@ -123,7 +123,7 @@ export default {
     let newState = state.setIn( [ "responses", path, method ], fromJSOrdered(result) )
 
     // ImmutableJS messes up Blob. Needs to reset its value.
-    if (win.Blob && res.data instanceof win.Blob) {
+    if (win.Blob && (res.data instanceof win.Blob || res.err?.response?.data instanceof win.Blob)) {
       newState = newState.setIn( [ "responses", path, method, "text" ], res.data)
     }
     return newState
