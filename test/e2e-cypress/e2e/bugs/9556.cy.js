@@ -2,7 +2,7 @@ describe("#9556: SwaggerUI doesn't render response bodies for non-200 responses"
     beforeEach(() => {
       const staticResponse = {
         statusCode: 400,
-        headers: { "content-type": "*/*" },
+        headers: { "content-type": "plain/text" },
         body: "This should render",
       }
       cy.intercept("GET", "/400-any", staticResponse).as("request")
