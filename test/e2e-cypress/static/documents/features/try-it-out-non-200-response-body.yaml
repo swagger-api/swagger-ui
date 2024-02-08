@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test API
+  description: Test API
+paths:
+  /400-any:
+    get:
+      description: returns 400
+      responses:
+        default:
+          description: ok

@@ -13,9 +13,11 @@ ENV API_KEY="**None**" \
     PORT="8080" \
     PORT_IPV6="" \
     BASE_URL="/" \
-    SWAGGER_JSON_URL=""
+    SWAGGER_JSON_URL="" \
+    CORS="true" \
+    EMBEDDING="false"
 
-COPY --chown=nginx:nginx --chmod=0666 ./docker/default.conf.template ./docker/cors.conf /etc/nginx/templates/
+COPY --chown=nginx:nginx --chmod=0666 ./docker/default.conf.template ./docker/cors.conf ./docker/embedding.conf /etc/nginx/templates/
 
 COPY --chmod=0666 ./dist/* /usr/share/nginx/html/
 COPY --chmod=0555 ./docker/docker-entrypoint.d/ /docker-entrypoint.d/
