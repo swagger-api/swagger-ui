@@ -62,7 +62,7 @@ export default {
 
     return state.setIn(
       ["meta", "paths", ...pathMethod, "parameters", paramKey, valueKey],
-      value
+      fromJS(value)
     )
   },
 
