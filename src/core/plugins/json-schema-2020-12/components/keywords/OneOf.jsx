@@ -5,7 +5,12 @@ import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
 import { schema } from "../../prop-types"
-import { useFn, useComponent, useIsExpandedDeeply, useIsExpanded } from "../../hooks"
+import {
+  useFn,
+  useComponent,
+  useIsExpanded,
+  useIsExpandedDeeply,
+} from "../../hooks"
 import { JSONSchemaDeepExpansionContext } from "../../context"
 
 const OneOf = ({ schema }) => {

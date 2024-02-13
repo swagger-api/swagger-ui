@@ -15,6 +15,11 @@ paths:
           content:
             application/json:
               schema:
+                $vocabulary: 
+                  core: "https://json-schema.org/draft/2020-12/meta/core"
+                $defs: 
+                  exampleDef:
+                    type: string
                 allOf:
                   - oneOf:
                       - type: object
@@ -73,6 +78,18 @@ paths:
                             properties:
                               p1-p2-p1:
                                 type: string
+                        dependentSchemas:
+                          p1-p1:
+                            properties:
+                              p3: 
+                                type: array
+                                prefixItems: 
+                                  - type: string
+                                    enum: [a, b, c]
+                            required: [p3]
                       p2:
                         type: string
+                        prefixItems: 
+                          - type: string
+                            enum: [a, b, c]                  
 tags: []
