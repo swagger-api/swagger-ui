@@ -1,6 +1,6 @@
 import React from "react"
 import expect from "expect"
-import { shallow } from "enzyme"
+import { shallow, mount } from "enzyme"
 import HighlightCode from "core/components/highlight-code"
 
 const fakeGetConfigs = () => ({syntaxHighlight: {activated: true, theme: "agate"}})
@@ -21,10 +21,10 @@ describe("<HighlightCode />", () => {
   it("should render values in a preformatted element", () => {
     const value = "test text"
     const props = {value: value, getConfigs: fakeGetConfigs}
-    const wrapper = shallow(<HighlightCode {...props} />)
+    const wrapper = mount(<HighlightCode {...props} />)
     const preTag = wrapper.find("pre")
 
     expect(preTag.length).toEqual(1)
-    expect(preTag.contains(value)).toEqual(true)
+    expect(preTag.text()).toEqual(value)
   })
 })

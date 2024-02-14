@@ -9,7 +9,7 @@ describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
       getConfigs: () => ({}),
       getComponent: () => null,
       specSelectors: {
-        url: () => "swagger.json"
+        url: () => "https://smartbear.com/swagger.json"
       }
     }
     const wrapper = mount(
@@ -20,10 +20,10 @@ describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
 
     // Then
     expect(anchor.props().href).toEqual(
-      "https://validator.swagger.io/validator/debug?url=swagger.json"
+      "https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fsmartbear.com%2Fswagger.json"
     )
     expect(anchor.props().target).toEqual("_blank")
-    expect(anchor.props().rel || "").toInclude("noopener")
-    expect(anchor.props().rel || "").toInclude("noreferrer")
+    expect(anchor.props().rel || "").toContain("noopener")
+    expect(anchor.props().rel || "").toContain("noreferrer")
   })
 })
