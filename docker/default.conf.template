@@ -38,5 +38,6 @@
       }
 
       include templates/cors.conf;
+      include templates/embedding.conf;
     }
   }

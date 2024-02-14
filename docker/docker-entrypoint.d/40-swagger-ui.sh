@@ -39,4 +39,14 @@ if [[ -n "${PORT_IPV6}" ]]; then
     sed -i "s|${PORT};|${PORT};\n    listen            [::]:${PORT_IPV6};|g" $NGINX_CONF
 fi
 
+# enable/disable CORS
+if [ "$CORS" != "true" ]; then
+  truncate -s 0 /etc/nginx/templates/cors.conf
+fi
+
+# allow/disallow embedding the swagger-ui in frames/iframes from different origins
+if [ "$EMBEDDING" != "false" ]; then
+  truncate -s 0 /etc/nginx/templates/embedding.conf
+fi
+
 find $NGINX_ROOT -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
