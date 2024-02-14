@@ -16,7 +16,12 @@ paths:
             application/json:
               schema:
                 $vocabulary: 
-                  core: "https://json-schema.org/draft/2020-12/meta/core"
+                  https://json-schema.org/draft/2020-12/vocab/core: true
+                  https://json-schema.org/draft/2020-12/vocab/applicator: true
+                  https://json-schema.org/draft/2020-12/vocab/validation: true
+                  https://json-schema.org/draft/2020-12/vocab/meta-data: true
+                  https://json-schema.org/draft/2020-12/vocab/format-annotation: false
+                  https://example.com/my-custom-vocab: true
                 $defs: 
                   exampleDef:
                     type: string
