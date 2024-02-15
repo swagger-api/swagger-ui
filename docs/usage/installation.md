@@ -103,9 +103,15 @@ You can specify an IPv6 port via `PORT_IPV6` variable. By default, IPv6 port is 
 docker run -p 80:80 -e PORT_IPV6=8080 swaggerapi/swagger-ui
 ```
 
+You can allow/disallow [embedding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) via `EMBEDDING` variable. By default, embedding is disabled.
+
+```sh
+docker run -p 80:80 -e EMBEDDING=true swaggerapi/swagger-ui
+```
+
 For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](configuration.md#docker).
 
-### unpkg 
+### unpkg
 
 You can embed Swagger UI's code directly in your HTML by using [unpkg's](https://unpkg.com/) interface:
 
@@ -115,16 +121,13 @@ You can embed Swagger UI's code directly in your HTML by using [unpkg's](https:/
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="SwaggerUI"
-  />
+  <meta name="description" content="SwaggerUI" />
   <title>SwaggerUI</title>
-  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css" />
 </head>
 <body>
 <div id="swagger-ui"></div>
-<script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js" crossorigin></script>
+<script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js" crossorigin></script>
 <script>
   window.onload = () => {
     window.ui = SwaggerUIBundle({
@@ -145,17 +148,14 @@ Using `StandalonePreset` will render `TopBar` and `ValidatorBadge` as well.
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="SwaggerUI"
-    />
+    <meta name="description" content="SwaggerUI" />
     <title>SwaggerUI</title>
-    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css" />
   </head>
   <body>
   <div id="swagger-ui"></div>
-  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js" crossorigin></script>
-  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-standalone-preset.js" crossorigin></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js" crossorigin></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js" crossorigin></script>
   <script>
     window.onload = () => {
       window.ui = SwaggerUIBundle({
@@ -177,7 +177,7 @@ See [unpkg's main page](https://unpkg.com/) for more information on how to use u
 
 ### Static files without HTTP or HTML
 
-Once swagger-ui has successfully generated the `/dist` directory, you can copy this to your own file system and host from there. 
+Once swagger-ui has successfully generated the `/dist` directory, you can copy this to your own file system and host from there.
 
 ## Plain old HTML/CSS/JS (Standalone)
 

@@ -141,7 +141,16 @@ class TopBar extends React.Component {
     }
     else {
       formOnSubmit = this.downloadUrl
-      control.push(<input className={classNames.join(" ")} type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} />)
+      control.push(
+        <input
+          className={classNames.join(" ")}
+          type="text"
+          onChange={this.onUrlChange}
+          value={this.state.url}
+          disabled={isLoading}
+          id="download-url-input"
+        />
+      )
       control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
     }
 

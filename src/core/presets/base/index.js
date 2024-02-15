@@ -16,6 +16,7 @@ import SpecPlugin from "core/plugins/spec"
 import SwaggerClientPlugin from "core/plugins/swagger-client"
 import UtilPlugin from "core/plugins/util"
 import ViewPlugin from "core/plugins/view"
+import ViewLegacyPlugin from "core/plugins/view-legacy"
 import DownloadUrlPlugin from "core/plugins/download-url"
 import SafeRenderPlugin from "core/plugins/safe-render"
 // ad-hoc plugins
@@ -28,6 +29,7 @@ const BasePreset = () => [
   UtilPlugin,
   LogsPlugin,
   ViewPlugin,
+  ViewLegacyPlugin,
   SpecPlugin,
   ErrPlugin,
   IconsPlugin,

@@ -30,11 +30,11 @@ describe("OAuth2 Application flow", function() {
       .click()
 
       .get("div.modal-ux-content > div:nth-child(2)").within(() => {
-        cy.get("#client_id")
+        cy.get("#client_id_application")
           .clear()
           .type("confidentialApplication")
 
-          .get("#client_secret")
+          .get("#client_secret_application")
           .clear()
           .type("topSecret")
 

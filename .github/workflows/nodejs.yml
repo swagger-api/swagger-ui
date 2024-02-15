@@ -12,6 +12,9 @@ on:
 env:
   CYPRESS_CACHE_FOLDER: cypress/cache
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,7 +44,7 @@ jobs:
         run: npm run lint-errors
 
       - name: Run all tests
-        run: npm run just-test-in-node && npm run test:unit-jest
+        run: npm run test:unit
         env:
           CI: true
 

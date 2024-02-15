@@ -7,7 +7,7 @@ import isFunction from "lodash/isFunction"
 import saveAs from "js-file-download"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
-const HighlightCode = ({value, fileName, className, downloadable, getConfigs, canCopy, language}) => {
+const HighlightCode = ({value, fileName = "response.txt", className, downloadable, getConfigs, canCopy, language}) => {
   const config = isFunction(getConfigs) ? getConfigs() : null
   const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
   const rootRef = useRef(null)
@@ -80,10 +80,6 @@ HighlightCode.propTypes = {
   fileName: PropTypes.string,
   language: PropTypes.string,
   canCopy: PropTypes.bool
-}
-
-HighlightCode.defaultProps = {
-  fileName: "response.txt"
 }
 
 export default HighlightCode

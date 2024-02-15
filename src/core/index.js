@@ -24,6 +24,7 @@ import SpecPlugin from "./plugins/spec"
 import SwaggerClientPlugin from "./plugins/swagger-client"
 import UtilPlugin from "./plugins/util"
 import ViewPlugin from "./plugins/view"
+import ViewLegacyPlugin from "core/plugins/view-legacy"
 import DownloadUrlPlugin from "./plugins/download-url"
 import SafeRenderPlugin from "./plugins/safe-render"
 
@@ -268,6 +269,7 @@ SwaggerUI.plugins = {
   SwaggerClient: SwaggerClientPlugin,
   Util: UtilPlugin,
   View: ViewPlugin,
+  ViewLegacy: ViewLegacyPlugin,
   DownloadUrl: DownloadUrlPlugin,
   SafeRender: SafeRenderPlugin,
 }
