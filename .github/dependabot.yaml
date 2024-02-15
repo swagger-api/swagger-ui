@@ -19,3 +19,15 @@ updates:
     schedule:
       interval: "weekly"
 
+  - package-ecosystem: "github-actions"
+    target-branch: "master"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "23:00"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    open-pull-requests-limit: 3
+
+
