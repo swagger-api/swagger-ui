@@ -4,7 +4,7 @@
 
 FROM nginx:1.25.4-alpine
 
-RUN apk add "nodejs"
+RUN apk update && apk add "nodejs" && apk add --no-cache "libexpat>=2.6.0-r0"
 
 LABEL maintainer="char0n"
 
