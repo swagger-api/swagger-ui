@@ -53,11 +53,9 @@ jobs:
         platform:
           # linux/amd64 is already built by Jenkins
           - linux/arm/v6
-          - linux/arm/v7
-          - linux/arm64/v8
+          - linux/arm64
           - linux/386
           - linux/ppc64le
-          - linux/s390x
     needs:
       - inputs
 
