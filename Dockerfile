@@ -2,11 +2,11 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1.25.3-alpine
+FROM nginx:1.25.4-alpine
 
-RUN apk update && apk add --no-cache "nodejs>=18.14.1-r0" && apk add --no-cache "tiff>=4.4.0-r4"
+RUN apk add "nodejs"
 
-LABEL maintainer="fehguy"
+LABEL maintainer="char0n"
 
 ENV API_KEY="**None**" \
     SWAGGER_JSON="/app/swagger.json" \
