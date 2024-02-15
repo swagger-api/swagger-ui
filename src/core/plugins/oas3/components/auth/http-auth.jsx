@@ -71,22 +71,37 @@ export default class HttpAuth extends React.Component {
           <Markdown source={ schema.get("description") } />
         </Row>
         <Row>
-          <label>Username:</label>
+          <label htmlFor="auth-basic-username">Username:</label>
           {
             username ? <code> { username } </code>
-              : <Col><Input type="text" required="required" name="username" aria-label="auth-basic-username" onChange={ this.onChange } autoFocus/></Col>
+              : <Col>
+                  <Input 
+                    id="auth-basic-username"
+                    type="text"
+                    required="required"
+                    name="username"
+                    aria-label="auth-basic-username"
+                    onChange={ this.onChange }
+                    autoFocus
+                  />
+                </Col>
           }
         </Row>
         <Row>
-          <label>Password:</label>
+          <label htmlFor="auth-basic-password">Password:</label>
             {
               username ? <code> ****** </code>
-                       : <Col><Input autoComplete="new-password"
-                                     name="password"
-                                     type="password"
-                                     aria-label="auth-basic-password"
-                                     onChange={ this.onChange }/></Col>
-            }
+                       : <Col>
+                            <Input 
+                              id="auth-basic-password"
+                              autoComplete="new-password"
+                              name="password"
+                              type="password"
+                              aria-label="auth-basic-password"
+                              onChange={ this.onChange }
+                            />
+                          </Col>
+          }
         </Row>
         {
           errors.valueSeq().map( (error, key) => {
@@ -110,10 +125,18 @@ export default class HttpAuth extends React.Component {
               <Markdown source={ schema.get("description") } />
             </Row>
             <Row>
-              <label>Value:</label>
+              <label htmlFor="auth-bearer-value">Value:</label>
               {
                 value ? <code> ****** </code>
-              : <Col><Input type="text" aria-label="auth-bearer-value" onChange={ this.onChange } autoFocus/></Col>
+              : <Col>
+                  <Input
+                    id="auth-bearer-value"
+                    type="text"
+                    aria-label="auth-bearer-value"
+                    onChange={ this.onChange }
+                    autoFocus
+                  />
+                </Col>
           }
         </Row>
         {
