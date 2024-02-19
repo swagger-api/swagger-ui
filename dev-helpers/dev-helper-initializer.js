@@ -5,7 +5,7 @@ window.onload = function() {
   // Build a system
   const ui = SwaggerUIBundle({
     urls: [
-      {url:"https://petstore3.swagger.io/api/v3/openapi.json",name:"Pet Store Example", servers:[{ "url": "http://test.com" },{ "url": "http://real.org" }]}, 
+      {url:"https://petstore3.swagger.io/api/v3/openapi.json",name:"Pet Store Example",specOverwrite: {servers:[{ "url": "http://test.com" },{ "url": "http://real.org" }]}}, 
     ],
     dom_id: "#swagger-ui",
     presets: [
