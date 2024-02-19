@@ -208,6 +208,15 @@ Parameter name | Docker variable | Description
     </tr>
     <tr>
         <td>
+            <a name="user-content-renderSizeThreshold"></a><code>renderSizeThreshold</code>
+        </td>
+        <td><em>Unavailable</em></td>
+        <td>The maximum size (in bytes) of a payload to render.
+        Any payload above this will not be rendered, but may be available for copy or download.
+        </td>
+    </tr>
+    <tr>
+        <td>
             <a name="user-content-syntaxhighlight"></a><code>syntaxHighlight</code>
         </td>
         <td><em>Unavailable</em></td>
