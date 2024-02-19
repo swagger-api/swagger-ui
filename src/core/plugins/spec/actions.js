@@ -76,7 +76,9 @@ export const parseToJson = (str, servers) => ({specActions, specSelectors, errAc
     })
   }
   if(json && typeof json === "object") {
-    json["servers"] = servers
+    if (servers) {
+      json["servers"] = servers
+    }
     return specActions.updateJsonSpec(json)
   }
   return {}
