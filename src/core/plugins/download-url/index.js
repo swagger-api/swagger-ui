@@ -10,7 +10,7 @@ export default function downloadUrlPlugin(toolbox) {
 
   const actions = {
     download:
-      (url) =>
+      (url, servers = null) =>
       ({ errActions, specSelectors, specActions, getConfigs }) => {
         let { fetch } = fn
         const config = getConfigs()
@@ -42,7 +42,8 @@ export default function downloadUrlPlugin(toolbox) {
             return
           }
           specActions.updateLoadingStatus("success")
-          specActions.updateSpec(res.text)
+          // console.log(servers)
+          specActions.updateSpec(res.text, servers)
           if (specSelectors.url() !== url) {
             specActions.updateUrl(url)
           }

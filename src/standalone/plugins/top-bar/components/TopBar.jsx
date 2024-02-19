@@ -35,10 +35,11 @@ class TopBar extends React.Component {
     })
   }
 
-  loadSpec = (url) => {
+  loadSpec = (url, servers = null) => {
     this.flushAuthData()
     this.props.specActions.updateUrl(url)
-    this.props.specActions.download(url)
+    // console.log(servers);
+    this.props.specActions.download(url, servers)
   }
 
   onUrlSelect =(e)=> {
@@ -99,7 +100,7 @@ class TopBar extends React.Component {
         })
       }
 
-      this.loadSpec(urls[targetIndex].url)
+      this.loadSpec(urls[targetIndex].url, urls[targetIndex].servers)
     }
   }
 

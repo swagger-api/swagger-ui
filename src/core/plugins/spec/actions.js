@@ -57,7 +57,7 @@ export function updateJsonSpec(json) {
   return {type: UPDATE_JSON, payload: json}
 }
 
-export const parseToJson = (str) => ({specActions, specSelectors, errActions}) => {
+export const parseToJson = (str, servers) => ({specActions, specSelectors, errActions}) => {
   let { specStr } = specSelectors
 
   let json = null
@@ -76,6 +76,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
     })
   }
   if(json && typeof json === "object") {
+    json["servers"] = servers
     return specActions.updateJsonSpec(json)
   }
   return {}
