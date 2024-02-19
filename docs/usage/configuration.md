@@ -226,11 +226,19 @@ Parameter name | Docker variable | Description
         </td>
     </tr>
     <tr>
-        <td><a name="user-content-syntaxhighlight.activate"></a><code>syntaxHighlight.activate</code>
+        <td><a name="user-content-syntaxhighlight.activated"></a><code>syntaxHighlight.activated</code>
         </td>
         <td><em>Unavailable</em></td>
         <td><code>Boolean=true</code>. Whether syntax highlighting should be
             activated or not.
+        </td>
+    </tr>
+    <tr>
+        <td><a name="user-content-syntaxhighlight.sizethreshold"></a><code>syntaxHighlight.sizeThreshold</code>
+        </td>
+        <td><em>Unavailable</em></td>
+        <td>The maximum size (in bytes) of a payload to syntax highlight.
+        Any payload above this will not be syntax highlighted. Use this to avoid long delays caused by larged payloads.
         </td>
     </tr>
     <tr>

@@ -9,8 +9,9 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 
 const HighlightCode = ({value, fileName = "response.txt", className, downloadable, getConfigs, canCopy, language}) => {
   const config = isFunction(getConfigs) ? getConfigs() : null
-  const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
   const renderSizeThreshold = get(config, "renderSizeThreshold")
+  const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
+  const syntaxHighlightSizeThreshold = canSyntaxHighlight ? get(config, "syntaxHighlight.sizeThreshold", undefined) : undefined
   const rootRef = useRef(null)
 
   useEffect(() => {
@@ -45,14 +46,15 @@ const HighlightCode = ({value, fileName = "response.txt", className, downloadabl
   }
 
   const getRenderValues = () => {
-    if (renderSizeThreshold) {
+    if (renderSizeThreshold || syntaxHighlightSizeThreshold) {
       const valueSizeInBytes = (new TextEncoder().encode(value)).byteLength
-      const shouldRenderValue = valueSizeInBytes < renderSizeThreshold
-      return [shouldRenderValue, valueSizeInBytes]
+      const shouldRenderValue = renderSizeThreshold ? valueSizeInBytes < renderSizeThreshold : true
+      const shouldSyntaxHighlight = syntaxHighlightSizeThreshold ? valueSizeInBytes < syntaxHighlightSizeThreshold : true
+      return [shouldRenderValue, shouldSyntaxHighlight, valueSizeInBytes]
     }
-    return [true, undefined]
+    return [true, true, undefined]
   }
-  const [shouldRenderValue, valueSizeInBytes] = getRenderValues()
+  const [shouldRenderValue, shouldSyntaxHighlight, valueSizeInBytes] = getRenderValues()
 
   return (
     <div className="highlight-code" ref={rootRef}>
@@ -75,7 +77,7 @@ const HighlightCode = ({value, fileName = "response.txt", className, downloadabl
       }
 
       {shouldRenderValue && (
-        canSyntaxHighlight
+        canSyntaxHighlight && shouldSyntaxHighlight
           ? <SyntaxHighlighter
             language={language}
             className={cx(className, "microlight")}

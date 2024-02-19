@@ -3,13 +3,17 @@ import expect from "expect"
 import { shallow, mount } from "enzyme"
 import HighlightCode from "core/components/highlight-code"
 
-const fakeGetConfigs = (renderSizeThreshold = undefined) => (
+const defaultSyntaxHighlightConfig = {
+  activated: true,
+  theme: "agate"
+}
+
+const fakeGetConfigs = (
+    renderSizeThreshold = undefined,
+    syntaxHighlight = defaultSyntaxHighlightConfig) => (
   {
     renderSizeThreshold: renderSizeThreshold,
-    syntaxHighlight: {
-      activated: true,
-      theme: "agate"
-    }
+    syntaxHighlight: syntaxHighlight
   })
 
 describe("<HighlightCode />", () => {
@@ -27,12 +31,27 @@ describe("<HighlightCode />", () => {
 
   it("should render values in a preformatted element", () => {
     const value = "test text"
-    const props = { value: value, getConfigs: fakeGetConfigs }
+    const syntaxHighlightConfig = {
+      activated: false
+    }
+    const props = { value: value, getConfigs: () => fakeGetConfigs(undefined, syntaxHighlightConfig) }
     const wrapper = mount(<HighlightCode {...props} />)
-    const preTag = wrapper.find("pre")
+    const highlighterTag = wrapper.find("SyntaxHighlighter")
+    expect(highlighterTag.length).toEqual(0)
 
+    const preTag = wrapper.find("pre")
     expect(preTag.length).toEqual(1)
     expect(preTag.text()).toEqual(value)
+  })
+
+  it("should render values in a syntax highlighted element", () => {
+    const value = "test text"
+    const props = { value: value, getConfigs: fakeGetConfigs }
+    const wrapper = mount(<HighlightCode {...props} />)
+    const syntaxHighlighterTag = wrapper.find("SyntaxHighlighter")
+
+    expect(syntaxHighlighterTag.length).toEqual(1)
+    expect(syntaxHighlighterTag.text()).toEqual(value)
   })
 
   it("should not render values larger than threshold", () => {
@@ -42,5 +61,21 @@ describe("<HighlightCode />", () => {
     const infoTag = wrapper.find("div.microlight")
 
     expect(infoTag.text()).toEqual("Value is too large (8 bytes), rendering disabled.")
+  })
+
+  it("should not highlight values larger larger than syntax highlight threshold", () => {
+    const value = "aaaaaaaa" //8 bytes
+    const syntaxHighlightConfig = {
+      defaultSyntaxHighlightConfig,
+      sizeThreshold: 8
+    }
+    const props = { value: value, getConfigs: () => fakeGetConfigs(undefined, syntaxHighlightConfig) }
+    const wrapper = mount(<HighlightCode {...props} />)
+    const highlighterTag = wrapper.find("SyntaxHighlighter")
+    expect(highlighterTag.length).toEqual(0)
+
+    const preTag = wrapper.find("pre")
+    expect(preTag.length).toEqual(1)
+    expect(preTag.text()).toEqual(value)
   })
 })
