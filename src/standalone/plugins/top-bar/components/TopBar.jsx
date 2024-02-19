@@ -38,7 +38,6 @@ class TopBar extends React.Component {
   loadSpec = (url, servers = null) => {
     this.flushAuthData()
     this.props.specActions.updateUrl(url)
-    // console.log(servers);
     this.props.specActions.download(url, servers)
   }
 

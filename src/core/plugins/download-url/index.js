@@ -42,7 +42,6 @@ export default function downloadUrlPlugin(toolbox) {
             return
           }
           specActions.updateLoadingStatus("success")
-          // console.log(servers)
           specActions.updateSpec(res.text, servers)
           if (specSelectors.url() !== url) {
             specActions.updateUrl(url)
