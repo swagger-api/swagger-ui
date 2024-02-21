@@ -2,6 +2,7 @@ import React from "react"
 import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
+import { OrderedMap } from "immutable"
 
 import RollingLoadSVG from "core/assets/rolling-load.svg"
 
@@ -54,15 +55,26 @@ export default class Model extends ImmutablePureComponent {
     const ArrayModel = getComponent("ArrayModel")
     const PrimitiveModel = getComponent("PrimitiveModel")
     let type = "object"
-    let $$ref = schema && schema.get("$$ref")
+    let $ref = schema && schema.get("$ref")
+    let allOf = schema && schema.get("allOf")
 
-    // If we weren't passed a `name` but have a ref, grab the name from the ref
-    if ( !name && $$ref ) {
-      name = this.getModelName( $$ref )
+    // If we have a ref, get the schema and name from the ref
+    if ($ref) {
+      name = this.getModelName($ref)
+      schema = this.getRefSchema(name)
     }
-    // If we weren't passed a `schema` but have a ref, grab the schema from the ref
-    if ( !schema && $$ref ) {
-      schema = this.getRefSchema( name )
+
+    // If we have allOf with refs, get the schemas and merge them
+    if (allOf) {
+      schema = allOf.reduce((acc, schema) => {
+        if (schema.get("$ref")) {
+          const refName = this.getModelName(schema.get("$ref"))
+          let refSchema = this.getRefSchema(refName)
+          refSchema = refSchema.delete("title")
+          return acc.mergeDeep(refSchema)
+        }
+        return acc.mergeDeep(schema)
+      }, new OrderedMap())
     }
 
     if(!schema) {
@@ -73,7 +85,7 @@ export default class Model extends ImmutablePureComponent {
     }
 
     const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
-    isRef = isRef !== undefined ? isRef : !!$$ref
+    isRef = isRef !== undefined ? isRef : !!$ref
     type = schema && schema.get("type") || type
 
     switch(type) {
