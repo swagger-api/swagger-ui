@@ -91,10 +91,16 @@ jobs:
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
+      - name: Sanitize platform variable
+        id: sanitize_platform
+        run: |
+          echo "SANITIZED_PLATFORM=$(echo '${{ matrix.platform }}' | sed 's/[^a-zA-Z0-9_-]//g')" >> $GITHUB_ENV
+          echo "::set-output name=sanitized_platform::$(echo $SANITIZED_PLATFORM)"
+
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digest-${{ steps.build.outputs.digest }}
+          name: digest-${{ steps.sanitize_platform.outputs.sanitized_platform }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
