@@ -40,7 +40,7 @@ describe("findSchema", function () {
   })
 
   it("should get an unresolved schema", function () {
-    const result = findSchema(state, null, "unresolvedSchema")
+    const result = findSchema(state, "unresolvedSchema")
 
     expect(result).toEqual(
       state.getIn(["json", "components", "schemas", "unresolvedSchema"])
@@ -48,7 +48,7 @@ describe("findSchema", function () {
   })
 
   it("should get a resolved schema", function () {
-    const result = findSchema(state, null, "resolvedSchema")
+    const result = findSchema(state, "resolvedSchema")
 
     expect(result).toEqual(
       state.getIn([
