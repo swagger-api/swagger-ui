@@ -2,6 +2,7 @@ import React from "react"
 import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
+import { Map } from "immutable"
 
 import RollingLoadSVG from "core/assets/rolling-load.svg"
 
@@ -71,7 +72,7 @@ export default class Model extends ImmutablePureComponent {
     if ($ref) {
       name = this.getModelName($ref)
       const refSchema = this.getRefSchema(name)
-      if (refSchema) {
+      if (Map.isMap(refSchema)) {
         schema = refSchema.set("$$ref", $ref)
         $$ref = $ref
       } else {
