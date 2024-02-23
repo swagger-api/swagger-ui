@@ -32,8 +32,8 @@ const OAS3NullSelector = onlyOAS3(nullSelector)
  * Wrappers
  */
 
-export const findDefinition = onlyOAS3((state, doubledState, schemaName) => (system) => {
-  return system.getSystem().specSelectors.findSchema(state, doubledState, schemaName)
+export const findDefinition = onlyOAS3((state, schemaName) => (system) => {
+  return system.getSystem().specSelectors.findSchema(schemaName)
 })
 
 export const definitions = onlyOAS3(() => (system) => {

@@ -47,7 +47,7 @@ export const servers = onlyOAS3(() => (system) => {
   return spec.get("servers", map)
 })
 
-export const findSchema = (state, doubledState, schemaName) => {
+export const findSchema = (state, schemaName) => {
   const resolvedSchema = state.getIn(
     ["resolvedSubtrees", "components", "schemas", schemaName],
     null
