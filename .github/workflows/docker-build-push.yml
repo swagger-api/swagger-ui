@@ -94,8 +94,10 @@ jobs:
       - name: Sanitize platform variable
         id: sanitize_platform
         run: |
-          echo "SANITIZED_PLATFORM=$(echo '${{ matrix.platform }}' | sed 's/[^a-zA-Z0-9_-]//g')" >> $GITHUB_ENV
-          echo "::set-output name=sanitized_platform::$(echo $SANITIZED_PLATFORM)"
+          SANITIZED_PLATFORM="${{ matrix.platform }}" # Assuming direct usage for simplicity
+          SANITIZED_PLATFORM="${SANITIZED_PLATFORM//[^a-zA-Z0-9_-]/}" # Remove special chars
+          echo "SANITIZED_PLATFORM=${SANITIZED_PLATFORM}" # Echo for debug
+          echo "::set-output name=sanitized_platform::${SANITIZED_PLATFORM}"
 
       - name: Upload digest
         uses: actions/upload-artifact@v4
