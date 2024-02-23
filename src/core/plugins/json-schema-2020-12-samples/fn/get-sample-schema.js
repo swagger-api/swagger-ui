@@ -5,6 +5,10 @@ const makeGetSampleSchema =
   (getSystem) =>
   (schema, contentType = "", config = {}, exampleOverride = undefined) => {
     const { fn } = getSystem()
+  
+    if (!schema && !exampleOverride) {
+      return schema
+    }
 
     if (typeof schema?.toJS === "function") {
       schema = schema.toJS()
