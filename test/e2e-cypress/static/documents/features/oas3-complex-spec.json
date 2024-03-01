@@ -62193,9 +62193,6 @@
               "allOf": [
                 {
                   "$ref": "#/components/schemas/com.sap.ctsm.backend.core.api.study.v1.StudyAPIv1.Scenarios-create"
-                },
-                {
-                  "$ref": "#/components/schemas/unresolvedRef"
                 }
               ],
               "nullable": true
