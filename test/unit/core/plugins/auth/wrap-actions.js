@@ -2,7 +2,7 @@
  * @prettier
  */
 import { fromJS } from "immutable"
-import { authorize, logout } from "corePlugins/auth/wrap-actions"
+import { authorize, logout } from "core/plugins/auth/wrap-actions"
 
 describe("Cookie based apiKey persistence in document.cookie", () => {
   beforeEach(() => {

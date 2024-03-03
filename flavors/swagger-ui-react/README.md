@@ -33,7 +33,7 @@ These props map to [Swagger UI configuration options](https://github.com/swagger
 
 #### `spec`: PropTypes.object
 
-An OpenAPI document respresented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
+An OpenAPI document represented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
 
 ⚠️ Don't use this in conjunction with `url` - unpredictable behavior may occur.
 
@@ -177,57 +177,12 @@ Redirect url given as parameter to the oauth2 provider. Default the url refers t
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
 
-## Next.js
-
-When using [Next.js](https://nextjs.org/), following options are available for seamless integration of `swagger-ui-react`:
-
-#### 1. Make sure to enable transpilation for following dependencies `next.config.js`.
-
-```js
-const nextConfig = {
-  transpilePackages: [
-    'swagger-ui-react',
-    'swagger-client',
-    'react-syntax-highlighter',    
-  ],
-}
-```
-or 
-```js
-const withTM = require('next-transpile-modules')([
-  'swagger-ui-react',
-  'swagger-client'
-  'react-syntax-highlighter',  
-]);
-
-const nextConfig = {
-  reactStrictMode: true,
-}
-
-module.exports = withTM(nextConfig);
-```
-
-#### 2. Use dynamic import
-
-```js
-import dynamic from "next/dynamic";
-
-const SwaggerUI = dynamic(import('swagger-ui-react'), {ssr: false})
-
-const Test = () => <SwaggerUI spec={data}/>
-export default Test
-```
-
-More information about Next.js integration can be found in [#7970](https://github.com/swagger-api/swagger-ui/issues/7970) and (#8245)[https://github.com/swagger-api/swagger-ui/issues/8245].
-
-
 ## Limitations
 
 * Not all configuration bindings are available.
 * Some props are only applied on mount, and cannot be updated reliably.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
-* Custom plugins are not supported.
 
 We intend to address these limitations based on user demand, so please open an issue or pull request if you have a specific request.
 

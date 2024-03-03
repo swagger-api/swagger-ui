@@ -9,7 +9,7 @@ const parser = new Remarkable("commonmark")
 parser.block.ruler.enable(["table"])
 parser.set({ linkTarget: "_blank" })
 
-export const Markdown = ({ source, className = "", getConfigs }) => {
+export const Markdown = ({ source, className = "", getConfigs = () => ({ useUnsafeMarkdown: false }) }) => {
   if(typeof source !== "string") {
     return null
   }
@@ -40,10 +40,6 @@ Markdown.propTypes = {
   source: PropTypes.string,
   className: PropTypes.string,
   getConfigs: PropTypes.func,
-}
-
-Markdown.defaultProps = {
-  getConfigs: () => ({ useUnsafeMarkdown: false }),
 }
 
 export default OAS3ComponentWrapFactory(Markdown)

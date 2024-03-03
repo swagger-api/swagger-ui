@@ -1,0 +1,100 @@
+openapi: "3.1.0"
+info:
+  version: "0.0.1"
+  title: "Swagger UI Webpack Setup"
+  description: "Demonstrates Swagger UI"
+components:
+  schemas: {}
+security: []
+paths:
+  /pets:
+    get:
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $vocabulary: 
+                  https://json-schema.org/draft/2020-12/vocab/core: true
+                  https://json-schema.org/draft/2020-12/vocab/applicator: true
+                  https://json-schema.org/draft/2020-12/vocab/validation: true
+                  https://json-schema.org/draft/2020-12/vocab/meta-data: true
+                  https://json-schema.org/draft/2020-12/vocab/format-annotation: false
+                  https://example.com/my-custom-vocab: true
+                $defs: 
+                  exampleDef:
+                    type: string
+                allOf:
+                  - oneOf:
+                      - type: object
+                        properties:
+                          oneOf1-p1:
+                            type: object
+                            properties:
+                              oneOf1-p1-p1:
+                                type: string
+                              oneOf1-p1-p2:
+                                type: object
+                                properties:
+                                  oneOf1-p1-p2-p1:
+                                    type: string
+                          oneOf1-p2:
+                            type: string
+                      - type: object
+                        properties:
+                          oneOf2-p1:
+                            type: string
+                          oneOf2-p2:
+                            type: string
+                  - anyOf:
+                      - type: object
+                        properties:
+                          anyOf1-p1:
+                            type: object
+                            properties:
+                              anyOf1-p1-p1:
+                                type: string
+                              anyOf1-p1-p2:
+                                type: object
+                                properties:
+                                  anyOf1-p1-p2-p1:
+                                    type: string
+                          anyOf1-p2:
+                            type: string
+                      - type: object
+                        properties:
+                          anyOf2-p1:
+                            type: object
+                            properties:
+                              anyOf2-p1-p1:
+                                type: string
+                          anyOf2-p2:
+                            type: string
+                  - type: object
+                    properties:
+                      p1:
+                        type: object
+                        properties:
+                          p1-p1:
+                            type: string
+                          p1-p2:
+                            type: object
+                            properties:
+                              p1-p2-p1:
+                                type: string
+                        dependentSchemas:
+                          p1-p1:
+                            properties:
+                              p3: 
+                                type: array
+                                prefixItems: 
+                                  - type: string
+                                    enum: [a, b, c]
+                            required: [p3]
+                      p2:
+                        type: string
+                        prefixItems: 
+                          - type: string
+                            enum: [a, b, c]                  
+tags: []

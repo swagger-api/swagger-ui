@@ -12,12 +12,12 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/build-artifacts/',
-    '<rootDir>/test/mocha',
     '<rootDir>/test/unit/jest-shim.js',
     '<rootDir>/test/unit/setup.js',
-    '<rootDir>/test/unit/xss/anchor-target-rel/online-validator-badge.jsx',
-    '<rootDir>/test/unit/components/online-validator-badge.jsx',
-    '<rootDir>/test/unit/components/live-response.jsx',
   ],
+  moduleNameMapper: {
+    '^.+\\.svg$': 'jest-transform-stub'
+  },
+  transformIgnorePatterns: ['/node_modules/(?!(sinon|react-syntax-highlighter)/)'],
   silent: true, // set to `false` to allow console.* calls to be printed
 };

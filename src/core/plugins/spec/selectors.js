@@ -1,7 +1,7 @@
 import { createSelector } from "reselect"
-import { sorters } from "core/utils"
+import constant from "lodash/constant"
+import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
-import { paramToIdentifier } from "../../utils"
 
 const DEFAULT_TAG = "default"
 
@@ -119,7 +119,7 @@ export const paths = createSelector(
 	spec => spec.get("paths")
 )
 
-export const validOperationMethods = createSelector(() => ["get", "put", "post", "delete", "options", "head", "patch"])
+export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,
@@ -205,9 +205,11 @@ export const schemes = createSelector(
 )
 
 export const operationsWithRootInherited = createSelector(
-  operations,
-  consumes,
-  produces,
+  [
+    operations,
+    consumes,
+    produces
+  ],
   (operations, consumes, produces) => {
     return operations.map( ops => ops.update("operation", op => {
       if(op) {
@@ -372,6 +374,9 @@ export function parameterValues(state, pathMethod, isXml) {
   let paramValues = operationWithMeta(state, ...pathMethod).get("parameters", List())
   return paramValues.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
+    if (List.isList(value)) {
+      value = value.filter(v => v !== "")
+    }
     return hash.set(paramToIdentifier(p, { allowHashes: false }), value)
   }, fromJS({}))
 }

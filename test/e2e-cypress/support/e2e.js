@@ -19,13 +19,6 @@ import "./commands"
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-
-// Remove fetch, so Cypress can intercept XHRs
-// see https://github.com/cypress-io/cypress/issues/95
-Cypress.on("window:before:load", win => {
-  win.fetch = null
-})
-
 Cypress.on("uncaught:exception", (err, runnable) => {
   console.log(JSON.stringify(err, null, 2))
   return true

@@ -2,10 +2,10 @@
  * @prettier
  */
 import { OrderedMap, Map, List } from "immutable"
-import { createSelector } from "reselect"
+import constant from "lodash/constant"
 
 import { getDefaultRequestBodyValue } from "./components/request-body"
-import { stringify } from "../../utils"
+import { stringify } from "core/utils"
 
 // Helpers
 
@@ -295,7 +295,7 @@ export const validateShallowRequired = (
   return missingRequiredKeys
 }
 
-export const validOperationMethods = createSelector(() => [
+export const validOperationMethods = constant([
   "get",
   "put",
   "post",

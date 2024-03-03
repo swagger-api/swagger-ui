@@ -1,6 +1,6 @@
 
-import { fromJS } from "immutable"
-import reducer from "corePlugins/spec/reducers"
+import { fromJS, List } from "immutable"
+import reducer from "core/plugins/spec/reducers"
 
 describe("spec plugin - reducer", function(){
 
@@ -149,6 +149,7 @@ describe("spec plugin - reducer", function(){
       const response = result.getIn(["meta", "paths", path, method, "parameters", "body.myBody", "value"])
       expect(response).toEqual(`{ "a": 123 }`)
     })
+
     it("should store parameter values by identity", () => {
       const updateParam = reducer["spec_update_param"]
 
@@ -175,6 +176,27 @@ describe("spec plugin - reducer", function(){
 
       const value = result.getIn(["meta", "paths", path, method, "parameters", `body.myBody.hash-${param.hashCode()}`, "value"])
       expect(value).toEqual(`{ "a": 123 }`)
+    })
+
+    it("should store a multi-value parameter as an immutable list", () => {
+      const updateParam = reducer["spec_update_param"]
+
+      const path = "/pet/post"
+      const method = "POST"
+
+      const state = fromJS({})
+      const result = updateParam(state, {
+        payload: {
+          path: [path, method],
+          paramName: "myBody",
+          paramIn: "body",
+          value: [ "a", "b" ],
+          isXml: false
+        }
+      })
+
+      const response = result.getIn(["meta", "paths", path, method, "parameters", "body.myBody", "value"])
+      expect(List.isList(response)).toEqual(true)
     })
   })
   describe("SPEC_UPDATE_EMPTY_PARAM_INCLUSION", function() {
