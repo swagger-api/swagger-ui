@@ -12,20 +12,23 @@ on:
 env:
   CYPRESS_CACHE_FOLDER: cypress/cache
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Cache Node Modules and Cypress binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-primes
         with:
           path: |
@@ -41,7 +44,7 @@ jobs:
         run: npm run lint-errors
 
       - name: Run all tests
-        run: npm run just-test-in-node && npm run test:unit-jest
+        run: npm run test:unit
         env:
           CI: true
 
@@ -59,15 +62,15 @@ jobs:
         containers: ['+(a11y|security|bugs)/**/*cy.js', 'features/**/+(o|d)*.cy.js', 'features/**/m*.cy.js', 'features/**/!(o|d|m)*.cy.js']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Cache Node Modules and Cypress binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-primes
         with:
           path: |

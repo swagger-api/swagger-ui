@@ -2,6 +2,7 @@
  * @prettier
  */
 import { createSelector } from "reselect"
+import constant from "lodash/constant"
 import { specJsonWithResolvedSubtrees } from "../../spec/selectors"
 import { Map } from "immutable"
 
@@ -23,13 +24,17 @@ function onlyOAS3(selector) {
     }
 }
 
-const nullSelector = createSelector(() => null)
+const nullSelector = constant(null)
 
 const OAS3NullSelector = onlyOAS3(nullSelector)
 
 /**
  * Wrappers
  */
+
+export const findDefinition = onlyOAS3((state, schemaName) => (system) => {
+  return system.getSystem().specSelectors.findSchema(schemaName)
+})
 
 export const definitions = onlyOAS3(() => (system) => {
   const spec = system.getSystem().specSelectors.specJson()

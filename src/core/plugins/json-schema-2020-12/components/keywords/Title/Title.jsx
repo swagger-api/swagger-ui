@@ -7,7 +7,7 @@ import PropTypes from "prop-types"
 import { schema } from "../../../prop-types"
 import { useFn } from "../../../hooks"
 
-const Title = ({ title, schema }) => {
+const Title = ({ title = "", schema }) => {
   const fn = useFn()
   const renderedTitle = title || fn.getTitle(schema)
 
@@ -23,10 +23,6 @@ const Title = ({ title, schema }) => {
 Title.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   schema: schema.isRequired,
-}
-
-Title.defaultProps = {
-  title: "",
 }
 
 export default Title

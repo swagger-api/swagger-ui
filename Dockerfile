@@ -2,20 +2,22 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1.25.3-alpine
+FROM nginx:1.25.4-alpine
 
-RUN apk update && apk add --no-cache "nodejs>=18.14.1-r0" && apk add --no-cache "tiff>=4.4.0-r4"
+RUN apk add "nodejs"
 
-LABEL maintainer="fehguy"
+LABEL maintainer="char0n"
 
 ENV API_KEY="**None**" \
     SWAGGER_JSON="/app/swagger.json" \
     PORT="8080" \
     PORT_IPV6="" \
     BASE_URL="/" \
-    SWAGGER_JSON_URL=""
+    SWAGGER_JSON_URL="" \
+    CORS="true" \
+    EMBEDDING="false"
 
-COPY --chown=nginx:nginx --chmod=0666 ./docker/default.conf.template ./docker/cors.conf /etc/nginx/templates/
+COPY --chown=nginx:nginx --chmod=0666 ./docker/default.conf.template ./docker/cors.conf ./docker/embedding.conf /etc/nginx/templates/
 
 COPY --chmod=0666 ./dist/* /usr/share/nginx/html/
 COPY --chmod=0555 ./docker/docker-entrypoint.d/ /docker-entrypoint.d/

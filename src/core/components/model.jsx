@@ -2,6 +2,7 @@ import React from "react"
 import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
+import { Map } from "immutable"
 
 import RollingLoadSVG from "core/assets/rolling-load.svg"
 
@@ -55,20 +56,35 @@ export default class Model extends ImmutablePureComponent {
     const PrimitiveModel = getComponent("PrimitiveModel")
     let type = "object"
     let $$ref = schema && schema.get("$$ref")
+    let $ref = schema && schema.get("$ref")
 
-    // If we weren't passed a `name` but have a ref, grab the name from the ref
-    if ( !name && $$ref ) {
-      name = this.getModelName( $$ref )
+    // If we weren't passed a `name` but have a resolved ref, grab the name from the ref
+    if (!name && $$ref) {
+      name = this.getModelName($$ref)
     }
-    // If we weren't passed a `schema` but have a ref, grab the schema from the ref
-    if ( !schema && $$ref ) {
-      schema = this.getRefSchema( name )
+
+    /*
+     * If we have an unresolved ref, get the schema and name from the ref.
+     * If the ref is external, we can't resolve it, so we just display the ref location.
+     * This is for situations where the ref was not resolved by Swagger Client
+     * because we reached the traversal depth limit.
+     */
+    if ($ref) {
+      name = this.getModelName($ref)
+      const refSchema = this.getRefSchema(name)
+      if (Map.isMap(refSchema)) {
+        schema = refSchema.set("$$ref", $ref)
+        $$ref = $ref
+      } else {
+        schema = null
+        name = $ref
+      }
     }
 
     if(!schema) {
       return <span className="model model-title">
               <span className="model-title__text">{ displayName || name }</span>
-              <RollingLoadSVG height="20px" width="20px" />
+              {!$ref && <RollingLoadSVG height="20px" width="20px" />}
             </span>
     }
 

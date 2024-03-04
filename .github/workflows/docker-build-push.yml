@@ -53,34 +53,32 @@ jobs:
         platform:
           # linux/amd64 is already built by Jenkins
           - linux/arm/v6
-          - linux/arm/v7
-          - linux/arm64/v8
+          - linux/arm64
           - linux/386
           - linux/ppc64le
-          - linux/s390x
     needs:
       - inputs
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ needs.inputs.outputs.git_ref }}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Log in to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
       - name: Build and push by digest
         id: build
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           platforms: ${{ matrix.platform }}
@@ -93,10 +91,18 @@ jobs:
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
+      - name: Sanitize platform variable
+        id: sanitize_platform
+        run: |
+          SANITIZED_PLATFORM="${{ matrix.platform }}" # Assuming direct usage for simplicity
+          SANITIZED_PLATFORM="${SANITIZED_PLATFORM//[^a-zA-Z0-9_-]/}" # Remove special chars
+          echo "SANITIZED_PLATFORM=${SANITIZED_PLATFORM}" # Echo for debug
+          echo "::set-output name=sanitized_platform::${SANITIZED_PLATFORM}"
+
       - name: Upload digest
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: digests
+          name: digest-${{ steps.sanitize_platform.outputs.sanitized_platform }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -110,16 +116,17 @@ jobs:
 
     steps:
       - name: Download digests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: digests
+          pattern: digest-*
           path: /tmp/digests
+          merge-multiple: true
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}

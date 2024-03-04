@@ -13,7 +13,6 @@ extends:
   - plugin:react/recommended
 plugins:
   - react
-  - mocha
   - import
   - jest
 settings:
@@ -35,6 +34,5 @@ rules:
   react/jsx-no-bind: 1
   react/jsx-no-target-blank: 2
   react/display-name: 0
-  mocha/no-exclusive-tests: 2
   import/no-extraneous-dependencies: 2
   react/jsx-filename-extension: 2

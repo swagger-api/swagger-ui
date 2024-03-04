@@ -5,11 +5,16 @@ import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
 import { schema } from "../../../prop-types"
-import { useComponent, useIsExpandedDeeply } from "../../../hooks"
+import {
+  useComponent,
+  useIsExpanded,
+  useIsExpandedDeeply,
+} from "../../../hooks"
 
 const $vocabulary = ({ schema }) => {
+  const isExpanded = useIsExpanded()
   const isExpandedDeeply = useIsExpandedDeeply()
-  const [expanded, setExpanded] = useState(isExpandedDeeply)
+  const [expanded, setExpanded] = useState(isExpanded || isExpandedDeeply)
   const Accordion = useComponent("Accordion")
 
   const handleExpansion = useCallback(() => {

@@ -23,7 +23,7 @@ import {
 } from "../../context"
 
 const JSONSchema = forwardRef(
-  ({ schema, name, dependentRequired, onExpand }, ref) => {
+  ({ schema, name = "", dependentRequired = [], onExpand = () => {} }, ref) => {
     const fn = useFn()
     const isExpanded = useIsExpanded()
     const isExpandedDeeply = useIsExpandedDeeply()
@@ -213,12 +213,6 @@ JSONSchema.propTypes = {
   schema: propTypes.schema.isRequired,
   dependentRequired: PropTypes.arrayOf(PropTypes.string),
   onExpand: PropTypes.func,
-}
-
-JSONSchema.defaultProps = {
-  name: "",
-  dependentRequired: [],
-  onExpand: () => {},
 }
 
 export default JSONSchema
