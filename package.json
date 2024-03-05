@@ -142,7 +142,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-jest": "^27.9.0",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react": "^7.34.0",
     "esm": "=3.2.25",
     "expect": "=29.7.0",
     "express": "^4.18.2",
