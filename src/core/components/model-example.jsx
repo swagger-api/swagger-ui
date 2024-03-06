@@ -24,12 +24,9 @@ const useTabs = ({ initialTab, isExecute, schema, example }) => {
       : initialTab
   const prevIsExecute = usePrevious(isExecute)
   const [activeTab, setActiveTab] = useState(tab)
-  const handleTabChange = useCallback(
-    (e) => {
-      setActiveTab(e.target.dataset.name)
-    },
-    []
-  )
+  const handleTabChange = useCallback((e) => {
+    setActiveTab(e.target.dataset.name)
+  }, [])
 
   useEffect(() => {
     if (prevIsExecute && !isExecute && example) {
