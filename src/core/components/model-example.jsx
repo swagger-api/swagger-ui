@@ -149,7 +149,8 @@ const ModelExample = ({
 
 ModelExample.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  specSelectors: PropTypes.shape({}).isRequired,
+  specSelectors: PropTypes.shape({ isOAS3: PropTypes.func.isRequired })
+    .isRequired,
   schema: PropTypes.object.isRequired,
   example: PropTypes.any.isRequired,
   isExecute: PropTypes.bool,
