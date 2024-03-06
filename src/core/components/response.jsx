@@ -8,20 +8,16 @@ import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
-  if (
-    sampleResponse !== undefined &&
-    sampleResponse !== null
-  ) {
-    let language = null
-    let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
-    if (testValueForJson) {
-      language = "json"
-    }
-    return <div>
+  if (sampleResponse == null) return null;
+
+  const testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
+  const language = testValueForJson ? 'json' : null
+
+  return (
+    <div>
       <HighlightCode className="example" getConfigs={ getConfigs } language={ language } value={ stringify(sampleResponse) } />
     </div>
-  }
-  return null
+  )
 }
 
 export default class Response extends React.Component {
@@ -172,6 +168,14 @@ export default class Response extends React.Component {
     )
 
     let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
+
+    console.dir('---- kkkc ---- ')
+    // console.dir(sampleSchema)
+    // console.dir(mediaTypeExample);
+    console.dir(sampleResponse)
+    console.dir(typeof sampleResponse)
+    // console.dir(example);
+    // console.dir(schema);
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>

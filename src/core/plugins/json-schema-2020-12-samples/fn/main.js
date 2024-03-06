@@ -21,6 +21,9 @@ export const sampleFromSchemaGeneric = (
   exampleOverride = undefined,
   respectXML = false
 ) => {
+  // there is nothing to generate schema from
+  if (schema == null && exampleOverride === undefined) return undefined
+
   if (typeof schema?.toJS === "function") schema = schema.toJS()
   schema = typeCast(schema)
 
