@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { useState, useEffect, useCallback, useRef } from "react"
+import React, { useMemo, useState, useEffect, useCallback, useRef } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
@@ -16,8 +16,8 @@ const usePrevious = (value) => {
 }
 
 const useTabs = ({ initialTab, isExecute, schema, example }) => {
-  const tabs = { example: "example", model: "model" }
-  const allowedTabs = Object.keys(tabs)
+  const tabs = useMemo(() => ({ example: "example", model: "model" }), [])
+  const allowedTabs = useMemo(() => Object.keys(tabs), [tabs])
   const tab =
     !allowedTabs.includes(initialTab) || !schema || isExecute
       ? tabs.example
