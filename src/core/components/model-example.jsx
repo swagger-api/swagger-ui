@@ -15,14 +15,29 @@ const usePrevious = (value) => {
   return ref.current
 }
 
-const useTab = ({ initialTab, isExecute, schema }) => {
+const useTabs = ({ initialTab, isExecute, schema, example }) => {
   const tabs = { example: "example", model: "model" }
   const allowedTabs = Object.keys(tabs)
   const tab =
     !allowedTabs.includes(initialTab) || !schema || isExecute
       ? tabs.example
       : initialTab
-  return [...useState(tab), tabs]
+  const prevIsExecute = usePrevious(isExecute)
+  const [activeTab, setActiveTab] = useState(tab)
+  const handleTabChange = useCallback(
+    (e) => {
+      setActiveTab(e.target.dataset.name)
+    },
+    [setActiveTab]
+  )
+
+  useEffect(() => {
+    if (prevIsExecute && !isExecute && example) {
+      setActiveTab(tabs.example)
+    }
+  }, [prevIsExecute, isExecute, example])
+
+  return { activeTab, onTabChange: handleTabChange, tabs }
 }
 
 const ModelExample = ({
@@ -44,25 +59,12 @@ const ModelExample = ({
   const modelTabId = randomBytes(5).toString("base64")
   const modelPanelId = randomBytes(5).toString("base64")
   const isOAS3 = specSelectors.isOAS3()
-  const prevIsExecute = usePrevious(isExecute)
-  const [activeTab, setActiveTab, tabs] = useTab({
+  const { activeTab, tabs, onTabChange } = useTabs({
     initialTab: defaultModelRendering,
     isExecute,
     schema,
+    example,
   })
-
-  const handleTabChange = useCallback(
-    (e) => {
-      setActiveTab(e.target.dataset.name)
-    },
-    [setActiveTab]
-  )
-
-  useEffect(() => {
-    if (prevIsExecute && !isExecute && example) {
-      setActiveTab(tabs.example)
-    }
-  }, [prevIsExecute, isExecute, example])
 
   return (
     <div className="model-example">
@@ -77,7 +79,7 @@ const ModelExample = ({
             className="tablinks"
             data-name="example"
             id={exampleTabId}
-            onClick={handleTabChange}
+            onClick={onTabChange}
             role="tab"
           >
             {isExecute ? "Edit Value" : "Example Value"}
@@ -94,7 +96,7 @@ const ModelExample = ({
               className={cx("tablinks", { inactive: isExecute })}
               data-name="model"
               id={modelTabId}
-              onClick={handleTabChange}
+              onClick={onTabChange}
               role="tab"
             >
               {isOAS3 ? "Schema" : "Model"}
