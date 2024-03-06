@@ -168,7 +168,7 @@
     "oauth2-server": "^2.4.1",
     "open": "^10.0.4",
     "postcss": "^8.4.35",
-    "postcss-loader": "^8.1.0",
+    "postcss-loader": "^8.1.1",
     "postcss-preset-env": "^9.4.0",
     "prettier": "^3.2.5",
     "process": "^0.11.10",
