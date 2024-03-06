@@ -8,10 +8,10 @@ import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
-  if (sampleResponse == null) return null;
+  if (sampleResponse == null) return null
 
   const testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
-  const language = testValueForJson ? 'json' : null
+  const language = testValueForJson ? "json" : null
 
   return (
     <div>
@@ -167,15 +167,7 @@ export default class Response extends React.Component {
       shouldOverrideSchemaExample ? mediaTypeExample : undefined
     )
 
-    let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
-
-    console.dir('---- kkkc ---- ')
-    // console.dir(sampleSchema)
-    // console.dir(mediaTypeExample);
-    console.dir(sampleResponse)
-    console.dir(typeof sampleResponse)
-    // console.dir(example);
-    // console.dir(schema);
+    const example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>
