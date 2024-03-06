@@ -208,7 +208,7 @@ Parameter name | Docker variable | Description
     </tr>
     <tr>
         <td>
-            <a name="user-content-renderSizeThreshold"></a><code>renderSizeThreshold</code>
+            <a name="user-content-payload.render.sizeThreshold"></a><code>payload.render.sizeThreshold</code>
         </td>
         <td><em>Unavailable</em></td>
         <td>The maximum size (in bytes) of a payload to render.

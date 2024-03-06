@@ -9,7 +9,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 
 const HighlightCode = ({value, fileName = "response.txt", className, downloadable, getConfigs, canCopy, language}) => {
   const config = isFunction(getConfigs) ? getConfigs() : null
-  const renderSizeThreshold = get(config, "renderSizeThreshold")
+  const renderSizeThreshold = get(config, "payload.render.sizeThreshold")
   const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
   const syntaxHighlightSizeThreshold = canSyntaxHighlight ? get(config, "syntaxHighlight.sizeThreshold", undefined) : undefined
   const rootRef = useRef(null)

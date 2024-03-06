@@ -9,10 +9,14 @@ const defaultSyntaxHighlightConfig = {
 }
 
 const fakeGetConfigs = (
-    renderSizeThreshold = undefined,
-    syntaxHighlight = defaultSyntaxHighlightConfig) => (
+  renderSizeThreshold = undefined,
+  syntaxHighlight = defaultSyntaxHighlightConfig) => (
   {
-    renderSizeThreshold: renderSizeThreshold,
+    payload: {
+      render: {
+        sizeThreshold: renderSizeThreshold,
+      }
+    },
     syntaxHighlight: syntaxHighlight
   })
 
