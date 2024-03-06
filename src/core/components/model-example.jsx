@@ -28,7 +28,7 @@ const useTabs = ({ initialTab, isExecute, schema, example }) => {
     (e) => {
       setActiveTab(e.target.dataset.name)
     },
-    [setActiveTab]
+    []
   )
 
   useEffect(() => {
