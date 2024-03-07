@@ -1,4 +1,4 @@
-import { loaded } from "corePlugins/auth/configs-extensions/wrap-actions"
+import { loaded } from "core/plugins/auth/configs-extensions/wrap-actions"
 
 describe("loaded hook", () => {
   describe("authorization data restoration", () => {

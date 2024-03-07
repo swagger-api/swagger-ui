@@ -5,6 +5,25 @@ import { componentDidCatch } from "../fn"
 import Fallback from "./fallback"
 
 export class ErrorBoundary extends Component {
+  static propTypes = {
+    targetName: PropTypes.string,
+    getComponent: PropTypes.func,
+    fn: PropTypes.object,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ])
+  }
+
+  static defaultProps = {
+    targetName: "this component",
+    getComponent: () => Fallback,
+    fn: {
+      componentDidCatch,
+    },
+    children: null,
+  }
+
   static getDerivedStateFromError(error) {
     return { hasError: true, error }
   }
@@ -28,23 +47,6 @@ export class ErrorBoundary extends Component {
 
     return children
   }
-}
-ErrorBoundary.propTypes = {
-  targetName: PropTypes.string,
-  getComponent: PropTypes.func,
-  fn: PropTypes.object,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ])
-}
-ErrorBoundary.defaultProps = {
-  targetName: "this component",
-  getComponent: () => Fallback,
-  fn: {
-    componentDidCatch,
-  },
-  children: null,
 }
 
 export default ErrorBoundary
