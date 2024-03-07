@@ -60,7 +60,7 @@ jobs:
       - inputs
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ needs.inputs.outputs.git_ref }}
 

@@ -1,0 +1,91 @@
+openapi: '3.1.0'
+
+info:
+  title: Our API
+  description: extended description of Our API
+  version: 0.1.0
+
+servers:
+  - url: http://localhost
+    description: included for completeness; not our actual url
+
+tags:
+  - name: Enterprise
+    description: Operations with Enterprise ID
+
+paths:
+  /v0/enterprise/{id}:
+    get:
+      tags:
+        - Enterprise
+      summary: Get detailed info about an enterprise.
+      description: |
+        Returns detailed information for the specified Enterprise ID.
+
+        This operation may *only* be performed by a **platform admin** or a
+        client with sufficient permissions.
+      operationId: get_enterprise_detail
+      parameters:
+        - $ref: '#/components/parameters/traceIDHeader'
+        - $ref: '#/components/parameters/enterpriseIDPath'
+      responses:
+        404:
+          description: No enterprise matching the requested ID could be found.
+          content: {}
+components:
+  parameters:
+    enterpriseIDPath:
+      $ref: '#/components/parameters/idInPath'
+      description: The Enterprise ID used to perform this request.
+      example: "12422"
+
+    idInPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+    traceIDHeader:
+      name: X-Trace-Id
+      in: header
+      description: Optional UUID for log tracing
+      required: false
+      schema:
+        type: string
+
+  schemas:
+    EnterpriseDetailResponse:
+      title: Enterprise Detail Response
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique ID for this enterprise.
+          example: "3121"
+        mfa_enforced:
+          type: boolean
+          description: Indicates whether MFA is enforced for this enterprise.
+          example: true
+        modules:
+          type: array
+          description: List of modules this enterprise is authorized to access.
+          items:
+            type: string
+          example: [
+            human_resources,
+            project_management
+          ]
+        name:
+          type: string
+          description: The name of the enterprise.
+          example: Kathy's Plumbing
+        status:
+          type: string
+          description: Inidicates current status of this enterprise.
+          enum:
+            - offline
+            - online
+            - pending_deletion
+            - unknown
+          example: online

@@ -27,6 +27,10 @@ function afterLoad({ fn, getSystem }) {
         createXMLExample: fn.jsonSchema202012.createXMLExample,
         memoizedSampleFromSchema: fn.jsonSchema202012.memoizedSampleFromSchema,
         memoizedCreateXMLExample: fn.jsonSchema202012.memoizedCreateXMLExample,
+        getJsonSampleSchema: fn.jsonSchema202012.getJsonSampleSchema,
+        getYamlSampleSchema: fn.jsonSchema202012.getYamlSampleSchema,
+        getXmlSampleSchema: fn.jsonSchema202012.getXmlSampleSchema,
+        getSampleSchema: fn.jsonSchema202012.getSampleSchema,
       },
       getSystem()
     )
