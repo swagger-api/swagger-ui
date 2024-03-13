@@ -50,15 +50,14 @@ const escapePowershell = (str) => {
     return str
   }
   if (/\n/.test(str)) {
-    return "@\"\n" + str.replace(/"/g, "\\\"").replace(/`/g, "``").replace(/\$/, "`$") + "\n\"@"
+    const escaped = str.replace(/`/g, "``").replace(/\$/g, "`$")
+    return `@"\n${escaped}\n"@`
   }
-  // eslint-disable-next-line no-useless-escape
-  if (!/^[_\/-]/g.test(str))
-    return "'" + str
-      .replace(/"/g, "\"\"")
-      .replace(/'/g, "''") + "'"
-  else
-    return str
+  if (!/^[_\/-]/.test(str)) { // eslint-disable-line no-useless-escape
+    const escaped = str.replace(/'/g, "''")
+    return `'${escaped}'`
+  }
+  return str
 }
 
 function getStringBodyOfMap(request) {
