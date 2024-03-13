@@ -496,16 +496,10 @@ export const validationErrors = (state, pathMethod) => {
 
   paramValues.forEach( (p) => {
     let errors = p.get("errors")
-    if ( errors && errors.count() ) {
+    if (errors && errors.count()) {
       errors
-        .map( e => {
-          if (e instanceof Map) {
-            return `${e.get("propKey")} : ${e.get("error")}`
-          } else {
-            return e
-          }
-        })
-        .forEach( e => result.push(e))
+        .map((e) => (Map.isMap(e) ? `${e.get("propKey")}: ${e.get("error")}` : e))
+        .forEach((e) => result.push(e))
     }
   })
   return result
