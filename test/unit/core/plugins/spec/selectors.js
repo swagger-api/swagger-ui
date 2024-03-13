@@ -14,7 +14,8 @@ import {
   parameterInclusionSettingFor,
   consumesOptionsFor,
   taggedOperations,
-  isMediaTypeSchemaPropertiesEqual
+  isMediaTypeSchemaPropertiesEqual,
+  validationErrors
 } from "core/plugins/spec/selectors"
 
 import Petstore from "./assets/petstore.json"
@@ -1378,5 +1379,57 @@ describe("isMediaTypeSchemaPropertiesEqual", () => {
 
       expect(result).toEqual(false)
     })
+  })
+})
+describe("validationErrors", function() {
+  const state = fromJS({
+    meta: {
+      paths: {
+        "/": {
+          get: {
+            parameters: {
+              id: {
+                errors: [
+                 "Value must be an integer"
+                ]
+              }
+            }
+          },
+          post: {
+            parameters: {
+              body: {
+                errors: [
+                  {
+                    error: "Value must be an integer", 
+                    propKey: "id"
+                  },
+                  { 
+                    error: "Value must be a string", 
+                    propKey: "name"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  })
+
+  it("should return validation errors without formatting them", function () {
+    const result = validationErrors(state, ["/", "get"])
+
+    expect(result).toEqual([
+      "Value must be an integer"
+    ])
+  })
+
+  it("should return formatted validation errors", function () {
+    const result = validationErrors(state, ["/", "post"])
+
+    expect(result).toEqual([
+      "id: Value must be an integer",
+      "name: Value must be a string"
+    ])
   })
 })
