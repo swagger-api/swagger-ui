@@ -115,7 +115,10 @@ export default class Operation extends PureComponent {
 
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
-    const validationErrors = specSelectors.validationErrors([path, method])
+    const oas3ValidationErrors = specSelectors.isOAS3() 
+      ? oas3Selectors.validationErrors(path, method) 
+      : []
+    const validationErrors = specSelectors.validationErrors([path, method]).concat(oas3ValidationErrors)
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >

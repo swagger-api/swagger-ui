@@ -9,7 +9,7 @@
   If you're refactoring something in here, feel free to break it out to a file
   in `./helpers` if you have the time.
 */
-import Im, { fromJS, Set } from "immutable"
+import Im, { fromJS, Set, List } from "immutable"
 import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
@@ -486,7 +486,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
         return errors
       }
     }
-    if(schema && schema.has("required") && isFunc(requiredBySchema.isList) && requiredBySchema.isList()) {
+    if(schema && requiredBySchema && List.isList(requiredBySchema)) {
       requiredBySchema.forEach(key => {
         if(objectVal[key] === undefined) {
           errors.push({ propKey: key, error: "Required property not found" })
