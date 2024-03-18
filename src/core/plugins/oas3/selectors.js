@@ -6,6 +6,7 @@ import constant from "lodash/constant"
 
 import { getDefaultRequestBodyValue } from "./components/request-body"
 import { stringify, validateParam } from "core/utils"
+import { parseXML } from "core/utils/xmlParse"
 
 // Helpers
 
@@ -310,15 +311,41 @@ export const validateShallowRequired = (
 
 export const validateValues = (
   state,
-  { 
-    oas3RequestBody, 
-    oas3RequestContentType, 
-    oas3RequestBodyValue 
+  {
+    oas3RequestBody,
+    oas3RequestContentType,
+    oas3RequestBodyValue,
+    oas3RequestBodyInclusionSetting,
   }
 ) => {
-  if (oas3RequestContentType !== "application/json") {
+  const supportedContentType = [
+    "application/json",
+    "application/xml",
+    "application/x-www-form-urlencoded",
+  ]
+
+  if (!supportedContentType.includes(oas3RequestContentType)) {
     return []
   }
+  
+  if (oas3RequestContentType === "application/xml") {
+    oas3RequestBodyValue = parseXML(oas3RequestBodyValue)
+    if (oas3RequestBodyValue.xmlError) {
+      return [oas3RequestBodyValue.xmlError]
+    }
+  }
+
+  if (oas3RequestContentType === "application/x-www-form-urlencoded") {
+    oas3RequestBodyValue = oas3RequestBodyValue
+      .map((value, key) => {
+        value = value.get("value")
+        return value === "" && !oas3RequestBodyInclusionSetting.includes(key)
+          ? undefined
+          : value
+      })
+      .toJS()
+  }
+
   return validateParam(oas3RequestBody, oas3RequestBodyValue, {
     bypassRequiredCheck: false,
     isOAS3: true,

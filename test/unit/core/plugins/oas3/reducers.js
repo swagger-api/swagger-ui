@@ -450,6 +450,143 @@ describe("oas3 plugin - reducer", function () {
       })
     })
 
+    describe("missingRequiredKeys and valueErrors exist with length, e.g. application/x-www-form-urlencoded", () => {
+      it("should set errors", () => {
+        const state = fromJS({
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "test",
+                  },
+                  name: {
+                    value: "",
+                  },
+                },
+                requestContentType: "application/x-www-form-urlencoded"
+              }
+            }
+          }
+        })
+
+        const result = setRequestBodyValidateError(state, {
+          payload: {
+            path: "/pet",
+            method: "post",
+            validationErrors: {
+              missingBodyValue: null,
+              missingRequiredKeys: ["name"],
+              valueErrors: [
+                {
+                  propKey: "id", 
+                  error: "Value must be an integer"
+                }
+              ]
+            },
+          }
+        })
+
+        const expectedResult = {
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "test",
+                  },
+                  name: {
+                    value: "",
+                    errors: ["Required field is not provided"],
+                  },
+                },
+                requestContentType: "application/x-www-form-urlencoded",
+                errors: [
+                  {
+                    propKey: "id", 
+                    error: "Value must be an integer"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        expect(result.toJS()).toEqual(expectedResult)
+      })
+
+      it("should overwrite errors", () => {
+        const state = fromJS({
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "",
+                    errors: ["some fake error"],
+                  },
+                  name: {
+                    value: 123,
+                  },
+                },
+                requestContentType: "application/json",
+                errors: [
+                  {
+                    propKey: "name", 
+                    error: "some fake error"
+                  }
+                ]
+              }
+            }
+          }
+        })
+
+        const result = setRequestBodyValidateError(state, {
+          payload: {
+            path: "/pet",
+            method: "post",
+            validationErrors: {
+              missingBodyValue: null,
+              missingRequiredKeys: ["id"],
+              valueErrors: [
+                {
+                  propKey: "name", 
+                  error: "Value must be a string"
+                }
+              ]
+            },
+          }
+        })
+
+        const expectedResult = {
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "",
+                    errors: ["Required field is not provided"],
+                  },
+                  name: {
+                    value: 123,
+                  },
+                },
+                requestContentType: "application/json",
+                errors: [
+                  {
+                    propKey: "name", 
+                    error: "Value must be a string"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        expect(result.toJS()).toEqual(expectedResult)
+      })
+    })
+
     describe("other unexpected payload, e.g. no missingBodyValue or missingRequiredKeys", () => {
       it("should not throw error if receiving unexpected validationError format. return state unchanged", () => {
         const state = fromJS({

@@ -72,21 +72,21 @@ export default {
       // context: is application/json or application/xml, where typeof (missing) bodyValue = String
       return state.setIn(["requestData", path, method, "errors"], fromJS(errors))
     }
+    let newState = state
     if (validationErrors.missingRequiredKeys && validationErrors.missingRequiredKeys.length > 0) {
       // context: is application/x-www-form-urlencoded, with list of missing keys
       const { missingRequiredKeys } = validationErrors
-      return state.updateIn(["requestData", path, method, "bodyValue"], fromJS({}), missingKeyValues => {
+      newState = newState.updateIn(["requestData", path, method, "bodyValue"], fromJS({}), missingKeyValues => {
         return missingRequiredKeys.reduce((bodyValue, currentMissingKey) => {
           return bodyValue.setIn([currentMissingKey, "errors"], fromJS(errors))
         }, missingKeyValues)
       })
     }
     if (validationErrors.valueErrors && validationErrors.valueErrors.length > 0) {
-      // context: is application/json, with list of errors
-      return state.setIn(["requestData", path, method, "errors"], fromJS(validationErrors.valueErrors))
+      // context: is application/json, application/xml or application/x-www-form-urlencoded, with list of errors
+      newState = newState.setIn(["requestData", path, method, "errors"], fromJS(validationErrors.valueErrors))
     }
-    console.warn("unexpected result: SET_REQUEST_BODY_VALIDATE_ERROR")
-    return state
+    return newState
   },
   [CLEAR_REQUEST_BODY_VALIDATE_ERROR]: (state, { payload: { path, method } }) => {
     const requestBodyValue = state.getIn(["requestData", path, method, "bodyValue"])
@@ -97,11 +97,15 @@ export default {
     if (!valueKeys) {
       return state
     }
-    return state.updateIn(["requestData", path, method, "bodyValue"], fromJS({}), bodyValues => {
+    const newState = state.updateIn(["requestData", path, method, "bodyValue"], fromJS({}), bodyValues => {
       return valueKeys.reduce((bodyValue, curr) => {
         return bodyValue.setIn([curr, "errors"], fromJS([]))
       }, bodyValues)
     })
+    if (newState.getIn(["requestData", path, method, "errors"], fromJS([])).size !== 0) {
+      return newState.setIn(["requestData", path, method, "errors"], fromJS([]))
+    }
+    return newState
   },
   [CLEAR_REQUEST_BODY_VALUE]: (state, { payload: { pathMethod }}) => {
     let [path, method] = pathMethod
