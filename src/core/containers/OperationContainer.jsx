@@ -2,7 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { opId } from "swagger-client/es/helpers"
-import { Iterable, fromJS, Map, OrderedMap } from "immutable"
+import { Iterable, fromJS, Map } from "immutable"
 
 export default class OperationContainer extends PureComponent {
   constructor(props, context) {
@@ -124,7 +124,27 @@ export default class OperationContainer extends PureComponent {
 
   onResetClick = (pathMethod) => {
     const defaultRequestBodyValue = this.props.oas3Selectors.selectDefaultRequestBodyValue(...pathMethod)
-    this.props.oas3Actions.setRequestBodyValue({ value: OrderedMap(JSON.parse(defaultRequestBodyValue)), pathMethod })
+    const contentType = this.props.oas3Selectors.requestContentType(...pathMethod)
+    const isOAS31 = this.props.specSelectors.isOAS31()
+
+    if (!isOAS31 && (contentType === "application/x-www-form-urlencoded" || contentType === "multipart/form-data")) {
+      const jsonRequestBodyValue = JSON.parse(defaultRequestBodyValue)
+      Object.entries(jsonRequestBodyValue).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          jsonRequestBodyValue[key] = jsonRequestBodyValue[key].map((val) => {
+            if (typeof val === "object") {
+              return JSON.stringify(val, null, 2)
+            } 
+            return val
+          })
+        } else if (typeof value === "object") {
+          jsonRequestBodyValue[key] = JSON.stringify(jsonRequestBodyValue[key], null, 2)
+        }
+      })
+      this.props.oas3Actions.setRequestBodyValue({ value: fromJS(jsonRequestBodyValue), pathMethod })
+    } else {
+      this.props.oas3Actions.setRequestBodyValue({ value: defaultRequestBodyValue, pathMethod })
+    }
   }
 
   onExecute = () => {

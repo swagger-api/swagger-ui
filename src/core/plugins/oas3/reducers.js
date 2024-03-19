@@ -34,7 +34,7 @@ export default {
     valueKeys.forEach((valueKey) => {
       let valueKeyVal = value.getIn([valueKey])
       if (!newVal.has(valueKey)) {
-      newVal = newVal.setIn([valueKey, "value"], valueKeyVal)
+        newVal = newVal.setIn([valueKey, "value"], valueKeyVal)
       } else if (!Map.isMap(valueKeyVal)) {
         // context: user input will be received as String
         newVal = newVal.setIn([valueKey, "value"], valueKeyVal)
