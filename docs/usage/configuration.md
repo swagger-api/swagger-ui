@@ -147,7 +147,7 @@ Parameter name | Docker variable | Description
         <td>
             <a name="user-content-operationssorter"></a><code>operationsSorter</code>
         </td>
-        <td><em>Unavailable</em></td>
+        <td>OPERATIONS_SORTER</td>
         <td><code>Function=(a =&gt; a)</code>. Apply a sort to the operation
             list of each API. It can be 'alpha' (sort by paths
             alphanumerically), 'method' (sort by HTTP method) or a function (see
@@ -177,7 +177,7 @@ Parameter name | Docker variable | Description
     </tr>
     <tr>
         <td><a name="user-content-tagsorter"></a><code>tagsSorter</code></td>
-        <td><em>Unavailable</em></td>
+        <td>TAGS_SORTER</td>
         <td><code>Function=(a =&gt; a)</code>. Apply a sort to the tag list of
             each API. It can be 'alpha' (sort by paths alphanumerically) or a
             function (see <a
