@@ -9,15 +9,11 @@ import { useFn } from "../../../hooks"
 
 const Title = ({ title = "", schema }) => {
   const fn = useFn()
-  const renderedTitle = title || fn.getTitle(schema)
+  const renderedTitle = fn.getTitle(schema) || title
 
   if (!renderedTitle) return null
 
-  return (
-    <div className="json-schema-2020-12__title">
-      {title || fn.getTitle(schema)}
-    </div>
-  )
+  return <div className="json-schema-2020-12__title">{renderedTitle}</div>
 }
 
 Title.propTypes = {
