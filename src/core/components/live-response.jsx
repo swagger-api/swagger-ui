@@ -49,7 +49,7 @@ export default class LiveResponse extends React.Component {
   render() {
     const { response, getComponent, getConfigs, displayRequestDuration, specSelectors, path, method } = this.props
     const { showMutatedRequest, requestSnippetsEnabled } = getConfigs()
-
+ 
     const curlRequest = showMutatedRequest ? specSelectors.mutatedRequestFor(path, method) : specSelectors.requestFor(path, method)
     const status = response.get("status")
     const url = curlRequest.get("url")

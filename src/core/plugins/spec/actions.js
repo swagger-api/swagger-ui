@@ -57,7 +57,7 @@ export function updateJsonSpec(json) {
   return {type: UPDATE_JSON, payload: json}
 }
 
-export const parseToJson = (str) => ({specActions, specSelectors, errActions}) => {
+export const parseToJson = (str, specOverwrite = null) => ({specActions, specSelectors, errActions}) => {
   let { specStr } = specSelectors
 
   let json = null
@@ -76,7 +76,12 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
     })
   }
   if(json && typeof json === "object") {
-    return specActions.updateJsonSpec(json)
+    let merged = {}
+    if (specOverwrite) {
+      console.log(specOverwrite)
+      Object.assign(merged, json, specOverwrite);
+    }
+    return specActions.updateJsonSpec(merged)
   }
   return {}
 }
