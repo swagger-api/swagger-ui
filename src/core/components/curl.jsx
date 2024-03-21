@@ -22,8 +22,8 @@ export default class Curl extends React.Component {
           language="bash"
           className="curl microlight"
           style={getStyle(get(config, "syntaxHighlight.theme"))}
+          code={curl}
           >
-          {curl}
         </SyntaxHighlighter>
       :
       <textarea readOnly={true} className="curl" value={curl}></textarea>

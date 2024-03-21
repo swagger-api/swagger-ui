@@ -104,8 +104,8 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
       language={activeGenerator.get("syntax")}
       className="curl microlight"
       style={getStyle(get(config, "syntaxHighlight.theme"))}
+      code={snippet}
     >
-      {snippet}
     </SyntaxHighlighter>
     :
     <textarea readOnly={true} className="curl" value={snippet}></textarea>
@@ -147,7 +147,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
         </div>
       }
     </div>
-  )  
+  )
 }
 
 RequestSnippets.propTypes = {
