@@ -81,6 +81,10 @@ export default {
         }, missingKeyValues)
       })
     }
+    if (validationErrors.valueErrors && validationErrors.valueErrors.length > 0) {
+      // context: is application/json, with list of errors
+      return state.setIn(["requestData", path, method, "errors"], fromJS(validationErrors.valueErrors))
+    }
     console.warn("unexpected result: SET_REQUEST_BODY_VALIDATE_ERROR")
     return state
   },
