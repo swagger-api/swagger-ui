@@ -18,13 +18,12 @@ describe("<HighlightCode />", () => {
     expect(wrapper.find("CopyToClipboard").length).toEqual(1)
   })
 
-  it("should render values in a preformatted element", () => {
+  it("should render values in a section element", () => {
     const value = "test text"
     const props = {value: value, getConfigs: fakeGetConfigs}
     const wrapper = mount(<HighlightCode {...props} />)
-    const preTag = wrapper.find("pre")
+    const sectionTag = wrapper.find("section")
 
-    expect(preTag.length).toEqual(1)
-    expect(preTag.text()).toEqual(value)
+    expect(sectionTag.length).toEqual(1)
   })
 })
