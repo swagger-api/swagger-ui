@@ -125,13 +125,22 @@ function setClientIdAndSecret(target, clientId, clientSecret) {
 }
 
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
-  let { schema, scopes, name, clientId, clientSecret } = auth
-  let headers = {
-    Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
-  }
+  let { schema, scopes, name, clientId, clientSecret, clientCredentialsLocation } = auth
+
   let form = {
     grant_type: "client_credentials",
     scope: scopes.join(scopeSeparator)
+  }
+  let headers = {}
+
+  switch (clientCredentialsLocation) {
+    case "request-body":
+      setClientIdAndSecret(form, clientId, clientSecret)
+      break
+
+    case "header":
+      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
+      break
   }
 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
@@ -202,59 +211,59 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
     requestInterceptor: getConfigs().requestInterceptor,
     responseInterceptor: getConfigs().responseInterceptor
   })
-  .then(function (response) {
-    let token = JSON.parse(response.data)
-    let error = token && ( token.error || "" )
-    let parseError = token && ( token.parseError || "" )
+    .then(function (response) {
+      let token = JSON.parse(response.data)
+      let error = token && ( token.error || "" )
+      let parseError = token && ( token.parseError || "" )
 
-    if ( !response.ok ) {
+      if ( !response.ok ) {
+        errActions.newAuthErr( {
+          authId: name,
+          level: "error",
+          source: "auth",
+          message: response.statusText
+        } )
+        return
+      }
+
+      if ( error || parseError ) {
+        errActions.newAuthErr({
+          authId: name,
+          level: "error",
+          source: "auth",
+          message: JSON.stringify(token)
+        })
+        return
+      }
+
+      authActions.authorizeOauth2WithPersistOption({ auth, token})
+    })
+    .catch(e => {
+      let err = new Error(e)
+      let message = err.message
+      // swagger-js wraps the response (if available) into the e.response property;
+      // investigate to check whether there are more details on why the authorization
+      // request failed (according to RFC 6479).
+      // See also https://github.com/swagger-api/swagger-ui/issues/4048
+      if (e.response && e.response.data) {
+        const errData = e.response.data
+        try {
+          const jsonResponse = typeof errData === "string" ? JSON.parse(errData) : errData
+          if (jsonResponse.error)
+            message += `, error: ${jsonResponse.error}`
+          if (jsonResponse.error_description)
+            message += `, description: ${jsonResponse.error_description}`
+        } catch (jsonError) {
+          // Ignore
+        }
+      }
       errActions.newAuthErr( {
         authId: name,
         level: "error",
         source: "auth",
-        message: response.statusText
+        message: message
       } )
-      return
-    }
-
-    if ( error || parseError ) {
-      errActions.newAuthErr({
-        authId: name,
-        level: "error",
-        source: "auth",
-        message: JSON.stringify(token)
-      })
-      return
-    }
-
-    authActions.authorizeOauth2WithPersistOption({ auth, token})
-  })
-  .catch(e => {
-    let err = new Error(e)
-    let message = err.message
-    // swagger-js wraps the response (if available) into the e.response property;
-    // investigate to check whether there are more details on why the authorization
-    // request failed (according to RFC 6479).
-    // See also https://github.com/swagger-api/swagger-ui/issues/4048
-    if (e.response && e.response.data) {
-      const errData = e.response.data
-      try {
-        const jsonResponse = typeof errData === "string" ? JSON.parse(errData) : errData
-        if (jsonResponse.error)
-          message += `, error: ${jsonResponse.error}`
-        if (jsonResponse.error_description)
-          message += `, description: ${jsonResponse.error_description}`
-      } catch (jsonError) {
-        // Ignore
-      }
-    }
-    errActions.newAuthErr( {
-      authId: name,
-      level: "error",
-      source: "auth",
-      message: message
-    } )
-  })
+    })
 }
 
 export function configureAuth(payload) {

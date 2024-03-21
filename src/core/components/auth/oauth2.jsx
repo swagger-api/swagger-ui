@@ -26,6 +26,7 @@ export default class Oauth2 extends React.Component {
     let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
     let clientSecret = auth && auth.get("clientSecret") || authConfigs.clientSecret || ""
     let passwordType = auth && auth.get("passwordType") || "basic"
+    let clientCredentialsLocation = auth && auth.get("clientCredentialsLocation") || "header"
     let scopes = auth && auth.get("scopes") || authConfigs.scopes || []
     if (typeof scopes === "string") {
       scopes = scopes.split(authConfigs.scopeSeparator || " ")
@@ -40,7 +41,8 @@ export default class Oauth2 extends React.Component {
       clientSecret: clientSecret,
       username: username,
       password: "",
-      passwordType: passwordType
+      passwordType: passwordType,
+      clientCredentialsLocation: clientCredentialsLocation
     }
   }
 
@@ -199,34 +201,50 @@ export default class Oauth2 extends React.Component {
             <label htmlFor={ `client_id_${flow}` }>client_id:</label>
             {
               isAuthorized ? <code> ****** </code>
-                           : <Col tablet={10} desktop={10}>
-                               <InitializedInput id={`client_id_${flow}`}
-                                      type="text"
-                                      required={ flow === AUTH_FLOW_PASSWORD }
-                                      initialValue={ this.state.clientId }
-                                      data-name="clientId"
-                                      onChange={ this.onInputChange }/>
-                             </Col>
+                : <Col tablet={10} desktop={10}>
+                  <InitializedInput id={`client_id_${flow}`}
+                                    type="text"
+                                    required={ flow === AUTH_FLOW_PASSWORD }
+                                    initialValue={ this.state.clientId }
+                                    data-name="clientId"
+                                    onChange={ this.onInputChange }/>
+                </Col>
             }
           </Row>
         }
 
         {
           ( (flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD) && <Row>
-            <label htmlFor={ `client_secret_${flow}` }>client_secret:</label>
-            {
-              isAuthorized ? <code> ****** </code>
-                           : <Col tablet={10} desktop={10}>
-                               <InitializedInput id={ `client_secret_${flow}` }
+              <label htmlFor={ `client_secret_${flow}` }>client_secret:</label>
+              {
+                isAuthorized ? <code> ****** </code>
+                  : <Col tablet={10} desktop={10}>
+                    <InitializedInput id={ `client_secret_${flow}` }
                                       initialValue={ this.state.clientSecret }
                                       type="password"
                                       data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
-                             </Col>
-            }
+                  </Col>
+              }
 
-          </Row>
-        )}
+            </Row>
+          )}
+
+        {
+          flow !== AUTH_FLOW_APPLICATION ? null
+            : <Row>
+              <label htmlFor="client_credentials_location">Client credentials location:</label>
+              {
+                isAuthorized ? <code> { this.state.clientCredentialsLocation } </code>
+                  : <Col tablet={10} desktop={10}>
+                    <select id="client_credentials_location" data-name="clientCredentialsLocation" onChange={ this.onInputChange }>
+                      <option value="header">Authorization header</option>
+                      <option value="request-body">Request body</option>
+                    </select>
+                  </Col>
+              }
+            </Row>
+        }
 
         {
           !isAuthorized && scopes && scopes.size ? <div className="scopes">
@@ -240,22 +258,22 @@ export default class Oauth2 extends React.Component {
                 <Row key={ name }>
                   <div className="checkbox">
                     <Input data-value={ name }
-                          id={`${name}-${flow}-checkbox-${this.state.name}`}
+                           id={`${name}-${flow}-checkbox-${this.state.name}`}
                            disabled={ isAuthorized }
                            checked={ this.state.scopes.includes(name) }
                            type="checkbox"
                            onChange={ this.onScopeChange }/>
-                         <label htmlFor={`${name}-${flow}-checkbox-${this.state.name}`}>
-                           <span className="item"></span>
-                           <div className="text">
-                             <p className="name">{name}</p>
-                             <p className="description">{description}</p>
-                           </div>
-                         </label>
+                    <label htmlFor={`${name}-${flow}-checkbox-${this.state.name}`}>
+                      <span className="item"></span>
+                      <div className="text">
+                        <p className="name">{name}</p>
+                        <p className="description">{description}</p>
+                      </div>
+                    </label>
                   </div>
                 </Row>
               )
-              }).toArray()
+            }).toArray()
             }
           </div> : null
         }
@@ -267,11 +285,11 @@ export default class Oauth2 extends React.Component {
           } )
         }
         <div className="auth-btn-wrapper">
-        { isValid &&
-          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout } aria-label="Remove authorization">Logout</Button>
-        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize } aria-label="Apply given OAuth2 credentials">Authorize</Button>
-          )
-        }
+          { isValid &&
+            ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout } aria-label="Remove authorization">Logout</Button>
+                : <Button className="btn modal-btn auth authorize" onClick={ this.authorize } aria-label="Apply given OAuth2 credentials">Authorize</Button>
+            )
+          }
           <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
         </div>
 
