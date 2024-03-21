@@ -619,7 +619,16 @@ export const parseSearch = () => {
         continue
       }
       i = params[i].split("=")
-      map[decodeURIComponent(i[0])] = (i[1] && decodeURIComponent(i[1])) || ""
+
+      let value = i[1] ? decodeURIComponent(i[1]) : ""
+
+      if (value === "true") {
+        value = true
+      } else if (value === "false") {
+        value = false
+      }
+
+      map[decodeURIComponent(i[0])] = value
     }
   }
 
