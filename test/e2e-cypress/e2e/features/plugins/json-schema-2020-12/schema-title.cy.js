@@ -2,9 +2,9 @@
  * @prettier
  */
 
-describe("OpenAPI 3.1.0 schema title", () => {
-  it("should render a correct title", () => {
-    cy.visit("/?url=/documents/features/oas31-schema-title.yaml")
+describe("JSON Schema 2020-12 title keyword", () => {
+  it("should render a correct title for schemas", () => {
+    cy.visit("/?url=/documents/features/json-schema-2020-12-title.yaml")
       .get(".json-schema-2020-12__title")
       .eq(0)
       .contains("My Pet")
