@@ -41,6 +41,10 @@
     }
 }
 
+.text-right {
+    text-align: right;
+}
+
 @mixin method($color)
 {
     border-color: $color;
