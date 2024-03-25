@@ -1,31 +1,3 @@
-// import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/light"
-// import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript"
-// import json from "react-syntax-highlighter/dist/esm/languages/hljs/json"
-// import xml from "react-syntax-highlighter/dist/esm/languages/hljs/xml"
-// import bash from "react-syntax-highlighter/dist/esm/languages/hljs/bash"
-// import yaml from "react-syntax-highlighter/dist/esm/languages/hljs/yaml"
-// import http from "react-syntax-highlighter/dist/esm/languages/hljs/http"
-// import powershell from "react-syntax-highlighter/dist/esm/languages/hljs/powershell"
-// import javascript from "react-syntax-highlighter/dist/esm/languages/hljs/javascript"
-//
-// import agate from "react-syntax-highlighter/dist/esm/styles/hljs/agate"
-// import arta from "react-syntax-highlighter/dist/esm/styles/hljs/arta"
-// import monokai from "react-syntax-highlighter/dist/esm/styles/hljs/monokai"
-// import nord from "react-syntax-highlighter/dist/esm/styles/hljs/nord"
-// import obsidian from "react-syntax-highlighter/dist/esm/styles/hljs/obsidian"
-// import tomorrowNight from "react-syntax-highlighter/dist/esm/styles/hljs/tomorrow-night"
-// import idea from "react-syntax-highlighter/dist/esm/styles/hljs/idea"
-//
-// SyntaxHighlighter.registerLanguage("json", json)
-// SyntaxHighlighter.registerLanguage("js", js)
-// SyntaxHighlighter.registerLanguage("xml", xml)
-// SyntaxHighlighter.registerLanguage("yaml", yaml)
-// SyntaxHighlighter.registerLanguage("http", http)
-// SyntaxHighlighter.registerLanguage("bash", bash)
-// SyntaxHighlighter.registerLanguage("powershell", powershell)
-// SyntaxHighlighter.registerLanguage("javascript", javascript)
-//
-
 import React, {useEffect, useRef, useState} from "react";
 import Editor from '@monaco-editor/react';
 
@@ -39,8 +11,7 @@ export const styles =
     "tomorrow-night": 'poimandres',
     idea: 'github-light'
   }
-// export const availableStyles = Object.keys(styles)
-//
+
 export const getStyle = name => {
   //if (!availableStyles.includes(name)) {
   if (Object.keys(styles).indexOf(name) === -1) {
@@ -49,18 +20,17 @@ export const getStyle = name => {
   }
   return styles[name]
 }
-//
-// export {SyntaxHighlighter, styles}
 
 const options = {
   readOnly: true,
   domReadOnly:true,
   automaticLayout: true,
   contextMenu: false,
-  lightbulb: { enabled: false },
+  lightbulb: { enabled: "off" },
   renderValidationDecorations: "off",
   renderWhitespace: "all",
-  quickSuggestions: false
+  quickSuggestions: false,
+  minimap: { enabled: false },
 }
 
 export function SyntaxHighlighter({language, className, style, code}) {
@@ -100,6 +70,15 @@ export function SyntaxHighlighter({language, className, style, code}) {
       }
   }
 
-  return (<Editor onMount={handleEditorDidMount}  width={width} className={className} options={options}
-            defaultLanguage={language} defaultValue={code} />);
+  return (
+    <Editor
+      onMount={handleEditorDidMount}
+      width={width}
+      theme="vs-dark"
+      className={className}
+      options={options}
+      defaultLanguage={language}
+      defaultValue={code}
+    />
+  );
 }
