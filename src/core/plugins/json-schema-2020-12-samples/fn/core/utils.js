@@ -21,3 +21,11 @@ export const typeCast = (schema) => {
 
   return schema
 }
+
+export const padZeros = (number, targetLength) => {
+  let numString = "" + number
+  while (numString.length < targetLength) {
+    numString = "0" + numString
+  }
+  return numString
+}

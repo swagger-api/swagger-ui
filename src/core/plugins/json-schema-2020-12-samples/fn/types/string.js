@@ -5,102 +5,44 @@ import identity from "lodash/identity"
 
 import { string as randomString, randexp } from "../core/random"
 import { isJSONSchema } from "../core/predicates"
-import emailGenerator from "../generators/email"
-import idnEmailGenerator from "../generators/idn-email"
-import hostnameGenerator from "../generators/hostname"
-import idnHostnameGenerator from "../generators/idn-hostname"
-import ipv4Generator from "../generators/ipv4"
-import ipv6Generator from "../generators/ipv6"
-import uriGenerator from "../generators/uri"
-import uriReferenceGenerator from "../generators/uri-reference"
-import iriGenerator from "../generators/iri"
-import iriReferenceGenerator from "../generators/iri-reference"
-import uuidGenerator from "../generators/uuid"
-import uriTemplateGenerator from "../generators/uri-template"
-import jsonPointerGenerator from "../generators/json-pointer"
-import relativeJsonPointerGenerator from "../generators/relative-json-pointer"
-import dateTimeGenerator from "../generators/date-time"
-import dateGenerator from "../generators/date"
-import timeGenerator from "../generators/time"
-import durationGenerator from "../generators/duration"
-import passwordGenerator from "../generators/password"
-import regexGenerator from "../generators/regex"
+import { padZeros } from "../core/utils"
 import formatAPI from "../api/formatAPI"
 import encoderAPI from "../api/encoderAPI"
 import mediaTypeAPI from "../api/mediaTypeAPI"
 
-const generateFormat = (schema) => {
+const generateFormat = (schema, opts = {}) => {
   const { format } = schema
 
   const formatGenerator = formatAPI(format)
   if (typeof formatGenerator === "function") {
-    return formatGenerator(schema)
-  }
-
-  switch (format) {
-    case "email": {
-      return emailGenerator()
-    }
-    case "idn-email": {
-      return idnEmailGenerator()
-    }
-    case "hostname": {
-      return hostnameGenerator()
-    }
-    case "idn-hostname": {
-      return idnHostnameGenerator()
-    }
-    case "ipv4": {
-      return ipv4Generator()
-    }
-    case "ipv6": {
-      return ipv6Generator()
-    }
-    case "uri": {
-      return uriGenerator()
-    }
-    case "uri-reference": {
-      return uriReferenceGenerator()
-    }
-    case "iri": {
-      return iriGenerator()
-    }
-    case "iri-reference": {
-      return iriReferenceGenerator()
-    }
-    case "uuid": {
-      return uuidGenerator()
-    }
-    case "uri-template": {
-      return uriTemplateGenerator()
-    }
-    case "json-pointer": {
-      return jsonPointerGenerator()
-    }
-    case "relative-json-pointer": {
-      return relativeJsonPointerGenerator()
-    }
-    case "date-time": {
-      return dateTimeGenerator()
-    }
-    case "date": {
-      return dateGenerator()
-    }
-    case "time": {
-      return timeGenerator()
-    }
-    case "duration": {
-      return durationGenerator()
-    }
-    case "password": {
-      return passwordGenerator()
-    }
-    case "regex": {
-      return regexGenerator()
-    }
+    return formatGenerator(schema, opts)
   }
 
   return randomString()
+}
+
+const generateMediaType = (schema, opts = {}) => {
+  const { contentMediaType } = schema
+
+  const mediaTypeGenerator = mediaTypeAPI(contentMediaType)
+  if (typeof mediaTypeGenerator === "function") {
+    return mediaTypeGenerator(schema, opts)
+  }
+
+  return randomString()
+}
+
+const generateConstrainedIndexedString = (idx, isPropertyName, constraints = {}) => {
+  const { maxLength, minLength } = constraints
+  let generatedString = isPropertyName ? "additionalProp" : "string"
+  let num = "" + idx
+  if (Number.isInteger(minLength) && minLength > 0 && minLength > generatedString.length + num.length) {
+    num = padZeros(idx, minLength - generatedString.length)
+  }
+  if (Number.isInteger(maxLength) && maxLength > 0 && maxLength < generatedString.length + num.length) {
+    generatedString = ""
+  }
+  return generatedString + num
 }
 
 const applyStringConstraints = (string, constraints = {}) => {
@@ -119,7 +61,8 @@ const applyStringConstraints = (string, constraints = {}) => {
 
   return constrainedString
 }
-const stringType = (schema, { sample } = {}) => {
+
+const stringType = (schema, { sample, idx, isPropertyName } = {}) => {
   const { contentEncoding, contentMediaType, contentSchema } = schema
   const { pattern, format } = schema
   const encode = encoderAPI(contentEncoding) || identity
@@ -128,7 +71,7 @@ const stringType = (schema, { sample } = {}) => {
   if (typeof pattern === "string") {
     generatedString = randexp(pattern)
   } else if (typeof format === "string") {
-    generatedString = generateFormat(schema)
+    generatedString = generateFormat(schema, {idx: idx})
   } else if (
     isJSONSchema(contentSchema) &&
     typeof contentMediaType === "string" &&
@@ -140,10 +83,9 @@ const stringType = (schema, { sample } = {}) => {
       generatedString = String(sample)
     }
   } else if (typeof contentMediaType === "string") {
-    const mediaTypeGenerator = mediaTypeAPI(contentMediaType)
-    if (typeof mediaTypeGenerator === "function") {
-      generatedString = mediaTypeGenerator(schema)
-    }
+    generatedString = generateMediaType(schema, {idx: idx})
+  } else if (Number.isInteger(idx) && idx >= 0) {
+    generatedString = generateConstrainedIndexedString(idx, isPropertyName, schema)
   } else {
     generatedString = randomString()
   }
