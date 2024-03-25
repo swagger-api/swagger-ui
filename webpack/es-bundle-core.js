@@ -56,7 +56,6 @@ const result = configBuilder(
           "randombytes", // uses require('safe-buffer')
           "sha.js", // uses require('safe-buffer')
           "xml", // uses require('stream')
-          "process/browser", // is injected via ProvidePlugin
           /^readable-stream/, // byproduct of buffer ProvidePlugin injection
           "util-deprecate", // dependency of readable-stream
           "inherits", // dependency of readable-stream
