@@ -744,25 +744,28 @@
 .highlight-code {
   position: relative;
 
-  > .microlight {
-    overflow-y: auto;
-    max-height: 400px;
-    min-height: 6em;
+  section > .microlight {
+    min-height: 400px;
+    overflow-x: auto;
+  }
 
-    code {
-        white-space: pre-wrap !important;
-        word-break: break-all;
-    }
+  .copy-to-clipboard, .download-contents {
+    z-index: 1;
   }
 }
 .curl-command {
   position: relative;
+
+  section {
+    min-height: 100px;
+    overflow-x: auto;
+  }
 }
 
 .download-contents {
   position: absolute;
   bottom: 10px;
-  right: 10px;
+  right: 20px;
   background: #7d8293;
   text-align: center;
   padding: 5px;
