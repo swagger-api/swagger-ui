@@ -26,17 +26,18 @@ const generateFormat = (schema) => {
 
   return randomInteger()
 }
+
 const integerType = (schema) => {
   const { format } = schema
-  let generatedNumber
+  let generatedInteger
 
   if (typeof format === "string") {
-    generatedNumber = generateFormat(schema)
+    generatedInteger = generateFormat(schema)
   } else {
-    generatedNumber = randomInteger()
+    generatedInteger = randomInteger()
   }
 
-  return applyNumberConstraints(generatedNumber, schema)
+  return applyNumberConstraints(generatedInteger, schema)
 }
 
 export default integerType
