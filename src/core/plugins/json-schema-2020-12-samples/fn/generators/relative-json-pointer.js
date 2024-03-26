@@ -1,6 +1,7 @@
 /**
  * @prettier
  */
-const relativeJsonPointerGenerator = () => "1/0"
+const relativeJsonPointerGenerator = (_, {idx} = {}) =>
+  Number.isInteger(idx) ? idx + "/0" : "1/0"
 
 export default relativeJsonPointerGenerator

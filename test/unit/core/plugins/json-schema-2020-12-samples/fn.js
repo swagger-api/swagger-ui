@@ -1451,6 +1451,472 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
+  it("should handle additionalProperties with propertyNames examples", () => {
+    const definition = {
+      type: "object",
+      propertyNames: {
+        examples: ["firstprop", "secondprop"]
+      },
+      additionalProperties: {
+        type: "string",
+      },
+    }
+
+    const expected = {
+      firstprop: "string",
+      secondprop: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames examples in conjunction with minProperties", () => {
+    const definition = {
+      type: "object",
+      minProperties: 4,
+      propertyNames: {
+        examples: ["firstprop", "secondprop"]
+      },
+      additionalProperties: {
+        type: "string",
+      },
+    }
+
+    const expected = {
+      firstprop: "string",
+      secondprop: "string",
+      additionalProp3: "string",
+      additionalProp4: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames const", () => {
+    const definition = {
+      type: "object",
+      propertyNames: {
+        const: "constprop"
+      },
+      additionalProperties: {
+        type: "string",
+      },
+    }
+
+    const expected = {
+      constprop: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames enum", () => {
+    const definition = {
+      type: "object",
+      propertyNames: {
+        enum: ["firstprop", "secondprop"]
+      },
+      additionalProperties: {
+        type: "string",
+      },
+    }
+
+    const expected = {
+      firstprop: "string",
+      secondprop: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames pattern", () => {
+    const definition = {
+      type: "object",
+      propertyNames: {
+        pattern: "^abc$"
+      },
+      maxProperties: 1,
+      additionalProperties: {
+        type: "string",
+      },
+    }
+
+    const expected = {
+      abc: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames format", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        email: {
+          type: "object",
+          propertyNames: {
+            format: "email"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "idn-email": {
+          type: "object",
+          propertyNames: {
+            format: "idn-email"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        hostname: {
+          type: "object",
+          propertyNames: {
+            format: "hostname"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "idn-hostname": {
+          type: "object",
+          propertyNames: {
+            format: "idn-hostname"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        ipv4: {
+          type: "object",
+          propertyNames: {
+            format: "ipv4"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        ipv6: {
+          type: "object",
+          propertyNames: {
+            format: "ipv6"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        uri: {
+          propertyNames: {
+            format: "uri"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "uri-reference": {
+          propertyNames: {
+            format: "uri-reference"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        iri: {
+          propertyNames: {
+            format: "iri"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "iri-reference": {
+          propertyNames: {
+            format: "iri-reference"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "uri-template": {
+          propertyNames: {
+            format: "uri-template"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        uuid: {
+          type: "object",
+          propertyNames: {
+            format: "uuid"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "json-pointer": {
+          type: "object",
+          propertyNames: {
+            format: "json-pointer"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "relative-json-pointer": {
+          type: "object",
+          propertyNames: {
+            format: "relative-json-pointer"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        regex: {
+          type: "object",
+          propertyNames: {
+            format: "regex"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        date: {
+          type: "object",
+          propertyNames: {
+            format: "date"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        "date-time": {
+          type: "object",
+          propertyNames: {
+            format: "date-time"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        time: {
+          type: "object",
+          propertyNames: {
+            format: "time"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+        duration: {
+          type: "object",
+          propertyNames: {
+            format: "duration"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "integer",
+          },
+        },
+      }
+    }
+
+    const expected = {
+      "email": {
+        "user1@example.com": 0,
+        "user2@example.com": 0,
+      },
+      "idn-email": {
+        "실례1@example.com": 0,
+        "실례2@example.com": 0,
+      },
+      "hostname": {
+        "example1.com": 0,
+        "example2.com": 0,
+      },
+      "idn-hostname": {
+        "실례1.com": 0,
+        "실례2.com": 0,
+      },
+      "ipv4": {
+        "198.51.1.42": 0,
+        "198.51.2.42": 0,
+      },
+      "ipv6": {
+        "2001:0db8:5b96:0000:0000:426f:8e17:642a": 0,
+        "2002:0db8:5b96:0000:0000:426f:8e17:642a": 0,
+      },
+      "uri": {
+        "https://example1.com/": 0,
+        "https://example2.com/": 0,
+      },
+      "uri-reference": {
+        "path1/index.html": 0,
+        "path2/index.html": 0,
+      },
+      "iri": {
+        "https://실례1.com/": 0,
+        "https://실례2.com/": 0,
+      },
+      "iri-reference": {
+        "path1/실례.html": 0,
+        "path2/실례.html": 0,
+      },
+      "uri-template": {
+        "https://example1.com/dictionary/{term:1}/{term}": 0,
+        "https://example2.com/dictionary/{term:1}/{term}": 0,
+      },
+      "uuid": {
+        "00000001-5717-4562-b3fc-2c963f66afa6": 0,
+        "00000002-5717-4562-b3fc-2c963f66afa6": 0,
+      },
+      "json-pointer": {
+        "/a1/b/c": 0,
+        "/a2/b/c": 0,
+      },
+      "relative-json-pointer": {
+        "1/0": 0,
+        "2/0": 0,
+      },
+      "regex": {
+        "^[a-z]{1}$": 0,
+        "^[a-z]{2}$": 0,
+      },
+      "date": {
+        "2001-10-04": 0,
+        "2002-10-04": 0,
+      },
+      "date-time": {
+        "2001-10-04T20:20:39Z": 0,
+        "2002-10-04T20:20:39Z": 0,
+      },
+      "time": {
+        "20:20:01Z": 0,
+        "20:20:02Z": 0,
+      },
+      "duration": {
+        "P1D": 0,
+        "P2D": 0,
+      },
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames mediaType", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        "text/plain": {
+          type: "object",
+          propertyNames: {
+            contentMediaType: "text/plain"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "boolean",
+          },
+        },
+        "text/html": {
+          type: "object",
+          propertyNames: {
+            contentMediaType: "text/html"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "boolean",
+          },
+        },
+        "application/json": {
+          type: "object",
+          propertyNames: {
+            contentMediaType: "application/json"
+          },
+          maxProperties: 2,
+          additionalProperties: {
+            type: "boolean",
+          },
+        },
+      }
+    }
+
+    const expected = {
+      "text/plain": {
+        "string1": true,
+        "string2": true,
+      },
+      "text/html": {
+        "<p>content1</p>": true,
+        "<p>content2</p>": true,
+      },
+      "application/json": {
+        '{"key1":"value1"}': true,
+        '{"key2":"value2"}': true,
+      },
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames minLength", () => {
+    const definition = {
+      type: "object",
+      propertyNames: {
+        minLength: 17
+      },
+      additionalProperties: {
+        type: "string",
+      },
+    }
+
+    const expected = {
+      additionalProp001: "string",
+      additionalProp002: "string",
+      additionalProp003: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with propertyNames maxLength", () => {
+    const definition = {
+      type: "object",
+      propertyNames: {
+        maxLength: 1
+      },
+      additionalProperties: {
+        type: "string",
+      },
+    }
+
+    const expected = {
+      1: "string",
+      2: "string",
+      3: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   it("should handle minItems", () => {
     const definition = {
       type: "array",

@@ -10,7 +10,7 @@ import memoizeN from "core/utils/memoizeN"
 import typeMap from "./types/index"
 import { getType } from "./core/type"
 import { typeCast } from "./core/utils"
-import { hasExample, extractExample } from "./core/example"
+import { hasExample, extractExample, extractExamples } from "./core/example"
 import { pick as randomPick } from "./core/random"
 import merge from "./core/merge"
 import { isBooleanJSONSchema, isJSONSchemaObject } from "./core/predicates"
@@ -80,10 +80,23 @@ export const sampleFromSchemaGeneric = (
   let addPropertyToResult
   let propertyAddedCounter = 0
 
-  const hasExceededMaxProperties = () =>
-    Number.isInteger(schema.maxProperties) &&
-    schema.maxProperties > 0 &&
-    propertyAddedCounter >= schema.maxProperties
+  const hasExceededMaxProperties = () => {
+    const hasPropertyNamesSchema = isJSONSchemaObject(schema.propertyNames)
+    const isConstraintByConst =
+      hasPropertyNamesSchema &&
+      typeof schema.propertyNames.const !== "undefined" &&
+      propertyAddedCounter >= 1
+    const isConstraintByEnum = 
+      hasPropertyNamesSchema &&
+      Array.isArray(schema.propertyNames.enum) &&
+      schema.propertyNames.enum.length > 0 &&
+      propertyAddedCounter >= schema.propertyNames.enum.length
+    const isConstraintByMaxProperties = 
+      Number.isInteger(schema.maxProperties) &&
+      schema.maxProperties > 0 &&
+      propertyAddedCounter >= schema.maxProperties
+    return isConstraintByConst || isConstraintByEnum || isConstraintByMaxProperties
+  }
 
   const requiredPropertiesToAdd = () => {
     if (!Array.isArray(schema.required) || schema.required.length === 0) {
@@ -126,6 +139,39 @@ export const sampleFromSchemaGeneric = (
       schema.maxProperties - propertyAddedCounter - requiredPropertiesToAdd() >
       0
     )
+  }
+
+  const numPropertiesToGenerate = () => {
+    const numExamples = extractExamples(schema.propertyNames).length
+
+    const minimumToGenerate = 
+      Number.isInteger(schema.minProperties) &&
+      schema.minProperties > 0 &&
+      propertyAddedCounter < schema.minProperties
+        ? schema.minProperties - propertyAddedCounter
+        : 0
+
+    if (numExamples > 0 && numExamples >= minimumToGenerate) {
+      return numExamples
+    }
+    return minimumToGenerate > 0 ? minimumToGenerate : 3
+  }
+
+  const generatePropertyName = (i) => {
+    if (isJSONSchemaObject(schema.propertyNames)) {
+      const allExamples = extractExamples(schema.propertyNames)
+      if (allExamples.length >= i) {
+        return allExamples.at(i-1)
+      }
+      if (typeof schema.propertyNames.const !== "undefined") {
+        return schema.propertyNames.const
+      }
+      if (Array.isArray(schema.propertyNames.enum)) {
+        return normalizeArray(schema.propertyNames.enum).at(i-1)
+      }
+      return typeMap["string"](schema.propertyNames, { idx: i, isPropertyName: true })
+    }
+    return "additionalProp" + i
   }
 
   if (respectXML) {
@@ -446,22 +492,18 @@ export const sampleFromSchemaGeneric = (
       ) {
         res[displayName].push(additionalPropSample)
       } else {
-        const toGenerateCount =
-          Number.isInteger(schema.minProperties) &&
-          schema.minProperties > 0 &&
-          propertyAddedCounter < schema.minProperties
-            ? schema.minProperties - propertyAddedCounter
-            : 3
+        const toGenerateCount = numPropertiesToGenerate()
         for (let i = 1; i <= toGenerateCount; i++) {
           if (hasExceededMaxProperties()) {
             return res
           }
+          const propertyName = generatePropertyName(i)
           if (respectXML) {
             const temp = {}
-            temp["additionalProp" + i] = additionalPropSample["notagname"]
+            temp[propertyName] = additionalPropSample["notagname"]
             res[displayName].push(temp)
           } else {
-            res["additionalProp" + i] = additionalPropSample
+            res[propertyName] = additionalPropSample
           }
           propertyAddedCounter++
         }

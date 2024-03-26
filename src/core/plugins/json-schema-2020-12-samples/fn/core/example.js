@@ -55,3 +55,25 @@ export const extractExample = (schema) => {
 
   return undefined
 }
+
+export const extractExamples = (schema) => {
+  if (!isJSONSchemaObject(schema)) return []
+
+  const { examples, example, default: defaultVal } = schema
+
+  let allExamples = []
+
+  if (typeof defaultVal !== "undefined") {
+    allExamples.push(defaultVal)
+  }
+
+  if (Array.isArray(examples) && examples.length >= 1) {
+    allExamples.push(...examples)
+  }
+
+  if (typeof example !== "undefined") {
+    allExamples.push(example)
+  }
+
+  return allExamples
+}
