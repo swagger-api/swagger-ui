@@ -26,7 +26,7 @@ const generateFormat = (schema) => {
   return randomNumber()
 }
 
-const applyNumberConstraints = (number, constraints = {}) => {
+export const applyNumberConstraints = (number, constraints = {}) => {
   const { minimum, maximum, exclusiveMinimum, exclusiveMaximum } = constraints
   const { multipleOf } = constraints
   const epsilon = Number.isInteger(number) ? 1 : Number.EPSILON
