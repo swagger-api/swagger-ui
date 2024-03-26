@@ -1326,6 +1326,11 @@ describe("utils", () => {
         win.location.search = "?foo=foo%20bar"
         expect(parseSearch()).toEqual({foo: "foo bar"})
       })
+
+      it("parses boolean values", () => {
+        win.location.search = "?foo=true&bar=false"
+        expect(parseSearch()).toEqual({foo: true, bar: false})
+      })
     })
 
     describe("serializing", () => {
