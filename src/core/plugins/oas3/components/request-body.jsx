@@ -153,6 +153,13 @@ const RequestBody = ({
             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
               if (prop.get("readOnly")) return
 
+              const oneOf = prop.get("oneOf")
+              const anyOf = prop.get("anyOf")
+
+              if (oneOf || anyOf) {
+                prop = oneOf ? oneOf.get(0) : anyOf.get(0)
+              }
+
               let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
               const type = prop.get("type")
