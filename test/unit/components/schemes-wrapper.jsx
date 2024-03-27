@@ -1,9 +1,9 @@
 import React from "react"
 import { mount } from "enzyme"
 import { fromJS } from "immutable"
-import SchemesContainer from "containers/schemes"
-import Schemes from "components/schemes"
-import { Col } from "components/layout-utils"
+import SchemesContainer from "core/containers/schemes"
+import Schemes from "core/components/schemes"
+import { Col } from "core/components/layout-utils"
 
 describe("<SchemesContainer/>", function(){
 

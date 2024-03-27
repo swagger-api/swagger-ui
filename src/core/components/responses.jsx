@@ -3,7 +3,7 @@ import { fromJS, Iterable } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { defaultStatusCode, getAcceptControllingResponse } from "core/utils"
-import createHtmlReadyId from "../../helpers/create-html-ready-id"
+import createHtmlReadyId from "core/utils/create-html-ready-id"
 
 export default class Responses extends React.Component {
   static propTypes = {

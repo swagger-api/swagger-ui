@@ -14,14 +14,14 @@ export default class AuthorizeBtn extends React.Component {
 
     //must be moved out of button component
     const AuthorizationPopup = getComponent("authorizationPopup", true)
+    const LockAuthIcon = getComponent("LockAuthIcon", true)
+    const UnlockAuthIcon = getComponent("UnlockAuthIcon", true)
 
     return (
       <div className="auth-wrapper">
         <button className={isAuthorized ? "btn authorize locked" : "btn authorize unlocked"} onClick={onClick}>
           <span>Authorize</span>
-          <svg width="20" height="20">
-            <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
-          </svg>
+          {isAuthorized ? <LockAuthIcon /> : <UnlockAuthIcon />}
         </button>
       { showPopup && <AuthorizationPopup /> }
       </div>

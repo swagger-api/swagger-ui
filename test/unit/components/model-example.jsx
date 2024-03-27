@@ -1,11 +1,11 @@
 import React from "react"
 import { shallow } from "enzyme"
-import ModelExample from "components/model-example"
-import ModelComponent from "components/model-wrapper"
+import ModelExample from "core/components/model-example"
+import ModelComponent from "core/components/model-wrapper"
 
 describe("<ModelExample/>", function(){
   let components, props
-  
+
   let exampleSelectedTestInputs = [
     { defaultModelRendering: "model", isExecute: true },
     { defaultModelRendering: "example", isExecute: true },
@@ -13,7 +13,7 @@ describe("<ModelExample/>", function(){
     { defaultModelRendering: "othervalue", isExecute: true },
     { defaultModelRendering: "othervalue", isExecute: false }
   ]
-  
+
   let modelSelectedTestInputs = [
     { defaultModelRendering: "model", isExecute: false }
   ]
@@ -22,7 +22,7 @@ describe("<ModelExample/>", function(){
     components = {
       ModelWrapper: ModelComponent
     }
-    
+
     props = {
       getComponent: (c) => {
           return components[c]

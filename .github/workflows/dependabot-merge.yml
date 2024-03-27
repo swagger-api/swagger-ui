@@ -4,6 +4,9 @@ on:
   pull_request_target:
     branches: [ master, next ]
 
+permissions:
+  contents: read
+
 jobs:
   merge-me:
     name: Merge me!
@@ -14,7 +17,7 @@ jobs:
       # will not occur.
       - name: Dependabot metadata
         id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v1.1.1
+        uses: dependabot/fetch-metadata@v1.6.0
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       # Here the PR gets approved.

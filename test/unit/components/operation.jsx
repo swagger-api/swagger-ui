@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
-import Operation from "components/operation"
+import Operation from "core/components/operation"
 
 describe("<Operation/>", function(){
   it.skip("blanket tests", function(){

@@ -1,0 +1,30 @@
+.json-schema-2020-12 {
+  margin: 0 20px 15px 20px;
+  border-radius: 4px;
+  padding: 12px 0 12px 20px;
+  background-color: rgba($section-models-model-container-background-color, .05);
+
+  &:first-of-type {
+    margin: 20px;
+  }
+
+  &:last-of-type {
+    margin: 0 20px;
+  }
+
+  &--embedded {
+    background-color: inherit;
+    padding: 0 inherit 0 inherit;
+  }
+
+  &-body {
+    @include expansion-border;
+    margin: 2px 0;
+
+    &--collapsed {
+      display: none;
+    }
+  }
+}
+
+

@@ -1,0 +1,95 @@
+.json-schema-2020-12-keyword {
+  margin: 5px 0 5px 0;
+
+  &__children {
+    @include expansion-border;
+    padding: 0;
+
+    &--collapsed {
+      display: none;
+    }
+  }
+
+  &__name {
+    font-size: 12px;
+    margin-left: 20px;
+    font-weight: bold;
+
+    &--primary {
+      color: $text-code-default-font-color;
+      font-style: normal;
+    }
+
+    &--secondary {
+      color: #6b6b6b;
+      font-style: italic;
+    }
+  }
+
+  &__value {
+    color: #6b6b6b;
+    font-style: italic;
+    font-size: 12px;
+    font-weight: normal;
+
+    &--primary {
+      color: $text-code-default-font-color;
+      font-style: normal;
+    }
+
+    &--secondary {
+      color: #6b6b6b;
+      font-style: italic;
+    }
+
+    &--const {
+      @include text_code();
+      color: #6b6b6b;
+      font-style: normal;
+      display: inline-block;
+      margin-left: 10px;
+      line-height: 1.5;
+      padding: 1px 4px 1px 4px;
+      border: 1px dashed #6b6b6b;
+      border-radius: 4px;
+    }
+
+    &--warning {
+      @extend .json-schema-2020-12-keyword__value--const;
+      color: red;
+      border: 1px dashed red;
+    }
+  }
+}
+.json-schema-2020-12-keyword__name--secondary + .json-schema-2020-12-keyword__value--secondary::before {
+  content: '='
+}
+
+.json-schema-2020-12__attribute {
+  font-family: monospace;
+  color: $text-code-default-font-color;
+  font-size: 12px;
+  text-transform: lowercase;
+  padding-left: 10px;
+
+  &--primary  {
+    color: $prop-type-font-color;
+  }
+
+  &--muted {
+    color: gray;
+  }
+
+  &--warning {
+    color: red;
+  }
+}
+
+@import './$vocabulary/$vocabulary';
+@import './Description/description';
+@import './Title/title';
+@import './Properties/properties';
+@import './PatternProperties/pattern-properties';
+@import './Enum/enum';
+@import './Constraint/constraint';
+@import './DependentRequired/dependent-required';

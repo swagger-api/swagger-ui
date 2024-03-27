@@ -1,0 +1,19 @@
+.model-box {
+  // inferred names of Schema Objects
+  & .json-schema-2020-12:not(.json-schema-2020-12--embedded) > .json-schema-2020-12-head .json-schema-2020-12__title:first-of-type {
+    font-size: 16px;
+  }
+
+  & > .json-schema-2020-12 {
+    margin: 0;
+  }
+
+  .json-schema-2020-12 {
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .json-schema-2020-12-accordion, .json-schema-2020-12-expand-deep-button {
+      background-color: transparent;
+  }
+}

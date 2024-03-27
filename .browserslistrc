@@ -1,0 +1,29 @@
+[node-production]
+maintained node versions
+
+[node-development]
+node 20.3.0
+
+[browser-production]
+> 1%
+last 2 versions
+Firefox ESR
+not dead
+
+[browser-development]
+last 1 chrome version
+last 1 firefox version
+last 1 safari version
+
+[isomorphic-production]
+> 1%
+last 2 versions
+Firefox ESR
+not dead
+maintained node versions
+
+[isomorphic-development]
+last 1 chrome version
+last 1 firefox version
+last 1 safari version
+node 20.3.0

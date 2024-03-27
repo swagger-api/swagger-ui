@@ -1,13 +1,13 @@
 import React from "react"
 import { shallow } from "enzyme"
 import { List } from "immutable"
-import ObjectModel from "components/object-model"
-// import ModelExample from "components/model-example"
+import ObjectModel from "core/components/object-model"
+// import ModelExample from "core/components/model-example"
 import Immutable from "immutable"
-import Model from "components/model"
-import ModelCollapse from "components/model-collapse"
-import Property from "components/property"
-// import { inferSchema } from "corePlugins/samples/fn"
+import Model from "core/components/model"
+import ModelCollapse from "core/components/model-collapse"
+import Property from "core/components/property"
+// import { inferSchema } from "core/plugins/samples/fn"
 
 describe("<ObjectModel />", function() {
     const dummyComponent = () => null

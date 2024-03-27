@@ -1,0 +1,8 @@
+openapi: 3.0.0
+info:
+  title: OpenAPI 3.0 License with only url present
+  version: 1.0.0
+  description: This is a sample server for a pet store.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html

@@ -1,7 +1,7 @@
 import { fromJS } from "immutable"
-import { isOAS3, isSwagger2 } from "corePlugins/oas3/helpers"
+import { isOAS30, isSwagger2 } from "core/plugins/oas3/helpers"
 
-const isOAS3Shorthand = (version) => isOAS3(fromJS({
+const isOAS3Shorthand = (version) => isOAS30(fromJS({
   openapi: version
 }))
 
@@ -13,7 +13,7 @@ describe("isOAS3", function () {
   it("should recognize valid OAS3 version values", function () {
     expect(isOAS3Shorthand("3.0.0")).toEqual(true)
     expect(isOAS3Shorthand("3.0.1")).toEqual(true)
-    expect(isOAS3Shorthand("3.0.11111")).toEqual(true)
+    expect(isOAS3Shorthand("3.0.11111")).toEqual(false)
     expect(isOAS3Shorthand("3.0.0-rc0")).toEqual(true)
   })
 
@@ -31,7 +31,7 @@ describe("isOAS3", function () {
   })
 
   it("should gracefully fail when `openapi` field is missing", function () {
-    expect(isOAS3(fromJS({
+    expect(isOAS30(fromJS({
       openApi: "3.0.0"
     }))).toEqual(false)
     expect(isOAS3Shorthand(null)).toEqual(false)
@@ -41,7 +41,7 @@ describe("isOAS3", function () {
 describe("isSwagger2", function () {
   it("should recognize valid Swagger 2.0 version values", function () {
     expect(isSwagger2Shorthand("2.0")).toEqual(true)
-    expect(isSwagger2Shorthand("2.0-rc0")).toEqual(true)
+    expect(isSwagger2Shorthand("2.0-rc0")).toEqual(false)
   })
 
   it("should fail for invalid Swagger 2.0 version values", function () {

@@ -1,8 +1,8 @@
 import React from "react"
 import { shallow } from "enzyme"
 import { fromJS } from "immutable"
-import PrimitiveModel from "components/primitive-model"
-import ModelCollapse from "components/model-collapse"
+import PrimitiveModel from "core/components/primitive-model"
+import ModelCollapse from "core/components/model-collapse"
 
 describe("<PrimitiveModel/>", function () {
     const dummyComponent = () => null

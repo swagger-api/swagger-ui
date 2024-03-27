@@ -3,25 +3,21 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
-import { getExtensions, getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
 const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
-  if (
-    sampleResponse !== undefined &&
-    sampleResponse !== null
-  ) {
-    let language = null
-    let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
-    if (testValueForJson) {
-      language = "json"
-    }
-    return <div>
+  if (sampleResponse == null) return null
+
+  const testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
+  const language = testValueForJson ? "json" : null
+
+  return (
+    <div>
       <HighlightCode className="example" getConfigs={ getConfigs } language={ language } value={ stringify(sampleResponse) } />
     </div>
-  }
-  return null
+  )
 }
 
 export default class Response extends React.Component {
@@ -93,7 +89,7 @@ export default class Response extends React.Component {
       oas3Actions,
     } = this.props
 
-    let { inferSchema } = fn
+    let { inferSchema, getSampleSchema } = fn
     let isOAS3 = specSelectors.isOAS3()
     const { showExtensions } = getConfigs()
 
@@ -171,7 +167,7 @@ export default class Response extends React.Component {
       shouldOverrideSchemaExample ? mediaTypeExample : undefined
     )
 
-    let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
+    const example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>

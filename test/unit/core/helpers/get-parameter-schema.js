@@ -3,7 +3,7 @@
  */
 
 import { fromJS } from "immutable"
-import getParameterSchema from "../../../../src/helpers/get-parameter-schema"
+import getParameterSchema from "../../../../src/core/utils/get-parameter-schema"
 
 describe("getParameterSchema", () => {
   it("should return an empty Map when given no parameters", () => {

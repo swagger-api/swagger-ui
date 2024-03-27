@@ -3,8 +3,8 @@ import { Map, List } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getSampleSchema, getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
-import getParameterSchema from "../../helpers/get-parameter-schema.js"
+import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
+import getParameterSchema from "core/utils/get-parameter-schema.js"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -94,7 +94,7 @@ export default class ParameterRow extends Component {
   }
 
   setDefaultValue = () => {
-    let { specSelectors, pathMethod, rawParam, oas3Selectors } = this.props
+    let { specSelectors, pathMethod, rawParam, oas3Selectors, fn } = this.props
 
     const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
     const { schema } = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
@@ -104,7 +104,7 @@ export default class ParameterRow extends Component {
       .first()
 
     // getSampleSchema could return null
-    const generatedSampleValue = schema ? getSampleSchema(schema.toJS(), parameterMediaType, {
+    const generatedSampleValue = schema ? fn.getSampleSchema(schema.toJS(), parameterMediaType, {
 
       includeWriteOnly: true
     }) : null

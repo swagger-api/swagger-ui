@@ -1,8 +1,8 @@
 import { memoize } from "core/utils"
 
+import memoizeN from "core/utils/memoizeN"
 import { getComponent, render, withMappedContainer } from "./root-injects"
 import { getDisplayName } from "./fn"
-import memoizeN from "../../../helpers/memoizeN"
 
 const memoizeForGetComponent = (fn) => {
   const resolver = (...args) => JSON.stringify(args)

@@ -17,6 +17,8 @@ Welcome to the Swagger UI documentation!
 - [Overview](customization/overview.md)
 - [Plugin API](customization/plugin-api.md)
 - [Custom layout](customization/custom-layout.md)
+- [Adding plugin](customization/add-plugin.md)
+- [Plug-Points](customization/plug-points.md)
 
 ## Development
 

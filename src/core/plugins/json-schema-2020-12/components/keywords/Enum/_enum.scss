@@ -1,0 +1,12 @@
+.json-schema-2020-12-keyword--enum {
+  & > ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: inline;
+      list-style-type: none;
+    }
+  }
+}

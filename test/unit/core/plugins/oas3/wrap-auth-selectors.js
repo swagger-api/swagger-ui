@@ -2,7 +2,7 @@
 import { fromJS, Map } from "immutable"
 import {
   definitionsToAuthorize
-} from "corePlugins/oas3/auth-extensions/wrap-selectors"
+} from "core/plugins/oas3/auth-extensions/wrap-selectors"
 
 describe("oas3 plugin - auth extensions - wrapSelectors", function(){
 
@@ -17,6 +17,7 @@ describe("oas3 plugin - auth extensions - wrapSelectors", function(){
           specJson: () => fromJS({
             openapi: "3.0.0"
           }),
+          isOAS3: () => true,
           securityDefinitions: () => {
             return fromJS({
               "oauth2AuthorizationCode": {

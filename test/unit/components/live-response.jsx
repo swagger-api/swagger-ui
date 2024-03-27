@@ -1,9 +1,9 @@
 import React from "react"
 import { fromJSOrdered } from "core/utils"
 import { shallow } from "enzyme"
-import Curl from "components/curl"
-import LiveResponse from "components/live-response"
-import ResponseBody from "components/response-body"
+import Curl from "core/components/curl"
+import LiveResponse from "core/components/live-response"
+import ResponseBody from "core/components/response-body"
 
 describe("<LiveResponse/>", function(){
   let request = fromJSOrdered({
@@ -48,8 +48,8 @@ describe("<LiveResponse/>", function(){
         duration: 50
       })
 
-      let mutatedRequestForSpy = jest.fn().mockImplementation(function(mutatedRequest) { return mutatedRequest })
-      let requestForSpy = jest.fn().mockImplementation(function(request) { return request }) 
+      let mutatedRequestForSpy = jest.fn().mockImplementation(function() { return mutatedRequest })
+      let requestForSpy = jest.fn().mockImplementation(function() { return request })
 
       let components = {
         curl: Curl,
@@ -57,7 +57,7 @@ describe("<LiveResponse/>", function(){
       }
 
       let props = {
-        response: response, 
+        response: response,
         specSelectors: {
           mutatedRequestFor: mutatedRequestForSpy,
           requestFor: requestForSpy,
@@ -74,8 +74,8 @@ describe("<LiveResponse/>", function(){
       let wrapper = shallow(<LiveResponse {...props}/>)
 
       // Then
-      expect(mutatedRequestForSpy.calls.length).toEqual(test.expected.mutatedRequestForCalls)
-      expect(requestForSpy.calls.length).toEqual(test.expected.requestForCalls)
+      expect(mutatedRequestForSpy.mock.calls.length).toEqual(test.expected.mutatedRequestForCalls)
+      expect(requestForSpy.mock.calls.length).toEqual(test.expected.requestForCalls)
 
       const curl = wrapper.find(Curl)
       expect(curl.length).toEqual(1)
@@ -84,13 +84,13 @@ describe("<LiveResponse/>", function(){
       const expectedUrl = requests[test.expected.request].get("url")
       expect(wrapper.find("div.request-url pre.microlight").text()).toEqual(expectedUrl)
 
-      let duration = wrapper.find("Duration")
+      const duration = wrapper.find("Duration")
       expect(duration.length).toEqual(1)
       expect(duration.props().duration).toEqual(50)
       expect(duration.html())
         .toEqual("<div><h5>Request duration</h5><pre class=\"microlight\">50 ms</pre></div>")
 
-      let responseHeaders = wrapper.find("Headers")
+      const responseHeaders = wrapper.find("Headers")
       expect(duration.length).toEqual(1)
       expect(responseHeaders.props().headers.length).toEqual(1)
       expect(responseHeaders.props().headers[0].key).toEqual("content-type")

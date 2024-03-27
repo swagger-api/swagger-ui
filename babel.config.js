@@ -1,96 +1,80 @@
+const browser = {
+  presets: [
+    [
+      "@babel/preset-env",
+      {
+        debug: false,
+        modules: "auto",
+        useBuiltIns: false,
+        forceAllTransforms: false,
+        ignoreBrowserslistConfig: false,
+      }
+    ],
+    "@babel/preset-react",
+  ],
+    plugins: [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        corejs: { version: 3, proposals: false },
+        absoluteRuntime: false,
+        helpers: true,
+        regenerator: false,
+        version: "^7.22.11",
+      }
+    ],
+    [
+      "transform-react-remove-prop-types",
+      {
+        additionalLibraries: [
+          "react-immutable-proptypes"
+        ]
+      }
+    ],
+    [
+      "babel-plugin-module-resolver",
+      {
+        alias: {
+          root: ".",
+          core: "./src/core",
+        }
+      }
+    ]
+  ],
+}
+
 module.exports = {
-  "env": {
-    "commonjs": {
-      "presets": [
+  env: {
+    commonjs: {
+      presets: [
         [
           "@babel/preset-env",
           {
-            "debug": false,
-            "modules": "commonjs",
-            "targets": {
-              "node": "8"
-            },
-            "forceAllTransforms": false,
-            "ignoreBrowserslistConfig": true
+            debug: false,
+            modules: "commonjs",
+            loose: true,
+            useBuiltIns: false,
+            forceAllTransforms: false,
+            ignoreBrowserslistConfig: false,
           }
         ],
         "@babel/preset-react",
       ],
-      "plugins": [
-        [
-          "@babel/plugin-transform-modules-commonjs",
-          {
-            "loose": true
-          }
-        ],
-        "@babel/proposal-class-properties",
-        "@babel/proposal-object-rest-spread",
-        "@babel/plugin-proposal-optional-chaining",
-      ]
-    },
-    "es": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "debug": false,
-            "modules": false
-          }
-        ],
-        "@babel/preset-react",
-      ],
-      "plugins": [
+      plugins: [
         [
           "@babel/plugin-transform-runtime",
           {
-            "absoluteRuntime": false,
-            "corejs": 3,
-            "version": "^7.11.2"
+            corejs: { version: 3, proposals: false },
+            absoluteRuntime: false,
+            helpers: true,
+            regenerator: false,
+            version: "^7.22.11",
           }
         ],
-        "@babel/proposal-class-properties",
-        "@babel/proposal-object-rest-spread",
-        "@babel/plugin-proposal-optional-chaining",
-      ]
-    },
-    "development": {
-      "presets": [
-        [
-          "@babel/env",
-          {
-            "targets": {
-              "browsers": [
-                /* benefit of C/S/FF/Edge only? */
-                "> 1%",
-                "last 2 versions",
-                "Firefox ESR",
-                "not dead"
-              ]
-            },
-            "useBuiltIns": false,
-            "corejs": { version: 3 },
-            "include": [
-              "@babel/plugin-proposal-logical-assignment-operators"
-            ]
-          }
-        ],
-        "@babel/preset-react"
-      ],
-      "plugins": [
-        [
-          "@babel/plugin-transform-runtime",
-          {
-            "corejs": 3,
-            "absoluteRuntime": false,
-            "version": "^7.11.2"
-          }
-        ],
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-proposal-optional-chaining",
         [
           "transform-react-remove-prop-types",
           {
-            "additionalLibraries": [
+            additionalLibraries: [
               "react-immutable-proptypes"
             ]
           }
@@ -98,49 +82,42 @@ module.exports = {
         [
           "babel-plugin-module-resolver",
           {
-            "alias": {
-              "root": ".",
-              "components": "./src/core/components",
-              "containers": "./src/core/containers",
-              "core": "./src/core",
-              "plugins": "./src/plugins",
-              "img": "./src/img",
-              "corePlugins": "./src/core/plugins",
-              "less": "./src/less"
+            alias: {
+              root: ".",
+              core: "./src/core",
             }
           }
         ]
-      ]
+      ],
     },
-    "test": {
-      "presets": [
+    esm: {
+      presets: [
         [
           "@babel/env",
           {
-            "targets": {
-              "node": "10"
-            },
-            "useBuiltIns": false,
-            "corejs": { version: 3 }
+            debug: false,
+            modules: false,
+            ignoreBrowserslistConfig: false,
+            useBuiltIns: false,
           }
         ],
         "@babel/preset-react"
       ],
-      "plugins": [
+      plugins: [
         [
           "@babel/plugin-transform-runtime",
           {
-            "corejs": 3,
-            "absoluteRuntime": false,
-            "version": "^7.11.2"
+            corejs: { version: 3, proposals: false },
+            absoluteRuntime: false,
+            helpers: true,
+            regenerator: false,
+            version: "^7.22.11",
           }
         ],
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-proposal-optional-chaining",
         [
           "transform-react-remove-prop-types",
           {
-            "additionalLibraries": [
+            additionalLibraries: [
               "react-immutable-proptypes"
             ]
           }
@@ -148,20 +125,16 @@ module.exports = {
         [
           "babel-plugin-module-resolver",
           {
-            "alias": {
-              "root": ".",
-              "components": "./src/core/components",
-              "containers": "./src/core/containers",
-              "core": "./src/core",
-              "plugins": "./src/plugins",
-              "img": "./src/img",
-              "corePlugins": "./src/core/plugins",
-              "less": "./src/less"
+            alias: {
+              root: ".",
+              core: "./src/core",
             }
           }
         ]
       ]
-    }
-  }
+    },
+    development: browser,
+    production: browser,
+  },
 }
 

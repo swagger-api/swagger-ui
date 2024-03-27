@@ -35,10 +35,13 @@ const activeStyle = {
   borderBottom: "none"
 }
 
-const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
+const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getComponent }) => {
   const config = isFunction(getConfigs) ? getConfigs() : null
   const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
   const rootRef = useRef(null)
+
+  const ArrowIcon = getComponent("ArrowUpIcon")
+  const ArrowDownIcon = getComponent("ArrowDownIcon")
 
   const [activeLanguage, setActiveLanguage] = useState(requestSnippetsSelectors.getSnippetGenerators()?.keySeq().first())
   const [isExpanded, setIsExpanded] = useState(requestSnippetsSelectors?.getDefaultExpanded())
@@ -119,9 +122,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs }) => {
           style={{ border: "none", background: "none" }}
           title={isExpanded ? "Collapse operation" : "Expand operation"}
         >
-          <svg className="arrow" width="10" height="10">
-            <use href={isExpanded ? "#large-arrow-down" : "#large-arrow"} xlinkHref={isExpanded ? "#large-arrow-down" : "#large-arrow"} />
-          </svg>
+          {isExpanded ? <ArrowDownIcon className="arrow" width="10" height="10" /> : <ArrowIcon className="arrow" width="10" height="10" />}
         </button>
       </div>
       {
@@ -153,6 +154,7 @@ RequestSnippets.propTypes = {
   request: PropTypes.object.isRequired,
   requestSnippetsSelectors: PropTypes.object.isRequired,
   getConfigs: PropTypes.object.isRequired,
+  getComponent: PropTypes.func.isRequired,
   requestSnippetsActions: PropTypes.object,
 }
 

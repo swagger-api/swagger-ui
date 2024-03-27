@@ -4,7 +4,8 @@ import PropTypes from "prop-types"
 export default class AuthorizeOperationBtn extends React.Component {
     static propTypes = {
       isAuthorized: PropTypes.bool.isRequired,
-      onClick: PropTypes.func
+      onClick: PropTypes.func,
+      getComponent: PropTypes.func.isRequired
     }
 
   onClick =(e) => {
@@ -17,15 +18,16 @@ export default class AuthorizeOperationBtn extends React.Component {
   }
 
   render() {
-    let { isAuthorized } = this.props
+    let { isAuthorized, getComponent } = this.props
+
+    const LockAuthOperationIcon = getComponent("LockAuthOperationIcon", true)
+    const UnlockAuthOperationIcon = getComponent("UnlockAuthOperationIcon", true)
 
     return (
-      <button className={isAuthorized ? "authorization__btn locked" : "authorization__btn unlocked"}
+      <button className="authorization__btn"
         aria-label={isAuthorized ? "authorization button locked" : "authorization button unlocked"}
         onClick={this.onClick}>
-        <svg width="20" height="20">
-          <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
-        </svg>
+        {isAuthorized ? <LockAuthOperationIcon className="locked" /> : <UnlockAuthOperationIcon className="unlocked"/>}
       </button>
 
     )

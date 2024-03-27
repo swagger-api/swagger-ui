@@ -2,12 +2,12 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
-import { getCommonExtensions, getSampleSchema, stringify, isEmptyValue } from "core/utils"
+import { getCommonExtensions, stringify, isEmptyValue } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
-export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey) => {
-  const mediaTypeValue = requestBody.getIn(["content", mediaType])
-  const schema = mediaTypeValue.get("schema").toJS()
+export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
+  const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
+  const schema = mediaTypeValue.get("schema", OrderedMap()).toJS()
 
   const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
   const exampleSchema = mediaTypeValue.get("example")
@@ -19,7 +19,7 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
     ])
     : exampleSchema
 
-  const exampleValue = getSampleSchema(
+  const exampleValue = fn.getSampleSchema(
     schema,
     mediaType,
     {
@@ -78,11 +78,11 @@ const RequestBody = ({
 
   const { showCommonExtensions } = getConfigs()
 
-  const requestBodyDescription = (requestBody && requestBody.get("description")) || null
-  const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
+  const requestBodyDescription = requestBody?.get("description") ?? null
+  const requestBodyContent = requestBody?.get("content") ?? new OrderedMap()
   contentType = contentType || requestBodyContent.keySeq().first() || ""
 
-  const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
+  const mediaTypeValue = requestBodyContent.get(contentType) ?? OrderedMap()
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
   const rawExamplesOfMediaType = mediaTypeValue.get("examples", null)
   const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
@@ -92,6 +92,7 @@ const RequestBody = ({
         requestBody,
         contentType,
         key,
+        fn,
       ), val)
     }
     return container
@@ -174,7 +175,7 @@ const RequestBody = ({
               }
               if (type === "object" || useInitialValue) {
                 // TODO: what about example or examples from requestBody could be passed as exampleOverride
-                initialValue = getSampleSchema(prop, false, {
+                initialValue = fn.getSampleSchema(prop, false, {
                   includeWriteOnly: true
                 })
               }
@@ -241,6 +242,7 @@ const RequestBody = ({
     requestBody,
     contentType,
     activeExamplesKey,
+    fn,
   )
   let language = null
   let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleRequestBody)
@@ -315,7 +317,7 @@ RequestBody.propTypes = {
   userHasEditedBody: PropTypes.bool.isRequired,
   requestBody: ImPropTypes.orderedMap.isRequired,
   requestBodyValue: ImPropTypes.orderedMap.isRequired,
-  requestBodyInclusionSetting: ImPropTypes.Map.isRequired,
+  requestBodyInclusionSetting: ImPropTypes.map.isRequired,
   requestBodyErrors: ImPropTypes.list.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,

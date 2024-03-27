@@ -1,7 +1,7 @@
 import { createSelector } from "reselect"
-import { sorters } from "core/utils"
+import constant from "lodash/constant"
+import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
-import { paramToIdentifier } from "../../utils"
 
 const DEFAULT_TAG = "default"
 
@@ -36,6 +36,11 @@ export const specSource = createSelector(
 export const specJson = createSelector(
   state,
   spec => spec.get("json", Map())
+)
+
+export const specJS = createSelector(
+  specJson,
+  (spec) => spec.toJS()
 )
 
 export const specResolved = createSelector(
@@ -113,6 +118,8 @@ export const paths = createSelector(
 	specJsonWithResolvedSubtrees,
 	spec => spec.get("paths")
 )
+
+export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,
@@ -198,9 +205,11 @@ export const schemes = createSelector(
 )
 
 export const operationsWithRootInherited = createSelector(
-  operations,
-  consumes,
-  produces,
+  [
+    operations,
+    consumes,
+    produces
+  ],
   (operations, consumes, produces) => {
     return operations.map( ops => ops.update("operation", op => {
       if(op) {
@@ -365,6 +374,9 @@ export function parameterValues(state, pathMethod, isXml) {
   let paramValues = operationWithMeta(state, ...pathMethod).get("parameters", List())
   return paramValues.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
+    if (List.isList(value)) {
+      value = value.filter(v => v !== "")
+    }
     return hash.set(paramToIdentifier(p, { allowHashes: false }), value)
   }, fromJS({}))
 }
@@ -484,11 +496,12 @@ export const validationErrors = (state, pathMethod) => {
 
   paramValues.forEach( (p) => {
     let errors = p.get("errors")
-    if ( errors && errors.count() ) {
-      errors.forEach( e => result.push(e))
+    if (errors && errors.count()) {
+      errors
+        .map((e) => (Map.isMap(e) ? `${e.get("propKey")}: ${e.get("error")}` : e))
+        .forEach((e) => result.push(e))
     }
   })
-
   return result
 }
 

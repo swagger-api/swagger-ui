@@ -1,8 +1,8 @@
 import React from "react"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
-import Info from "components/info"
-import Markdown from "components/providers/markdown"
+import Info from "core/components/info"
+import Markdown from "core/components/providers/markdown"
 
 describe("<Info/> Sanitization", function(){
 	const dummyComponent = () => null
@@ -22,7 +22,7 @@ describe("<Info/> Sanitization", function(){
 
 	it("renders sanitized .title content", function(){
 		let wrapper = render(<Info {...props}/>)
-		expect(wrapper.find(".title").html()).toEqual("Test Title **strong** &lt;script&gt;alert(1)&lt;/script&gt;")
+		expect(wrapper.find(".title").html()).toEqual("Test Title **strong** &lt;script&gt;alert(1)&lt;/script&gt;<span></span>")
 	})
 
 	it("renders sanitized .description content", function() {

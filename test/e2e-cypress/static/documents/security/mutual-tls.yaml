@@ -1,0 +1,10 @@
+openapi: 3.1.0
+info:
+  title: Test Mutual TLS authorization
+  version: 1.0.0
+components:
+  securitySchemes:
+    mutual:
+      type: mutualTLS
+      description: Mutual TLS description
+      name: mutual

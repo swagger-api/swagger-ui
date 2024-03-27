@@ -1,7 +1,7 @@
 
 import { fromJS } from "immutable"
-import { preauthorizeBasic, preauthorizeApiKey } from "corePlugins/auth"
-import { authorize } from "corePlugins/auth/actions"
+import { preauthorizeBasic, preauthorizeApiKey } from "core/plugins/auth"
+import { authorize } from "core/plugins/auth/actions"
 
 const S2_SYSTEM = {
   authActions: {

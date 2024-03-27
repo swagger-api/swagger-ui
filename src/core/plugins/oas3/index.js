@@ -1,31 +1,32 @@
-// import reducers from "./reducers"
-// import * as actions from "./actions"
+/**
+ * @prettier
+ */
 import * as specWrapSelectors from "./spec-extensions/wrap-selectors"
 import * as authWrapSelectors from "./auth-extensions/wrap-selectors"
 import * as specSelectors from "./spec-extensions/selectors"
 import components from "./components"
 import wrapComponents from "./wrap-components"
-import * as oas3Actions from "./actions"
-import * as oas3Selectors from "./selectors"
-import oas3Reducers from "./reducers"
+import * as actions from "./actions"
+import * as selectors from "./selectors"
+import reducers from "./reducers"
 
-export default function() {
+export default function () {
   return {
     components,
     wrapComponents,
     statePlugins: {
       spec: {
         wrapSelectors: specWrapSelectors,
-        selectors: specSelectors
+        selectors: specSelectors,
       },
       auth: {
-        wrapSelectors: authWrapSelectors
+        wrapSelectors: authWrapSelectors,
       },
       oas3: {
-        actions: oas3Actions,
-        reducers: oas3Reducers,
-        selectors: oas3Selectors,
-      }
-    }
+        actions: { ...actions },
+        reducers,
+        selectors: { ...selectors },
+      },
+    },
   }
 }

@@ -65,6 +65,7 @@ export default class ObjectModel extends Component {
         }
     </span>)
 
+    const allOf = specSelectors.isOAS3() ? schema.get("allOf") : null
     const anyOf = specSelectors.isOAS3() ? schema.get("anyOf") : null
     const oneOf = specSelectors.isOAS3() ? schema.get("oneOf") : null
     const not = specSelectors.isOAS3() ? schema.get("not") : null
@@ -191,6 +192,22 @@ export default class ObjectModel extends Component {
                              getConfigs={ getConfigs }
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
+                    </td>
+                  </tr>
+              }
+              {
+                !allOf ? null
+                  : <tr>
+                    <td>{ "allOf ->" }</td>
+                    <td>
+                      {allOf.map((schema, k) => {
+                        return <div key={k}><Model { ...otherProps } required={ false }
+                                 getComponent={ getComponent }
+                                 specPath={specPath.push("allOf", k)}
+                                 getConfigs={ getConfigs }
+                                 schema={ schema }
+                                 depth={ depth + 1 } /></div>
+                      })}
                     </td>
                   </tr>
               }

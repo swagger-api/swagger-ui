@@ -1,8 +1,8 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { fromJS, List } from "immutable"
-import { getSampleSchema } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
+import createHtmlReadyId from "core/utils/create-html-ready-id"
 
 const NOOP = Function.prototype
 
@@ -67,10 +67,10 @@ export default class ParamBody extends PureComponent {
   }
 
   sample = (xml) => {
-    let { param, fn:{inferSchema} } = this.props
-    let schema = inferSchema(param.toJS())
+    let { param, fn} = this.props
+    let schema = fn.inferSchema(param.toJS())
 
-    return getSampleSchema(schema, xml, {
+    return fn.getSampleSchema(schema, xml, {
       includeWriteOnly: true
     })
   }
@@ -119,6 +119,9 @@ export default class ParamBody extends PureComponent {
       language = "json"
     }
 
+    const regionId = createHtmlReadyId(`${pathMethod[1]}${pathMethod[0]}_parameters`)
+    const controlId = `${regionId}_select`
+
     return (
       <div className="body-param" data-param-name={param.get("name")} data-param-in={param.get("in")}>
         {
@@ -138,14 +141,16 @@ export default class ParamBody extends PureComponent {
                          </Button>
                          </div>
           }
-          <label htmlFor="">
+          <label htmlFor={controlId}>
             <span>Parameter content type</span>
             <ContentType
               value={ consumesValue }
               contentTypes={ consumes }
               onChange={onChangeConsumes}
               className="body-param-content-type"
-              ariaLabel="Parameter content type" />
+              ariaLabel="Parameter content type" 
+              controlId={controlId}
+            />
           </label>
         </div>
 

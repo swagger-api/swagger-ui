@@ -1,0 +1,19 @@
+.json-schema-2020-12 {
+  &-keyword--patternProperties {
+    ul {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+
+    .json-schema-2020-12__title:first-of-type::before {
+      color: $prop-type-font-color;
+      content: "/";
+    }
+
+    .json-schema-2020-12__title:first-of-type::after {
+      color: $prop-type-font-color;
+      content: "/";
+    }
+  }
+}

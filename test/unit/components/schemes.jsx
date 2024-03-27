@@ -1,7 +1,7 @@
 import React from "react"
 import { shallow } from "enzyme"
 import { fromJS } from "immutable"
-import Schemes from "components/schemes"
+import Schemes from "core/components/schemes"
 
 describe("<Schemes/>", function(){
   it("calls props.specActions.setScheme() when no currentScheme is selected", function(){

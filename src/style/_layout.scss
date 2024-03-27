@@ -305,6 +305,9 @@
     {
         font-size: 14px;
         font-weight: bold;
+        @media (max-width: 768px) {
+          font-size: 12px;
+        }
 
         min-width: 80px;
         padding: 6px 0;
@@ -333,23 +336,19 @@
 
         word-break: break-word;
 
-        padding: 0 10px;
-
         @include text_code();
 
     }
 
     .opblock-summary-path
     {
-        flex-shrink: 0;
-        max-width: calc(100% - 110px - 15rem);
+        flex-shrink: 1;
     }
 
     @media (max-width: 640px) {
       .opblock-summary-path
       {
-          flex-shrink: 1;
-          max-width: 100%;
+        max-width: 100%;
       }
     }
 
@@ -367,11 +366,29 @@
     {
         font-size: 13px;
 
-        flex: 1 1 auto;
-
         word-break: break-word;
 
         @include text_body();
+    }
+
+    .opblock-summary-path-description-wrapper
+    {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0px 10px;
+
+        padding: 0 10px;
+
+        width: 100%;
+    }
+
+    @media (max-width: 550px) {
+      .opblock-summary-path-description-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     .opblock-summary
@@ -638,6 +655,7 @@
     .curl
     {
         white-space: normal;
+        max-height: 400px;
     }
 }
 
@@ -745,10 +763,10 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
-  cursor: pointer;
   background: #7d8293;
   text-align: center;
   padding: 5px;
+  border: none;
   border-radius: 4px;
   font-family: sans-serif;
   font-weight: 600;
@@ -772,24 +790,71 @@
     {
         display: flex;
         align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
 
-        > label
+        gap: 10px;
+
+        /*
+        This wraps the servers or schemes selector.
+        This was added to make sure the Authorize button is always on the right
+        and the servers or schemes selector is always on the left.
+        */
+        > .schemes-server-container
         {
-            font-size: 12px;
-            font-weight: bold;
-
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
 
-            margin: -20px 15px 0 0;
+            gap: 10px;
 
-            @include text_headline();
-
-            select
+            > label
             {
-                min-width: 130px;
+                font-size: 12px;
+                font-weight: bold;
 
-                text-transform: uppercase;
+                display: flex;
+                flex-direction: column;
+
+                margin: -20px 15px 0 0;
+
+                @include text_headline();
+
+                select
+                {
+                    min-width: 130px;
+
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        /*
+        This checks if the schemes-server-container is not present and
+        aligns the authorize button to the right
+        */
+        &:not(:has(.schemes-server-container))
+        {
+            justify-content: flex-end;
+        }
+
+        /*
+        Target Authorize Button in schemes wrapper
+        This was added here to fix responsiveness issues with the authorize button
+        within the schemes wrapper without affecting other instances of it's usage
+        */
+        .auth-wrapper
+        {
+            flex: none;
+            justify-content: start;
+
+            .authorize
+            {
+                padding-right: 20px;
+                margin: 0;
+
+                display: flex;
+
+                flex-wrap: nowrap;
             }
         }
     }

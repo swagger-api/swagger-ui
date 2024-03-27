@@ -1,0 +1,41 @@
+openapi: 3.0.0
+servers: []
+info:
+  version: "1.0.0"
+  title: home-iot-api
+  description: The API
+paths:
+  /devices:
+    get:
+      callbacks:
+        callbackOne:
+          'callbackOne':
+            get:
+              operationId: callbackOne
+              responses:
+                '200':
+                  $ref: '#/components/schemas/ApiResponse'
+        callbackTwo:
+          'callbackTwo':
+            get:
+              operationId: callbackTwo
+              responses:
+                '200':
+                  $ref: '#/components/schemas/ApiResponse'
+      tags:
+        - Device
+      operationId: register
+      responses:
+        '200':
+          description: successfully registered device
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          example: everything is ok

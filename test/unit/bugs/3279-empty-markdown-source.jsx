@@ -1,6 +1,6 @@
 import React from "react"
 import { render } from "enzyme"
-import Markdown from "components/providers/markdown"
+import Markdown from "core/components/providers/markdown"
 
 describe("UI-3279: Empty Markdown inputs causing bare `undefined` in output", function(){
   it("should return no text for `null` as source input", function(){

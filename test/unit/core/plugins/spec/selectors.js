@@ -14,8 +14,9 @@ import {
   parameterInclusionSettingFor,
   consumesOptionsFor,
   taggedOperations,
-  isMediaTypeSchemaPropertiesEqual
-} from "corePlugins/spec/selectors"
+  isMediaTypeSchemaPropertiesEqual,
+  validationErrors
+} from "core/plugins/spec/selectors"
 
 import Petstore from "./assets/petstore.json"
 
@@ -108,7 +109,9 @@ describe("parameterValue", function(){
             get: {
               parameters: [
                 { name: "one", in: "query", value: 1},
-                { name: "two", in: "query", value: "duos"}
+                { name: "two", in: "query", value: "duos"},
+                { name: "three", in: "query", value: ["v1","","v2"]},
+                { name: "four", in: "query", value: [""]}
               ]
             }
           }
@@ -122,7 +125,9 @@ describe("parameterValue", function(){
     // Then
     expect(paramValues.toJS()).toEqual({
       "query.one": 1,
-      "query.two": "duos"
+      "query.two": "duos",
+      "query.three": ["v1","v2"],
+      "query.four": []
     })
 
   })
@@ -1374,5 +1379,57 @@ describe("isMediaTypeSchemaPropertiesEqual", () => {
 
       expect(result).toEqual(false)
     })
+  })
+})
+describe("validationErrors", function() {
+  const state = fromJS({
+    meta: {
+      paths: {
+        "/": {
+          get: {
+            parameters: {
+              id: {
+                errors: [
+                 "Value must be an integer"
+                ]
+              }
+            }
+          },
+          post: {
+            parameters: {
+              body: {
+                errors: [
+                  {
+                    error: "Value must be an integer", 
+                    propKey: "id"
+                  },
+                  { 
+                    error: "Value must be a string", 
+                    propKey: "name"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  })
+
+  it("should return validation errors without formatting them", function () {
+    const result = validationErrors(state, ["/", "get"])
+
+    expect(result).toEqual([
+      "Value must be an integer"
+    ])
+  })
+
+  it("should return formatted validation errors", function () {
+    const result = validationErrors(state, ["/", "post"])
+
+    expect(result).toEqual([
+      "id: Value must be an integer",
+      "name: Value must be a string"
+    ])
   })
 })

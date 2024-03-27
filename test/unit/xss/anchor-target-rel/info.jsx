@@ -1,16 +1,20 @@
 import React from "react"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
-import Info, { InfoUrl } from "components/info"
-import { Link } from "components/layout-utils"
-import Markdown from "components/providers/markdown"
+import Info, { InfoUrl } from "core/components/info"
+import Contact from "core/components/contact"
+import License from "core/components/license"
+import { Link } from "core/components/layout-utils"
+import Markdown from "core/components/providers/markdown"
 
 describe("<Info/> Anchor Target Safety", function(){
 	const dummyComponent = () => null
 	const components = {
 		Markdown,
 		InfoUrl,
-		Link
+		License,
+    Contact,
+		Link,
 	}
 	const baseProps = {
 		getComponent: c => components[c] || dummyComponent,

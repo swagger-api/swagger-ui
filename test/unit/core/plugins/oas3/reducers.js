@@ -1,6 +1,6 @@
 
 import { fromJS } from "immutable"
-import reducer from "corePlugins/oas3/reducers"
+import reducer from "core/plugins/oas3/reducers"
 
 describe("oas3 plugin - reducer", function () {
   describe("SET_REQUEST_BODY_VALIDATE_ERROR", () => {
@@ -518,13 +518,13 @@ describe("oas3 plugin - reducer", function () {
             }
           }
         })
-  
+
         const result = clearRequestBodyValue(state, {
           payload: {
             pathMethod: ["/pet", "post"],
           }
         })
-  
+
         const expectedResult = {
           requestData: {
             "/pet": {
@@ -535,7 +535,7 @@ describe("oas3 plugin - reducer", function () {
             }
           }
         }
-  
+
         expect(result.toJS()).toEqual(expectedResult)
       })
     })
@@ -556,13 +556,13 @@ describe("oas3 plugin - reducer", function () {
             }
           }
         })
-  
+
         const result = clearRequestBodyValue(state, {
           payload: {
             pathMethod: ["/pet", "post"],
           }
         })
-  
+
         const expectedResult = {
           requestData: {
             "/pet": {
@@ -573,7 +573,7 @@ describe("oas3 plugin - reducer", function () {
             }
           }
         }
-  
+
         expect(result.toJS()).toEqual(expectedResult)
       })
     })

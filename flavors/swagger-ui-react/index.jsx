@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor from "./swagger-ui-es-bundle-core"
+import SwaggerUIConstructor from "#swagger-ui"
 
-export default class SwaggerUI extends React.Component {
+class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
     this.SwaggerUIComponent = null
@@ -10,16 +10,16 @@ export default class SwaggerUI extends React.Component {
   }
 
   componentDidMount() {
-    const ui = swaggerUIConstructor({
+    const ui = SwaggerUIConstructor({
       plugins: this.props.plugins,
       spec: this.props.spec,
       url: this.props.url,
       layout: this.props.layout,
       defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
       defaultModelRendering: this.props.defaultModelRendering,
-      presets: [swaggerUIConstructor.presets.apis,...this.props.presets],
-      requestInterceptor: this.requestInterceptor,
-      responseInterceptor: this.responseInterceptor,
+      presets: [SwaggerUIConstructor.presets.apis, ...this.props.presets],
+      requestInterceptor: this.props.requestInterceptor,
+      responseInterceptor: this.props.responseInterceptor,
       onComplete: this.onComplete,
       docExpansion: this.props.docExpansion,
       supportedSubmitMethods: this.props.supportedSubmitMethods,
@@ -30,14 +30,14 @@ export default class SwaggerUI extends React.Component {
       displayRequestDuration: this.props.displayRequestDuration,
       requestSnippetsEnabled: this.props.requestSnippetsEnabled,
       requestSnippets: this.props.requestSnippets,
-      showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
-      deepLinking: typeof this.props.deepLinking === "boolean" ? this.props.deepLinking : false,
+      showMutatedRequest: this.props.showMutatedRequest,
+      deepLinking: this.props.deepLinking,
       showExtensions: this.props.showExtensions,
       showCommonExtensions: this.props.showCommonExtensions,
-      filter: ["boolean", "string"].includes(typeof this.props.filter) ? this.props.filter : false,
+      filter: this.props.filter,
       persistAuthorization: this.props.persistAuthorization,
       withCredentials: this.props.withCredentials,
-      oauth2RedirectUrl: this.props.oauth2RedirectUrl
+      ...(typeof this.props.oauth2RedirectUrl === "string" ? { oauth2RedirectUrl: this.props.oauth2RedirectUrl} : {})
     })
 
     this.system = ui
@@ -72,20 +72,6 @@ export default class SwaggerUI extends React.Component {
         this.system.specActions.updateSpec(this.props.spec)
       }
     }
-  }
-
-  requestInterceptor = (req) => {
-    if (typeof this.props.requestInterceptor === "function") {
-      return this.props.requestInterceptor(req)
-    }
-    return req
-  }
-
-  responseInterceptor = (res) => {
-    if (typeof this.props.responseInterceptor === "function") {
-      return this.props.responseInterceptor(res)
-    }
-    return res
   }
 
   onComplete = () => {
@@ -138,18 +124,25 @@ SwaggerUI.propTypes = {
 }
 
 SwaggerUI.defaultProps = {
+  spec: "",
+  url: "",
   layout: "BaseLayout",
+  requestInterceptor: req => req,
+  responseInterceptor: res => res,
   supportedSubmitMethods: ["get", "put", "post", "delete", "options", "head", "patch", "trace"],
   queryConfigEnabled: false,
+  plugins: [],
+  displayOperationId: false,
+  showMutatedRequest: true,
   docExpansion: "list",
+  defaultModelExpandDepth: 1,
   defaultModelsExpandDepth: 1,
   defaultModelRendering: "example",
   presets: [],
   deepLinking: false,
-  displayRequestDuration: false,
   showExtensions: false,
   showCommonExtensions: false,
-  filter: false,
+  filter: null,
   requestSnippetsEnabled: false,
   requestSnippets: {
     generators: {
@@ -169,8 +162,15 @@ SwaggerUI.defaultProps = {
     defaultExpanded: true,
     languages: null, // e.g. only show curl bash = ["curl_bash"]
   },
+  tryItOutEnabled: false,
+  displayRequestDuration: false,
+  withCredentials: undefined,
   persistAuthorization: false,
+  oauth2RedirectUrl: undefined,
 }
 
-SwaggerUI.presets = swaggerUIConstructor.presets
-SwaggerUI.plugins = swaggerUIConstructor.plugins
+SwaggerUI.System = SwaggerUIConstructor.System
+SwaggerUI.presets = SwaggerUIConstructor.presets
+SwaggerUI.plugins = SwaggerUIConstructor.plugins
+
+export default SwaggerUI

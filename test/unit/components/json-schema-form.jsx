@@ -1,9 +1,8 @@
 import React from "react"
 import Immutable, { List } from "immutable"
-import { Select, Input, TextArea } from "components/layout-utils"
+import { Select, Input, TextArea } from "core/components/layout-utils"
 import { mount, render } from "enzyme"
-import * as JsonSchemaComponents from "core/json-schema-components"
-import { JsonSchemaForm } from "core/json-schema-components"
+import * as JsonSchemaComponents from "core/components/json-schema-components"
 
 const components = {...JsonSchemaComponents, Select, Input, TextArea}
 
@@ -13,7 +12,7 @@ const getComponentStub = (name) => {
   return null
 }
 
-describe("<JsonSchemaForm/>", function(){
+describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
   describe("strings", function() {
     it("should render the correct options for a string enum parameter", function(){
 
@@ -29,7 +28,7 @@ describe("<JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("option").length).toEqual(3)
@@ -53,7 +52,7 @@ describe("<JsonSchemaForm/>", function(){
         disabled: true
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.attr("disabled")).toEqual("disabled")
     })
@@ -74,7 +73,7 @@ describe("<JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(2)
@@ -96,7 +95,7 @@ describe("<JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(3)
@@ -120,7 +119,7 @@ describe("<JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(2)
@@ -143,7 +142,7 @@ describe("<JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(3)
@@ -168,7 +167,7 @@ describe("<JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.get(0).name).toEqual("select")
       expect(wrapper.find("select option").length).toEqual(1)
@@ -200,7 +199,7 @@ describe("<JsonSchemaForm/>", function(){
         })
       }
 
-      let wrapper = mount(<JsonSchemaForm {...props}/>)
+      let wrapper = mount(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       updateQueue.forEach(newProps => wrapper.setProps(newProps))
 
@@ -223,7 +222,7 @@ describe("<JsonSchemaForm/>", function(){
       }
 
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.length).toEqual(1)
       expect(wrapper.get(0).name).toEqual("input")
@@ -246,7 +245,7 @@ describe("<JsonSchemaForm/>", function(){
       }
 
 
-      let wrapper = render(<JsonSchemaForm {...props}/>)
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
 
       expect(wrapper.length).toEqual(1)
       expect(wrapper.get(0).name).toEqual("input")

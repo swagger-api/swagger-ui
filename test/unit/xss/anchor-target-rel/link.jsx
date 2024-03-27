@@ -1,6 +1,6 @@
 import React from "react"
 import { render } from "enzyme"
-import { Link } from "components/layout-utils"
+import { Link } from "core/components/layout-utils"
 
 describe("<Link/> Anchor Target Safety", function () {
   const dummyComponent = () => null

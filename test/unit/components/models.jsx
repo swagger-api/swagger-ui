@@ -1,9 +1,9 @@
 import React from "react"
 import { shallow } from "enzyme"
 import { fromJS, Map } from "immutable"
-import Models from "components/models"
-import ModelCollapse from "components/model-collapse"
-import ModelComponent from "components/model-wrapper"
+import Models from "core/components/models"
+import ModelCollapse from "core/components/model-collapse"
+import ModelComponent from "core/components/model-wrapper"
 
 describe("<Models/>", function(){
   const dummyComponent = () => null

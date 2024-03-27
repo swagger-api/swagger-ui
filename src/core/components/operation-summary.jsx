@@ -54,11 +54,13 @@ export default class OperationSummary extends PureComponent {
 
     let security = operationProps.get("security")
 
-    const AuthorizeOperationBtn = getComponent("authorizeOperationBtn")
+    const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
     const CopyToClipboardBtn = getComponent("CopyToClipboardBtn", true)
+    const ArrowUpIcon = getComponent("ArrowUpIcon")
+    const ArrowDownIcon = getComponent("ArrowDownIcon")
 
     const hasSecurity = security && !!security.count()
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
@@ -66,27 +68,24 @@ export default class OperationSummary extends PureComponent {
     return (
       <div className={`opblock-summary opblock-summary-${method}`} >
         <button
-          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
           aria-expanded={isShown}
           className="opblock-summary-control"
           onClick={toggleShown}
         >
           <OperationSummaryMethod method={method} />
-          <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
+          <div className="opblock-summary-path-description-wrapper">
+            <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
 
-          {!showSummary ? null :
-            <div className="opblock-summary-description">
-              {toString(resolvedSummary || summary)}
-            </div>
-          }
+            {!showSummary ? null :
+              <div className="opblock-summary-description">
+                {toString(resolvedSummary || summary)}
+              </div>
+            }
+          </div>
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
-
-          <svg className="arrow" width="20" height="20" aria-hidden="true" focusable="false">
-            <use href={isShown ? "#large-arrow-up" : "#large-arrow-down"} xlinkHref={isShown ? "#large-arrow-up" : "#large-arrow-down"} />
-          </svg>
         </button>
-
+        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn
@@ -97,10 +96,16 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
-        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
+        <button
+          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
+          className="opblock-control-arrow"
+          aria-expanded={isShown}
+          tabIndex="-1"
+          onClick={toggleShown}>
+          {isShown ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
+        </button>
       </div>
     )
-
   }
 }

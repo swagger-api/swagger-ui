@@ -1,9 +1,21 @@
+/**
+ * @prettier
+ */
 import React from "react"
 import { shallow } from "enzyme"
 import { fromJS, List } from "immutable"
-import Response from "components/response"
-import ModelExample from "components/model-example"
-import { inferSchema } from "corePlugins/samples/fn"
+
+import Response from "core/components/response"
+import ModelExample from "core/components/model-example"
+import {
+  inferSchema,
+  memoizedSampleFromSchema,
+  memoizedCreateXMLExample,
+} from "core/plugins/json-schema-5-samples/fn/index"
+import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
+import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
+import makeGetYamlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-yaml-sample-schema"
+import makeGetXmlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-xml-sample-schema"
 
 describe("<Response />", function () {
   const dummyComponent = () => null
@@ -13,21 +25,30 @@ describe("<Response />", function () {
     modelExample: ModelExample,
     Markdown: dummyComponent,
     operationLink: dummyComponent,
-    contentType: dummyComponent
+    contentType: dummyComponent,
   }
-  const props = {
-    getComponent: c => components[c],
+  const getSystem = () => ({
+    getComponent: (c) => components[c],
     getConfigs: () => {
       return {}
     },
     specSelectors: {
       isOAS3() {
         return false
-      }
+      },
     },
     fn: {
-      inferSchema
+      inferSchema,
+      memoizedSampleFromSchema,
+      memoizedCreateXMLExample,
+      getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
+      getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
+      getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
+      getSampleSchema: makeGetSampleSchema(getSystem),
     },
+  })
+  const props = {
+    ...getSystem(),
     contentType: "application/json",
     className: "for-test",
     specPath: List(),
@@ -36,19 +57,19 @@ describe("<Response />", function () {
         type: "object",
         properties: {
           // Note reverse order: c, b, a
-          "c": {
-            type: "integer"
+          c: {
+            type: "integer",
           },
-          "b": {
-            type: "boolean"
+          b: {
+            type: "boolean",
           },
-          "a": {
-            type: "string"
-          }
-        }
-      }
+          a: {
+            type: "string",
+          },
+        },
+      },
     }),
-    code: "200"
+    code: "200",
   }
 
   it("renders the model-example schema properties in order", function () {
@@ -57,7 +78,9 @@ describe("<Response />", function () {
     expect(renderedModelExample.length).toEqual(1)
 
     // Assert the schema's properties have maintained their order
-    const modelExampleSchemaProperties = renderedModelExample.props().schema.toJS().properties
+    const modelExampleSchemaProperties = renderedModelExample
+      .props()
+      .schema.toJS().properties
     expect(Object.keys(modelExampleSchemaProperties)).toEqual(["c", "b", "a"])
   })
 })

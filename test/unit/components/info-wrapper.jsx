@@ -1,7 +1,7 @@
 import React from "react"
 import { mount } from "enzyme"
 import { fromJS } from "immutable"
-import InfoContainer from "containers/info"
+import InfoContainer from "core/containers/info"
 
 describe("<InfoContainer/>", function () {
 

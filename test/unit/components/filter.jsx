@@ -1,7 +1,7 @@
 import React from "react"
 import { mount } from "enzyme"
-import FilterContainer from "containers/filter"
-import { Col } from "components/layout-utils"
+import FilterContainer from "core/containers/filter"
+import { Col } from "core/components/layout-utils"
 
 describe("<FilterContainer/>", function(){
 

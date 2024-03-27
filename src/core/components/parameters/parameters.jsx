@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import createHtmlReadyId from "core/utils/create-html-ready-id"
 
 export default class Parameters extends Component {
 
@@ -120,6 +121,8 @@ export default class Parameters extends Component {
     const isExecute = tryItOutEnabled && allowTryItOut
     const isOAS3 = specSelectors.isOAS3()
 
+    const regionId = createHtmlReadyId(`${pathMethod[1]}${pathMethod[0]}_requests`)
+    const controlId = `${regionId}_select`
 
     const requestBody = operation.get("requestBody")
 
@@ -215,7 +218,7 @@ export default class Parameters extends Component {
             <div className="opblock-section-header">
               <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request
                 body</h4>
-              <label>
+              <label id={controlId}>
                 <ContentType
                   value={oas3Selectors.requestContentType(...pathMethod)}
                   contentTypes={requestBody.get("content", List()).keySeq()}
@@ -223,7 +226,9 @@ export default class Parameters extends Component {
                     this.onChangeMediaType({ value, pathMethod })
                   }}
                   className="body-param-content-type"
-                  ariaLabel="Request content type" />
+                  ariaLabel="Request content type" 
+                  controlId={controlId}
+                />
               </label>
             </div>
             <div className="opblock-description-wrapper">

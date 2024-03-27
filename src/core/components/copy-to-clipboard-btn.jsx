@@ -3,24 +3,27 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 import PropTypes from "prop-types"
 
 /**
- * @param {{ textToCopy: string }} props
+ * @param {{ getComponent: func, textToCopy: string }} props
  * @returns {JSX.Element}
  * @constructor
  */
 export default class CopyToClipboardBtn extends React.Component {
   render() {
+    let { getComponent } = this.props
+
+    const CopyIcon = getComponent("CopyIcon")
+
     return (
       <div className="view-line-link copy-to-clipboard" title="Copy to clipboard">
         <CopyToClipboard text={this.props.textToCopy}>
-          <svg width="15" height="16">
-            <use href="#copy" xlinkHref="#copy" />
-          </svg>
+          <CopyIcon />
         </CopyToClipboard>
       </div>
     )
   }
 
   static propTypes = {
+    getComponent: PropTypes.func.isRequired,
     textToCopy: PropTypes.string.isRequired,
   }
 }
