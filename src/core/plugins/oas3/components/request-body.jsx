@@ -152,6 +152,7 @@ const RequestBody = ({
           {
             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
               if (schema.get("readOnly")) return
+              
               const schemaWithoutKeywords = schema.filter((v, k) => k !== "oneOf" 
                 && k !== "anyOf" 
                 && k !== "$$ref"
