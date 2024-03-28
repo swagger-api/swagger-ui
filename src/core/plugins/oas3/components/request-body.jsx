@@ -150,46 +150,49 @@ const RequestBody = ({
       <table>
         <tbody>
           {
-            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
-              if (prop.get("readOnly")) return
+            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
+              if (schema.get("readOnly")) return
 
-              const oneOf = prop.get("oneOf")
-              const anyOf = prop.get("anyOf")
+              const oneOf = schema.get("oneOf")
+              const anyOf = schema.get("anyOf")
 
               if (oneOf || anyOf) {
-                prop = oneOf ? oneOf.get(0) : anyOf.get(0)
+                const nestedSchema = List.isList(oneOf) 
+                  ? oneOf.get(0) 
+                  : List.isList(anyOf) 
+                  ? anyOf.get(0)
+                  : null
+                
+                if (Map.isMap(nestedSchema)) {
+                  schema = nestedSchema
+                }
               }
 
-              let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
+              let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
-              const type = prop.get("type")
-              const format = prop.get("format")
-              const description = prop.get("description")
+              const type = schema.get("type")
+              const format = schema.get("format")
+              const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
               const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
               const included = requestBodyInclusionSetting.get(key) || false
 
-              const useInitialValFromSchemaSamples = prop.has("default")
-                || prop.has("example")
-                || prop.hasIn(["items", "example"])
-                || prop.hasIn(["items", "default"])
-              const useInitialValFromEnum = prop.has("enum") && (prop.get("enum").size === 1 || required)
-              const useInitialValue = useInitialValFromSchemaSamples || useInitialValFromEnum
-
-              let initialValue = ""
-              if (type === "array" && !useInitialValue) {
-                initialValue = []
+              let initialValue = fn.getSampleSchema(schema, false, {
+                includeWriteOnly: true
+              })
+              
+              if (initialValue === false) {
+                initialValue = "false"
               }
-              if (type === "object" || useInitialValue) {
-                // TODO: what about example or examples from requestBody could be passed as exampleOverride
-                initialValue = fn.getSampleSchema(prop, false, {
-                  includeWriteOnly: true
-                })
+
+              if (initialValue === 0) {
+                initialValue = "0"
               }
 
               if (typeof initialValue !== "string" && type === "object") {
                initialValue = stringify(initialValue)
               }
+
               if (typeof initialValue === "string" && type === "array") {
                 initialValue = JSON.parse(initialValue)
               }
@@ -208,7 +211,7 @@ const RequestBody = ({
                   {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                 </div>
                 <div className="parameter__deprecated">
-                  { prop.get("deprecated") ? "deprecated": null }
+                  { schema.get("deprecated") ? "deprecated": null }
                 </div>
               </td>
               <td className="parameters-col_description">
@@ -217,7 +220,7 @@ const RequestBody = ({
                   <JsonSchemaForm
                     fn={fn}
                     dispatchInitialValue={!isFile}
-                    schema={prop}
+                    schema={schema}
                     description={key}
                     getComponent={getComponent}
                     value={currentValue === undefined ? initialValue : currentValue}
