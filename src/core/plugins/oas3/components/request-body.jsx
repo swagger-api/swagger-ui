@@ -152,11 +152,14 @@ const RequestBody = ({
           {
             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
               if (schema.get("readOnly")) return
+              const schemaWithoutKeywords = schema.filter((v, k) => k !== "oneOf" 
+                && k !== "anyOf" 
+                && k !== "$$ref"
+              )
 
-              const oneOf = schema.get("oneOf")
-              const anyOf = schema.get("anyOf")
-
-              if (oneOf || anyOf) {
+              if (schemaWithoutKeywords.size === 0) {
+                const oneOf = schema.get("oneOf")
+                const anyOf = schema.get("anyOf")
                 const nestedSchema = List.isList(oneOf) 
                   ? oneOf.get(0) 
                   : List.isList(anyOf) 
