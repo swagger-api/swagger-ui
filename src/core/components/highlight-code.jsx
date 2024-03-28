@@ -9,7 +9,9 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 
 const HighlightCode = ({value, fileName = "response.txt", className, downloadable, getConfigs, canCopy, language}) => {
   const config = isFunction(getConfigs) ? getConfigs() : null
+  const renderSizeThreshold = get(config, "payload.render.sizeThreshold")
   const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
+  const syntaxHighlightSizeThreshold = canSyntaxHighlight ? get(config, "syntaxHighlight.sizeThreshold", undefined) : undefined
   const rootRef = useRef(null)
 
   useEffect(() => {
@@ -43,8 +45,25 @@ const HighlightCode = ({value, fileName = "response.txt", className, downloadabl
     }
   }
 
+  const getRenderValues = () => {
+    if (renderSizeThreshold || syntaxHighlightSizeThreshold) {
+      const valueSizeInBytes = (new TextEncoder().encode(value)).byteLength
+      const shouldRenderValue = renderSizeThreshold ? valueSizeInBytes < renderSizeThreshold : true
+      const shouldSyntaxHighlight = syntaxHighlightSizeThreshold ? valueSizeInBytes < syntaxHighlightSizeThreshold : true
+      return [shouldRenderValue, shouldSyntaxHighlight, valueSizeInBytes]
+    }
+    return [true, true, undefined]
+  }
+  const [shouldRenderValue, shouldSyntaxHighlight, valueSizeInBytes] = getRenderValues()
+
   return (
     <div className="highlight-code" ref={rootRef}>
+      {!shouldRenderValue && (
+        <div className={cx(className, "microlight")}>
+          Value is too large ({valueSizeInBytes} bytes), rendering disabled.
+        </div>
+      )}
+
       {canCopy && (
         <div className="copy-to-clipboard">
           <CopyToClipboard text={value}><button/></CopyToClipboard>
@@ -57,16 +76,17 @@ const HighlightCode = ({value, fileName = "response.txt", className, downloadabl
         </button>
       }
 
-      {canSyntaxHighlight
-        ? <SyntaxHighlighter
-          language={language}
-          className={cx(className, "microlight")}
-          style={getStyle(get(config, "syntaxHighlight.theme", "agate"))}
-        >
-          {value}
-        </SyntaxHighlighter>
-        : <pre className={cx(className, "microlight")}>{value}</pre>
-      }
+      {shouldRenderValue && (
+        canSyntaxHighlight && shouldSyntaxHighlight
+          ? <SyntaxHighlighter
+            language={language}
+            className={cx(className, "microlight")}
+            style={getStyle(get(config, "syntaxHighlight.theme", "agate"))}
+          >
+            {value}
+          </SyntaxHighlighter>
+          : <pre className={cx(className, "microlight")}>{value}</pre>
+      )}
 
     </div>
   )
