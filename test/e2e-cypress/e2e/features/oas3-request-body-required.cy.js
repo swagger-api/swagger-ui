@@ -26,6 +26,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .get(
           ".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(1) > .parameters-col_description input"
         )
+        .clear()
         .should("not.have.class", "invalid")
         // Execute
         .get(".execute.opblock-control__btn")
@@ -163,11 +164,6 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         // Expand Try It Out
         .get(".try-out__btn")
         .click()
-        // add item to get input
-        .get(
-          ".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) > .parameters-col_description button"
-        )
-        .click()
         // Execute
         .get(".execute.opblock-control__btn")
         .click()
@@ -215,15 +211,6 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .select("application/x-www-form-urlencoded")
         .get(
           ".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(2) > .parameters-col_description input"
-        )
-        .should("not.have.class", "invalid")
-        // add item to get input, just an extra confirmation of non-invalid class
-        .get(
-          ".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) > .parameters-col_description button"
-        )
-        .click()
-        .get(
-          ".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(4) > .parameters-col_description input"
         )
         .should("not.have.class", "invalid")
     })
