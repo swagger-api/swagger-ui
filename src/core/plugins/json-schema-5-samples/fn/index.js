@@ -56,12 +56,12 @@ const numberContracts = [
 ]
 const stringContracts = ["minLength", "maxLength"]
 
-export const mergeJsonSchema = (target, oldSchema, config = {}) => {
+export const mergeJsonSchema = (target, source, config = {}) => {
   const merged = { ...target }
 
   const setIfNotDefinedInTarget = (key) => {
-    if(merged[key] === undefined && oldSchema[key] !== undefined) {
-      merged[key] = oldSchema[key]
+    if(merged[key] === undefined && source[key] !== undefined) {
+      merged[key] = source[key]
     }
   }
 
@@ -77,22 +77,22 @@ export const mergeJsonSchema = (target, oldSchema, config = {}) => {
     ...stringContracts,
   ].forEach(key => setIfNotDefinedInTarget(key))
 
-  if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
+  if(source.required !== undefined && Array.isArray(source.required)) {
     if(merged.required === undefined || !merged.required.length) {
       merged.required = []
     }
-    oldSchema.required.forEach(key => {
+    source.required.forEach(key => {
       if(merged.required.includes(key)) {
         return
       }
       merged.required.push(key)
     })
   }
-  if(oldSchema.properties) {
+  if(source.properties) {
     if(!merged.properties) {
       merged.properties = {}
     }
-    let props = objectify(oldSchema.properties)
+    let props = objectify(source.properties)
     for (let propName in props) {
       if (!Object.prototype.hasOwnProperty.call(props, propName)) {
         continue
@@ -108,7 +108,7 @@ export const mergeJsonSchema = (target, oldSchema, config = {}) => {
       }
       if(!merged.properties[propName]) {
         merged.properties[propName] = props[propName]
-        if(!oldSchema.required && Array.isArray(oldSchema.required) && oldSchema.required.indexOf(propName) !== -1) {
+        if(!source.required && Array.isArray(source.required) && source.required.indexOf(propName) !== -1) {
           if(!merged.required) {
             merged.required = [propName]
           } else {
@@ -118,11 +118,11 @@ export const mergeJsonSchema = (target, oldSchema, config = {}) => {
       }
     }
   }
-  if(oldSchema.items) {
+  if(source.items) {
     if(!merged.items) {
       merged.items = {}
     }
-    merged.items = mergeJsonSchema(merged.items, oldSchema.items, config)
+    merged.items = mergeJsonSchema(merged.items, source.items, config)
   }
 
   return merged

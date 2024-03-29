@@ -2446,7 +2446,7 @@ describe("memoizedCreateXMLExample", () => {
 })
 
 describe("mergeJsonSchema", function () {
-  it("should merge the schemas", function () {
+  it("should merge two schemas", function () {
     const schema = {
       properties: {
         name: {
