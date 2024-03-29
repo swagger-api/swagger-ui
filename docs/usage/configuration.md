@@ -279,7 +279,7 @@ Parameter name | Docker variable | Description
 }
 </code>
 </pre>
-            This is the default configuration section for the the
+            This is the default configuration section for the
             requestSnippets plugin.
         </td>
     </tr>
