@@ -11,3 +11,4 @@ export {
 export { default as encoderAPI } from "./api/encoderAPI"
 export { default as formatAPI } from "./api/formatAPI"
 export { default as mediaTypeAPI } from "./api/mediaTypeAPI"
+export { default as mergeJsonSchema } from "./core/merge"
