@@ -1,5 +1,11 @@
 import { fromJS } from "immutable"
-import { createXMLExample, sampleFromSchema, memoizedCreateXMLExample, memoizedSampleFromSchema } from "core/plugins/json-schema-5-samples/fn/index"
+import { 
+  createXMLExample, 
+  sampleFromSchema, 
+  memoizedCreateXMLExample, 
+  memoizedSampleFromSchema,
+  mergeJsonSchema,
+} from "core/plugins/json-schema-5-samples/fn/index"
 
 describe("sampleFromSchema", () => {
   it("handles Immutable.js objects for nested schemas", function () {
@@ -2436,5 +2442,57 @@ describe("memoizedCreateXMLExample", () => {
     }
     const updatedExpected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bar>\n\t<foo>cat</foo>\n</bar>"
     expect(memoizedCreateXMLExample(definition, {}, updatedOverrideExample)).toEqual(updatedExpected)
+  })
+})
+
+describe("mergeJsonSchema", function () {
+  it("should merge two schemas", function () {
+    const schema = {
+      properties: {
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["name"],
+    }
+  
+    const target = {
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+      },
+      required: ["username"],
+    }
+
+    const result = mergeJsonSchema(target, schema)
+
+    expect(result).toStrictEqual({
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["username", "name"],
+    })
   })
 })

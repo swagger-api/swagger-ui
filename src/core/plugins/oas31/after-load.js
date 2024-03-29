@@ -31,6 +31,7 @@ function afterLoad({ fn, getSystem }) {
         getYamlSampleSchema: fn.jsonSchema202012.getYamlSampleSchema,
         getXmlSampleSchema: fn.jsonSchema202012.getXmlSampleSchema,
         getSampleSchema: fn.jsonSchema202012.getSampleSchema,
+        mergeJsonSchema: fn.jsonSchema202012.mergeJsonSchema,
       },
       getSystem()
     )

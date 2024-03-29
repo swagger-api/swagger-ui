@@ -8,6 +8,7 @@ import {
   sampleFromSchema,
   memoizedCreateXMLExample,
   memoizedSampleFromSchema,
+  mergeJsonSchema,
 } from "core/plugins/json-schema-2020-12-samples/fn"
 
 describe("sampleFromSchema", () => {
@@ -2981,5 +2982,57 @@ describe("memoizedCreateXMLExample", () => {
     expect(
       memoizedCreateXMLExample(definition, {}, updatedOverrideExample)
     ).toEqual(updatedExpected)
+  })
+})
+
+describe("merge", function () {
+  it("should merge two schemas", function () {
+    const schema = {
+      properties: {
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["name"],
+    }
+
+    const target = {
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+      },
+      required: ["username"],
+    }
+
+    const result = mergeJsonSchema(target, schema)
+
+    expect(result).toStrictEqual({
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["username", "name"],
+    })
   })
 })
