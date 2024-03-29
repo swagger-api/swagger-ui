@@ -11,7 +11,7 @@ describe("OpenAPI 3.0 oneOf and anyOf example", () => {
           .get(".try-out__btn")
           .click()
           .get("textarea")
-          .contains("documentDate")
+          .contains("NestedSchemaExample.pdf")
           .should("exist")
         cy.contains("/documentsWithCombineOneOf").click()
         cy.contains("/documentsWithCombineAnyOf")
@@ -20,7 +20,7 @@ describe("OpenAPI 3.0 oneOf and anyOf example", () => {
           .contains("Try it out")
           .click()
           .get("textarea")
-          .contains("documentDate")
+          .contains("ParentSchemaExample.pdf")
           .should("exist")
       }
     )

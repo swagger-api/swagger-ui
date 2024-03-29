@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { Map, OrderedMap, List } from "immutable"
+import { Map, OrderedMap, List, fromJS } from "immutable"
 import { getCommonExtensions, stringify, isEmptyValue } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
@@ -153,24 +153,9 @@ const RequestBody = ({
             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
               if (schema.get("readOnly")) return
               
-              const schemaWithoutKeywords = schema.filter((v, k) => k !== "oneOf" 
-                && k !== "anyOf" 
-                && k !== "$$ref"
-              )
-
-              if (schemaWithoutKeywords.size === 0) {
-                const oneOf = schema.get("oneOf")
-                const anyOf = schema.get("anyOf")
-                const nestedSchema = List.isList(oneOf) 
-                  ? oneOf.get(0) 
-                  : List.isList(anyOf) 
-                  ? anyOf.get(0)
-                  : null
-                
-                if (Map.isMap(nestedSchema)) {
-                  schema = nestedSchema
-                }
-              }
+              const oneOf = schema.get("oneOf")?.get(0)?.toJS()
+              const anyOf = schema.get("anyOf")?.get(0)?.toJS()
+              schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
 
               let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)

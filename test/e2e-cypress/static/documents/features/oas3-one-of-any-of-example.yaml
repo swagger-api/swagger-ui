@@ -51,7 +51,7 @@ components:
           type: string
           default: ''
           maxLength: 64
-          example: MyDocument.pdf'
+          example: NestedSchemaExample.pdf'
         category:
           type: string
           pattern: ''
@@ -172,6 +172,15 @@ components:
         - $ref: '#/components/schemas/ModelPostDocumentPolicy'
         - $ref: '#/components/schemas/ModelPostDocumentCustomer'
         - $ref: '#/components/schemas/ModelPostDocumentInvoice'
+      example:
+        title: ParentSchemaExample.pdf
+        category: Policy
+        type: Policy
+        issuingApplicationId: App1
+        documentDate: '2021-01-01'
+        sharedWith:
+          - CustomerPortal
+        policyNumber: '132456'
     ModelPostDocumentAnyOfCombineModelFile:
       allOf:
         - $ref: '#/components/schemas/ModelFile'
