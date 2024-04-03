@@ -494,12 +494,21 @@ export const validationErrors = (state, pathMethod) => {
   let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   const result = []
 
+  const formatErrors = (errors) => {
+    const stringifyMap = (e) => {
+      return `${e.get("propKey") || e.get("index")}: ${
+        Map.isMap(e.get("error")) ? formatErrors(e.get("error")) : e.get("error")
+      }`
+    }
+    return List.isList(errors)
+      ? errors.map((e) => (Map.isMap(e) ? stringifyMap(e) : e))
+      : stringifyMap(errors)
+  }
+
   paramValues.forEach( (p) => {
     let errors = p.get("errors")
     if (errors && errors.count()) {
-      errors
-        .map((e) => (Map.isMap(e) ? `${e.get("propKey")}: ${e.get("error")}` : e))
-        .forEach((e) => result.push(e))
+      formatErrors(errors).forEach((e) => result.push(e))
     }
   })
   return result

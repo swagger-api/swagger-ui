@@ -1411,6 +1411,52 @@ describe("validationErrors", function() {
               }
             }
           }
+        },
+        "/nested": {
+          post: {
+            parameters: {
+              arrayWithObjects: {
+                errors: [
+                  {
+                    error: "Parameter string value must be valid JSON", 
+                    index: 0
+                  },
+                  { 
+                    error: "Value must be a string", 
+                    index: 1
+                  }
+                ]
+              },
+              objectWithArray: {
+                errors: [
+                  {
+                    error: {
+                      error: {
+                        error: "Value must be a number",
+                        propKey: "b",
+                      },
+                      index: 0,
+                    },
+                    propKey: "a",
+                  }
+                ]
+              },
+              objectWithoutArray: {
+                errors: [
+                  {
+                    error: {
+                      error: {
+                        error: "Value must be a string",
+                        propKey: "e",
+                      },
+                      propKey: "d",
+                    },
+                    propKey: "c",
+                  }
+                ]
+              }
+            }
+          }
         }
       }
     }
@@ -1430,6 +1476,17 @@ describe("validationErrors", function() {
     expect(result).toEqual([
       "id: Value must be an integer",
       "name: Value must be a string"
+    ])
+  })
+
+  it("should return formatted validation errors for nested parameters", function () {
+    const result = validationErrors(state, ["/nested", "post"])
+
+    expect(result).toEqual([
+      "0: Parameter string value must be valid JSON",
+      "1: Value must be a string",
+      "a: 0: b: Value must be a number",
+      "c: d: e: Value must be a string"
     ])
   })
 })
