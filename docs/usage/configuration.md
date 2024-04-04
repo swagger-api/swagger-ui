@@ -228,10 +228,9 @@ Parameter name | Docker variable | Description
         <td><a name="user-content-syntaxhighlight.theme"></a><code>syntaxHighlight.theme</code>
         </td>
         <td><em>Unavailable</em></td>
-        <td><code>String=["agate"*, "arta", "monokai", "nord", "obsidian",
-            "tomorrow-night", "idea"]</code>. <a
-                href="https://highlightjs.org/static/demo/" rel="nofollow">Highlight.js</a>
-            syntax coloring theme to use. (Only these 7 styles are available.)
+        <td><code>String=[ 'vs', 'vs-dark', 'hc-black', 'hc-light']</code>. <a
+                href="https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IGlobalEditorOptions.html#theme" rel="nofollow">Monaco Editor</a>
+            syntax coloring theme to use. (Only these 4 styles are available.)
         </td>
     </tr>
     <tr>

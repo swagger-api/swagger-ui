@@ -2,24 +2,10 @@ import React, {useEffect, useRef, useState} from "react"
 import PropTypes from "prop-types"
 import Editor from "@monaco-editor/react"
 
-export const styles =
-  {
-    agate: "catppuccin-mocha",
-    arta: "dracula-soft",
-    monokai: "monokai",
-    nord: "nord",
-    obsidian: "aurora-x",
-    "tomorrow-night": "poimandres",
-    idea: "github-light"
-  }
+export const styles = [ "vs", "vs-dark", "hc-black", "hc-light"]
 
 export const getStyle = name => {
-  //if (!availableStyles.includes(name)) {
-  if (Object.keys(styles).indexOf(name) === -1) {
-    console.warn(`Request style '${name}' is not available, returning default instead`)
-    return styles["agate"]
-  }
-  return styles[name]
+   return styles.indexOf(name) !== -1 ? name : "vs-dark"
 }
 
 const options = {
@@ -34,9 +20,10 @@ const options = {
   minimap: { enabled: false },
 }
 
-export function SyntaxHighlighter({language, className, code}) {
+export function SyntaxHighlighter({language, className, code, style}) {
   const editorRef = useRef(null)
   const [width, setWidth] = useState("100%")
+  const theme = getStyle(style)
 
   // The Monaco editor does not properly resize when the window becomes smaller than the editor.
   // This effect listens to the resize event and will calculate the width accordingly.
@@ -75,7 +62,7 @@ export function SyntaxHighlighter({language, className, code}) {
     <Editor
       onMount={handleEditorDidMount}
       width={width}
-      theme="vs-dark"
+      theme={theme}
       className={className}
       options={options}
       defaultLanguage={language}
