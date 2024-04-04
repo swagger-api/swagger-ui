@@ -72,7 +72,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.24.1",
+    "@babel/runtime-corejs3": "^7.24.4",
     "@braintree/sanitize-url": "=7.0.1",
     "@monaco-editor/react": "=4.6.0",
     "base64-js": "^1.5.1",
@@ -111,10 +111,10 @@
   },
   "devDependencies": {
     "@babel/cli": "=7.24.1",
-    "@babel/core": "=7.24.3",
+    "@babel/core": "=7.24.4",
     "@babel/eslint-parser": "=7.24.1",
     "@babel/plugin-transform-runtime": "=7.24.3",
-    "@babel/preset-env": "=7.24.3",
+    "@babel/preset-env": "=7.24.4",
     "@babel/preset-react": "=7.24.1",
     "@babel/register": "=7.23.7",
     "@commitlint/cli": "^19.2.1",
