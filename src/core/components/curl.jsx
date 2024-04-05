@@ -7,25 +7,24 @@ import { requestSnippetGenerator_curl_bash } from "../plugins/request-snippets/f
 export default class Curl extends React.Component {
   static propTypes = {
     getConfigs: PropTypes.func.isRequired,
+    getComponent: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired
   }
 
   render() {
-    let { request, getConfigs } = this.props
+    let { request, getConfigs, getComponent } = this.props
     let curl = requestSnippetGenerator_curl_bash(request)
 
     const config = getConfigs()
+    const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
-    const curlBlock = get(config, "syntaxHighlight.activated")
-      ? <SyntaxHighlighter
-          language="bash"
-          className="curl microlight"
-          style={getStyle(get(config, "syntaxHighlight.theme"))}
-          >
-          {curl}
-        </SyntaxHighlighter>
-      :
+    const curlBlock = get(config, "syntaxHighlight.activated") ? (
+      <SyntaxHighlighter language="bash" className="curl microlight">
+        {curl}
+      </SyntaxHighlighter>
+    ) : (
       <textarea readOnly={true} className="curl" value={curl}></textarea>
+    )
 
     return (
       <div className="curl-command">
