@@ -9,14 +9,14 @@ import get from "lodash/get"
 const SyntaxHighlighter = ({
   language,
   className = "",
-  getSystem,
+  getConfigs,
+  syntaxHighlighting = {},
   children = null,
 }) => {
-  const system = getSystem()
-  const configs = system.getConfigs()
+  const configs = getConfigs()
   const theme = get(configs, "syntaxHighlight.theme")
-  const { styles, defaultStyle } = system.syntaxHighlighting
-  const style = styles[theme] ?? defaultStyle
+  const { styles, defaultStyle } = syntaxHighlighting
+  const style = styles?.[theme] ?? defaultStyle
 
   return (
     <ReactSyntaxHighlighter
@@ -32,7 +32,11 @@ const SyntaxHighlighter = ({
 SyntaxHighlighter.propTypes = {
   language: PropTypes.string.isRequired,
   className: PropTypes.string,
-  getSystem: PropTypes.func.isRequired,
+  getConfigs: PropTypes.func.isRequired,
+  syntaxHighlighting: PropTypes.shape({
+    styles: PropTypes.object,
+    defaultStyle: PropTypes.object,
+  }),
   children: PropTypes.node,
 }
 
