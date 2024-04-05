@@ -7,7 +7,7 @@ import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
-const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
+const getExampleComponent = ( sampleResponse, HighlightCode ) => {
   if (sampleResponse == null) return null
 
   const testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
@@ -167,7 +167,7 @@ export default class Response extends React.Component {
       shouldOverrideSchemaExample ? mediaTypeExample : undefined
     )
 
-    const example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
+    const example = getExampleComponent( sampleResponse, HighlightCode )
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>

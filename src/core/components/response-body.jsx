@@ -14,7 +14,6 @@ export default class ResponseBody extends React.PureComponent {
   static propTypes = {
     content: PropTypes.any.isRequired,
     contentType: PropTypes.string,
-    getConfigs: PropTypes.func.isRequired,
     getComponent: PropTypes.func.isRequired,
     headers: PropTypes.object,
     url: PropTypes.string
@@ -51,7 +50,7 @@ export default class ResponseBody extends React.PureComponent {
   }
 
   render() {
-    let { content, contentType, url, headers={}, getConfigs, getComponent } = this.props
+    let { content, contentType, url, headers={}, getComponent } = this.props
     const { parsedContent } = this.state
     const HighlightCode = getComponent("HighlightCode", true)
     const downloadName = "response_" + new Date().getTime()

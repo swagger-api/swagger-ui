@@ -4,7 +4,6 @@
 import React, { useRef, useEffect } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
-import get from "lodash/get"
 import saveAs from "js-file-download"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 

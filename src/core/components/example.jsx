@@ -8,7 +8,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { stringify } from "core/utils"
 
 export default function Example(props) {
-  const { example, showValue, getComponent, getConfigs } = props
+  const { example, showValue, getComponent } = props
 
   const Markdown = getComponent("Markdown", true)
   const HighlightCode = getComponent("HighlightCode", true)
@@ -29,7 +29,6 @@ export default function Example(props) {
         <section className="example__section">
           <div className="example__section-header">Example Value</div>
           <HighlightCode>{stringify(example.get("value"))}</HighlightCode>
-          />
         </section>
       ) : null}
     </div>
@@ -40,5 +39,4 @@ Example.propTypes = {
   example: ImPropTypes.map.isRequired,
   showValue: PropTypes.bool,
   getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.getConfigs,
 }

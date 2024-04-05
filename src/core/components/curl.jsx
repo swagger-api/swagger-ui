@@ -10,7 +10,7 @@ export default class Curl extends React.Component {
   }
 
   render() {
-    const { request,  getComponent } = this.props
+    const { request, getComponent } = this.props
     const curl = requestSnippetGenerator_curl_bash(request)
     const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 

@@ -97,17 +97,6 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
     }
   }, [request])
 
-  const SnippetComponent = canSyntaxHighlight ? (
-    <SyntaxHighlighter
-      language={activeGenerator.get("syntax")}
-      className="curl microlight"
-    >
-      {snippet}
-    </SyntaxHighlighter>
-  ) : (
-    <textarea readOnly={true} className="curl" value={snippet}></textarea>
-  )
-
   return (
     <div className="request-snippets" ref={rootRef}>
       <div style={{ width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "15px" }}>
@@ -144,7 +133,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
               language={activeGenerator.get("syntax")}
               className="curl microlight"
               renderPlainText={({ children, PlainTextViewer }) => (
-                <PlainTextViewer className="curl"></PlainTextViewer>
+                <PlainTextViewer className="curl">{children}</PlainTextViewer>
               )}
             >
               {snippet}
