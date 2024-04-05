@@ -127,10 +127,7 @@ export default class ParamBody extends PureComponent {
         {
           isEditBox && isExecute
             ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")} value={value} onChange={ this.handleOnChange }/>
-            : (value && <HighlightCode className="body-param__example"
-                          language={ language }
-                          getConfigs={ getConfigs }
-                          value={ value }/>)
+            : (value && <HighlightCode className="body-param__example" language={ language }>{value}</HighlightCode>)
         }
         <div className="body-param-options">
           {

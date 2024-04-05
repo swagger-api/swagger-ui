@@ -9,25 +9,19 @@ import saveAs from "js-file-download"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
 const HighlightCode = ({
-  value,
   fileName = "response.txt",
   className,
   downloadable,
-  getConfigs,
   getComponent,
   canCopy,
   language,
+  children,
 }) => {
-  const config = getConfigs()
-  const canSyntaxHighlight =
-    get(config, "syntaxHighlight") !== false &&
-    get(config, "syntaxHighlight.activated", true)
   const rootRef = useRef(null)
-
   const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
   const handleDownload = () => {
-    saveAs(value, fileName)
+    saveAs(children, fileName)
   }
 
   const handlePreventYScrollingBeyondElement = (e) => {
@@ -70,13 +64,13 @@ const HighlightCode = ({
         )
       )
     }
-  }, [value, className, language])
+  }, [children, className, language])
 
   return (
     <div className="highlight-code" ref={rootRef}>
       {canCopy && (
         <div className="copy-to-clipboard">
-          <CopyToClipboard text={value}>
+          <CopyToClipboard text={children}>
             <button />
           </CopyToClipboard>
         </div>
@@ -88,29 +82,27 @@ const HighlightCode = ({
         </button>
       )}
 
-      {canSyntaxHighlight ? (
-        <SyntaxHighlighter
-          language={language}
-          className={classNames(className, "microlight")}
-        >
-          {value}
-        </SyntaxHighlighter>
-      ) : (
-        <pre className={classNames(className, "microlight")}>{value}</pre>
-      )}
+      <SyntaxHighlighter
+        language={language}
+        className={classNames(className, "microlight")}
+        renderPlainText={({ children, PlainTextViewer }) => (
+          <PlainTextViewer className={className}>{children}</PlainTextViewer>
+        )}
+      >
+        {children}
+      </SyntaxHighlighter>
     </div>
   )
 }
 
 HighlightCode.propTypes = {
-  value: PropTypes.string.isRequired,
-  getConfigs: PropTypes.func.isRequired,
   getComponent: PropTypes.func.isRequired,
   className: PropTypes.string,
   downloadable: PropTypes.bool,
   fileName: PropTypes.string,
   language: PropTypes.string,
   canCopy: PropTypes.bool,
+  children: PropTypes.string.isRequired,
 }
 
 export default HighlightCode

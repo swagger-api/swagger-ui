@@ -15,7 +15,7 @@ const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
 
   return (
     <div>
-      <HighlightCode className="example" getConfigs={ getConfigs } language={ language } value={ stringify(sampleResponse) } />
+      <HighlightCode className="example" language={language}>{stringify(sampleResponse)}</HighlightCode>
     </div>
   )
 }

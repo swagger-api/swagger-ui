@@ -11,7 +11,7 @@ const SyntaxHighlighter = ({
   className = "",
   getConfigs,
   syntaxHighlighting = {},
-  children = null,
+  children = "",
 }) => {
   const configs = getConfigs()
   const theme = get(configs, "syntaxHighlight.theme")
@@ -37,7 +37,8 @@ SyntaxHighlighter.propTypes = {
     styles: PropTypes.object,
     defaultStyle: PropTypes.object,
   }),
-  children: PropTypes.node,
+  renderPLainText: PropTypes.func,
+  children: PropTypes.string,
 }
 
 export default SyntaxHighlighter

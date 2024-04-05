@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState } from "react"
 import PropTypes from "prop-types"
-import get from "lodash/get"
-import isFunction from "lodash/isFunction"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
 const style = {
@@ -34,9 +32,7 @@ const activeStyle = {
   borderBottom: "none"
 }
 
-const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getComponent }) => {
-  const config = isFunction(getConfigs) ? getConfigs() : null
-  const canSyntaxHighlight = get(config, "syntaxHighlight") !== false && get(config, "syntaxHighlight.activated", true)
+const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) => {
   const rootRef = useRef(null)
 
   const ArrowIcon = getComponent("ArrowUpIcon")
@@ -45,24 +41,6 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
 
   const [activeLanguage, setActiveLanguage] = useState(requestSnippetsSelectors.getSnippetGenerators()?.keySeq().first())
   const [isExpanded, setIsExpanded] = useState(requestSnippetsSelectors?.getDefaultExpanded())
-  useEffect(() => {
-    const doIt = () => {
-
-    }
-    doIt()
-  }, [])
-  useEffect(() => {
-    const childNodes = Array
-      .from(rootRef.current.childNodes)
-      .filter(node => !!node.nodeType && node.classList?.contains("curl-command"))
-    // eslint-disable-next-line no-use-before-define
-    childNodes.forEach(node => node.addEventListener("mousewheel", handlePreventYScrollingBeyondElement, { passive: false }))
-
-    return () => {
-      // eslint-disable-next-line no-use-before-define
-      childNodes.forEach(node => node.removeEventListener("mousewheel", handlePreventYScrollingBeyondElement))
-    }
-  }, [request])
 
   const snippetGenerators = requestSnippetsSelectors.getSnippetGenerators()
   const activeGenerator = snippetGenerators.get(activeLanguage)
@@ -98,6 +76,26 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
       e.preventDefault()
     }
   }
+
+  useEffect(() => {
+    const doIt = () => {
+
+    }
+    doIt()
+  }, [])
+
+  useEffect(() => {
+    const childNodes = Array
+      .from(rootRef.current.childNodes)
+      .filter(node => !!node.nodeType && node.classList?.contains("curl-command"))
+    // eslint-disable-next-line no-use-before-define
+    childNodes.forEach(node => node.addEventListener("mousewheel", handlePreventYScrollingBeyondElement, { passive: false }))
+
+    return () => {
+      // eslint-disable-next-line no-use-before-define
+      childNodes.forEach(node => node.removeEventListener("mousewheel", handlePreventYScrollingBeyondElement))
+    }
+  }, [request])
 
   const SnippetComponent = canSyntaxHighlight ? (
     <SyntaxHighlighter
@@ -142,7 +140,15 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
             </CopyToClipboard>
           </div>
           <div>
-            {SnippetComponent}
+            <SyntaxHighlighter
+              language={activeGenerator.get("syntax")}
+              className="curl microlight"
+              renderPlainText={({ children, PlainTextViewer }) => (
+                <PlainTextViewer className="curl"></PlainTextViewer>
+              )}
+            >
+              {snippet}
+            </SyntaxHighlighter>
           </div>
         </div>
       }
@@ -153,7 +159,6 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
 RequestSnippets.propTypes = {
   request: PropTypes.object.isRequired,
   requestSnippetsSelectors: PropTypes.object.isRequired,
-  getConfigs: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
   requestSnippetsActions: PropTypes.object,
 }

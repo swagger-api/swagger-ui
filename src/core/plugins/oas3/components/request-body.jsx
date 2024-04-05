@@ -293,8 +293,9 @@ const RequestBody = ({
               className="body-param__example"
               getConfigs={getConfigs}
               language={language}
-              value={stringify(requestBodyValue) || sampleRequestBody}
-            />
+            >
+              {stringify(requestBodyValue) || sampleRequestBody}
+            </HighlightCode>
           }
           includeWriteOnly={true}
         />

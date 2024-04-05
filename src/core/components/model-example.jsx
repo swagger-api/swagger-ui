@@ -113,10 +113,7 @@ const ModelExample = ({
           {example ? (
             example
           ) : (
-            <HighlightCode
-              value="(no example available)"
-              getConfigs={getConfigs}
-            />
+            <HighlightCode>(no example available</HighlightCode>
           )}
         </div>
       )}
