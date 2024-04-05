@@ -37,7 +37,7 @@ SyntaxHighlighter.propTypes = {
     styles: PropTypes.object,
     defaultStyle: PropTypes.object,
   }),
-  renderPLainText: PropTypes.func,
+  renderPlainText: PropTypes.func,
   children: PropTypes.string,
 }
 

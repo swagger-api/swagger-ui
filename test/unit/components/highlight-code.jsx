@@ -33,7 +33,7 @@ describe("<HighlightCode />", () => {
 
   it("should render values in a preformatted element", () => {
     const value = "test text"
-    const props = { value, getConfigs: fakeGetConfigs, getComponent: fakeGetComponent }
+    const props = { children: value , getConfigs: fakeGetConfigs, getComponent: fakeGetComponent }
     const wrapper = mount(<HighlightCode {...props} />)
     const preTag = wrapper.find("pre")
 
