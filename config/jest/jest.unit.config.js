@@ -4,8 +4,8 @@ module.exports = {
   rootDir: path.join(__dirname, '..', '..'),
   testEnvironment: 'jest-environment-jsdom',
   testMatch: [
-    '**/test/unit/components/highlight-code.jsx',
-    // '**/test/unit/**/*.js?(x)',
+    '**/test/unit/*.js?(x)',
+    '**/test/unit/**/*.js?(x)',
   ],
   setupFiles: ['<rootDir>/test/unit/jest-shim.js'],
   setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],
@@ -19,5 +19,5 @@ module.exports = {
     '^.+\\.svg$': 'jest-transform-stub'
   },
   transformIgnorePatterns: ['/node_modules/(?!(sinon|react-syntax-highlighter)/)'],
-  silent: false, // set to `false` to allow console.* calls to be printed
+  silent: true, // set to `false` to allow console.* calls to be printed
 };
