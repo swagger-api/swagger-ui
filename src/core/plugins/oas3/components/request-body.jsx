@@ -289,12 +289,9 @@ const RequestBody = ({
           schema={mediaTypeValue.get("schema")}
           specPath={specPath.push("content", contentType)}
           example={
-            <HighlightCode
-              className="body-param__example"
-              getConfigs={getConfigs}
-              language={language}
-              value={stringify(requestBodyValue) || sampleRequestBody}
-            />
+            <HighlightCode className="body-param__example" language={language}>
+              {stringify(requestBodyValue) || sampleRequestBody}
+            </HighlightCode>
           }
           includeWriteOnly={true}
         />
