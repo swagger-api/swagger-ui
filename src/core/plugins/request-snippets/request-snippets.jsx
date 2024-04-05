@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import get from "lodash/get"
 import isFunction from "lodash/isFunction"
 import { CopyToClipboard } from "react-copy-to-clipboard"
-import { SyntaxHighlighter, getStyle } from "core/syntax-highlighting"
 
 const style = {
   cursor: "pointer",
@@ -42,6 +41,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
 
   const ArrowIcon = getComponent("ArrowUpIcon")
   const ArrowDownIcon = getComponent("ArrowDownIcon")
+  const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
   const [activeLanguage, setActiveLanguage] = useState(requestSnippetsSelectors.getSnippetGenerators()?.keySeq().first())
   const [isExpanded, setIsExpanded] = useState(requestSnippetsSelectors?.getDefaultExpanded())
@@ -99,16 +99,16 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
     }
   }
 
-  const SnippetComponent = canSyntaxHighlight
-    ? <SyntaxHighlighter
+  const SnippetComponent = canSyntaxHighlight ? (
+    <SyntaxHighlighter
       language={activeGenerator.get("syntax")}
       className="curl microlight"
-      style={getStyle(get(config, "syntaxHighlight.theme"))}
     >
       {snippet}
     </SyntaxHighlighter>
-    :
+  ) : (
     <textarea readOnly={true} className="curl" value={snippet}></textarea>
+  )
 
   return (
     <div className="request-snippets" ref={rootRef}>
@@ -147,7 +147,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getConfigs, getCom
         </div>
       }
     </div>
-  )  
+  )
 }
 
 RequestSnippets.propTypes = {
