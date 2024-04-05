@@ -283,7 +283,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   }
 
   const canAddProperty = (propName) => {
-    if(!schema || schema.maxProperties === null || schema.maxProperties === undefined) {
+    if(!respectXML || !schema || schema.maxProperties === null || schema.maxProperties === undefined) {
       return true
     }
     if(hasExceededMaxProperties()) {
