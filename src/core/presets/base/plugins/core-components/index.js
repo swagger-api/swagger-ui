@@ -27,7 +27,6 @@ import OperationSummaryMethod from "core/components/operation-summary-method"
 import OperationSummaryPath from "core/components/operation-summary-path"
 import OperationExt from "core/components/operation-extensions"
 import OperationExtRow from "core/components/operation-extension-row"
-import HighlightCode from "core/components/highlight-code"
 import Responses from "core/components/responses"
 import Response from "core/components/response"
 import ResponseExtension from "core/components/response-extension"
@@ -103,7 +102,6 @@ const CoreComponentsPlugin = () => ({
     OperationSummary,
     OperationSummaryMethod,
     OperationSummaryPath,
-    highlightCode: HighlightCode,
     responses: Responses,
     response: Response,
     ResponseExtension: ResponseExtension,

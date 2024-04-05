@@ -26,6 +26,7 @@ import UtilPlugin from "./plugins/util"
 import ViewPlugin from "./plugins/view"
 import ViewLegacyPlugin from "core/plugins/view-legacy"
 import DownloadUrlPlugin from "./plugins/download-url"
+import SyntaxHighlightingPlugin from "core/plugins/syntax-highlighting"
 import SafeRenderPlugin from "./plugins/safe-render"
 
 import { parseSearch } from "./utils"
@@ -271,5 +272,6 @@ SwaggerUI.plugins = {
   View: ViewPlugin,
   ViewLegacy: ViewLegacyPlugin,
   DownloadUrl: DownloadUrlPlugin,
+  SyntaxHighlighting: SyntaxHighlightingPlugin,
   SafeRender: SafeRenderPlugin,
 }

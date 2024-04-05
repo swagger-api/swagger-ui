@@ -71,7 +71,7 @@ const RequestBody = ({
   const Markdown = getComponent("Markdown", true)
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
-  const HighlightCode = getComponent("highlightCode")
+  const HighlightCode = getComponent("HighlightCode", true)
   const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
   const Example = getComponent("Example")
   const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
@@ -152,7 +152,7 @@ const RequestBody = ({
           {
             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
               if (schema.get("readOnly")) return
-              
+
               const oneOf = schema.get("oneOf")?.get(0)?.toJS()
               const anyOf = schema.get("anyOf")?.get(0)?.toJS()
               schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
@@ -169,7 +169,7 @@ const RequestBody = ({
               let initialValue = fn.getSampleSchema(schema, false, {
                 includeWriteOnly: true
               })
-              
+
               if (initialValue === false) {
                 initialValue = "false"
               }
