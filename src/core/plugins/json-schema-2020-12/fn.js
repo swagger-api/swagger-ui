@@ -10,12 +10,17 @@ export const upperFirst = (value) => {
   return value
 }
 
-export const getTitle = (schema) => {
+/**
+ * Lookup can be `basic` or `extended`. By default the lookup is `extended`.
+ */
+export const getTitle = (schema, { lookup = "extended" } = {}) => {
   const fn = useFn()
 
-  if (schema?.title) return fn.upperFirst(schema.title)
-  if (schema?.$anchor) return fn.upperFirst(schema.$anchor)
-  if (schema?.$id) return schema.$id
+  if (schema?.title != null) return fn.upperFirst(String(schema.title))
+  if (lookup === "extended") {
+    if (schema?.$anchor != null) return fn.upperFirst(String(schema.$anchor))
+    if (schema?.$id != null) return String(schema.$id)
+  }
 
   return ""
 }
@@ -116,18 +121,18 @@ export const getType = (schema, processedSchemas = new WeakSet()) => {
   const typeString = Array.isArray(type)
     ? type.map((t) => (t === "array" ? getArrayType() : t)).join(" | ")
     : type === "array"
-    ? getArrayType()
-    : [
-        "null",
-        "boolean",
-        "object",
-        "array",
-        "number",
-        "integer",
-        "string",
-      ].includes(type)
-    ? type
-    : inferType()
+      ? getArrayType()
+      : [
+            "null",
+            "boolean",
+            "object",
+            "array",
+            "number",
+            "integer",
+            "string",
+          ].includes(type)
+        ? type
+        : inferType()
 
   const handleCombiningKeywords = (keyword, separator) => {
     if (Array.isArray(schema[keyword])) {
