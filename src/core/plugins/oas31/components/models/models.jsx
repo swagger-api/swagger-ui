@@ -12,6 +12,7 @@ const Models = ({
   layoutActions,
   getComponent,
   getConfigs,
+  fn,
 }) => {
   const schemas = specSelectors.selectSchemas()
   const hasSchemas = Object.keys(schemas).length > 0
@@ -23,6 +24,7 @@ const Models = ({
   const JSONSchema202012 = getComponent("JSONSchema202012")
   const ArrowUpIcon = getComponent("ArrowUpIcon")
   const ArrowDownIcon = getComponent("ArrowDownIcon")
+  const { getTitle } = fn.jsonSchema202012.useFn()
 
   /**
    * Effects.
@@ -86,15 +88,19 @@ const Models = ({
         </button>
       </h4>
       <Collapse isOpened={isOpen}>
-        {Object.entries(schemas).map(([schemaName, schema]) => (
-          <JSONSchema202012
-            key={schemaName}
-            ref={handleJSONSchema202012Ref(schemaName)}
-            schema={schema}
-            name={schemaName}
-            onExpand={handleJSONSchema202012Expand(schemaName)}
-          />
-        ))}
+        {Object.entries(schemas).map(([schemaName, schema]) => {
+          const name = getTitle(schema, { lookup: "basic" }) || schemaName
+
+          return (
+            <JSONSchema202012
+              key={schemaName}
+              ref={handleJSONSchema202012Ref(schemaName)}
+              schema={schema}
+              name={name}
+              onExpand={handleJSONSchema202012Expand(schemaName)}
+            />
+          )
+        })}
       </Collapse>
     </section>
   )
@@ -116,6 +122,11 @@ Models.propTypes = {
   layoutActions: PropTypes.shape({
     show: PropTypes.func.isRequired,
     readyToScroll: PropTypes.func.isRequired,
+  }).isRequired,
+  fn: PropTypes.shape({
+    jsonSchema202012: PropTypes.func.shape({
+      useFn: PropTypes.func.isRequired,
+    }).isRequired,
   }).isRequired,
 }
 
