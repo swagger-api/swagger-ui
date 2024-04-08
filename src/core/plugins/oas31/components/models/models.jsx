@@ -89,14 +89,14 @@ const Models = ({
       </h4>
       <Collapse isOpened={isOpen}>
         {Object.entries(schemas).map(([schemaName, schema]) => {
-          const name = getTitle(schema, { lookup: "basic" })
+          const name = getTitle(schema, { lookup: "basic" }) || schemaName
 
           return (
             <JSONSchema202012
               key={schemaName}
               ref={handleJSONSchema202012Ref(schemaName)}
               schema={schema}
-              name={name || schemaName}
+              name={name}
               onExpand={handleJSONSchema202012Expand(schemaName)}
             />
           )
