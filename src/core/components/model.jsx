@@ -79,7 +79,7 @@ export default class Model extends ImmutablePureComponent {
           schema = schema.set("$$ref", $ref) 
           $$ref = $ref
         }
-      } else if (schema.size === 1) {
+      } else if (Map.isMap(schema) && schema.size === 1) {
         schema = null
         name = $ref
       }
