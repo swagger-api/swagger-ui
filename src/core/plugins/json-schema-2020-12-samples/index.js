@@ -7,6 +7,7 @@ import {
   createXMLExample,
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
+  optionAPI,
   encoderAPI,
   mediaTypeAPI,
   formatAPI,
@@ -28,6 +29,7 @@ const JSONSchema202012SamplesPlugin = ({ getSystem }) => {
       jsonSchema202012: {
         sampleFromSchema,
         sampleFromSchemaGeneric,
+        sampleOptionAPI: optionAPI,
         sampleEncoderAPI: encoderAPI,
         sampleFormatAPI: formatAPI,
         sampleMediaTypeAPI: mediaTypeAPI,
