@@ -491,8 +491,10 @@ export const canExecuteScheme = ( state, path, method ) => {
 
 export const validationErrors = (state, pathMethod) => {
   pathMethod = pathMethod || []
-  let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
+  const paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   const result = []
+
+  if (paramValues.length === 0) return result
 
   const getErrorsWithPaths = (errors, path = []) => {
     const getNestedErrorsWithPaths = (e, path) => {
@@ -520,9 +522,9 @@ export const validationErrors = (state, pathMethod) => {
 
   paramValues.forEach( (p, key) => {
     const paramName = key.split(".").slice(1, -1).join(".")
-    let errors = p.get("errors")
+    const errors = p.get("errors")
     if (errors && errors.count()) {
-      const errorsWithPaths= getErrorsWithPaths(errors)
+      const errorsWithPaths = getErrorsWithPaths(errors)
       errorsWithPaths.forEach(({error, path}) => {
         result.push(formatError(error, path, paramName))
       })
