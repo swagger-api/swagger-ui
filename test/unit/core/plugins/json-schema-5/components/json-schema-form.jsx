@@ -2,7 +2,7 @@ import React from "react"
 import Immutable, { List } from "immutable"
 import { Select, Input, TextArea } from "core/components/layout-utils"
 import { mount, render } from "enzyme"
-import * as JsonSchemaComponents from "core/components/json-schema-components"
+import * as JsonSchemaComponents from "core/plugins/json-schema-5/components/json-schema-components"
 
 const components = {...JsonSchemaComponents, Select, Input, TextArea}
 
