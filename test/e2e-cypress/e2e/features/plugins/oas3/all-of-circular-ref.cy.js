@@ -3,7 +3,7 @@
  */
 
 describe("OpenAPI 3.0 spec with allOf containing a circular reference", () => {
-  it("should render correct title and parameters", () => {
+  it("should render correct title and properties", () => {
     cy.visit("/?url=/documents/features/oas3-all-of-circular-ref.yaml").then(
       () => {
         cy.get("[id='model-OneOfParent']").find("button").click()
