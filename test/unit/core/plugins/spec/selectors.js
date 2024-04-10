@@ -1388,7 +1388,7 @@ describe("validationErrors", function() {
         "/": {
           get: {
             parameters: {
-              id: {
+              "query.id.hash": {
                 errors: [
                  "Value must be an integer"
                 ]
@@ -1397,7 +1397,7 @@ describe("validationErrors", function() {
           },
           post: {
             parameters: {
-              body: {
+              "query.with.dot.hash": {
                 errors: [
                   {
                     error: "Value must be an integer", 
@@ -1411,25 +1411,85 @@ describe("validationErrors", function() {
               }
             }
           }
+        },
+        "/nested": {
+          post: {
+            parameters: {
+              "query.arrayWithObjects.hash": {
+                errors: [
+                  {
+                    error: "Parameter string value must be valid JSON", 
+                    index: 0
+                  },
+                  { 
+                    error: {
+                      error: "Value must be a string", 
+                      propKey: "name"
+                    },
+                    index: 1
+                  }
+                ]
+              },
+              "query.objectWithArray.hash": {
+                errors: [
+                  {
+                    error: {
+                      error: {
+                        error: "Value must be a number",
+                        propKey: "b",
+                      },
+                      index: 0,
+                    },
+                    propKey: "a",
+                  }
+                ]
+              },
+              "query.objectWithoutArray.hash": {
+                errors: [
+                  {
+                    error: {
+                      error: {
+                        error: "Value must be a string",
+                        propKey: "e",
+                      },
+                      propKey: "d",
+                    },
+                    propKey: "c",
+                  }
+                ]
+              }
+            }
+          }
         }
       }
     }
   })
 
-  it("should return validation errors without formatting them", function () {
+  it("should return validation errors with parameter name", function () {
     const result = validationErrors(state, ["/", "get"])
 
     expect(result).toEqual([
-      "Value must be an integer"
+      "For 'id': Value must be an integer."
     ])
   })
 
-  it("should return formatted validation errors", function () {
+  it("should return validation errors with parameter name and path", function () {
     const result = validationErrors(state, ["/", "post"])
 
     expect(result).toEqual([
-      "id: Value must be an integer",
-      "name: Value must be a string"
+      "For 'with.dot' at path 'id': Value must be an integer.",
+      "For 'with.dot' at path 'name': Value must be a string."
+    ])
+  })
+
+  it("should return validation errors with parameter name and path for nested parameters", function () {
+    const result = validationErrors(state, ["/nested", "post"])
+
+    expect(result).toEqual([
+      "For 'arrayWithObjects' at path '[0]': Parameter string value must be valid JSON.",
+      "For 'arrayWithObjects' at path '[1].name': Value must be a string.",
+      "For 'objectWithArray' at path 'a[0].b': Value must be a number.",
+      "For 'objectWithoutArray' at path 'c.d.e': Value must be a string."
     ])
   })
 })
