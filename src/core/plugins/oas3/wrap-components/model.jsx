@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { OAS3ComponentWrapFactory } from "../helpers"
-import Model from "core/components/model"
 
 class ModelComponent extends Component {
   static propTypes = {
@@ -16,7 +15,7 @@ class ModelComponent extends Component {
   }
 
   render(){
-    let { getConfigs, schema } = this.props
+    let { getConfigs, schema, Ori: Model } = this.props
     let classes = ["model-box"]
     let isDeprecated = schema.get("deprecated") === true
     let message = null
