@@ -50,7 +50,7 @@ const ModelExample = ({
 }) => {
   const { defaultModelRendering, defaultModelExpandDepth } = getConfigs()
   const ModelWrapper = getComponent("ModelWrapper")
-  const HighlightCode = getComponent("highlightCode")
+  const HighlightCode = getComponent("HighlightCode", true)
   const exampleTabId = randomBytes(5).toString("base64")
   const examplePanelId = randomBytes(5).toString("base64")
   const modelTabId = randomBytes(5).toString("base64")
@@ -113,10 +113,7 @@ const ModelExample = ({
           {example ? (
             example
           ) : (
-            <HighlightCode
-              value="(no example available)"
-              getConfigs={getConfigs}
-            />
+            <HighlightCode>(no example available</HighlightCode>
           )}
         </div>
       )}
