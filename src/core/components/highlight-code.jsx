@@ -62,8 +62,8 @@ const HighlightCode = ({value, fileName = "response.txt", className, downloadabl
           language={language}
           className={cx(className, "microlight")}
           style={getStyle(get(config, "syntaxHighlight.theme", "agate"))}
-          code={value}
         >
+          {value}
         </SyntaxHighlighter>
         : <pre className={cx(className, "microlight")}>{value}</pre>
       }

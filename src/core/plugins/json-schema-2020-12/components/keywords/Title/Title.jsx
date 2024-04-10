@@ -13,11 +13,7 @@ const Title = ({ title = "", schema }) => {
 
   if (!renderedTitle) return null
 
-  return (
-    <div className="json-schema-2020-12__title">
-      {title || fn.getTitle(schema)}
-    </div>
-  )
+  return <div className="json-schema-2020-12__title">{renderedTitle}</div>
 }
 
 Title.propTypes = {
