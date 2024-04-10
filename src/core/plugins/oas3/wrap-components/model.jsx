@@ -12,6 +12,7 @@ class ModelComponent extends Component {
     expandDepth: PropTypes.number,
     includeReadOnly: PropTypes.bool,
     includeWriteOnly: PropTypes.bool,
+    Ori: PropTypes.func.isRequired,
   }
 
   render(){
