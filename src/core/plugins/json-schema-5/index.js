@@ -10,6 +10,8 @@ import EnumModel from "./components/enum-model"
 import ObjectModel from "./components/object-model"
 import ArrayModel from "./components/array-model"
 import PrimitiveModel from "./components/primitive-model"
+import Schemes from "./components/schemes"
+import SchemesContainer from "./containers/schemes"
 import * as JSONSchemaComponents from "./components/json-schema-components"
 
 const JSONSchema5Plugin = () => ({
@@ -23,6 +25,8 @@ const JSONSchema5Plugin = () => ({
     ObjectModel,
     ArrayModel,
     PrimitiveModel,
+    schemes: Schemes,
+    SchemesContainer,
     ...JSONSchemaComponents,
   },
 })
