@@ -494,21 +494,38 @@ export const validationErrors = (state, pathMethod) => {
   let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   const result = []
 
-  const formatErrors = (errors) => {
-    const stringifyMap = (e) => {
-      return `${e.get("propKey") || e.get("index")}: ${
-        Map.isMap(e.get("error")) ? formatErrors(e.get("error")) : e.get("error")
-      }`
+  const getErrorsWithPaths = (errors, path = []) => {
+    const getNestedErrorsWithPaths = (e, path) => {
+      const currPath = [...path, e.get("propKey") || e.get("index")]
+      return Map.isMap(e.get("error")) 
+        ? getErrorsWithPaths(e.get("error"), currPath) 
+        : { error: e.get("error"), path: currPath }
     }
+
     return List.isList(errors)
-      ? errors.map((e) => (Map.isMap(e) ? stringifyMap(e) : e))
-      : stringifyMap(errors)
+     ? errors.map((e) => (Map.isMap(e) ? getNestedErrorsWithPaths(e, path) : { error: e, path }))
+     : getNestedErrorsWithPaths(errors, path)
   }
 
-  paramValues.forEach( (p) => {
+  const formatError = (error, path, paramName) => {
+    path = path.reduce((acc, curr) => {
+      return typeof curr === "number" 
+        ? `${acc}[${curr}]` 
+        : acc 
+        ? `${acc}.${curr}` 
+        : curr
+    }, "")
+    return `For '${paramName}'${path ? ` at path '${path}'` : ""}: ${error}.`
+  }
+
+  paramValues.forEach( (p, key) => {
+    const paramName = key.split(".").slice(1, -1).join(".")
     let errors = p.get("errors")
     if (errors && errors.count()) {
-      formatErrors(errors).forEach((e) => result.push(e))
+      const errorsWithPaths= getErrorsWithPaths(errors)
+      errorsWithPaths.forEach(({error, path}) => {
+        result.push(formatError(error, path, paramName))
+      })
     }
   })
   return result
