@@ -15,7 +15,6 @@ export default class ParamBody extends PureComponent {
     consumes: PropTypes.object,
     consumesValue: PropTypes.string,
     fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired,
     getComponent: PropTypes.func.isRequired,
     isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
@@ -98,13 +97,12 @@ export default class ParamBody extends PureComponent {
       isExecute,
       specSelectors,
       pathMethod,
-      getConfigs,
       getComponent,
     } = this.props
 
     const Button = getComponent("Button")
     const TextArea = getComponent("TextArea")
-    const HighlightCode = getComponent("highlightCode")
+    const HighlightCode = getComponent("HighlightCode", true)
     const ContentType = getComponent("contentType")
     // for domains where specSelectors not passed
     let parameter = specSelectors ? specSelectors.parameterWithMetaByIdentity(pathMethod, param) : param
@@ -127,10 +125,7 @@ export default class ParamBody extends PureComponent {
         {
           isEditBox && isExecute
             ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")} value={value} onChange={ this.handleOnChange }/>
-            : (value && <HighlightCode className="body-param__example"
-                          language={ language }
-                          getConfigs={ getConfigs }
-                          value={ value }/>)
+            : (value && <HighlightCode className="body-param__example" language={ language }>{value}</HighlightCode>)
         }
         <div className="body-param-options">
           {
@@ -148,7 +143,7 @@ export default class ParamBody extends PureComponent {
               contentTypes={ consumes }
               onChange={onChangeConsumes}
               className="body-param-content-type"
-              ariaLabel="Parameter content type" 
+              ariaLabel="Parameter content type"
               controlId={controlId}
             />
           </label>

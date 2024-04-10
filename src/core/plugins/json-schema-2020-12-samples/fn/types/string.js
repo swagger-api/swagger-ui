@@ -126,7 +126,7 @@ const stringType = (schema, { sample } = {}) => {
   let generatedString
 
   if (typeof pattern === "string") {
-    generatedString = randexp(pattern)
+    generatedString = applyStringConstraints(randexp(pattern), schema)
   } else if (typeof format === "string") {
     generatedString = generateFormat(schema)
   } else if (
@@ -137,7 +137,7 @@ const stringType = (schema, { sample } = {}) => {
     if (Array.isArray(sample) || typeof sample === "object") {
       generatedString = JSON.stringify(sample)
     } else {
-      generatedString = String(sample)
+      generatedString = applyStringConstraints(String(sample), schema)
     }
   } else if (typeof contentMediaType === "string") {
     const mediaTypeGenerator = mediaTypeAPI(contentMediaType)
@@ -145,10 +145,10 @@ const stringType = (schema, { sample } = {}) => {
       generatedString = mediaTypeGenerator(schema)
     }
   } else {
-    generatedString = randomString()
+    generatedString = applyStringConstraints(randomString(), schema)
   }
 
-  return encode(applyStringConstraints(generatedString, schema))
+  return encode(generatedString)
 }
 
 export default stringType
