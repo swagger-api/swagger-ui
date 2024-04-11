@@ -29,6 +29,7 @@ import DownloadUrlPlugin from "./plugins/download-url"
 import SafeRenderPlugin from "./plugins/safe-render"
 
 import { parseSearch } from "./utils"
+import { convertConfigValues } from "./utils/convertConfigValues"
 import win from "./window"
 
 // eslint-disable-next-line no-undef
@@ -134,7 +135,7 @@ export default function SwaggerUI(opts) {
     }
   }
 
-  let queryConfig = opts.queryConfigEnabled ? parseSearch() : {}
+  let queryConfig = opts.queryConfigEnabled ? convertConfigValues(parseSearch()) : {}
 
   const domNode = opts.domNode
   delete opts.domNode

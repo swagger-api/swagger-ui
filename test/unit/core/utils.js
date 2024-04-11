@@ -37,6 +37,10 @@ import {
   safeBuildUrl,
 } from "core/utils/url"
 
+import {
+  convertConfigValues
+} from "core/utils/convertConfigValues"
+
 import win from "core/window"
 import { afterAll, beforeAll, expect, jest } from "@jest/globals"
 
@@ -1326,11 +1330,6 @@ describe("utils", () => {
         win.location.search = "?foo=foo%20bar"
         expect(parseSearch()).toEqual({foo: "foo bar"})
       })
-
-      it("parses boolean values", () => {
-        win.location.search = "?foo=true&bar=false"
-        expect(parseSearch()).toEqual({foo: true, bar: false})
-      })
     })
 
     describe("serializing", () => {
@@ -1779,6 +1778,56 @@ describe("utils", () => {
       const expectedCodeChallenge = "LD9lx2p2PbvGkojuJy7-Elex7RnckzmqR7oIXjd4u84"
 
       expect(createCodeChallenge(codeVerifier)).toBe(expectedCodeChallenge)
+    })
+  })
+
+  describe("convertConfigValues", () => {
+    it("should convert stringified `true` and `false` values to boolean" , () => {
+      const config = { deepLinking: "true", tryItOutEnabled: "false" }
+
+      const expectedConfig = { deepLinking: true, tryItOutEnabled: false }
+
+      expect(convertConfigValues(config)).toStrictEqual(expectedConfig)
+    })
+
+    it("should convert stringified number values to number" , () => {
+      const config = { defaultModelExpandDepth: "5", defaultModelsExpandDepth: "-1" }
+    
+      const expectedConfig = { defaultModelExpandDepth: 5, defaultModelsExpandDepth: -1 }
+  
+      expect(convertConfigValues(config)).toStrictEqual(expectedConfig)
+    })
+
+    it("should convert stringified number values to number" , () => {
+      const config = { defaultModelExpandDepth: "5", defaultModelsExpandDepth: "-1" }
+  
+      const expectedConfig = { defaultModelExpandDepth: 5, defaultModelsExpandDepth: -1 }
+  
+      expect(convertConfigValues(config)).toStrictEqual(expectedConfig)
+    })
+
+    it("should convert stringified array values to arrays" , () => {
+      const config = { supportedSubmitMethods: '["get", "post"]' }
+
+      const expectedConfig = { supportedSubmitMethods: ["get", "post"] }
+  
+      expect(convertConfigValues(config)).toStrictEqual(expectedConfig)
+    })
+
+    it("should convert stringified object values to objects" , () => {
+      const config = { syntaxHighlight: '{"theme":"monokai"}' }
+
+      const expectedConfig = { syntaxHighlight: { theme: "monokai" } }
+  
+      expect(convertConfigValues(config)).toStrictEqual(expectedConfig)
+    })
+
+    it("should not convert string values" , () => {
+      const config = { defaultModelRendering: "model" }
+
+      const expectedConfig = { defaultModelRendering: "model" }
+  
+      expect(convertConfigValues(config)).toStrictEqual(expectedConfig)
     })
   })
 })
