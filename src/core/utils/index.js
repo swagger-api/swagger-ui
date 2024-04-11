@@ -605,31 +605,13 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 }
 
 export const parseSearch = () => {
-  let map = {}
-  let search = win.location.search
-
-  if(!search)
-    return {}
-
-  if ( search != "" ) {
-    let params = search.substr(1).split("&")
-
-    for (let i in params) {
-      if (!Object.prototype.hasOwnProperty.call(params, i)) {
-        continue
-      }
-      i = params[i].split("=")
-      map[decodeURIComponent(i[0])] = (i[1] && decodeURIComponent(i[1])) || ""
-    }
-  }
-
-  return map
+  const searchParams = new URLSearchParams(win.location.search)
+  return Object.fromEntries(searchParams)
 }
 
 export const serializeSearch = (searchMap) => {
-  return Object.keys(searchMap).map(k => {
-    return encodeURIComponent(k) + "=" + encodeURIComponent(searchMap[k])
-  }).join("&")
+  const searchParams = new URLSearchParams(Object.entries(searchMap))
+  return String(searchParams)
 }
 
 export const btoa = (str) => {

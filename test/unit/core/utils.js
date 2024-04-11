@@ -1338,7 +1338,7 @@ describe("utils", () => {
       })
 
       it("encode url components", () => {
-        expect(serializeSearch({foo: "foo bar"})).toEqual("foo=foo%20bar")
+        expect(serializeSearch({foo: "foo bar"})).toEqual("foo=foo+bar")
       })
     })
   })
