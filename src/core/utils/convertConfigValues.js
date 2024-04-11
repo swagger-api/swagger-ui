@@ -5,6 +5,7 @@ const booleanConfigs = [
   "deepLinking",
   "displayOperationId",
   "displayRequestDuration",
+  "filter",
   "persistAuthorization",
   "requestSnippetsEnabled",
   "showCommonExtensions",
@@ -30,10 +31,6 @@ const convertValue = (key, value) => {
 
   if (key === "validatorUrl") {
     return value === "null" ? null : value
-  }
-
-  if (key === "filter") {
-    return value === "false" ? false : value
   }
 
   if (isBoolean) {
