@@ -1,13 +1,10 @@
 /**
  * @prettier
  */
-import deepExtend from "deep-extend"
-
 import ApisPreset from "core/presets/apis"
-import { parseSearch } from "core/utils"
 
-const defaultConfig = {
-  // eslint-disable-next-line camelcase
+const defaultOptions = Object.freeze({
+  dom_id: null,
   domNode: null,
   spec: {},
   url: "",
@@ -37,17 +34,14 @@ const defaultConfig = {
   requestSnippetsEnabled: false,
   requestSnippets: {
     generators: {
-      // eslint-disable-next-line camelcase
       curl_bash: {
         title: "cURL (bash)",
         syntax: "bash",
       },
-      // eslint-disable-next-line camelcase
       curl_powershell: {
         title: "cURL (PowerShell)",
         syntax: "powershell",
       },
-      // eslint-disable-next-line camelcase
       curl_cmd: {
         title: "cURL (CMD)",
         syntax: "bash",
@@ -82,7 +76,6 @@ const defaultConfig = {
     pluginLoadType: "legacy",
   },
 
-  // Initial state
   initialState: {},
 
   // Inline Plugin
@@ -93,52 +86,6 @@ const defaultConfig = {
     activated: true,
     theme: "agate",
   },
-}
+})
 
-export const getConfigs = (opts) => {
-  const queryConfig = opts.queryConfigEnabled ? parseSearch() : {}
-
-  const combinedConfig = deepExtend({}, defaultConfig, opts, queryConfig)
-
-  const storeConfig = {
-    system: {
-      configs: combinedConfig.configs,
-    },
-    plugins: combinedConfig.presets,
-    pluginsOptions: combinedConfig.pluginsOptions,
-    state: deepExtend(
-      {
-        layout: {
-          layout: combinedConfig.layout,
-          filter: combinedConfig.filter,
-        },
-        spec: {
-          spec: "",
-          // support Relative References
-          url: combinedConfig.url,
-        },
-        requestSnippets: combinedConfig.requestSnippets,
-      },
-      combinedConfig.initialState
-    ),
-  }
-
-  if (combinedConfig.initialState) {
-    // if the user sets a key as `undefined`, that signals to us that we
-    // should delete the key entirely.
-    // known usage: Swagger-Editor validate plugin tests
-    for (var key in combinedConfig.initialState) {
-      if (
-        Object.prototype.hasOwnProperty.call(
-          combinedConfig.initialState,
-          key
-        ) &&
-        combinedConfig.initialState[key] === undefined
-      ) {
-        delete storeConfig.state[key]
-      }
-    }
-  }
-
-  return { queryConfig, combinedConfig, storeConfig }
-}
+export default defaultOptions
