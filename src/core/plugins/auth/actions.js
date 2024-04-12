@@ -168,7 +168,10 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
 }
 
 export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, oas3Selectors, specSelectors, authSelectors } ) => {
-  let { body, query={}, headers={}, name, url, auth } = data
+  let { body, query={}, headers={}, name, url, auth, maxCount } = data
+  getConfigs().authAutoRefreshTokenMaxCount -= 1
+  maxCount = getConfigs().authAutoRefreshTokenMaxCount
+  console.log(maxCount)
 
   let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
 
@@ -225,6 +228,23 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
         message: JSON.stringify(token)
       })
       return
+    }
+
+    if (getConfigs().authAutoRefreshTokenEnabled && maxCount >= 0) {
+      setTimeout(() => {
+        let { schema, name, clientId, clientSecret} = auth
+        let headers = {
+          Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
+        }
+        let form = {
+          grant_type: "refresh_token",
+          refresh_token: token.refresh_token,
+          client_id: clientId,
+          client_secret: clientSecret
+        }
+
+        authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers, maxCount })
+      }, token.expires_in * 750)
     }
 
     authActions.authorizeOauth2WithPersistOption({ auth, token})
