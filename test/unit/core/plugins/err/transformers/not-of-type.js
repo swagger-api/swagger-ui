@@ -1,7 +1,7 @@
 import { Map, List } from "immutable"
 import { transform } from "core/plugins/err/error-transformers/transformers/not-of-type"
 
-describe("err plugin - tranformers - not of type", () => {
+describe("err plugin - transformers - not of type", () => {
 
   it("should transform a singular not of type(s) error without an inline path", () => {
     let ori = List([
