@@ -29,13 +29,15 @@ import SyntaxHighlightingPlugin from "core/plugins/syntax-highlighting"
 import SafeRenderPlugin from "./plugins/safe-render"
 
 import win from "./window"
-import defaultOptions from "./config/defaults"
-import optionsFromQuery from "./config/sources/query"
-import optionsFromUrl from "./config/sources/url"
-import optionsFromYAMLFile from "./config/sources/yaml-file"
-import mergeOptions from "./config/merge"
-import storeOptionsFactorization from "./config/factorization/store"
-import inlinePluginOptionsFactorization from "./config/factorization/inline-plugin"
+import {
+  defaultOptions,
+  optionsFromQuery,
+  optionsFromURL,
+  optionsFromYAMLFile,
+  mergeOptions,
+  inlinePluginOptionsFactorization,
+  storeOptionsFactorization
+} from "./config"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
@@ -62,7 +64,7 @@ export default function SwaggerUI(options) {
   const configURL = queryOptions.config ?? mergedOptions.configUrl
   const yamlFileOptions = optionsFromYAMLFile({ system })(mergedOptions)
 
-  optionsFromUrl({ url: configURL, system })(mergedOptions)
+  optionsFromURL({ url: configURL, system })(mergedOptions)
     .then((urlOptions) => {
       const urlOptionsFailedToFetch = urlOptions === null
 
