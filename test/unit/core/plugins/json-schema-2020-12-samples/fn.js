@@ -93,10 +93,10 @@ describe("sampleFromSchema", () => {
   })
 
   it("should return appropriate example for primitive types + format with randomness enabled", function () {
-    optionAPI("randomEnabled", true)
+    optionAPI("mode", "random")
     optionAPI("random", () => 0)
-    optionAPI("minInt", 4)
-    optionAPI("minLen", 6)
+    optionAPI("minInteger", 4)
+    optionAPI("minLength", 6)
     optionAPI("minDateTime", "2024-01-01T00:00:00.000Z")
 
     const sample = (schema) => sampleFromSchema(fromJS(schema))
@@ -501,7 +501,7 @@ describe("sampleFromSchema", () => {
   })
 
   it("should return random enum value when randomness is enabled", function () {
-    optionAPI("randomEnabled", true)
+    optionAPI("mode", "random")
     optionAPI("random", () => 0.5)
 
     const definition = fromJS({enum: ["a", "b", "c"]})

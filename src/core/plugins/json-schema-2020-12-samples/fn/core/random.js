@@ -10,13 +10,15 @@ import optionAPI from "../api/optionAPI"
  * This is due to the nature of SwaggerUI expectations - provide as stable data as possible.
  *
  */
-export const randInt = (min, max) => min + Math.floor(optionAPI("random")() * (1 + (max - min)))
+const randomMode = () => optionAPI("mode") === "random"
+
+const randInt = (min, max) => min + Math.floor(optionAPI("random")() * (1 + (max - min)))
 
 export const bytes = (length) => randomBytes(length)
 
 export const randexp = (pattern) => {
   try {
-    RandExp.prototype.max = optionAPI("maxRandExp")
+    RandExp.prototype.max = optionAPI("defaultRandExpMax")
     RandExp.prototype.randInt = randInt
 
     const randexpInstance = new RandExp(pattern)
@@ -27,23 +29,23 @@ export const randexp = (pattern) => {
   }
 }
 
-export const pick = (list) => optionAPI("randomEnabled") ? list[Math.floor(optionAPI("random")() * list.length)] : list.at(0)
+export const pick = (list) => randomMode() ? list[Math.floor(optionAPI("random")() * list.length)] : list.at(0)
 
-export const string = () => optionAPI("randomEnabled") ? randexp(`[a-z]{${optionAPI("minLen")},${optionAPI("maxLen")}}`) : "string"
+export const string = () => randomMode() ? randexp(`[a-z]{${optionAPI("minLength")},${optionAPI("maxLength")}}`) : "string"
 
-export const integer = () => optionAPI("randomEnabled") ? randInt(optionAPI("minInt"), optionAPI("maxInt")) : 0
+export const integer = () => randomMode() ? randInt(optionAPI("minInteger"), optionAPI("maxInteger")) : 0
 
 export const number = () => integer()
 
-export const boolean = () => optionAPI("randomEnabled") ? optionAPI("random")() > 0.5 : true
+export const boolean = () => randomMode() ? optionAPI("random")() > 0.5 : true
 
 export const date = () => {
-  if (!optionAPI("randomEnabled")) {
+  if (!randomMode()) {
     return new Date()
   }
 
-  let earliest = new Date(optionAPI("minDateTime"))
-  let latest = new Date(optionAPI("maxDateTime"))
+  const earliest = new Date(optionAPI("minDateTime"))
+  const latest = new Date(optionAPI("maxDateTime"))
 
   return new Date(randInt(earliest.getTime(), latest.getTime()))
 }
