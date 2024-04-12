@@ -8,6 +8,12 @@ class Registry {
     this.data[name] = value
   }
 
+  registerMany(nameValueMap) {
+    Object.keys(nameValueMap).forEach(name => {
+      this.data[name] = nameValueMap[name]
+    })
+  }
+
   unregister(name) {
     if (typeof name === "undefined") {
       this.data = {}
