@@ -20,6 +20,7 @@ import ViewPlugin from "core/plugins/view"
 import ViewLegacyPlugin from "core/plugins/view-legacy"
 import DownloadUrlPlugin from "core/plugins/download-url"
 import SyntaxHighlightingPlugin from "core/plugins/syntax-highlighting"
+import VersionsPlugin from "core/plugins/versions"
 import SafeRenderPlugin from "core/plugins/safe-render"
 // ad-hoc plugins
 import CoreComponentsPlugin from "core/presets/base/plugins/core-components"
@@ -47,6 +48,7 @@ const BasePreset = () => [
   OnCompletePlugin,
   RequestSnippetsPlugin,
   SyntaxHighlightingPlugin,
+  VersionsPlugin,
   SafeRenderPlugin(),
 ]
 
