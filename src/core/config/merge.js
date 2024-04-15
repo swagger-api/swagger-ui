@@ -12,35 +12,40 @@
  * TODO(vladimir.gorej@gmail.com): remove deep-extend in favor of lodash.merge
  */
 import deepExtend from "deep-extend"
-import set from "lodash/set"
 
 const merge = (target, ...sources) => {
   let domNode = Symbol.for("domNode")
-  const sourcesWithoutDomNode = []
+  let primaryName = null
+  const sourcesWithoutExceptions = []
 
   for (const source of sources) {
+    const sourceWithoutExceptions = { ...source }
+
     if (Object.hasOwn(source, "domNode")) {
       domNode = source.domNode
-      const sourceWithoutDomNode = { ...source }
-      delete sourceWithoutDomNode.domNode
-      sourcesWithoutDomNode.push(sourceWithoutDomNode)
-    } else {
-      sourcesWithoutDomNode.push(source)
+      delete sourceWithoutExceptions.domNode
     }
+
+    if (source["urls.primaryName"]) {
+      primaryName = source["urls.primaryName"]
+      delete sourceWithoutExceptions["urls.primaryName"]
+    } else if (source.urls && source.urls.primaryName) {
+      primaryName = source.urls.primaryName
+      delete sourceWithoutExceptions.urls.primaryName
+    }
+
+    sourcesWithoutExceptions.push(sourceWithoutExceptions)
   }
 
-  const merged = deepExtend(target, ...sourcesWithoutDomNode)
+  const merged = deepExtend(target, ...sourcesWithoutExceptions)
 
   if (domNode !== Symbol.for("domNode")) {
     merged.domNode = domNode
   }
 
-  Object.entries(merged).forEach(([key, value]) => {
-    if (key.includes(".")) {
-      delete merged[key]
-      set(merged, key, value)
-    }
-  })
+  if (primaryName) {
+    merged.urls.primaryName = primaryName
+  }
 
   return merged
 }
