@@ -95,7 +95,7 @@
     "react-immutable-proptypes": "2.2.0",
     "react-immutable-pure-component": "^2.2.0",
     "react-inspector": "^6.0.1",
-    "react-redux": "^9.1.0",
+    "react-redux": "^9.1.1",
     "react-syntax-highlighter": "^15.5.0",
     "redux": "^5.0.1",
     "redux-immutable": "^4.0.0",
