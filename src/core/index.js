@@ -1,5 +1,3 @@
-import deepExtend from "deep-extend"
-
 import System from "./system"
 // presets
 import BasePreset from "./presets/base"
@@ -30,14 +28,21 @@ import DownloadUrlPlugin from "./plugins/download-url"
 import SyntaxHighlightingPlugin from "core/plugins/syntax-highlighting"
 import SafeRenderPlugin from "./plugins/safe-render"
 
-import { getConfigs } from "./config"
 import win from "./window"
+import {
+  defaultOptions,
+  optionsFromQuery,
+  optionsFromURL,
+  optionsFromSystem,
+  mergeOptions,
+  inlinePluginOptionsFactorization,
+  storeOptionsFactorization
+} from "./config"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
 
-export default function SwaggerUI(opts) {
-
+export default function SwaggerUI(userOptions) {
   win.versions = win.versions || {}
   win.versions.swaggerUi = {
     version: PACKAGE_VERSION,
@@ -46,74 +51,50 @@ export default function SwaggerUI(opts) {
     buildTimestamp: BUILD_TIME,
   }
 
-  const domNode = opts.domNode
-  delete opts.domNode
+  const queryOptions = optionsFromQuery()(userOptions)
+  let mergedOptions = mergeOptions({}, defaultOptions, userOptions, queryOptions)
+  const storeOptions = storeOptionsFactorization(mergedOptions)
+  const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
 
-  const { queryConfig, combinedConfig, storeConfig } = getConfigs(opts)
 
-  const inlinePlugin = ()=> {
-    return {
-      fn: combinedConfig.fn,
-      components: combinedConfig.components,
-      state: combinedConfig.state,
-    }
-  }
-
-  const store = new System(storeConfig)
-  store.register([combinedConfig.plugins, inlinePlugin])
-
+  const store = new System(storeOptions)
+  store.register([mergedOptions.plugins, InlinePlugin])
   const system = store.getSystem()
 
-  const downloadSpec = (fetchedConfig) => {
-    const localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    const mergedConfig = deepExtend({}, localConfig, combinedConfig, fetchedConfig || {}, queryConfig)
+  const configURL = queryOptions.config ?? mergedOptions.configUrl
+  const systemOptions = optionsFromSystem({ system })(mergedOptions)
 
-    // deep extend mangles domNode, we need to set it manually
-    if(domNode) {
-      mergedConfig.domNode = domNode
-    }
+  optionsFromURL({ url: configURL, system })(mergedOptions)
+    .then((urlOptions) => {
+      const urlOptionsFailedToFetch = urlOptions === null
 
-    store.setConfigs(mergedConfig)
-    system.configsActions.loaded()
+      mergedOptions = mergeOptions({}, systemOptions, mergedOptions, urlOptions, queryOptions)
+      store.setConfigs(mergedOptions)
+      system.configsActions.loaded()
 
-    if (fetchedConfig !== null) {
-      if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
-        system.specActions.updateUrl("")
-        system.specActions.updateLoadingStatus("success")
-        system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-      } else if (system.specActions.download && mergedConfig.url && !mergedConfig.urls) {
-        system.specActions.updateUrl(mergedConfig.url)
-        system.specActions.download(mergedConfig.url)
+      if (!urlOptionsFailedToFetch) {
+        if (!queryOptions.url && typeof mergedOptions.spec === "object" && Object.keys(mergedOptions.spec).length > 0) {
+          system.specActions.updateUrl("")
+          system.specActions.updateLoadingStatus("success")
+          system.specActions.updateSpec(JSON.stringify(mergedOptions.spec))
+        } else if (typeof system.specActions.download === "function" && mergedOptions.url && !mergedOptions.urls) {
+          system.specActions.updateUrl(mergedOptions.url)
+          system.specActions.download(mergedOptions.url)
+        }
       }
-    }
 
-    if(mergedConfig.domNode) {
-      system.render(mergedConfig.domNode, "App")
-    } else if(mergedConfig.dom_id) {
-      let domNode = document.querySelector(mergedConfig.dom_id)
-      system.render(domNode, "App")
-    } else if(mergedConfig.dom_id === null || mergedConfig.domNode === null) {
-      // do nothing
-      // this is useful for testing that does not need to do any rendering
-    } else {
-      console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
-    }
-
-    return system
-  }
-
-  const configUrl = combinedConfig.configUrl
-
-  if (configUrl && system.specActions && system.specActions.getConfigByUrl) {
-    system.specActions.getConfigByUrl({
-      url: configUrl,
-      loadRemoteConfig: true,
-      requestInterceptor: combinedConfig.requestInterceptor,
-      responseInterceptor: combinedConfig.responseInterceptor,
-    }, downloadSpec)
-  } else {
-    return downloadSpec()
-  }
+      if (mergedOptions.domNode) {
+        system.render(mergedOptions.domNode, "App")
+      } else if(mergedOptions.dom_id) {
+        let domNode = document.querySelector(mergedOptions.dom_id)
+        system.render(domNode, "App")
+      } else if(mergedOptions.dom_id === null || mergedOptions.domNode === null) {
+        // do nothing
+        // this is useful for testing that does not need to do any rendering
+      } else {
+        console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
+      }
+    })
 
   return system
 }
