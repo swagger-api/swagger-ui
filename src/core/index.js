@@ -33,7 +33,7 @@ import {
   defaultOptions,
   optionsFromQuery,
   optionsFromURL,
-  optionsFromYAMLFile,
+  optionsFromSystem,
   mergeOptions,
   inlinePluginOptionsFactorization,
   storeOptionsFactorization
@@ -42,7 +42,7 @@ import {
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
 
-export default function SwaggerUI(options) {
+export default function SwaggerUI(userOptions) {
   win.versions = win.versions || {}
   win.versions.swaggerUi = {
     version: PACKAGE_VERSION,
@@ -51,8 +51,8 @@ export default function SwaggerUI(options) {
     buildTimestamp: BUILD_TIME,
   }
 
-  const queryOptions = optionsFromQuery()(options)
-  let mergedOptions = mergeOptions({}, defaultOptions, options, queryOptions)
+  const queryOptions = optionsFromQuery()(userOptions)
+  let mergedOptions = mergeOptions({}, defaultOptions, userOptions, queryOptions)
   const storeOptions = storeOptionsFactorization(mergedOptions)
   const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
 
@@ -62,13 +62,13 @@ export default function SwaggerUI(options) {
   const system = store.getSystem()
 
   const configURL = queryOptions.config ?? mergedOptions.configUrl
-  const yamlFileOptions = optionsFromYAMLFile({ system })(mergedOptions)
+  const systemOptions = optionsFromSystem({ system })(mergedOptions)
 
   optionsFromURL({ url: configURL, system })(mergedOptions)
     .then((urlOptions) => {
       const urlOptionsFailedToFetch = urlOptions === null
 
-      mergedOptions = mergeOptions({}, yamlFileOptions, mergedOptions, urlOptions, queryOptions)
+      mergedOptions = mergeOptions({}, systemOptions, mergedOptions, urlOptions, queryOptions)
       store.setConfigs(mergedOptions)
       system.configsActions.loaded()
 

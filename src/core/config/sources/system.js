@@ -1,9 +1,11 @@
 /**
  * @prettier
- * Receives options from a local YAML file.
+ *
+ * Receives options from a System.
+ * These options are baked-in to the System during the compile time.
  */
 
-const optionsFromYAMLFile =
+const optionsFromSystem =
   ({ system }) =>
   () => {
     if (typeof system.specSelectors?.getLocalConfig !== "function") return {}
@@ -11,4 +13,4 @@ const optionsFromYAMLFile =
     return system.specSelectors.getLocalConfig()
   }
 
-export default optionsFromYAMLFile
+export default optionsFromSystem

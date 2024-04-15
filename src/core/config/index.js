@@ -2,6 +2,6 @@ export { default as inlinePluginOptionsFactorization }  from "./factorization/in
 export { default as storeOptionsFactorization }  from "./factorization/store"
 export { default as optionsFromQuery }  from "./sources/query"
 export { default as optionsFromURL }  from "./sources/url"
-export { default as optionsFromYAMLFile }  from "./sources/yaml-file"
+export { default as optionsFromSystem }  from "./sources/system"
 export { default as defaultOptions }  from "./defaults"
 export { default as mergeOptions }  from "./merge"
