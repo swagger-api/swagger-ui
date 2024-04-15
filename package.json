@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "5.15.1",
+  "version": "5.15.2",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -135,7 +135,7 @@
     "cross-env": "=7.0.3",
     "css-loader": "=7.1.1",
     "cssnano": "=6.1.2",
-    "cypress": "=13.7.2",
+    "cypress": "=13.7.3",
     "dedent": "^1.5.3",
     "deepmerge": "^4.3.1",
     "enzyme": "=3.11.0",
@@ -176,8 +176,8 @@
     "react-test-renderer": "^18.2.0",
     "release-it": "=17.1.1",
     "rimraf": "^5.0.5",
-    "sass": "^1.74.1",
-    "sass-loader": "^14.1.1",
+    "sass": "^1.75.0",
+    "sass-loader": "^14.2.0",
     "sinon": "=17.0.1",
     "source-map-support": "^0.5.21",
     "start-server-and-test": "^2.0.3",
