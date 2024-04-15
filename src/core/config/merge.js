@@ -12,6 +12,7 @@
  * TODO(vladimir.gorej@gmail.com): remove deep-extend in favor of lodash.merge
  */
 import deepExtend from "deep-extend"
+import set from "lodash/set"
 
 const merge = (target, ...sources) => {
   let domNode = Symbol.for("domNode")
@@ -33,6 +34,13 @@ const merge = (target, ...sources) => {
   if (domNode !== Symbol.for("domNode")) {
     merged.domNode = domNode
   }
+
+  Object.entries(merged).forEach(([key, value]) => {
+    if (key.includes(".")) {
+      delete merged[key]
+      set(merged, key, value)
+    }
+  })
 
   return merged
 }
