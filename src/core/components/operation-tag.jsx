@@ -47,8 +47,6 @@ export default class OperationTag extends React.Component {
       deepLinking,
     } = getConfigs()
 
-    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
-
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown", true)
     const DeepLink = getComponent("DeepLink")
@@ -80,7 +78,7 @@ export default class OperationTag extends React.Component {
           data-is-open={showTag}
         >
           <DeepLink
-            enabled={isDeepLinkingEnabled}
+            enabled={deepLinking}
             isShown={showTag}
             path={createDeepLinkPath(tag)}
             text={tag} />

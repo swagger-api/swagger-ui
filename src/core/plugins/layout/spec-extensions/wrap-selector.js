@@ -9,7 +9,7 @@ export const taggedOperations = (oriSelector, system) => (state, ...args) => {
   // Filter, if requested
   let filter = layoutSelectors.currentFilter()
   if (filter) {
-    if (filter !== true && filter !== "true" && filter !== "false") {
+    if (filter !== true) {
       taggedOps = fn.opsFilter(taggedOps, filter)
     }
   }

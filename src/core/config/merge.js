@@ -13,6 +13,7 @@
  * TODO(vladimir.gorej@gmail.com): remove deep-extend in favor of lodash.merge
  */
 import deepExtend from "deep-extend"
+import typeCast from "./type-cast"
 
 const merge = (target, ...sources) => {
   let domNode = Symbol.for("domNode")
@@ -51,7 +52,7 @@ const merge = (target, ...sources) => {
     merged.urls.primaryName = primaryName
   }
 
-  return merged
+  return typeCast(merged)
 }
 
 export default merge
