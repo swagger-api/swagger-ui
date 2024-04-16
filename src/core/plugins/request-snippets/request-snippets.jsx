@@ -120,8 +120,8 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
               snippetGenerators.entrySeq().map(([key, gen]) => {
                 return (
                   <div
-                    className={classNames({"curl-command--active": key === activeLanguage })}
-                    style={handleGetBtnStyle(key)} className="btn"
+                    className={classNames("btn", {"curl-command--active": key === activeLanguage })}
+                    style={handleGetBtnStyle(key)}
                     key={key}
                     onClick={() => handleGenChange(key)}
                   >
