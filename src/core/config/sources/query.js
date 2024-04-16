@@ -1,6 +1,7 @@
 /**
  * @prettier
  */
+import set from "lodash/set"
 import { parseSearch } from "core/utils"
 
 /**
@@ -9,7 +10,16 @@ import { parseSearch } from "core/utils"
  */
 
 const optionsFromQuery = () => (options) => {
-  return options.queryConfigEnabled ? parseSearch() : {}
+  const urlSearchParams = options.queryConfigEnabled ? parseSearch() : {}
+
+  return Object.entries(urlSearchParams).reduce((acc, [key, value]) => {
+    if (key === "urls.primaryName") {
+      acc[key] = value
+    } else {
+      acc = set(acc, key, value)
+    }
+    return acc
+  }, {})
 }
 
 export default optionsFromQuery
