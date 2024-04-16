@@ -123,7 +123,8 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
                     className={classNames({"curl-command--active": key === activeLanguage })}
                     style={handleGetBtnStyle(key)} className="btn"
                     key={key}
-                    onClick={() => handleGenChange(key)}>
+                    onClick={() => handleGenChange(key)}
+                  >
                     <h4 style={key === activeLanguage ? { color: "white", } : {}}>{gen.get("title")}</h4>
                   </div>
                 )
