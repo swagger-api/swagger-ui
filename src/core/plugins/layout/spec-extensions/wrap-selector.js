@@ -14,7 +14,7 @@ export const taggedOperations = (oriSelector, system) => (state, ...args) => {
     }
   }
   // Limit to [max] items, if specified
-  if (maxDisplayedTags && !isNaN(maxDisplayedTags) && maxDisplayedTags >= 0) {
+  if (typeof maxDisplayedTags === "number" && maxDisplayedTags >= 0) {
     taggedOps = taggedOps.slice(0, maxDisplayedTags)
   }
 
