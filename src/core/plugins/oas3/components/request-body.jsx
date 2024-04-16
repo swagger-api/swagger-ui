@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { Map, OrderedMap, List } from "immutable"
+import { Map, OrderedMap, List, fromJS } from "immutable"
 import { getCommonExtensions, stringify, isEmptyValue } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
@@ -71,7 +71,7 @@ const RequestBody = ({
   const Markdown = getComponent("Markdown", true)
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
-  const HighlightCode = getComponent("highlightCode")
+  const HighlightCode = getComponent("HighlightCode", true)
   const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
   const Example = getComponent("Example")
   const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
@@ -150,39 +150,38 @@ const RequestBody = ({
       <table>
         <tbody>
           {
-            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, prop]) => {
-              if (prop.get("readOnly")) return
+            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
+              if (schema.get("readOnly")) return
 
-              let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
+              const oneOf = schema.get("oneOf")?.get(0)?.toJS()
+              const anyOf = schema.get("anyOf")?.get(0)?.toJS()
+              schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
+
+              let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
-              const type = prop.get("type")
-              const format = prop.get("format")
-              const description = prop.get("description")
+              const type = schema.get("type")
+              const format = schema.get("format")
+              const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
               const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
               const included = requestBodyInclusionSetting.get(key) || false
 
-              const useInitialValFromSchemaSamples = prop.has("default")
-                || prop.has("example")
-                || prop.hasIn(["items", "example"])
-                || prop.hasIn(["items", "default"])
-              const useInitialValFromEnum = prop.has("enum") && (prop.get("enum").size === 1 || required)
-              const useInitialValue = useInitialValFromSchemaSamples || useInitialValFromEnum
+              let initialValue = fn.getSampleSchema(schema, false, {
+                includeWriteOnly: true
+              })
 
-              let initialValue = ""
-              if (type === "array" && !useInitialValue) {
-                initialValue = []
+              if (initialValue === false) {
+                initialValue = "false"
               }
-              if (type === "object" || useInitialValue) {
-                // TODO: what about example or examples from requestBody could be passed as exampleOverride
-                initialValue = fn.getSampleSchema(prop, false, {
-                  includeWriteOnly: true
-                })
+
+              if (initialValue === 0) {
+                initialValue = "0"
               }
 
               if (typeof initialValue !== "string" && type === "object") {
                initialValue = stringify(initialValue)
               }
+
               if (typeof initialValue === "string" && type === "array") {
                 initialValue = JSON.parse(initialValue)
               }
@@ -201,7 +200,7 @@ const RequestBody = ({
                   {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                 </div>
                 <div className="parameter__deprecated">
-                  { prop.get("deprecated") ? "deprecated": null }
+                  { schema.get("deprecated") ? "deprecated": null }
                 </div>
               </td>
               <td className="parameters-col_description">
@@ -210,7 +209,7 @@ const RequestBody = ({
                   <JsonSchemaForm
                     fn={fn}
                     dispatchInitialValue={!isFile}
-                    schema={prop}
+                    schema={schema}
                     description={key}
                     getComponent={getComponent}
                     value={currentValue === undefined ? initialValue : currentValue}
@@ -290,12 +289,9 @@ const RequestBody = ({
           schema={mediaTypeValue.get("schema")}
           specPath={specPath.push("content", contentType)}
           example={
-            <HighlightCode
-              className="body-param__example"
-              getConfigs={getConfigs}
-              language={language}
-              value={stringify(requestBodyValue) || sampleRequestBody}
-            />
+            <HighlightCode className="body-param__example" language={language}>
+              {stringify(requestBodyValue) || sampleRequestBody}
+            </HighlightCode>
           }
           includeWriteOnly={true}
         />

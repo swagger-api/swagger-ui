@@ -2,9 +2,9 @@
  * @prettier
  */
 
-import Registry from "../class/Registry"
+import FormatRegistry from "../class/FormatRegistry"
 
-const registry = new Registry()
+const registry = new FormatRegistry()
 
 const formatAPI = (format, generator) => {
   if (typeof generator === "function") {
@@ -15,5 +15,6 @@ const formatAPI = (format, generator) => {
 
   return registry.get(format)
 }
+formatAPI.getDefaults = () => registry.defaults
 
 export default formatAPI

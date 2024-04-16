@@ -2,7 +2,7 @@
  * @prettier
  */
 
-import Model from "../../../../src/core/components/model"
+import Model from "../../../../src/core/plugins/json-schema-5/components/model"
 
 describe("getModelName", () => {
   const model = new Model()

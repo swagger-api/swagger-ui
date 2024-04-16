@@ -213,11 +213,11 @@ Parameter name | Docker variable | Description
         <td><em>Unavailable</em></td>
         <td>Set to <code>false</code> to deactivate syntax highlighting of
             payloads and cURL command, can be otherwise an object with the
-            <code>activate</code> and <code>theme</code> properties.
+            <code>activated</code> and <code>theme</code> properties.
         </td>
     </tr>
     <tr>
-        <td><a name="user-content-syntaxhighlight.activate"></a><code>syntaxHighlight.activate</code>
+        <td><a name="user-content-syntaxhighlight.activated"></a><code>syntaxHighlight.activated</code>
         </td>
         <td><em>Unavailable</em></td>
         <td><code>Boolean=true</code>. Whether syntax highlighting should be
@@ -279,7 +279,7 @@ Parameter name | Docker variable | Description
 }
 </code>
 </pre>
-            This is the default configuration section for the the
+            This is the default configuration section for the
             requestSnippets plugin.
         </td>
     </tr>

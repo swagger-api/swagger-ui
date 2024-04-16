@@ -1,7 +1,7 @@
 import React from "react"
 import { shallow } from "enzyme"
-import ModelExample from "core/components/model-example"
-import ModelComponent from "core/components/model-wrapper"
+import ModelExample from "core/plugins/json-schema-5/components/model-example"
+import ModelComponent from "core/plugins/json-schema-5/components/model-wrapper"
 
 describe("<ModelExample/>", function(){
   let components, props

@@ -6,7 +6,7 @@ import { shallow } from "enzyme"
 import { fromJS, List } from "immutable"
 
 import Response from "core/components/response"
-import ModelExample from "core/components/model-example"
+import ModelExample from "core/plugins/json-schema-5/components/model-example"
 import {
   inferSchema,
   memoizedSampleFromSchema,
