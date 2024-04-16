@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import set from "lodash/fp/set"
+import set from "lodash/set"
 import { parseSearch } from "core/utils"
 
 /**
@@ -15,9 +15,10 @@ const optionsFromQuery = () => (options) => {
   return Object.entries(urlSearchParams).reduce((acc, [key, value]) => {
     if (key === "urls.primaryName") {
       acc[key] = value
-      return acc
+    } else {
+      acc = set(acc, key, value)
     }
-    return set(key, value, acc)
+    return acc
   }, {})
 }
 
