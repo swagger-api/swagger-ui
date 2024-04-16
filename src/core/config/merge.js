@@ -21,16 +21,19 @@ const merge = (target, ...sources) => {
   for (const source of sources) {
     const sourceWithoutExceptions = { ...source }
 
-    if (Object.hasOwn(source, "domNode")) {
-      domNode = source.domNode
+    if (Object.hasOwn(sourceWithoutExceptions, "domNode")) {
+      domNode = sourceWithoutExceptions.domNode
       delete sourceWithoutExceptions.domNode
     }
 
-    if (Object.hasOwn(source, "urls.primaryName")) {
-      primaryName = source["urls.primaryName"]
+    if (Object.hasOwn(sourceWithoutExceptions, "urls.primaryName")) {
+      primaryName = sourceWithoutExceptions["urls.primaryName"]
       delete sourceWithoutExceptions["urls.primaryName"]
-    } else if (source.urls && Object.hasOwn(source.urls, "primaryName")) {
-      primaryName = source.urls.primaryName
+    } else if (
+      Array.isArray(sourceWithoutExceptions.urls) &&
+      Object.hasOwn(sourceWithoutExceptions.urls, "primaryName")
+    ) {
+      primaryName = sourceWithoutExceptions.urls.primaryName
       delete sourceWithoutExceptions.urls.primaryName
     }
 
