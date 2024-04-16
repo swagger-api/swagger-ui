@@ -26,9 +26,9 @@ import ViewPlugin from "./plugins/view"
 import ViewLegacyPlugin from "core/plugins/view-legacy"
 import DownloadUrlPlugin from "./plugins/download-url"
 import SyntaxHighlightingPlugin from "core/plugins/syntax-highlighting"
+import VersionsPlugin from "core/plugins/versions"
 import SafeRenderPlugin from "./plugins/safe-render"
 
-import win from "./window"
 import {
   defaultOptions,
   optionsFromQuery,
@@ -39,18 +39,8 @@ import {
   storeOptionsFactorization
 } from "./config"
 
-// eslint-disable-next-line no-undef
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
 
 export default function SwaggerUI(userOptions) {
-  win.versions = win.versions || {}
-  win.versions.swaggerUi = {
-    version: PACKAGE_VERSION,
-    gitRevision: GIT_COMMIT,
-    gitDirty: GIT_DIRTY,
-    buildTimestamp: BUILD_TIME,
-  }
-
   const queryOptions = optionsFromQuery()(userOptions)
   let mergedOptions = mergeOptions({}, defaultOptions, userOptions, queryOptions)
   const storeOptions = storeOptionsFactorization(mergedOptions)
@@ -130,5 +120,6 @@ SwaggerUI.plugins = {
   ViewLegacy: ViewLegacyPlugin,
   DownloadUrl: DownloadUrlPlugin,
   SyntaxHighlighting: SyntaxHighlightingPlugin,
+  Versions: VersionsPlugin,
   SafeRender: SafeRenderPlugin,
 }
