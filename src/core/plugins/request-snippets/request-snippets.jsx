@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react"
+import classNames from "classnames"
 import PropTypes from "prop-types"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
@@ -118,7 +119,11 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
             {
               snippetGenerators.entrySeq().map(([key, gen]) => {
                 return (<div style={handleGetBtnStyle(key)} className="btn" key={key} onClick={() => handleGenChange(key)}>
-                  <h4 style={key === activeLanguage ? { color: "white", } : {}}>{gen.get("title")}</h4>
+                  <h4
+                    className={classNames({'curl-command--active': key === activeLanguage })}
+                    style={key === activeLanguage ? { color: "white", } : {}}>
+                      {gen.get("title")}
+                  </h4>
                 </div>)
               })
             }
