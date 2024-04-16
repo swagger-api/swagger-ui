@@ -15,7 +15,7 @@ import deepExtend from "deep-extend"
 
 const merge = (target, ...sources) => {
   let domNode = Symbol.for("domNode")
-  let primaryName = null
+  let primaryName = Symbol.for("primaryName")
   const sourcesWithoutExceptions = []
 
   for (const source of sources) {
@@ -26,10 +26,10 @@ const merge = (target, ...sources) => {
       delete sourceWithoutExceptions.domNode
     }
 
-    if (source["urls.primaryName"]) {
+    if (Object.hasOwn(source, "urls.primaryName")) {
       primaryName = source["urls.primaryName"]
       delete sourceWithoutExceptions["urls.primaryName"]
-    } else if (source.urls && source.urls.primaryName) {
+    } else if (source.urls && Object.hasOwn(source.urls, "primaryName")) {
       primaryName = source.urls.primaryName
       delete sourceWithoutExceptions.urls.primaryName
     }
@@ -43,7 +43,7 @@ const merge = (target, ...sources) => {
     merged.domNode = domNode
   }
 
-  if (primaryName) {
+  if (primaryName !== Symbol.for("primaryName") && Array.isArray(merged.urls)) {
     merged.urls.primaryName = primaryName
   }
 
