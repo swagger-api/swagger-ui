@@ -58,7 +58,7 @@ export default function SwaggerUI(userOptions) {
     .then((urlOptions) => {
       const urlOptionsFailedToFetch = urlOptions === null
 
-      mergedOptions = mergeOptions({}, systemOptions, mergedOptions, urlOptions, queryOptions)
+      mergedOptions = mergeOptions({}, defaultOptions, systemOptions, userOptions, urlOptions, queryOptions)
       store.setConfigs(mergedOptions)
       system.configsActions.loaded()
 
