@@ -3,15 +3,17 @@
  */
 import has from "lodash/has"
 import get from "lodash/get"
-import set from "lodash/set"
+import set from "lodash/fp/set"
 
-import typeCasters from "./type-casters"
+import typeCasters from "./mappings"
 
 const typeCast = (options) => {
   return Object.entries(typeCasters).reduce(
-    (acc, [option, typeCaster]) => {
-      if (has(acc, option)) {
-        acc = set(acc, option, typeCaster(get(acc, option)))
+    (acc, [optionPath, typeCaster]) => {
+      if (has(acc, optionPath)) {
+        const uncasted = get(acc, optionPath)
+        const casted = typeCaster(uncasted)
+        acc = set(optionPath, casted, acc)
       }
       return acc
     },
