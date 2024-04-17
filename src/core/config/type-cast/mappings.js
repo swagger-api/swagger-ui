@@ -13,41 +13,100 @@ import stringTypeCaster from "./type-casters/string"
 import syntaxHighlightTypeCaster from "./type-casters/syntax-highlight"
 import undefinedBooleanTypeCaster from "./type-casters/undefined-boolean"
 import undefinedStringTypeCaster from "./type-casters/undefined-string"
+import defaultOptions from "../defaults"
 
 const typeCasters = {
-  configUrl: stringTypeCaster,
-  deepLinking: booleanTypeCaster("deepLinking"),
-  defaultModelExpandDepth: numberTypeCaster,
-  defaultModelRendering: stringTypeCaster,
-  defaultModelsExpandDepth: numberTypeCaster,
-  displayOperationId: booleanTypeCaster("displayOperationId"),
-  displayRequestDuration: booleanTypeCaster("displayRequestDuration"),
-  docExpansion: stringTypeCaster,
-  dom_id: nullableStringTypeCaster,
-  domNode: domNodeTypeCaster,
-  filter: filterTypeCaster,
-  maxDisplayedTags: numberTypeCaster,
-  oauth2RedirectUrl: undefinedStringTypeCaster,
-  persistAuthorization: booleanTypeCaster("persistAuthorization"),
-  plugins: arrayTypeCaster("plugins"),
-  pluginsOptions: objectTypeCaster("pluginsOptions"),
-  presets: arrayTypeCaster("presets"),
-  requestSnippets: objectTypeCaster("requestSnippets"),
-  requestSnippetsEnabled: booleanTypeCaster("requestSnippetsEnabled"),
-  showCommonExtensions: booleanTypeCaster("showCommonExtensions"),
-  showExtensions: booleanTypeCaster("showExtensions"),
-  showMutatedRequest: booleanTypeCaster("showMutatedRequest"),
-  spec: objectTypeCaster("spec"),
-  supportedSubmitMethods: arrayTypeCaster("supportedSubmitMethods"),
-  syntaxHighlight: syntaxHighlightTypeCaster,
-  "syntaxHighlight.activated": booleanTypeCaster("syntaxHighlight.activated"),
-  "syntaxHighlight.theme": stringTypeCaster,
-  tryItOutEnabled: booleanTypeCaster("tryItOutEnabled"),
-  url: stringTypeCaster,
-  urls: nullableArrayTypeCaster,
-  "urls.primaryName": stringTypeCaster,
-  validatorUrl: nullableStringTypeCaster,
-  withCredentials: undefinedBooleanTypeCaster,
+  configUrl: { typeCaster: stringTypeCaster },
+  deepLinking: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.deepLinking,
+  },
+  defaultModelExpandDepth: {
+    typeCaster: numberTypeCaster,
+    defaultValue: defaultOptions.defaultModelExpandDepth,
+  },
+  defaultModelRendering: { typeCaster: stringTypeCaster },
+  defaultModelsExpandDepth: {
+    typeCaster: numberTypeCaster,
+    defaultValue: defaultOptions.defaultModelsExpandDepth,
+  },
+  displayOperationId: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.displayOperationId,
+  },
+  displayRequestDuration: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.displayRequestDuration,
+  },
+  docExpansion: { typeCaster: stringTypeCaster },
+  dom_id: { typeCaster: nullableStringTypeCaster },
+  domNode: { typeCaster: domNodeTypeCaster },
+  filter: { typeCaster: filterTypeCaster },
+  maxDisplayedTags: {
+    typeCaster: numberTypeCaster,
+    defaultValue: defaultOptions.maxDisplayedTags,
+  },
+  oauth2RedirectUrl: { typeCaster: undefinedStringTypeCaster },
+  persistAuthorization: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.persistAuthorization,
+  },
+  plugins: {
+    typeCaster: arrayTypeCaster,
+    defaultValue: defaultOptions.plugins,
+  },
+  pluginsOptions: {
+    typeCaster: objectTypeCaster,
+    pluginsOptions: defaultOptions.pluginsOptions,
+  },
+  "pluginsOptions.pluginsLoadType": { typeCaster: stringTypeCaster },
+  presets: {
+    typeCaster: arrayTypeCaster,
+    defaultValue: defaultOptions.presets,
+  },
+  requestSnippets: {
+    typeCaster: objectTypeCaster,
+    defaultValue: defaultOptions.requestSnippets,
+  },
+  requestSnippetsEnabled: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.requestSnippetsEnabled,
+  },
+  showCommonExtensions: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.showCommonExtensions,
+  },
+  showExtensions: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.showExtensions,
+  },
+  showMutatedRequest: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.showMutatedRequest,
+  },
+  spec: { typeCaster: objectTypeCaster, defaultValue: defaultOptions.spec },
+  supportedSubmitMethods: {
+    typeCaster: arrayTypeCaster,
+    defaultValue: defaultOptions.supportedSubmitMethods,
+  },
+  syntaxHighlight: {
+    typeCaster: syntaxHighlightTypeCaster,
+    defaultValue: defaultOptions.syntaxHighlight,
+  },
+  "syntaxHighlight.activated": {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.syntaxHighlight.activated,
+  },
+  "syntaxHighlight.theme": { typeCaster: stringTypeCaster },
+  tryItOutEnabled: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.tryItOutEnabled,
+  },
+  url: { typeCaster: stringTypeCaster },
+  urls: { typeCaster: nullableArrayTypeCaster },
+  "urls.primaryName": { typeCaster: stringTypeCaster },
+  validatorUrl: { typeCaster: nullableStringTypeCaster },
+  withCredentials: { typeCaster: undefinedBooleanTypeCaster },
 }
 
 export default typeCasters

@@ -142,7 +142,7 @@ SwaggerUI.defaultProps = {
   deepLinking: false,
   showExtensions: false,
   showCommonExtensions: false,
-  filter: null,
+  filter: false,
   requestSnippetsEnabled: false,
   requestSnippets: {
     generators: {

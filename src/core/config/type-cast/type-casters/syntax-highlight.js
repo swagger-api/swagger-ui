@@ -2,14 +2,13 @@
  * @prettier
  */
 import isPlainObject from "lodash/isPlainObject"
-import defaultOptions from "../../defaults"
 
-const syntaxHighlightTypeCaster = (value) => {
+const syntaxHighlightTypeCaster = (value, defaultValue) => {
   return isPlainObject(value)
     ? value
     : value === false || value === "false" || value === 0 || value === "0"
       ? { activated: false }
-      : defaultOptions.syntaxHighlight
+      : defaultValue
 }
 
 export default syntaxHighlightTypeCaster

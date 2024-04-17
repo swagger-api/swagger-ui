@@ -43,28 +43,10 @@ describe("typeCast", () => {
   it("should cast stringified `null` values to `null`", () => {
     const config = {
       validatorUrl: "null",
-      filter: "null",
     }
 
     const expectedConfig = {
       validatorUrl: null,
-      filter: null,
-    }
-
-    expect(typeCast(config)).toStrictEqual(expectedConfig)
-  })
-
-  it("should cast non-number values to `NaN`", () => {
-    const config = {
-      maxDisplayedTags: "null",
-      defaultModelExpandDepth: {},
-      defaultModelsExpandDepth: false,
-    }
-
-    const expectedConfig = {
-      maxDisplayedTags: NaN,
-      defaultModelExpandDepth: NaN,
-      defaultModelsExpandDepth: NaN,
     }
 
     expect(typeCast(config)).toStrictEqual(expectedConfig)
@@ -112,6 +94,9 @@ describe("typeCast", () => {
       urls: "urls",
       syntaxHighlight: "syntaxHighlight",
       spec: "spec",
+      maxDisplayedTags: "null",
+      defaultModelExpandDepth: {},
+      defaultModelsExpandDepth: false,
     }
 
     const expectedConfig = {
@@ -119,6 +104,9 @@ describe("typeCast", () => {
       urls: null,
       syntaxHighlight: { activated: true, theme: "agate" },
       spec: {},
+      maxDisplayedTags: -1,
+      defaultModelExpandDepth: 1,
+      defaultModelsExpandDepth: 1,
     }
 
     expect(typeCast(config)).toStrictEqual(expectedConfig)
