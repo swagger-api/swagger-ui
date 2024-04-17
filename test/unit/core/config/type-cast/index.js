@@ -3,16 +3,7 @@
  */
 import typeCast from "core/config/type-cast"
 
-jest.mock("root/swagger-config.yaml", () => {})
-jest.mock("swagger-client/es/resolver/strategies/generic", () => {})
-jest.mock("swagger-client/es/resolver/strategies/openapi-2", () => {})
-jest.mock("swagger-client/es/resolver/strategies/openapi-3-0", () => {})
-jest.mock("swagger-client/es/resolver/strategies/openapi-3-1-apidom", () => {})
-jest.mock("swagger-client/es/resolver", () => {})
-jest.mock("swagger-client/es/execute", () => {})
-jest.mock("swagger-client/es/http", () => {})
-jest.mock("swagger-client/es/subtree-resolver", () => {})
-jest.mock("swagger-client/es/helpers", () => {})
+jest.mock("core/presets/apis", () => {})
 
 describe("typeCast", () => {
   it("should cast stringified `true` and `false` values to `boolean`", () => {
