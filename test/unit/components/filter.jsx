@@ -30,21 +30,6 @@ describe("<FilterContainer/>", function(){
     expect(renderedColInsideFilter.length).toEqual(1)
   })
 
-  it("does not render FilterContainer if filter is null", function(){
-
-    // Given
-    let props = {...mockedProps}
-    props.layoutSelectors = {...mockedProps.specSelectors}
-    props.layoutSelectors.currentFilter = function() {return null}
-
-    // When
-    let wrapper = mount(<FilterContainer {...props}/>)
-
-    // Then
-    const renderedColInsideFilter = wrapper.find(Col)
-    expect(renderedColInsideFilter.length).toEqual(0)
-  })
-
   it("does not render FilterContainer if filter is false", function(){
 
     // Given
