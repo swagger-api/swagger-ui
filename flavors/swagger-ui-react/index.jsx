@@ -149,7 +149,7 @@ SwaggerUI.defaultProps = {
   displayRequestDuration: SwaggerUIConstructor.defaultOptions.displayRequestDuration,
   withCredentials: SwaggerUIConstructor.defaultOptions.withCredentials,
   persistAuthorization: SwaggerUIConstructor.defaultOptions.persistAuthorization,
-  oauth2RedirectUrl: SwaggerUIConstructor.defaultOptions.oauth2RedirectUrl,
+  oauth2RedirectUrl: undefined,
 }
 
 SwaggerUI.System = SwaggerUIConstructor.System
