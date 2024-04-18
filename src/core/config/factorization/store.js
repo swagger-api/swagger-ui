@@ -1,10 +1,10 @@
 /**
  * @prettier
  */
-import merge from "../merge"
+import deepExtend from "deep-extend"
 
 const storeFactorization = (options) => {
-  const state = merge(
+  const state = deepExtend(
     {
       layout: {
         layout: options.layout,

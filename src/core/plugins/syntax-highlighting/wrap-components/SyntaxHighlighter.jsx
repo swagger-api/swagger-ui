@@ -3,12 +3,10 @@
  */
 import React from "react"
 import PropTypes from "prop-types"
-import get from "lodash/get"
 
 const SyntaxHighlighterWrapper = (Original, system) => {
   const SyntaxHighlighter = ({ renderPlainText, children, ...rest }) => {
-    const configs = system.getConfigs()
-    const canSyntaxHighlight = !!get(configs, "syntaxHighlight.activated")
+    const canSyntaxHighlight = system.getConfigs().syntaxHighlight.activated
     const PlainTextViewer = system.getComponent("PlainTextViewer")
 
     if (!canSyntaxHighlight && typeof renderPlainText === "function") {

@@ -142,7 +142,7 @@ SwaggerUI.defaultProps = {
   deepLinking: false,
   showExtensions: false,
   showCommonExtensions: false,
-  filter: null,
+  filter: false,
   requestSnippetsEnabled: false,
   requestSnippets: {
     generators: {
@@ -164,7 +164,7 @@ SwaggerUI.defaultProps = {
   },
   tryItOutEnabled: false,
   displayRequestDuration: false,
-  withCredentials: undefined,
+  withCredentials: false,
   persistAuthorization: false,
   oauth2RedirectUrl: undefined,
 }

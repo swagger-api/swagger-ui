@@ -11,8 +11,8 @@ const defaultOptions = Object.freeze({
   urls: null,
   layout: "BaseLayout",
   docExpansion: "list",
-  maxDisplayedTags: null,
-  filter: null,
+  maxDisplayedTags: -1,
+  filter: false,
   validatorUrl: "https://validator.swagger.io/validator",
   oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`,
   persistAuthorization: false,
@@ -30,7 +30,7 @@ const defaultOptions = Object.freeze({
   defaultModelsExpandDepth: 1,
   showExtensions: false,
   showCommonExtensions: false,
-  withCredentials: undefined,
+  withCredentials: false,
   requestSnippetsEnabled: false,
   requestSnippets: {
     generators: {

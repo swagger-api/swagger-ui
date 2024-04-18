@@ -9,12 +9,12 @@ export const taggedOperations = (oriSelector, system) => (state, ...args) => {
   // Filter, if requested
   let filter = layoutSelectors.currentFilter()
   if (filter) {
-    if (filter !== true && filter !== "true" && filter !== "false") {
+    if (filter !== true) {
       taggedOps = fn.opsFilter(taggedOps, filter)
     }
   }
   // Limit to [max] items, if specified
-  if (maxDisplayedTags && !isNaN(maxDisplayedTags) && maxDisplayedTags >= 0) {
+  if (maxDisplayedTags >= 0) {
     taggedOps = taggedOps.slice(0, maxDisplayedTags)
   }
 
