@@ -124,48 +124,31 @@ SwaggerUI.propTypes = {
 }
 
 SwaggerUI.defaultProps = {
-  spec: "",
-  url: "",
-  layout: "BaseLayout",
-  requestInterceptor: req => req,
-  responseInterceptor: res => res,
-  supportedSubmitMethods: ["get", "put", "post", "delete", "options", "head", "patch", "trace"],
-  queryConfigEnabled: false,
-  plugins: [],
-  displayOperationId: false,
-  showMutatedRequest: true,
-  docExpansion: "list",
-  defaultModelExpandDepth: 1,
-  defaultModelsExpandDepth: 1,
-  defaultModelRendering: "example",
-  presets: [],
-  deepLinking: false,
-  showExtensions: false,
-  showCommonExtensions: false,
-  filter: false,
-  requestSnippetsEnabled: false,
-  requestSnippets: {
-    generators: {
-      "curl_bash": {
-        title: "cURL (bash)",
-        syntax: "bash"
-      },
-      "curl_powershell": {
-        title: "cURL (PowerShell)",
-        syntax: "powershell"
-      },
-      "curl_cmd": {
-        title: "cURL (CMD)",
-        syntax: "bash"
-      },
-    },
-    defaultExpanded: true,
-    languages: null, // e.g. only show curl bash = ["curl_bash"]
-  },
-  tryItOutEnabled: false,
-  displayRequestDuration: false,
-  withCredentials: false,
-  persistAuthorization: false,
+  spec: SwaggerUIConstructor.defaultOptions.spec,
+  url: SwaggerUIConstructor.defaultOptions.url,
+  layout: SwaggerUIConstructor.defaultOptions.layout,
+  requestInterceptor: SwaggerUIConstructor.defaultOptions.requestInterceptor,
+  responseInterceptor: SwaggerUIConstructor.defaultOptions.responseInterceptor,
+  supportedSubmitMethods: SwaggerUIConstructor.defaultOptions.supportedSubmitMethods,
+  queryConfigEnabled: SwaggerUIConstructor.defaultOptions.queryConfigEnabled,
+  plugins: SwaggerUIConstructor.defaultOptions.plugins,
+  displayOperationId: SwaggerUIConstructor.defaultOptions.displayOperationId,
+  showMutatedRequest: SwaggerUIConstructor.defaultOptions.showMutatedRequest,
+  docExpansion: SwaggerUIConstructor.defaultOptions.docExpansion,
+  defaultModelExpandDepth: SwaggerUIConstructor.defaultOptions.defaultModelExpandDepth,
+  defaultModelsExpandDepth: SwaggerUIConstructor.defaultOptions.defaultModelsExpandDepth,
+  defaultModelRendering: SwaggerUIConstructor.defaultOptions.defaultModelRendering,
+  presets: SwaggerUIConstructor.defaultOptions.presets,
+  deepLinking: SwaggerUIConstructor.defaultOptions.deepLinking,
+  showExtensions: SwaggerUIConstructor.defaultOptions.showExtensions,
+  showCommonExtensions: SwaggerUIConstructor.defaultOptions.showCommonExtensions,
+  filter: SwaggerUIConstructor.defaultOptions.filter,
+  requestSnippetsEnabled: SwaggerUIConstructor.defaultOptions.requestSnippetsEnabled,
+  requestSnippets: SwaggerUIConstructor.defaultOptions.requestSnippets,
+  tryItOutEnabled: SwaggerUIConstructor.defaultOptions.tryItOutEnabled,
+  displayRequestDuration: SwaggerUIConstructor.defaultOptions.displayRequestDuration,
+  withCredentials: SwaggerUIConstructor.defaultOptions.withCredentials,
+  persistAuthorization: SwaggerUIConstructor.defaultOptions.persistAuthorization,
   oauth2RedirectUrl: undefined,
 }
 

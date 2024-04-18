@@ -90,6 +90,8 @@ export default function SwaggerUI(userOptions) {
 
 SwaggerUI.System = System
 
+SwaggerUI.defaultOptions = defaultOptions
+
 SwaggerUI.presets = {
   base: BasePreset,
   apis: ApisPreset,
