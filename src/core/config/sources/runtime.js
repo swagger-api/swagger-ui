@@ -4,9 +4,12 @@
  * Receives options at runtime.
  */
 
+/* eslint-disable no-undef */
 const optionsFromRuntime = () => () => {
-  const options = {
-    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`,
+  const options = {}
+
+  if (globalThis.location) {
+    options.oauth2RedirectUrl = `${globalThis.location.protocol}//${globalThis.location.host}${globalThis.location.pathname.substring(0, globalThis.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`
   }
 
   return options
