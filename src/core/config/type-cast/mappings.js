@@ -15,7 +15,7 @@ import undefinedStringTypeCaster from "./type-casters/undefined-string"
 import defaultOptions from "../defaults"
 
 const typeCasters = {
-  configUrl: { typeCaster: stringTypeCaster },
+  configUrl: { typeCaster: nullableStringTypeCaster },
   deepLinking: {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.deepLinking,

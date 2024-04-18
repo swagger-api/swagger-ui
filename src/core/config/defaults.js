@@ -9,6 +9,7 @@ const defaultOptions = Object.freeze({
   spec: {},
   url: "",
   urls: null,
+  configUrl: null,
   layout: "BaseLayout",
   docExpansion: "list",
   maxDisplayedTags: -1,

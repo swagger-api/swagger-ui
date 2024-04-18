@@ -51,10 +51,9 @@ export default function SwaggerUI(userOptions) {
   store.register([mergedOptions.plugins, InlinePlugin])
   const system = store.getSystem()
 
-  const configURL = queryOptions.config ?? mergedOptions.configUrl
   const systemOptions = optionsFromSystem({ system })(mergedOptions)
 
-  optionsFromURL({ url: configURL, system })(mergedOptions)
+  optionsFromURL({ url: mergedOptions.configUrl, system })(mergedOptions)
     .then((urlOptions) => {
       const urlOptionsFailedToFetch = urlOptions === null
 

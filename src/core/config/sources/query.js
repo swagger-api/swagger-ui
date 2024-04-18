@@ -13,7 +13,10 @@ const optionsFromQuery = () => (options) => {
   const urlSearchParams = options.queryConfigEnabled ? parseSearch() : {}
 
   return Object.entries(urlSearchParams).reduce((acc, [key, value]) => {
-    if (key === "urls.primaryName") {
+    // TODO(oliwia.rogala@smartbear.com): drop support for `config` in the next major release
+    if (key === "config") {
+      acc["configUrl"] = value
+    } else if (key === "urls.primaryName") {
       acc[key] = value
     } else {
       acc = set(acc, key, value)
