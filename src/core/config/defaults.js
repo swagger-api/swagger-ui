@@ -15,7 +15,7 @@ const defaultOptions = Object.freeze({
   maxDisplayedTags: -1,
   filter: false,
   validatorUrl: "https://validator.swagger.io/validator",
-  oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`,
+  oauth2RedirectUrl: undefined,
   persistAuthorization: false,
   configs: {},
   custom: {},
