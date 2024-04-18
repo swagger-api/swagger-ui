@@ -1,11 +1,11 @@
 /**
  * @prettier
  */
-const filterTypeCaster = (value) =>
-  value === true || value === "true" || value === 1 || value === "1"
-    ? true
-    : value === false || value === "false" || value === 0 || value === "0"
-      ? false
-      : String(value)
+import booleanTypeCaster from "./boolean"
+
+const filterTypeCaster = (value) => {
+  const defaultValue = String(value)
+  return booleanTypeCaster(value, defaultValue)
+}
 
 export default filterTypeCaster

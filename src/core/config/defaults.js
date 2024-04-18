@@ -30,7 +30,7 @@ const defaultOptions = Object.freeze({
   defaultModelsExpandDepth: 1,
   showExtensions: false,
   showCommonExtensions: false,
-  withCredentials: undefined,
+  withCredentials: false,
   requestSnippetsEnabled: false,
   requestSnippets: {
     generators: {

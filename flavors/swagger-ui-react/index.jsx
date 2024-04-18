@@ -164,7 +164,7 @@ SwaggerUI.defaultProps = {
   },
   tryItOutEnabled: false,
   displayRequestDuration: false,
-  withCredentials: undefined,
+  withCredentials: false,
   persistAuthorization: false,
   oauth2RedirectUrl: undefined,
 }

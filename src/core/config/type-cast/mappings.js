@@ -11,7 +11,6 @@ import numberTypeCaster from "./type-casters/number"
 import objectTypeCaster from "./type-casters/object"
 import stringTypeCaster from "./type-casters/string"
 import syntaxHighlightTypeCaster from "./type-casters/syntax-highlight"
-import undefinedBooleanTypeCaster from "./type-casters/undefined-boolean"
 import undefinedStringTypeCaster from "./type-casters/undefined-string"
 import defaultOptions from "../defaults"
 
@@ -42,6 +41,7 @@ const typeCasters = {
   dom_id: { typeCaster: nullableStringTypeCaster },
   domNode: { typeCaster: domNodeTypeCaster },
   filter: { typeCaster: filterTypeCaster },
+  layout: { typeCaster: stringTypeCaster },
   maxDisplayedTags: {
     typeCaster: numberTypeCaster,
     defaultValue: defaultOptions.maxDisplayedTags,
@@ -106,7 +106,10 @@ const typeCasters = {
   urls: { typeCaster: nullableArrayTypeCaster },
   "urls.primaryName": { typeCaster: stringTypeCaster },
   validatorUrl: { typeCaster: nullableStringTypeCaster },
-  withCredentials: { typeCaster: undefinedBooleanTypeCaster },
+  withCredentials: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.withCredentials,
+  },
 }
 
 export default typeCasters

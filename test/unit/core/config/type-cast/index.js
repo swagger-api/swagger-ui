@@ -52,14 +52,6 @@ describe("typeCast", () => {
     expect(typeCast(config)).toStrictEqual(expectedConfig)
   })
 
-  it("should cast stringified `undefined` values to `undefined`", () => {
-    const config = { withCredentials: "undefined" }
-
-    const expectedConfig = { withCredentials: undefined }
-
-    expect(typeCast(config)).toStrictEqual(expectedConfig)
-  })
-
   it("should cast `string` values to `string`", () => {
     const config = { defaultModelRendering: "model", filter: "pet" }
 
@@ -74,7 +66,6 @@ describe("typeCast", () => {
       oauth2RedirectUrl: "undefined",
       syntaxHighlight: "false",
       urls: "null",
-      withCredentials: "false",
     }
 
     const expectedConfig = {
@@ -82,7 +73,6 @@ describe("typeCast", () => {
       oauth2RedirectUrl: undefined,
       syntaxHighlight: { activated: false },
       urls: null,
-      withCredentials: false,
     }
 
     expect(typeCast(config)).toStrictEqual(expectedConfig)
