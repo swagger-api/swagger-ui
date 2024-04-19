@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import System from "./system"
 // presets
 import BasePreset from "./presets/base"
@@ -37,17 +40,21 @@ import {
   optionsFromRuntime,
   mergeOptions,
   inlinePluginOptionsFactorization,
-  storeOptionsFactorization
+  storeOptionsFactorization,
 } from "./config"
-
 
 export default function SwaggerUI(userOptions) {
   const queryOptions = optionsFromQuery()(userOptions)
   const runtimeOptions = optionsFromRuntime()()
-  let mergedOptions = mergeOptions({}, defaultOptions, runtimeOptions, userOptions, queryOptions)
+  let mergedOptions = mergeOptions(
+    {},
+    defaultOptions,
+    runtimeOptions,
+    userOptions,
+    queryOptions
+  )
   const storeOptions = storeOptionsFactorization(mergedOptions)
   const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
-
 
   const store = new System(storeOptions)
   store.register([mergedOptions.plugins, InlinePlugin])
@@ -55,20 +62,36 @@ export default function SwaggerUI(userOptions) {
 
   const systemOptions = optionsFromSystem({ system })(mergedOptions)
 
-  optionsFromURL({ url: mergedOptions.configUrl, system })(mergedOptions)
-    .then((urlOptions) => {
+  optionsFromURL({ url: mergedOptions.configUrl, system })(mergedOptions).then(
+    (urlOptions) => {
       const urlOptionsFailedToFetch = urlOptions === null
 
-      mergedOptions = mergeOptions({}, defaultOptions, runtimeOptions, systemOptions, userOptions, urlOptions, queryOptions)
+      mergedOptions = mergeOptions(
+        {},
+        defaultOptions,
+        runtimeOptions,
+        systemOptions,
+        userOptions,
+        urlOptions,
+        queryOptions
+      )
       store.setConfigs(mergedOptions)
       system.configsActions.loaded()
 
       if (!urlOptionsFailedToFetch) {
-        if (!queryOptions.url && typeof mergedOptions.spec === "object" && Object.keys(mergedOptions.spec).length > 0) {
+        if (
+          !queryOptions.url &&
+          typeof mergedOptions.spec === "object" &&
+          Object.keys(mergedOptions.spec).length > 0
+        ) {
           system.specActions.updateUrl("")
           system.specActions.updateLoadingStatus("success")
           system.specActions.updateSpec(JSON.stringify(mergedOptions.spec))
-        } else if (typeof system.specActions.download === "function" && mergedOptions.url && !mergedOptions.urls) {
+        } else if (
+          typeof system.specActions.download === "function" &&
+          mergedOptions.url &&
+          !mergedOptions.urls
+        ) {
           system.specActions.updateUrl(mergedOptions.url)
           system.specActions.download(mergedOptions.url)
         }
@@ -76,16 +99,22 @@ export default function SwaggerUI(userOptions) {
 
       if (mergedOptions.domNode) {
         system.render(mergedOptions.domNode, "App")
-      } else if(mergedOptions.dom_id) {
+      } else if (mergedOptions.dom_id) {
         let domNode = document.querySelector(mergedOptions.dom_id)
         system.render(domNode, "App")
-      } else if(mergedOptions.dom_id === null || mergedOptions.domNode === null) {
+      } else if (
+        mergedOptions.dom_id === null ||
+        mergedOptions.domNode === null
+      ) {
         // do nothing
         // this is useful for testing that does not need to do any rendering
       } else {
-        console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
+        console.error(
+          "Skipped rendering: no `dom_id` or `domNode` was specified"
+        )
       }
-    })
+    }
+  )
 
   return system
 }
