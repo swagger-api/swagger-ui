@@ -3035,4 +3035,47 @@ describe("merge", function () {
       required: ["username", "name"],
     })
   })
+
+  it("should skip `oneOf` from the source schema", function () {
+    const schema = {
+      oneOf: {
+        user: {
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+            },
+          },
+        },
+        order: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+            },
+          },
+        },
+      },
+    }
+
+    const target = {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+        },
+      },
+    }
+
+    const result = mergeJsonSchema(target, schema)
+
+    expect(result).toStrictEqual({
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+        },
+      },
+    })
+  })
 })

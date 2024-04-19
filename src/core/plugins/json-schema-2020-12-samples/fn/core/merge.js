@@ -19,6 +19,14 @@ const merge = (target, source, config = {}) => {
    */
   const merged = { ...source, ...target }
 
+  if (source["anyOf"] && !target["anyOf"]) {
+    delete merged["anyOf"]
+  }
+
+  if (source["oneOf"] && !target["oneOf"]) {
+    delete merged["oneOf"]
+  }
+
   // merging the type keyword
   if (source.type && target.type) {
     if (Array.isArray(source.type) && typeof source.type === "string") {
