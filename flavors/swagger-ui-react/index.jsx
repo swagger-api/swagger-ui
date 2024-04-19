@@ -14,6 +14,8 @@ class SwaggerUI extends React.Component {
       plugins: this.props.plugins,
       spec: this.props.spec,
       url: this.props.url,
+      dom_id: null,
+      domNode: null,
       layout: this.props.layout,
       defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
       defaultModelRendering: this.props.defaultModelRendering,
