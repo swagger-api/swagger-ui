@@ -7,7 +7,7 @@ import PropTypes from "prop-types"
 import SwaggerUIConstructor from "#swagger-ui"
 
 const SwaggerUI = ({
-  spec = SwaggerUIConstructor.defaultOptions.url,
+  spec = SwaggerUIConstructor.defaultOptions.spec,
   url = SwaggerUIConstructor.defaultOptions.url,
   layout = SwaggerUIConstructor.defaultOptions.layout,
   requestInterceptor = SwaggerUIConstructor.defaultOptions.requestInterceptor,
