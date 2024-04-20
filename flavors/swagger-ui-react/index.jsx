@@ -2,7 +2,7 @@
  * @prettier
  */
 "use client"
-import React, { useEffect, useCallback, useState, useRef } from "react"
+import React, { useEffect, useCallback, useState } from "react"
 import PropTypes from "prop-types"
 import SwaggerUIConstructor from "#swagger-ui"
 
@@ -43,9 +43,8 @@ const SwaggerUI = ({
   oauth2RedirectUrl = SwaggerUIConstructor.defaultOptions.oauth2RedirectUrl,
   onComplete = null,
 }) => {
-  const systemRef = useRef(null)
-  const SwaggerUIComponentRef = useRef(null)
-  const [, forceUpdate] = useState(false)
+  const [system, setSystem] = useState(null)
+  const SwaggerUIComponent = system?.getComponent("App", "root")
 
   const handleComplete = useCallback(() => {
     if (typeof onComplete === "function") {
@@ -54,74 +53,64 @@ const SwaggerUI = ({
   }, [onComplete])
 
   useEffect(() => {
-    const system = SwaggerUIConstructor({
-      plugins,
-      spec,
-      url,
-      dom_id: null,
-      domNode: null,
-      layout,
-      defaultModelsExpandDepth,
-      defaultModelRendering,
-      presets: [SwaggerUIConstructor.presets.apis, ...presets],
-      requestInterceptor,
-      responseInterceptor,
-      onComplete: handleComplete,
-      docExpansion,
-      supportedSubmitMethods,
-      queryConfigEnabled,
-      defaultModelExpandDepth,
-      displayOperationId,
-      tryItOutEnabled,
-      displayRequestDuration,
-      requestSnippetsEnabled,
-      requestSnippets,
-      showMutatedRequest,
-      deepLinking,
-      showExtensions,
-      showCommonExtensions,
-      filter,
-      persistAuthorization,
-      withCredentials,
-      ...(typeof oauth2RedirectUrl === "string"
-        ? { oauth2RedirectUrl: oauth2RedirectUrl }
-        : {}),
-    })
-    const SwaggerUIComponent = system.getComponent("App", "root")
-
-    systemRef.current = system
-    SwaggerUIComponentRef.current = SwaggerUIComponent
-    forceUpdate(true)
-
-    return () => {
-      systemRef.current = null
-      SwaggerUIComponentRef.current = null
-    }
+    setSystem(
+      SwaggerUIConstructor({
+        plugins,
+        spec,
+        url,
+        dom_id: null,
+        domNode: null,
+        layout,
+        defaultModelsExpandDepth,
+        defaultModelRendering,
+        presets: [SwaggerUIConstructor.presets.apis, ...presets],
+        requestInterceptor,
+        responseInterceptor,
+        onComplete: handleComplete,
+        docExpansion,
+        supportedSubmitMethods,
+        queryConfigEnabled,
+        defaultModelExpandDepth,
+        displayOperationId,
+        tryItOutEnabled,
+        displayRequestDuration,
+        requestSnippetsEnabled,
+        requestSnippets,
+        showMutatedRequest,
+        deepLinking,
+        showExtensions,
+        showCommonExtensions,
+        filter,
+        persistAuthorization,
+        withCredentials,
+        ...(typeof oauth2RedirectUrl === "string"
+          ? { oauth2RedirectUrl: oauth2RedirectUrl }
+          : {}),
+      })
+    )
   }, [])
 
   useEffect(() => {
-    if (systemRef.current) {
-      const prevStateUrl = systemRef.current.specSelectors.url()
+    if (system) {
+      const prevStateUrl = system.specSelectors.url()
       if (url !== prevStateUrl) {
-        systemRef.current.specActions.updateSpec("")
+        system.specActions.updateSpec("")
         if (url) {
-          systemRef.current.specActions.updateUrl(url)
-          systemRef.current.specActions.download(url)
+          system.specActions.updateUrl(url)
+          system.specActions.download(url)
         }
       }
 
-      const prevStateSpec = systemRef.current.specSelectors.specStr()
+      const prevStateSpec = system.specSelectors.specStr()
       if (spec && spec !== prevStateSpec) {
         const updatedSpec =
           typeof spec === "object" ? JSON.stringify(spec) : spec
-        systemRef.current.specActions.updateSpec(updatedSpec)
+        system.specActions.updateSpec(updatedSpec)
       }
     }
   }, [url, spec])
 
-  return SwaggerUIComponentRef.current ? (
-    <SwaggerUIComponentRef.current />
-  ) : null
+  return SwaggerUIComponent ? <SwaggerUIComponent /> : null
 }
 
 SwaggerUI.propTypes = {
