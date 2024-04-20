@@ -45,7 +45,7 @@ const SwaggerUI = ({
 }) => {
   const systemRef = useRef(null)
   const SwaggerUIComponentRef = useRef(null)
-  const [, forceUpdate] = useState(undefined)
+  const [, forceUpdate] = useState(false)
 
   const handleComplete = useCallback(() => {
     if (typeof onComplete === "function") {
