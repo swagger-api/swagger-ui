@@ -169,49 +169,6 @@ SwaggerUI.propTypes = {
   oauth2RedirectUrl: PropTypes.string,
 }
 
-/**
- * TODO(vladimir.gorej@gmail.com): can be removed when SwaggerEditor@5 stars to use SwaggerUI.defaultOptions
- *
- * SwaggerEditor@5 currently relies on SwaggerUI.defaultProps. As soon as it migrates to SwaggerUI.defaultOptions,
- * we can remove SwaggerUI.defaultProps as we already use defaults in the props destructuring. *
- */
-SwaggerUI.defaultProps = {
-  spec: SwaggerUIConstructor.defaultOptions.spec,
-  url: SwaggerUIConstructor.defaultOptions.url,
-  layout: SwaggerUIConstructor.defaultOptions.layout,
-  requestInterceptor: SwaggerUIConstructor.defaultOptions.requestInterceptor,
-  responseInterceptor: SwaggerUIConstructor.defaultOptions.responseInterceptor,
-  supportedSubmitMethods:
-    SwaggerUIConstructor.defaultOptions.supportedSubmitMethods,
-  queryConfigEnabled: SwaggerUIConstructor.defaultOptions.queryConfigEnabled,
-  plugins: SwaggerUIConstructor.defaultOptions.plugins,
-  displayOperationId: SwaggerUIConstructor.defaultOptions.displayOperationId,
-  showMutatedRequest: SwaggerUIConstructor.defaultOptions.showMutatedRequest,
-  docExpansion: SwaggerUIConstructor.defaultOptions.docExpansion,
-  defaultModelExpandDepth:
-    SwaggerUIConstructor.defaultOptions.defaultModelExpandDepth,
-  defaultModelsExpandDepth:
-    SwaggerUIConstructor.defaultOptions.defaultModelsExpandDepth,
-  defaultModelRendering:
-    SwaggerUIConstructor.defaultOptions.defaultModelRendering,
-  presets: SwaggerUIConstructor.defaultOptions.presets,
-  deepLinking: SwaggerUIConstructor.defaultOptions.deepLinking,
-  showExtensions: SwaggerUIConstructor.defaultOptions.showExtensions,
-  showCommonExtensions:
-    SwaggerUIConstructor.defaultOptions.showCommonExtensions,
-  filter: SwaggerUIConstructor.defaultOptions.filter,
-  requestSnippetsEnabled:
-    SwaggerUIConstructor.defaultOptions.requestSnippetsEnabled,
-  requestSnippets: SwaggerUIConstructor.defaultOptions.requestSnippets,
-  tryItOutEnabled: SwaggerUIConstructor.defaultOptions.tryItOutEnabled,
-  displayRequestDuration:
-    SwaggerUIConstructor.defaultOptions.displayRequestDuration,
-  withCredentials: SwaggerUIConstructor.defaultOptions.withCredentials,
-  persistAuthorization:
-    SwaggerUIConstructor.defaultOptions.persistAuthorization,
-  oauth2RedirectUrl: SwaggerUIConstructor.defaultOptions.oauth2RedirectUrl,
-}
-
 SwaggerUI.System = SwaggerUIConstructor.System
 SwaggerUI.presets = SwaggerUIConstructor.presets
 SwaggerUI.plugins = SwaggerUIConstructor.plugins
