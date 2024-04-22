@@ -72,7 +72,7 @@ export default class ApiKeyAuth extends React.Component {
                   : <Col>
                       <Input 
                         id="api_key_value" 
-                        type="text" 
+                        type="password" 
                         onChange={ this.onChange } 
                         autoFocus
                       />
