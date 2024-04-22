@@ -14,7 +14,7 @@ import syntaxHighlightTypeCaster from "./type-casters/syntax-highlight"
 import undefinedStringTypeCaster from "./type-casters/undefined-string"
 import defaultOptions from "../defaults"
 
-const typeCasters = {
+const mappings = {
   configUrl: { typeCaster: nullableStringTypeCaster },
   deepLinking: {
     typeCaster: booleanTypeCaster,
@@ -112,4 +112,4 @@ const typeCasters = {
   },
 }
 
-export default typeCasters
+export default mappings

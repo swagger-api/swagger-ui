@@ -7,41 +7,35 @@ import React, { useEffect, useCallback, useState } from "react"
 import PropTypes from "prop-types"
 import SwaggerUIConstructor from "#swagger-ui"
 
+const { config } = SwaggerUIConstructor
+
 const SwaggerUI = ({
-  spec = SwaggerUIConstructor.defaultOptions.spec,
-  url = SwaggerUIConstructor.defaultOptions.url,
-  layout = SwaggerUIConstructor.defaultOptions.layout,
-  requestInterceptor = SwaggerUIConstructor.defaultOptions.requestInterceptor,
-  responseInterceptor = SwaggerUIConstructor.defaultOptions.responseInterceptor,
-  supportedSubmitMethods = SwaggerUIConstructor.defaultOptions
-    .supportedSubmitMethods,
-  queryConfigEnabled = SwaggerUIConstructor.defaultOptions.queryConfigEnabled,
-  plugins = SwaggerUIConstructor.defaultOptions.plugins,
-  displayOperationId = SwaggerUIConstructor.defaultOptions.displayOperationId,
-  showMutatedRequest = SwaggerUIConstructor.defaultOptions.showMutatedRequest,
-  docExpansion = SwaggerUIConstructor.defaultOptions.docExpansion,
-  defaultModelExpandDepth = SwaggerUIConstructor.defaultOptions
-    .defaultModelExpandDepth,
-  defaultModelsExpandDepth = SwaggerUIConstructor.defaultOptions
-    .defaultModelsExpandDepth,
-  defaultModelRendering = SwaggerUIConstructor.defaultOptions
-    .defaultModelRendering,
-  presets = SwaggerUIConstructor.defaultOptions.presets,
-  deepLinking = SwaggerUIConstructor.defaultOptions.deepLinking,
-  showExtensions = SwaggerUIConstructor.defaultOptions.showExtensions,
-  showCommonExtensions = SwaggerUIConstructor.defaultOptions
-    .showCommonExtensions,
-  filter = SwaggerUIConstructor.defaultOptions.filter,
-  requestSnippetsEnabled = SwaggerUIConstructor.defaultOptions
-    .requestSnippetsEnabled,
-  requestSnippets = SwaggerUIConstructor.defaultOptions.requestSnippets,
-  tryItOutEnabled = SwaggerUIConstructor.defaultOptions.tryItOutEnabled,
-  displayRequestDuration = SwaggerUIConstructor.defaultOptions
-    .displayRequestDuration,
-  withCredentials = SwaggerUIConstructor.defaultOptions.withCredentials,
-  persistAuthorization = SwaggerUIConstructor.defaultOptions
-    .persistAuthorization,
-  oauth2RedirectUrl = SwaggerUIConstructor.defaultOptions.oauth2RedirectUrl,
+  spec = config.defaults.spec,
+  url = config.defaults.url,
+  layout = config.defaults.layout,
+  requestInterceptor = config.defaults.requestInterceptor,
+  responseInterceptor = config.defaults.responseInterceptor,
+  supportedSubmitMethods = config.defaults.supportedSubmitMethods,
+  queryConfigEnabled = config.defaults.queryConfigEnabled,
+  plugins = config.defaults.plugins,
+  displayOperationId = config.defaults.displayOperationId,
+  showMutatedRequest = config.defaults.showMutatedRequest,
+  docExpansion = config.defaults.docExpansion,
+  defaultModelExpandDepth = config.defaults.defaultModelExpandDepth,
+  defaultModelsExpandDepth = config.defaults.defaultModelsExpandDepth,
+  defaultModelRendering = config.defaults.defaultModelRendering,
+  presets = config.defaults.presets,
+  deepLinking = config.defaults.deepLinking,
+  showExtensions = config.defaults.showExtensions,
+  showCommonExtensions = config.defaults.showCommonExtensions,
+  filter = config.defaults.filter,
+  requestSnippetsEnabled = config.defaults.requestSnippetsEnabled,
+  requestSnippets = config.defaults.requestSnippets,
+  tryItOutEnabled = config.defaults.tryItOutEnabled,
+  displayRequestDuration = config.defaults.displayRequestDuration,
+  withCredentials = config.defaults.withCredentials,
+  persistAuthorization = config.defaults.persistAuthorization,
+  oauth2RedirectUrl = config.defaults.oauth2RedirectUrl,
   onComplete = null,
 }) => {
   const [system, setSystem] = useState(null)
@@ -158,10 +152,9 @@ SwaggerUI.propTypes = {
   withCredentials: PropTypes.bool,
   oauth2RedirectUrl: PropTypes.string,
 }
-
 SwaggerUI.System = SwaggerUIConstructor.System
 SwaggerUI.presets = SwaggerUIConstructor.presets
 SwaggerUI.plugins = SwaggerUIConstructor.plugins
-SwaggerUI.defaultOptions = SwaggerUIConstructor.defaultOptions
+SwaggerUI.config = SwaggerUIConstructor.config
 
 export default SwaggerUI
