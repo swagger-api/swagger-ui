@@ -41,14 +41,16 @@ import {
   mergeOptions,
   inlinePluginOptionsFactorization,
   storeOptionsFactorization,
+  typeCastOptions,
+  typeCastMappings,
 } from "./config"
 
-export default function SwaggerUI(userOptions) {
+function SwaggerUI(userOptions) {
   const queryOptions = optionsFromQuery()(userOptions)
   const runtimeOptions = optionsFromRuntime()()
-  let mergedOptions = mergeOptions(
+  let mergedOptions = SwaggerUI.config.merge(
     {},
-    defaultOptions,
+    SwaggerUI.config.defaults,
     runtimeOptions,
     userOptions,
     queryOptions
@@ -66,9 +68,9 @@ export default function SwaggerUI(userOptions) {
     (urlOptions) => {
       const urlOptionsFailedToFetch = urlOptions === null
 
-      mergedOptions = mergeOptions(
+      mergedOptions = SwaggerUI.config.merge(
         {},
-        defaultOptions,
+        SwaggerUI.config.defaults,
         runtimeOptions,
         systemOptions,
         userOptions,
@@ -121,7 +123,12 @@ export default function SwaggerUI(userOptions) {
 
 SwaggerUI.System = System
 
-SwaggerUI.defaultOptions = defaultOptions
+SwaggerUI.config = {
+  defaults: defaultOptions,
+  merge: mergeOptions,
+  typeCast: typeCastOptions,
+  typeCastMappings,
+}
 
 SwaggerUI.presets = {
   base: BasePreset,
@@ -155,3 +162,5 @@ SwaggerUI.plugins = {
   Versions: VersionsPlugin,
   SafeRender: SafeRenderPlugin,
 }
+
+export default SwaggerUI

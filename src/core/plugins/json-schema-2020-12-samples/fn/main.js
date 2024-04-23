@@ -219,7 +219,7 @@ export const sampleFromSchemaGeneric = (
 
     // if json just return
     if (!respectXML) {
-      // spacial case yaml parser can not know about
+      // special case yaml parser can not know about
       if (typeof sample === "number" && type === "string") {
         return `${sample}`
       }

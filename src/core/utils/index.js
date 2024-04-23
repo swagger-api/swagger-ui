@@ -439,13 +439,26 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
 
   const isValidNullable = nullable && value === null
 
+  // required value is not provided and there's no type defined in the schema
+  const requiredNotProvided =
+    schemaRequiresValue
+    && !hasValue
+    && !isValidNullable
+    && !bypassRequiredCheck
+    && !type
+
+  if (requiredNotProvided) {
+    errors.push("Required field is not provided")
+    return errors
+  }
+
   // will not be included in the request or [schema / value] does not [allow / require] further analysis.
   const noFurtherValidationNeeded =
     isValidNullable
     || !type
     || !requiresFurtherValidation
 
-  if(noFurtherValidationNeeded) {
+  if (noFurtherValidationNeeded) {
     return []
   }
 
