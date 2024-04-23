@@ -810,6 +810,36 @@ describe("sampleFromSchema", () => {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
+    it("returns array of samples for oneOf with objects", function () {
+      const definition = {
+        type: "array",
+        items: {
+          oneOf: [
+            {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                },
+              },
+            },
+            {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
+      }
+
+      const expected = [{ name: "string" }, { id: "string" }]
+
+      expect(sampleFromSchema(definition)).toStrictEqual(expected)
+    })
+
     it("returns array of samples for anyOf type", () => {
       const definition = {
         type: "array",
@@ -3033,49 +3063,6 @@ describe("merge", function () {
         id: 1,
       },
       required: ["username", "name"],
-    })
-  })
-
-  it("should skip `oneOf` from the source schema", function () {
-    const schema = {
-      oneOf: {
-        user: {
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-            },
-          },
-        },
-        order: {
-          type: "object",
-          properties: {
-            id: {
-              type: "string",
-            },
-          },
-        },
-      },
-    }
-
-    const target = {
-      type: "object",
-      properties: {
-        name: {
-          type: "string",
-        },
-      },
-    }
-
-    const result = mergeJsonSchema(target, schema)
-
-    expect(result).toStrictEqual({
-      type: "object",
-      properties: {
-        name: {
-          type: "string",
-        },
-      },
     })
   })
 })
