@@ -1,6 +1,6 @@
 import YAML from "js-yaml"
 
-export const parseYamlConfig = (yaml, system) => {
+export const parseConfig = (yaml, system) => {
   try {
     return YAML.load(yaml)
   } catch(e) {

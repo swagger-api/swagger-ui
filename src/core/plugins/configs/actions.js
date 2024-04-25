@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { parseYamlConfig } from "./helpers"
+import { parseConfig } from "./fn"
 
 export const UPDATE_CONFIGS = "configs_update"
 export const TOGGLE_CONFIGS = "configs_toggle"
@@ -37,22 +37,22 @@ export const downloadConfig = (req) => (system) => {
   return fetch(req)
 }
 
-export const getConfigByUrl =
-  (req, cb) =>
-  ({ specActions, configsActions }) => {
-    if (req) {
-      return configsActions.downloadConfig(req).then(next, next)
-    }
+export const getConfigByUrl = (req, cb) => (system) => {
+  const { specActions, configsActions } = system
 
-    function next(res) {
-      if (res instanceof Error || res.status >= 400) {
-        specActions.updateLoadingStatus("failedConfig")
-        specActions.updateLoadingStatus("failedConfig")
-        specActions.updateUrl("")
-        console.error(res.statusText + " " + req.url)
-        cb(null)
-      } else {
-        cb(parseYamlConfig(res.text))
-      }
+  if (req) {
+    return configsActions.downloadConfig(req).then(next, next)
+  }
+
+  function next(res) {
+    if (res instanceof Error || res.status >= 400) {
+      specActions.updateLoadingStatus("failedConfig")
+      specActions.updateLoadingStatus("failedConfig")
+      specActions.updateUrl("")
+      console.error(res.statusText + " " + req.url)
+      cb(null)
+    } else {
+      cb(parseConfig(res.text, system))
     }
   }
+}
