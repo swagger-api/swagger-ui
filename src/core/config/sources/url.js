@@ -7,7 +7,7 @@ const optionsFromURL =
   ({ url, system }) =>
   async (options) => {
     if (!url) return {}
-    if (typeof system.specActions?.getConfigByUrl !== "function") return {}
+    if (typeof system.configsActions?.getConfigByUrl !== "function") return {}
     let resolve
     const deferred = new Promise((res) => {
       resolve = res
@@ -17,7 +17,7 @@ const optionsFromURL =
       resolve(fetchedOptions)
     }
 
-    system.specActions.getConfigByUrl(
+    system.configsActions.getConfigByUrl(
       {
         url,
         loadRemoteConfig: true,

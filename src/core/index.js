@@ -36,7 +36,6 @@ import {
   defaultOptions,
   optionsFromQuery,
   optionsFromURL,
-  optionsFromSystem,
   optionsFromRuntime,
   mergeOptions,
   inlinePluginOptionsFactorization,
@@ -62,18 +61,13 @@ function SwaggerUI(userOptions) {
   store.register([mergedOptions.plugins, InlinePlugin])
   const system = store.getSystem()
 
-  const systemOptions = optionsFromSystem({ system })(mergedOptions)
-
   optionsFromURL({ url: mergedOptions.configUrl, system })(mergedOptions).then(
     (urlOptions) => {
       const urlOptionsFailedToFetch = urlOptions === null
 
       mergedOptions = SwaggerUI.config.merge(
         {},
-        SwaggerUI.config.defaults,
-        runtimeOptions,
-        systemOptions,
-        userOptions,
+        mergedOptions,
         urlOptions,
         queryOptions
       )
