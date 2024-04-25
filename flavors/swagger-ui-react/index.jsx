@@ -53,8 +53,6 @@ const SwaggerUI = ({
         plugins,
         spec,
         url,
-        dom_id: null,
-        domNode: null,
         layout,
         defaultModelsExpandDepth,
         defaultModelRendering,
