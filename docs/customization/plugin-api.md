@@ -390,7 +390,7 @@ const MyWrapComponentPlugin = function(system) {
 
 **Note:**
 
-If you have multiple plugins wrapping the same component, you may want to change the [`pluginsOptions.pluginLoadType`](/docs/usage/configuration.md#Plugins-options) parameter to `chain`.
+If you have multiple plugins wrapping the same component, you may want to change the [`pluginsOptions.pluginLoadType`](/docs/open-source-tools/swagger-ui/usage/configuration#plugins-options) parameter to `chain`.
 
 #### `rootInjects`
 

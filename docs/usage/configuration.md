@@ -34,7 +34,7 @@ Parameter name | Docker variable | Description
 
 ##### Plugin system
 
-Read more about the plugin system in the [Customization documentation](/docs/customization/overview.md).
+Read more about the plugin system in the [Customization documentation](/docs/open-source-tools/swagger-ui/customization/overview).
 
 Parameter name | Docker variable | Description
 --- | --- | -----
@@ -65,7 +65,7 @@ Parameter name | Docker variable | Description
         <td><code>DEEP_LINKING</code></td>
         <td><code>Boolean=false</code>. If set to <code>true</code>, enables
             deep linking for tags and operations. See the <a
-                    href="/docs/usage/deep-linking.md">Deep Linking
+                    href="/docs/open-source-tools/swagger-ui/usage/deep-linking">Deep Linking
                 documentation</a> for more information.
         </td>
     </tr>
