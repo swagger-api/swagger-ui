@@ -133,7 +133,7 @@ function buildConfig(
       // Otherwise, provide heavy souremaps suitable for development
       devtool: sourcemaps
         ? minimize
-          ? "nosources-source-map"
+          ? "source-map"
           : "cheap-module-source-map"
         : false,
 
