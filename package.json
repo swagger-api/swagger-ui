@@ -120,7 +120,7 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@jest/globals": "=29.7.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.13",
     "@release-it/conventional-changelog": "=8.0.1",
     "@svgr/webpack": "=8.1.0",
     "@cfaester/enzyme-adapter-react-18": "=0.7.1",
