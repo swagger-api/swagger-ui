@@ -8,7 +8,7 @@ const webpack = require("webpack")
 const TerserPlugin = require("terser-webpack-plugin")
 const nodeExternals = require("webpack-node-externals")
 
-const { getRepoInfo } = require("./_helpers")
+const { getRepoInfo, getDevtool } = require("./_helpers")
 const pkg = require("../package.json")
 
 const projectBasePath = path.join(__dirname, "../")
@@ -129,13 +129,7 @@ function buildConfig(
         },
       },
 
-      // If we're mangling, size is a concern -- so use trace-only sourcemaps
-      // Otherwise, provide heavy souremaps suitable for development
-      devtool: sourcemaps
-        ? minimize
-          ? "nosources-source-map"
-          : "cheap-module-source-map"
-        : false,
+      devtool: getDevtool(sourcemaps, minimize),
 
       performance: {
         hints: "error",
@@ -149,6 +143,7 @@ function buildConfig(
           (compiler) =>
             new TerserPlugin({
               terserOptions: {
+                sourceMap: sourcemaps,
                 mangle: !!mangle,
                 keep_classnames:
                   !customConfig.mode || customConfig.mode === "production",

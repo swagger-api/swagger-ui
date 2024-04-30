@@ -4,7 +4,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ReactSyntaxHighlighter from "react-syntax-highlighter/dist/esm/light"
-import get from "lodash/get"
 
 const SyntaxHighlighter = ({
   language,
@@ -13,8 +12,7 @@ const SyntaxHighlighter = ({
   syntaxHighlighting = {},
   children = "",
 }) => {
-  const configs = getConfigs()
-  const theme = get(configs, "syntaxHighlight.theme")
+  const theme = getConfigs().syntaxHighlight.theme
   const { styles, defaultStyle } = syntaxHighlighting
   const style = styles?.[theme] ?? defaultStyle
 

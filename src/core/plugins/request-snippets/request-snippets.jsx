@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react"
+import classNames from "classnames"
 import PropTypes from "prop-types"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
@@ -117,9 +118,16 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
           <div style={{ paddingLeft: "15px", paddingRight: "10px", width: "100%", display: "flex" }}>
             {
               snippetGenerators.entrySeq().map(([key, gen]) => {
-                return (<div style={handleGetBtnStyle(key)} className="btn" key={key} onClick={() => handleGenChange(key)}>
-                  <h4 style={key === activeLanguage ? { color: "white", } : {}}>{gen.get("title")}</h4>
-                </div>)
+                return (
+                  <div
+                    className={classNames("btn", {"active": key === activeLanguage })}
+                    style={handleGetBtnStyle(key)}
+                    key={key}
+                    onClick={() => handleGenChange(key)}
+                  >
+                    <h4 style={key === activeLanguage ? { color: "white", } : {}}>{gen.get("title")}</h4>
+                  </div>
+                )
               })
             }
           </div>

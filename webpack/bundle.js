@@ -22,7 +22,7 @@ const result = configBuilder(
   {
     minimize: true,
     mangle: true,
-    sourcemaps: true,
+    sourcemaps: false,
     includeDependencies: true,
   },
   {

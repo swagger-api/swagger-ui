@@ -2,10 +2,9 @@
 
 ### How to configure
 
-Swagger UI accepts configuration parameters in four locations.
+Swagger UI accepts configuration parameters in three locations.
 
 From lowest to highest precedence:
-- The `swagger-config.yaml` in the project root directory, if it exists, is baked into the application
 - configuration object passed as an argument to Swagger UI (`SwaggerUI({ ... })`)
 - configuration document fetched from a specified `configUrl`
 - configuration items passed as key/value pairs in the URL query string
