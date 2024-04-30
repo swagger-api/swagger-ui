@@ -14,9 +14,7 @@ cp ../../../dist/swagger-ui-es-bundle-core.js.map ../dist
 cp ../../../dist/swagger-ui.js ../dist
 cp ../../../dist/swagger-ui.js.map ../dist
 cp ../../../dist/swagger-ui-bundle.js ../dist
-cp ../../../dist/swagger-ui-bundle.js.map ../dist
 cp ../../../dist/swagger-ui-es-bundle.js ../dist
-cp ../../../dist/swagger-ui-es-bundle.js.map ../dist
 cp ../../../dist/swagger-ui.css ../dist
 cp ../../../dist/swagger-ui.css.map ../dist
 
