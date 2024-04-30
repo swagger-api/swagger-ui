@@ -9,9 +9,7 @@ class Registry {
   }
 
   registerMany(nameValueMap) {
-    Object.keys(nameValueMap).forEach(name => {
-      this.data[name] = nameValueMap[name]
-    })
+    Object.assign(this.data, nameValueMap)
   }
 
   unregister(name) {
