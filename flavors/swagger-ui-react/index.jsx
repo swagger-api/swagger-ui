@@ -3,7 +3,7 @@
  */
 "use client"
 
-import React, { useEffect, useCallback, useState } from "react"
+import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import SwaggerUIConstructor from "#swagger-ui"
 
@@ -41,46 +41,44 @@ const SwaggerUI = ({
   const [system, setSystem] = useState(null)
   const SwaggerUIComponent = system?.getComponent("App", "root")
 
-  const handleComplete = useCallback(() => {
-    if (typeof onComplete === "function") {
-      onComplete()
-    }
-  }, [onComplete])
-
   useEffect(() => {
-    setSystem(
-      SwaggerUIConstructor({
-        plugins,
-        spec,
-        url,
-        layout,
-        defaultModelsExpandDepth,
-        defaultModelRendering,
-        presets: [SwaggerUIConstructor.presets.apis, ...presets],
-        requestInterceptor,
-        responseInterceptor,
-        onComplete: handleComplete,
-        docExpansion,
-        supportedSubmitMethods,
-        queryConfigEnabled,
-        defaultModelExpandDepth,
-        displayOperationId,
-        tryItOutEnabled,
-        displayRequestDuration,
-        requestSnippetsEnabled,
-        requestSnippets,
-        showMutatedRequest,
-        deepLinking,
-        showExtensions,
-        showCommonExtensions,
-        filter,
-        persistAuthorization,
-        withCredentials,
-        ...(typeof oauth2RedirectUrl === "string"
-          ? { oauth2RedirectUrl: oauth2RedirectUrl }
-          : {}),
-      })
-    )
+    const systemInstance = SwaggerUIConstructor({
+      plugins,
+      spec,
+      url,
+      layout,
+      defaultModelsExpandDepth,
+      defaultModelRendering,
+      presets: [SwaggerUIConstructor.presets.apis, ...presets],
+      requestInterceptor,
+      responseInterceptor,
+      onComplete: () => {
+        if (typeof onComplete === "function") {
+          onComplete(systemInstance)
+        }
+      },
+      docExpansion,
+      supportedSubmitMethods,
+      queryConfigEnabled,
+      defaultModelExpandDepth,
+      displayOperationId,
+      tryItOutEnabled,
+      displayRequestDuration,
+      requestSnippetsEnabled,
+      requestSnippets,
+      showMutatedRequest,
+      deepLinking,
+      showExtensions,
+      showCommonExtensions,
+      filter,
+      persistAuthorization,
+      withCredentials,
+      ...(typeof oauth2RedirectUrl === "string"
+        ? { oauth2RedirectUrl: oauth2RedirectUrl }
+        : {}),
+    })
+
+    setSystem(systemInstance)
   }, [])
 
   useEffect(() => {
