@@ -39,7 +39,7 @@ import {
   optionsFromRuntime,
   mergeOptions,
   inlinePluginOptionsFactorization,
-  storeOptionsFactorization,
+  systemOptionsFactorization,
   typeCastOptions,
   typeCastMappings,
 } from "./config"
@@ -54,65 +54,68 @@ function SwaggerUI(userOptions) {
     userOptions,
     queryOptions
   )
-  const storeOptions = storeOptionsFactorization(mergedOptions)
+  const storeOptions = systemOptionsFactorization(mergedOptions)
   const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
 
-  const store = new System(storeOptions)
-  store.register([mergedOptions.plugins, InlinePlugin])
-  const system = store.getSystem()
+  const system = new System(storeOptions)
+  system.register([mergedOptions.plugins, InlinePlugin])
 
-  optionsFromURL({ url: mergedOptions.configUrl, system })(mergedOptions).then(
-    (urlOptions) => {
-      const urlOptionsFailedToFetch = urlOptions === null
+  const boundSystem = system.getSystem()
 
-      mergedOptions = SwaggerUI.config.merge(
-        {},
-        mergedOptions,
-        urlOptions,
-        queryOptions
-      )
-      store.setConfigs(mergedOptions)
-      system.configsActions.loaded()
+  optionsFromURL({ url: mergedOptions.configUrl, system: boundSystem })(
+    mergedOptions
+  ).then((urlOptions) => {
+    const urlOptionsFailedToFetch = urlOptions === null
 
-      if (!urlOptionsFailedToFetch) {
-        if (
-          !queryOptions.url &&
-          typeof mergedOptions.spec === "object" &&
-          Object.keys(mergedOptions.spec).length > 0
-        ) {
-          system.specActions.updateUrl("")
-          system.specActions.updateLoadingStatus("success")
-          system.specActions.updateSpec(JSON.stringify(mergedOptions.spec))
-        } else if (
-          typeof system.specActions.download === "function" &&
-          mergedOptions.url &&
-          !mergedOptions.urls
-        ) {
-          system.specActions.updateUrl(mergedOptions.url)
-          system.specActions.download(mergedOptions.url)
-        }
-      }
+    mergedOptions = SwaggerUI.config.merge(
+      {},
+      mergedOptions,
+      urlOptions,
+      queryOptions
+    )
+    system.setConfigs(mergedOptions)
+    boundSystem.configsActions.loaded()
 
-      if (mergedOptions.domNode) {
-        system.render(mergedOptions.domNode, "App")
-      } else if (mergedOptions.dom_id) {
-        let domNode = document.querySelector(mergedOptions.dom_id)
-        system.render(domNode, "App")
-      } else if (
-        mergedOptions.dom_id === null ||
-        mergedOptions.domNode === null
+    if (!urlOptionsFailedToFetch) {
+      if (
+        !queryOptions.url &&
+        typeof mergedOptions.spec === "object" &&
+        Object.keys(mergedOptions.spec).length > 0
       ) {
-        // do nothing
-        // this is useful for testing that does not need to do any rendering
-      } else {
-        console.error(
-          "Skipped rendering: no `dom_id` or `domNode` was specified"
-        )
+        boundSystem.specActions.updateUrl("")
+        boundSystem.specActions.updateLoadingStatus("success")
+        boundSystem.specActions.updateSpec(JSON.stringify(mergedOptions.spec))
+      } else if (
+        typeof boundSystem.specActions.download === "function" &&
+        mergedOptions.url &&
+        !mergedOptions.urls
+      ) {
+        boundSystem.specActions.updateUrl(mergedOptions.url)
+        boundSystem.specActions.download(mergedOptions.url)
       }
     }
-  )
 
-  return system
+    if (mergedOptions.domNode) {
+      boundSystem.render(mergedOptions.domNode, "App")
+    } else if (mergedOptions.dom_id) {
+      const domNode = document.querySelector(mergedOptions.dom_id)
+      boundSystem.render(domNode, "App")
+    } else if (
+      mergedOptions.dom_id === null ||
+      mergedOptions.domNode === null
+    ) {
+      /**
+       * noop
+       *
+       * SwaggerUI instance can be created without any rendering involved.
+       * This is also useful for lazy rendering or testing.
+       */
+    } else {
+      console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
+    }
+  })
+
+  return boundSystem
 }
 
 SwaggerUI.System = System
