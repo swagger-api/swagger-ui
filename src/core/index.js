@@ -47,7 +47,7 @@ import {
 function SwaggerUI(userOptions) {
   const queryOptions = optionsFromQuery()(userOptions)
   const runtimeOptions = optionsFromRuntime()()
-  let mergedOptions = SwaggerUI.config.merge(
+  const mergedOptions = SwaggerUI.config.merge(
     {},
     SwaggerUI.config.defaults,
     runtimeOptions,
@@ -57,53 +57,39 @@ function SwaggerUI(userOptions) {
   const storeOptions = systemOptionsFactorization(mergedOptions)
   const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
 
-  const system = new System(storeOptions)
-  system.register([mergedOptions.plugins, InlinePlugin])
+  const unboundSystem = new System(storeOptions)
+  unboundSystem.register([mergedOptions.plugins, InlinePlugin])
+  const system = unboundSystem.getSystem()
 
-  const boundSystem = system.getSystem()
-
-  optionsFromURL({ url: mergedOptions.configUrl, system: boundSystem })(
-    mergedOptions
-  ).then((urlOptions) => {
-    const urlOptionsFailedToFetch = urlOptions === null
-
-    mergedOptions = SwaggerUI.config.merge(
-      {},
-      mergedOptions,
-      urlOptions,
-      queryOptions
-    )
-    system.setConfigs(mergedOptions)
-    boundSystem.configsActions.loaded()
-
-    if (!urlOptionsFailedToFetch) {
-      if (
-        !queryOptions.url &&
-        typeof mergedOptions.spec === "object" &&
-        Object.keys(mergedOptions.spec).length > 0
-      ) {
-        boundSystem.specActions.updateUrl("")
-        boundSystem.specActions.updateLoadingStatus("success")
-        boundSystem.specActions.updateSpec(JSON.stringify(mergedOptions.spec))
-      } else if (
-        typeof boundSystem.specActions.download === "function" &&
-        mergedOptions.url &&
-        !mergedOptions.urls
-      ) {
-        boundSystem.specActions.updateUrl(mergedOptions.url)
-        boundSystem.specActions.download(mergedOptions.url)
-      }
-    }
-
-    if (mergedOptions.domNode) {
-      boundSystem.render(mergedOptions.domNode, "App")
-    } else if (mergedOptions.dom_id) {
-      const domNode = document.querySelector(mergedOptions.dom_id)
-      boundSystem.render(domNode, "App")
-    } else if (
-      mergedOptions.dom_id === null ||
-      mergedOptions.domNode === null
+  const persistConfigs = (options) => {
+    unboundSystem.setConfigs(options)
+    system.configsActions.loaded()
+  }
+  const updateSpec = (options) => {
+    if (
+      !queryOptions.url &&
+      typeof options.spec === "object" &&
+      Object.keys(options.spec).length > 0
     ) {
+      system.specActions.updateUrl("")
+      system.specActions.updateLoadingStatus("success")
+      system.specActions.updateSpec(JSON.stringify(options.spec))
+    } else if (
+      typeof system.specActions.download === "function" &&
+      options.url &&
+      !options.urls
+    ) {
+      system.specActions.updateUrl(options.url)
+      system.specActions.download(options.url)
+    }
+  }
+  const render = (options) => {
+    if (options.domNode) {
+      system.render(options.domNode, "App")
+    } else if (options.dom_id) {
+      const domNode = document.querySelector(options.dom_id)
+      system.render(domNode, "App")
+    } else if (options.dom_id === null || options.domNode === null) {
       /**
        * noop
        *
@@ -113,9 +99,34 @@ function SwaggerUI(userOptions) {
     } else {
       console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
     }
-  })
+  }
 
-  return boundSystem
+  // if no configUrl is provided, we can safely persist the configs and render
+  if (!mergedOptions.configUrl) {
+    persistConfigs(mergedOptions)
+    updateSpec(mergedOptions)
+    render(mergedOptions)
+
+    return system
+  }
+
+  // eslint-disable-next-line no-extra-semi
+  ;(async () => {
+    const { configUrl: url } = mergedOptions
+    const urlOptions = await optionsFromURL({ url, system })(mergedOptions)
+    const urlMergedOptions = SwaggerUI.config.merge(
+      {},
+      mergedOptions,
+      urlOptions,
+      queryOptions
+    )
+
+    persistConfigs(urlMergedOptions)
+    if (urlOptions !== null) updateSpec(urlMergedOptions)
+    render(urlMergedOptions)
+  })()
+
+  return system
 }
 
 SwaggerUI.System = System
