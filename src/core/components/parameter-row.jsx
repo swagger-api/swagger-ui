@@ -293,7 +293,7 @@ export default class ParameterRow extends Component {
             <Markdown className="parameter__enum" source={
                 "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
-                  }).toArray().join(", ")}/>
+                  }).toArray().map(String).join(", ")}/>
             : null
           }
 
