@@ -8,6 +8,7 @@ import {
   createXMLExample,
   memoizedCreateXMLExample,
   memoizedSampleFromSchema,
+  mergeJsonSchema,
 } from "./fn/index"
 import makeGetJsonSampleSchema from "./fn/get-json-sample-schema"
 import makeGetYamlSampleSchema from "./fn/get-yaml-sample-schema"
@@ -33,6 +34,7 @@ const JSONSchema5SamplesPlugin = ({ getSystem }) => {
         getYamlSampleSchema,
         getXmlSampleSchema,
         getSampleSchema,
+        mergeJsonSchema,
       },
       inferSchema,
       sampleFromSchema,
@@ -44,6 +46,7 @@ const JSONSchema5SamplesPlugin = ({ getSystem }) => {
       getYamlSampleSchema,
       getXmlSampleSchema,
       getSampleSchema,
+      mergeJsonSchema,
     },
   }
 }

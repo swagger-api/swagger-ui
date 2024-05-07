@@ -1037,6 +1037,22 @@ describe("utils", () => {
       value = 10
       assertValidateParam(param, value, [])
     })
+
+    it("validates required parameters without schema", () => {
+      // valid value
+      param = {
+        required: true
+      }
+      value = 123
+      assertValidateParam(param, value, [])
+
+      // missing value
+      param = {
+        required: true
+      }
+      value = undefined
+      assertValidateParam(param, value, ["Required field is not provided"])
+    })
   })
 
   describe("fromJSOrdered", () => {
@@ -1338,7 +1354,7 @@ describe("utils", () => {
       })
 
       it("encode url components", () => {
-        expect(serializeSearch({foo: "foo bar"})).toEqual("foo=foo%20bar")
+        expect(serializeSearch({foo: "foo bar"})).toEqual("foo=foo+bar")
       })
     })
   })

@@ -2,6 +2,7 @@
  * @prettier
  */
 import { OrderedMap, Map, List } from "immutable"
+import escapeRegExp from "lodash/escapeRegExp"
 import constant from "lodash/constant"
 
 import { getDefaultRequestBodyValue } from "./components/request-body"
@@ -248,7 +249,7 @@ export const serverEffectiveValue = onlyOAS3((state, locationData) => {
   let str = serverValue
 
   varValues.map((val, key) => {
-    str = str.replace(new RegExp(`{${key}}`, "g"), val)
+    str = str.replace(new RegExp(`{${escapeRegExp(key)}}`, "g"), val)
   })
 
   return str

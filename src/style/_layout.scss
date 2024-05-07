@@ -654,7 +654,9 @@
 
     .curl
     {
-        white-space: normal;
+      overflow-y: auto;
+      max-height: 400px;
+      min-height: 6em;
     }
 }
 

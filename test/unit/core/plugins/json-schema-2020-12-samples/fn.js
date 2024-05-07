@@ -8,6 +8,7 @@ import {
   sampleFromSchema,
   memoizedCreateXMLExample,
   memoizedSampleFromSchema,
+  mergeJsonSchema,
 } from "core/plugins/json-schema-2020-12-samples/fn"
 
 describe("sampleFromSchema", () => {
@@ -807,6 +808,36 @@ describe("sampleFromSchema", () => {
       const expected = ["dog", 1]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for oneOf with objects", function () {
+      const definition = {
+        type: "array",
+        items: {
+          oneOf: [
+            {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                },
+              },
+            },
+            {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
+      }
+
+      const expected = [{ name: "string" }, { id: "string" }]
+
+      expect(sampleFromSchema(definition)).toStrictEqual(expected)
     })
 
     it("returns array of samples for anyOf type", () => {
@@ -1646,7 +1677,7 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should handle minimum", () => {
+  it("should handle minimum for number", () => {
     const definition = {
       type: "number",
       minimum: 5,
@@ -1657,7 +1688,7 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should handle exclusiveMinimum", () => {
+  it("should handle exclusiveMinimum for number", () => {
     const definition = {
       type: "number",
       exclusiveMinimum: 5,
@@ -1667,7 +1698,7 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should handle maximum", () => {
+  it("should handle maximum for number", () => {
     const definition = {
       type: "number",
       maximum: -1,
@@ -1678,7 +1709,7 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should handle exclusiveMaximum", () => {
+  it("should handle exclusiveMaximum for number", () => {
     const definition = {
       type: "number",
       exclusiveMaximum: -1,
@@ -1689,9 +1720,64 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("should handle multipleOf", () => {
+  it("should handle multipleOf for number", () => {
     const definition = {
       type: "number",
+      minimum: 22,
+      multipleOf: 3,
+    }
+
+    const expected = 24
+
+    expect(sampleFromSchema(definition)).toStrictEqual(expected)
+  })
+
+  it("should handle minimum for integer", () => {
+    const definition = {
+      type: "integer",
+      minimum: 5,
+    }
+
+    const expected = 5
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle exclusiveMinimum for integer", () => {
+    const definition = {
+      type: "integer",
+      exclusiveMinimum: 5,
+    }
+    const expected = 6
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle maximum for integer", () => {
+    const definition = {
+      type: "integer",
+      maximum: -1,
+    }
+
+    const expected = -1
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle exclusiveMaximum for integer", () => {
+    const definition = {
+      type: "integer",
+      exclusiveMaximum: -1,
+    }
+
+    const expected = -2
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle multipleOf for integer", () => {
+    const definition = {
+      type: "integer",
       minimum: 22,
       multipleOf: 3,
     }
@@ -2926,5 +3012,57 @@ describe("memoizedCreateXMLExample", () => {
     expect(
       memoizedCreateXMLExample(definition, {}, updatedOverrideExample)
     ).toEqual(updatedExpected)
+  })
+})
+
+describe("merge", function () {
+  it("should merge two schemas", function () {
+    const schema = {
+      properties: {
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["name"],
+    }
+
+    const target = {
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+      },
+      required: ["username"],
+    }
+
+    const result = mergeJsonSchema(target, schema)
+
+    expect(result).toStrictEqual({
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["username", "name"],
+    })
   })
 })
