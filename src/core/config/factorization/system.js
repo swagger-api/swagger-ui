@@ -3,7 +3,7 @@
  */
 import deepExtend from "deep-extend"
 
-const storeFactorization = (options) => {
+const systemFactorization = (options) => {
   const state = deepExtend(
     {
       layout: {
@@ -37,9 +37,8 @@ const storeFactorization = (options) => {
       configs: options.configs,
     },
     plugins: options.presets,
-    pluginsOptions: options.pluginsOptions,
     state,
   }
 }
 
-export default storeFactorization
+export default systemFactorization

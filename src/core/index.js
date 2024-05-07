@@ -39,7 +39,7 @@ import {
   optionsFromRuntime,
   mergeOptions,
   inlinePluginOptionsFactorization,
-  storeOptionsFactorization,
+  systemOptionsFactorization,
   typeCastOptions,
   typeCastMappings,
 } from "./config"
@@ -47,70 +47,84 @@ import {
 function SwaggerUI(userOptions) {
   const queryOptions = optionsFromQuery()(userOptions)
   const runtimeOptions = optionsFromRuntime()()
-  let mergedOptions = SwaggerUI.config.merge(
+  const mergedOptions = SwaggerUI.config.merge(
     {},
     SwaggerUI.config.defaults,
     runtimeOptions,
     userOptions,
     queryOptions
   )
-  const storeOptions = storeOptionsFactorization(mergedOptions)
+  const systemOptions = systemOptionsFactorization(mergedOptions)
   const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
 
-  const store = new System(storeOptions)
-  store.register([mergedOptions.plugins, InlinePlugin])
-  const system = store.getSystem()
+  const unboundSystem = new System(systemOptions)
+  unboundSystem.register([mergedOptions.plugins, InlinePlugin])
+  const system = unboundSystem.getSystem()
 
-  optionsFromURL({ url: mergedOptions.configUrl, system })(mergedOptions).then(
-    (urlOptions) => {
-      const urlOptionsFailedToFetch = urlOptions === null
-
-      mergedOptions = SwaggerUI.config.merge(
-        {},
-        mergedOptions,
-        urlOptions,
-        queryOptions
-      )
-      store.setConfigs(mergedOptions)
-      system.configsActions.loaded()
-
-      if (!urlOptionsFailedToFetch) {
-        if (
-          !queryOptions.url &&
-          typeof mergedOptions.spec === "object" &&
-          Object.keys(mergedOptions.spec).length > 0
-        ) {
-          system.specActions.updateUrl("")
-          system.specActions.updateLoadingStatus("success")
-          system.specActions.updateSpec(JSON.stringify(mergedOptions.spec))
-        } else if (
-          typeof system.specActions.download === "function" &&
-          mergedOptions.url &&
-          !mergedOptions.urls
-        ) {
-          system.specActions.updateUrl(mergedOptions.url)
-          system.specActions.download(mergedOptions.url)
-        }
-      }
-
-      if (mergedOptions.domNode) {
-        system.render(mergedOptions.domNode, "App")
-      } else if (mergedOptions.dom_id) {
-        let domNode = document.querySelector(mergedOptions.dom_id)
-        system.render(domNode, "App")
-      } else if (
-        mergedOptions.dom_id === null ||
-        mergedOptions.domNode === null
-      ) {
-        // do nothing
-        // this is useful for testing that does not need to do any rendering
-      } else {
-        console.error(
-          "Skipped rendering: no `dom_id` or `domNode` was specified"
-        )
-      }
+  const persistConfigs = (options) => {
+    unboundSystem.setConfigs(options)
+    system.configsActions.loaded()
+  }
+  const updateSpec = (options) => {
+    if (
+      !queryOptions.url &&
+      typeof options.spec === "object" &&
+      Object.keys(options.spec).length > 0
+    ) {
+      system.specActions.updateUrl("")
+      system.specActions.updateLoadingStatus("success")
+      system.specActions.updateSpec(JSON.stringify(options.spec))
+    } else if (
+      typeof system.specActions.download === "function" &&
+      options.url &&
+      !options.urls
+    ) {
+      system.specActions.updateUrl(options.url)
+      system.specActions.download(options.url)
     }
-  )
+  }
+  const render = (options) => {
+    if (options.domNode) {
+      system.render(options.domNode, "App")
+    } else if (options.dom_id) {
+      const domNode = document.querySelector(options.dom_id)
+      system.render(domNode, "App")
+    } else if (options.dom_id === null || options.domNode === null) {
+      /**
+       * noop
+       *
+       * SwaggerUI instance can be created without any rendering involved.
+       * This is also useful for lazy rendering or testing.
+       */
+    } else {
+      console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
+    }
+  }
+
+  // if no configUrl is provided, we can safely persist the configs and render
+  if (!mergedOptions.configUrl) {
+    persistConfigs(mergedOptions)
+    updateSpec(mergedOptions)
+    render(mergedOptions)
+
+    return system
+  }
+
+  // eslint-disable-next-line no-extra-semi
+  ;(async () => {
+    const { configUrl: url } = mergedOptions
+    const urlOptions = await optionsFromURL({ url, system })(mergedOptions)
+    const urlMergedOptions = SwaggerUI.config.merge(
+      {},
+      mergedOptions,
+      urlOptions,
+      queryOptions
+    )
+
+    persistConfigs(urlMergedOptions)
+    if (urlOptions !== null) updateSpec(urlMergedOptions)
+    render(urlMergedOptions)
+  })()
 
   return system
 }

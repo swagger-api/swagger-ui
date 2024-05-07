@@ -55,11 +55,6 @@ const mappings = {
     typeCaster: arrayTypeCaster,
     defaultValue: defaultOptions.plugins,
   },
-  pluginsOptions: {
-    typeCaster: objectTypeCaster,
-    pluginsOptions: defaultOptions.pluginsOptions,
-  },
-  "pluginsOptions.pluginsLoadType": { typeCaster: stringTypeCaster },
   presets: {
     typeCaster: arrayTypeCaster,
     defaultValue: defaultOptions.presets,
