@@ -388,10 +388,6 @@ const MyWrapComponentPlugin = function(system) {
 }
 ```
 
-**Note:**
-
-If you have multiple plugins wrapping the same component, you may want to change the [`pluginsOptions.pluginLoadType`](/docs/usage/configuration.md#Plugins-options) parameter to `chain`.
-
 #### `rootInjects`
 
 The `rootInjects` interface allows you to inject values at the top level of the system.
