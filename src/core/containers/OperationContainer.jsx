@@ -125,9 +125,8 @@ export default class OperationContainer extends PureComponent {
   onResetClick = (pathMethod) => {
     const defaultRequestBodyValue = this.props.oas3Selectors.selectDefaultRequestBodyValue(...pathMethod)
     const contentType = this.props.oas3Selectors.requestContentType(...pathMethod)
-    const isOAS31 = this.props.specSelectors.isOAS31()
 
-    if (!isOAS31 && (contentType === "application/x-www-form-urlencoded" || contentType === "multipart/form-data")) {
+    if (contentType === "application/x-www-form-urlencoded" || contentType === "multipart/form-data") {
       const jsonRequestBodyValue = JSON.parse(defaultRequestBodyValue)
       Object.entries(jsonRequestBodyValue).forEach(([key, value]) => {
         if (Array.isArray(value)) {
