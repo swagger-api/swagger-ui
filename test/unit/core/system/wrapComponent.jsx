@@ -187,14 +187,11 @@ describe("wrapComponents", () => {
     expect(children.eq(1).text()).toEqual("WOW much data")
   })
 
-  it("should wrap correctly when registering multiple plugins targeting the same component", function () {
+  it("should wrap component correctly when performing subsequent plugin registering targeting the same component", function () {
 
     // Given
 
     const mySystem = new System({
-      pluginsOptions: {
-        pluginLoadType: "chain"
-      },
       plugins: [
         () => {
           return {

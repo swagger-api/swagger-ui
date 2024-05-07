@@ -70,13 +70,6 @@ const defaultOptions = Object.freeze({
   // Plugins; ( loaded after presets )
   plugins: [],
 
-  pluginsOptions: {
-    // Behavior during plugin registration. Can be :
-    // - legacy (default) : the current behavior for backward compatibility – last plugin takes precedence over the others
-    // - chain : chain wrapComponents when targeting the same core component
-    pluginLoadType: "legacy",
-  },
-
   initialState: {},
 
   // Inline Plugin
