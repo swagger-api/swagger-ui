@@ -7,12 +7,13 @@
  *
  * NOTE1: lodash.merge & lodash.mergeWith prefers to ignore undefined values
  * NOTE2: special handling of `domNode` option is now required as `deep-extend` will corrupt it (lodash.merge handles it correctly)
- * NOTE3: oauth2RedirectUrl and withCredentials options can be set to undefined. By expecting null instead of undefined, we can't use lodash.merge.
+ * NOTE3: oauth2RedirectUrl option can be set to undefined. By expecting null instead of undefined, we can't use lodash.merge.
  * NOTE4: urls.primaryName needs to handled in special way, because it's an arbitrary property on Array instance
  *
  * TODO(vladimir.gorej@gmail.com): remove deep-extend in favor of lodash.merge
  */
 import deepExtend from "deep-extend"
+import typeCast from "./type-cast"
 
 const merge = (target, ...sources) => {
   let domNode = Symbol.for("domNode")
@@ -51,7 +52,7 @@ const merge = (target, ...sources) => {
     merged.urls.primaryName = primaryName
   }
 
-  return merged
+  return typeCast(merged)
 }
 
 export default merge

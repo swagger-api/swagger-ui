@@ -2,22 +2,27 @@
  * @prettier
  * Receives options from a remote URL.
  */
+const makeDeferred = () => {
+  const deferred = {}
+  deferred.promise = new Promise((resolve, reject) => {
+    deferred.resolve = resolve
+    deferred.reject = reject
+  })
+  return deferred
+}
 
 const optionsFromURL =
   ({ url, system }) =>
   async (options) => {
     if (!url) return {}
-    if (typeof system.specActions?.getConfigByUrl !== "function") return {}
-    let resolve
-    const deferred = new Promise((res) => {
-      resolve = res
-    })
+    if (typeof system.configsActions?.getConfigByUrl !== "function") return {}
+    const deferred = makeDeferred()
     const callback = (fetchedOptions) => {
       // receives null on remote URL fetch failure
-      resolve(fetchedOptions)
+      deferred.resolve(fetchedOptions)
     }
 
-    system.specActions.getConfigByUrl(
+    system.configsActions.getConfigByUrl(
       {
         url,
         loadRemoteConfig: true,
@@ -27,7 +32,7 @@ const optionsFromURL =
       callback
     )
 
-    return deferred
+    return deferred.promise
   }
 
 export default optionsFromURL

@@ -810,6 +810,36 @@ describe("sampleFromSchema", () => {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
+    it("returns array of samples for oneOf with objects", function () {
+      const definition = {
+        type: "array",
+        items: {
+          oneOf: [
+            {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                },
+              },
+            },
+            {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
+      }
+
+      const expected = [{ name: "string" }, { id: "string" }]
+
+      expect(sampleFromSchema(definition)).toStrictEqual(expected)
+    })
+
     it("returns array of samples for anyOf type", () => {
       const definition = {
         type: "array",
