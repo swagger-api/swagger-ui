@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "5.17.5",
+  "version": "5.17.6",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -174,7 +174,7 @@
     "react-test-renderer": "^18.3.1",
     "release-it": "=17.2.1",
     "rimraf": "^5.0.5",
-    "sass": "^1.76.0",
+    "sass": "^1.77.0",
     "sass-loader": "^14.2.1",
     "shx": "=0.3.4",
     "sinon": "=17.0.1",
