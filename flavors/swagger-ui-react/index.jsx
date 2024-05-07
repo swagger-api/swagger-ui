@@ -99,7 +99,7 @@ const SwaggerUI = ({
         system.specActions.updateSpec(updatedSpec)
       }
     }
-  }, [url, spec])
+  }, [system, url, spec])
 
   return SwaggerUIComponent ? <SwaggerUIComponent /> : null
 }
