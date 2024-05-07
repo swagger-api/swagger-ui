@@ -37,7 +37,6 @@ const systemFactorization = (options) => {
       configs: options.configs,
     },
     plugins: options.presets,
-    pluginsOptions: options.pluginsOptions,
     state,
   }
 }
