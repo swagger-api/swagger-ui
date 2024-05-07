@@ -54,10 +54,10 @@ function SwaggerUI(userOptions) {
     userOptions,
     queryOptions
   )
-  const storeOptions = systemOptionsFactorization(mergedOptions)
+  const systemOptions = systemOptionsFactorization(mergedOptions)
   const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
 
-  const unboundSystem = new System(storeOptions)
+  const unboundSystem = new System(systemOptions)
   unboundSystem.register([mergedOptions.plugins, InlinePlugin])
   const system = unboundSystem.getSystem()
 
