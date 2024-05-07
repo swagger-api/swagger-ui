@@ -7,7 +7,7 @@ const EnumModel = ({ value, getComponent }) => {
   return <span className="prop-enum">
     Enum:<br />
     <ModelCollapse collapsedContent={ collapsedContent }>
-      [ { value.join(", ") } ]
+      [ { value.map(String).join(", ") } ]
     </ModelCollapse>
   </span>
 }
