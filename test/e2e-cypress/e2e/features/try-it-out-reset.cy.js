@@ -17,6 +17,7 @@ describe("Reset button in try it out", () => {
       .type("{selectall}not the default email value")
       .get(".try-out__btn.reset")
       .click()
+      .wait(1000)
       .get(`.parameters[data-property-name="name"] input[type=text]`)
       .should("have.value", "default name")
       .get(`.parameters[data-property-name="badgeid"] input[type=text]`)
