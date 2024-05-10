@@ -134,7 +134,7 @@ export default class Response extends React.Component {
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
       sampleSchema = activeMediaType.get("schema")?.toJS()
-      if(examplesForMediaType) {
+      if(examplesForMediaType && examplesForMediaType.size > 0) {
         const targetExamplesKey = this.getTargetExamplesKey()
         const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
@@ -208,7 +208,7 @@ export default class Response extends React.Component {
                   </small>
                 ) : null}
               </div>
-              {examplesForMediaType ? (
+              {examplesForMediaType && examplesForMediaType.size > 0 ? (
                 <div className="response-control-examples">
                   <small className="response-control-examples__title">
                     Examples
