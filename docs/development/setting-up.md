@@ -11,9 +11,10 @@ Swagger UI includes a development server that provides hot module reloading and 
 
 1. `git clone https://github.com/swagger-api/swagger-ui.git`
 2. `cd swagger-ui`
-3. `npm run dev`
-4. Wait a bit
-5. Open http://localhost:3200/
+3. `npm install`
+4. `npm run dev`
+5. Wait a bit
+6. Open http://localhost:3200/
 
 ### Using your own local api definition with local dev build
 

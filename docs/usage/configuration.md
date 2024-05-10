@@ -39,15 +39,8 @@ Read more about the plugin system in the [Customization documentation](/docs/cus
 Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="layout"></a>`layout` | _Unavailable_ | `String="BaseLayout"`. The name of a component available via the plugin system to use as the top-level layout for Swagger UI.
-<a name="pluginsOptions"></a>`pluginsOptions` | _Unavailable_ | `Object`. A Javascript object to configure plugin integration and behaviors (see below).
 <a name="plugins"></a>`plugins` | _Unavailable_ | `Array=[]`. An array of plugin functions to use in Swagger UI.
 <a name="presets"></a>`presets` | _Unavailable_ | `Array=[SwaggerUI.presets.ApisPreset]`. An array of presets to use in Swagger UI. Usually, you'll want to include `ApisPreset` if you use this option.
-
-##### Plugins options
-
-Parameter name | Docker variable | Description
---- | --- | -----
-<a name="pluginLoadType"></a>`pluginLoadType` | _Unavailable_ | `String=["legacy", "chain"]`. Control behavior of plugins when targeting the same component with wrapComponent.<br/>- `legacy` (default) : last plugin takes precedence over the others<br/>- `chain` : chain wrapComponents when targeting the same core component, allowing multiple plugins to wrap the same component
 
 ##### Display
 
