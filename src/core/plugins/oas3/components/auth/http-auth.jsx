@@ -82,6 +82,7 @@ export default class HttpAuth extends React.Component {
                     name="username"
                     aria-label="auth-basic-username"
                     onChange={ this.onChange }
+                    autoComplete='off'
                     autoFocus
                   />
                 </Col>
