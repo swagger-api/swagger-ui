@@ -126,7 +126,7 @@ export default class ParameterRow extends Component {
           ? paramWithMeta.getIn(["schema", "example"])
           : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
-        schema = this.mergeJsonSchema(schema)
+        schema = this.composeJsonSchema(schema)
 
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
         initialValue =
@@ -183,7 +183,7 @@ export default class ParameterRow extends Component {
     return `${param.get("name")}-${param.get("in")}`
   }
 
-  mergeJsonSchema(schema) {
+  composeJsonSchema(schema) {
     const { fn } = this.props
     const oneOf = schema.get("oneOf")?.get(0)?.toJS()
     const anyOf = schema.get("anyOf")?.get(0)?.toJS()
@@ -232,7 +232,7 @@ export default class ParameterRow extends Component {
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
 
     if (isOAS3) {
-      schema = this.mergeJsonSchema(schema)
+      schema = this.composeJsonSchema(schema)
     }
     
     let format = schema ? schema.get("format") : null
