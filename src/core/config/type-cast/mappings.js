@@ -5,16 +5,21 @@ import arrayTypeCaster from "./type-casters/array"
 import booleanTypeCaster from "./type-casters/boolean"
 import domNodeTypeCaster from "./type-casters/dom-node"
 import filterTypeCaster from "./type-casters/filter"
+import functionTypeCaster from "./type-casters/function"
 import nullableArrayTypeCaster from "./type-casters/nullable-array"
+import nullableFunctionTypeCaster from "./type-casters/nullable-function"
 import nullableStringTypeCaster from "./type-casters/nullable-string"
 import numberTypeCaster from "./type-casters/number"
 import objectTypeCaster from "./type-casters/object"
+import sorterTypeCaster from "./type-casters/sorter"
 import stringTypeCaster from "./type-casters/string"
 import syntaxHighlightTypeCaster from "./type-casters/syntax-highlight"
 import undefinedStringTypeCaster from "./type-casters/undefined-string"
 import defaultOptions from "../defaults"
 
 const mappings = {
+  components: { typeCaster: objectTypeCaster },
+  configs: { typeCaster: objectTypeCaster },
   configUrl: { typeCaster: nullableStringTypeCaster },
   deepLinking: {
     typeCaster: booleanTypeCaster,
@@ -41,12 +46,20 @@ const mappings = {
   dom_id: { typeCaster: nullableStringTypeCaster },
   domNode: { typeCaster: domNodeTypeCaster },
   filter: { typeCaster: filterTypeCaster },
+  fn: { typeCaster: objectTypeCaster },
+  initialState: { typeCaster: objectTypeCaster },
   layout: { typeCaster: stringTypeCaster },
   maxDisplayedTags: {
     typeCaster: numberTypeCaster,
     defaultValue: defaultOptions.maxDisplayedTags,
   },
+  modelPropertyMacro: { typeCaster: nullableFunctionTypeCaster },
   oauth2RedirectUrl: { typeCaster: undefinedStringTypeCaster },
+  onComplete: { typeCaster: nullableFunctionTypeCaster },
+  operationsSorter: {
+    typeCaster: sorterTypeCaster,
+  },
+  paramaterMacro: { typeCaster: nullableFunctionTypeCaster },
   persistAuthorization: {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.persistAuthorization,
@@ -59,6 +72,10 @@ const mappings = {
     typeCaster: arrayTypeCaster,
     defaultValue: defaultOptions.presets,
   },
+  requestInterceptor: {
+    typeCaster: functionTypeCaster,
+    defaultValue: defaultOptions.requestInterceptor,
+  },
   requestSnippets: {
     typeCaster: objectTypeCaster,
     defaultValue: defaultOptions.requestSnippets,
@@ -66,6 +83,10 @@ const mappings = {
   requestSnippetsEnabled: {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.requestSnippetsEnabled,
+  },
+  responseInterceptor: {
+    typeCaster: functionTypeCaster,
+    defaultValue: defaultOptions.responseInterceptor,
   },
   showCommonExtensions: {
     typeCaster: booleanTypeCaster,
@@ -93,6 +114,9 @@ const mappings = {
     defaultValue: defaultOptions.syntaxHighlight.activated,
   },
   "syntaxHighlight.theme": { typeCaster: stringTypeCaster },
+  tagsSorter: {
+    typeCaster: sorterTypeCaster,
+  },
   tryItOutEnabled: {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.tryItOutEnabled,
