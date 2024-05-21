@@ -18,6 +18,8 @@ import undefinedStringTypeCaster from "./type-casters/undefined-string"
 import defaultOptions from "../defaults"
 
 const mappings = {
+  components: { typeCaster: objectTypeCaster },
+  configs: { typeCaster: objectTypeCaster },
   configUrl: { typeCaster: nullableStringTypeCaster },
   deepLinking: {
     typeCaster: booleanTypeCaster,
@@ -44,6 +46,8 @@ const mappings = {
   dom_id: { typeCaster: nullableStringTypeCaster },
   domNode: { typeCaster: domNodeTypeCaster },
   filter: { typeCaster: filterTypeCaster },
+  fn: { typeCaster: objectTypeCaster },
+  initialState: { typeCaster: objectTypeCaster },
   layout: { typeCaster: stringTypeCaster },
   maxDisplayedTags: {
     typeCaster: numberTypeCaster,

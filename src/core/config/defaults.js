@@ -85,7 +85,7 @@ const defaultOptions = Object.freeze({
   },
   operationsSorter: null,
   tagsSorter: null,
-  onComplete: () => {},
+  onComplete: null,
   modelPropertyMacro: null,
   parameterMacro: null,
 })
