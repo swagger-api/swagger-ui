@@ -18,7 +18,6 @@ const defaultOptions = Object.freeze({
   oauth2RedirectUrl: undefined,
   persistAuthorization: false,
   configs: {},
-  custom: {},
   displayOperationId: false,
   displayRequestDuration: false,
   deepLinking: false,
