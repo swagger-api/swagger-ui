@@ -77,28 +77,30 @@ export default class OperationTag extends React.Component {
           data-tag={tag}
           data-is-open={showTag}
         >
-          <DeepLink
-            enabled={deepLinking}
-            isShown={showTag}
-            path={createDeepLinkPath(tag)}
-            text={tag} />
-          {!tagDescription ? <small></small> :
-            <small>
-              <Markdown source={tagDescription} />
-            </small>
-          }
-
-          {!tagExternalDocsUrl ? null :
-            <div className="info__externaldocs">
+          <div className="opblock-tag-content">
+            <DeepLink
+              enabled={deepLinking}
+              isShown={showTag}
+              path={createDeepLinkPath(tag)}
+              text={tag} />
+            {!tagDescription ? <small></small> :
               <small>
-                <Link
+                <Markdown source={tagDescription} />
+              </small>
+            }
+
+            {!tagExternalDocsUrl ? null :
+              <div className="info__externaldocs">
+                <small>
+                  <Link
                     href={sanitizeUrl(tagExternalDocsUrl)}
                     onClick={(e) => e.stopPropagation()}
                     target="_blank"
                   >{tagExternalDocsDescription || tagExternalDocsUrl}</Link>
-              </small>
-            </div>
-          }
+                </small>
+              </div>
+            }
+          </div>
 
 
           <button
