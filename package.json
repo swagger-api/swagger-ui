@@ -110,7 +110,7 @@
   "devDependencies": {
     "@babel/cli": "=7.24.5",
     "@babel/core": "=7.24.5",
-    "@babel/eslint-parser": "=7.24.5",
+    "@babel/eslint-parser": "=7.24.6",
     "@babel/plugin-transform-runtime": "=7.24.3",
     "@babel/preset-env": "=7.24.5",
     "@babel/preset-react": "=7.24.1",
