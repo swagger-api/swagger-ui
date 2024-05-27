@@ -3,11 +3,19 @@
  */
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import PropTypes from "prop-types"
 import SwaggerUIConstructor from "#swagger-ui"
 
 const { config } = SwaggerUIConstructor
+
+const usePrevious = (value) => {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  }, [value])
+  return ref.current
+}
 
 const SwaggerUI = ({
   spec = config.defaults.spec,
@@ -40,6 +48,8 @@ const SwaggerUI = ({
 }) => {
   const [system, setSystem] = useState(null)
   const SwaggerUIComponent = system?.getComponent("App", "root")
+  const prevSpec = usePrevious(spec)
+  const prevUrl = usePrevious(url)
 
   useEffect(() => {
     const systemInstance = SwaggerUIConstructor({
@@ -84,22 +94,30 @@ const SwaggerUI = ({
   useEffect(() => {
     if (system) {
       const prevStateUrl = system.specSelectors.url()
-      if (url !== prevStateUrl) {
+      if (url !== prevStateUrl || url !== prevUrl) {
         system.specActions.updateSpec("")
         if (url) {
           system.specActions.updateUrl(url)
           system.specActions.download(url)
         }
       }
+    }
+  }, [system, url])
 
+  useEffect(() => {
+    if (system) {
       const prevStateSpec = system.specSelectors.specStr()
-      if (spec && spec !== prevStateSpec) {
+      if (
+        spec &&
+        spec !== SwaggerUIConstructor.config.defaults.spec &&
+        (spec !== prevStateSpec || spec !== prevSpec)
+      ) {
         const updatedSpec =
           typeof spec === "object" ? JSON.stringify(spec) : spec
         system.specActions.updateSpec(updatedSpec)
       }
     }
-  }, [system, url, spec])
+  }, [system, spec])
 
   return SwaggerUIComponent ? <SwaggerUIComponent /> : null
 }
