@@ -322,7 +322,7 @@ function combinePlugins(plugins, toolbox) {
   if(isArray(plugins)) {
     return plugins
       .map(plugin => combinePlugins(plugin, toolbox))
-      .reduce(systemExtend, { components: { ...toolbox.getComponents() } })
+      .reduce(systemExtend, { components: toolbox.getComponents() })
   }
 
   return {}
