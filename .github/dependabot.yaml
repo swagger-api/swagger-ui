@@ -4,6 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: daily
+      time: "23:00"
     commit-message:
       prefix: "chore"
       include: "scope"
@@ -18,6 +19,7 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+      time: "23:00"
 
   - package-ecosystem: "github-actions"
     target-branch: "master"
