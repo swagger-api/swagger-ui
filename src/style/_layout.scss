@@ -19,10 +19,6 @@
     flex: 0.1 2 auto;
 }
 
-.try-out__btn {
-    margin-left: 1.25rem;
-}
-
 .opblock-tag
 {
     display: flex;
@@ -262,6 +258,9 @@
     {
         display: flex;
         align-items: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: .5rem 1rem;
 
         padding: 8px 20px;
 
@@ -277,9 +276,10 @@
 
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
+            row-gap: .3rem;
 
             margin: 0;
-            margin-left: auto;
 
             @include text_headline();
 
