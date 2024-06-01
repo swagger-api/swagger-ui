@@ -51,6 +51,10 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
 
   // remove oauth2 property from window after redirect from authentication
   delete win.swaggerUIRedirectOauth2
+  if (win.oauth2Channel) {
+    win.oauth2Channel.close()
+    delete win.oauth2Channel
+  }
 
   if ( flow !== "accessCode" && !isValid ) {
     errActions.newAuthErr( {
@@ -283,6 +287,19 @@ export const persistAuthorizationIfNeeded = () => ( { authSelectors, getConfigs 
 
 export const authPopup = (url, swaggerUIRedirectOauth2) => ( ) => {
   win.swaggerUIRedirectOauth2 = swaggerUIRedirectOauth2
+
+  if (win.oauth2Channel) {
+    win.oauth2Channel.close()
+  }
+  const oauth2Channel = new BroadcastChannel("oauth2_channel")
+  oauth2Channel.addEventListener("message", event => {
+    const data = event.data
+    const state = data ? data.state : undefined
+    if (state === swaggerUIRedirectOauth2.state) {
+      swaggerUIRedirectOauth2.handleAuth(data)
+    }
+  })
+  win.oauth2Channel = oauth2Channel
 
   win.open(url)
 }
