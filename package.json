@@ -113,7 +113,7 @@
     "@babel/eslint-parser": "=7.24.5",
     "@babel/plugin-transform-runtime": "=7.24.3",
     "@babel/preset-env": "=7.24.5",
-    "@babel/preset-react": "=7.24.1",
+    "@babel/preset-react": "=7.24.7",
     "@babel/register": "=7.23.7",
     "@cfaester/enzyme-adapter-react-18": "=0.8.0",
     "@commitlint/cli": "^19.3.0",
