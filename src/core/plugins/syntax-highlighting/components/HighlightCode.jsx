@@ -19,7 +19,6 @@ const HighlightCode = ({
 }) => {
   const rootRef = useRef(null)
   const [previewVisible, setPreviewVisible] = useState(false)
-  const [previewHeight, setPreviewHeight] = useState(screen.height);
   const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
   const handleDownload = () => {
@@ -47,10 +46,6 @@ const HighlightCode = ({
     previewable && setPreviewVisible(!previewVisible)
   }
 
-  const handlePreviewAutoHeight = (event) => {
-    setPreviewHeight(event.target?.contentWindow.document?.body?.scrollHeight ?? previewHeight)
-  }
-
   useEffect(() => {
     const childNodes = Array.from(rootRef.current.childNodes).filter(
       (node) => !!node.nodeType && node.classList.contains("microlight")
@@ -76,7 +71,6 @@ const HighlightCode = ({
     }
   }, [children, className, language])
 
-  // console.log(previewable, fileName, className, downloadable, language, canCopy, children)
   return (
     <div className="highlight-code" ref={rootRef}>
       {previewable && (
@@ -102,9 +96,7 @@ const HighlightCode = ({
       {previewVisible ? (
         <iframe
           srcDoc={children}
-          sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
-          style={{height: previewHeight + 'px'}}
-          onLoad={handlePreviewAutoHeight}
+          sandbox="allow-scripts"
         />
       ) : (
         <SyntaxHighlighter
