@@ -117,12 +117,12 @@ export default class ResponseBody extends React.PureComponent {
       })
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} canCopy>{body}</HighlightCode>
 
-      // HTML or Plain Text
-    } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} canCopy>{content}</HighlightCode>
+      // HTML
+    } else if (/text\/html/.test(contentType)) {
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} canCopy previewable>{content}</HighlightCode>
 
       // CSV
-    } else if (toLower(contentType) === "text/csv" || /text\/csv/.test(contentType)) {
+    } else if (/text\/csv/.test(contentType)) {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.csv`} canCopy>{content}</HighlightCode>
 
       // Image
@@ -136,6 +136,7 @@ export default class ResponseBody extends React.PureComponent {
       // Audio
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre className="microlight"><audio controls key={ url }><source src={ url } type={ contentType } /></audio></pre>
+      // As Plain Text
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy>{content}</HighlightCode>
     } else if ( content.size > 0 ) {

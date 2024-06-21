@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 import saveAs from "js-file-download"
@@ -11,12 +11,15 @@ const HighlightCode = ({
   fileName = "response.txt",
   className,
   downloadable,
+  previewable,
   getComponent,
   canCopy,
   language,
   children,
 }) => {
   const rootRef = useRef(null)
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewHeight, setPreviewHeight] = useState(screen.height);
   const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
   const handleDownload = () => {
@@ -38,6 +41,14 @@ const HighlightCode = ({
     if (isElementScrollable && (isScrollingPastTop || isScrollingPastBottom)) {
       e.preventDefault()
     }
+  }
+
+  const handlePreviewToggle = () => {
+    previewable && setPreviewVisible(!previewVisible)
+  }
+
+  const handlePreviewAutoHeight = (event) => {
+    setPreviewHeight(event.target?.contentWindow.document?.body?.scrollHeight ?? previewHeight)
   }
 
   useEffect(() => {
@@ -65,8 +76,15 @@ const HighlightCode = ({
     }
   }, [children, className, language])
 
+  // console.log(previewable, fileName, className, downloadable, language, canCopy, children)
   return (
     <div className="highlight-code" ref={rootRef}>
+      {previewable && (
+        <button className="toggle-html-preview" onClick={handlePreviewToggle}>
+          {previewVisible ? "Hide" : "Show"} Preview
+        </button>
+      )}
+
       {canCopy && (
         <div className="copy-to-clipboard">
           <CopyToClipboard text={children}>
@@ -81,15 +99,24 @@ const HighlightCode = ({
         </button>
       )}
 
-      <SyntaxHighlighter
-        language={language}
-        className={classNames(className, "microlight")}
-        renderPlainText={({ children, PlainTextViewer }) => (
-          <PlainTextViewer className={className}>{children}</PlainTextViewer>
-        )}
-      >
-        {children}
-      </SyntaxHighlighter>
+      {previewVisible ? (
+        <iframe
+          srcDoc={children}
+          sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
+          style={{height: previewHeight + 'px'}}
+          onLoad={handlePreviewAutoHeight}
+        />
+      ) : (
+        <SyntaxHighlighter
+          language={language}
+          className={classNames(className, "microlight")}
+          renderPlainText={({ children, PlainTextViewer }) => (
+            <PlainTextViewer className={className}>{children}</PlainTextViewer>
+          )}
+        >
+          {children}
+        </SyntaxHighlighter>
+      )}
     </div>
   )
 }
@@ -97,6 +124,7 @@ const HighlightCode = ({
 HighlightCode.propTypes = {
   getComponent: PropTypes.func.isRequired,
   className: PropTypes.string,
+  previewable: PropTypes.bool,
   downloadable: PropTypes.bool,
   fileName: PropTypes.string,
   language: PropTypes.string,
