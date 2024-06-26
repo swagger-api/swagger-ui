@@ -945,6 +945,30 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
+  it("should handle additionalProperties with x-additionalPropertiesName", () => {
+    const definition = {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+        "x-additionalPropertiesName": "bar",
+      },
+      properties: {
+        foo: {
+          type: "string",
+        },
+      },
+    }
+
+    const expected = {
+      foo: "string",
+      bar1: "string",
+      bar2: "string",
+      bar3: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   it("should handle additionalProperties=true", () => {
     const definition = {
       type: "object",
@@ -2190,6 +2214,27 @@ describe("createXMLExample", function () {
         },
         additionalProperties: {
           type: "string"
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with additional props with x-additionalPropertiesName", function () {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<animal1>string</animal1>\n\t<animal2>string</animal2>\n\t<animal3>string</animal3>\n</animals>"
+      let definition = {
+        type: "object",
+        properties: {
+          dog: {
+            type: "string"
+          }
+        },
+        additionalProperties: {
+          type: "string",
+          "x-additionalPropertiesName": "animal"
         },
         xml: {
           name: "animals"
