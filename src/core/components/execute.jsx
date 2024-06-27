@@ -25,7 +25,8 @@ export default class Execute extends Component {
     let { path, method, specSelectors, oas3Selectors, oas3Actions } = this.props
     let validationErrors = {
       missingBodyValue: false,
-      missingRequiredKeys: []
+      missingRequiredKeys: [],
+      valueErrors: []
     }
     // context: reset errors, then (re)validate
     oas3Actions.clearRequestBodyValidateError({ path, method })
@@ -33,6 +34,7 @@ export default class Execute extends Component {
     let oas3RequestBodyValue = oas3Selectors.requestBodyValue(path, method)
     let oas3ValidateBeforeExecuteSuccess = oas3Selectors.validateBeforeExecute([path, method])
     let oas3RequestContentType = oas3Selectors.requestContentType(path, method)
+    let oas3RequestBody = specSelectors.getOAS3RequestBody([path, method])
 
     if (!oas3ValidateBeforeExecuteSuccess) {
       validationErrors.missingBodyValue = true
@@ -47,11 +49,20 @@ export default class Execute extends Component {
       oas3RequestContentType,
       oas3RequestBodyValue
     })
-    if (!missingRequiredKeys || missingRequiredKeys.length < 1) {
+    let valueErrors = oas3Selectors.validateValues({
+      oas3RequestBody,
+      oas3RequestContentType,
+      oas3RequestBodyValue
+    })
+    if ((!missingRequiredKeys || missingRequiredKeys.length < 1) 
+      && (!valueErrors || valueErrors.length < 1)) {
       return true
     }
     missingRequiredKeys.forEach((missingKey) => {
       validationErrors.missingRequiredKeys.push(missingKey)
+    })
+    valueErrors.forEach((error) => {
+      validationErrors.valueErrors.push(error)
     })
     oas3Actions.setRequestBodyValidateError({ path, method, validationErrors })
     return false

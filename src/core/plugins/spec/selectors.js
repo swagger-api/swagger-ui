@@ -537,6 +537,10 @@ export const validateBeforeExecute = (state, pathMethod) => {
   return validationErrors(state, pathMethod).length === 0
 }
 
+export const getOAS3RequestBody = (state, pathMethod) => {
+  return state.getIn(["resolvedSubtrees", "paths", ...pathMethod, "requestBody"], fromJS([]))
+}
+
 export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {
   let requiredObj = {
     requestBody: false,

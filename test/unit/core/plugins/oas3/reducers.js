@@ -314,6 +314,142 @@ describe("oas3 plugin - reducer", function () {
       })
     })
 
+    describe("valueErrors exists with length, e.g. application/json", () => {
+      it("should set errors", () => {
+        const state = fromJS({
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "10",
+                  },
+                  name: {
+                    value: "",
+                  },
+                },
+                requestContentType: "application/json"
+              }
+            }
+          }
+        })
+
+        const result = setRequestBodyValidateError(state, {
+          payload: {
+            path: "/pet",
+            method: "post",
+            validationErrors: {
+              missingBodyValue: null,
+              valueErrors: [
+                {
+                  propKey: "name", 
+                  error: "Required property not found"
+                }
+              ]
+            },
+          }
+        })
+
+        const expectedResult = {
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "10",
+                  },
+                  name: {
+                    value: "",
+                  },
+                },
+                requestContentType: "application/json",
+                errors: [
+                  {
+                    propKey: "name", 
+                    error: "Required property not found"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        expect(result.toJS()).toEqual(expectedResult)
+      })
+
+      it("should overwrite errors", () => {
+        const state = fromJS({
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "10",
+                  },
+                  name: {
+                    value: "",
+                  },
+                },
+                requestContentType: "application/json",
+                errors: [
+                  {
+                    propKey: "id", 
+                    error: "some fake error"
+                  },
+                  {
+                    propKey: "name", 
+                    error: "some fake error"
+                  }
+                ]
+              }
+            }
+          }
+        })
+
+        const result = setRequestBodyValidateError(state, {
+          payload: {
+            path: "/pet",
+            method: "post",
+            validationErrors: {
+              missingBodyValue: null,
+              valueErrors: [
+                {
+                  propKey: "name", 
+                  error: "Required property not found"
+                }
+              ]
+            },
+          }
+        })
+
+        const expectedResult = {
+          requestData: {
+            "/pet": {
+              post: {
+                bodyValue: {
+                  id: {
+                    value: "10",
+                  },
+                  name: {
+                    value: "",
+                  },
+                },
+                requestContentType: "application/json",
+                errors: [
+                  {
+                    propKey: "name", 
+                    error: "Required property not found"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        expect(result.toJS()).toEqual(expectedResult)
+      })
+    })
+
     describe("other unexpected payload, e.g. no missingBodyValue or missingRequiredKeys", () => {
       it("should not throw error if receiving unexpected validationError format. return state unchanged", () => {
         const state = fromJS({
