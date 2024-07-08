@@ -167,7 +167,7 @@
     "open": "^10.1.0",
     "postcss": "^8.4.39",
     "postcss-loader": "^8.1.1",
-    "postcss-preset-env": "^9.5.15",
+    "postcss-preset-env": "^9.6.0",
     "prettier": "^3.3.2",
     "process": "^0.11.10",
     "react-refresh": "^0.14.2",
