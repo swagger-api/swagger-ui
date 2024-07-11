@@ -174,7 +174,7 @@
     "react-test-renderer": "^18.3.1",
     "release-it": "=17.5.0",
     "rimraf": "^5.0.7",
-    "sass": "^1.77.6",
+    "sass": "^1.77.8",
     "sass-loader": "^14.2.1",
     "shx": "=0.3.4",
     "sinon": "=18.0.0",
