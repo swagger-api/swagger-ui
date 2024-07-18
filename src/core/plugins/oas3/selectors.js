@@ -305,4 +305,5 @@ export const validOperationMethods = constant([
   "head",
   "patch",
   "trace",
+  "search",
 ])
