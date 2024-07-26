@@ -42,7 +42,7 @@ export const selectWebhooksOperations = createSelector(
             operation: Map({ operation }),
             method,
             path: pathItemName,
-            specPath: List(["webhooks", pathItemName, method]),
+            specPath: ["webhooks", pathItemName, method],
           }))
 
         return allOperations.concat(pathItemOperations)

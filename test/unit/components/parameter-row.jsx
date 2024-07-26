@@ -9,6 +9,7 @@ import ParameterRow from "core/components/parameter-row"
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
+  mergeJsonSchema,
 } from "core/plugins/json-schema-5-samples/fn/index"
 import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
 import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
@@ -31,6 +32,7 @@ describe("<ParameterRow/>", () => {
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
       },
       oas3Selectors: { activeExamplesMember: () => {} },
       getConfigs: () => ({}),
@@ -276,6 +278,7 @@ describe("bug #5573: zero default and example values", function () {
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
       },
     })
     const props = {
@@ -329,6 +332,7 @@ describe("bug #5573: zero default and example values", function () {
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
       },
     })
     const props = {

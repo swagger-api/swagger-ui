@@ -9,11 +9,12 @@ If you believe you've found an exploitable security issue in Swagger UI,
 This is the list of versions of `swagger-ui` which are
 currently being supported with security updates.
 
-| Version  | Supported          | Notes                  |
-| -------- | ------------------ | ---------------------- |
-| 4.x      | :white_check_mark: |                        |
-| 3.x      | :x:                | End-of-life as of November 2021 |
-| 2.x      | :x:                | End-of-life as of 2017 |
+| Version | Supported          | Notes                           |
+|---------|--------------------|---------------------------------|
+| 5.x     | :white_check_mark: | Active LTS                      |
+| 4.x     | :x:                | End-of-life as of August 2023   |
+| 3.x     | :x:                | End-of-life as of November 2021 |
+| 2.x     | :x:                | End-of-life as of 2017          |
 
 ## Reporting a vulnerability
 

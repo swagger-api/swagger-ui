@@ -9,6 +9,7 @@ import ParameterRow from "core/components/parameter-row"
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
+  mergeJsonSchema,
 } from "core/plugins/json-schema-5-samples/fn/index"
 import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
 import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
@@ -103,6 +104,7 @@ describe("bug #4557: default parameter values", function () {
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
       },
     })
     const props = {

@@ -1,4 +1,4 @@
-import { Map } from "immutable"
+import { List, Map } from "immutable"
 import win from "../../window"
 
 
@@ -83,7 +83,8 @@ const curlify = (request, escape, newLine, ext = "") => {
   let headers = request.get("headers")
   curlified += "curl" + ext
 
-  if (request.has("curlOptions")) {
+  const curlOptions = request.get("curlOptions")
+  if (List.isList(curlOptions) && !curlOptions.isEmpty()) {
     addWords(...request.get("curlOptions"))
   }
 
