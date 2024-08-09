@@ -2,6 +2,7 @@
 window.onload = function() {
   window["SwaggerUIBundle"] = window["swagger-ui-bundle"]
   window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
+  window["SwaggerOptionalPlugins"] = window["swagger-ui-optional-plugins"]
   // Build a system
   const ui = SwaggerUIBundle({
     url: "https://petstore.swagger.io/v2/swagger.json",
@@ -11,7 +12,8 @@ window.onload = function() {
       SwaggerUIStandalonePreset
     ],
     plugins: [
-      SwaggerUIBundle.plugins.DownloadUrl
+      SwaggerUIBundle.plugins.DownloadUrl,
+      SwaggerOptionalPlugins.JsonFolding
     ],
     // requestSnippetsEnabled: true,
     layout: "StandaloneLayout"

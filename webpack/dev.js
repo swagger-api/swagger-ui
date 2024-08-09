@@ -29,6 +29,7 @@ const devConfig = configBuilder(
       "swagger-ui-standalone-preset": [
         "./src/standalone/presets/standalone/index.js",
       ],
+      "swagger-ui-optional-plugins": ["./src/optional-plugins/index.js"],
       "swagger-ui": "./src/style/main.scss",
       vendors: ["react-refresh/runtime"],
     },
