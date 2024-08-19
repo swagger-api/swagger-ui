@@ -69,13 +69,14 @@ export default class LiveResponse extends React.Component {
     const hasHeaders = returnObject.length !== 0
     const Markdown = getComponent("Markdown", true)
     const RequestSnippets = getComponent("RequestSnippets", true)
-    const Curl = getComponent("curl")
+    const Curl = getComponent("curl", true)
 
     return (
       <div>
-        { curlRequest && (requestSnippetsEnabled === true || requestSnippetsEnabled === "true"
+        { curlRequest && requestSnippetsEnabled 
           ? <RequestSnippets request={ curlRequest }/>
-          : <Curl request={ curlRequest } getConfigs={ getConfigs } />) }
+          : <Curl request={ curlRequest } />
+        }
         { url && <div>
             <div className="request-url">
               <h4>Request URL</h4>

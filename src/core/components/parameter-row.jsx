@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Map, List } from "immutable"
+import { Map, List, fromJS } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
@@ -97,7 +97,7 @@ export default class ParameterRow extends Component {
     let { specSelectors, pathMethod, rawParam, oas3Selectors, fn } = this.props
 
     const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
-    const { schema } = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
+    let { schema } = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
     const parameterMediaType = paramWithMeta
       .get("content", Map())
       .keySeq()
@@ -126,6 +126,8 @@ export default class ParameterRow extends Component {
           ? paramWithMeta.getIn(["schema", "example"])
           : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
+        schema = this.composeJsonSchema(schema)
+
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
         initialValue =
           paramWithMeta.getIn(["examples", currentExampleKey, "value"]) !== undefined
@@ -181,6 +183,13 @@ export default class ParameterRow extends Component {
     return `${param.get("name")}-${param.get("in")}`
   }
 
+  composeJsonSchema(schema) {
+    const { fn } = this.props
+    const oneOf = schema.get("oneOf")?.get(0)?.toJS()
+    const anyOf = schema.get("anyOf")?.get(0)?.toJS()
+    return fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
+  }
+
   render() {
     let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath, oas3Selectors} = this.props
 
@@ -222,6 +231,10 @@ export default class ParameterRow extends Component {
     let { schema } = getParameterSchema(param, { isOAS3 })
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
 
+    if (isOAS3) {
+      schema = this.composeJsonSchema(schema)
+    }
+    
     let format = schema ? schema.get("format") : null
     let type = schema ? schema.get("type") : null
     let itemType = schema ? schema.getIn(["items", "type"]) : null
@@ -284,8 +297,6 @@ export default class ParameterRow extends Component {
             { isOAS3 && param.get("deprecated") ? "deprecated": null }
           </div>
           <div className="parameter__in">({ param.get("in") })</div>
-          { !showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
-          { !showExtensions || !extensions.size ? null : extensions.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
 
         <td className="parameters-col_description">
@@ -295,7 +306,7 @@ export default class ParameterRow extends Component {
             <Markdown className="parameter__enum" source={
                 "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
-                  }).toArray().join(", ")}/>
+                  }).toArray().map(String).join(", ")}/>
             : null
           }
 
@@ -373,6 +384,9 @@ export default class ParameterRow extends Component {
               />
             ) : null
           }
+
+          { !showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
+          { !showExtensions || !extensions.size ? null : extensions.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
 
         </td>
 

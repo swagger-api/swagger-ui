@@ -2,10 +2,9 @@
 
 ### How to configure
 
-Swagger UI accepts configuration parameters in four locations.
+Swagger UI accepts configuration parameters in three locations.
 
 From lowest to highest precedence:
-- The `swagger-config.yaml` in the project root directory, if it exists, is baked into the application
 - configuration object passed as an argument to Swagger UI (`SwaggerUI({ ... })`)
 - configuration document fetched from a specified `configUrl`
 - configuration items passed as key/value pairs in the URL query string
@@ -40,15 +39,8 @@ Read more about the plugin system in the [Customization documentation](/docs/cus
 Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="layout"></a>`layout` | _Unavailable_ | `String="BaseLayout"`. The name of a component available via the plugin system to use as the top-level layout for Swagger UI.
-<a name="pluginsOptions"></a>`pluginsOptions` | _Unavailable_ | `Object`. A Javascript object to configure plugin integration and behaviors (see below).
 <a name="plugins"></a>`plugins` | _Unavailable_ | `Array=[]`. An array of plugin functions to use in Swagger UI.
 <a name="presets"></a>`presets` | _Unavailable_ | `Array=[SwaggerUI.presets.ApisPreset]`. An array of presets to use in Swagger UI. Usually, you'll want to include `ApisPreset` if you use this option.
-
-##### Plugins options
-
-Parameter name | Docker variable | Description
---- | --- | -----
-<a name="pluginLoadType"></a>`pluginLoadType` | _Unavailable_ | `String=["legacy", "chain"]`. Control behavior of plugins when targeting the same component with wrapComponent.<br/>- `legacy` (default) : last plugin takes precedence over the others<br/>- `chain` : chain wrapComponents when targeting the same core component, allowing multiple plugins to wrap the same component
 
 ##### Display
 
@@ -213,11 +205,11 @@ Parameter name | Docker variable | Description
         <td><em>Unavailable</em></td>
         <td>Set to <code>false</code> to deactivate syntax highlighting of
             payloads and cURL command, can be otherwise an object with the
-            <code>activate</code> and <code>theme</code> properties.
+            <code>activated</code> and <code>theme</code> properties.
         </td>
     </tr>
     <tr>
-        <td><a name="user-content-syntaxhighlight.activate"></a><code>syntaxHighlight.activate</code>
+        <td><a name="user-content-syntaxhighlight.activated"></a><code>syntaxHighlight.activated</code>
         </td>
         <td><em>Unavailable</em></td>
         <td><code>Boolean=true</code>. Whether syntax highlighting should be
@@ -279,7 +271,7 @@ Parameter name | Docker variable | Description
 }
 </code>
 </pre>
-            This is the default configuration section for the the
+            This is the default configuration section for the
             requestSnippets plugin.
         </td>
     </tr>

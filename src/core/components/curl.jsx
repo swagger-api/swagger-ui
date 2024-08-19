@@ -1,32 +1,18 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { CopyToClipboard } from "react-copy-to-clipboard"
-import {SyntaxHighlighter, getStyle} from "core/syntax-highlighting"
-import get from "lodash/get"
 import { requestSnippetGenerator_curl_bash } from "../plugins/request-snippets/fn"
 
 export default class Curl extends React.Component {
   static propTypes = {
-    getConfigs: PropTypes.func.isRequired,
+    getComponent: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired
   }
 
   render() {
-    let { request, getConfigs } = this.props
-    let curl = requestSnippetGenerator_curl_bash(request)
-
-    const config = getConfigs()
-
-    const curlBlock = get(config, "syntaxHighlight.activated")
-      ? <SyntaxHighlighter
-          language="bash"
-          className="curl microlight"
-          style={getStyle(get(config, "syntaxHighlight.theme"))}
-          >
-          {curl}
-        </SyntaxHighlighter>
-      :
-      <textarea readOnly={true} className="curl" value={curl}></textarea>
+    const { request, getComponent } = this.props
+    const curl = requestSnippetGenerator_curl_bash(request)
+    const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
     return (
       <div className="curl-command">
@@ -35,7 +21,15 @@ export default class Curl extends React.Component {
             <CopyToClipboard text={curl}><button/></CopyToClipboard>
         </div>
         <div>
-          {curlBlock}
+          <SyntaxHighlighter
+            language="bash"
+            className="curl microlight"
+            renderPlainText={({ children, PlainTextViewer }) => (
+              <PlainTextViewer className="curl">{children}</PlainTextViewer>
+            )}
+          >
+            {curl}
+          </SyntaxHighlighter>
         </div>
       </div>
     )

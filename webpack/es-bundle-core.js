@@ -14,6 +14,7 @@ const {
   WebpackBundleSizeAnalyzerPlugin,
 } = require("webpack-bundle-size-analyzer")
 const nodeExternals = require("webpack-node-externals")
+const { getDevtool } = require("./_helpers")
 // const { StatsWriterPlugin } = require("webpack-stats-plugin")
 
 const minimize = true
@@ -44,7 +45,7 @@ const result = configBuilder(
         module: true,
       },
     },
-    devtool: sourcemaps && minimize ? "source-map" : false,
+    devtool: getDevtool(sourcemaps, minimize),
     externalsType: "module",
     externals: [
       {

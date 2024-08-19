@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Examples
+  description: ''
+webhooks:
+  test-webhook:
+    post:
+      operationId: test-webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestSchema'
+            examples:
+              TestExample1:
+                $ref: '#/components/examples/TestExample1'
+              TestExample2:
+                $ref: '#/components/examples/TestExample2'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestSchema'
+              examples:
+                TestExample1:
+                  $ref: '#/components/examples/TestExample1'
+                TestExample2:
+                  $ref: '#/components/examples/TestExample2'
+components:
+  schemas:
+    TestSchema:
+      type: object
+      properties:
+        userId:
+          type: string
+          examples: ['userId example from schema']
+        orders:
+          type: array
+          items:
+            type: object
+            properties:
+              orderId:
+                type: string
+                examples: ['orderId example from schema']
+  examples:
+    TestExample1:
+      value:
+        userId: 'userId example from examples'
+        orders:
+          - orderId: 'orderId example from examples'
+    TestExample2:
+      value:
+        userId: 'second userId example from examples'
+        orders:
+          - orderId: 'second orderId example from examples'

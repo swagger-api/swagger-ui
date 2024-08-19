@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: TEST
+  description: TEST
+  version: '1.0'
+servers:
+- url: localhost:8080
+tags:
+- name: TEST
+paths:
+  /test-endpoint:
+    get:
+      summary: Test
+      operationId: test
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples: {}
+      description: Test
+      tags:
+      - TEST

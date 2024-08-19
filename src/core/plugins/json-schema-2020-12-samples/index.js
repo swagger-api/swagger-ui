@@ -7,9 +7,11 @@ import {
   createXMLExample,
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
+  optionAPI,
   encoderAPI,
   mediaTypeAPI,
   formatAPI,
+  mergeJsonSchema,
 } from "./fn/index"
 import makeGetJsonSampleSchema from "./fn/get-json-sample-schema"
 import makeGetYamlSampleSchema from "./fn/get-yaml-sample-schema"
@@ -27,6 +29,7 @@ const JSONSchema202012SamplesPlugin = ({ getSystem }) => {
       jsonSchema202012: {
         sampleFromSchema,
         sampleFromSchemaGeneric,
+        sampleOptionAPI: optionAPI,
         sampleEncoderAPI: encoderAPI,
         sampleFormatAPI: formatAPI,
         sampleMediaTypeAPI: mediaTypeAPI,
@@ -37,6 +40,7 @@ const JSONSchema202012SamplesPlugin = ({ getSystem }) => {
         getYamlSampleSchema,
         getXmlSampleSchema,
         getSampleSchema,
+        mergeJsonSchema,
       },
     },
   }

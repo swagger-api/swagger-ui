@@ -1,0 +1,50 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      parameters:
+      - name: enum
+        in: query
+        schema:
+          oneOf:
+          - type: string
+            default: ascending
+            enum:
+            - ascending
+            - descending
+      - name: string
+        in: query
+        default: test
+        schema:
+          anyOf:
+          - type: string
+      - name: object
+        in: query
+        schema:
+          oneOf:
+            - type: object
+              properties:
+                eq:
+                  type: string
+                  enum:
+                    - active
+                    - archived
+                neq:
+                  type: string
+                  enum:
+                    - active
+                    - archived
+                in:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - active
+                      - archived
+                notIn:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - active
+                      - archived
