@@ -3,6 +3,7 @@
  */
 import React from "react"
 import PropTypes from "prop-types"
+import Sidebar from "../swaggy/sidebar"
 
 export default class BaseLayout extends React.Component {
   static propTypes = {
@@ -95,57 +96,62 @@ export default class BaseLayout extends React.Component {
     const hasSecurityDefinitions = !!specSelectors.securityDefinitions()
 
     return (
-      <div className="swagger-ui">
-        <SvgAssets />
-        <VersionPragmaFilter
-          isSwagger2={isSwagger2}
-          isOAS3={isOAS3}
-          alsoShow={<Errors />}
-        >
-          <Errors />
-          <Row className="information-container">
-            <Col mobile={12}>
-              <InfoContainer />
-            </Col>
-          </Row>
+      <>
+        <Sidebar />
+        <div className="swagger-ui">
+          <div style={{ width: "85%", right: 0, position: "absolute" }}>
+            <SvgAssets />
+            <VersionPragmaFilter
+              isSwagger2={isSwagger2}
+              isOAS3={isOAS3}
+              alsoShow={<Errors />}
+            >
+              <Errors />
+              <Row className="information-container">
+                <Col mobile={12}>
+                  <InfoContainer />
+                </Col>
+              </Row>
 
-          {hasServers || hasSchemes || hasSecurityDefinitions ? (
-            <div className="scheme-container">
-              <Col className="schemes wrapper" mobile={12}>
-                {hasServers || hasSchemes ? (
-                  <div className="schemes-server-container">
-                    {hasServers ? <ServersContainer /> : null}
-                    {hasSchemes ? <SchemesContainer /> : null}
-                  </div>
-                ) : null}
-                {hasSecurityDefinitions ? <AuthorizeBtnContainer /> : null}
-              </Col>
-            </div>
-          ) : null}
+              {hasServers || hasSchemes || hasSecurityDefinitions ? (
+                <div className="scheme-container">
+                  <Col className="schemes wrapper" mobile={12}>
+                    {hasServers || hasSchemes ? (
+                      <div className="schemes-server-container">
+                        {hasServers ? <ServersContainer /> : null}
+                        {hasSchemes ? <SchemesContainer /> : null}
+                      </div>
+                    ) : null}
+                    {hasSecurityDefinitions ? <AuthorizeBtnContainer /> : null}
+                  </Col>
+                </div>
+              ) : null}
 
-          <FilterContainer />
+              <FilterContainer />
 
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Operations />
-            </Col>
-          </Row>
+              <Row>
+                <Col mobile={12} desktop={12}>
+                  <Operations />
+                </Col>
+              </Row>
 
-          {isOAS31 && (
-            <Row className="webhooks-container">
-              <Col mobile={12} desktop={12}>
-                <Webhooks />
-              </Col>
-            </Row>
-          )}
+              {isOAS31 && (
+                <Row className="webhooks-container">
+                  <Col mobile={12} desktop={12}>
+                    <Webhooks />
+                  </Col>
+                </Row>
+              )}
 
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Models />
-            </Col>
-          </Row>
-        </VersionPragmaFilter>
-      </div>
+              <Row>
+                <Col mobile={12} desktop={12}>
+                  <Models />
+                </Col>
+              </Row>
+            </VersionPragmaFilter>
+          </div>
+        </div>
+      </>
     )
   }
 }

@@ -28,7 +28,7 @@
     display: flex;
     align-items: center;
 
-    padding: 10px 20px 10px 10px;
+    padding: 15px 20px 10px 10px;
 
     cursor: pointer;
     transition: all .2s;
@@ -43,7 +43,7 @@
 
 @mixin method($color)
 {
-    border-color: $color;
+    border-color: $black;
     background: rgba($color, .1);
 
     .opblock-summary-method
@@ -53,6 +53,7 @@
 
     .opblock-summary
     {
+        width: 100%;
         border-color: $color;
     }
 
@@ -90,6 +91,8 @@
     {
         font-size: 14px;
         font-weight: normal;
+        color: $color-primary;
+        text-decoration: none;
 
         flex: 2;
 
@@ -105,6 +108,7 @@
         text-overflow: ellipsis;
         flex: 1 1 150px;
         font-weight: 400;
+        color: $color-primary;
     }
 
     @media (max-width: 640px) {
@@ -198,7 +202,11 @@
 
 .opblock
 {
+    display: flex;
+    width: 50%;
+    height: 50px;
     margin: 0 0 15px 0;
+
 
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
@@ -254,6 +262,7 @@
     {
         .opblock-summary
         {
+            
             border-bottom: 1px solid $opblock-isopen-summary-border-bottom-color;
         }
     }
@@ -702,6 +711,11 @@
 
 .opblock-body
 {
+    display: flex;
+    position: absolute;
+    width: 50%;
+    right: 0;
+
   .opblock-loading-animation
   {
     display: block;
@@ -982,7 +996,10 @@
 
 .float-right
 {
+    display: flex;
+    position: fixed;
     float: right;
+    bottom:0
 }
 
 .svg-assets

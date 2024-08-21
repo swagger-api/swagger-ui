@@ -1,6 +1,7 @@
 .topbar
 {
-    padding: 10px 0;
+    padding: 20px 10px;
+    z-index: 99;
 
     background-color: $topbar-background-color;
     .topbar-wrapper
@@ -45,12 +46,14 @@
         display: flex;
         flex: 3;
         justify-content: flex-end;
+        margin-left: 10px;
 
         input[type=text]
         {
             width: 100%;
             max-width: 100%;
             margin: 0;
+            color: $gray-400;
 
             border: 2px solid $topbar-download-url-wrapper-element-border-color;
             border-radius: 4px 0 0 4px;

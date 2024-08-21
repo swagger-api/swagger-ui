@@ -1,6 +1,6 @@
 .info
 {
-    margin: 50px 0;
+    padding: 50px 0;
 
     &.failed-config
     { 
@@ -15,7 +15,7 @@
         margin: 0 0 20px 0;
         a
         {
-            font-size: 12px;
+            font-size: 11px;
         }
     }
     pre 
@@ -64,7 +64,7 @@
 
     .title
     {
-        font-size: 36px;
+        font-size: 32px;
 
         margin: 0;
 
@@ -89,7 +89,7 @@
             
             &.version-stamp
             {
-                background-color: #89bf04;
+                background-color: $color-primary;
             }
 
             pre

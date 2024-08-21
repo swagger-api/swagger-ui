@@ -1,0 +1,18 @@
+.sidebar {
+    position: fixed;
+    display: flex;
+    width: 15%;
+    height: 100vh;
+    z-index: 10;
+    padding: 60px 30px;
+}
+
+.menu {
+    color: $black;
+    font-weight: 500;
+    font-size: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
