@@ -203,7 +203,7 @@
 .opblock
 {
     display: flex;
-    width: 50%;
+    width: 40%;
     height: 50px;
     margin: 0 0 15px 0;
 
@@ -616,7 +616,7 @@
 
 .execute-wrapper
 {
-    padding: 20px;
+    // padding: 20px;
 
     text-align: right;
 
@@ -713,8 +713,8 @@
 {
     display: flex;
     position: absolute;
-    width: 50%;
-    right: 0;
+    width: 60%;
+    right: 0px;
 
   .opblock-loading-animation
   {

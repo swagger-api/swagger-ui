@@ -99,7 +99,7 @@ export default class BaseLayout extends React.Component {
       <>
         <Sidebar />
         <div className="swagger-ui">
-          <div style={{ width: "85%", right: 0, position: "absolute" }}>
+          <div style={{ width: "92%", right: 0, position: "absolute" }}>
             <SvgAssets />
             <VersionPragmaFilter
               isSwagger2={isSwagger2}
