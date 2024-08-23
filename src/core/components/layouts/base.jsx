@@ -22,9 +22,9 @@ export default class BaseLayout extends React.Component {
   }
 
   handleTagClick = (tag) => {
-    console.log("클릭")
-    if (this.tagRefs[tag]) {
-      this.tagRefs[tag].scrollIntoView({ behavior: "smooth" })
+    console.log(tag, "클릭")
+    if (this.tagRefs[tag.name]) {
+      this.tagRefs[tag.name].scrollIntoView({ behavior: "smooth" })
     }
   }
 
