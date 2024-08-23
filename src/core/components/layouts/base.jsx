@@ -15,6 +15,19 @@ export default class BaseLayout extends React.Component {
     getComponent: PropTypes.func.isRequired,
   }
 
+  // swaggy-swagger
+  constructor(props) {
+    super(props)
+    this.tagRefs = {} // 각 태그에 대한 ref를 저장할 객체
+  }
+
+  handleTagClick = (tag) => {
+    console.log("클릭")
+    if (this.tagRefs[tag]) {
+      this.tagRefs[tag].scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   render() {
     const { errSelectors, specSelectors, getComponent } = this.props
 
@@ -95,9 +108,12 @@ export default class BaseLayout extends React.Component {
     const hasSchemes = schemes && schemes.size
     const hasSecurityDefinitions = !!specSelectors.securityDefinitions()
 
+    // swaggy-swagger
+    const tags = specSelectors.taggedOperations()
+
     return (
       <>
-        <Sidebar />
+        <Sidebar taggedOps={tags} onClick={this.handleTagClick} />
         <div className="swagger-ui">
           <div style={{ width: "92%", right: 0, position: "absolute" }}>
             <SvgAssets />
@@ -131,21 +147,27 @@ export default class BaseLayout extends React.Component {
 
               <Row>
                 <Col mobile={12} desktop={12}>
-                  <Operations />
+                  <div ref={(el) => (this.tagRefs["operations"] = el)}>
+                    <Operations />
+                  </div>
                 </Col>
               </Row>
 
               {isOAS31 && (
                 <Row className="webhooks-container">
                   <Col mobile={12} desktop={12}>
-                    <Webhooks />
+                    <div ref={(el) => (this.tagRefs["webhooks"] = el)}>
+                      <Webhooks />
+                    </div>
                   </Col>
                 </Row>
               )}
 
               <Row>
                 <Col mobile={12} desktop={12}>
-                  <Models />
+                  <div ref={(el) => (this.tagRefs["models"] = el)}>
+                    <Models />
+                  </div>
                 </Col>
               </Row>
             </VersionPragmaFilter>
