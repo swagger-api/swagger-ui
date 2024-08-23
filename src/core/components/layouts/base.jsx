@@ -109,11 +109,17 @@ export default class BaseLayout extends React.Component {
     const hasSecurityDefinitions = !!specSelectors.securityDefinitions()
 
     // swaggy-swagger
-    const tags = specSelectors.taggedOperations()
+    const tags = specSelectors
+      .taggedOperations()
+      .entrySeq()
+      .map(([key, value]) => ({
+        name: key,
+      }))
+      .toArray()
 
     return (
       <>
-        <Sidebar taggedOps={tags} onClick={this.handleTagClick} />
+        <Sidebar taggedOps={tags} onTagClick={this.handleTagClick} />
         <div className="swagger-ui">
           <div style={{ width: "92%", right: 0, position: "absolute" }}>
             <SvgAssets />

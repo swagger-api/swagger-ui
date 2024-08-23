@@ -25,9 +25,9 @@ class Sidebar extends React.Component {
         <div style={{ display: "flex", flexDirection: "column", gap: 13 }} className="menu">
           {taggedOps.map((tag) => (
             <span
-              key={tag.name}
+              key={tag[0]}
               className="menu"
-              id={tag.name}
+              id={tag[0]}
               onClick={() => onTagClick(tag)}
             >
               {tag.name}
