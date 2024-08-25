@@ -27,6 +27,10 @@ jobs:
         git clone https://westofsky:${{secrets.GITHUB_TOKEN}}@github.com/Swaggy-Swagger/swagger-custom-java.git
         cd swagger-custom-java
 
+        # Git 사용자 정보 설정
+        git config user.name "westofsky"
+        git config user.email "westofsky159@gmail.com"
+
         # A 레포지토리에서 B 레포지토리로 파일 복사
         cp ../dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
         cp ../dist/swagger-ui-bundle.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-bundle.js
