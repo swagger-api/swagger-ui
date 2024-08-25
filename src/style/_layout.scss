@@ -439,26 +439,46 @@
     &.opblock-post
     {
         @include method($_color-post);
+        .opblock-summary-method{
+            background-color: #49cc90;
+            color:white;
+        }
     }
 
     &.opblock-put
     {
         @include method($_color-put);
+        .opblock-summary-method{
+            background-color: #fca130;
+            color:white;
+        }
     }
 
     &.opblock-delete
     {
         @include method($_color-delete);
+        .opblock-summary-method{
+            background-color: #f93e3e;
+            color:white;
+        }
     }
 
     &.opblock-get
     {
         @include method($_color-get);
+        .opblock-summary-method{
+            background-color: #61affe;
+            color:white;
+        }
     }
 
     &.opblock-patch
     {
         @include method($_color-patch);
+        .opblock-summary-method{
+            background-color: #50e3c2;
+            color:white;
+        }
     }
 
     &.opblock-head
