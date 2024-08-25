@@ -7,7 +7,7 @@ on:
       - 'dist/swagger-ui-standalone-preset.js'
       - 'dist/swagger-ui-bundle.js'
     branches:
-      - style/layout
+      - master
 
 jobs:
   sync_files:
