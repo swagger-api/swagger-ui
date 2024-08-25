@@ -122,6 +122,7 @@ export default class Operation extends PureComponent {
           <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
+              <div className="description-wrapper">
               { (operation && operation.size) || operation === null ? null :
                 <RollingLoadSVG height="32px" width="32px" className="opblock-loading-animation" />
               }
@@ -130,7 +131,7 @@ export default class Operation extends PureComponent {
                 <div className="opblock-description-wrapper">
                   <div className="opblock-description">
                     <Markdown source={ description } />
-                  </div>
+                  </div>    
                 </div>
               }
               {
@@ -147,8 +148,11 @@ export default class Operation extends PureComponent {
                   </div>
                 </div> : null
               }
-
+              </div>
+              <div className="param-response-wrapper">
+                
               { !operation || !operation.size ? null :
+              <div className="opblock-body-wrapper">
                 <Parameters
                   parameters={parameters}
                   specPath={specPath.push("parameters")}
@@ -169,6 +173,24 @@ export default class Operation extends PureComponent {
                   oas3Actions={ oas3Actions }
                   oas3Selectors={ oas3Selectors }
                 />
+                <div className="execute-wrapper">
+                  
+                <Clear
+                    specActions={ specActions }
+                    path={ path }
+                    method={ method }/>
+                <Execute
+                    operation={ operation }
+                    specActions={ specActions }
+                    specSelectors={ specSelectors }
+                    oas3Selectors={ oas3Selectors }
+                    oas3Actions={ oas3Actions }
+                    path={ path }
+                    method={ method }
+                    onExecute={ onExecute }
+                    disabled={executeInProgress}/>
+                  </div>
+                </div>
               }
 
               { !tryItOutEnabled ? null :
@@ -202,30 +224,7 @@ export default class Operation extends PureComponent {
                   </ul>
                 </div>
               }
-
-            <div className={(!tryItOutEnabled || !response || !allowTryItOut) ? "execute-wrapper" : "btn-group"}>
-              { !tryItOutEnabled || !allowTryItOut ? null :
-
-                  <Execute
-                    operation={ operation }
-                    specActions={ specActions }
-                    specSelectors={ specSelectors }
-                    oas3Selectors={ oas3Selectors }
-                    oas3Actions={ oas3Actions }
-                    path={ path }
-                    method={ method }
-                    onExecute={ onExecute }
-                    disabled={executeInProgress}/>
-              }
-
-              { (!tryItOutEnabled || !response || !allowTryItOut) ? null :
-                  <Clear
-                    specActions={ specActions }
-                    path={ path }
-                    method={ method }/>
-              }
-            </div>
-
+            <div className="line"/>
             {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
               { !responses ? null :
@@ -252,6 +251,7 @@ export default class Operation extends PureComponent {
                 <OperationExt extensions={ extensions } getComponent={ getComponent } />
               }
             </div>
+              </div>
           </Collapse>
         </div>
     )

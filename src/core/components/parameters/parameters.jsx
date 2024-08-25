@@ -38,8 +38,8 @@ export default class Parameters extends Component {
   static defaultProps = {
     onTryoutClick: Function.prototype,
     onCancelClick: Function.prototype,
-    tryItOutEnabled: false,
-    allowTryItOut: true,
+    tryItOutEnabled: true, // Always enabled
+    allowTryItOut: true, // Always allow Try It Out
     onChangeKey: [],
     specPath: [],
   }
@@ -99,7 +99,6 @@ export default class Parameters extends Component {
       onResetClick,
       parameters,
       allowTryItOut,
-      tryItOutEnabled,
       specPath,
       fn,
       getComponent,
@@ -113,12 +112,11 @@ export default class Parameters extends Component {
     } = this.props
 
     const ParameterRow = getComponent("parameterRow")
-    const TryItOutButton = getComponent("TryItOutButton")
     const ContentType = getComponent("contentType")
     const Callbacks = getComponent("Callbacks", true)
     const RequestBody = getComponent("RequestBody", true)
 
-    const isExecute = tryItOutEnabled && allowTryItOut
+    const isExecute = true // Always true to enable try it out
     const isOAS3 = specSelectors.isOAS3()
 
     const regionId = createHtmlReadyId(`${pathMethod[1]}${pathMethod[0]}_requests`)
@@ -159,15 +157,6 @@ export default class Parameters extends Component {
               <h4 className="opblock-title">Parameters</h4>
             </div>
           )}
-          {allowTryItOut ? (
-            <TryItOutButton
-              isOAS3={specSelectors.isOAS3()}
-              hasUserEditedBody={oas3Selectors.hasUserEditedBody(...pathMethod)}
-              enabled={tryItOutEnabled}
-              onCancelClick={this.props.onCancelClick}
-              onTryoutClick={onTryoutClick}
-              onResetClick={() => onResetClick(pathMethod)}/>
-          ) : null}
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
           {!groupedParametersArr.length ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
