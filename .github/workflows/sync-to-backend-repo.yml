@@ -1,4 +1,4 @@
-name: Sync Files to B Repository
+name: Sync Files to Backend Repository
 
 on:
   push:
@@ -17,15 +17,20 @@ jobs:
     - name: Checkout Frontend Repository
       uses: actions/checkout@v3
 
+    - name: Install dependencies and build
+      run: |
+        npm install        # 또는 yarn install
+        npm run build      # 또는 yarn build
+
     - name: Sync Files to Backend Repository
       run: |
         git clone https://westofsky:${{secrets.GITHUB_TOKEN}}@github.com/Swaggy-Swagger/swagger-custom-java.git
         cd swagger-custom-java
 
-        # Copy the files from A repository to B repository
-        cp dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
-        cp dist/swagger-ui-bundle.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-bundle.js
-        cp dist/swagger-ui-standalone-preset.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-standalone-preset.js
+        # A 레포지토리에서 B 레포지토리로 파일 복사
+        cp ../dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
+        cp ../dist/swagger-ui-bundle.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-bundle.js
+        cp ../dist/swagger-ui-standalone-preset.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-standalone-preset.js
 
         git add .
         git commit -m "style: apply ui"
