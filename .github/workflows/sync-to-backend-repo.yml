@@ -38,7 +38,10 @@ jobs:
 
         git add .
         git commit -m "style: apply ui"
-        git push origin style/ui
+
+        # Ensure the style/ui branch exists
+        git branch -M style/ui
+        git push -u origin style/ui
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
