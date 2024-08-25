@@ -20,7 +20,7 @@ jobs:
     - name: Sync Files to Backend Repository
       run: |
         git clone https://westofsky:${{secrets.GITHUB_TOKEN}}@github.com/Swaggy-Swagger/swagger-custom-java.git
-        cd B-repository
+        cd swagger-custom-java
 
         # Copy the files from A repository to B repository
         cp dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
