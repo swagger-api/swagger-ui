@@ -1,14 +1,20 @@
 .sidebar {
-    position: fixed;
+    width: 150px;
     display: flex;
-    width: 8%;
+    justify-content: center;
     height: 100vh;
     z-index: 10;
-    padding: 60px 30px;
+    position: relative;
 }
 
 .menu {
+    width: 120px;
+    word-break: break-all;
+    position:fixed;
+    top:100px;
     display: flex;
+    flex-direction: column;
+    gap: 13px;
     color: $black;
     font-weight: 500;
     font-size: 20px;

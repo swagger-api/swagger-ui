@@ -1,3 +1,7 @@
+.swagger-ui{
+	display: flex;
+	justify-content: center;
+}
 .wrapper
 {
     width: 100%;
@@ -612,8 +616,7 @@
 .execute-wrapper
 {
     padding: 20px;
-
-    text-align: right;
+		display: flex;
 
     .btn
     {
@@ -706,6 +709,19 @@
 
 .opblock-body
 {
+  display: flex;
+	flex-direction: column;
+	.param-response-wrapper{
+		display: flex;
+	}
+	.opblock-body-wrapper{
+			display: flex;
+			flex-direction: column;
+			width: 50%;
+	}
+	.responses-wrapper{
+		width: 50%;
+	}
   .opblock-loading-animation
   {
     display: block;
@@ -713,6 +729,10 @@
     margin-left: auto;
     margin-right: auto;
   }
+	.line{
+		width: 2px;
+		background-color:black;
+	}
 }
 
 .opblock-body pre.microlight

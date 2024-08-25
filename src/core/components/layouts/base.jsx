@@ -119,9 +119,9 @@ export default class BaseLayout extends React.Component {
 
     return (
       <>
-        <Sidebar taggedOps={tags} onTagClick={this.handleTagClick} />
         <div className="swagger-ui">
-          <div style={{ width: "92%", right: 0, position: "absolute" }}>
+          <Sidebar taggedOps={tags} onTagClick={this.handleTagClick} />
+          <div style={{ flex: 1 }}>
             <SvgAssets />
             <VersionPragmaFilter
               isSwagger2={isSwagger2}
