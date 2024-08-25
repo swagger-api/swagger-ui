@@ -24,7 +24,7 @@ jobs:
 
     - name: Sync Files to Backend Repository
       run: |
-        git clone https://westofsky:${{secrets.GITHUB_TOKEN}}@github.com/Swaggy-Swagger/swagger-custom-java.git
+        git clone https://westofsky:${{secrets.PAT}}@github.com/Swaggy-Swagger/swagger-custom-java.git
         cd swagger-custom-java
 
         # Git 사용자 정보 설정
@@ -44,4 +44,4 @@ jobs:
         git push -u origin style/ui
 
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets. PAT }}
