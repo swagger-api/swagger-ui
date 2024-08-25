@@ -1,3 +1,7 @@
+.swagger-ui{
+	display: flex;
+	justify-content: center;
+}
 .wrapper
 {
     width: 100%;
@@ -28,7 +32,7 @@
     display: flex;
     align-items: center;
 
-    padding: 10px 20px 10px 10px;
+    padding: 15px 20px 10px 10px;
 
     cursor: pointer;
     transition: all .2s;
@@ -43,7 +47,7 @@
 
 @mixin method($color)
 {
-    border-color: $color;
+    border-color: $black;
     background: rgba($color, .1);
 
     .opblock-summary-method
@@ -53,6 +57,7 @@
 
     .opblock-summary
     {
+        width: 100%;
         border-color: $color;
     }
 
@@ -90,6 +95,8 @@
     {
         font-size: 14px;
         font-weight: normal;
+        color: $color-primary;
+        text-decoration: none;
 
         flex: 2;
 
@@ -105,6 +112,7 @@
         text-overflow: ellipsis;
         flex: 1 1 150px;
         font-weight: 400;
+        color: $color-primary;
     }
 
     @media (max-width: 640px) {
@@ -608,8 +616,7 @@
 .execute-wrapper
 {
     padding: 20px;
-
-    text-align: right;
+		display: flex;
 
     .btn
     {
@@ -702,6 +709,19 @@
 
 .opblock-body
 {
+  display: flex;
+	flex-direction: column;
+	.param-response-wrapper{
+		display: flex;
+	}
+	.opblock-body-wrapper{
+			display: flex;
+			flex-direction: column;
+			width: 50%;
+	}
+	.responses-wrapper{
+		width: 50%;
+	}
   .opblock-loading-animation
   {
     display: block;
@@ -709,6 +729,10 @@
     margin-left: auto;
     margin-right: auto;
   }
+	.line{
+		width: 2px;
+		background-color:black;
+	}
 }
 
 .opblock-body pre.microlight

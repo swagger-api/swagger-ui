@@ -33,29 +33,30 @@ $electric-violet: #7300e5 !default;
 $persian-red: #cf3030 !default;
 $mango-tango: #e97500 !default;
 
-// Theme
 
-$color-primary: #89bf04 !default;
-$color-secondary: #9012fe !default;
+// Swaggy-Swagger Theme
+
+$color-primary: #84EA2C !default;
+$color-secondary: #877455 !default;
 $color-info: #4990e2 !default;
-$color-warning: #ff6060 !default;
+$color-warning: #E68EA1 !default;
 $color-danger: #f00 !default;
 
 $color-primary-hover: lighten($color-primary, .5%) !default;
 
-$_color-post: #49cc90 !default;
-$_color-get: #61affe !default;
-$_color-put: #fca130 !default;
-$_color-delete: #f93e3e !default;
-$_color-head: #9012fe !default;
-$_color-patch: #50e3c2 !default;
-$_color-disabled: #ebebeb !default;
-$_color-options: #0d5aa7 !default;
+$_color-post: #fff!default;
+$_color-get: #fff !default;
+$_color-put: #fff !default;
+$_color-delete: #fff !default;
+$_color-head: $gray-500 !default;
+$_color-patch: #fff !default;
+$_color-disabled: $gray-200 !default;
+$_color-options: #fff !default;
 
 // Authorize
 
 $auth-container-border-color: $gray-50 !default;
-$auth-select-all-none-link-font-color: $color-info !default;
+$auth-select-all-none-link-font-color: $color-primary !default;
 // Buttons
 
 $btn-background-color: transparent !default;
@@ -64,9 +65,9 @@ $btn-font-color: inherit !default;
 $btn-box-shadow-color: $black !default;
 
 $btn-authorize-background-color: transparent !default;
-$btn-authorize-border-color: $_color-post !default;
-$btn-authorize-font-color: $_color-post !default;
-$btn-authorize-svg-fill-color: $_color-post !default;
+$btn-authorize-border-color: $gray-400 !default;
+$btn-authorize-font-color: $gray-400 !default;
+$btn-authorize-svg-fill-color: $gray-400 !default;
 
 $btn-cancel-background-color: transparent !default;
 $btn-cancel-border-color: $color-warning !default;
@@ -112,7 +113,7 @@ $info-code-background-color: $black !default;
 $info-code-font-color: $_color-head !default;
 
 $info-link-font-color: $color-info !default;
-$info-link-font-color-hover: $info-link-font-color !default;
+$info-link-font-color-hover: $color-primary !default;
 
 $info-title-small-background-color: $waterloo-gray !default;
 
@@ -120,7 +121,7 @@ $info-title-small-pre-font-color: $white !default;
 
 // Layout
 
-$opblock-border-color: $black !default;
+$opblock-border-color: $gray-400 !default;
 $opblock-box-shadow-color: $black !default;
 
 $opblock-tag-border-bottom-color: $bright-gray !default;
@@ -134,7 +135,7 @@ $opblock-isopen-section-header-background-color: $white !default;
 $opblock-isopen-section-header-box-shadow-color: $black !default;
 
 $opblock-summary-method-background-color: $black !default;
-$opblock-summary-method-font-color: $white !default;
+$opblock-summary-method-font-color: $black !default;
 $opblock-summary-method-text-shadow-color: $black !default;
 
 $operational-filter-input-border-color: $geyser-blue !default;
@@ -213,14 +214,14 @@ $table-parameter-deprecated-font-color: $color-danger !default;
 
 // Topbar
 
-$topbar-background-color: $cod-gray !default;
+$topbar-background-color: $white !default;
 
-$topbar-link-font-color: $white !default;
+$topbar-link-font-color: $color-primary !default;
 
-$topbar-download-url-wrapper-element-border-color: $apple-green !default;
+$topbar-download-url-wrapper-element-border-color: $color-primary !default;
 
-$topbar-download-url-button-background-color: $apple-green !default;
-$topbar-download-url-button-font-color: $white !default;
+$topbar-download-url-button-background-color: $color-primary !default;
+$topbar-download-url-button-font-color: $agate-gray !default;
 
 // Type
 

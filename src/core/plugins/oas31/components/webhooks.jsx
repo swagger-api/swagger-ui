@@ -16,7 +16,6 @@ const Webhooks = ({ specSelectors, getComponent }) => {
   return (
     <div className="webhooks">
       <h2>Webhooks</h2>
-
       {pathItemNames.map((pathItemName) => (
         <div key={`${pathItemName}-webhook`}>
           {operationDTOs[pathItemName].map((operationDTO) => (

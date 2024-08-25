@@ -1,0 +1,25 @@
+.sidebar {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    z-index: 10;
+    position: relative;
+}
+
+.menu {
+    width: 120px;
+    word-break: break-all;
+    position:fixed;
+    top:100px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    color: $black;
+    font-weight: 500;
+    font-size: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

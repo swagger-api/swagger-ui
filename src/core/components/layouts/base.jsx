@@ -3,6 +3,7 @@
  */
 import React from "react"
 import PropTypes from "prop-types"
+import Sidebar from "../swaggy/sidebar"
 
 export default class BaseLayout extends React.Component {
   static propTypes = {
@@ -12,6 +13,19 @@ export default class BaseLayout extends React.Component {
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+  }
+
+  // swaggy-swagger
+  constructor(props) {
+    super(props)
+    this.tagRefs = {} // 각 태그에 대한 ref를 저장할 객체
+  }
+
+  handleTagClick = (tag) => {
+    console.log(tag, "클릭")
+    if (this.tagRefs[tag.name]) {
+      this.tagRefs[tag.name].scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   render() {
@@ -94,58 +108,78 @@ export default class BaseLayout extends React.Component {
     const hasSchemes = schemes && schemes.size
     const hasSecurityDefinitions = !!specSelectors.securityDefinitions()
 
+    // swaggy-swagger
+    const tags = specSelectors
+      .taggedOperations()
+      .entrySeq()
+      .map(([key, value]) => ({
+        name: key,
+      }))
+      .toArray()
+
     return (
-      <div className="swagger-ui">
-        <SvgAssets />
-        <VersionPragmaFilter
-          isSwagger2={isSwagger2}
-          isOAS3={isOAS3}
-          alsoShow={<Errors />}
-        >
-          <Errors />
-          <Row className="information-container">
-            <Col mobile={12}>
-              <InfoContainer />
-            </Col>
-          </Row>
+      <>
+        <div className="swagger-ui">
+          <Sidebar taggedOps={tags} onTagClick={this.handleTagClick} />
+          <div style={{ flex: 1 }}>
+            <SvgAssets />
+            <VersionPragmaFilter
+              isSwagger2={isSwagger2}
+              isOAS3={isOAS3}
+              alsoShow={<Errors />}
+            >
+              <Errors />
+              <Row className="information-container">
+                <Col mobile={12}>
+                  <InfoContainer />
+                </Col>
+              </Row>
 
-          {hasServers || hasSchemes || hasSecurityDefinitions ? (
-            <div className="scheme-container">
-              <Col className="schemes wrapper" mobile={12}>
-                {hasServers || hasSchemes ? (
-                  <div className="schemes-server-container">
-                    {hasServers ? <ServersContainer /> : null}
-                    {hasSchemes ? <SchemesContainer /> : null}
+              {hasServers || hasSchemes || hasSecurityDefinitions ? (
+                <div className="scheme-container">
+                  <Col className="schemes wrapper" mobile={12}>
+                    {hasServers || hasSchemes ? (
+                      <div className="schemes-server-container">
+                        {hasServers ? <ServersContainer /> : null}
+                        {hasSchemes ? <SchemesContainer /> : null}
+                      </div>
+                    ) : null}
+                    {hasSecurityDefinitions ? <AuthorizeBtnContainer /> : null}
+                  </Col>
+                </div>
+              ) : null}
+
+              <FilterContainer />
+
+              <Row>
+                <Col mobile={12} desktop={12}>
+                  <div ref={(el) => (this.tagRefs["operations"] = el)}>
+                    <Operations />
                   </div>
-                ) : null}
-                {hasSecurityDefinitions ? <AuthorizeBtnContainer /> : null}
-              </Col>
-            </div>
-          ) : null}
+                </Col>
+              </Row>
 
-          <FilterContainer />
+              {isOAS31 && (
+                <Row className="webhooks-container">
+                  <Col mobile={12} desktop={12}>
+                    <div ref={(el) => (this.tagRefs["webhooks"] = el)}>
+                      <Webhooks />
+                    </div>
+                  </Col>
+                </Row>
+              )}
 
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Operations />
-            </Col>
-          </Row>
-
-          {isOAS31 && (
-            <Row className="webhooks-container">
-              <Col mobile={12} desktop={12}>
-                <Webhooks />
-              </Col>
-            </Row>
-          )}
-
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Models />
-            </Col>
-          </Row>
-        </VersionPragmaFilter>
-      </div>
+              <Row>
+                <Col mobile={12} desktop={12}>
+                  <div ref={(el) => (this.tagRefs["models"] = el)}>
+                    <Models />
+                  </div>
+                </Col>
+              </Row>
+            </VersionPragmaFilter>
+          </div>
+        </div>
+      </>
     )
   }
 }
