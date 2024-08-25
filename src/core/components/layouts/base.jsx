@@ -22,7 +22,6 @@ export default class BaseLayout extends React.Component {
   }
 
   handleTagClick = (tag) => {
-    console.log(tag, "클릭")
     if (this.tagRefs[tag.name]) {
       this.tagRefs[tag.name].scrollIntoView({ behavior: "smooth" })
     }
@@ -112,7 +111,7 @@ export default class BaseLayout extends React.Component {
     const tags = specSelectors
       .taggedOperations()
       .entrySeq()
-      .map(([key, value]) => ({
+      .map(([key]) => ({
         name: key,
       }))
       .toArray()
