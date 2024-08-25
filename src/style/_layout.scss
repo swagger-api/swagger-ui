@@ -202,11 +202,7 @@
 
 .opblock
 {
-    display: flex;
-    width: 40%;
-    height: 50px;
     margin: 0 0 15px 0;
-
 
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
@@ -262,7 +258,6 @@
     {
         .opblock-summary
         {
-            
             border-bottom: 1px solid $opblock-isopen-summary-border-bottom-color;
         }
     }
@@ -616,7 +611,7 @@
 
 .execute-wrapper
 {
-    // padding: 20px;
+    padding: 20px;
 
     text-align: right;
 
@@ -711,11 +706,6 @@
 
 .opblock-body
 {
-    display: flex;
-    position: absolute;
-    width: 60%;
-    right: 0px;
-
   .opblock-loading-animation
   {
     display: block;
@@ -996,10 +986,7 @@
 
 .float-right
 {
-    display: flex;
-    position: fixed;
     float: right;
-    bottom:0
 }
 
 .svg-assets
