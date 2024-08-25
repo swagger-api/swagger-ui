@@ -1,0 +1,35 @@
+name: Sync Files to B Repository
+
+on:
+  push:
+    paths:
+      - 'dist/swagger-ui.css'
+      - 'dist/swagger-ui-standalone-preset.js'
+      - 'dist/swagger-ui-bundle.js'
+    branches:
+      - style/layout
+
+jobs:
+  sync_files:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Frontend Repository
+      uses: actions/checkout@v3
+
+    - name: Sync Files to Backend Repository
+      run: |
+        git clone https://westofsky:${{secrets.GITHUB_TOKEN}}@github.com/Swaggy-Swagger/swagger-custom-java.git
+        cd B-repository
+
+        # Copy the files from A repository to B repository
+        cp dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
+        cp dist/swagger-ui-bundle.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-bundle.js
+        cp dist/swagger-ui-standalone-preset.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-standalone-preset.js
+
+        git add .
+        git commit -m "style: apply ui"
+        git push origin style/ui
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
