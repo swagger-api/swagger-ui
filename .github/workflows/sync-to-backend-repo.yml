@@ -44,4 +44,4 @@ jobs:
         git push -u origin style/ui
 
     env:
-      GITHUB_TOKEN: ${{ secrets. PAT }}
+      GITHUB_TOKEN: ${{ secrets.PAT }}
