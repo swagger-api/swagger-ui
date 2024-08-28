@@ -32,13 +32,17 @@ export default class OperationSummary extends PureComponent {
   }
 
   handleComponentClick = () => {
-    this.setState({ isChanged: false });
+    if (this.props.isShown) {
+      this.setState({ isChanged: false });
+    }
   };
 
-  handleToggle = () => {
-    this.setState({ isChanged: false }, () => {
-      this.props.toggleShown();
-    });
+  handleToggleClick = () => {
+    const { isShown, toggleShown } = this.props;
+    toggleShown();
+    if (isShown) {
+      this.setState({ isChanged: false });
+    }
   };
 
   render() {
@@ -67,6 +71,7 @@ export default class OperationSummary extends PureComponent {
     let resolvedSummary = op.summary;
 
     let security = operationProps.get("security");
+
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true);
     const OperationSummaryMethod = getComponent("OperationSummaryMethod");
     const OperationSummaryPath = getComponent("OperationSummaryPath");
@@ -84,7 +89,7 @@ export default class OperationSummary extends PureComponent {
         <button
           aria-expanded={isShown}
           className="opblock-summary-control"
-          onClick={this.handleToggle}
+          onClick={this.handleToggleClick}
         >
           <OperationSummaryMethod method={method}/>
           <div className="opblock-summary-path-description-wrapper">
@@ -124,8 +129,7 @@ export default class OperationSummary extends PureComponent {
           className="opblock-control-arrow"
           aria-expanded={isShown}
           tabIndex="-1"
-          onClick={this.handleToggle}
-        >
+          onClick={this.handleToggleClick}>
           {isShown ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
         </button>
       </div>
