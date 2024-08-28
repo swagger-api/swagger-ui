@@ -1,9 +1,9 @@
 .swagger-ui
 {
     @import '~tachyons-sass/tachyons.scss';
-    @import 'swaggy';
     @import 'mixins';
     @import 'variables';
+    @import 'swaggy';
     @import 'type';
     @import 'layout';
     @import 'buttons';

@@ -4,7 +4,7 @@
     justify-content: center;
     z-index: 10;
     position: relative;
-    background-color: linen;
+    background-color: transparent;
 }
 
 .menu {
@@ -26,24 +26,22 @@
 .menu-item {
     display: block;
     padding: 10px 15px;
-    background-color: white;
-    border: 1px solid #ccc; 
+    background-color: transparent;
+    border: none; 
     border-radius: 5px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
     transition: all 0.2s ease-in-out;
     user-select: none;
 }
 
 .menu-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
-    background-color: #f0f0f0; 
+    color: $gray-50; 
 }
 
 .menu-item:active {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     transform: translateY(2px); 
-    background-color: #e0e0e0; 
+    color: $gray-50; 
 }
+
 .is-changed{
     width: 10px;
     height: 10px;
