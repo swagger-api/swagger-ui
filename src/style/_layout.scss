@@ -637,6 +637,7 @@
 {
     padding: 20px;
 		display: flex;
+        gap: 10px;
 
     .btn
     {
@@ -750,8 +751,8 @@
     margin-right: auto;
   }
 	.line{
-		width: 2px;
-		background-color:black;
+		width: 1px;
+		background-color:$gray-300;
 	}
 }
 
