@@ -4,9 +4,7 @@ import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import toString from "lodash/toString"
 
-
 export default class OperationSummary extends PureComponent {
-
   static propTypes = {
     specPath: ImPropTypes.list.isRequired,
     operationProps: PropTypes.instanceOf(Iterable).isRequired,
@@ -27,8 +25,18 @@ export default class OperationSummary extends PureComponent {
     summary: ""
   }
 
-  render() {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isChanged: this.props.isChanged,
+    }
+  }
 
+  handleComponentClick = () => {
+    this.setState({ isChanged: false })
+  }
+
+  render() {
     let {
       isShown,
       toggleShown,
@@ -38,7 +46,6 @@ export default class OperationSummary extends PureComponent {
       operationProps,
       specPath,
       //swaggy-swagger
-      isChanged,
       changedTypes
     } = this.props
 
@@ -58,8 +65,6 @@ export default class OperationSummary extends PureComponent {
       summary: resolvedSummary,
     } = op
 
-    changedTypes = ["Endpoint", "Parameter"]
-
     let security = operationProps.get("security")
 
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
@@ -73,41 +78,35 @@ export default class OperationSummary extends PureComponent {
     const hasSecurity = security && !!security.count()
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
     const allowAnonymous = !hasSecurity || securityIsOptional
+
     return (
-      <div className={`opblock-summary opblock-summary-${method}`} >
-          
+      <div className={`opblock-summary opblock-summary-${method}`} onClick={this.handleComponentClick}>
         <button
           aria-expanded={isShown}
           className="opblock-summary-control"
           onClick={toggleShown}
         >
-         
           <OperationSummaryMethod method={method}/>
           <div className="opblock-summary-path-description-wrapper">
             <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
-
             {!showSummary ? null :
               <div className="opblock-summary-description">
                 {toString(resolvedSummary || summary)}
               </div>
             }
           </div>
-
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
         </button>
       
         <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
-        {true && 
+        {this.state.isChanged && 
           <div className="changed-box">
-            <div className="types">
-              {Array.isArray(changedTypes) &&
-                  changedTypes.map((type, index) => (
-                    <div key={index} className="types-item">
-                      {type}
-                    </div>
-              ))}
+            <div className="is-changed">
+              <div className="types-item-tooltip">
+                {Array.isArray(changedTypes) &&
+                  changedTypes.map((type) => `${type} is changed`).join('\n')}
+              </div>
             </div>
-            <div className="is-changed"></div>
           </div>
         }
         {
