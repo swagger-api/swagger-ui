@@ -89,6 +89,7 @@ export default class Operation extends PureComponent {
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
+    let changedTypes = getList(operation, ["changedTypes"])
     let isChanged = operation.get("isChanged");
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
@@ -117,10 +118,10 @@ export default class Operation extends PureComponent {
     let onChangeKey = [ path, method ]
 
     const validationErrors = specSelectors.validationErrors([path, method])
-
+    console.log(isChanged);
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
-          <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} isChanged = {isChanged} />
+          <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} isChanged = {isChanged} changedTypes = {changedTypes} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
               <div className="description-wrapper">
