@@ -65,6 +65,10 @@ export default class OperationContainer extends PureComponent {
       props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut)
     const security = op.getIn(["operation", "security"]) || props.specSelectors.security()
 
+    // 추가된 부분: isChanged 및 changedTypes 가져오기
+    const changedTypes = op.getIn(["operation", "changedTypes"]) || []
+    const isChanged = op.getIn(["operation", "isChanged"]) || false
+
     return {
       operationId,
       isDeepLinkingEnabled: deepLinking,
@@ -77,7 +81,10 @@ export default class OperationContainer extends PureComponent {
       isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full" ),
       jumpToKey: `paths.${props.path}.${props.method}`,
       response: props.specSelectors.responseFor(props.path, props.method),
-      request: props.specSelectors.requestFor(props.path, props.method)
+      request: props.specSelectors.requestFor(props.path, props.method),
+      // 추가된 부분: isChanged 및 changedTypes 전달
+      isChanged,
+      changedTypes
     }
   }
 
@@ -105,10 +112,8 @@ export default class OperationContainer extends PureComponent {
 
   toggleShown =() => {
     let { layoutActions, tag, operationId, isShown } = this.props
-    // pet, store, user ... 
     const resolvedSubtree = this.getResolvedSubtree()
     if(!isShown && resolvedSubtree === undefined) {
-      // transitioning from collapsed to expanded
       this.requestResolvedSubtree()
     }
     layoutActions.show(["operations", tag, operationId], !isShown)
@@ -154,7 +159,6 @@ export default class OperationContainer extends PureComponent {
       specPath
     } = this.props
 
-
     if(specPath) {
       return specActions.requestResolvedSubtree(specPath.toJS())
     }
@@ -191,7 +195,10 @@ export default class OperationContainer extends PureComponent {
       authSelectors,
       oas3Actions,
       oas3Selectors,
-      fn
+      fn,
+      // 추가된 부분: isChanged 및 changedTypes 전달
+      isChanged,
+      changedTypes
     } = this.props
 
     const Operation = getComponent( "operation" )
@@ -218,7 +225,10 @@ export default class OperationContainer extends PureComponent {
       displayRequestDuration,
       isDeepLinkingEnabled,
       executeInProgress: this.state.executeInProgress,
-      tryItOutEnabled: this.state.tryItOutEnabled
+      tryItOutEnabled: this.state.tryItOutEnabled,
+      // 추가된 부분: isChanged 및 changedTypes 전달
+      isChanged,
+      changedTypes
     })
 
     return (
@@ -227,14 +237,12 @@ export default class OperationContainer extends PureComponent {
         response={response}
         request={request}
         isShown={isShown}
-
         toggleShown={this.toggleShown}
         onTryoutClick={this.onTryoutClick}
         onResetClick={this.onResetClick}
         onCancelClick={this.onCancelClick}
         onExecute={this.onExecute}
         specPath={specPath}
-
         specActions={ specActions }
         specSelectors={ specSelectors }
         oas3Actions={oas3Actions}

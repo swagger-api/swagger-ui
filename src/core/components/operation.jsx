@@ -15,13 +15,11 @@ export default class Operation extends PureComponent {
     summary: PropTypes.string,
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
-
     toggleShown: PropTypes.func.isRequired,
     onTryoutClick: PropTypes.func.isRequired,
     onResetClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     onExecute: PropTypes.func.isRequired,
-
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     authActions: PropTypes.object,
@@ -76,7 +74,10 @@ export default class Operation extends PureComponent {
       allowTryItOut,
       displayRequestDuration,
       tryItOutEnabled,
-      executeInProgress
+      executeInProgress,
+      // 추가된 부분: isChanged 및 changedTypes 전달
+      isChanged,
+      changedTypes
     } = operationProps.toJS()
 
     let {
@@ -84,13 +85,13 @@ export default class Operation extends PureComponent {
       externalDocs,
       schemes
     } = op
-
+    
     const externalDocsUrl = externalDocs ? safeBuildUrl(externalDocs.url, specSelectors.url(), { selectedServer: oas3Selectors.selectedServer() }) : ""
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
-    let changedTypes = getList(operation, ["changedTypes"])
-    let isChanged = operation.get("isChanged");
+    let changedTypesList = getList(operation, ["changedTypes"])
+    let isChangedOperation = operation.get("isChanged")
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
@@ -116,12 +117,11 @@ export default class Operation extends PureComponent {
     }
 
     let onChangeKey = [ path, method ]
-
     const validationErrors = specSelectors.validationErrors([path, method])
-    console.log(isChanged);
+
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
-          <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} isChanged = {isChanged} changedTypes = {changedTypes} />
+          <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} isChanged={isChanged} changedTypes={changedTypes} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
               <div className="description-wrapper">
@@ -165,7 +165,6 @@ export default class Operation extends PureComponent {
                   onCancelClick = { onCancelClick }
                   tryItOutEnabled = { tryItOutEnabled }
                   allowTryItOut={allowTryItOut}
-
                   fn={fn}
                   getComponent={ getComponent }
                   specActions={ specActions }
