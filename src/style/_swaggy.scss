@@ -5,25 +5,27 @@
     z-index: 10;
     position: relative;
     background-color: transparent;
-    overflow-y:scroll
-}
-
-.menu {
+    overflow-y: scroll;
+    max-height: 100vh;
+  }
+  
+  .menu {
     width: 160px;
     word-break: break-all;
-    position:fixed;
-    top:200px;
+    position: relative;
+    top: 200px;
     display: flex;
     flex-direction: column;
     gap: 13px;
     color: $black;
     font-weight: 600;
     font-size: 18px;
-
+  
     &:hover {
-        cursor: pointer;
+      cursor: pointer;
     }
-}
+  }
+  
 .menu-item {
     display: block;
     padding: 10px 15px;
