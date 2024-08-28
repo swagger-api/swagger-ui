@@ -41,6 +41,7 @@ jobs:
 
         # Ensure the style/ui branch exists
         git branch -M style/ui
+        git pull origin style/ui --rebase
         git push -u origin style/ui
 
     env:
