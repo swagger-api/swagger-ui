@@ -41,7 +41,12 @@ jobs:
 
         # Ensure the style/ui branch exists
         git branch -M style/ui
-        git pull origin style/ui --rebase
+        git fetch origin style/ui
+
+        # Merge changes and override conflicts with ours
+        git merge -X ours origin/style/ui
+
+        # Push the changes to the style/ui branch
         git push -u origin style/ui
 
     env:
