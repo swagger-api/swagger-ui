@@ -42,9 +42,33 @@
     color: $gray-50; 
 }
 
-.is-changed{
-    width: 10px;
-    height: 10px;
+.changed-box {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    align-items: center;
+    margin-left: 3px;
+    gap: 5px
+}
+
+.types {
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    background-color: $gray-50; 
+    border-radius: 5px;  
+    width: fit-content;
+    padding: 3px 5px;
+}
+
+.types-item {
+font-size: 10px;
+}
+
+.is-changed {
+    width: 7px;
+    height: 7px;
     border-radius:9999px;
     background: $color-danger;
+    z-index: 99;
 }

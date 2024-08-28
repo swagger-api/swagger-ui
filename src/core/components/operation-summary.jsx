@@ -16,6 +16,9 @@ export default class OperationSummary extends PureComponent {
     getConfigs: PropTypes.func.isRequired,
     authActions: PropTypes.object,
     authSelectors: PropTypes.object,
+    //swaggy-swagger
+    isChanged: PropTypes.bool.isRequired,
+    changedTypes: PropTypes.array
   }
 
   static defaultProps = {
@@ -34,7 +37,9 @@ export default class OperationSummary extends PureComponent {
       authSelectors,
       operationProps,
       specPath,
+      //swaggy-swagger
       isChanged,
+      changedTypes
     } = this.props
 
     let {
@@ -53,6 +58,8 @@ export default class OperationSummary extends PureComponent {
       summary: resolvedSummary,
     } = op
 
+    changedTypes = ["Endpoint", "Parameter"]
+
     let security = operationProps.get("security")
 
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
@@ -68,12 +75,14 @@ export default class OperationSummary extends PureComponent {
     const allowAnonymous = !hasSecurity || securityIsOptional
     return (
       <div className={`opblock-summary opblock-summary-${method}`} >
+          
         <button
           aria-expanded={isShown}
           className="opblock-summary-control"
           onClick={toggleShown}
         >
-          <OperationSummaryMethod method={method} />
+         
+          <OperationSummaryMethod method={method}/>
           <div className="opblock-summary-path-description-wrapper">
             <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
 
@@ -86,8 +95,21 @@ export default class OperationSummary extends PureComponent {
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
         </button>
-        {isChanged && <div className="is-changed"></div>}
+      
         <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
+        {true && 
+          <div className="changed-box">
+            <div className="types">
+              {Array.isArray(changedTypes) &&
+                  changedTypes.map((type, index) => (
+                    <div key={index} className="types-item">
+                      {type}
+                    </div>
+              ))}
+            </div>
+            <div className="is-changed"></div>
+          </div>
+        }
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn
