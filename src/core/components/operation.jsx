@@ -89,6 +89,7 @@ export default class Operation extends PureComponent {
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
+    let isChanged = operation.get("is_changed");
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
@@ -113,13 +114,13 @@ export default class Operation extends PureComponent {
       response = response.set("notDocumented", notDocumented)
     }
 
-    let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
+    let onChangeKey = [ path, method ]
 
     const validationErrors = specSelectors.validationErrors([path, method])
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
-          <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
+          <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} isChanged = {isChanged} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
               <div className="description-wrapper">

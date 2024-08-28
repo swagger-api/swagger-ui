@@ -44,4 +44,9 @@
     transform: translateY(2px); 
     background-color: #e0e0e0; 
 }
-
+.is-changed{
+    width: 10px;
+    height: 10px;
+    border-radius:9999px;
+    background:red;
+}

@@ -34,6 +34,7 @@ export default class OperationSummary extends PureComponent {
       authSelectors,
       operationProps,
       specPath,
+      isChanged,
     } = this.props
 
     let {
@@ -85,6 +86,7 @@ export default class OperationSummary extends PureComponent {
 
           {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
         </button>
+        {isChanged && <div className="is-changed"></div>}
         <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         {
           allowAnonymous ? null :
