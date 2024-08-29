@@ -47,7 +47,7 @@ $color-primary-hover: lighten($color-primary, .5%) !default;
 $_color-post: #fff!default;
 $_color-get: #fff !default;
 $_color-put: #fff !default;
-$_color-delete: #fff !default;
+$_color-delete: $color-danger !default;
 $_color-head: $gray-500 !default;
 $_color-patch: #fff !default;
 $_color-disabled: $gray-200 !default;

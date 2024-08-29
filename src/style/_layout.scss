@@ -635,14 +635,13 @@
 
 .execute-wrapper
 {
-    padding: 20px;
 		display: flex;
         gap: 10px;
+        padding: 0 20px;
 
     .btn
     {
         width: 100%;
-        padding: 8px 40px;
     }
 }
 
@@ -738,7 +737,7 @@
 	.opblock-body-wrapper{
 			display: flex;
 			flex-direction: column;
-			width: 50%;
+            padding-bottom: 20px;
 	}
 	.responses-wrapper{
 		width: 50%;

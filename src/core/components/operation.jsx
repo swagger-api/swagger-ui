@@ -152,7 +152,7 @@ export default class Operation extends PureComponent {
               }
               </div>
               <div className="param-response-wrapper">
-                
+                <div style={{display:"flex",flexDirection : 'column',width:'50%'}}>
               { !operation || !operation.size ? null :
               <div className="opblock-body-wrapper">
                 <Parameters
@@ -218,13 +218,14 @@ export default class Operation extends PureComponent {
                   </div> : null
               }
 
-              { !tryItOutEnabled || !allowTryItOut || validationErrors.length <= 0 ? null : <div className="validation-errors errors-wrapper">
+              {!allowTryItOut || validationErrors.length <= 0 ? null : <div className="validation-errors errors-wrapper">
                   Please correct the following validation errors and try again.
                   <ul>
                     { validationErrors.map((error, index) => <li key={index}> { error } </li>) }
                   </ul>
                 </div>
               }
+              </div>
             <div className="line"/>
             {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
