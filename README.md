@@ -1,4 +1,4 @@
-# Swaggy Swagger UI
+# Swaggy UI
 <br/>
 <p align="center">
 <img src="https://github.com/user-attachments/assets/1650bb7d-cdf0-485c-8cc8-9617d8ea7472" width="350" alt="Swaggy-Swagger-Logo" />
@@ -22,26 +22,26 @@ Demo Video: [Watch on YouTube](https://www.youtube.com/watch?v=oD8ShZGQrqo)
 </br>
 
 ## Overview
-**Swaggy-Swagger UI** is a javascript project intended for use in single-page applications that to enhance the user interface of the Swaggy-Swagger library.
-Swaggy-Swagger builds upon the popular Swagger framework, providing a more intuitive and flexible API documentation experience. </br>
+**Swaggy UI** is a javascript project intended for use in single-page applications that to enhance the user interface of the **Swaggy-Swagger** library.
+**Swaggy-Swagger** builds upon the popular Swagger framework, providing a more intuitive and flexible API documentation experience. </br>
 
 See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more details. </br></br>
 
-**Swaggy-Swagger UI** is a customized version of **Swagger UI**. It is derived from the original Swagger UI open-source project, which has been cloned, modified, and built upon to create a more tailored user interface experience. For more details about the original Swagger UI project, see the [Swagger UI](https://github.com/swagger-api/swagger-ui).
+**Swaggy UI** is a customized version of **Swagger UI**. It is derived from the original Swagger UI open-source project, which has been cloned, modified, and built upon to create a more tailored user interface experience. For more details about the original Swagger UI project, see the [Swagger UI](https://github.com/swagger-api/swagger-ui).
 
 
 
 
 ## Ways to contribute
 
-**Swaggy-Swagger UI** is an open-source project. We welcome contributions! Visit our [GitHub repository](https://github.com/Swaggy-Swagger/swaggy-ui) to submit a pull request. </br> 
+**Swaggy UI** is an open-source project. We welcome contributions! Visit our [GitHub repository](https://github.com/Swaggy-Swagger/swaggy-ui) to submit a pull request. </br> 
 See [CONTRIBUTING.md](https://github.com/Swaggy-Swagger/.github/blob/main/profile/CONTRIBUTING.md) to contribute our java library directly.
 
-1. **Clone the Repository**: Start by cloning the Swaggy-Swagger UI repository to your local machine.
+1. **Clone the Repository**: Start by cloning the Swaggy-UI repository to your local machine.
     
     ```bash
-    git clone <https://github.com/your-repo/swaggy-swagger-ui.git>
-    cd swaggy-swagger-ui
+    git clone <https://github.com/Swaggy-Swagger/swaggy-ui.git>
+    cd swaggy-ui
     
     ```
     
