@@ -33,9 +33,10 @@ See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more d
 
 
 ## Ways to contribute
+> _If you want to contribute our java library directly, please refer to [this link](https://github.com/Swaggy-Swagger/.github/blob/main/profile/CONTRIBUTING.md) for more details._
 
 **Swaggy UI** is an open-source project. We welcome contributions! Visit our [GitHub repository](https://github.com/Swaggy-Swagger/swaggy-ui) to submit a pull request. </br> 
-See [CONTRIBUTING.md](https://github.com/Swaggy-Swagger/.github/blob/main/profile/CONTRIBUTING.md) to contribute our java library directly.
+
 
 1. **Clone the Repository**: Start by cloning the Swaggy-UI repository to your local machine.
     
@@ -86,3 +87,6 @@ Thank you to everyone who contributed to our project.
 </a>
 
 _<div align=right>Made with <a href="https://contrib.rocks">contrib.rocks</a></div>_
+
+## Contact 
+<a href="mailto:clcc001@naver.com"><img src="https://img.shields.io/badge/mail-d14836?style=flat-square&logo=Gmail&logoColor=white&link=clcc001@naver.com"/></a>
