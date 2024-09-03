@@ -71,7 +71,7 @@ See [CONTRIBUTING.md](https://github.com/Swaggy-Swagger/.github/blob/main/profil
     
     ```
     
-    > Note: Follow our commit message style guide for the format of the commit messages. This is simply a recommendation, so feel free to contribute in the way you find best!
+    > Note: Follow our commit message [STYLE GUIDE](https://github.com/Swaggy-Swagger/.github/blob/main/profile/STYLE_GUIDE.md) for the format of the commit messages. This is simply a recommendation, so feel free to contribute in the way you find best!
     > 
 6. **Automated Deployment**: Once changes are pushed, GitHub Actions will automatically handle the deployment by pushing the updated `dist` folder to the relevant Java library repository.
 7. **Contributing**: If you'd like to contribute your changes back to the Swaggy-Swagger UI repository, feel free to submit a pull request.
