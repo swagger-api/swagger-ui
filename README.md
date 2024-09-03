@@ -18,14 +18,18 @@
 </p>
 </br>
 
-Demo Video: [Watch on YouTube](https://www.youtube.com/watch?v=oD8ShZGQrqo)
-</br>
 
 ## Overview
 **Swaggy UI** is a javascript project intended for use in single-page applications that to enhance the user interface of the **Swaggy-Swagger** library.
 **Swaggy-Swagger** builds upon the popular Swagger framework, providing a more intuitive and flexible API documentation experience. </br>
 
-See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more details. </br></br>
+See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more details. </br>
+
+#### Demo Video
+<div>
+<a href="https://www.youtube.com/watch?v=oD8ShZGQrqo"><img src="https://img.shields.io/badge/YOUTUBE-FF0000?style=for-the-badge&logo=YouTube&logoColor=white&link=https://www.youtube.com/watch?v=oD8ShZGQrqo"/></a>
+</div>
+</br></br>
 
 **Swaggy UI** is a customized version of **Swagger UI**. It is derived from the original Swagger UI open-source project, which has been cloned, modified, and built upon to create a more tailored user interface experience. For more details about the original Swagger UI project, see the [Swagger UI](https://github.com/swagger-api/swagger-ui).
 
