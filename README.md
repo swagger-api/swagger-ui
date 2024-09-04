@@ -40,9 +40,12 @@ See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more d
 > _If you want to contribute our java library directly, please refer to [this link](https://github.com/Swaggy-Swagger/.github/blob/main/profile/CONTRIBUTING.md) for more details._
 
 **Swaggy UI** is an open-source project. We welcome contributions! Visit our [GitHub repository](https://github.com/Swaggy-Swagger/swaggy-ui) to submit a pull request. </br> 
+</br>
+1. **To avoid duplicating works**, please check GitHub **Pull Requests** for any existing open or closed **PRs** related to your submission before you start.
 
+2. **Fork this repository to your GitHub**: [click to fork swaggy-ui](https://github.com/Swaggy-Swagger/swaggy-ui/fork)
 
-1. **Clone the Repository**: Start by cloning the Swaggy-UI repository to your local machine.
+3. **Clone the Repository**: Start by cloning the Swaggy-UI repository to your local machine.
     
     ```bash
     git clone <https://github.com/Swaggy-Swagger/swaggy-ui.git>
@@ -50,15 +53,15 @@ See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more d
     
     ```
     
-2. **Install Dependencies**: Navigate to the project directory and install the necessary dependencies.
+4. **Install Dependencies**: Navigate to the project directory and install the necessary dependencies.
     
     ```bash
     npm install
     
     ```
     
-3. **Make Changes to the UI**: Modify the UI as needed to fit your requirements.
-4. **Build the Project**: After making changes, build the project to generate the updated version of Swaggy-Swagger UI.
+5. **Make Changes to the UI**: Modify the UI as needed to fit your requirements.
+6. **Build the Project**: After making changes, build the project to generate the updated version of Swaggy-Swagger UI.
     
     ```bash
     npm run build
@@ -67,7 +70,7 @@ See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more d
     
     This command will create or update the `dist` folder with the built files.
     
-5. **Push the Changes**: Push your changes to your forked repository. Make sure to **follow our style guide** for commit messages. The build files in the `dist` folder will be automatically pushed to the Swagger-custom Java library repository through GitHub Actions.
+7. **Push the Changes**: Push your changes to your forked repository. Make sure to **follow our style guide** for commit messages. The build files in the `dist` folder will be automatically pushed to the Swagger-custom Java library repository through GitHub Actions.
     
     ```bash
     git add .
@@ -78,8 +81,8 @@ See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more d
     
     > Note: Follow our commit message [STYLE GUIDE](https://github.com/Swaggy-Swagger/.github/blob/main/profile/STYLE_GUIDE.md) for the format of the commit messages. This is simply a recommendation, so feel free to contribute in the way you find best!
     > 
-6. **Automated Deployment**: Once changes are pushed, GitHub Actions will automatically handle the deployment by pushing the updated `dist` folder to the relevant Java library repository.
-7. **Contributing**: If you'd like to contribute your changes back to the Swaggy-Swagger UI repository, feel free to submit a pull request.
+8. **Automated Deployment**: Once changes are pushed, GitHub Actions will automatically handle the deployment by pushing the updated `dist` folder to the relevant Java library repository.
+9. **Contributing**: If you'd like to contribute your changes back to the Swaggy-Swagger UI repository, feel free to submit a pull request.
 
 
 ## Contributors
