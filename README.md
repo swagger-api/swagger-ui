@@ -48,7 +48,7 @@ See **Swaggy-Swagger** [README.md](https://github.com/Swaggy-Swagger) for more d
 3. **Clone the Repository**: Start by cloning the Swaggy-UI repository to your local machine.
     
     ```bash
-    git clone <https://github.com/Swaggy-Swagger/swaggy-ui.git>
+    git clone <https://github.com/{your-github-id}/swaggy-ui.git>
     cd swaggy-ui
     
     ```
