@@ -29,15 +29,18 @@ export default {
       // context: user switch from application/json to application/x-www-form-urlencoded
       currentVal = Map()
     }
-    let newVal
+    let newVal = currentVal
     const [...valueKeys] = value.keys()
     valueKeys.forEach((valueKey) => {
       let valueKeyVal = value.getIn([valueKey])
-      if (!currentVal.has(valueKey)) {
-        newVal = currentVal.setIn([valueKey, "value"], valueKeyVal)
+      if (!newVal.has(valueKey)) {
+        newVal = newVal.setIn([valueKey, "value"], valueKeyVal)
       } else if (!Map.isMap(valueKeyVal)) {
         // context: user input will be received as String
-        newVal = currentVal.setIn([valueKey, "value"], valueKeyVal)
+        newVal = newVal.setIn([valueKey, "value"], valueKeyVal)
+      } else {
+        // context: If multiple values are edited only last edited is string, previous are map.
+        newVal = newVal.set(valueKey, valueKeyVal)
       }
     })
     return state.setIn(["requestData", path, method, "bodyValue"], newVal)
