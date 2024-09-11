@@ -28,8 +28,6 @@ jobs:
         cd swagger-custom-java
 
         # Git 사용자 정보 설정
-        # git config user.name "westofsky"
-        # git config user.email "westofsky159@gmail.com"
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor }}@users.noreply.github.com"
 
