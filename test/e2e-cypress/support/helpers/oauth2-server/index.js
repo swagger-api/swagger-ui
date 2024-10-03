@@ -4,7 +4,7 @@ let Http = require("http")
 let path = require("path")
 let express = require("express")
 let bodyParser = require("body-parser")
-let oauthserver = require("oauth2-server")
+let oauthserver = require("@node-oauth/oauth2-server")
 let cors = require("cors")
 
 let app = express()
@@ -15,23 +15,40 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())
 
-app.oauth = oauthserver({
+const oauth = new oauthserver({
   model: require("./model.js"),
   grants: ["password", "client_credentials", "implicit"],
   debug: true
 })
 
-app.all("/oauth/token", app.oauth.grant())
+// Modified token code to get rid of deprecated "grant" call
+app.all("/oauth/token", (req, res, next) => {
+  let request = new Request(req)
+  let response = new Response(res)
+  return oauth.token(request, response)
+  .then((token) => {
+    res.locals.oauth = {token: token}
+    next()
+  })
+  .catch((e) => console.log(e))
+})
 
-app.get("/swagger.yaml", function (req, res) {
+app.get("/swagger.yaml", (req, res) => {
   res.sendFile(path.join(__dirname, "swagger.yaml"))
 })
 
-app.get("*", app.oauth.authorise(), function (req, res) {
-  res.send("Secret secrets are no fun, secret secrets hurt someone.")
-})
+app.get("*", (req, res) => {
+    let request = new Request(req)
+    let response = new Response(res)
+    return oauth.authorize(request, response)
+    .then ((req, res) => {
+      res.send("Secret secrets are no fun, secret secrets hurt someone.")
+    })
+    .catch((e) => console.log(e))
+  })
 
-app.use(app.oauth.errorHandler())
+
+// app.use(oauth.errorHandler())
 
 function startServer() {
   let httpServer = Http.createServer(app)
