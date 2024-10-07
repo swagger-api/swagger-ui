@@ -3,6 +3,13 @@ import PropTypes from "prop-types"
 import Im from "immutable"
 
 export default class Operations extends React.Component {
+  constructor(props, context) {
+    super(props, context)
+
+    this.state = {
+      collapseAll: props.collapseAll,
+    }
+  }
 
   static propTypes = {
     specSelectors: PropTypes.object.isRequired,
@@ -15,7 +22,18 @@ export default class Operations extends React.Component {
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
     getConfigs: PropTypes.func.isRequired,
-    fn: PropTypes.func.isRequired
+    fn: PropTypes.func.isRequired,
+    collapseAll: PropTypes.bool.isRequired
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.collapseAll !== prevState.collapseAll) {
+      nextProps.specSelectors.taggedOperations().map((tagObj, tag) =>
+        nextProps.layoutActions.show(["operations-tag", tag], !nextProps.collapseAll)
+      )
+      return ({ collapseAll: nextProps.collapseAll })
+    }
+    return null
   }
 
   render() {
@@ -96,5 +114,6 @@ Operations.propTypes = {
   specActions: PropTypes.object.isRequired,
   layoutSelectors: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  fn: PropTypes.object.isRequired
+  fn: PropTypes.object.isRequired,
+  collapseAll: PropTypes.bool.isRequired
 }
