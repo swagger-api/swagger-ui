@@ -122,11 +122,53 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     callback = authActions.authorizeAccessCodeWithFormParams
   }
 
-  authActions.authPopup(url, {
+  const oauth2 = {
     auth: auth,
     state: state,
     redirectUrl: redirectUrl,
     callback: callback,
-    errCb: errActions.newAuthErr
-  })
+    errCb: errActions.newAuthErr,
+    handleAuth: (qp) => {
+      const isValid = qp.state === oauth2.state
+
+      if ((
+        oauth2.auth.schema.get("flow") === "accessCode" ||
+        oauth2.auth.schema.get("flow") === "authorizationCode" ||
+        oauth2.auth.schema.get("flow") === "authorization_code"
+      ) && !oauth2.auth.code) {
+          if (!isValid) {
+              oauth2.errCb({
+                  authId: oauth2.auth.name,
+                  source: "auth",
+                  level: "warning",
+                  message: "Authorization may be unsafe, passed state was changed in server Passed state wasn't returned from auth server"
+              })
+          }
+
+          if (qp.code) {
+              delete oauth2.state
+              oauth2.auth.code = qp.code
+              oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl})
+          } else {
+              let oauthErrorMsg
+              if (qp.error) {
+                  oauthErrorMsg = "["+qp.error+"]: " +
+                      (qp.error_description ? qp.error_description+ ". " : "no accessCode received from the server. ") +
+                      (qp.error_uri ? "More info: "+qp.error_uri : "")
+              }
+
+              oauth2.errCb({
+                  authId: oauth2.auth.name,
+                  source: "auth",
+                  level: "error",
+                  message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server"
+              })
+          }
+      } else {
+          oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl})
+      }
+    }
+  }
+
+  authActions.authPopup(url, oauth2)
 }
