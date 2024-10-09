@@ -99,7 +99,7 @@ class Info extends React.Component {
       <div className="info">
         <hgroup className="main">
           <h2 className="title">
-            {title}
+            {"Swaggy-Swagger Demo Site"}
             <span>
               {version && <VersionStamp version={version} />}
               <OpenAPIVersion oasVersion="2.0" />
@@ -111,25 +111,14 @@ class Info extends React.Component {
           {url && <InfoUrl getComponent={getComponent} url={url} />}
         </hgroup>
 
-        <div className="description">
-          <Markdown source={description} />
-        </div>
+        <div className="description">Swaggy-Swagger Demo Site</div>
 
         {termsOfServiceUrl && (
           <div className="info__tos">
-            <Link target="_blank" href={sanitizeUrl(termsOfServiceUrl)}>
-              Terms of service
+            <Link target="_blank" href={"https://github.com/swaggy-swagger"}>
+              github
             </Link>
           </div>
-        )}
-
-        {contactData?.size > 0 && (
-          <Contact
-            getComponent={getComponent}
-            data={contactData}
-            selectedServer={selectedServer}
-            url={url}
-          />
         )}
         {licenseData?.size > 0 && (
           <License
@@ -139,15 +128,6 @@ class Info extends React.Component {
             url={url}
           />
         )}
-        {externalDocsUrl ? (
-          <Link
-            className="info__extdocs"
-            target="_blank"
-            href={sanitizeUrl(externalDocsUrl)}
-          >
-            {externalDocsDescription || externalDocsUrl}
-          </Link>
-        ) : null}
       </div>
     )
   }

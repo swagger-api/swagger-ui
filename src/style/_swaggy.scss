@@ -1,3 +1,6 @@
+#swagger-ui {
+  min-width : 1080px;
+}
 .sidebar {
     width: 160px;
     display: flex;
@@ -5,7 +8,6 @@
     z-index: 10;
     position: relative;
     background-color: transparent;
-    overflow-y:scroll
 }
 
 .menu {
@@ -76,30 +78,54 @@ font-size: 10px;
 }
 
 .types {
-    position: relative;
-    display: inline-block;
-  }
+  position: relative;
+  display: inline-block;
+}
   
-  .types-item-tooltip {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 100%;
-    margin-bottom: 8px;
-    background-color: black;
-    color: white;
-    text-align: left;
-    padding: 8px;
-    border-radius: 4px;
-    white-space: pre;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    z-index: 50;
-  }
+.types-item-tooltip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100%;
+  margin-bottom: 8px;
+  background-color: black;
+  color: white;
+  text-align: left;
+  padding: 8px;
+  border-radius: 4px;
+  white-space: pre;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 50;
+}
 
-  .opblock-summary:hover .types-item-tooltip {
-    opacity: 1;
-    pointer-events: auto;
+.opblock-summary:hover .types-item-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.request-wrapper {
+  display:flex;
+  flex-direction : column;
+  width:50%;
+}
+/*
+  반응형
+  */
+@media (max-width : 768px){
+  .swagger-ui .opblock-body .param-response-wrapper{
+    display: block;
   }
-  
+  .swagger-ui .opblock-body .request-wrapper{
+    width: 100%;
+  }
+  .swagger-ui .opblock-body .responses-wrapper{
+    width: 100%;
+  }
+}
+@media (max-width : 650px){
+  .sidebar{
+    display: none;
+  }
+}

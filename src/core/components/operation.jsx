@@ -152,7 +152,7 @@ export default class Operation extends PureComponent {
               }
               </div>
               <div className="param-response-wrapper">
-                <div style={{display:"flex",flexDirection : 'column',width:'50%'}}>
+                <div className='request-wrapper'>
               { !operation || !operation.size ? null :
               <div className="opblock-body-wrapper">
                 <Parameters
