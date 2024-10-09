@@ -1,6 +1,5 @@
 ---
 name: "📕Documentation Issue"
-description: Report an issue in the Developer Guide
 about: "Report an issue in the Developer Guide"
 title: "[DOCS]"
 labels: 'DOCS'
