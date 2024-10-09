@@ -95,10 +95,7 @@ export default class Parameters extends Component {
   render() {
 
     let {
-      onTryoutClick,
-      onResetClick,
       parameters,
-      allowTryItOut,
       specPath,
       fn,
       getComponent,

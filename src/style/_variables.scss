@@ -40,14 +40,14 @@ $color-primary: #84EA2C !default;
 $color-secondary: #877455 !default;
 $color-info: #4990e2 !default;
 $color-warning: #E68EA1 !default;
-$color-danger: #f00 !default;
+$color-danger: #F93E3E !default;
 
 $color-primary-hover: lighten($color-primary, .5%) !default;
 
 $_color-post: #fff!default;
 $_color-get: #fff !default;
 $_color-put: #fff !default;
-$_color-delete: #fff !default;
+$_color-delete: $color-danger !default;
 $_color-head: $gray-500 !default;
 $_color-patch: #fff !default;
 $_color-disabled: $gray-200 !default;

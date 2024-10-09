@@ -15,19 +15,6 @@ export default class BaseLayout extends React.Component {
     getComponent: PropTypes.func.isRequired,
   }
 
-  // swaggy-swagger
-  constructor(props) {
-    super(props)
-    this.tagRefs = {} // 각 태그에 대한 ref를 저장할 객체
-  }
-
-  handleTagClick = (tag) => {
-    console.log(tag, "클릭")
-    if (this.tagRefs[tag.name]) {
-      this.tagRefs[tag.name].scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
   render() {
     const { errSelectors, specSelectors, getComponent } = this.props
 
@@ -112,7 +99,7 @@ export default class BaseLayout extends React.Component {
     const tags = specSelectors
       .taggedOperations()
       .entrySeq()
-      .map(([key, value]) => ({
+      .map(([key]) => ({
         name: key,
       }))
       .toArray()
@@ -153,27 +140,21 @@ export default class BaseLayout extends React.Component {
 
               <Row>
                 <Col mobile={12} desktop={12}>
-                  <div ref={(el) => (this.tagRefs["operations"] = el)}>
-                    <Operations />
-                  </div>
+                  <Operations />
                 </Col>
               </Row>
 
               {isOAS31 && (
                 <Row className="webhooks-container">
                   <Col mobile={12} desktop={12}>
-                    <div ref={(el) => (this.tagRefs["webhooks"] = el)}>
-                      <Webhooks />
-                    </div>
+                    <Webhooks />
                   </Col>
                 </Row>
               )}
 
               <Row>
                 <Col mobile={12} desktop={12}>
-                  <div ref={(el) => (this.tagRefs["models"] = el)}>
-                    <Models />
-                  </div>
+                  <Models />
                 </Col>
               </Row>
             </VersionPragmaFilter>

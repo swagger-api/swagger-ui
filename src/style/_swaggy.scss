@@ -1,25 +1,105 @@
 .sidebar {
-    width: 150px;
+    width: 160px;
     display: flex;
     justify-content: center;
-    height: 100vh;
     z-index: 10;
     position: relative;
+    background-color: transparent;
+    overflow-y:scroll
 }
 
 .menu {
-    width: 120px;
+    width: 160px;
     word-break: break-all;
     position:fixed;
-    top:100px;
+    top:200px;
     display: flex;
     flex-direction: column;
     gap: 13px;
     color: $black;
-    font-weight: 500;
-    font-size: 20px;
+    font-weight: 600;
+    font-size: 18px;
 
     &:hover {
         cursor: pointer;
     }
 }
+.menu-item {
+    display: block;
+    padding: 10px 15px;
+    background-color: transparent;
+    border: none; 
+    border-radius: 5px; 
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+}
+
+.menu-item:hover {
+    color: $gray-50; 
+}
+
+.menu-item:active {
+    transform: translateY(2px); 
+    color: $gray-50; 
+}
+
+.changed-box {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    align-items: center;
+    margin-left: 3px;
+    gap: 5px
+}
+
+.types {
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    background-color: $gray-50; 
+    border-radius: 5px;  
+    width: fit-content;
+    padding: 3px 5px;
+}
+
+.types-item {
+font-size: 10px;
+}
+
+.is-changed {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius:9999px;
+    background: $color-danger;
+    z-index: 99;
+}
+
+.types {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .types-item-tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 100%;
+    margin-bottom: 8px;
+    background-color: black;
+    color: white;
+    text-align: left;
+    padding: 8px;
+    border-radius: 4px;
+    white-space: pre;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 50;
+  }
+
+  .opblock-summary:hover .types-item-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
