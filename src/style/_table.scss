@@ -102,8 +102,8 @@ table
     }
 
     .markdown, .renderedMarkdown {
-        p {
-            margin: 0;
+        p:first-child {
+            margin-top: 0;
         }
     }
 }
@@ -188,8 +188,8 @@ table
     width: 99%; // forces other columns to shrink to their content widths
 
     .markdown, .renderedMarkdown {
-        p {
-            margin: 0;
+        p:first-child {
+            margin-top: 0;
         }
     }
 }
