@@ -11,6 +11,8 @@
 {
     display: flex;
     flex-direction: column;
+    border: 1px solid #bfbfbf;
+    border-radius: 6px;
 }
 
 .try-out.btn-group {
@@ -122,6 +124,26 @@
     .info__externaldocs
     {
         text-align: right;
+
+        small
+        {
+          a
+          {
+            display: inline-block;
+            border-radius: 4px;
+            color: #7878bd;
+            padding: 5px 10px;
+            border: 2px solid #9c9cdf;
+            transition: all .2s;
+
+            &:hover
+            {
+              color: #f1f1f1;
+              background: #9c9cdf;
+              text-decoration: underline;
+            }
+          }
+        }
     }
 }
 
