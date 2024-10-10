@@ -129,11 +129,12 @@ const RequestBody = ({
     return <Input type={"file"} onChange={handleFile} />
   }
 
+  const isContentTypeMultipart = contentType.indexOf("multipart/") === 0
   if (
     isObjectContent &&
     (
       contentType === "application/x-www-form-urlencoded" ||
-      contentType.indexOf("multipart/") === 0
+      isContentTypeMultipart
     ) &&
     schemaForMediaType.get("properties", OrderedMap()).size > 0
   ) {
