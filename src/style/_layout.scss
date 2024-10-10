@@ -7,18 +7,25 @@
     box-sizing: border-box;
 }
 
-.opblock-tag-section
-{
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #bfbfbf;
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 15px;
-}
+.opblock-tag-section {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $opblock-border-color;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 15px;
 
-.opblock-tag-section .no-margin {
-  padding: 10px;
+  &.is-open
+  {
+    .opblock-tag
+    {
+      border-bottom: 1px solid $opblock-border-color;
+    }
+  }
+
+  .no-margin {
+    padding: 10px;
+  }
 }
 
 .try-out.btn-group {
@@ -41,7 +48,6 @@
     cursor: pointer;
     transition: all .2s;
     background: rgba($opblock-tag-background-color, .9);
-    border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
 
     &:hover
     {
@@ -77,7 +83,7 @@
 {
     font-size: 24px;
 
-    margin: 0 0 5px 0;
+    margin: 0;
 
     @include text_headline();
 
@@ -227,7 +233,6 @@
 .opblock
 {
     margin: 0 0 10px 0;
-    border: 1px solid $opblock-border-color;
     border-radius: 4px;
 
     .tab-header

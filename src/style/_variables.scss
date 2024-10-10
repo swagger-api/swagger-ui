@@ -12,6 +12,7 @@ $gray-700: lighten($black, 31.25%) !default; // #505050
 $gray-800: lighten($black, 25%) !default; // #404040
 $gray-900: lighten($black, 18.75%) !default; // #303030
 
+$tuned-gray: #bfbfbf !default;
 $cod-gray: #1b1b1b !default;
 $agate-gray: #333333 !default;
 $bright-gray: #3b4151 !default;
@@ -120,7 +121,7 @@ $info-title-small-pre-font-color: $white !default;
 
 // Layout
 
-$opblock-border-color: $black !default;
+$opblock-border-color: $tuned-gray !default;
 $opblock-box-shadow-color: $black !default;
 
 $opblock-tag-border-bottom-color: $bright-gray !default;
