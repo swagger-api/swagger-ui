@@ -13,6 +13,12 @@
     flex-direction: column;
     border: 1px solid #bfbfbf;
     border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.opblock-tag-section .no-margin {
+  padding: 10px;
 }
 
 .try-out.btn-group {
@@ -34,12 +40,12 @@
 
     cursor: pointer;
     transition: all .2s;
-
+    background: rgba($opblock-tag-background-color, .9);
     border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
 
     &:hover
     {
-        background: rgba($opblock-tag-background-color-hover,.02);
+      background: rgba($opblock-tag-background-color, 1);
     }
 }
 
