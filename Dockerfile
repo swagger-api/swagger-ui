@@ -6,6 +6,8 @@ FROM nginx:1.27.2-alpine
 
 RUN apk update && apk add --no-cache "nodejs>=18.20.1-r0 "
 
+RUN apk upgrade --no-cache
+
 LABEL maintainer="char0n"
 
 ENV API_KEY="**None**" \
