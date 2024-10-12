@@ -377,11 +377,9 @@
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
+        flex-grow: 1;
         gap: 0px 10px;
-
         padding: 0 10px;
-
-        width: 100%;
     }
 
     @media (max-width: 550px) {
