@@ -458,6 +458,8 @@ export const sampleFromSchemaGeneric = (
       ) {
         res[displayName].push(additionalPropSample)
       } else {
+        const keyName =
+          additionalProps?.["x-additionalPropertiesName"] || "additionalProp"
         const toGenerateCount =
           Number.isInteger(schema.minProperties) &&
           schema.minProperties > 0 &&
@@ -470,10 +472,10 @@ export const sampleFromSchemaGeneric = (
           }
           if (respectXML) {
             const temp = {}
-            temp["additionalProp" + i] = additionalPropSample["notagname"]
+            temp[keyName + i] = additionalPropSample["notagname"]
             res[displayName].push(temp)
           } else {
-            res["additionalProp" + i] = additionalPropSample
+            res[keyName + i] = additionalPropSample
           }
           propertyAddedCounter++
         }
