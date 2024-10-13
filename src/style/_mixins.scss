@@ -170,4 +170,8 @@ $browser-context: 16;
     animation: shake .4s 1;
     border-color: $_color-delete;
     background: lighten($_color-delete, 35%);
+
+    @media (prefers-reduced-motion) {
+        animation: none;
+    }
 }
