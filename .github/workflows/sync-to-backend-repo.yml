@@ -3,9 +3,7 @@ name: Sync Files to Backend Repository
 on:
   push:
     paths:
-      - 'dist/swagger-ui.css'
-      - 'dist/swagger-ui-standalone-preset.js'
-      - 'dist/swagger-ui-bundle.js'
+      - 'src/**'  
     branches:
       - master
 
