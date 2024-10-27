@@ -266,48 +266,72 @@
         }
     }
 
-    .opblock-section-header
-    {
+    .opblock-section-header {
         display: flex;
+        flex-wrap: wrap;        // Allow elements to wrap when screen space is limited
         align-items: center;
-
         padding: 8px 20px;
-
         min-height: 50px;
+        background: rgba($opblock-isopen-section-header-background-color, .8);
+        box-shadow: 0 1px 2px rgba($opblock-isopen-section-header-box-shadow-color, .1);
+      
+        h4 {
+          font-size: 14px;      // Font size in pixels
+          flex: 1;
+          margin: 0;
+      
+          @include text_headline();
+        }
+      
+        label {
+          font-size: 12px;      // Font size in pixels
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          margin-left: auto;    // Push to the right when there is space
+          margin-top: 10px;     // Add margin for spacing when elements wrap
+      
+          > span {
+            padding: 0 10px 0 0;
+          }
+          @media (max-width: 1024px) and (min-width: 768px) {
+            flex-direction: column;
+            gap:10px;
+            align-items: flex-start;
+          }
 
-        background: rgba($opblock-isopen-section-header-background-color,.8);
-        box-shadow: 0 1px 2px rgba($opblock-isopen-section-header-box-shadow-color,.1);
-
-        >label
-        {
-            font-size: 12px;
-            font-weight: bold;
-
-            display: flex;
-            align-items: center;
-
-            margin: 0;
-            margin-left: auto;
-
-            @include text_headline();
-
-            >span
-            {
-                padding: 0 10px 0 0;
-            }
+        }
+      
+        // Make the select (ContentType component) responsive
+     select {
+          width: 100%;               // Full width in the container
+          max-width: 300px;          // Limit maximum width
+          padding: 8px;
+          font-size: 12px;           // Font size in pixels
+          border-radius: 5px;        // Border radius in pixels
+          box-sizing: border-box;
+          @media (max-width: 1024px) and (min-width: 768px) {
+            max-width: 200px;  
+            display: block;      // Reduce max-width for medium-sized screens
+            font-size: 11px;         // Slightly smaller font size
+            padding: 8px;            // Reduced padding for smaller screens
+          }
+          @media (max-width: 768px) {
+            max-width: 80%;        // Use full width on smaller screens
+          }
+      
+          @media (max-width: 480px) {
+            font-size: 10px;
+          
+          }
         }
 
-        h4
-        {
-            font-size: 14px;
-
-            flex: 1;
-
-            margin: 0;
-
-            @include text_headline();
-        }
-    }
+        @media (max-width: 1024px) and (min-width: 768px) {
+            gap:10px;
+          }
+       
+      }
+      
 
     .opblock-summary-method
     {
@@ -904,6 +928,7 @@
         }
     }
 }
+
 
 .loading-container
 {

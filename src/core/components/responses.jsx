@@ -96,6 +96,7 @@ export default class Responses extends React.Component {
           <h4>Responses</h4>
             { specSelectors.isOAS3() ? null : <label htmlFor={controlId}>
               <span>Response content type</span>
+           
               <ContentType value={producesValue}
                          ariaControls={regionId}
                          ariaLabel="Response content type"
