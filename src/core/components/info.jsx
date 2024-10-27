@@ -99,7 +99,7 @@ class Info extends React.Component {
       <div className="info">
         <hgroup className="main">
           <h2 className="title">
-            {"Swaggy-Swagger Demo Site"}
+            {title}
             <span>
               {version && <VersionStamp version={version} />}
               <OpenAPIVersion oasVersion="2.0" />
@@ -111,12 +111,14 @@ class Info extends React.Component {
           {url && <InfoUrl getComponent={getComponent} url={url} />}
         </hgroup>
 
-        <div className="description">Swaggy-Swagger Demo Site</div>
+        <div className="description">
+          <Markdown source={description} />
+        </div>
 
         {termsOfServiceUrl && (
           <div className="info__tos">
-            <Link target="_blank" href={"https://github.com/swaggy-swagger"}>
-              github
+            <Link target="_blank" href={sanitizeUrl(termsOfServiceUrl)}>
+              Terms of service
             </Link>
           </div>
         )}
