@@ -22,53 +22,57 @@ jobs:
 
     # Configure Git with PR Author
     - name: Configure Git with PR Author
-      if: github.event.pull_request.merged == 'true'
       run: |
-        git config --global user.name "${{ github.event.pull_request.user.login }}"
-        git config --global user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
- 
+        if [[ "${{ github.event.pull_request.merged }}" == 'true' ]]; then
+          git config --global user.name "${{ github.event.pull_request.user.login }}"
+          git config --global user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
+        fi
+
     # Commit with PR Author info
     - name: Amend Commit with Author Info
-      if: github.event.pull_request.merged == 'true'
       run: |
-        git commit --amend --no-edit --author="${{ github.event.pull_request.user.login }} <${{ github.event.pull_request.user.login }}@users.noreply.github.com>"
-        git push origin main --force
+        if [[ "${{ github.event.pull_request.merged }}" == 'true' ]]; then
+          git commit --amend --no-edit --author="${{ github.event.pull_request.user.login }} <${{ github.event.pull_request.user.login }}@users.noreply.github.com>"
+          git push origin main --force
+        fi
 
     # Commit with PR Title as Message
     - name: Commit with PR Title as Message
-      if: github.event.pull_request.merged == 'true'
       run: |
-        git commit --amend --no-edit --author="${{ github.event.pull_request.user.login }} <${{ github.event.pull_request.user.login }}@users.noreply.github.com>"
-        git commit -m "${{ github.event.pull_request.title }}"
-        git push origin main --force
-        
+        if [[ "${{ github.event.pull_request.merged }}" == 'true' ]]; then
+          git commit --amend --no-edit --author="${{ github.event.pull_request.user.login }} <${{ github.event.pull_request.user.login }}@users.noreply.github.com>"
+          git commit -m "${{ github.event.pull_request.title }}"
+          git push origin main --force
+        fi
+
     - name: Sync Files to Backend Repository
-      if: github.event.pull_request.merged == 'true'
       run: |
-        git clone https://westofsky:${{secrets.PAT}}@github.com/Swaggy-Swagger/swagger-custom-java.git
-        cd swagger-custom-java
+        if [[ "${{ github.event.pull_request.merged }}" == 'true' ]]; then
+          git clone https://westofsky:${{secrets.PAT}}@github.com/Swaggy-Swagger/swagger-custom-java.git
+          cd swagger-custom-java
 
-        # Git 사용자 정보 설정
-        git config user.name "${{ github.event.pull_request.user.login }}"
-        git config user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
+          # Git 사용자 정보 설정
+          git config user.name "${{ github.event.pull_request.user.login }}"
+          git config user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
 
-        # A 레포지토리에서 B 레포지토리로 파일 복사
-        cp ../dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
-        cp ../dist/swagger-ui-bundle.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-bundle.js
-        cp ../dist/swagger-ui-standalone-preset.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-standalone-preset.js
+          # A 레포지토리에서 B 레포지토리로 파일 복사
+          cp ../dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
+          cp ../dist/swagger-ui-bundle.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-bundle.js
+          cp ../dist/swagger-ui-standalone-preset.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-standalone-preset.js
 
-        git add .
-        git commit -m "${{ github.event.pull_request.title }}
+          git add .
+          git commit -m "${{ github.event.pull_request.title }}"
 
-        # Ensure the style/ui branch exists
-        git branch -M style/ui
-        git fetch origin style/ui
+          # Ensure the style/ui branch exists
+          git branch -M style/ui
+          git fetch origin style/ui
 
-        # Merge changes and override conflicts with ours
-        git merge -X ours origin/style/ui
+          # Merge changes and override conflicts with ours
+          git merge -X ours origin/style/ui
 
-        # Push the changes to the style/ui branch
-        git push -u origin style/ui
+          # Push the changes to the style/ui branch
+          git push -u origin style/ui
+        fi
 
     env:
       GITHUB_TOKEN: ${{ secrets.PAT }}
