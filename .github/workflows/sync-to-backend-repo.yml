@@ -34,6 +34,7 @@ jobs:
         if [[ "${{ github.event.pull_request.merged }}" == 'true' ]]; then
           git commit --amend --no-edit --author="${{ github.event.pull_request.user.login }} <${{ github.event.pull_request.user.login }}@users.noreply.github.com>"
           git push origin main --force
+          echo "Git user.name: $(git config user.name)"
         fi
 
     # Commit with PR Title as Message
