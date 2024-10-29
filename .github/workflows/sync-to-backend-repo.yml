@@ -1,11 +1,11 @@
 name: Sync Files to Backend Repository
 
 on:
-  push:
-    paths:
-      - 'src/**'  
+  pull_request:
     branches:
       - master
+    types:
+      - closed  # PR이 master에 머지될 때만
 
 jobs:
   sync_files:
@@ -20,14 +20,37 @@ jobs:
         npm install        # 또는 yarn install
         npm run build      # 또는 yarn build
 
+    # Configure Git with PR Author
+    - name: Configure Git with PR Author
+      if: github.event.pull_request.merged == 'true'
+      run: |
+        git config --global user.name "${{ github.event.pull_request.user.login }}"
+        git config --global user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
+ 
+    # Commit with PR Author info
+    - name: Amend Commit with Author Info
+      if: github.event.pull_request.merged == 'true'
+      run: |
+        git commit --amend --no-edit --author="${{ github.event.pull_request.user.login }} <${{ github.event.pull_request.user.login }}@users.noreply.github.com>"
+        git push origin main --force
+
+    # Commit with PR Title as Message
+    - name: Commit with PR Title as Message
+      if: github.event.pull_request.merged == 'true'
+      run: |
+        git commit --amend --no-edit --author="${{ github.event.pull_request.user.login }} <${{ github.event.pull_request.user.login }}@users.noreply.github.com>"
+        git commit -m "${{ github.event.pull_request.title }}"
+        git push origin main --force
+        
     - name: Sync Files to Backend Repository
+      if: github.event.pull_request.merged == 'true'
       run: |
         git clone https://westofsky:${{secrets.PAT}}@github.com/Swaggy-Swagger/swagger-custom-java.git
         cd swagger-custom-java
 
         # Git 사용자 정보 설정
-        git config user.name "${{ github.actor }}"
-        git config user.email "${{ github.actor }}@users.noreply.github.com"
+        git config user.name "${{ github.event.pull_request.user.login }}"
+        git config user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
 
         # A 레포지토리에서 B 레포지토리로 파일 복사
         cp ../dist/swagger-ui.css src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui.css
@@ -35,7 +58,7 @@ jobs:
         cp ../dist/swagger-ui-standalone-preset.js src/main/resources/META-INF/resources/webjars/swagger-ui/swagger-ui-standalone-preset.js
 
         git add .
-        git commit -m "style: apply ui"
+        git commit -m "${{ github.event.pull_request.title }}
 
         # Ensure the style/ui branch exists
         git branch -M style/ui
