@@ -193,6 +193,9 @@
   "overrides": {
     "@pmmmwh/react-refresh-webpack-plugin": {
       "webpack-dev-server": "$webpack-dev-server"
+    },
+    "enzyme": {
+      "cheerio": "=1.0.0-rc.12"
     }
   },
   "config": {
