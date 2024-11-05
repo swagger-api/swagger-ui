@@ -4,6 +4,8 @@
 
 FROM nginx:1.27.2-alpine
 
+RUN apk update && apk add "nodejs"
+
 LABEL maintainer="char0n"
 
 ENV API_KEY="**None**" \
