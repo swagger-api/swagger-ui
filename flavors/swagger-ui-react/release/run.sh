@@ -35,8 +35,8 @@ cp ../../../NOTICE ../dist
 # Run the release from the dist folder
 cd ../dist
 
-if [ "$PUBLISH_FLAVOR_REACT" = "true" ] ; then
-  npm publish .
-else
-  npm pack .
-fi
+#if [ "$PUBLISH_FLAVOR_REACT" = "true" ] ; then
+#  npm publish .
+#else
+#  npm pack .
+#fi
