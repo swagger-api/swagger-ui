@@ -4,7 +4,7 @@
 
 FROM nginx:1.27.2-alpine
 
-RUN apk update && apk add "nodejs"
+RUN apk add --update-cache --no-cache "nodejs"
 
 LABEL maintainer="char0n"
 
