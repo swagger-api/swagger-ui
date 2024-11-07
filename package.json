@@ -73,7 +73,7 @@
   "dependencies": {
     "@babel/runtime-corejs3": "^7.24.7",
     "@braintree/sanitize-url": "=7.0.4",
-    "@scarf/scarf": "=1.3.0",
+    "@scarf/scarf": "=1.4.0",
     "base64-js": "^1.5.1",
     "classnames": "^2.5.1",
     "css.escape": "1.5.1",
@@ -102,7 +102,7 @@
     "reselect": "^5.1.1",
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.30.1",
+    "swagger-client": "^3.31.0",
     "url-parse": "^1.5.10",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
