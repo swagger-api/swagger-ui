@@ -16,7 +16,7 @@ export default {
   },
 
   [RECEIVE_OTP]: (state, { payload } ) =>{
-    return state.setIn( [ "otpSent" ], payload )
+    return state.set( "otpAuth", fromJS(payload) )
   },
 
   [AUTHORIZE]: (state, { payload } ) =>{

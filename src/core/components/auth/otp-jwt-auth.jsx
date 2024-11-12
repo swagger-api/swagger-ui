@@ -71,7 +71,8 @@ export default class OtpJwtAuth extends React.Component {
 
     let authorizedAuth = authSelectors.authorized()
     let isAuthorized = !!authorizedAuth.get(name)
-    let isOtpSent = !!authSelectors.otpSent()
+    let isOtpSent = authSelectors.otpSent()
+    let otpMessage = authSelectors.otpMessage()
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
     return (
@@ -122,10 +123,7 @@ export default class OtpJwtAuth extends React.Component {
 
           }
           {
-            isOtpSent ? <div className="login-info">
-                          OTP sent. Please check your email inbox.
-                        </div>
-                      : null
+            isOtpSent ? <div className="login-info">{ otpMessage }</div> : null
           }
         </div>
 

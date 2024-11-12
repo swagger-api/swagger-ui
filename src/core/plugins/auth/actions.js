@@ -21,10 +21,10 @@ export function showDefinitions(payload) {
   }
 }
 
-export function receiveOtp(payload) {
+export function receiveOtp(otpSent, otpMessage = null) {
   return {
     type: RECEIVE_OTP,
-    payload: payload
+    payload: { otpSent, otpMessage },
   }
 }
 
@@ -311,7 +311,7 @@ export const sendOtp = ( auth ) => ( { fn, authActions, errActions, specSelector
       return
     }
 
-    authActions.receiveOtp(true)
+    authActions.receiveOtp(true, response_data.message)
   })
   .catch(e => {
     let err = new Error(e)

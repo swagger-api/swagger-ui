@@ -10,7 +10,12 @@ export const shownDefinitions = createSelector(
 
 export const otpSent = createSelector(
   state,
-  auth => auth.get( "otpSent" )
+  auth => !!auth.getIn(["otpAuth", "otpSent"])
+)
+
+export const otpMessage = createSelector(
+  state,
+  auth => auth.getIn(["otpAuth", "otpMessage"])
 )
 
 export const definitionsToAuthorize = createSelector(
