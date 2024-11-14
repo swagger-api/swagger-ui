@@ -7,7 +7,7 @@ $text_light_3: #f1f1f16e;
 $background_main: #1a191e;
 $background_topBar: #222129;
 $background_body: #0f0e14;
-$background_schemeCont: #020104;
+$background_schemeCont: #16151a;
 
 
 
@@ -16,20 +16,33 @@ $background_schemeCont: #020104;
 &.swagger-container {
   color: $text_light_2;
   background: $background_main;
+
+  .info h1, .info h2, .info h3,
+  .info h4, .info h5, .info .title {
+    color: $text_light_1;
+  }
+  .swagger-ui .info li, .swagger-ui .info p, .swagger-ui .info table  {
+    color: $text_light_2;
+  }
+
+  .opblock-tag small {
+    color: $text_light_1;
+  }
+
+
 }
 
-.info h1, .info h2, .info h3,
-.info h4, .info h5, .info .title {
-  color: $text_light_1;
-}
+
+
+
 
 .topbar {
   background: $background_topBar;
   .download-url-wrapper .download-url-button {
     color: $text_light_2;
   }
+}
 
-  .scheme-container {
-    background: $background_schemeCont;
-  }
+.scheme-container {
+  background: $background_schemeCont;
 }
