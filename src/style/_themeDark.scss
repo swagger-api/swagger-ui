@@ -1,6 +1,6 @@
 // Remember, we are working under the parent class of "swagger-ui"
 
-$text_light_1: #fff;
+$text_light_1: #ffffffde;
 $text_light_2: #f1f1f1e5;
 $text_light_3: #f1f1f16e;
 
@@ -9,36 +9,168 @@ $background_topBar: #222129;
 $background_body: #0f0e14;
 $background_schemeCont: #16151a;
 
+$opblock_post_background:        #0025142e;
+$opblock_post_border:            #09633a;
+$opblock_post_section:           #16231f99;
+
+$opblock_deprecated_background:  #242129;
+$opblock_deprecated_border:      #605d67;
+$opblock_deprecated_section:     #1f2a2b;
+
+$opblock_put_background:         #a1661e1f;
+$opblock_put_border:             #fca13096;
+$opblock_put_section:            #1f2a2b;
+
+$opblock_get_background:         #3f78b31f;
+$opblock_get_border:             #5a99d99c;
+$opblock_get_section:             #5a99d99c;
+
+
+$models_background:    #1f2027;
+$models_border:        #4b507175;
+$models_item_background: #2e2e35d9;
+$models_item_hover:       #37373f;
+
+
 html {
-  background: $background_body;
+  background: $background_main;
 }
 
 .swagger-ui {
   color: $text_light_2;
   background: $background_main;
 
-  .info h1, .info h2, .info h3,
-  .info h4, .info h5, .info .title {
-    color: $text_light_1;
-  }
-  .swagger-ui .info li, .swagger-ui .info p, .swagger-ui .info table  {
-    color: $text_light_2;
-  }
-
-  .opblock-tag small {
-    color: $text_light_1;
-  }
-
-  .opblock-control-arrow svg {
+  // expand/colapse icon
+  .expand-operation {
     fill: $text_light_2;
   }
 
 
+  // Text color changes.
+  a.nostyle, a.nostyle:visited, .opblock-tag small {
+    color: $text_light_1;
+  }
+  .info h1, .info h2, .info h3,
+  .info h4, .info h5, .info .title {
+    color: $text_light_1;
+  }
+
+  .info li, .info p, .info table  {
+    color: $text_light_2;
+  }
+
+  // Top
   .topbar {
     background: $background_topBar;
     .download-url-wrapper .download-url-button {
       color: $text_light_2;
     }
+  }
+
+  // Information section
+  .info .base-url {
+    color: $text_light_3;
+  }
+
+  // scheme
+  .scheme-container {
+    background: $background_schemeCont;
+    .schemes >.schemes-server-container > label {
+      color: $text_light_2;
+    }
+  }
+
+  table thead tr td, table thead tr th {
+    color: $text_light_2;
+  }
+
+  // OPblock represents a Req type.
+  .opblock {
+    &.opblock-post {
+      background: $opblock_post_background;
+      border-color: $opblock_post_border;
+      .opblock-section-header {
+        background-color: $opblock_post_section;
+      }
+    }
+    &.opblock-deprecated {
+      background: $opblock_deprecated_background;
+      border-color: $opblock_deprecated_border;
+      .opblock-section-header {
+        background-color: $opblock_deprecated_section;
+      }
+    }
+    &.opblock-put {
+      background: $opblock_put_background;
+      border-color: $opblock_put_border;
+      .opblock-section-header {
+        background-color: $opblock_put_section;
+      }
+    }
+    &.opblock-get {
+      background: $opblock_get_background;
+      border-color: $opblock_get_border;
+      .opblock-section-header {
+        background-color: $opblock_get_section;
+      }
+    }
+
+    .opblock-section-header h4 {
+      color: $text_light_1;
+    }
+
+    .opblock-summary-operation-id,
+    .opblock-summary-path,
+    .opblock-summary-path__deprecated,
+    .opblock-tag small {
+      color: $text_light_2;
+    }
+    .opblock-summary-description {
+      color: $text_light_3;
+    }
+    .description-wrapper, .opblock-external-docs-wrapper, .opblock-title_normal {
+      color: $text_light_3;
+    }
+
+    // response from req
+    .response-col_status {
+      color: $text_light_2;
+    }
+
+
+
+    // Recolor SVG icons for contrast.
+    .authorization__btn svg,
+    .expand-operation svg,
+    .opblock-control-arrow svg {
+      fill: $text_light_2;
+    }
+  }
+
+  section.models {
+    background: $models_background;
+    border-color: $models_border;
+    h4 span,
+    .model-title {
+      color: $text_light_1;
+    }
+    .models-control svg {
+      fill: $text_light_2;
+    }
+    .model-container {
+      background: $models_item_background;
+      &:hover {
+        background: $models_item_hover;
+      }
+      .model {
+        color: $text_light_3;
+      }
+    }
+  }
+
+  // Remove outline from selected "button" on expanding item
+  .model-box-control:focus, .models-control:focus, .opblock-summary-control:focus {
+    outline: none;
   }
 }
 
