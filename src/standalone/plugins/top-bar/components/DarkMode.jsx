@@ -16,9 +16,9 @@ const LightBulbIcon = () => {
   return (
     <div onClick={toggleDarkMode} style={{ cursor: "pointer" }} className="dark-toggle">
       {!isDarkMode ? (
-        <LightBulbOff height="24" className="on" />
+        <LightBulbOff height="24" data-testid="lightbulb-off" className="on" />
       ) : (
-        <LightBulb height="24" className="off" />
+        <LightBulb height="24" data-testid="lightbulb" className="off" />
       )}
     </div>
   )
