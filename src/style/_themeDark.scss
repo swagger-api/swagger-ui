@@ -9,11 +9,11 @@ $background_topBar: #222129;
 $background_body: #0f0e14;
 $background_schemeCont: #16151a;
 
+html {
+  background: $background_body;
+}
 
-
-
-
-&.swagger-container {
+.swagger-ui {
   color: $text_light_2;
   background: $background_main;
 
@@ -29,20 +29,17 @@ $background_schemeCont: #16151a;
     color: $text_light_1;
   }
 
-
-}
-
-
-
+  .opblock-control-arrow svg {
+    fill: $text_light_2;
+  }
 
 
-.topbar {
-  background: $background_topBar;
-  .download-url-wrapper .download-url-button {
-    color: $text_light_2;
+  .topbar {
+    background: $background_topBar;
+    .download-url-wrapper .download-url-button {
+      color: $text_light_2;
+    }
   }
 }
 
-.scheme-container {
-  background: $background_schemeCont;
-}
+
