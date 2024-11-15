@@ -45,6 +45,8 @@
         display: flex;
         flex: 3;
         justify-content: flex-end;
+        max-width: 600px;
+        margin-left: auto;
 
         input[type=text]
         {
