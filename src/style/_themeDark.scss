@@ -4,7 +4,7 @@ $text_light_1: #ffffffde;
 $text_light_2: #f1f1f1e5;
 $text_light_3: #f1f1f16e;
 
-$background_main: #1a191e;
+$background_main: #141316;
 $background_topBar: #222129;
 $background_body: #0f0e14;
 $background_schemeCont: #16151a;
@@ -13,23 +13,28 @@ $opblock_post_background:        #0025142e;
 $opblock_post_border:            #09633a;
 $opblock_post_section:           #16231f99;
 
-$opblock_deprecated_background:  #242129;
-$opblock_deprecated_border:      #605d67;
-$opblock_deprecated_section:     #1f2a2b;
+$opblock_deprecated_background:  #1b161e;
+$opblock_deprecated_border:      #594d69;
+$opblock_deprecated_section:     #29242f;
 
 $opblock_put_background:         #a1661e1f;
 $opblock_put_border:             #fca13096;
-$opblock_put_section:            #1f2a2b;
+$opblock_put_section:            #412d24;
 
 $opblock_get_background:         #3f78b31f;
 $opblock_get_border:             #5a99d99c;
-$opblock_get_section:             #5a99d99c;
+$opblock_get_section:            #355d855e;
+
+$opblock_delete_background:         #77191933;
+$opblock_delete_border:             #993434;
+$opblock_delete_section:            #511c1ccc;
 
 
-$models_background:    #1f2027;
-$models_border:        #4b507175;
-$models_item_background: #2e2e35d9;
-$models_item_hover:       #37373f;
+
+$models_background:              #1f2027;
+$models_border:                  #4b507175;
+$models_item_background:         #2e2e35d9;
+$models_item_hover:              #37373f;
 
 
 html {
@@ -92,12 +97,18 @@ html {
       .opblock-section-header {
         background-color: $opblock_post_section;
       }
+      .opblock-summary {
+        border-color: $opblock_post_border;
+      }
     }
     &.opblock-deprecated {
       background: $opblock_deprecated_background;
       border-color: $opblock_deprecated_border;
       .opblock-section-header {
         background-color: $opblock_deprecated_section;
+      }
+      .opblock-summary {
+        border-color: $opblock_deprecated_border;
       }
     }
     &.opblock-put {
@@ -106,6 +117,9 @@ html {
       .opblock-section-header {
         background-color: $opblock_put_section;
       }
+      .opblock-summary {
+        border-color: $opblock_put_border;
+      }
     }
     &.opblock-get {
       background: $opblock_get_background;
@@ -113,11 +127,40 @@ html {
       .opblock-section-header {
         background-color: $opblock_get_section;
       }
+      .opblock-summary {
+        border-color: $opblock_get_border;
+      }
+    }
+    &.opblock-delete {
+      background: $opblock_delete_background;
+      border-color: $opblock_delete_border;
+      .opblock-section-header {
+        background-color: $opblock_delete_section;
+      }
+      .opblock-summary {
+        border-color: $opblock_delete_border;
+      }
     }
 
-    .opblock-section-header h4 {
-      color: $text_light_1;
+    .opblock-section-header {
+      h4 {
+        color: $text_light_1;
+      }
+      label {
+        color: $text_light_3;
+      }
+      .btn {
+        color: $text_light_2;
+        border-color: $text_light_3;
+        box-shadow: none;
+      }
     }
+
+    .markdown p, .markdown pre, .renderedMarkdown p, .renderedMarkdown pre {
+      color: $text_light_2;
+    }
+
+
 
     .opblock-summary-operation-id,
     .opblock-summary-path,
@@ -132,10 +175,23 @@ html {
       color: $text_light_3;
     }
 
+
+    // params
+    .parameter__name {
+      color: $text_light_1;
+    }
+    .parameter__type {
+      color: $text_light_2;
+    }
+    .parameter__in {
+      color: $text_light_3;
+    }
+
     // response from req
     .response-col_status {
       color: $text_light_2;
     }
+
 
 
 
@@ -145,9 +201,14 @@ html {
     .opblock-control-arrow svg {
       fill: $text_light_2;
     }
+
+    .tab li button.tablinks {
+      color: $text_light_3;
+    }
   }
 
-  section.models {
+  section.models,
+  .model-box {
     background: $models_background;
     border-color: $models_border;
     h4 span,
@@ -162,9 +223,9 @@ html {
       &:hover {
         background: $models_item_hover;
       }
-      .model {
-        color: $text_light_3;
-      }
+    }
+    .model {
+      color: $text_light_3;
     }
   }
 
