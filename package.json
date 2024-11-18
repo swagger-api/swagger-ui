@@ -178,7 +178,7 @@
     "sass": "^1.77.6",
     "sass-loader": "^14.2.1",
     "shx": "=0.3.4",
-    "sinon": "=18.0.0",
+    "sinon": "=19.0.2",
     "source-map-support": "^0.5.21",
     "start-server-and-test": "^2.0.4",
     "stream-browserify": "^3.0.0",
