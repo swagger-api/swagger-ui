@@ -356,7 +356,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
         schema.discriminator.propertyName === propName) {
 
         for (let option of schema.oneOf) {
-          if (Object.prototype.hasOwnProperty.call(option, "$$ref")) {
+          if (Object.prototype.hasOwnProperty.call(option, "$$ref") && option.$$ref) {
             let found = false
             for (let pair in schema.discriminator.mapping){
               if (option.$$ref.search(schema.discriminator.mapping[pair]) !== -1) {
