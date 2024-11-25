@@ -75,7 +75,7 @@ export default class Parameters extends Component {
       })
     }
   }
-  
+
   onChangeMediaType = ({ value, pathMethod }) => {
     let { specActions, oas3Selectors, oas3Actions } = this.props
     const userHasEditedBody = oas3Selectors.hasUserEditedBody(...pathMethod)
@@ -83,7 +83,7 @@ export default class Parameters extends Component {
     oas3Actions.setRequestContentType({ value, pathMethod })
     oas3Actions.initRequestBodyValidateError({ pathMethod })
     if (!userHasEditedBody) {
-      if(!shouldRetainRequestBodyValue) {
+      if (!shouldRetainRequestBodyValue) {
         oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })
       }
       specActions.clearResponse(...pathMethod)
@@ -166,7 +166,7 @@ export default class Parameters extends Component {
               enabled={tryItOutEnabled}
               onCancelClick={this.props.onCancelClick}
               onTryoutClick={onTryoutClick}
-              onResetClick={() => onResetClick(pathMethod)}/>
+              onResetClick={() => onResetClick(pathMethod)} />
           ) : null}
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
@@ -226,7 +226,7 @@ export default class Parameters extends Component {
                     this.onChangeMediaType({ value, pathMethod })
                   }}
                   className="body-param-content-type"
-                  ariaLabel="Request content type" 
+                  ariaLabel="Request content type"
                   controlId={controlId}
                 />
               </label>
