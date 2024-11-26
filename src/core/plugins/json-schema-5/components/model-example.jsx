@@ -47,6 +47,7 @@ const ModelExample = ({
   getComponent,
   getConfigs,
   specSelectors,
+  specActions,
 }) => {
   const { defaultModelRendering, defaultModelExpandDepth } = getConfigs()
   const ModelWrapper = getComponent("ModelWrapper")
@@ -132,6 +133,7 @@ const ModelExample = ({
             getComponent={getComponent}
             getConfigs={getConfigs}
             specSelectors={specSelectors}
+            specActions={specActions}
             expandDepth={defaultModelExpandDepth}
             specPath={specPath}
             includeReadOnly={includeReadOnly}
@@ -147,6 +149,7 @@ ModelExample.propTypes = {
   getComponent: PropTypes.func.isRequired,
   specSelectors: PropTypes.shape({ isOAS3: PropTypes.func.isRequired })
     .isRequired,
+  specActions: PropTypes.object.isRequired,
   schema: PropTypes.object.isRequired,
   example: PropTypes.any.isRequired,
   isExecute: PropTypes.bool,

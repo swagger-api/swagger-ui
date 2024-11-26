@@ -19,11 +19,10 @@ const getModelName = (uri) => {
   }
   return null
 }
-
 const Model = forwardRef(
-  ({ schema, getComponent, onToggle = () => {} }, ref) => {
+  ({ schema, name: nameFromProp, getComponent, specSelectors, onToggle = () => {} }, ref) => {
     const JSONSchema202012 = getComponent("JSONSchema202012")
-    const name = getModelName(schema.get("$$ref"))
+    const name = nameFromProp || getModelName(schema.get("$$ref"))
 
     const handleExpand = useCallback(
       (e, expanded) => {
@@ -36,6 +35,7 @@ const Model = forwardRef(
       <JSONSchema202012
         name={name}
         schema={schema.toJS()}
+        specSelectors={specSelectors}
         ref={ref}
         onExpand={handleExpand}
       />
@@ -45,6 +45,8 @@ const Model = forwardRef(
 
 Model.propTypes = {
   schema: ImPropTypes.map.isRequired,
+  name: PropTypes.string,
+  specSelectors: PropTypes.func.isRequired,
   getComponent: PropTypes.func.isRequired,
   onToggle: PropTypes.func,
 }

@@ -236,6 +236,7 @@ export default class Parameters extends Component {
                 setRetainRequestBodyValueFlag={retainRequestBodyValueFlagForOperation}
                 userHasEditedBody={oas3Selectors.hasUserEditedBody(...pathMethod)}
                 specPath={specPath.slice(0, -1).push("requestBody")}
+                specActions={specActions}
                 requestBody={requestBody}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
                 requestBodyInclusionSetting={oas3Selectors.requestBodyInclusionSetting(...pathMethod)}
