@@ -55,8 +55,8 @@ export const getParentToChildMap = createSelector(
   specJS,
   spec => {
     const schemaMap = {}
-    const schemas = spec?.components?.schemas;
-    if (!!schemas) {
+    const schemas = spec?.components?.schemas
+    if (schemas) {
       Object.entries(schemas).forEach(([schemaName, schema]) => {
         if (schema.allOf) {
           schema.allOf.forEach(item => {
