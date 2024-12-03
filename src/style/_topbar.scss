@@ -1,7 +1,6 @@
 .topbar
 {
     padding: 10px 0;
-
     background-color: $topbar-background-color;
     .topbar-wrapper
     {
@@ -22,13 +21,10 @@
     {
         font-size: 1.5em;
         font-weight: bold;
-
         display: flex;
         align-items: center;
         flex: 1;
-
         max-width: 300px;
-
         text-decoration: none;
 
         @include text_headline($topbar-link-font-color);
@@ -45,6 +41,8 @@
         display: flex;
         flex: 3;
         justify-content: flex-end;
+        max-width: 600px;
+        margin-left: auto;
 
         input[type=text]
         {
@@ -109,5 +107,20 @@
         {
             width: 100%;
         }
+    }
+
+    .dark-toggle {
+      margin-left: 10px;
+      opacity: 0.8;
+      transition: all .2s;
+        svg {
+          fill: #f1f1f1cb;
+        }
+      &:hover {
+        opacity: 1;
+        svg {
+          fill: #ffff0081;
+        }
+      }
     }
 }
