@@ -6,7 +6,7 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 const DEFAULT_TAG = "default"
 
 const OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch", "trace"
+  "get", "put", "post", "delete", "options", "head", "patch", "trace", "search"
 ]
 
 const state = state => {
@@ -262,7 +262,7 @@ export const operationsWithTags = createSelector(
 
 export const taggedOperations = (state) => ({ getConfigs }) => {
   let { tagsSorter, operationsSorter } = getConfigs()
-  return operationsWithTags(state)
+  const opsWithTags = operationsWithTags(state)
     .sortBy(
       (val, key) => key, // get the name of the tag to be passed to the sorter
       (tagA, tagB) => {
@@ -276,6 +276,7 @@ export const taggedOperations = (state) => ({ getConfigs }) => {
 
       return Map({ tagDetails: tagDetails(state, tag), operations: operations })
     })
+    return opsWithTags
 }
 
 export const responses = createSelector(
@@ -499,8 +500,8 @@ export const validationErrors = (state, pathMethod) => {
   const getErrorsWithPaths = (errors, path = []) => {
     const getNestedErrorsWithPaths = (e, path) => {
       const currPath = [...path, e.get("propKey") || e.get("index")]
-      return Map.isMap(e.get("error")) 
-        ? getErrorsWithPaths(e.get("error"), currPath) 
+      return Map.isMap(e.get("error"))
+        ? getErrorsWithPaths(e.get("error"), currPath)
         : { error: e.get("error"), path: currPath }
     }
 
@@ -511,10 +512,10 @@ export const validationErrors = (state, pathMethod) => {
 
   const formatError = (error, path, paramName) => {
     path = path.reduce((acc, curr) => {
-      return typeof curr === "number" 
-        ? `${acc}[${curr}]` 
-        : acc 
-        ? `${acc}.${curr}` 
+      return typeof curr === "number"
+        ? `${acc}[${curr}]`
+        : acc
+        ? `${acc}.${curr}`
         : curr
     }, "")
     return `For '${paramName}'${path ? ` at path '${path}'` : ""}: ${error}.`
