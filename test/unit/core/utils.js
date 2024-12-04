@@ -147,9 +147,9 @@ describe("utils", () => {
     })
 
     it("returns a message for invalid input", () => {
-      expect(validateMaximum(1, 0)).toEqual("Value must be less than 0")
-      expect(validateMaximum(10, 9)).toEqual("Value must be less than 9")
-      expect(validateMaximum(20, 19)).toEqual("Value must be less than 19")
+      expect(validateMaximum(1, 0)).toEqual("Value must be less than or equal to 0")
+      expect(validateMaximum(10, 9)).toEqual("Value must be less than or equal to 9")
+      expect(validateMaximum(20, 19)).toEqual("Value must be less than or equal to 19")
     })
   })
 
@@ -160,9 +160,9 @@ describe("utils", () => {
     })
 
     it("returns a message for invalid input", () => {
-      expect(validateMinimum(-1, 0)).toEqual("Value must be greater than 0")
-      expect(validateMinimum(1, 2)).toEqual("Value must be greater than 2")
-      expect(validateMinimum(10, 20)).toEqual("Value must be greater than 20")
+      expect(validateMinimum(-1, 0)).toEqual("Value must be greater than or equal to 0")
+      expect(validateMinimum(1, 2)).toEqual("Value must be greater than or equal to 2")
+      expect(validateMinimum(10, 20)).toEqual("Value must be greater than or equal to 20")
     })
   })
 
