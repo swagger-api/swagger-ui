@@ -73,8 +73,14 @@
 .btn-group
 {
   display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
 
   padding: 30px;
+
+  @media screen and (max-width: 968px) {
+    padding: 10px 20px;
+  }
 
   .btn
   {

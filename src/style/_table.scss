@@ -181,6 +181,10 @@ table
 .table-container
 {
     padding: 20px;
+
+    @media screen and (max-width: 968px) {
+        padding: 0;
+    }
 }
 
 
@@ -204,4 +208,41 @@ table
     font-style: italic;
 
     @include text_code($table-parameter-in-font-color);
+}
+
+@media (max-width: 968px) {
+    table.parameters {
+
+        &>thead {
+            display: none;
+        }
+
+        &>tbody {
+            display: grid;
+
+            tr {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                column-gap: .5rem;
+                padding: 10px 20px;
+                border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);;
+
+                &>td.parameters-col_description {
+                    width: auto;
+                    margin-bottom: 0;
+                }
+
+                .parameters-col_name {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                }
+            }
+        }
+    }
+
+    table tbody tr td:first-of-type {
+        min-width: 3em;
+    }
 }
