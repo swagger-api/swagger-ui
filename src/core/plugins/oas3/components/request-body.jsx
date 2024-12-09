@@ -15,7 +15,7 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
     ? mediaTypeValue.getIn([
       "examples",
       activeExamplesKey,
-      "value"
+      "value",
     ])
     : exampleSchema
 
@@ -23,34 +23,33 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
     schema,
     mediaType,
     {
-      includeWriteOnly: true
+      includeWriteOnly: true,
     },
-    mediaTypeExample
+    mediaTypeExample,
   )
   return stringify(exampleValue)
 }
 
 
-
 const RequestBody = ({
-  userHasEditedBody,
-  requestBody,
-  requestBodyValue,
-  requestBodyInclusionSetting,
-  requestBodyErrors,
-  getComponent,
-  getConfigs,
-  specSelectors,
-  fn,
-  contentType,
-  isExecute,
-  specPath,
-  onChange,
-  onChangeIncludeEmpty,
-  activeExamplesKey,
-  updateActiveExamplesKey,
-  setRetainRequestBodyValueFlag
-}) => {
+                       userHasEditedBody,
+                       requestBody,
+                       requestBodyValue,
+                       requestBodyInclusionSetting,
+                       requestBodyErrors,
+                       getComponent,
+                       getConfigs,
+                       specSelectors,
+                       fn,
+                       contentType,
+                       isExecute,
+                       specPath,
+                       onChange,
+                       onChangeIncludeEmpty,
+                       activeExamplesKey,
+                       updateActiveExamplesKey,
+                       setRetainRequestBodyValueFlag,
+                     }) => {
   const handleFile = (e) => {
     onChange(e.target.files[0])
   }
@@ -58,7 +57,7 @@ const RequestBody = ({
     let options = {
       key,
       shouldDispatchInit: false,
-      defaultValue: true
+      defaultValue: true,
     }
     let currentInclusion = requestBodyInclusionSetting.get(key, "no value")
     if (currentInclusion === "no value") {
@@ -87,7 +86,7 @@ const RequestBody = ({
   const rawExamplesOfMediaType = mediaTypeValue.get("examples", null)
   const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
     const val = container?.get("value", null)
-    if(val) {
+    if (val) {
       container = container.set("value", getDefaultRequestBodyValue(
         requestBody,
         contentType,
@@ -103,7 +102,7 @@ const RequestBody = ({
   }
   requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
-  if(!mediaTypeValue.size) {
+  if (!mediaTypeValue.size) {
     return null
   }
 
@@ -111,7 +110,7 @@ const RequestBody = ({
   const isBinaryFormat = mediaTypeValue.getIn(["schema", "format"]) === "binary"
   const isBase64Format = mediaTypeValue.getIn(["schema", "format"]) === "base64"
 
-  if(
+  if (
     contentType === "application/octet-stream"
     || contentType.indexOf("image/") === 0
     || contentType.indexOf("audio/") === 0
@@ -121,7 +120,7 @@ const RequestBody = ({
   ) {
     const Input = getComponent("Input")
 
-    if(!isExecute) {
+    if (!isExecute) {
       return <i>
         Example values are not available for <code>{contentType}</code> media types.
       </i>
@@ -130,11 +129,12 @@ const RequestBody = ({
     return <Input type={"file"} onChange={handleFile} />
   }
 
+  const isContentTypeMultipart = contentType.indexOf("multipart/") === 0
   if (
     isObjectContent &&
     (
       contentType === "application/x-www-form-urlencoded" ||
-      contentType.indexOf("multipart/") === 0
+      isContentTypeMultipart
     ) &&
     schemaForMediaType.get("properties", OrderedMap()).size > 0
   ) {
@@ -144,67 +144,71 @@ const RequestBody = ({
     requestBodyValue = Map.isMap(requestBodyValue) ? requestBodyValue : OrderedMap()
 
     return <div className="table-container">
-      { requestBodyDescription &&
+      {requestBodyDescription &&
         <Markdown source={requestBodyDescription} />
       }
       <table>
         <tbody>
-          {
-            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
-              if (schema.get("readOnly")) return
+        {
+          Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
+            if (schema.get("readOnly")) return
 
-              const oneOf = schema.get("oneOf")?.get(0)?.toJS()
-              const anyOf = schema.get("anyOf")?.get(0)?.toJS()
-              schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
+            const oneOf = schema.get("oneOf")?.get(0)?.toJS()
+            const anyOf = schema.get("anyOf")?.get(0)?.toJS()
+            schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
 
-              let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
-              const required = schemaForMediaType.get("required", List()).includes(key)
-              const type = schema.get("type")
-              const format = schema.get("format")
-              const description = schema.get("description")
-              const currentValue = requestBodyValue.getIn([key, "value"])
-              const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
-              const included = requestBodyInclusionSetting.get(key) || false
+            let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
+            const required = schemaForMediaType.get("required", List()).includes(key)
+            const type = schema.get("type")
+            const format = schema.get("format")
+            const description = schema.get("description")
+            const currentValue = requestBodyValue.getIn([key, "value"])
+            const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
+            const included = requestBodyInclusionSetting.get(key) || false
 
-              let initialValue = fn.getSampleSchema(schema, false, {
-                includeWriteOnly: true
-              })
+            let initialValue = fn.getSampleSchema(schema, false, {
+              includeWriteOnly: true,
+            })
 
-              if (initialValue === false) {
-                initialValue = "false"
-              }
+            if (initialValue === false) {
+              initialValue = "false"
+            }
 
-              if (initialValue === 0) {
-                initialValue = "0"
-              }
+            if (initialValue === 0) {
+              initialValue = "0"
+            }
 
-              if (typeof initialValue !== "string" && type === "object") {
-               initialValue = stringify(initialValue)
-              }
+            if (typeof initialValue !== "string" && type === "object") {
+              initialValue = stringify(initialValue)
+            }
 
-              if (typeof initialValue === "string" && type === "array") {
-                initialValue = JSON.parse(initialValue)
-              }
+            if (typeof initialValue === "string" && type === "array") {
+              initialValue = JSON.parse(initialValue)
+            }
 
-              const isFile = type === "string" && (format === "binary" || format === "base64")
+            const isFile = type === "string" && (format === "binary" || format === "base64")
 
-              return <tr key={key} className="parameters" data-property-name={key}>
+            const schemaPartForKey = mediaTypeValue
+              .get("schema")
+              .update("properties", (properties) => properties.filter((v, k) => k === key))
+
+            return <tr key={key} className="parameters" data-property-name={key}>
               <td className="parameters-col_name">
                 <div className={required ? "parameter__name required" : "parameter__name"}>
-                  { key }
-                  { !required ? null : <span>&nbsp;*</span> }
+                  {key}
+                  {!required ? null : <span>&nbsp;*</span>}
                 </div>
                 <div className="parameter__type">
-                  { type }
-                  { format && <span className="prop-format">(${format})</span>}
+                  {type}
+                  {format && <span className="prop-format">(${format})</span>}
                   {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                 </div>
                 <div className="parameter__deprecated">
-                  { schema.get("deprecated") ? "deprecated": null }
+                  {schema.get("deprecated") ? "deprecated" : null}
                 </div>
               </td>
               <td className="parameters-col_description">
-                <Markdown source={ description }></Markdown>
+                <Markdown source={description}></Markdown>
                 {isExecute ? <div>
                   <JsonSchemaForm
                     fn={fn}
@@ -213,8 +217,8 @@ const RequestBody = ({
                     description={key}
                     getComponent={getComponent}
                     value={currentValue === undefined ? initialValue : currentValue}
-                    required = { required }
-                    errors = { currentErrors }
+                    required={required}
+                    errors={currentErrors}
                     onChange={(value) => {
                       onChange(value, [key])
                     }}
@@ -227,11 +231,28 @@ const RequestBody = ({
                       isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
                     />
                   )}
-                </div> : null }
+                </div> : null}
+                {!isExecute && isContentTypeMultipart && type === "object" ? (
+                  <ModelExample
+                    getComponent={getComponent}
+                    getConfigs={getConfigs}
+                    specSelectors={specSelectors}
+                    expandDepth={1}
+                    isExecute={false}
+                    schema={schemaPartForKey}
+                    specPath={specPath.push("content", contentType)}
+                    example={
+                      <HighlightCode className="body-param__example" language={"json"}>
+                        {initialValue}
+                      </HighlightCode>
+                    }
+                    includeWriteOnly={true}
+                  />
+                ) : null}
               </td>
-              </tr>
-            })
-          }
+            </tr>
+          })
+        }
         </tbody>
       </table>
     </div>
@@ -250,22 +271,22 @@ const RequestBody = ({
   }
 
   return <div>
-    { requestBodyDescription &&
+    {requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
     }
     {
       sampleForMediaType ? (
         <ExamplesSelectValueRetainer
-            userHasEditedBody={userHasEditedBody}
-            examples={sampleForMediaType}
-            currentKey={activeExamplesKey}
-            currentUserInputValue={requestBodyValue}
-            onSelect={handleExamplesSelect}
-            updateValue={onChange}
-            defaultToFirstExample={true}
-            getComponent={getComponent}
-            setRetainRequestBodyValueFlag={setRetainRequestBodyValueFlag}
-          />
+          userHasEditedBody={userHasEditedBody}
+          examples={sampleForMediaType}
+          currentKey={activeExamplesKey}
+          currentUserInputValue={requestBodyValue}
+          onSelect={handleExamplesSelect}
+          updateValue={onChange}
+          defaultToFirstExample={true}
+          getComponent={getComponent}
+          setRetainRequestBodyValueFlag={setRetainRequestBodyValueFlag}
+        />
       ) : null
     }
     {
@@ -281,9 +302,9 @@ const RequestBody = ({
         </div>
       ) : (
         <ModelExample
-          getComponent={ getComponent }
-          getConfigs={ getConfigs }
-          specSelectors={ specSelectors }
+          getComponent={getComponent}
+          getConfigs={getConfigs}
+          specSelectors={specSelectors}
           expandDepth={1}
           isExecute={isExecute}
           schema={mediaTypeValue.get("schema")}
@@ -327,7 +348,7 @@ RequestBody.propTypes = {
   activeExamplesKey: PropTypes.string,
   updateActiveExamplesKey: PropTypes.func,
   setRetainRequestBodyValueFlag: PropTypes.func,
-  oas3Actions: PropTypes.object.isRequired
+  oas3Actions: PropTypes.object.isRequired,
 }
 
 export default RequestBody
