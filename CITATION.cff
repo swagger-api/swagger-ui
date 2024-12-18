@@ -1,0 +1,20 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: MoviePy
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names:
+    family-names:
+repository-code: 'https://github.com/swagger-api/swagger-ui'
+abstract: >-
+  Swagger UI allows anyone to visualize and interact with the
+  API’s resources without having any of the implementation
+  logic in place
+license: Apache 2.0 License
+version: 5.18.2
+date-released: '2024-11-07'
