@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.24.7",
-    "@braintree/sanitize-url": "=7.0.4",
+    "@braintree/sanitize-url": "=7.1.1",
     "@scarf/scarf": "=1.4.0",
     "base64-js": "^1.5.1",
     "classnames": "^2.5.1",
