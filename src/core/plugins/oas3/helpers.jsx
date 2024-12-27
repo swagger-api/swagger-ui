@@ -8,7 +8,7 @@ export function isOAS30(jsSpec) {
 
   return (
     typeof oasVersion === "string" &&
-    /^3\.0\.([0123])(?:-rc[012])?$/.test(oasVersion)
+    /^3\.0\.([01234])(?:-rc[012])?$/.test(oasVersion)
   )
 }
 
