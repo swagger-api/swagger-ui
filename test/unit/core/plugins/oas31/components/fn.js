@@ -1,3 +1,4 @@
+import { fromJS } from "immutable"
 import { isOAS31 } from "core/plugins/oas31/fn";
 
 const isOAS31Shorthand = (version) => isOAS31(fromJS({
