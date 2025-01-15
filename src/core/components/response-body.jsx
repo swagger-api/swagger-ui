@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
-import toLower from "lodash/toLower"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 import win from "core/window"
