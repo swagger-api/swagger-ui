@@ -10,6 +10,24 @@ It has a few differences from the main version of Swagger UI:
 
 Versions of this module mirror the version of Swagger UI included in the distribution.
 
+## Anonymized analytics
+
+`swagger-ui-react` uses [Scarf](https://scarf.sh/) to collect [anonymized installation analytics](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-what-information-does-scarf-js-send-about-me). These analytics help support the maintainers of this library and ONLY run during installation. To [opt out](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-how-can-i-opt-out-of-analytics), you can set the `scarfSettings.enabled` field to `false` in your project's `package.json`:
+
+```
+// package.json
+{
+  // ...
+  "scarfSettings": {
+    "enabled": false
+  }
+  // ...
+}
+```
+
+Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false` as part of the environment that installs your npm packages, e.g., `SCARF_ANALYTICS=false npm install`.
+
+
 ## Quick start
 
 Install `swagger-ui-react`:
