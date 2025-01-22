@@ -23,10 +23,15 @@
     margin-left: 1.25rem;
 }
 
+%flex-center
+    {
+        display: flex;
+        align-items: center;
+    }
+
 .opblock-tag
 {
-    display: flex;
-    align-items: center;
+    @extend %flex-center;
 
     padding: 10px 20px 10px 10px;
 
@@ -38,6 +43,17 @@
     &:hover
     {
         background: rgba($opblock-tag-background-color-hover,.02);
+    }
+
+    &-content {
+        @extend %flex-center;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+        flex: 1;
+
+        .markdown {
+            min-width: 130px;
+        }
     }
 }
 
@@ -93,17 +109,11 @@
 
         flex: 2;
 
-        padding: 0 10px;
-
         @include text_body();
     }
 
     >div
     {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        flex: 1 1 150px;
         font-weight: 400;
     }
 
@@ -121,7 +131,9 @@
 
     .info__externaldocs
     {
-        text-align: right;
+        .link {
+            display: block;
+        }
     }
 }
 
@@ -781,32 +793,24 @@
 
 .scheme-container
 {
-    margin: 0 0 20px 0;
-    padding: 30px 0;
-
     background: $scheme-container-background-color;
     box-shadow: 0 1px 2px 0 rgba($scheme-container-box-shadow-color,.15);
 
+    /*
+    * We let the parent control space and alignements of children
+    */
     .schemes
     {
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
+        margin-bottom: 1rem;
+        padding: 1.5rem;
+        gap: .5rem;
         flex-wrap: wrap;
 
-        gap: 10px;
-
-        /*
-        This wraps the servers or schemes selector.
-        This was added to make sure the Authorize button is always on the right
-        and the servers or schemes selector is always on the left.
-        */
         > .schemes-server-container
         {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 10px;
 
             > label
             {
@@ -815,8 +819,8 @@
 
                 display: flex;
                 flex-direction: column;
-
-                margin: -20px 15px 0 0;
+                row-gap: .2rem;
+                margin-bottom: 0;
 
                 @include text_headline();
 
@@ -828,16 +832,6 @@
                 }
             }
         }
-
-        /*
-        This checks if the schemes-server-container is not present and
-        aligns the authorize button to the right
-        */
-        &:not(:has(.schemes-server-container))
-        {
-            justify-content: flex-end;
-        }
-
         /*
         Target Authorize Button in schemes wrapper
         This was added here to fix responsiveness issues with the authorize button
@@ -846,16 +840,11 @@
         .auth-wrapper
         {
             flex: none;
-            justify-content: start;
 
             .authorize
             {
-                padding-right: 20px;
+                padding: .25rem 1rem;
                 margin: 0;
-
-                display: flex;
-
-                flex-wrap: nowrap;
             }
         }
     }
