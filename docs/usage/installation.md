@@ -65,8 +65,8 @@ const ui = SwaggerUIBundle({
 You can pull a pre-built docker image of the swagger-ui directly from Docker Hub:
 
 ```sh
-docker pull swaggerapi/swagger-ui
-docker run -p 80:8080 swaggerapi/swagger-ui
+docker pull docker.swagger.io/swaggerapi/swagger-ui
+docker run -p 80:8080 docker.swagger.io/swaggerapi/swagger-ui
 ```
 
 Will start nginx with Swagger UI on port 80.
@@ -74,19 +74,19 @@ Will start nginx with Swagger UI on port 80.
 Or you can provide your own swagger.json on your host
 
 ```sh
-docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
+docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo docker.swagger.io/swaggerapi/swagger-ui
 ```
 
 You can also provide a URL to a swagger.json on an external host:
 
 ```sh
-docker run -p 80:8080 -e SWAGGER_JSON_URL=https://petstore3.swagger.io/api/v3/openapi.json swaggerapi/swagger-ui
+docker run -p 80:8080 -e SWAGGER_JSON_URL=https://petstore3.swagger.io/api/v3/openapi.json docker.swagger.io/swaggerapi/swagger-ui
 ```
 
 The base URL of the web application can be changed by specifying the `BASE_URL` environment variable:
 
 ```sh
-docker run -p 80:8080 -e BASE_URL=/swagger -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
+docker run -p 80:8080 -e BASE_URL=/swagger -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo docker.swagger.io/swaggerapi/swagger-ui
 ```
 
 This will serve Swagger UI at `/swagger` instead of `/`.
@@ -94,19 +94,19 @@ This will serve Swagger UI at `/swagger` instead of `/`.
 You can specify a different port via `PORT` variable for accessing the application, default is `8080`.
 
 ```sh
-docker run -p 80:80 -e PORT=80 swaggerapi/swagger-ui
+docker run -p 80:80 -e PORT=80 docker.swagger.io/swaggerapi/swagger-ui
 ```
 
 You can specify an IPv6 port via `PORT_IPV6` variable. By default, IPv6 port is not set.
 
 ```sh
-docker run -p 80:80 -e PORT_IPV6=8080 swaggerapi/swagger-ui
+docker run -p 80:80 -e PORT_IPV6=8080 docker.swagger.io/swaggerapi/swagger-ui
 ```
 
 You can allow/disallow [embedding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) via `EMBEDDING` variable. By default, embedding is disabled.
 
 ```sh
-docker run -p 80:80 -e EMBEDDING=true swaggerapi/swagger-ui
+docker run -p 80:80 -e EMBEDDING=true docker.swagger.io/swaggerapi/swagger-ui
 ```
 
 For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](configuration.md#docker).
