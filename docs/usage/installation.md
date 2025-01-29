@@ -62,7 +62,7 @@ const ui = SwaggerUIBundle({
 
 ### Docker
 
-You can pull a pre-built docker image of the swagger-ui directly from Docker Hub:
+You can pull a pre-built docker image of the swagger-ui directly from **docker.swagger.io**:
 
 ```sh
 docker pull docker.swagger.io/swaggerapi/swagger-ui
