@@ -5,6 +5,14 @@ import React from "react"
 import PropTypes from "prop-types"
 
 export default class BaseLayout extends React.Component {
+  constructor(props, context) {
+    super(props, context)
+
+    this.state = {
+      operationsCollapsed: false,
+    }
+  }
+
   static propTypes = {
     errSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
@@ -12,6 +20,11 @@ export default class BaseLayout extends React.Component {
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+  }
+
+  toggleCollapse = () => {
+    const oldValue = this.state.operationsCollapsed
+    this.setState({ operationsCollapsed: !oldValue })
   }
 
   render() {
@@ -126,8 +139,15 @@ export default class BaseLayout extends React.Component {
           <FilterContainer />
 
           <Row>
+            <div className="text-right">
+              <button className="btn " onClick={ this.toggleCollapse }>
+                { this.state.operationsCollapsed ? "Expand All" : "Collapse All"}
+              </button>
+            </div>
+          </Row>
+          <Row>
             <Col mobile={12} desktop={12}>
-              <Operations />
+              <Operations collapseAll={this.state.operationsCollapsed} />
             </Col>
           </Row>
 
