@@ -6,7 +6,7 @@ import escapeRegExp from "lodash/escapeRegExp"
 import constant from "lodash/constant"
 
 import { getDefaultRequestBodyValue } from "./components/request-body"
-import { stringify } from "core/utils"
+import { stringify, validateParam } from "core/utils"
 
 // Helpers
 
@@ -166,6 +166,19 @@ export const requestBodyErrors = onlyOAS3((state, path, method) => {
   return state.getIn(["requestData", path, method, "errors"]) || null
 })
 
+export const validationErrors = onlyOAS3((state, path, method) => {
+  const errors = state.getIn(["requestData", path, method, "errors"]) || null
+  const result = []
+
+  if (errors && errors.count()) {
+    errors
+      .map((e) => (Map.isMap(e) ? `${e.get("propKey")}: ${e.get("error")}` : e))
+      .forEach((e) => result.push(e))
+  }
+
+  return result
+})
+
 export const activeExamplesMember = onlyOAS3(
   (state, path, method, type, name) => {
     return (
@@ -294,6 +307,23 @@ export const validateShallowRequired = (
     }
   })
   return missingRequiredKeys
+}
+
+export const validateValues = (
+  state,
+  { 
+    oas3RequestBody, 
+    oas3RequestContentType, 
+    oas3RequestBodyValue 
+  }
+) => {
+  if (oas3RequestContentType !== "application/json") {
+    return []
+  }
+  return validateParam(oas3RequestBody, oas3RequestBodyValue, {
+    bypassRequiredCheck: false,
+    isOAS3: true,
+  })
 }
 
 export const validOperationMethods = constant([
