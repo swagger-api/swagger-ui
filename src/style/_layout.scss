@@ -203,7 +203,7 @@
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
     box-shadow: 0 0 3px rgba($opblock-box-shadow-color,.19);
-
+    
     .tab-header
     {
         display: flex;
@@ -374,21 +374,10 @@
     .opblock-summary-path-description-wrapper
     {
         display: flex;
-        flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0px 10px;
-
-        padding: 0 10px;
-
-        width: 100%;
-    }
-
-    @media (max-width: 550px) {
-      .opblock-summary-path-description-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+        gap: .5rem;
+        padding: 0 .5rem;
     }
 
     .opblock-summary
@@ -402,30 +391,46 @@
 
         .view-line-link
         {
-            position: relative;
-            top: 2px;
-
-            width: 0;
-            margin: 0;
-
+            width: 24px;
             cursor: pointer;
-            transition: all .5s;
+            opacity: 0;
+            transform: translateX(20px);
+            pointer-events: none;
+            transition: .3s;
         }
 
         &:hover
         {
             .view-line-link
             {
-                width: 18px;
-                margin: 0 5px;
-
-                &.copy-to-clipboard {
-                    width: 24px;
-                }
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: auto;
             }
         }
     }
 
+    @media screen and (max-width: 768px) {
+        position: relative;
+        margin: 2.5rem 0;
+        border-top-left-radius: 0;
+
+        .opblock-summary-method {
+            position: absolute;
+            top: -1.7rem;
+            left: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .opblock-summary {
+            .opblock-summary-copy {
+                position: absolute;
+                right: -6px;
+                top: -1.7rem;
+            }
+        }
+    }
 
 
     &.opblock-post
