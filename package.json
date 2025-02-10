@@ -148,7 +148,7 @@
     "git-describe": "^4.1.0",
     "html-webpack-plugin": "^5.5.1",
     "html-webpack-skip-assets-plugin": "^1.0.4",
-    "husky": "=9.1.6",
+    "husky": "=9.1.7",
     "inspectpack": "=4.7.1",
     "jest": "=29.7.0",
     "jest-environment-jsdom": "=29.7.0",
