@@ -183,7 +183,7 @@
     "start-server-and-test": "^2.0.4",
     "stream-browserify": "^3.0.0",
     "tachyons-sass": "^4.9.5",
-    "terser-webpack-plugin": "^5.3.10",
+    "terser-webpack-plugin": "^5.3.11",
     "webpack": "^5.97.1",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^5.1.4",
