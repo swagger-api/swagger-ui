@@ -176,7 +176,7 @@
     "release-it": "=17.10.0",
     "rimraf": "^5.0.7",
     "sass": "^1.77.6",
-    "sass-loader": "^14.2.1",
+    "sass-loader": "^16.0.5",
     "shx": "=0.3.4",
     "sinon": "=19.0.2",
     "source-map-support": "^0.5.21",
