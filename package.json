@@ -180,7 +180,7 @@
     "shx": "=0.3.4",
     "sinon": "=19.0.2",
     "source-map-support": "^0.5.21",
-    "start-server-and-test": "^2.0.4",
+    "start-server-and-test": "^2.0.10",
     "stream-browserify": "^3.0.0",
     "tachyons-sass": "^4.9.5",
     "terser-webpack-plugin": "^5.3.11",
