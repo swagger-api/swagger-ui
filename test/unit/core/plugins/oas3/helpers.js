@@ -13,8 +13,11 @@ describe("isOAS3", function () {
   it("should recognize valid OAS3 version values", function () {
     expect(isOAS3Shorthand("3.0.0")).toEqual(true)
     expect(isOAS3Shorthand("3.0.1")).toEqual(true)
-    expect(isOAS3Shorthand("3.0.11111")).toEqual(false)
-    expect(isOAS3Shorthand("3.0.0-rc0")).toEqual(true)
+    expect(isOAS3Shorthand("3.0.4")).toEqual(true)
+    expect(isOAS3Shorthand("3.0.11111")).toEqual(true)
+    expect(isOAS3Shorthand("3.0.0-rc0")).toEqual(false)
+  
+  
   })
 
   it("should fail for invalid OAS3 version values", function () {

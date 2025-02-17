@@ -33,17 +33,18 @@ If you are looking for plain ol' HTML/JS/CSS, [download the latest release](http
 ## Compatibility
 The OpenAPI Specification has undergone 5 revisions since initial creation in 2010.  Compatibility between Swagger UI and the OpenAPI Specification is as follows:
 
-| Swagger UI Version | Release Date | OpenAPI Spec compatibility             | Notes                                                                 |
-|--------------------|--------------|----------------------------------------|-----------------------------------------------------------------------|
-| 5.0.0              | 2023-06-12   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0 | [tag v5.0.0](https://github.com/swagger-api/swagger-ui/tree/v5.0.0)   |
-| 4.0.0              | 2021-11-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3        | [tag v4.0.0](https://github.com/swagger-api/swagger-ui/tree/v4.0.0)   |
-| 3.18.3             | 2018-08-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3        | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3) |
-| 3.0.21             | 2017-07-26   | 2.0                                    | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21) |
-| 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0                          | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
-| 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0                          | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)   |
-| 2.0.24             | 2014-09-12   | 1.1, 1.2                               | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
-| 1.0.13             | 2013-03-08   | 1.1, 1.2                               | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
-| 1.0.1              | 2011-10-11   | 1.0, 1.1                               | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
+| Swagger UI Version | Release Date | OpenAPI Spec compatibility                           | Notes                                                                 |
+|--------------------|--------------|------------------------------------------------------|-----------------------------------------------------------------------|
+| 5.19.0             | 2025-02-17   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.0.4, 3.1.0, 3.1.1 | [tag v5.19.0](https://github.com/swagger-api/swagger-ui/tree/v5.19.0) |
+| 5.0.0              | 2023-06-12   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0               | [tag v5.0.0](https://github.com/swagger-api/swagger-ui/tree/v5.0.0)   |
+| 4.0.0              | 2021-11-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v4.0.0](https://github.com/swagger-api/swagger-ui/tree/v4.0.0)   |
+| 3.18.3             | 2018-08-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3) |
+| 3.0.21             | 2017-07-26   | 2.0                                                  | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21) |
+| 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0                                        | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
+| 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0                                        | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)   |
+| 2.0.24             | 2014-09-12   | 1.1, 1.2                                             | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
+| 1.0.13             | 2013-03-08   | 1.1, 1.2                                             | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
+| 1.0.1              | 2011-10-11   | 1.0, 1.1                                             | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
 
 ## Anonymized analytics
 
