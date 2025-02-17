@@ -12,4 +12,4 @@ describe("isOAS31", function () {
     expect(isOAS31Shorthand("3.2.0")).toEqual(false)
     expect(isOAS31Shorthand("3.0.0-rc0")).toEqual(false)
   })
-});
+})
