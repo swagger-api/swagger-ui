@@ -172,7 +172,7 @@
     "prettier": "^3.4.2",
     "process": "^0.11.10",
     "react-refresh": "^0.16.0",
-    "react-test-renderer": "^18.3.1",
+    "react-test-renderer": "^19.0.0",
     "release-it": "=17.10.0",
     "rimraf": "^5.0.7",
     "sass": "^1.77.6",
