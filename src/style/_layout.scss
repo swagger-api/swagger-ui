@@ -755,6 +755,20 @@
         word-break: break-all;
     }
   }
+
+  > iframe {
+    display: block;
+    width: 100%;
+    max-height: 400px;
+    min-height: 6em;
+    height: 400px;
+    overflow-x: auto;
+    overflow-y: auto;
+    background: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+
 }
 .curl-command {
   position: relative;
@@ -764,6 +778,25 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
+  background: #7d8293;
+  text-align: center;
+  padding: 5px;
+  border: none;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.toggle-html-preview {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
   background: #7d8293;
   text-align: center;
   padding: 5px;
