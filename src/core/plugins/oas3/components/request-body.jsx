@@ -54,7 +54,7 @@ const RequestBody = ({
   const handleFile = (e) => {
     onChange(e.target.files[0])
   }
-  const setIsIncludedOptions = (key) => {
+  const setIsIncludedOptions = (key, defaultSendEmptyValue) => {
     let options = {
       key,
       shouldDispatchInit: false,
@@ -63,7 +63,7 @@ const RequestBody = ({
     let currentInclusion = requestBodyInclusionSetting.get(key, "no value")
     if (currentInclusion === "no value") {
       options.shouldDispatchInit = true
-      // future: can get/set defaultValue from a config setting
+      options.defaultValue = defaultSendEmptyValue
     }
     return options
   }
@@ -76,7 +76,7 @@ const RequestBody = ({
   const Example = getComponent("Example")
   const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
-  const { showCommonExtensions } = getConfigs()
+  const { showCommonExtensions, defaultSendEmptyValue } = getConfigs()
 
   const requestBodyDescription = requestBody?.get("description") ?? null
   const requestBodyContent = requestBody?.get("content") ?? new OrderedMap()
@@ -223,7 +223,7 @@ const RequestBody = ({
                     <ParameterIncludeEmpty
                       onChange={(value) => onChangeIncludeEmpty(key, value)}
                       isIncluded={included}
-                      isIncludedOptions={setIsIncludedOptions(key)}
+                      isIncludedOptions={setIsIncludedOptions(key, defaultSendEmptyValue)}
                       isDisabled={Array.isArray(currentValue) ? currentValue.length !== 0 : !isEmptyValue(currentValue)}
                     />
                   )}
