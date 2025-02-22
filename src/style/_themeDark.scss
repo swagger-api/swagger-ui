@@ -1,0 +1,172 @@
+// Variables for consistent theme
+$text_color_1: #ffffffde;
+$text_color_2: #f1f1f1e5;
+$text_color_3: #f1f1f16e;
+
+$background_main: #141316;
+$background_topBar: #222129;
+$background_body: #0f0e14;
+$background_schemeCont: #16151a;
+
+$opblock_colors: (
+  post: (#0025142e, #09633a, #16231f99),
+  deprecated: (#1b161e, #594d69, #29242f),
+  put: (#a1661e1f, #fca13096, #412d24),
+  get: (#3f78b31f, #5a99d99c, #355d855e),
+  delete: (#77191933, #993434, #511c1ccc),
+);
+
+$models_colors: (
+  background: #1f2027,
+  border: #4b507175,
+  item_background: #2e2e35d9,
+  item_hover: #37373f,
+);
+
+html.dark {
+  background: $background_main;
+
+
+  .swagger-ui {
+    color: $text_color_2;
+    background: $background_main;
+
+    .expand-operation,
+    .authorization__btn svg,
+    .expand-operation svg,
+    .opblock-control-arrow svg {
+      fill: $text_color_2;
+    }
+
+    a.nostyle,
+    a.nostyle:visited,
+    .opblock-tag small {
+      color: $text_color_1;
+    }
+
+    .info {
+      h1, h2, h3, h4, h5, .title {
+        color: $text_color_1;
+      }
+      li, p, table {
+        color: $text_color_2;
+      }
+      .base-url {
+        color: $text_color_3;
+      }
+    }
+
+    .topbar {
+      background: $background_topBar;
+      .download-url-wrapper .download-url-button {
+        color: $text_color_2;
+      }
+    }
+
+    .scheme-container {
+      background: $background_schemeCont;
+      .schemes > .schemes-server-container > label {
+        color: $text_color_2;
+      }
+    }
+
+    table thead tr {
+      td, th {
+        color: $text_color_2;
+      }
+    }
+
+    // OPblock styles
+    @each $type, $colors in $opblock_colors {
+      .opblock-#{$type} {
+        background: nth($colors, 1);
+        border-color: nth($colors, 2);
+        .opblock-section-header {
+          background-color: nth($colors, 3);
+        }
+        .opblock-summary {
+          border-color: nth($colors, 2);
+        }
+      }
+    }
+
+    .opblock {
+      .opblock-section-header {
+        h4 {
+          color: $text_color_1;
+        }
+        label {
+          color: $text_color_3;
+        }
+        .btn {
+          color: $text_color_2;
+          border-color: $text_color_3;
+          box-shadow: none;
+        }
+      }
+
+      .model-box {
+        background: map-get($models_colors, background);
+        border-color: map-get($models_colors, border);
+        .model-title {
+          color: $text_color_1;
+        }
+        .model {
+          color: $text_color_2;
+        }
+      }
+
+      .markdown p,
+      .markdown pre,
+      .renderedMarkdown p,
+      .renderedMarkdown pre {
+        color: $text_color_2;
+      }
+
+      .opblock-summary-operation-id,
+      .opblock-summary-path,
+      .opblock-summary-path__deprecated,
+      .opblock-summary-description,
+      .description-wrapper,
+      .opblock-external-docs-wrapper,
+      .opblock-title_normal,
+      .parameter__name,
+      .parameter__type,
+      .parameter__in,
+      .response-col_status {
+        color: $text_color_3;
+      }
+    }
+
+    section.models {
+      background: map-get($models_colors, background);
+      border-color: map-get($models_colors, border);
+
+      h4 span,
+      .model-title {
+        color: $text_color_1;
+      }
+
+      .models-control svg {
+        fill: $text_color_2;
+      }
+
+      .model-container {
+        background: map-get($models_colors, item_background);
+        &:hover {
+          background: map-get($models_colors, item_hover);
+        }
+      }
+
+      .model {
+        color: $text_color_3;
+      }
+    }
+
+    .model-box-control:focus,
+    .models-control:focus,
+    .opblock-summary-control:focus {
+      outline: none;
+    }
+  }
+}
