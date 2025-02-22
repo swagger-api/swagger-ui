@@ -11,7 +11,14 @@
 ![gzip size](https://img.shields.io/bundlephobia/minzip/swagger-ui.svg?label=gzip%20size)
 
 ## Introduction
-[Swagger UI](https://swagger.io/tools/swagger-ui/) allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption.
+<!-- HIGHLIGHT START -->
+[Swagger UI](https://swagger.io/tools/swagger-ui/) is an interactive API documentation tool that allows developers and consumers to visualize, test, and interact with API resources without needing backend implementation knowledge. It is automatically generated from your OpenAPI specification and simplifies API exploration, debugging, and onboarding.
+
+**Live Demo**: [Swagger Petstore Example] (https://petstore.swagger.io/)
+**Preview**: [Swagger UI Preview](https://petstore.swagger.io/api/swagger-ui.png)
+<!-- HIGHLIGHT END -->
+
+<!-- (OLD) allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption. -->
 
 ## General
 **👉🏼 Want to score an easy open-source contribution?** Check out our [Good first issue](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+issue%22) label.
@@ -21,13 +28,34 @@
 
 This repository publishes three different NPM modules:
 
+<!-- HIGHLIGHT START -->
+
+| **Module**        | **Use Case** |
 * [swagger-ui](https://www.npmjs.com/package/swagger-ui) is a traditional npm module intended for use in single-page applications that are capable of resolving dependencies (via Webpack, Browserify, etc.).
 * [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) is a dependency-free module that includes everything you need to serve Swagger UI in a server-side project, or a single-page application that can't resolve npm module dependencies.
 * [swagger-ui-react](https://www.npmjs.com/package/swagger-ui-react) is Swagger UI packaged as a React component for use in React applications.
 
 We strongly suggest that you use `swagger-ui` instead of `swagger-ui-dist` if you're building a single-page application, since `swagger-ui-dist` is significantly larger.
 
+<!-- HIGHLIGHT END -->
+
 If you are looking for plain ol' HTML/JS/CSS, [download the latest release](https://github.com/swagger-api/swagger-ui/releases/latest) and copy the contents of the `/dist` folder to your server.
+
+
+<!-- HIGHLIGHT START -->
+##  Quick Start
+Get started with Swagger UI in seconds
+''' bash
+# Install Swagger UI
+npx create-swagger-ui@latest my-api[docs
+cd my-api-docs
+
+# Run locally
+npm start
+
+Open http://localhost:8080 to view your API documentation
+
+<!-- HIGHLIGHT END -->
 
 
 ## Compatibility
@@ -48,7 +76,11 @@ The OpenAPI Specification has undergone 5 revisions since initial creation in 20
 
 ## Anonymized analytics
 
-SwaggerUI uses [Scarf](https://scarf.sh/) to collect [anonymized installation analytics](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-what-information-does-scarf-js-send-about-me). These analytics help support the maintainers of this library and ONLY run during installation. To [opt out](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-how-can-i-opt-out-of-analytics), you can set the `scarfSettings.enabled` field to `false` in your project's `package.json`:
+SwaggerUI uses [Scarf](https://scarf.sh/) to collect [anonymized installation analytics](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-what-information-does-scarf-js-send-about-me). 
+
+These analytics help support the maintainers of this library and ONLY run during installation.
+
+To [opt out](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-how-can-i-opt-out-of-analytics), you can set the `scarfSettings.enabled` field to `false` in your project's `package.json`:
 
 ```
 // package.json
@@ -83,8 +115,20 @@ Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false`
 - [Setting up](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/development/setting-up.md)
 - [Scripts](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/development/scripts.md)
 
-#### Contributing
-- [Contributing](https://github.com/swagger-api/.github/blob/HEAD/CONTRIBUTING.md)
+<!-- HIGHLIGHT START -->
+#### Contributing (https://github.com/swagger-api/.github/blob/HEAD/CONTRIBUTING.md)
+**How to Contribute**
+1. Fork & Clone the repo:
+   
+   git clone https://github.com/swagger-api/swagger-ui.git
+   cd swagger-ui
+
+3. Run Swagger UI locally: **npm start**
+
+4. Find an issue to work on: [https://github.com/swagger-api/swagger-ui/labels/good%20first%20issue]
+
+5. Submit a Pull Request
+<!-- HIGHLIGHT END -->
 
 ##### Integration Tests
 
