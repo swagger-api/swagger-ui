@@ -45,6 +45,7 @@ const SwaggerUI = ({
   persistAuthorization = config.defaults.persistAuthorization,
   oauth2RedirectUrl = config.defaults.oauth2RedirectUrl,
   onComplete = null,
+  operationsSorter = config.defaults.operationsSorter
 }) => {
   const [system, setSystem] = useState(null)
   const SwaggerUIComponent = system?.getComponent("App", "root")
@@ -165,6 +166,7 @@ SwaggerUI.propTypes = {
   persistAuthorization: PropTypes.bool,
   withCredentials: PropTypes.bool,
   oauth2RedirectUrl: PropTypes.string,
+  operationsSorter: PropTypes.func
 }
 SwaggerUI.System = SwaggerUIConstructor.System
 SwaggerUI.presets = SwaggerUIConstructor.presets
