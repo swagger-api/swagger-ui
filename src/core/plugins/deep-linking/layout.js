@@ -175,7 +175,7 @@ export default {
         isShownKeyFromUrlHashArray(state, urlHashArray) {
           // If there are more than 2 segments, treat all segments except the last one as the tag
           if (urlHashArray.length > 2) {
-            urlHashArray = [urlHashArray.slice(0, 1).join('/'), urlHashArray.at(-1)]
+            urlHashArray = [urlHashArray.slice(0, 1).join("/"), urlHashArray.at(-1)]
           }
 
           const [tag, operationId] = urlHashArray
