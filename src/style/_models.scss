@@ -2,7 +2,8 @@
 {
     font-size: 12px;
     font-weight: 300;
-
+    display: block;
+    
     @include text_code();
 
     .deprecated
