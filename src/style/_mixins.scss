@@ -167,7 +167,10 @@ $browser-context: 16;
 }
 
 @mixin invalidFormElement() {
-    animation: shake .4s 1;
     border-color: $_color-delete;
     background: lighten($_color-delete, 35%);
+
+    @media(prefers-reduced-motion: no-preference) {
+      animation: shake .4s 1;
+    }
 }
