@@ -463,6 +463,11 @@
         @include method($_color-options);
     }
 
+    &.opblock-search
+    {
+        @include method($_color-search);
+    }
+
     &.opblock-deprecated
     {
         opacity: .6;

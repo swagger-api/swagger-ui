@@ -62,6 +62,7 @@ const defaultOptions = Object.freeze({
     "head",
     "patch",
     "trace",
+    "search",
   ],
   queryConfigEnabled: false,
 
