@@ -35,7 +35,7 @@ $mango-tango: #e97500 !default;
 
 // Theme
 
-$color-primary: #89bf04 !default;
+$color-primary: $japanese-laurel !default;
 $color-secondary: #9012fe !default;
 $color-info: #4990e2 !default;
 $color-warning: #ff6060 !default;
@@ -114,7 +114,7 @@ $info-code-font-color: $_color-head !default;
 $info-link-font-color: $color-info !default;
 $info-link-font-color-hover: $info-link-font-color !default;
 
-$info-title-small-background-color: $waterloo-gray !default;
+$info-title-small-background-color: $gray-500 !default;
 
 $info-title-small-pre-font-color: $white !default;
 
