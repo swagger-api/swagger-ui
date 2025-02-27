@@ -1,3 +1,4 @@
 {
-  "*.js": "eslint"
+  "*.{js,jsx}": ["eslint --max-warnings 0"],
+  "*.scss": ["stylelint '**/*.scss'"]
 }

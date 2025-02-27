@@ -20,7 +20,6 @@ import {
   escapeDeepLinkPath,
   getExtensions,
   getCommonExtensions,
-  sanitizeUrl,
   requiresValidationURL,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
@@ -35,10 +34,11 @@ import {
   buildBaseUrl,
   buildUrl,
   safeBuildUrl,
+  sanitizeUrl,
 } from "core/utils/url"
 
 import win from "core/window"
-import { afterAll, beforeAll, expect, jest } from "@jest/globals"
+import { afterAll, beforeAll, expect } from "@jest/globals"
 
 describe("utils", () => {
 
@@ -1301,10 +1301,11 @@ describe("utils", () => {
       }
       let count = 0
 
-      const result = deeplyStripKey(input, "$$ref", () => {
+      deeplyStripKey(input, "$$ref", () => {
         count++
         return true
       })
+
       expect(count).toEqual(2)
     })
   })
@@ -1361,27 +1362,91 @@ describe("utils", () => {
 
   describe("sanitizeUrl", () => {
     it("should sanitize a `javascript:` url", () => {
-      const res = sanitizeUrl("javascript:alert('bam!')")
+      const url = "javascript:alert('bam!')"
 
-      expect(res).toEqual("about:blank")
+      expect(sanitizeUrl(url)).toEqual("about:blank")
+    })
+
+    it("should sanitize a `vbscript:` url", () => {
+      const url = "vbscript:alert('bam!')"
+
+      expect(sanitizeUrl(url)).toEqual("about:blank")
     })
 
     it("should sanitize a `data:` url", () => {
-      const res = sanitizeUrl(`data:text/html;base64,PHNjcmlwdD5hbGVydCgiSGVsbG8iKTs8L3NjcmlwdD4=`)
+      const url = "data:text/html;base64,PHNjcmlwdD5hbGVydCgiSGVsbG8iKTs8L3NjcmlwdD4="
 
-      expect(res).toEqual("about:blank")
+      expect(sanitizeUrl(url)).toEqual("about:blank")
+    })
+
+    it("should not sanitize", () => {
+      const url1 = "http://swagger.io/path/to:something"
+      const url2 = "http://swagger.io:4567/path/to:something"
+      const url3 = "https://example.com:4567/path/to:something"
+      const url4 = "./path/to/my.json"
+      const url5 = "path/to/my.json"
+      const url6 = "swagger.io"
+      const url7 = "com.braintreepayments.demo://example"
+      const url8 = "mailto:test@example.com?subject=hello+world"
+      const url9 = "javascrip%25%32%35%25%33%35%25%34%33rt:alert()"
+      const url10 = "notjavascript:alert()"
+      const url11 = "%20javascript:alert()"
+
+      expect(sanitizeUrl(url1)).toEqual(url1)
+      expect(sanitizeUrl(url2)).toEqual(url2)
+      expect(sanitizeUrl(url3)).toEqual(url3)
+      expect(sanitizeUrl(url4)).toEqual(url4)
+      expect(sanitizeUrl(url5)).toEqual(url5)
+      expect(sanitizeUrl(url6)).toEqual(url6)
+      expect(sanitizeUrl(url7)).toEqual(url7)
+      expect(sanitizeUrl(url8)).toEqual(url8)
+      expect(sanitizeUrl(url9)).toEqual(url9)
+      expect(sanitizeUrl(url10)).toEqual(url10)
+      expect(sanitizeUrl(url11)).toEqual(url11)
+    })
+
+    it("should normalize", () => {
+      const url1 = "//google.com/robots.txt"
+      const url2 = "www.example.com/with-áccêntš"
+      const url3 = "www.example.com/лот.рфшишкиü–"
+      const url4 = "   http://example.com/path/to:something    "
+      const url5 = "https://example.com&NewLine;&NewLine;/something"
+      const url6 = "http://example.com#javascript:foo"
+
+
+      expect(sanitizeUrl(url1)).toEqual("https://google.com/robots.txt")
+      expect(sanitizeUrl(url2)).toEqual("www.example.com/with-%C3%A1cc%C3%AAnt%C5%A1")
+      expect(sanitizeUrl(url3)).toEqual("www.example.com/%D0%BB%D0%BE%D1%82.%D1%80%D1%84%D1%88%D0%B8%D1%88%D0%BA%D0%B8%C3%BC%E2%80%93")
+      expect(sanitizeUrl(url4)).toEqual("http://example.com/path/to:something")
+      expect(sanitizeUrl(url5)).toEqual("https://example.com&newline;&newline;/something")
+      expect(sanitizeUrl(url6)).toEqual("http://example.com/#javascript:foo")
+    })
+
+    it("should sanitize", () => {
+      const url1 = "www.example.com/\u200D\u0000\u001F\x00\x1F\uFEFFfoo"
+      const url2 = "javascri\npt:alert('xss')"
+      const url3 = "\u0000javascript:alert()"
+      const url4 = "\\j\\av\\a\\s\\cript:alert()"
+      const url5 = "  javascript:alert('xss')"
+
+
+      expect(sanitizeUrl(url1)).toEqual("www.example.com/%E2%80%8D%00%1F%00%1F%EF%BB%BFfoo")
+      expect(sanitizeUrl(url2)).toEqual("about:blank")
+      expect(sanitizeUrl(url3)).toEqual("about:blank")
+      expect(sanitizeUrl(url4)).toEqual("j/av/a/s/cript:alert()")
+      expect(sanitizeUrl(url5)).toEqual("about:blank")
     })
 
     it("should not modify a `http:` url", () => {
-      const res = sanitizeUrl(`http://swagger.io/`)
+      const url = "http://swagger.io/"
 
-      expect(res).toEqual("http://swagger.io/")
+      expect(sanitizeUrl(url)).toEqual(url)
     })
 
     it("should not modify a `https:` url", () => {
-      const res = sanitizeUrl(`https://swagger.io/`)
+      const url = "https://swagger.io/"
 
-      expect(res).toEqual("https://swagger.io/")
+      expect(sanitizeUrl(url)).toEqual("https://swagger.io/")
     })
 
     it("should gracefully handle empty strings", () => {
@@ -1712,7 +1777,7 @@ describe("utils", () => {
       let res = null
 
       try {
-        const res = paramToIdentifier(param)
+        paramToIdentifier(param)
       } catch(e) {
         error = e
       }

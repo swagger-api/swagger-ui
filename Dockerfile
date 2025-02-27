@@ -4,6 +4,13 @@
 
 FROM nginx:1.27.4-alpine
 
+LABEL maintainer="vladimir.gorej@gmail.com" \
+      org.opencontainers.image.authors="vladimir.gorej@gmail.com" \
+      org.opencontainers.image.url="docker.swagger.io/swaggerapi/swagger-ui" \
+      org.opencontainers.image.source="https://github.com/swagger-api/swagger-ui" \
+      org.opencontainers.image.description="SwaggerUI Docker image" \
+      org.opencontainers.image.licenses="Apache-2.0"
+
 RUN apk add --update-cache --no-cache "nodejs"
 
 LABEL maintainer="char0n"
