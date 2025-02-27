@@ -1,107 +1,96 @@
-.auth-btn-wrapper
-{
-    display: flex;
+@use "variables" as *;
+@use "type";
 
-    padding: 10px 0;
+.auth-btn-wrapper {
+  display: flex;
 
-    justify-content: center;
+  padding: 10px 0;
 
-    .btn-done {
-      margin-right: 1em;
-    }
+  justify-content: center;
+
+  .btn-done {
+    margin-right: 1em;
+  }
 }
 
-.auth-wrapper
-{
-    display: flex;
+.auth-wrapper {
+  display: flex;
 
-    flex: 1;
-    justify-content: flex-end;
+  flex: 1;
+  justify-content: flex-end;
 
-    .authorize
-    {
-        padding-right: 20px;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
+  .authorize {
+    padding-right: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
-.auth-container
-{
-    margin: 0 0 10px 0;
+.auth-container {
+  margin: 0 0 10px 0;
+  padding: 10px 20px;
+
+  border-bottom: 1px solid $auth-container-border-color;
+
+  &:last-of-type {
+    margin: 0;
     padding: 10px 20px;
 
-    border-bottom: 1px solid $auth-container-border-color;
+    border: 0;
+  }
 
-    &:last-of-type
-    {
-        margin: 0;
-        padding: 10px 20px;
+  h4 {
+    margin: 5px 0 15px 0 !important;
+  }
 
-        border: 0;
+  .wrapper {
+    margin: 0;
+    padding: 0;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    min-width: 230px;
+  }
+
+  .errors {
+    font-size: 12px;
+
+    padding: 10px;
+
+    border-radius: 4px;
+
+    background-color: #ffeeee;
+
+    color: red;
+
+    margin: 1em;
+
+    @include type.text_code();
+
+    b {
+      text-transform: capitalize;
+      margin-right: 1em;
     }
-
-    h4
-    {
-        margin: 5px 0 15px 0 !important;
-    }
-
-    .wrapper
-    {
-        margin: 0;
-        padding: 0;
-    }
-
-    input[type=text],
-    input[type=password]
-    {
-        min-width: 230px;
-    }
-
-    .errors
-    {
-        font-size: 12px;
-
-        padding: 10px;
-
-        border-radius: 4px;
-
-        background-color: #ffeeee;
-
-        color: red;
-
-        margin: 1em;
-
-        @include text_code();
-
-        b
-        {
-            text-transform: capitalize;
-            margin-right: 1em;
-        }
-    }
+  }
 }
 
-.scopes
-{
-    h2
-    {
-        font-size: 14px;
+.scopes {
+  h2 {
+    font-size: 14px;
 
-        @include text_headline();
+    @include type.text_headline();
 
-        a
-        {
-          font-size: 12px;
-          color: $auth-select-all-none-link-font-color;
-          cursor: pointer;
-          padding-left: 10px;
-          text-decoration: underline;
-        }
+    a {
+      font-size: 12px;
+      color: $auth-select-all-none-link-font-color;
+      cursor: pointer;
+      padding-left: 10px;
+      text-decoration: underline;
     }
+  }
 }
 
-.scope-def
-{
-    padding: 0 0 20px 0;
+.scope-def {
+  padding: 0 0 20px 0;
 }

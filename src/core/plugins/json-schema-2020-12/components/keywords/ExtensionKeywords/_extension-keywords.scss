@@ -1,0 +1,11 @@
+@use "./../../mixins";
+
+.json-schema-2020-12-json-viewer-extension-keyword {
+  .json-schema-2020-12-json-viewer__name {
+    @include mixins.json-schema-2020-12-keyword--extension;
+  }
+
+  .json-schema-2020-12-json-viewer__value {
+    @include mixins.json-schema-2020-12-keyword--extension;
+  }
+}

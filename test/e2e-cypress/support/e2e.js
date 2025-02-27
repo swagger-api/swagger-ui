@@ -19,7 +19,7 @@ import "./commands"
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-Cypress.on("uncaught:exception", (err, runnable) => {
+Cypress.on("uncaught:exception", (err) => {
   console.log(JSON.stringify(err, null, 2))
   return true
 })

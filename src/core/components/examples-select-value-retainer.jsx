@@ -28,7 +28,7 @@ import { stringify } from "core/utils"
 
 // Note that `currentNamespace` isn't currently used anywhere!
 
-const stringifyUnlessList = input =>
+const stringifyUnlessList = (input) =>
   List.isList(input) ? input : stringify(input)
 
 export default class ExamplesSelectValueRetainer extends React.PureComponent {
@@ -53,12 +53,14 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
       // NOOP
     },
     onSelect: (...args) =>
-      console.log( // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      console.log(
         "ExamplesSelectValueRetainer: no `onSelect` function was provided",
         ...args
       ),
     updateValue: (...args) =>
-      console.log( // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      console.log(
         "ExamplesSelectValueRetainer: no `updateValue` function was provided",
         ...args
       ),
@@ -94,7 +96,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     return (this.state[currentNamespace] || Map()).toObject()
   }
 
-  _setStateForCurrentNamespace = obj => {
+  _setStateForCurrentNamespace = (obj) => {
     const { currentNamespace } = this.props
 
     return this._setStateForNamespace(currentNamespace, obj)
@@ -125,7 +127,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     )
   }
 
-  _getCurrentExampleValue = props => {
+  _getCurrentExampleValue = (props) => {
     // props are accepted so that this can be used in UNSAFE_componentWillReceiveProps,
     // which has access to `nextProps`
     const { currentKey } = props || this.props
@@ -133,12 +135,8 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   }
 
   _onExamplesSelect = (key, { isSyntheticChange } = {}, ...otherArgs) => {
-    const {
-      onSelect,
-      updateValue,
-      currentUserInputValue,
-      userHasEditedBody,
-    } = this.props
+    const { onSelect, updateValue, currentUserInputValue, userHasEditedBody } =
+      this.props
     const { lastUserEditedValue } = this._getStateForCurrentNamespace()
 
     const valueFromExample = this._getValueForExample(key)
@@ -179,10 +177,8 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
       userHasEditedBody,
     } = nextProps
 
-    const {
-      lastUserEditedValue,
-      lastDownstreamValue,
-    } = this._getStateForCurrentNamespace()
+    const { lastUserEditedValue, lastDownstreamValue } =
+      this._getStateForCurrentNamespace()
 
     const valueFromCurrentExample = this._getValueForExample(
       nextProps.currentKey,
@@ -199,8 +195,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
     if (examplesMatchingNewValue.size) {
       let key
-      if(examplesMatchingNewValue.has(nextProps.currentKey))
-      {
+      if (examplesMatchingNewValue.has(nextProps.currentKey)) {
         key = nextProps.currentKey
       } else {
         key = examplesMatchingNewValue.keySeq().first()

@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.4
 info:
  title: Example Swagger
  version: '1.0'
@@ -27,7 +27,7 @@ paths:
             required: true
             schema:
               type: number
-              enum: 
+              enum:
                 - 0
                 - 1
             description: debug flag

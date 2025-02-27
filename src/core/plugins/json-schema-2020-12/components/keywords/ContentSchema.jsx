@@ -23,7 +23,11 @@ const ContentSchema = ({ schema }) => {
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--contentSchema">
-      <JSONSchema name={name} schema={schema.contentSchema} />
+      <JSONSchema
+        name={name}
+        schema={schema.contentSchema}
+        identifier="contentSchema"
+      />
     </div>
   )
 }

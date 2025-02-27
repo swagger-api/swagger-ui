@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.4
 info:
   title: "Schema in Parameters"
   description: |-
@@ -205,7 +205,7 @@ paths:
           components:
   /petOwner/createWithList:
     post:
-      tags: 
+      tags:
         - petOwner
       summary: Creates list of pet owners with given input array
       operationId: petOwnerCreateWithList

@@ -1,6 +1,7 @@
 import parseUrl from "url-parse"
 import Im from "immutable"
-import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
+import { btoa, generateCodeVerifier, createCodeChallenge } from "core/utils"
+import { sanitizeUrl } from "core/utils/url"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={}, currentServer } ) {
   let { schema, scopes, name, clientId } = auth
