@@ -122,7 +122,7 @@
     "@commitlint/config-conventional": "^19.7.1",
     "@jest/globals": "=29.7.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
-    "@release-it/conventional-changelog": "=8.0.2",
+    "@release-it/conventional-changelog": "=10.0.0",
     "@svgr/webpack": "=8.1.0",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^9.2.1",
