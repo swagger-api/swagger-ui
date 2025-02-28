@@ -125,7 +125,7 @@
     "@release-it/conventional-changelog": "=8.0.2",
     "@svgr/webpack": "=8.1.0",
     "autoprefixer": "^10.4.20",
-    "babel-loader": "^9.2.1",
+    "babel-loader": "^10.0.0",
     "babel-plugin-lodash": "=3.3.4",
     "babel-plugin-module-resolver": "=5.0.2",
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
