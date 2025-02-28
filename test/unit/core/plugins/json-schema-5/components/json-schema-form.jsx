@@ -34,9 +34,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         schema: Immutable.fromJS({
@@ -62,9 +60,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         schema: Immutable.fromJS({
@@ -88,9 +84,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         required: true,
@@ -117,9 +111,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         schema: Immutable.fromJS({
@@ -145,9 +137,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         schema: Immutable.fromJS({
@@ -173,9 +163,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         schema: Immutable.fromJS({
@@ -202,9 +190,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         required: true,
@@ -234,9 +220,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         },
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         errors: List(),
@@ -268,9 +252,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         schema: Immutable.fromJS({
@@ -295,9 +277,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
           isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
         },
         schema: Immutable.fromJS({

@@ -5,8 +5,6 @@ import Im from "immutable"
 import { createDeepLinkPath, escapeDeepLinkPath, isFunc } from "core/utils"
 import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 
-/* eslint-disable  react/jsx-no-bind */
-
 export default class OperationTag extends React.Component {
 
   static defaultProps = {
