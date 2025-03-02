@@ -6,7 +6,7 @@ import LightBulb from "../assets/lightbulb.svg"
 import LightBulbOff from "../assets/lightbulb-off.svg"
 
 const LightBulbIcon = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches)
 
   const toggleDarkMode = useCallback(() => {
     document.documentElement.classList.toggle("dark")
