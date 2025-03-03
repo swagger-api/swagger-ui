@@ -1,11 +1,10 @@
+
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List, fromJS } from "immutable"
 import { getCommonExtensions, stringify, isEmptyValue, immutableToJS } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
-
-/* eslint-disable  react/jsx-no-bind */
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
@@ -35,24 +34,24 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
 
 
 const RequestBody = ({
-  userHasEditedBody,
-  requestBody,
-  requestBodyValue,
-  requestBodyInclusionSetting,
-  requestBodyErrors,
-  getComponent,
-  getConfigs,
-  specSelectors,
-  fn,
-  contentType,
-  isExecute,
-  specPath,
-  onChange,
-  onChangeIncludeEmpty,
-  activeExamplesKey,
-  updateActiveExamplesKey,
-  setRetainRequestBodyValueFlag
-}) => {
+                       userHasEditedBody,
+                       requestBody,
+                       requestBodyValue,
+                       requestBodyInclusionSetting,
+                       requestBodyErrors,
+                       getComponent,
+                       getConfigs,
+                       specSelectors,
+                       fn,
+                       contentType,
+                       isExecute,
+                       specPath,
+                       onChange,
+                       onChangeIncludeEmpty,
+                       activeExamplesKey,
+                       updateActiveExamplesKey,
+                       setRetainRequestBodyValueFlag
+                     }) => {
   const handleFile = (e) => {
     onChange(e.target.files[0])
   }
@@ -105,22 +104,15 @@ const RequestBody = ({
   }
   requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
-  if(!mediaTypeValue.size) {
+  const isFileContentType = fn.getIsFileContentType(contentType)
+  const isFileFormat = fn.getIsFileFormat(mediaTypeValue?.get("schema"))
+  const isOAS31FileSchema = specSelectors.isOAS31() && isFileContentType
+
+  if (!mediaTypeValue.size && !isOAS31FileSchema) {
     return null
   }
 
-  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
-  const isBinaryFormat = mediaTypeValue.getIn(["schema", "format"]) === "binary"
-  const isBase64Format = mediaTypeValue.getIn(["schema", "format"]) === "base64"
-
-  if(
-    contentType === "application/octet-stream"
-    || contentType.indexOf("image/") === 0
-    || contentType.indexOf("audio/") === 0
-    || contentType.indexOf("video/") === 0
-    || isBinaryFormat
-    || isBase64Format
-  ) {
+  if (isFileContentType || isFileFormat) {
     const Input = getComponent("Input")
 
     if(!isExecute) {
@@ -131,6 +123,8 @@ const RequestBody = ({
 
     return <Input type={"file"} onChange={handleFile} />
   }
+
+  const isObjectContent = mediaTypeValue?.getIn(["schema", "type"]) === "object"
 
   if (
     isObjectContent &&
@@ -151,62 +145,62 @@ const RequestBody = ({
       }
       <table>
         <tbody>
-          {
-            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
-              if (schema.get("readOnly")) return
+        {
+          Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
+            if (schema.get("readOnly")) return
 
-              const oneOf = schema.get("oneOf")?.get(0)?.toJS()
-              const anyOf = schema.get("anyOf")?.get(0)?.toJS()
-              schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
+            const oneOf = schema.get("oneOf")?.get(0)?.toJS()
+            const anyOf = schema.get("anyOf")?.get(0)?.toJS()
+            schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
 
-              let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
-              const required = schemaForMediaType.get("required", List()).includes(key)
-              const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
-              const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type")))
-              const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"])))
-              const format = schema.get("format")
-              const description = schema.get("description")
-              const currentValue = requestBodyValue.getIn([key, "value"])
-              const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
-              const included = requestBodyInclusionSetting.get(key) || false
+            let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
+            const required = schemaForMediaType.get("required", List()).includes(key)
+            const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
+            const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type")))
+            const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"])))
+            const format = schema.get("format")
+            const description = schema.get("description")
+            const currentValue = requestBodyValue.getIn([key, "value"])
+            const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
+            const included = requestBodyInclusionSetting.get(key) || false
 
-              let initialValue = fn.getSampleSchema(schema, false, {
-                includeWriteOnly: true
-              })
+            let initialValue = fn.getSampleSchema(schema, false, {
+              includeWriteOnly: true
+            })
 
-              if (initialValue === false) {
-                initialValue = "false"
-              }
+            if (initialValue === false) {
+              initialValue = "false"
+            }
 
-              if (initialValue === 0) {
-                initialValue = "0"
-              }
+            if (initialValue === 0) {
+              initialValue = "0"
+            }
 
-              if (typeof initialValue !== "string" && type === "object") {
-               initialValue = stringify(initialValue)
-              }
+            if (typeof initialValue !== "string" && type === "object") {
+              initialValue = stringify(initialValue)
+            }
 
-              if (typeof initialValue === "string" && type === "array") {
-                initialValue = JSON.parse(initialValue)
-              }
+            if (typeof initialValue === "string" && type === "array") {
+              initialValue = JSON.parse(initialValue)
+            }
 
-              const isFile = type === "string" && (format === "binary" || format === "base64")
+            const isFile = fn.getIsFileFormat(schema)
 
-              const jsonSchemaForm = <JsonSchemaForm
-                fn={fn}
-                dispatchInitialValue={!isFile}
-                schema={schema}
-                description={key}
-                getComponent={getComponent}
-                value={currentValue === undefined ? initialValue : currentValue}
-                required={required}
-                errors={currentErrors}
-                onChange={(value) => {
-                  onChange(value, [key])
-                }}
-              />
+            const jsonSchemaForm = <JsonSchemaForm
+              fn={fn}
+              dispatchInitialValue={!isFile}
+              schema={schema}
+              description={key}
+              getComponent={getComponent}
+              value={currentValue === undefined ? initialValue : currentValue}
+              required={required}
+              errors={currentErrors}
+              onChange={(value) => {
+                onChange(value, [key])
+              }}
+            />
 
-              return <tr key={key} className="parameters" data-property-name={key}>
+            return <tr key={key} className="parameters" data-property-name={key}>
               <td className="parameters-col_name">
                 <div className={required ? "parameter__name required" : "parameter__name"}>
                   { key }
@@ -234,7 +228,7 @@ const RequestBody = ({
                       schema={schema}
                       example={jsonSchemaForm}
                     />
-                    ) : jsonSchemaForm
+                  ) : jsonSchemaForm
                   }
                   {required ? null : (
                     <ParameterIncludeEmpty
@@ -246,9 +240,9 @@ const RequestBody = ({
                   )}
                 </div> : null }
               </td>
-              </tr>
-            })
-          }
+            </tr>
+          })
+        }
         </tbody>
       </table>
     </div>
@@ -273,16 +267,16 @@ const RequestBody = ({
     {
       sampleForMediaType ? (
         <ExamplesSelectValueRetainer
-            userHasEditedBody={userHasEditedBody}
-            examples={sampleForMediaType}
-            currentKey={activeExamplesKey}
-            currentUserInputValue={requestBodyValue}
-            onSelect={handleExamplesSelect}
-            updateValue={onChange}
-            defaultToFirstExample={true}
-            getComponent={getComponent}
-            setRetainRequestBodyValueFlag={setRetainRequestBodyValueFlag}
-          />
+          userHasEditedBody={userHasEditedBody}
+          examples={sampleForMediaType}
+          currentKey={activeExamplesKey}
+          currentUserInputValue={requestBodyValue}
+          onSelect={handleExamplesSelect}
+          updateValue={onChange}
+          defaultToFirstExample={true}
+          getComponent={getComponent}
+          setRetainRequestBodyValueFlag={setRetainRequestBodyValueFlag}
+        />
       ) : null
     }
     {

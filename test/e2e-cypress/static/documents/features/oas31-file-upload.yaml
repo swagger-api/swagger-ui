@@ -1,0 +1,59 @@
+openapi: 3.1.0
+paths:
+  /requestBody-contentMediaType:
+    post:
+      requestBody:
+        content:
+          application/unknown:
+            schema:
+              contentMediaType: application/octet-stream
+  /requestBody-contentEncoding:
+    post:
+      requestBody:
+        content:
+          application/unknown:
+            schema:
+              contentEncoding: base64
+  /requestBody-noSchema:
+    post:
+      requestBody:
+        content:
+          application/octet-stream: {}
+  /parameter-contentMediaType:
+    post:
+      parameters:
+        - in: query
+          name: file
+          schema:
+            type: string
+            contentMediaType: application/octet-stream
+  /parameter-contentEncoding:
+    post:
+      parameters:
+        - in: query
+          name: file
+          schema:
+            type: string
+            contentEncoding: base64
+  /property-contentMediaType:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  contentMediaType: application/octet-stream
+  /property-contentEncoding:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  contentEncoding: base64

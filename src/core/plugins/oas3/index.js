@@ -9,6 +9,7 @@ import wrapComponents from "./wrap-components"
 import * as actions from "./actions"
 import * as selectors from "./selectors"
 import reducers from "./reducers"
+import * as fn from "./fn"
 
 export default function () {
   return {
@@ -28,5 +29,6 @@ export default function () {
         selectors: { ...selectors },
       },
     },
+    fn,
   }
 }
