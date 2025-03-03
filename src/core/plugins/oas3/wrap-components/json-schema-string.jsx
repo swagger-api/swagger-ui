@@ -15,12 +15,12 @@ export default OAS3ComponentWrapFactory(({ Ori, ...props }) => {
 
   if (isFileFormat) {
     return <Input type="file"
-                  className={ errors.length ? "invalid" : ""}
-                  title={ errors.length ? errors : ""}
-                  onChange={(e) => {
-                    onChange(e.target.files[0])
-                  }}
-                  disabled={Ori.isDisabled}/>
+                   className={ errors.length ? "invalid" : ""}
+                   title={ errors.length ? errors : ""}
+                   onChange={(e) => {
+                     onChange(e.target.files[0])
+                   }}
+                   disabled={Ori.isDisabled}/>
   } else {
     return <Ori {...props} />
   }
