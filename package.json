@@ -174,7 +174,7 @@
     "postcss-scss": "^4.0.9",
     "postcss-loader": "^8.1.1",
     "postcss-preset-env": "^10.1.4",
-    "prettier": "^3.5.2",
+    "prettier": "^3.5.3",
     "process": "^0.11.10",
     "react-refresh": "^0.16.0",
     "react-test-renderer": "^18.3.1",
