@@ -1,4 +1,3 @@
-
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
@@ -34,24 +33,24 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
 
 
 const RequestBody = ({
-                       userHasEditedBody,
-                       requestBody,
-                       requestBodyValue,
-                       requestBodyInclusionSetting,
-                       requestBodyErrors,
-                       getComponent,
-                       getConfigs,
-                       specSelectors,
-                       fn,
-                       contentType,
-                       isExecute,
-                       specPath,
-                       onChange,
-                       onChangeIncludeEmpty,
-                       activeExamplesKey,
-                       updateActiveExamplesKey,
-                       setRetainRequestBodyValueFlag
-                     }) => {
+  userHasEditedBody,
+  requestBody,
+  requestBodyValue,
+  requestBodyInclusionSetting,
+  requestBodyErrors,
+  getComponent,
+  getConfigs,
+  specSelectors,
+  fn,
+  contentType,
+  isExecute,
+  specPath,
+  onChange,
+  onChangeIncludeEmpty,
+  activeExamplesKey,
+  updateActiveExamplesKey,
+  setRetainRequestBodyValueFlag
+}) => {
   const handleFile = (e) => {
     onChange(e.target.files[0])
   }
@@ -111,7 +110,7 @@ const RequestBody = ({
   if (!mediaTypeValue.size && !isOAS31FileSchema) {
     return null
   }
-
+  
   if (isFileContentType || isFileFormat) {
     const Input = getComponent("Input")
 
@@ -145,62 +144,62 @@ const RequestBody = ({
       }
       <table>
         <tbody>
-        {
-          Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
-            if (schema.get("readOnly")) return
+          {
+            Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
+              if (schema.get("readOnly")) return
 
-            const oneOf = schema.get("oneOf")?.get(0)?.toJS()
-            const anyOf = schema.get("anyOf")?.get(0)?.toJS()
-            schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
+              const oneOf = schema.get("oneOf")?.get(0)?.toJS()
+              const anyOf = schema.get("anyOf")?.get(0)?.toJS()
+              schema = fromJS(fn.mergeJsonSchema(schema.toJS(), oneOf ?? anyOf ?? {}))
 
-            let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
-            const required = schemaForMediaType.get("required", List()).includes(key)
-            const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
-            const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type")))
-            const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"])))
-            const format = schema.get("format")
-            const description = schema.get("description")
-            const currentValue = requestBodyValue.getIn([key, "value"])
-            const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
-            const included = requestBodyInclusionSetting.get(key) || false
+              let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
+              const required = schemaForMediaType.get("required", List()).includes(key)
+              const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
+              const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type"))) 
+              const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"]))) 
+              const format = schema.get("format")
+              const description = schema.get("description")
+              const currentValue = requestBodyValue.getIn([key, "value"])
+              const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
+              const included = requestBodyInclusionSetting.get(key) || false
 
-            let initialValue = fn.getSampleSchema(schema, false, {
-              includeWriteOnly: true
-            })
+              let initialValue = fn.getSampleSchema(schema, false, {
+                includeWriteOnly: true
+              })
 
-            if (initialValue === false) {
-              initialValue = "false"
-            }
+              if (initialValue === false) {
+                initialValue = "false"
+              }
 
-            if (initialValue === 0) {
-              initialValue = "0"
-            }
+              if (initialValue === 0) {
+                initialValue = "0"
+              }
 
-            if (typeof initialValue !== "string" && type === "object") {
-              initialValue = stringify(initialValue)
-            }
+              if (typeof initialValue !== "string" && type === "object") {
+               initialValue = stringify(initialValue)
+              }
 
-            if (typeof initialValue === "string" && type === "array") {
-              initialValue = JSON.parse(initialValue)
-            }
+              if (typeof initialValue === "string" && type === "array") {
+                initialValue = JSON.parse(initialValue)
+              }
 
-            const isFile = fn.getIsFileFormat(schema)
+              const isFile = fn.getIsFileFormat(schema)
 
-            const jsonSchemaForm = <JsonSchemaForm
-              fn={fn}
-              dispatchInitialValue={!isFile}
-              schema={schema}
-              description={key}
-              getComponent={getComponent}
-              value={currentValue === undefined ? initialValue : currentValue}
-              required={required}
-              errors={currentErrors}
-              onChange={(value) => {
-                onChange(value, [key])
-              }}
-            />
+              const jsonSchemaForm = <JsonSchemaForm
+                fn={fn}
+                dispatchInitialValue={!isFile}
+                schema={schema}
+                description={key}
+                getComponent={getComponent}
+                value={currentValue === undefined ? initialValue : currentValue}
+                required={required}
+                errors={currentErrors}
+                onChange={(value) => {
+                  onChange(value, [key])
+                }}
+              />
 
-            return <tr key={key} className="parameters" data-property-name={key}>
+              return <tr key={key} className="parameters" data-property-name={key}>
               <td className="parameters-col_name">
                 <div className={required ? "parameter__name required" : "parameter__name"}>
                   { key }
@@ -219,7 +218,7 @@ const RequestBody = ({
                 <Markdown source={ description }></Markdown>
                 {isExecute ? <div>
                   {(type === "object" || itemType === "object") ? (
-                    <ModelExample
+                    <ModelExample 
                       getComponent={getComponent}
                       specPath={specPath.push("schema")}
                       getConfigs={getConfigs}
@@ -228,7 +227,7 @@ const RequestBody = ({
                       schema={schema}
                       example={jsonSchemaForm}
                     />
-                  ) : jsonSchemaForm
+                    ) : jsonSchemaForm
                   }
                   {required ? null : (
                     <ParameterIncludeEmpty
@@ -240,9 +239,9 @@ const RequestBody = ({
                   )}
                 </div> : null }
               </td>
-            </tr>
-          })
-        }
+              </tr>
+            })
+          }
         </tbody>
       </table>
     </div>
@@ -267,16 +266,16 @@ const RequestBody = ({
     {
       sampleForMediaType ? (
         <ExamplesSelectValueRetainer
-          userHasEditedBody={userHasEditedBody}
-          examples={sampleForMediaType}
-          currentKey={activeExamplesKey}
-          currentUserInputValue={requestBodyValue}
-          onSelect={handleExamplesSelect}
-          updateValue={onChange}
-          defaultToFirstExample={true}
-          getComponent={getComponent}
-          setRetainRequestBodyValueFlag={setRetainRequestBodyValueFlag}
-        />
+            userHasEditedBody={userHasEditedBody}
+            examples={sampleForMediaType}
+            currentKey={activeExamplesKey}
+            currentUserInputValue={requestBodyValue}
+            onSelect={handleExamplesSelect}
+            updateValue={onChange}
+            defaultToFirstExample={true}
+            getComponent={getComponent}
+            setRetainRequestBodyValueFlag={setRetainRequestBodyValueFlag}
+          />
       ) : null
     }
     {
