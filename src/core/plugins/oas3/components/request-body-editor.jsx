@@ -43,6 +43,10 @@ export default class RequestBodyEditor extends PureComponent {
     return onChange(defaultValue)
   }
 
+  onBlur = e => {
+    this.onChange(this.state.value)
+  }
+
   onChange = (value) => {
     this.props.onChange(stringify(value))
   }
@@ -52,7 +56,7 @@ export default class RequestBodyEditor extends PureComponent {
 
     this.setState({
       value: inputValue,
-    }, () => this.onChange(inputValue))
+    })
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -95,6 +99,7 @@ export default class RequestBodyEditor extends PureComponent {
           title={errors.size ? errors.join(", ") : ""}
           value={value}
           onChange={ this.onDomChange }
+          onBlur={ this.onBlur }
         />
       </div>
     )
