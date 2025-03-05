@@ -1,6 +1,8 @@
 /**
  * @prettier
  */
-const timeGenerator = () => new Date().toISOString().substring(11)
+import { date as randomDate } from "../core/random"
+
+const timeGenerator = () => randomDate().toISOString().substring(11)
 
 export default timeGenerator

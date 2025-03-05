@@ -10,8 +10,11 @@ import {
   memoizedSampleFromSchema,
   mergeJsonSchema,
 } from "core/plugins/json-schema-2020-12-samples/fn"
+import optionAPI from "core/plugins/json-schema-2020-12-samples/fn/api/optionAPI"
 
 describe("sampleFromSchema", () => {
+  beforeEach(() => optionAPI.setDefaults())
+
   it("should return appropriate example for primitive types + format", function () {
     const sample = (schema) => sampleFromSchema(fromJS(schema))
 
@@ -86,6 +89,83 @@ describe("sampleFromSchema", () => {
       2 ** 53 - 1
     )
     expect(sample({ type: "boolean" })).toStrictEqual(true)
+    expect(sample({ type: "null" })).toStrictEqual(null)
+  })
+
+  it("should return appropriate example for primitive types + format with randomness enabled", function () {
+    optionAPI("mode", "random")
+    optionAPI("random", () => 0)
+    optionAPI("minInteger", 4)
+    optionAPI("minLength", 6)
+    optionAPI("minDateTime", "2024-01-01T00:00:00.000Z")
+
+    const sample = (schema) => sampleFromSchema(fromJS(schema))
+
+    expect(sample({ type: "string" })).toStrictEqual("aaaaaa")
+    expect(sample({ type: "string", pattern: "^abc$" })).toStrictEqual("abc")
+    expect(sample({ type: "string", format: "email" })).toStrictEqual(
+      "user@example.com"
+    )
+    expect(sample({ type: "string", format: "idn-email" })).toStrictEqual(
+      "실례@example.com"
+    )
+    expect(sample({ type: "string", format: "hostname" })).toStrictEqual(
+      "example.com"
+    )
+    expect(sample({ type: "string", format: "idn-hostname" })).toStrictEqual(
+      "실례.com"
+    )
+    expect(sample({ type: "string", format: "ipv4" })).toStrictEqual(
+      "198.51.100.42"
+    )
+    expect(sample({ type: "string", format: "ipv6" })).toStrictEqual(
+      "2001:0db8:5b96:0000:0000:426f:8e17:642a"
+    )
+    expect(sample({ type: "string", format: "uri" })).toStrictEqual(
+      "https://example.com/"
+    )
+    expect(sample({ type: "string", format: "uri-reference" })).toStrictEqual(
+      "path/index.html"
+    )
+    expect(sample({ type: "string", format: "iri" })).toStrictEqual(
+      "https://실례.com/"
+    )
+    expect(sample({ type: "string", format: "iri-reference" })).toStrictEqual(
+      "path/실례.html"
+    )
+    expect(sample({ type: "string", format: "uuid" })).toStrictEqual(
+      "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    )
+    expect(sample({ type: "string", format: "uri-template" })).toStrictEqual(
+      "https://example.com/dictionary/{term:1}/{term}"
+    )
+    expect(sample({ type: "string", format: "json-pointer" })).toStrictEqual(
+      "/a/b/c"
+    )
+    expect(
+      sample({ type: "string", format: "relative-json-pointer" })
+    ).toStrictEqual("1/0")
+    expect(sample({ type: "string", format: "date-time" })).toStrictEqual("2024-01-01T00:00:00.000Z")
+    expect(sample({ type: "string", format: "date" })).toStrictEqual("2024-01-01")
+    expect(sample({ type: "string", format: "time" })).toStrictEqual("00:00:00.000Z")
+    expect(sample({ type: "string", format: "duration" })).toStrictEqual("P3D")
+    expect(sample({ type: "string", format: "password" })).toStrictEqual(
+      "********"
+    )
+    expect(sample({ type: "string", format: "regex" })).toStrictEqual(
+      "^[a-z]+$"
+    )
+    expect(sample({ type: "number" })).toStrictEqual(4)
+    expect(sample({ type: "number", format: "float" })).toStrictEqual(0.1)
+    expect(sample({ type: "number", format: "double" })).toStrictEqual(0.1)
+    expect(sample({ type: "integer" })).toStrictEqual(4)
+    expect(sample({ type: "integer", format: "int32" })).toStrictEqual(
+      (2 ** 30) >>> 0
+    )
+    expect(sample({ type: "integer", format: "int64" })).toStrictEqual(
+      2 ** 53 - 1
+    )
+    expect(sample({ type: "boolean" })).toStrictEqual(false)
     expect(sample({ type: "null" })).toStrictEqual(null)
   })
 
@@ -418,6 +498,16 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(
       expected
     )
+  })
+
+  it("should return random enum value when randomness is enabled", function () {
+    optionAPI("mode", "random")
+    optionAPI("random", () => 0.5)
+
+    const definition = fromJS({enum: ["a", "b", "c"]})
+    const expected = "b"
+
+    expect(sampleFromSchema(definition)).toStrictEqual(expected)
   })
 
   it("combine first oneOf or anyOf with schema's definitions", function () {
