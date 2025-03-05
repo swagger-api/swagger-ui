@@ -79,6 +79,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         )
         .should("not.have.class", "invalid")
         .clear()
+        .blur() // HACK: force the debounce on the textarea to trigger
         // Execute
         .get(".execute.opblock-control__btn")
         .click()
@@ -104,6 +105,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         )
         .clear()
         .type(" ")
+        .blur() // HACK: force the debounce on the textarea to trigger
         // Execute
         .get(".execute.opblock-control__btn")
         .click()
@@ -197,6 +199,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         )
         .should("not.have.class", "invalid")
         .clear()
+        .blur() // HACK: force the debounce on the textarea to trigger
         // Execute
         .get(".execute.opblock-control__btn")
         .click()
