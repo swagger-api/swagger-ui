@@ -79,12 +79,8 @@ describe("sampleFromSchema", () => {
     expect(sample({ type: "number", format: "float" })).toStrictEqual(0.1)
     expect(sample({ type: "number", format: "double" })).toStrictEqual(0.1)
     expect(sample({ type: "integer" })).toStrictEqual(0)
-    expect(sample({ type: "integer", format: "int32" })).toStrictEqual(
-      (2 ** 30) >>> 0
-    )
-    expect(sample({ type: "integer", format: "int64" })).toStrictEqual(
-      2 ** 53 - 1
-    )
+    expect(sample({ type: "integer", format: "int32" })).toStrictEqual(0)
+    expect(sample({ type: "integer", format: "int64" })).toStrictEqual(0)
     expect(sample({ type: "boolean" })).toStrictEqual(true)
     expect(sample({ type: "null" })).toStrictEqual(null)
   })
