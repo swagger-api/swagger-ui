@@ -940,7 +940,7 @@ describe("utils", () => {
         maximum: 0
       }
       value = 1
-      assertValidateParam(param, value, ["Value must be less than 0"])
+      assertValidateParam(param, value, ["Value must be less than or equal to 0"])
 
       // invalid number with minimum:0
       param = {
@@ -949,7 +949,7 @@ describe("utils", () => {
         minimum: 0
       }
       value = -10
-      assertValidateParam(param, value, ["Value must be greater than 0"])
+      assertValidateParam(param, value, ["Value must be greater than or equal to 0"])
     })
 
     it("validates optional numbers", () => {
