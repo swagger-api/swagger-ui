@@ -1,4 +1,3 @@
-
 import { fromJS } from "immutable"
 import { fromJSOrdered } from "core/utils"
 import {
@@ -7,6 +6,7 @@ import {
   contentTypeValues,
   operationScheme,
   specJsonWithResolvedSubtrees,
+  operations,
   producesOptionsFor,
   operationWithMeta,
   parameterWithMeta,
@@ -460,6 +460,7 @@ describe("specJsonWithResolvedSubtrees", function(){
                 },
                 security: [
                   {
+                    // eslint-disable-next-line camelcase
                     petstore_auth: [
                       "write:pets",
                       "read:pets"
@@ -1216,6 +1217,23 @@ describe("taggedOperations", function () {
       }
     })
   })
+  it("should gracefully handle a malformed paths defined as array", function () {
+    const state = fromJS({
+      json: {
+        tags: [null],
+        paths:[
+          {
+            "/users": null,
+            "get": null
+          }
+        ]
+      }
+    })
+
+    const result = operations(state)
+
+    expect(result.toJS()).toEqual([])
+  })
 })
 describe("isMediaTypeSchemaPropertiesEqual", () => {
   const stateSingleMediaType = fromJS({
@@ -1400,11 +1418,11 @@ describe("validationErrors", function() {
               "query.with.dot.hash": {
                 errors: [
                   {
-                    error: "Value must be an integer", 
+                    error: "Value must be an integer",
                     propKey: "id"
                   },
-                  { 
-                    error: "Value must be a string", 
+                  {
+                    error: "Value must be a string",
                     propKey: "name"
                   }
                 ]
@@ -1418,12 +1436,12 @@ describe("validationErrors", function() {
               "query.arrayWithObjects.hash": {
                 errors: [
                   {
-                    error: "Parameter string value must be valid JSON", 
+                    error: "Parameter string value must be valid JSON",
                     index: 0
                   },
-                  { 
+                  {
                     error: {
-                      error: "Value must be a string", 
+                      error: "Value must be a string",
                       propKey: "name"
                     },
                     index: 1

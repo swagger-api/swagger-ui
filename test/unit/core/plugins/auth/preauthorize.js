@@ -35,7 +35,7 @@ const OAI3_SYSTEM = {
     isOAS3: () => true,
     specJson: () => {
       return fromJS({
-        openapi: "3.0.0",
+        openapi: "3.0.4",
         components: {
           securitySchemes: {
             basicAuth: {

@@ -1,0 +1,71 @@
+openapi: 3.1.0
+info:
+  title: OAS31 Example
+  version: 1.0.0
+paths:
+  /objectTypeUnion:
+    post:
+      parameters:
+        - name: typeUnion
+          in: query
+          schema:
+            type: [object, integer]
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+      responses:
+        '200':
+          description: OK
+  /arrayTypeUnion:
+    post:
+      parameters:
+        - name: typeUnion
+          in: query
+          schema:
+            type: [array, integer]
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /arrayItemTypeUnion:
+    post:
+      parameters:          
+        - name: itemTypeUnion
+          in: query
+          schema:
+            type: array
+            items:
+              type: [object, integer]
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /arrayTypeAndItemTypeUnion:
+    post:
+      parameters:      
+        - name: typeAndItemTypeUnion
+          in: query
+          schema:
+            type: [array, integer]
+            items:
+              type: [object, string]
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK

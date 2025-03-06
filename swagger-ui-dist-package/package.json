@@ -13,6 +13,8 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "license": "Apache-2.0",
-  "dependencies": {},
+  "dependencies": {
+    "@scarf/scarf": "=1.4.0"
+  },
   "devDependencies": {}
 }

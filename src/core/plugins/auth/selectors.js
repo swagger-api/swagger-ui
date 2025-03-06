@@ -26,7 +26,15 @@ export const definitionsToAuthorize = createSelector(
     }
 )
 
-
+export const selectAuthPath =
+  (state, name) =>
+  ({ specSelectors }) =>
+    List(
+      specSelectors.isOAS3()
+        ? ["components", "securitySchemes", name]
+        : ["securityDefinitions", name]
+    )
+    
 export const getDefinitionsByNames = ( state, securities ) => ( { specSelectors } ) => {
   console.warn("WARNING: getDefinitionsByNames is deprecated and will be removed in the next major version.")
   let securityDefinitions = specSelectors.securityDefinitions()

@@ -1,8 +1,8 @@
 info:
   title: Required parameter missing, doesn't block request from executing.
   version: '1'
-openapi: 3.0.0
-servers: 
+openapi: 3.0.4
+servers:
 - url: http://httpbin.org/anything
 paths:
   /foos:
