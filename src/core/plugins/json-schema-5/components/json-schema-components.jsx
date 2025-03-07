@@ -6,8 +6,6 @@ import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
 import { stringify, isImmutable, immutableToJS } from "core/utils"
 
-/* eslint-disable  react/jsx-no-bind */
-
 const noop = ()=> {}
 const JsonSchemaPropShape = {
   getComponent: PropTypes.func.isRequired,
@@ -50,7 +48,7 @@ export class JsonSchemaForm extends Component {
     let { schema, errors, value, onChange, getComponent, fn, disabled } = this.props
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
-    const foldedType = fn.jsonSchema202012.foldType(immutableToJS(type))
+    const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(type))
 
     let getComponentSilently = (name) => getComponent(name, false, { failSilently: true })
     let Comp = type ? format ?
@@ -58,7 +56,7 @@ export class JsonSchemaForm extends Component {
       getComponentSilently(`JsonSchema_${type}`) :
       getComponent("JsonSchema_string")
 
-    if (List.isList(type) && (foldedType === "array" || foldedType === "object")) {
+    if (List.isList(type) && (objectTypeLabel === "array" || objectTypeLabel === "object")) {
       Comp = getComponent("JsonSchema_object")
     }
 
@@ -194,8 +192,8 @@ export class JsonSchema_array extends PureComponent {
       value && value.count && value.count() > 0 ? true : false
     const schemaItemsEnum = schema.getIn(["items", "enum"])
     const schemaItemsType = schema.getIn(["items", "type"])
-    const foldedSchemaItemsType = fn.jsonSchema202012.foldType(immutableToJS(schemaItemsType))
-    const schemaItemsTypeLabel = fn.jsonSchema202012.getType(immutableToJS(schema.get("items")))
+    const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schemaItemsType))
+    const objectType = fn.getSchemaObjectType(immutableToJS(schema.get("items")))
     const schemaItemsFormat = schema.getIn(["items", "format"])
     const schemaItemsSchema = schema.get("items")
     let ArrayItemsComponent
@@ -207,7 +205,7 @@ export class JsonSchema_array extends PureComponent {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}`)
     }
 
-    if (List.isList(schemaItemsType) && (foldedSchemaItemsType === "array" || foldedSchemaItemsType === "object")) {
+    if (List.isList(schemaItemsType) && (objectTypeLabel === "array" || objectTypeLabel === "object")) {
       ArrayItemsComponent = getComponent(`JsonSchema_object`)
     }
 
@@ -285,7 +283,7 @@ export class JsonSchema_array extends PureComponent {
             title={arrayErrors.length ? arrayErrors : ""}
             onClick={this.addItem}
           >
-            Add {schemaItemsTypeLabel} item
+            Add {objectType} item
           </Button>
         ) : null}
       </div>
