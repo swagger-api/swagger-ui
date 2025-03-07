@@ -134,6 +134,7 @@ export default class Parameters extends Component {
         return acc
       }, {}))
       .reduce((acc, x) => acc.concat(x), [])
+      .filter(parameter => !(parameter.get("in") == "header" && ["Accept", "Content-Type", "Authorization"].includes(parameter.get("name"))))
 
     const retainRequestBodyValueFlagForOperation = (f) => oas3Actions.setRetainRequestBodyValueFlag({ value: f, pathMethod })
     return (
