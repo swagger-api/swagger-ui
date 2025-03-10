@@ -11,7 +11,7 @@ LABEL maintainer="vladimir.gorej@gmail.com" \
       org.opencontainers.image.description="SwaggerUI Docker image" \
       org.opencontainers.image.licenses="Apache-2.0"
 
-RUN apk add --update-cache --no-cache "nodejs"
+RUN apk add --update-cache --no-cache "nodejs" "libxml2>=2.13.4-r4"
 
 LABEL maintainer="char0n"
 
