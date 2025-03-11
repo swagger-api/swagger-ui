@@ -118,7 +118,7 @@
     "@babel/preset-react": "=7.26.3",
     "@babel/register": "=7.25.9",
     "@cfaester/enzyme-adapter-react-18": "=0.8.0",
-    "@commitlint/cli": "^19.7.1",
+    "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@jest/globals": "=29.7.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
