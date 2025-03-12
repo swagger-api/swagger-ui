@@ -6,6 +6,7 @@ import {
   getProperties,
 } from "./json-schema-2020-12-extensions/fn"
 import { wrapOAS31Fn } from "./fn"
+import { makeGetIsFileFormat } from "./oas3-extensions/fn"
 
 function afterLoad({ fn, getSystem }) {
   // overrides for fn.jsonSchema202012
@@ -32,6 +33,7 @@ function afterLoad({ fn, getSystem }) {
         getXmlSampleSchema: fn.jsonSchema202012.getXmlSampleSchema,
         getSampleSchema: fn.jsonSchema202012.getSampleSchema,
         mergeJsonSchema: fn.jsonSchema202012.mergeJsonSchema,
+        getIsFileFormat: makeGetIsFileFormat(fn),
       },
       getSystem()
     )
