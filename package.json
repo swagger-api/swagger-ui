@@ -163,7 +163,7 @@
     "json-server": "=0.17.4",
     "less": "^4.2.2",
     "license-checker": "^25.0.0",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^15.5.0",
     "local-web-server": "^5.4.0",
     "mini-css-extract-plugin": "^2.9.2",
     "npm-audit-ci-wrapper": "^3.0.2",
