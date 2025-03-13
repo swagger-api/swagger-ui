@@ -23,9 +23,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         schema: Immutable.fromJS({
           type: "string",
@@ -50,9 +48,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         schema: Immutable.fromJS({
           type: "string",
@@ -75,9 +71,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         required: true,
         schema: Immutable.fromJS({
@@ -103,9 +97,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         schema: Immutable.fromJS({
           type: "boolean"
@@ -130,9 +122,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         schema: Immutable.fromJS({
           type: "boolean",
@@ -157,9 +147,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         schema: Immutable.fromJS({
           type: "boolean",
@@ -185,9 +173,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         required: true,
         schema: Immutable.fromJS({
@@ -216,9 +202,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         },
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         errors: List(),
         schema: Immutable.fromJS({
@@ -249,9 +233,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         schema: Immutable.fromJS({
           type: "NotARealType"
@@ -275,9 +257,7 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {
-          jsonSchema202012: {
-            foldType,
-          },
+          getSchemaObjectTypeLabel: foldType,
         },
         schema: Immutable.fromJS({
           type: "NotARealType",

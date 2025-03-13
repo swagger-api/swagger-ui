@@ -635,3 +635,7 @@ const resolver = (arg1, arg2, arg3) => [arg1, JSON.stringify(arg2), JSON.stringi
 export const memoizedCreateXMLExample = memoizeN(createXMLExample, resolver)
 
 export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
+
+export const getSchemaObjectTypeLabel = (label) => label
+
+export const getSchemaObjectType = (schema) => schema.type ?? "any"
