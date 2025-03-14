@@ -1,20 +1,18 @@
 @use "variables" as *;
 @use "type";
-.model
-{
-    font-size: 12px;
-    font-weight: 300;
-    display: block;
-    
-    @include text_code();
 
-    .deprecated
-    {
-        span,
-        td
-        {
-            color: $model-deprecated-font-color !important;
-        }
+.model {
+  font-size: 12px;
+  font-weight: 300;
+  display: block;
+  
+  @include type.text_code();
+
+  .deprecated {
+    span,
+    td {
+      color: $model-deprecated-font-color !important;
+    }
 
     > td:first-of-type {
       text-decoration: line-through;
