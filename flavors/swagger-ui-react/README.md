@@ -33,7 +33,7 @@ Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false`
 Install `swagger-ui-react`:
 
 ```
-$ npm i --save swagger-ui-react
+$ npm install swagger-ui-react
 ```
 
 Use it in your React application:
@@ -194,6 +194,11 @@ Redirect url given as parameter to the oauth2 provider. Default the url refers t
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `initialState`: PropTypes.object
+
+Passes initial values to the Swagger UI state.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
 ## Limitations
 

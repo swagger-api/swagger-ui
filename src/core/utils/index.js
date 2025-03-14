@@ -9,8 +9,7 @@
   If you're refactoring something in here, feel free to break it out to a file
   in `./helpers` if you have the time.
 */
-import Im, { fromJS, Set } from "immutable"
-import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
+import Im, { fromJS, Map, Set } from "immutable"
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
 import _memoize from "lodash/memoize"
@@ -29,12 +28,13 @@ const DEFAULT_RESPONSE_KEY = "default"
 
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 
+export const immutableToJS = (value) => isImmutable(value) ? value.toJS() : value
+
 export function objectify (thing) {
   if(!isObject(thing))
     return {}
-  if(isImmutable(thing))
-    return thing.toJS()
-  return thing
+
+  return immutableToJS(thing)
 }
 
 export function arrayify (thing) {
@@ -668,14 +668,6 @@ export const shallowEqualKeys = (a,b, keys) => {
   })
 }
 
-export function sanitizeUrl(url) {
-  if(typeof url !== "string" || url === "") {
-    return ""
-  }
-
-  return braintreeSanitizeUrl(url)
-}
-
 export function requiresValidationURL(uri) {
   if (!uri || uri.indexOf("localhost") >= 0 || uri.indexOf("127.0.0.1") >= 0 || uri === "none") {
     return false
@@ -712,7 +704,13 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 // suitable for use in CSS classes and ids
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
-export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
+export const getExtensions = (defObj) => {
+  const extensionRegExp = /^x-/
+  if(Map.isMap(defObj)) {
+    return defObj.filter((v, k) => extensionRegExp.test(k))
+  }
+  return Object.keys(defObj).filter((key) => extensionRegExp.test(key))
+}
 export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
 
 // Deeply strips a specific key from an object.

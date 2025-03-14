@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: "3.0.4"
 
 paths:
   /:
@@ -9,7 +9,7 @@ paths:
       responses:
         '200':
           description: a pet to be returned
-          content: 
+          content:
             application/json:
               schema:
                 type: object
@@ -21,7 +21,7 @@ paths:
       responses:
         '200':
           description: a pet to be returned
-          content: 
+          content:
             application/json:
               schema:
                 type: object
@@ -41,7 +41,7 @@ paths:
       responses:
         '200':
           description: a pet to be returned
-          content: 
+          content:
             application/json:
               schema:
                 type: object
@@ -52,7 +52,7 @@ paths:
       responses:
         '200':
           description: a pet to be returned
-          content: 
+          content:
             application/json:
               schema:
                 type: object

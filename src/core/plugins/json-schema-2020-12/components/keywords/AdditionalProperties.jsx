@@ -39,7 +39,11 @@ const AdditionalProperties = ({ schema }) => {
           </span>
         </>
       ) : (
-        <JSONSchema name={name} schema={additionalProperties} />
+        <JSONSchema
+          name={name}
+          schema={additionalProperties}
+          identifier="additionalProperties"
+        />
       )}
     </div>
   )

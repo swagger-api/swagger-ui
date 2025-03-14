@@ -4,8 +4,8 @@
 import React from "react"
 import { createOnlyOAS31ComponentWrapper } from "../../../fn"
 
-const DefaultWrapper = createOnlyOAS31ComponentWrapper(
-  ({ schema, getSystem, originalComponent: KeywordDefault }) => {
+const ExamplesWrapper = createOnlyOAS31ComponentWrapper(
+  ({ schema, getSystem, originalComponent: KeywordExamples }) => {
     const { getComponent } = getSystem()
     const KeywordDiscriminator = getComponent(
       "JSONSchema202012KeywordDiscriminator"
@@ -18,7 +18,7 @@ const DefaultWrapper = createOnlyOAS31ComponentWrapper(
 
     return (
       <>
-        <KeywordDefault schema={schema} />
+        <KeywordExamples schema={schema} />
         <KeywordDiscriminator schema={schema} getSystem={getSystem} />
         <KeywordXml schema={schema} getSystem={getSystem} />
         <KeywordExternalDocs schema={schema} getSystem={getSystem} />
@@ -28,4 +28,4 @@ const DefaultWrapper = createOnlyOAS31ComponentWrapper(
   }
 )
 
-export default DefaultWrapper
+export default ExamplesWrapper

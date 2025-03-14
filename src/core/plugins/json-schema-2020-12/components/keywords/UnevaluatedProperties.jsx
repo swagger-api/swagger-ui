@@ -24,7 +24,11 @@ const UnevaluatedProperties = ({ schema }) => {
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--unevaluatedProperties">
-      <JSONSchema name={name} schema={unevaluatedProperties} />
+      <JSONSchema
+        name={name}
+        schema={unevaluatedProperties}
+        identifier="unevaluatedProperties"
+      />
     </div>
   )
 }

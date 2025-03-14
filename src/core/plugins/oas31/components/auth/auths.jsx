@@ -96,6 +96,7 @@ class Auths extends React.Component {
                     onAuthChange={this.onAuthChange}
                     authorized={authorized}
                     errSelectors={errSelectors}
+                    authSelectors={authSelectors}
                   />
                 )
               })
@@ -110,7 +111,7 @@ class Auths extends React.Component {
                   Logout
                 </Button>
               ) : (
-                <Button 
+                <Button
                   type="submit"
                   className="btn modal-btn auth authorize"
                   aria-label="Apply credentials"
@@ -170,6 +171,7 @@ class Auths extends React.Component {
                     onAuthChange={this.onAuthChange}
                     authorized={authorized}
                     errSelectors={errSelectors}
+                    authSelectors={authSelectors}
                   />
                 )
               })

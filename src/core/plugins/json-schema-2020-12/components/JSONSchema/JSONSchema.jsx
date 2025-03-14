@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { forwardRef, useState, useCallback, useEffect } from "react"
+import React, { forwardRef, useCallback } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 
@@ -12,23 +12,32 @@ import {
   useFn,
   useIsEmbedded,
   useIsExpanded,
-  useIsExpandedDeeply,
   useIsCircular,
   useRenderedSchemas,
+  usePath,
 } from "../../hooks"
 import {
   JSONSchemaLevelContext,
-  JSONSchemaDeepExpansionContext,
   JSONSchemaCyclesContext,
+  JSONSchemaPathContext,
 } from "../../context"
 
 const JSONSchema = forwardRef(
-  ({ schema, name = "", dependentRequired = [], onExpand = () => {} }, ref) => {
+  (
+    {
+      schema,
+      name = "",
+      dependentRequired = [],
+      onExpand = () => {},
+      identifier = "",
+    },
+    ref
+  ) => {
     const fn = useFn()
-    const isExpanded = useIsExpanded()
-    const isExpandedDeeply = useIsExpandedDeeply()
-    const [expanded, setExpanded] = useState(isExpanded || isExpandedDeeply)
-    const [expandedDeeply, setExpandedDeeply] = useState(isExpandedDeeply)
+    // this implementation assumes that $id is always non-relative URI
+    const pathToken = identifier || schema.$id || name
+    const { path } = usePath(pathToken)
+    const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(pathToken)
     const [level, nextLevel] = useLevel()
     const isEmbedded = useIsEmbedded()
     const isExpandable = fn.isExpandable(schema) || dependentRequired.length > 0
@@ -78,42 +87,39 @@ const JSONSchema = forwardRef(
     const KeywordDeprecated = useComponent("KeywordDeprecated")
     const KeywordReadOnly = useComponent("KeywordReadOnly")
     const KeywordWriteOnly = useComponent("KeywordWriteOnly")
+    const KeywordExamples = useComponent("KeywordExamples")
+    const ExtensionKeywords = useComponent("ExtensionKeywords")
     const ExpandDeepButton = useComponent("ExpandDeepButton")
-
-    /**
-     * Effects handlers.
-     */
-    useEffect(() => {
-      setExpandedDeeply(isExpandedDeeply)
-    }, [isExpandedDeeply])
-
-    useEffect(() => {
-      setExpandedDeeply(expandedDeeply)
-    }, [expandedDeeply])
 
     /**
      * Event handlers.
      */
     const handleExpansion = useCallback(
       (e, expandedNew) => {
-        setExpanded(expandedNew)
-        !expandedNew && setExpandedDeeply(false)
+        if (expandedNew) {
+          setExpanded()
+        } else {
+          setCollapsed()
+        }
         onExpand(e, expandedNew, false)
       },
-      [onExpand]
+      [onExpand, setExpanded, setCollapsed]
     )
     const handleExpansionDeep = useCallback(
       (e, expandedDeepNew) => {
-        setExpanded(expandedDeepNew)
-        setExpandedDeeply(expandedDeepNew)
+        if (expandedDeepNew) {
+          setExpanded({ deep: true })
+        } else {
+          setCollapsed({ deep: true })
+        }
         onExpand(e, expandedDeepNew, true)
       },
-      [onExpand]
+      [onExpand, setExpanded, setCollapsed]
     )
 
     return (
-      <JSONSchemaLevelContext.Provider value={nextLevel}>
-        <JSONSchemaDeepExpansionContext.Provider value={expandedDeeply}>
+      <JSONSchemaPathContext.Provider value={path}>
+        <JSONSchemaLevelContext.Provider value={nextLevel}>
           <JSONSchemaCyclesContext.Provider value={renderedSchemas}>
             <article
               ref={ref}
@@ -126,11 +132,11 @@ const JSONSchema = forwardRef(
               <div className="json-schema-2020-12-head">
                 {isExpandable && !isCircular ? (
                   <>
-                    <Accordion expanded={expanded} onChange={handleExpansion}>
+                    <Accordion expanded={isExpanded} onChange={handleExpansion}>
                       <KeywordTitle title={name} schema={schema} />
                     </Accordion>
                     <ExpandDeepButton
-                      expanded={expanded}
+                      expanded={isExpanded}
                       onClick={handleExpansionDeep}
                     />
                   </>
@@ -151,10 +157,10 @@ const JSONSchema = forwardRef(
               </div>
               <div
                 className={classNames("json-schema-2020-12-body", {
-                  "json-schema-2020-12-body--collapsed": !expanded,
+                  "json-schema-2020-12-body--collapsed": !isExpanded,
                 })}
               >
-                {expanded && (
+                {isExpanded && (
                   <>
                     <KeywordDescription schema={schema} />
                     {!isCircular && isExpandable && (
@@ -186,6 +192,7 @@ const JSONSchema = forwardRef(
                       dependentRequired={dependentRequired}
                     />
                     <KeywordDefault schema={schema} />
+                    <KeywordExamples schema={schema} />
                     <Keyword$schema schema={schema} />
                     <Keyword$vocabulary schema={schema} />
                     <Keyword$id schema={schema} />
@@ -197,13 +204,14 @@ const JSONSchema = forwardRef(
                     )}
                     <Keyword$dynamicRef schema={schema} />
                     <Keyword$comment schema={schema} />
+                    <ExtensionKeywords schema={schema} />
                   </>
                 )}
               </div>
             </article>
           </JSONSchemaCyclesContext.Provider>
-        </JSONSchemaDeepExpansionContext.Provider>
-      </JSONSchemaLevelContext.Provider>
+        </JSONSchemaLevelContext.Provider>
+      </JSONSchemaPathContext.Provider>
     )
   }
 )
@@ -213,6 +221,7 @@ JSONSchema.propTypes = {
   schema: propTypes.schema.isRequired,
   dependentRequired: PropTypes.arrayOf(PropTypes.string),
   onExpand: PropTypes.func,
+  identifier: PropTypes.string,
 }
 
 export default JSONSchema
