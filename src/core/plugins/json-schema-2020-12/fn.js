@@ -295,10 +295,10 @@ const stringifyConstraintRange = (label, min, max) => {
     }
   }
   if (hasMin) {
-    return `>= ${min} ${label}`
+    return `≥ ${min} ${label}`
   }
   if (hasMax) {
-    return `<= ${max} ${label}`
+    return `≤ ${max} ${label}`
   }
 
   return null
