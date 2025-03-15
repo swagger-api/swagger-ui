@@ -4,7 +4,8 @@
 .model {
   font-size: 12px;
   font-weight: 300;
-
+  display: block;
+  
   @include type.text_code();
 
   .deprecated {
