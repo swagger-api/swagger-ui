@@ -26,6 +26,9 @@ export default class ArrayModel extends Component {
     let description = schema.get("description")
     let items = schema.get("items")
     let title = schema.get("title") || displayName || name
+    let xml = items.get("xml")
+    let singleProperty = xml.size === 1
+    let simpleProp = ["object", "array"].indexOf(items.get("type")) === -1
     let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref", "externalDocs"].indexOf(key) === -1 )
     let externalDocsUrl = schema.getIn(["externalDocs", "url"])
     let externalDocsDescription = schema.getIn(["externalDocs", "description"])
@@ -49,9 +52,13 @@ export default class ArrayModel extends Component {
 
     return <span className="model">
       <ModelCollapse title={titleEl} expanded={ depth <= expandDepth } collapsedContent="[...]">
+        { singleProperty && simpleProp ? <span className="prop-type">{ items.get("type") }</span> : null }
         [
           {
-            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
+            properties.size && !singleProperty ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
+          }
+          {
+            properties.size && singleProperty ? xml.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
           }
           {
             !description ? (properties.size ? <div className="markdown"></div> : null) :
@@ -62,7 +69,8 @@ export default class ArrayModel extends Component {
                <Link target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
              </div>
           }
-          <span>
+          { (!singleProperty || !simpleProp ) ?
+          (<span>
             <Model
               { ...this.props }
               getConfigs={ getConfigs }
@@ -72,7 +80,8 @@ export default class ArrayModel extends Component {
               required={ false }
               depth={ depth + 1 }
             />
-          </span>
+          </span>) : null
+          }
         ]
       </ModelCollapse>
     </span>
