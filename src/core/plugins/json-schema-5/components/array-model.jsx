@@ -27,7 +27,7 @@ export default class ArrayModel extends Component {
     let items = schema.get("items")
     let title = schema.get("title") || displayName || name
     let xml = items.get("xml")
-    let singleProperty = xml.size === 1
+    let singleProperty = xml ? xml.size === 1 : false
     let simpleProp = ["object", "array"].indexOf(items.get("type")) === -1
     let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref", "externalDocs"].indexOf(key) === -1 )
     let externalDocsUrl = schema.getIn(["externalDocs", "url"])
@@ -58,7 +58,7 @@ export default class ArrayModel extends Component {
             properties.size && !singleProperty ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
           }
           {
-            properties.size && singleProperty ? xml.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
+            xml && properties.size && singleProperty ? xml.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
           }
           {
             !description ? (properties.size ? <div className="markdown"></div> : null) :
