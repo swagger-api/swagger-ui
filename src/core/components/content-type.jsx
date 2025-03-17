@@ -6,7 +6,6 @@ import { fromJS } from "immutable"
 const noop = ()=>{}
 
 export default class ContentType extends React.Component {
-
   static propTypes = {
     ariaControls: PropTypes.string,
     contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set, ImPropTypes.seq]),
@@ -24,38 +23,51 @@ export default class ContentType extends React.Component {
   }
 
   componentDidMount() {
-    // Needed to populate the form, initially
-    if(this.props.contentTypes) {
-      this.props.onChange(this.props.contentTypes.first())
+    // Populate the form initially
+    const { contentTypes, onChange } = this.props
+    if (contentTypes && contentTypes.size) {
+      onChange(contentTypes.first())
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if(!nextProps.contentTypes || !nextProps.contentTypes.size) {
+  componentDidUpdate(prevProps) {
+    const { contentTypes, value, onChange } = this.props
+
+    if (!contentTypes || !contentTypes.size) {
       return
     }
 
-    if(!nextProps.contentTypes.includes(nextProps.value)) {
-      nextProps.onChange(nextProps.contentTypes.first())
+    if (contentTypes !== prevProps.contentTypes || !contentTypes.includes(value)) {
+      onChange(contentTypes.first())
     }
   }
 
-  onChangeWrapper = e => this.props.onChange(e.target.value)
+  onChangeWrapper = (e) => this.props.onChange(e.target.value)
 
   render() {
-    let { ariaControls, ariaLabel, className, contentTypes, controlId, value } = this.props
+    const { ariaControls, ariaLabel, className, contentTypes, controlId, value } = this.props
 
-    if ( !contentTypes || !contentTypes.size )
+    if (!contentTypes || !contentTypes.size) 
       return null
 
     return (
-      <div className={ "content-type-wrapper " + ( className || "" ) }>
-        <select aria-controls={ariaControls} aria-label={ariaLabel} className="content-type" id={controlId} onChange={this.onChangeWrapper} value={value || ""} >
-          { contentTypes.map( (val) => {
-            return <option key={ val } value={ val }>{ val }</option>
-          }).toArray()}
+      <div className={`content-type-wrapper ${className || ""}`}>
+        <select 
+          aria-controls={ariaControls} 
+          aria-label={ariaLabel} 
+          className="content-type" 
+          id={controlId} 
+          onChange={this.onChangeWrapper} 
+          value={value || ""}
+        >
+          {contentTypes.map((val) => (
+            <option key={ val } value={ val }>
+              { val }
+            </option>
+          )).toArray()}
         </select>
       </div>
     )
   }
+  
 }
