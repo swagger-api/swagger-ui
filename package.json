@@ -73,7 +73,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.26.7",
+    "@babel/runtime-corejs3": "^7.26.10",
     "@scarf/scarf": "=1.4.0",
     "base64-js": "^1.5.1",
     "classnames": "^2.5.1",
@@ -180,7 +180,7 @@
     "react-test-renderer": "^18.3.1",
     "release-it": "=17.11.0",
     "rimraf": "^6.0.1",
-    "sass-embedded": "=1.85.1",
+    "sass-embedded": "=1.86.0",
     "sass-loader": "^16.0.4",
     "shx": "=0.3.4",
     "sinon": "=19.0.2",
