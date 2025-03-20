@@ -2,8 +2,6 @@ import React, { Component } from "react"
 import Im, { Map } from "immutable"
 import PropTypes from "prop-types"
 
-/* eslint-disable  react/jsx-no-bind */
-
 export default class Models extends Component {
   static propTypes = {
     getComponent: PropTypes.func,

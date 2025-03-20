@@ -6,7 +6,6 @@ import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
-/* eslint-disable  react/jsx-no-bind */
 
 const getExampleComponent = ( sampleResponse, HighlightCode ) => {
   if (sampleResponse == null) return null
@@ -140,8 +139,8 @@ export default class Response extends React.Component {
         const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
         const getMediaTypeExample = (targetExample) =>
-          Map.isMap(targetExample)
-          ? targetExample.get("value")
+          Map.isMap(targetExample) 
+          ? targetExample.get("value") 
           : undefined
         mediaTypeExample = getMediaTypeExample(targetExample)
         if(mediaTypeExample === undefined) {

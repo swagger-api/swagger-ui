@@ -9,6 +9,8 @@ import {
   memoizedCreateXMLExample,
   memoizedSampleFromSchema,
   mergeJsonSchema,
+  getSchemaObjectType,
+  getSchemaObjectTypeLabel,
 } from "./fn/index"
 import makeGetJsonSampleSchema from "./fn/get-json-sample-schema"
 import makeGetYamlSampleSchema from "./fn/get-yaml-sample-schema"
@@ -47,6 +49,8 @@ const JSONSchema5SamplesPlugin = ({ getSystem }) => {
       getXmlSampleSchema,
       getSampleSchema,
       mergeJsonSchema,
+      getSchemaObjectTypeLabel,
+      getSchemaObjectType,
     },
   }
 }
