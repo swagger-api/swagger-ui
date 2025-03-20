@@ -208,7 +208,7 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath, oas3Selectors} = this.props
+    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, specActions, pathMethod, specPath, oas3Selectors} = this.props
 
     let isOAS3 = specSelectors.isOAS3()
 
@@ -389,6 +389,7 @@ export default class ParameterRow extends Component {
                                                 getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
+                                                specActions={ specActions }
                                                 schema={ schema }
                                                 example={ bodyParam }
                                                 includeWriteOnly={ true }/>
