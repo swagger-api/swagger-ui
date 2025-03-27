@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import ReactDOM from "react-dom"
+import ReactDOM from "react-dom/client"
 import { compose } from "redux"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
