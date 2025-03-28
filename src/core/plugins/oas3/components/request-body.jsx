@@ -5,8 +5,6 @@ import { Map, OrderedMap, List, fromJS } from "immutable"
 import { getCommonExtensions, stringify, isEmptyValue, immutableToJS } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
-/* eslint-disable  react/jsx-no-bind */
-
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
   const schema = mediaTypeValue.get("schema", OrderedMap()).toJS()
@@ -161,9 +159,9 @@ const RequestBody = ({
 
               let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
-              const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
-              const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type")))
-              const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"])))
+              const objectType = fn.getSchemaObjectType(immutableToJS(schema))
+              const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.get("type")))
+              const itemTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.getIn(["items", "type"])))
               const format = schema.get("format")
               const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
@@ -182,15 +180,15 @@ const RequestBody = ({
                 initialValue = "0"
               }
 
-              if (typeof initialValue !== "string" && type === "object") {
+              if (typeof initialValue !== "string" && objectTypeLabel === "object") {
                initialValue = stringify(initialValue)
               }
 
-              if (typeof initialValue === "string" && type === "array") {
+              if (typeof initialValue === "string" && objectTypeLabel === "array") {
                 initialValue = JSON.parse(initialValue)
               }
 
-              const isFile = type === "string" && (format === "binary" || format === "base64")
+              const isFile = objectTypeLabel === "string" && (format === "binary" || format === "base64")
 
               const jsonSchemaForm = <JsonSchemaForm
                 fn={fn}
@@ -213,7 +211,7 @@ const RequestBody = ({
                   { !required ? null : <span>&nbsp;*</span> }
                 </div>
                 <div className="parameter__type">
-                  { typeLabel }
+                  { objectType }
                   { format && <span className="prop-format">(${format})</span>}
                   {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                 </div>
@@ -224,7 +222,7 @@ const RequestBody = ({
               <td className="parameters-col_description">
                 <Markdown source={ description }></Markdown>
                 {isExecute ? <div>
-                  {(type === "object" || itemType === "object") ? (
+                  {(objectTypeLabel === "object" || itemTypeLabel === "object") ? (
                     <ModelExample
                       getComponent={getComponent}
                       specPath={specPath.push("schema")}
