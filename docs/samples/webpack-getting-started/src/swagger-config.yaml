@@ -28,3 +28,55 @@ paths:
           description: "Unauthorized"
         200:
           description: "OK"
+
+paths:
+  /upload:
+    post:
+      summary: "Upload a file"
+      consumes:
+        - "multipart/form-data"
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          required: true
+          description: "The file to upload"
+      responses:
+        200:
+          description: "File uploaded successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded successfully"
+                  file:
+                    type: object
+                    properties:
+                      filename:
+                        type: string
+                        example: "file1234.jpg"
+                      path:
+                        type: string
+                        example: "/uploads/file1234.jpg"
+                      size:
+                        type: integer
+                        example: 1024
+                      mimeType:
+                        type: string
+                        example: "image/jpeg"
+                      downloadUrl:
+                        type: string
+                        example: "http://localhost:3000/uploads/file1234.jpg"
+        400:
+          description: "No file uploaded"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No file uploaded"

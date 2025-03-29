@@ -23,16 +23,42 @@
     }
   },
   "homepage": "https://github.com/swagger-api/swagger-ui",
-  "repository": "git@github.com:swagger-api/swagger-ui.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/swagger-api/swagger-ui.git"
+  },
   "contributors": [
-    "(in alphabetical order)",
-    "Anna Bodnia <anna.bodnia@gmail.com>",
-    "Buu Nguyen <buunguyen@gmail.com>",
-    "Josh Ponelat <jponelat@gmail.com>",
-    "Kyle Shockey <kyleshockey@gmail.com>",
-    "Robert Barnwell <robert@robertismy.name>",
-    "Sahar Jafari <shr.jafari@gmail.com>",
-    "Vladimir Gorej <vladimir.gorej@gmail.com>"
+    {
+      "url": "in alphabetical order"
+    },
+    {
+      "name": "Anna Bodnia",
+      "email": "anna.bodnia@gmail.com"
+    },
+    {
+      "name": "Buu Nguyen",
+      "email": "buunguyen@gmail.com"
+    },
+    {
+      "name": "Josh Ponelat",
+      "email": "jponelat@gmail.com"
+    },
+    {
+      "name": "Kyle Shockey",
+      "email": "kyleshockey@gmail.com"
+    },
+    {
+      "name": "Robert Barnwell",
+      "email": "robert@robertismy.name"
+    },
+    {
+      "name": "Sahar Jafari",
+      "email": "shr.jafari@gmail.com"
+    },
+    {
+      "name": "Vladimir Gorej",
+      "email": "vladimir.gorej@gmail.com"
+    }
   ],
   "license": "Apache-2.0",
   "scripts": {
@@ -85,6 +111,7 @@
     "js-file-download": "^0.4.12",
     "js-yaml": "=4.1.0",
     "lodash": "^4.17.21",
+    "multer": "=1.4.5-lts.2",
     "prop-types": "^15.8.1",
     "randexp": "^0.5.3",
     "randombytes": "^2.1.0",
@@ -96,7 +123,7 @@
     "react-immutable-pure-component": "^2.2.0",
     "react-inspector": "^6.0.1",
     "react-redux": "^9.2.0",
-    "react-syntax-highlighter": "^15.6.1",
+    "react-syntax-highlighter": "=5.8.0",
     "redux": "^5.0.1",
     "redux-immutable": "^4.0.0",
     "remarkable": "^2.0.1",
@@ -104,6 +131,8 @@
     "serialize-error": "^8.1.0",
     "sha.js": "^2.4.11",
     "swagger-client": "^3.34.3",
+    "swagger-jsdoc": "=6.2.8",
+    "swagger-ui-express": "=5.0.1",
     "url-parse": "^1.5.10",
     "xml": "=1.0.1",
     "xml-but-prettier": "^1.0.1",
@@ -124,6 +153,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@release-it/conventional-changelog": "=8.0.2",
     "@svgr/webpack": "=8.1.0",
+    "@types/express": "=4.17.21",
     "autoprefixer": "^10.4.21",
     "babel-loader": "^9.2.1",
     "babel-plugin-lodash": "=3.3.4",
@@ -171,9 +201,9 @@
     "oauth2-server": "^2.4.1",
     "open": "^10.1.0",
     "postcss": "^8.5.3",
-    "postcss-scss": "^4.0.9",
     "postcss-loader": "^8.1.1",
     "postcss-preset-env": "^10.1.4",
+    "postcss-scss": "^4.0.9",
     "prettier": "^3.5.3",
     "process": "^0.11.10",
     "react-refresh": "^0.16.0",
@@ -208,5 +238,15 @@
   },
   "config": {
     "deps_check_dir": ".deps_check"
+  },
+  "description": "[![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui) [![Build Status](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/badge/icon?subject=jenkins%20build)](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/) [![npm audit](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-ui-security-audit&subject=npm%20audit)](https://jenkins.swagger.io/job/oss-swagger-ui-security-audit/lastBuild/console) ![total GitHub contributors](https://img.shields.io/github/contributors-anon/swagger-api/swagger-ui.svg)",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/swagger-api/swagger-ui/issues"
   }
 }

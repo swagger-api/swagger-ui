@@ -15,7 +15,7 @@
     <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
     <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
     <script src="./swagger-initializer.js" charset="UTF-8">
-    
+
     const oidcConfig = {
       clientId: "your-client-id",
       discoveryUrl: "https://your-auth-server/.well-known/openid-configuration",
@@ -25,7 +25,7 @@
     window.onload = function () {
 
       const ui = SwaggerUIBundle({
-  url: "/path/to/openapi.yaml",  // Make sure this points to your OpenAPI spec
+  url: "/samples/src/swagger-config.yaml",  // Make sure this points to your OpenAPI spec
   dom_id: '#swagger-ui',
   deepLinking: true,
   presets: [
