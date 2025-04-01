@@ -8,7 +8,7 @@ import { useFn, useComponent } from "../../hooks"
 
 const AdditionalProperties = ({ schema }) => {
   const fn = useFn()
-  const { additionalProperties } = schema
+  const additionalProperties = schema?.additionalProperties
   const JSONSchema = useComponent("JSONSchema")
 
   if (!fn.hasKeyword(schema, "additionalProperties")) return null
