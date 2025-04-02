@@ -8,7 +8,6 @@ import { useFn, useComponent } from "../../hooks"
 
 const AdditionalProperties = ({ schema }) => {
   const fn = useFn()
-  const { additionalProperties } = schema
   const JSONSchema = useComponent("JSONSchema")
 
   if (!fn.hasKeyword(schema, "additionalProperties")) return null
@@ -24,14 +23,14 @@ const AdditionalProperties = ({ schema }) => {
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--additionalProperties">
-      {additionalProperties === true ? (
+      {schema.additionalProperties === true ? (
         <>
           {name}
           <span className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
             allowed
           </span>
         </>
-      ) : additionalProperties === false ? (
+      ) : schema.additionalProperties === false ? (
         <>
           {name}
           <span className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
@@ -41,7 +40,7 @@ const AdditionalProperties = ({ schema }) => {
       ) : (
         <JSONSchema
           name={name}
-          schema={additionalProperties}
+          schema={schema.additionalProperties}
           identifier="additionalProperties"
         />
       )}
