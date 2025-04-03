@@ -3,8 +3,7 @@
  */
 import React from "react"
 import PropTypes from "prop-types"
-import { safeBuildUrl } from "core/utils/url"
-import { sanitizeUrl } from "core/utils"
+import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 
 class License extends React.Component {
   static propTypes = {

@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.4
 info:
   title: OpenAPI 3.0 License with only url present
   version: 1.0.0

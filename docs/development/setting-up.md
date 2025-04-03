@@ -1,20 +1,23 @@
 # Setting up a dev environment
 
-Swagger UI includes a development server that provides hot module reloading and unminified stack traces, for easier development.
+SwaggerUI includes a development server that provides hot module reloading and unminified stack traces, for easier development.
 
 ### Prerequisites
 
 - git, any version
-- **Node.js >=20.3.0** and **npm >=9.6.7** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
+- **Node.js >=22.11.0** and **npm >=10.9.0** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
+
+
 
 ### Steps
 
 1. `git clone https://github.com/swagger-api/swagger-ui.git`
 2. `cd swagger-ui`
 3. `npm install`
-4. `npm run dev`
-5. Wait a bit
-6. Open http://localhost:3200/
+4. `npx husky init` (optional)
+5. `npm run dev`
+6. Wait a bit
+7. Open http://localhost:3200/
 
 ### Using your own local api definition with local dev build
 

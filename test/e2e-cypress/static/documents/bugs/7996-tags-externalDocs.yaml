@@ -1,4 +1,4 @@
-openapi: 3.0.2
+openapi: 3.0.4
 info:
   title: "This is an example highlighting a display issue related to `tags` and `description` entries therein. It contains tag descriptions with & without externalDocs."
   version: 1.0.0

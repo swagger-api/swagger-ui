@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { sanitizeUrl } from "core/utils"
+import { sanitizeUrl } from "core/utils/url"
 
 const License = ({ getComponent, specSelectors }) => {
   const name = specSelectors.selectLicenseNameField()

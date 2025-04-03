@@ -1,104 +1,99 @@
-.info
-{
-    margin: 50px 0;
+@use "sass:color";
+@use "variables" as *;
+@use "type";
 
-    &.failed-config
-    { 
-        max-width: 880px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center
+.info {
+  margin: 50px 0;
+
+  &.failed-config {
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  hgroup.main {
+    margin: 0 0 20px 0;
+    a {
+      font-size: 12px;
     }
+  }
+  pre {
+    font-size: 14px;
+  }
+  p,
+  li,
+  table {
+    font-size: 14px;
 
-    hgroup.main
-    {
-        margin: 0 0 20px 0;
-        a
-        {
-            font-size: 12px;
-        }
+    @include type.text_body();
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @include type.text_body();
+  }
+
+  a {
+    font-size: 14px;
+
+    transition: all 0.4s;
+
+    @include type.text_body($info-link-font-color);
+
+    &:hover {
+      color: color.adjust($info-link-font-color-hover, $lightness: -15%);
     }
-    pre 
-    {
-        font-size: 14px;
-    }
-    p, li, table
-    {
-        font-size: 14px;
+  }
+  > div {
+    margin: 0 0 5px 0;
+  }
 
-        @include text_body();
-    }
+  .base-url {
+    font-size: 12px;
+    font-weight: 300 !important;
 
-    h1, h2, h3, h4, h5
-    {
-        @include text_body();
-    }
+    margin: 0;
 
-    a
-    {
-        font-size: 14px;
+    @include type.text_code();
+  }
 
-        transition: all .4s;
+  .title {
+    font-size: 36px;
 
-        @include text_body($info-link-font-color);
+    margin: 0;
 
-        &:hover
-        {
-            color: darken($info-link-font-color-hover, 15%);
-        }
-    }
-    > div
-    {
-        margin: 0 0 5px 0;
-    }
+    @include type.text_body();
 
-    .base-url
-    {
-        font-size: 12px;
-        font-weight: 300 !important;
+    small {
+      font-size: 10px;
 
+      position: relative;
+      top: -5px;
+
+      display: inline-block;
+
+      margin: 0 0 0 5px;
+      padding: 2px 4px;
+
+      vertical-align: super;
+
+      border-radius: 57px;
+      background: $info-title-small-background-color;
+
+      &.version-stamp {
+        background-color: #89bf04;
+      }
+
+      pre {
         margin: 0;
+        padding: 0;
 
-        @include text_code();
+        @include type.text_headline($info-title-small-pre-font-color);
+      }
     }
-
-    .title
-    {
-        font-size: 36px;
-
-        margin: 0;
-
-        @include text_body();
-
-        small
-        {
-            font-size: 10px;
-
-            position: relative;
-            top: -5px;
-
-            display: inline-block;
-
-            margin: 0 0 0 5px;
-            padding: 2px 4px;
-
-            vertical-align: super;
-
-            border-radius: 57px;
-            background: $info-title-small-background-color;
-            
-            &.version-stamp
-            {
-                background-color: #89bf04;
-            }
-
-            pre
-            {
-                margin: 0;
-                padding: 0;
-
-                @include text_headline($info-title-small-pre-font-color);
-            }
-        }
-    }
+  }
 }

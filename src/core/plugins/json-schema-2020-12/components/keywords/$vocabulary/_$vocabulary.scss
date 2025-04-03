@@ -1,7 +1,9 @@
+@use "./../../../components/mixins";
+
 .json-schema-2020-12 {
   &-keyword--\$vocabulary {
     ul {
-      @include expansion-border;
+      @include mixins.expansion-border;
     }
   }
 

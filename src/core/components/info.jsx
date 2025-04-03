@@ -4,8 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { sanitizeUrl } from "core/utils"
-import { safeBuildUrl } from "core/utils/url"
+import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 
 export class InfoBasePath extends React.Component {
   static propTypes = {

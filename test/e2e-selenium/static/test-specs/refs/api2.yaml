@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.4
 info:
   description: |
     This is a test to show how model reference from another file fails.

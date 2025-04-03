@@ -1,207 +1,188 @@
-table
-{
-    width: 100%;
-    padding: 0 10px;
+@use "type";
+@use "variables" as *;
 
-    border-collapse: collapse;
+table {
+  width: 100%;
+  padding: 0 10px;
 
-    &.model
-    {
-        tbody
-        {
-            tr
-            {
-                td
-                {
-                    padding: 0;
+  border-collapse: collapse;
 
-                    vertical-align: top;
+  &.model {
+    tbody {
+      tr {
+        td {
+          padding: 0;
 
-                    &:first-of-type
-                    {
-                        width: 174px;
-                        padding: 0 0 0 2em;
-                    }
-                }
-            }
+          vertical-align: top;
+
+          &:first-of-type {
+            width: 174px;
+            padding: 0 0 0 2em;
+          }
         }
+      }
+    }
+  }
+
+  &.headers {
+    td {
+      font-size: 12px;
+      font-weight: 300;
+
+      vertical-align: middle;
+
+      @include type.text_code();
     }
 
-    &.headers
-    {
-        td
-        {
-            font-size: 12px;
-            font-weight: 300;
+    .header-example {
+      color: #999;
+      font-style: italic;
+    }
+  }
 
-            vertical-align: middle;
+  tbody {
+    tr {
+      td {
+        padding: 10px 0 0 0;
 
-            @include text_code();
+        vertical-align: top;
+
+        &:first-of-type {
+          min-width: 6em;
+          padding: 10px 0;
         }
 
-        .header-example
-        {
-            color: #999;
-            font-style: italic;
+        &:has(.model-box) {
+          max-width: 1px; // fits content in available space instead of growing the table beyond its container
         }
+      }
     }
+  }
 
-    tbody
-    {
-        tr
-        {
-            td
-            {
-                padding: 10px 0 0 0;
-
-                vertical-align: top;
-
-                &:first-of-type
-                {
-                    min-width: 6em;
-                    padding: 10px 0;
-                }
-            }
-        }
-    }
-
-    thead
-    {
-        tr
-        {
-            th,
-            td
-            {
-                font-size: 12px;
-                font-weight: bold;
-
-                padding: 12px 0;
-
-                text-align: left;
-
-                border-bottom: 1px solid rgba($table-thead-td-border-bottom-color, .2);
-
-                @include text_body();
-            }
-        }
-    }
-}
-
-.parameters-col_description
-{
-    width: 99%; // forces other columns to shrink to their content widths
-    margin-bottom: 2em;
-    input
-    {
-        width: 100%;
-        max-width: 340px;
-    }
-
-    select {
-        border-width: 1px;
-    }
-
-    .markdown, .renderedMarkdown {
-        p {
-            margin: 0;
-        }
-    }
-}
-
-.parameter__name
-{
-    font-size: 16px;
-    font-weight: normal;
-
-    // hack to give breathing room to the name column
-    // TODO: refactor all of this to flexbox
-    margin-right: .75em;
-
-    @include text_headline();
-
-    &.required
-    {
+  thead {
+    tr {
+      th,
+      td {
+        font-size: 12px;
         font-weight: bold;
 
-        span
-        {
-            color: red;
-        }
+        padding: 12px 0;
 
-        &:after
-        {
-            font-size: 10px;
+        text-align: left;
 
-            position: relative;
-            top: -6px;
+        border-bottom: 1px solid rgba($table-thead-td-border-bottom-color, 0.2);
 
-            padding: 5px;
-
-            content: 'required';
-
-            color: rgba($table-parameter-name-required-font-color, .6);
-        }
+        @include type.text_body();
+      }
     }
+  }
+}
+
+.parameters-col_description {
+  width: 99%; // forces other columns to shrink to their content widths
+  margin-bottom: 2em;
+  input {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  select {
+    border-width: 1px;
+  }
+
+  .markdown,
+  .renderedMarkdown {
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.parameter__name {
+  font-size: 16px;
+  font-weight: normal;
+
+  // hack to give breathing room to the name column
+  // TODO: refactor all of this to flexbox
+  margin-right: 0.75em;
+
+  @include type.text_headline();
+
+  &.required {
+    font-weight: bold;
+
+    span {
+      color: red;
+    }
+
+    &:after {
+      font-size: 10px;
+
+      position: relative;
+      top: -6px;
+
+      padding: 5px;
+
+      content: "required";
+
+      color: rgba($table-parameter-name-required-font-color, 0.6);
+    }
+  }
 }
 
 .parameter__in,
-.parameter__extension
-{
-    font-size: 12px;
-    font-style: italic;
+.parameter__extension {
+  font-size: 12px;
+  font-style: italic;
 
-    @include text_code($table-parameter-in-font-color);
+  @include type.text_code($table-parameter-in-font-color);
 }
 
-.parameter__deprecated
-{
-    font-size: 12px;
-    font-style: italic;
+.parameter__deprecated {
+  font-size: 12px;
+  font-style: italic;
 
-    @include text_code($table-parameter-deprecated-font-color);
+  @include type.text_code($table-parameter-deprecated-font-color);
 }
 
 .parameter__empty_value_toggle {
-    display: block;
-    font-size: 13px;
-    padding-top: 5px;
-    padding-bottom: 12px;
+  display: block;
+  font-size: 13px;
+  padding-top: 5px;
+  padding-bottom: 12px;
 
-    input {
-        margin-right: 7px;
-        width: auto;
-    }
+  input {
+    margin-right: 7px;
+    width: auto;
+  }
 
-    &.disabled {
-        opacity: 0.7;
-    }
+  &.disabled {
+    opacity: 0.7;
+  }
 }
 
-
-.table-container
-{
-    padding: 20px;
+.table-container {
+  padding: 20px;
 }
-
 
 .response-col_description {
-    width: 99%; // forces other columns to shrink to their content widths
+  width: 99%; // forces other columns to shrink to their content widths
 
-    .markdown, .renderedMarkdown {
-        p {
-            margin: 0;
-        }
+  .markdown,
+  .renderedMarkdown {
+    p {
+      margin: 0;
     }
+  }
 }
 
 .response-col_links {
-    min-width: 6em;
+  min-width: 6em;
 }
 
-.response__extension
-{
-    font-size: 12px;
-    font-style: italic;
+.response__extension {
+  font-size: 12px;
+  font-style: italic;
 
-    @include text_code($table-parameter-in-font-color);
+  @include type.text_code($table-parameter-in-font-color);
 }

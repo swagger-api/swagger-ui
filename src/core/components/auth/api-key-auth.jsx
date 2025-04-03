@@ -8,7 +8,8 @@ export default class ApiKeyAuth extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    authSelectors: PropTypes.object.isRequired
   }
 
   constructor(props, context) {
@@ -39,13 +40,14 @@ export default class ApiKeyAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
+    let { schema, getComponent, errSelectors, name, authSelectors } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
     const Markdown = getComponent("Markdown", true)
     const JumpToPath = getComponent("JumpToPath", true)
+    const path = authSelectors.selectAuthPath(name)
     let value = this.getValue()
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
@@ -53,7 +55,7 @@ export default class ApiKeyAuth extends React.Component {
       <div>
         <h4>
           <code>{ name || schema.get("name") }</code>&nbsp;(apiKey)
-          <JumpToPath path={[ "securityDefinitions", name ]} />
+          <JumpToPath path={path} />
         </h4>
         { value && <h6>Authorized</h6>}
         <Row>

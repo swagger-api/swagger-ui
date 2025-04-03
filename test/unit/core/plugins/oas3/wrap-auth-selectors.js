@@ -15,7 +15,7 @@ describe("oas3 plugin - auth extensions - wrapSelectors", function(){
         getState: () => new Map(),
         specSelectors: {
           specJson: () => fromJS({
-            openapi: "3.0.0"
+            openapi: "3.0.4"
           }),
           isOAS3: () => true,
           securityDefinitions: () => {

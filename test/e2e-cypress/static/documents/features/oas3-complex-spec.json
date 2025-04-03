@@ -1,5 +1,5 @@
 {
-    "openapi": "3.0.2",
+    "openapi": "3.0.4",
     "info": {
       "title": "Clinical Study",
       "description": "The Clinical Study interface enables an external system to read study data and demand forecast data, add a study entity, and submit the results of enrollment forecast calculations.",

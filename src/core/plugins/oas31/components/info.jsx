@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { sanitizeUrl } from "core/utils"
+import { sanitizeUrl } from "core/utils/url"
 
 const Info = ({ getComponent, specSelectors }) => {
   const version = specSelectors.version()

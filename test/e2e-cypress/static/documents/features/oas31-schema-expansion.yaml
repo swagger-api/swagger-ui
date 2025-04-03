@@ -1,0 +1,19 @@
+openapi: 3.1.0
+components:
+  schemas:
+    Expansion:
+      properties:
+        prop1:
+          properties:
+            prop2:
+              properties:
+                prop3:
+                  properties:
+                    prop4:
+                      type: string
+      xml: 
+        x-extension:
+          prop1:
+            prop2:
+              prop3:
+                prop4: test

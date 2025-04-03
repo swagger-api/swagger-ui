@@ -1,0 +1,10 @@
+openapi: 3.1.0
+components:
+  schemas:
+    ExtensionKeywords:
+      primitiveExtension: 1
+      arrayExtension:
+        - 2
+      objectExtension:
+        prop: 3
+      default: default value

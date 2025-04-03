@@ -115,8 +115,8 @@ export const wrapOAS31Fn = (fn, system) => {
         specSelectors.isOAS31()
           ? newImpl(...args)
           : typeof oriImpl === "function"
-          ? oriImpl(...args)
-          : undefined
+            ? oriImpl(...args)
+            : undefined
 
       return [name, impl]
     })

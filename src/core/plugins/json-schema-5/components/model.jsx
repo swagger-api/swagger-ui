@@ -66,7 +66,7 @@ export default class Model extends ImmutablePureComponent {
     /*
      * If we have an unresolved ref, get the schema and name from the ref.
      * If the ref is external, we can't resolve it, so we just display the ref location.
-     * This is for situations where: 
+     * This is for situations where:
      *  - the ref was not resolved by Swagger Client because we reached the traversal depth limit
      *  - we had a circular ref inside the allOf keyword
      */
@@ -74,9 +74,9 @@ export default class Model extends ImmutablePureComponent {
       const refName = this.getModelName($ref)
       const refSchema = this.getRefSchema(refName)
       if (Map.isMap(refSchema)) {
-        schema = refSchema.mergeDeep(schema) 
+        schema = refSchema.mergeDeep(schema)
         if (!$$ref) {
-          schema = schema.set("$$ref", $ref) 
+          schema = schema.set("$$ref", $ref)
           $$ref = $ref
         }
       } else if (Map.isMap(schema) && schema.size === 1) {

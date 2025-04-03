@@ -1,9 +1,9 @@
-openapi: "3.0.0"
+openapi: "3.0.4"
 
 paths:
   /regularParams:
     get:
-      parameters: 
+      parameters:
       - name: int
         in: query
         schema:
@@ -31,27 +31,27 @@ paths:
           description: ok
   /emptyValueParams:
     get:
-      parameters: 
+      parameters:
       - name: int
         in: query
         schema:
           type: integer
-        allowEmptyValue: true 
+        allowEmptyValue: true
       - name: str
         in: query
         schema:
           type: string
-        allowEmptyValue: true 
+        allowEmptyValue: true
       - name: num
         in: query
         schema:
           type: number
-        allowEmptyValue: true 
+        allowEmptyValue: true
       - name: bool
         in: query
         schema:
           type: boolean
-        allowEmptyValue: true 
+        allowEmptyValue: true
       - name: arr
         in: query
         schema:

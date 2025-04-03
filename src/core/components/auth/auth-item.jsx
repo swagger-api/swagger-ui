@@ -10,6 +10,7 @@ export default class Auths extends React.Component {
     getComponent: PropTypes.func.isRequired,
     onAuthChange: PropTypes.func.isRequired,
     errSelectors: PropTypes.object.isRequired,
+    authSelectors: PropTypes.object.isRequired,
   }
 
   render() {
@@ -19,7 +20,8 @@ export default class Auths extends React.Component {
       getComponent,
       onAuthChange,
       authorized,
-      errSelectors
+      errSelectors,
+      authSelectors
     } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
@@ -35,7 +37,8 @@ export default class Auths extends React.Component {
                                         errSelectors={ errSelectors }
                                         authorized={ authorized }
                                         getComponent={ getComponent }
-                                        onChange={ onAuthChange } />
+                                        onChange={ onAuthChange }
+                                        authSelectors = { authSelectors } />
         break
       case "basic": authEl = <BasicAuth key={ name }
                                       schema={ schema }
@@ -43,7 +46,8 @@ export default class Auths extends React.Component {
                                       errSelectors={ errSelectors }
                                       authorized={ authorized }
                                       getComponent={ getComponent }
-                                      onChange={ onAuthChange } />
+                                      onChange={ onAuthChange }
+                                      authSelectors = { authSelectors } />
         break
       default: authEl = <div key={ name }>Unknown security definition type { type }</div>
     }

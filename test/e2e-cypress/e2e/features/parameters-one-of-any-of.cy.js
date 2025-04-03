@@ -21,7 +21,7 @@ describe("Parameter with oneOf and anyOf keywords in OpenAPI 3.0.x", () => {
       .eq(3)
       .find("textarea")
       .should("exist")
-      .and("contain", "\"eq\": \"active\"")
+      .and("contain", '"eq": "active"')
   })
 })
 
@@ -44,6 +44,6 @@ describe("Parameter with oneOf and anyOf keywords in OpenAPI 3.1.0.", () => {
       .eq(3)
       .find("textarea")
       .should("exist")
-      .and("contain", "\"eq\": \"active\"")
+      .and("contain", '"eq": "active"')
   })
 })

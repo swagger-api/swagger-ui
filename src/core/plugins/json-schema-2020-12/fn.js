@@ -1,8 +1,6 @@
 /**
  * @prettier
  */
-import { useFn } from "./hooks"
-
 export const upperFirst = (value) => {
   if (typeof value === "string") {
     return `${value.charAt(0).toUpperCase()}${value.slice(1)}`
@@ -13,148 +11,156 @@ export const upperFirst = (value) => {
 /**
  * Lookup can be `basic` or `extended`. By default the lookup is `extended`.
  */
-export const getTitle = (schema, { lookup = "extended" } = {}) => {
-  const fn = useFn()
+export const makeGetTitle = (fnAccessor) => {
+  const getTitle = (schema, { lookup = "extended" } = {}) => {
+    const fn = fnAccessor()
 
-  if (schema?.title != null) return fn.upperFirst(String(schema.title))
-  if (lookup === "extended") {
-    if (schema?.$anchor != null) return fn.upperFirst(String(schema.$anchor))
-    if (schema?.$id != null) return String(schema.$id)
+    if (schema?.title != null) return fn.upperFirst(String(schema.title))
+    if (lookup === "extended") {
+      if (schema?.$anchor != null) return fn.upperFirst(String(schema.$anchor))
+      if (schema?.$id != null) return String(schema.$id)
+    }
+
+    return ""
   }
 
-  return ""
+  return getTitle
 }
 
-export const getType = (schema, processedSchemas = new WeakSet()) => {
-  const fn = useFn()
+export const makeGetType = (fnAccessor) => {
+  const getType = (schema, processedSchemas = new WeakSet()) => {
+    const fn = fnAccessor()
 
-  if (schema == null) {
-    return "any"
-  }
-
-  if (fn.isBooleanJSONSchema(schema)) {
-    return schema ? "any" : "never"
-  }
-
-  if (typeof schema !== "object") {
-    return "any"
-  }
-
-  if (processedSchemas.has(schema)) {
-    return "any" // detect a cycle
-  }
-  processedSchemas.add(schema)
-
-  const { type, prefixItems, items } = schema
-
-  const getArrayType = () => {
-    if (Array.isArray(prefixItems)) {
-      const prefixItemsTypes = prefixItems.map((itemSchema) =>
-        getType(itemSchema, processedSchemas)
-      )
-      const itemsType = items ? getType(items, processedSchemas) : "any"
-      return `array<[${prefixItemsTypes.join(", ")}], ${itemsType}>`
-    } else if (items) {
-      const itemsType = getType(items, processedSchemas)
-      return `array<${itemsType}>`
-    } else {
-      return "array<any>"
+    if (schema == null) {
+      return "any"
     }
-  }
 
-  const inferType = () => {
-    if (
-      Object.hasOwn(schema, "prefixItems") ||
-      Object.hasOwn(schema, "items") ||
-      Object.hasOwn(schema, "contains")
-    ) {
-      return getArrayType()
-    } else if (
-      Object.hasOwn(schema, "properties") ||
-      Object.hasOwn(schema, "additionalProperties") ||
-      Object.hasOwn(schema, "patternProperties")
-    ) {
-      return "object"
-    } else if (["int32", "int64"].includes(schema.format)) {
-      // OpenAPI 3.1.0 integer custom formats
-      return "integer"
-    } else if (["float", "double"].includes(schema.format)) {
-      // OpenAPI 3.1.0 number custom formats
-      return "number"
-    } else if (
-      Object.hasOwn(schema, "minimum") ||
-      Object.hasOwn(schema, "maximum") ||
-      Object.hasOwn(schema, "exclusiveMinimum") ||
-      Object.hasOwn(schema, "exclusiveMaximum") ||
-      Object.hasOwn(schema, "multipleOf")
-    ) {
-      return "number | integer"
-    } else if (
-      Object.hasOwn(schema, "pattern") ||
-      Object.hasOwn(schema, "format") ||
-      Object.hasOwn(schema, "minLength") ||
-      Object.hasOwn(schema, "maxLength")
-    ) {
-      return "string"
-    } else if (typeof schema.const !== "undefined") {
-      if (schema.const === null) {
-        return "null"
-      } else if (typeof schema.const === "boolean") {
-        return "boolean"
-      } else if (typeof schema.const === "number") {
-        return Number.isInteger(schema.const) ? "integer" : "number"
-      } else if (typeof schema.const === "string") {
-        return "string"
-      } else if (Array.isArray(schema.const)) {
+    if (fn.isBooleanJSONSchema(schema)) {
+      return schema ? "any" : "never"
+    }
+
+    if (typeof schema !== "object") {
+      return "any"
+    }
+
+    if (processedSchemas.has(schema)) {
+      return "any" // detect a cycle
+    }
+    processedSchemas.add(schema)
+
+    const { type, prefixItems, items } = schema
+
+    const getArrayType = () => {
+      if (Array.isArray(prefixItems)) {
+        const prefixItemsTypes = prefixItems.map((itemSchema) =>
+          getType(itemSchema, processedSchemas)
+        )
+        const itemsType = items ? getType(items, processedSchemas) : "any"
+        return `array<[${prefixItemsTypes.join(", ")}], ${itemsType}>`
+      } else if (items) {
+        const itemsType = getType(items, processedSchemas)
+        return `array<${itemsType}>`
+      } else {
         return "array<any>"
-      } else if (typeof schema.const === "object") {
-        return "object"
       }
     }
-    return null
-  }
 
-  if (schema.not && getType(schema.not) === "any") {
-    return "never"
-  }
-
-  const typeString = Array.isArray(type)
-    ? type.map((t) => (t === "array" ? getArrayType() : t)).join(" | ")
-    : type === "array"
-      ? getArrayType()
-      : [
-            "null",
-            "boolean",
-            "object",
-            "array",
-            "number",
-            "integer",
-            "string",
-          ].includes(type)
-        ? type
-        : inferType()
-
-  const handleCombiningKeywords = (keyword, separator) => {
-    if (Array.isArray(schema[keyword])) {
-      const combinedTypes = schema[keyword].map((subSchema) =>
-        getType(subSchema, processedSchemas)
-      )
-      return `(${combinedTypes.join(separator)})`
+    const inferType = () => {
+      if (
+        Object.hasOwn(schema, "prefixItems") ||
+        Object.hasOwn(schema, "items") ||
+        Object.hasOwn(schema, "contains")
+      ) {
+        return getArrayType()
+      } else if (
+        Object.hasOwn(schema, "properties") ||
+        Object.hasOwn(schema, "additionalProperties") ||
+        Object.hasOwn(schema, "patternProperties")
+      ) {
+        return "object"
+      } else if (["int32", "int64"].includes(schema.format)) {
+        // OpenAPI 3.1.0 integer custom formats
+        return "integer"
+      } else if (["float", "double"].includes(schema.format)) {
+        // OpenAPI 3.1.0 number custom formats
+        return "number"
+      } else if (
+        Object.hasOwn(schema, "minimum") ||
+        Object.hasOwn(schema, "maximum") ||
+        Object.hasOwn(schema, "exclusiveMinimum") ||
+        Object.hasOwn(schema, "exclusiveMaximum") ||
+        Object.hasOwn(schema, "multipleOf")
+      ) {
+        return "number | integer"
+      } else if (
+        Object.hasOwn(schema, "pattern") ||
+        Object.hasOwn(schema, "format") ||
+        Object.hasOwn(schema, "minLength") ||
+        Object.hasOwn(schema, "maxLength")
+      ) {
+        return "string"
+      } else if (typeof schema.const !== "undefined") {
+        if (schema.const === null) {
+          return "null"
+        } else if (typeof schema.const === "boolean") {
+          return "boolean"
+        } else if (typeof schema.const === "number") {
+          return Number.isInteger(schema.const) ? "integer" : "number"
+        } else if (typeof schema.const === "string") {
+          return "string"
+        } else if (Array.isArray(schema.const)) {
+          return "array<any>"
+        } else if (typeof schema.const === "object") {
+          return "object"
+        }
+      }
+      return null
     }
-    return null
+
+    if (schema.not && getType(schema.not) === "any") {
+      return "never"
+    }
+
+    const typeString = Array.isArray(type)
+      ? type.map((t) => (t === "array" ? getArrayType() : t)).join(" | ")
+      : type === "array"
+        ? getArrayType()
+        : [
+              "null",
+              "boolean",
+              "object",
+              "array",
+              "number",
+              "integer",
+              "string",
+            ].includes(type)
+          ? type
+          : inferType()
+
+    const handleCombiningKeywords = (keyword, separator) => {
+      if (Array.isArray(schema[keyword])) {
+        const combinedTypes = schema[keyword].map((subSchema) =>
+          getType(subSchema, processedSchemas)
+        )
+        return `(${combinedTypes.join(separator)})`
+      }
+      return null
+    }
+
+    const oneOfString = handleCombiningKeywords("oneOf", " | ")
+    const anyOfString = handleCombiningKeywords("anyOf", " | ")
+    const allOfString = handleCombiningKeywords("allOf", " & ")
+
+    const combinedStrings = [typeString, oneOfString, anyOfString, allOfString]
+      .filter(Boolean)
+      .join(" | ")
+
+    processedSchemas.delete(schema)
+
+    return combinedStrings || "any"
   }
 
-  const oneOfString = handleCombiningKeywords("oneOf", " | ")
-  const anyOfString = handleCombiningKeywords("anyOf", " | ")
-  const allOfString = handleCombiningKeywords("allOf", " & ")
-
-  const combinedStrings = [typeString, oneOfString, anyOfString, allOfString]
-    .filter(Boolean)
-    .join(" | ")
-
-  processedSchemas.delete(schema)
-
-  return combinedStrings || "any"
+  return getType
 }
 
 export const isBooleanJSONSchema = (schema) => typeof schema === "boolean"
@@ -164,42 +170,48 @@ export const hasKeyword = (schema, keyword) =>
   typeof schema === "object" &&
   Object.hasOwn(schema, keyword)
 
-export const isExpandable = (schema) => {
-  const fn = useFn()
+export const makeIsExpandable = (fnAccessor) => {
+  const isExpandable = (schema) => {
+    const fn = fnAccessor()
 
-  return (
-    schema?.$schema ||
-    schema?.$vocabulary ||
-    schema?.$id ||
-    schema?.$anchor ||
-    schema?.$dynamicAnchor ||
-    schema?.$ref ||
-    schema?.$dynamicRef ||
-    schema?.$defs ||
-    schema?.$comment ||
-    schema?.allOf ||
-    schema?.anyOf ||
-    schema?.oneOf ||
-    fn.hasKeyword(schema, "not") ||
-    fn.hasKeyword(schema, "if") ||
-    fn.hasKeyword(schema, "then") ||
-    fn.hasKeyword(schema, "else") ||
-    schema?.dependentSchemas ||
-    schema?.prefixItems ||
-    fn.hasKeyword(schema, "items") ||
-    fn.hasKeyword(schema, "contains") ||
-    schema?.properties ||
-    schema?.patternProperties ||
-    fn.hasKeyword(schema, "additionalProperties") ||
-    fn.hasKeyword(schema, "propertyNames") ||
-    fn.hasKeyword(schema, "unevaluatedItems") ||
-    fn.hasKeyword(schema, "unevaluatedProperties") ||
-    schema?.description ||
-    schema?.enum ||
-    fn.hasKeyword(schema, "const") ||
-    fn.hasKeyword(schema, "contentSchema") ||
-    fn.hasKeyword(schema, "default")
-  )
+    return (
+      schema?.$schema ||
+      schema?.$vocabulary ||
+      schema?.$id ||
+      schema?.$anchor ||
+      schema?.$dynamicAnchor ||
+      schema?.$ref ||
+      schema?.$dynamicRef ||
+      schema?.$defs ||
+      schema?.$comment ||
+      schema?.allOf ||
+      schema?.anyOf ||
+      schema?.oneOf ||
+      fn.hasKeyword(schema, "not") ||
+      fn.hasKeyword(schema, "if") ||
+      fn.hasKeyword(schema, "then") ||
+      fn.hasKeyword(schema, "else") ||
+      schema?.dependentSchemas ||
+      schema?.prefixItems ||
+      fn.hasKeyword(schema, "items") ||
+      fn.hasKeyword(schema, "contains") ||
+      schema?.properties ||
+      schema?.patternProperties ||
+      fn.hasKeyword(schema, "additionalProperties") ||
+      fn.hasKeyword(schema, "propertyNames") ||
+      fn.hasKeyword(schema, "unevaluatedItems") ||
+      fn.hasKeyword(schema, "unevaluatedProperties") ||
+      schema?.description ||
+      schema?.enum ||
+      fn.hasKeyword(schema, "const") ||
+      fn.hasKeyword(schema, "contentSchema") ||
+      fn.hasKeyword(schema, "default") ||
+      schema?.examples ||
+      fn.getExtensionKeywords(schema).length > 0
+    )
+  }
+
+  return isExpandable
 }
 
 export const stringify = (value) => {
@@ -339,12 +351,15 @@ export const stringifyConstraints = (schema) => {
 
   // validation Keywords for Arrays
   const arrayRange = stringifyConstraintRange(
-    schema?.hasUniqueItems ? "unique items" : "items",
+    schema?.uniqueItems ? "unique items" : "items",
     schema?.minItems,
     schema?.maxItems
   )
   if (arrayRange !== null) {
     constraints.push({ scope: "array", value: arrayRange })
+  }
+  if (schema?.uniqueItems && !arrayRange) {
+    constraints.push({ scope: "array", value: "unique" })
   }
   const containsRange = stringifyConstraintRange(
     "contained items",
@@ -381,4 +396,109 @@ export const getDependentRequired = (propertyName, schema) => {
       return acc
     }, new Set())
   )
+}
+
+export const isPlainObject = (value) =>
+  typeof value === "object" &&
+  value !== null &&
+  !Array.isArray(value) &&
+  (Object.getPrototypeOf(value) === null ||
+    Object.getPrototypeOf(value) === Object.prototype)
+
+export const isEmptyObject = (value) =>
+  isPlainObject(value) && Object.keys(value).length === 0
+
+export const isEmptyArray = (value) =>
+  Array.isArray(value) && value.length === 0
+
+export const difference = (value, comparisonValue) => {
+  const comparisonSet = new Set(comparisonValue)
+  return value.filter((item) => !comparisonSet.has(item))
+}
+
+export const getSchemaKeywords = () => {
+  return [
+    // core vocabulary
+    "$schema",
+    "$vocabulary",
+    "$id",
+    "$anchor",
+    "$dynamicAnchor",
+    "$dynamicRef",
+    "$ref",
+    "$defs",
+    "$comment",
+    // applicator vocabulary
+    "allOf",
+    "anyOf",
+    "oneOf",
+    "not",
+    "if",
+    "then",
+    "else",
+    "dependentSchemas",
+    "prefixItems",
+    "items",
+    "contains",
+    "properties",
+    "patternProperties",
+    "additionalProperties",
+    "propertyNames",
+    // unevaluated Locations vocabulary
+    "unevaluatedItems",
+    "unevaluatedProperties",
+    // validation vocabulary
+    // validation Keywords for Any Instance Type
+    "type",
+    "enum",
+    "const",
+    // validation Keywords for Numeric Instances (number and integer)
+    "multipleOf",
+    "maximum",
+    "exclusiveMaximum",
+    "minimum",
+    "exclusiveMinimum",
+    // validation Keywords for Strings
+    "maxLength",
+    "minLength",
+    "pattern",
+    // validation Keywords for Arrays
+    "maxItems",
+    "minItems",
+    "uniqueItems",
+    "maxContains",
+    "minContains",
+    // validation Keywords for Objects
+    "maxProperties",
+    "minProperties",
+    "required",
+    "dependentRequired",
+    // basic Meta-Data Annotations vocabulary
+    "title",
+    "description",
+    "default",
+    "deprecated",
+    "readOnly",
+    "writeOnly",
+    "examples",
+    // semantic Content With "format" vocabulary
+    "format",
+    // contents of String-Encoded Data vocabulary
+    "contentEncoding",
+    "contentMediaType",
+    "contentSchema",
+  ]
+}
+
+export const makeGetExtensionKeywords = (fnAccessor) => {
+  const getExtensionKeywords = (schema) => {
+    const fn = fnAccessor()
+    const keywords = fn.getSchemaKeywords()
+
+    return isPlainObject(schema)
+      ? difference(Object.keys(schema), keywords)
+      : []
+  }
+
+  return getExtensionKeywords
 }

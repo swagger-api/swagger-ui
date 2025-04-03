@@ -1,0 +1,44 @@
+openapi: 3.0.4
+info:
+  title: Request Body Example
+  version: 1.0.0
+paths:
+  /object:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                object:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+      responses:
+        '200':
+          description: OK
+  /arrayOfObjects:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                arrayOfObjects:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+      responses:
+        '200':
+          description: OK
+

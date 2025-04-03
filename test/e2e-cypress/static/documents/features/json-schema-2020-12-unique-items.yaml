@@ -1,0 +1,9 @@
+openapi: 3.1.0
+components:
+  schemas:
+    UniqueItems:
+      uniqueItems: true
+    UniqueItemsAndRangeConstraint:
+      uniqueItems: true
+      minItems: 1
+      maxItems: 5

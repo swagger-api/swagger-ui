@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 import { fromJS } from "immutable"
-import { render, mount } from "enzyme"
+import { render } from "enzyme"
 import { Provider } from "react-redux"
 
 import System from "core/system"
@@ -356,7 +356,7 @@ describe("bound system", function(){
               statePlugins: {
                 doge: {
                   selectors: {
-                    wow: () => (system) => {
+                    wow: () => () => {
                       return "original"
                     }
                   }
@@ -367,7 +367,7 @@ describe("bound system", function(){
               statePlugins: {
                 doge: {
                   wrapSelectors: {
-                    wow: (ori) => (system) => {
+                    wow: (ori) => () => {
                       // Then
                       return ori() + " wrapper"
                     }
@@ -393,7 +393,7 @@ describe("bound system", function(){
               statePlugins: {
                 doge: {
                   selectors: {
-                    wow: () => (system) => {
+                    wow: () => () => {
                       return "original"
                     }
                   }
@@ -434,7 +434,7 @@ describe("bound system", function(){
               statePlugins: {
                 doge: {
                   selectors: {
-                    wow: () => (system) => {
+                    wow: () => () => {
                       return "original"
                     }
                   }
@@ -445,7 +445,7 @@ describe("bound system", function(){
               statePlugins: {
                 doge: {
                   wrapSelectors: {
-                    wow: (ori, system) => (dogeState) => {
+                    wow: (ori) => (dogeState) => {
                       // Then
                       expect(dogeState.toJS().abc).toEqual("123")
                       done()
@@ -486,7 +486,7 @@ describe("bound system", function(){
     it("allows container components to provide their own `mapStateToProps` function", function() {
       // Given
       class ContainerComponent extends PureComponent {
-        mapStateToProps(nextState, props) {
+        mapStateToProps() {
           return {
             "fromMapState": "This came from mapStateToProps"
           }
@@ -497,8 +497,10 @@ describe("bound system", function(){
         }
 
         render() {
+          // eslint-disable-next-line react/prop-types
           const { exampleSelectors, fromMapState, fromOwnProps } = this.props
           return (
+            // eslint-disable-next-line react/prop-types
             <div>{ fromMapState } {exampleSelectors.foo()} {fromOwnProps}</div>
           )
         }
@@ -539,7 +541,7 @@ describe("bound system", function(){
       // Given
       class ContainerComponent extends PureComponent {
         mapStateToProps(nextState, props) {
-          const { exampleSelectors, fromMapState, fromOwnProps } = props
+          const { exampleSelectors, fromOwnProps } = props
           return {
             "fromMapState": `This came from mapStateToProps ${exampleSelectors.foo()} ${fromOwnProps}`
           }
@@ -550,6 +552,7 @@ describe("bound system", function(){
         }
 
         render() {
+          // eslint-disable-next-line react/prop-types
           const { fromMapState } = this.props
           return (
             <div>{ fromMapState }</div>
@@ -601,7 +604,7 @@ describe("bound system", function(){
             statePlugins: {
               doge: {
                 selectors: {
-                  wow: () => (system) => {
+                  wow: () => () => {
                     return "so selective"
                   }
                 }
@@ -624,7 +627,7 @@ describe("bound system", function(){
         statePlugins: {
           doge: {
             selectors: {
-              wow: () => (system) => {
+              wow: () => () => {
                 return "so selective"
               }
             }
@@ -651,7 +654,7 @@ describe("bound system", function(){
         statePlugins: {
           doge: {
             selectors: {
-              wow: () => (system) => {
+              wow: () => () => {
                 return "so selective"
               }
             }
@@ -680,7 +683,7 @@ describe("bound system", function(){
         statePlugins: {
           doge: {
             selectors: {
-              wow: () => (system) => {
+              wow: () => () => {
                 return "so selective"
               }
             }
@@ -714,7 +717,7 @@ describe("bound system", function(){
             statePlugins: {
               doge: {
                 selectors: {
-                  wow: () => (system) => {
+                  wow: () => () => {
                     return "so selective"
                   }
                 }
@@ -734,13 +737,13 @@ describe("bound system", function(){
     it("should encapsulate thrown errors in an afterLoad method", function() {
       // Given
       const ThrowyPlugin = {
-        afterLoad(system) {
+        afterLoad() {
           throw new Error("afterLoad BREAKS STUFF!")
         },
         statePlugins: {
           doge: {
             selectors: {
-              wow: () => (system) => {
+              wow: () => () => {
                 return "so selective"
               }
             }
@@ -800,7 +803,7 @@ describe("bound system", function(){
                 }
               },
               reducers: {
-                "THROW_FUNC": (state, action) => {
+                "THROW_FUNC": () => {
                   throw new Error("this reducer EXPLODES!")
                 }
               }
@@ -823,7 +826,7 @@ describe("bound system", function(){
           statePlugins: {
             throw: {
               selectors: {
-                func: (state, arg1) => {
+                func: () => {
                   throw new Error("this selector THROWS!")
                 }
               }
@@ -844,7 +847,7 @@ describe("bound system", function(){
           statePlugins: {
             throw: {
               selectors: {
-                func: (state, arg1) => system => {
+                func: () => () => {
                   throw new Error("this selector THROWS!")
                 }
               }
@@ -873,7 +876,7 @@ describe("bound system", function(){
                 }
               },
               wrapActions: {
-                func: (ori) => (...args) => {
+                func: () => () => {
                   throw new Error("this wrapAction UNRAVELS EVERYTHING!")
                 }
               }
@@ -894,7 +897,7 @@ describe("bound system", function(){
           statePlugins: {
             throw: {
               selectors: {
-                func: (state, arg1) => {
+                func: () => {
                   return 123
                 }
               },

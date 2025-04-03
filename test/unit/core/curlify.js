@@ -228,6 +228,7 @@ describe("curlify", function () {
     }
 
     let file = new win.File(["data"], "file.txt", { type: "text/plain" })
+    // eslint-disable-next-line camelcase
     let optionsJSON = JSON.stringify({ some_array: ["string"], max_bar: 300 })
     let options = new FileWithData(optionsJSON, "", { type: "application/json;charset=utf-8" })
 

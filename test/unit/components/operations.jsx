@@ -8,6 +8,7 @@ import {Collapse} from "core/components/layout-utils"
 const components = {
   Collapse,
   DeepLink,
+  // eslint-disable-next-line react/prop-types
   OperationContainer: ({ path, method }) => <span className="mocked-op" id={`${path}-${method}`} />,
   OperationTag: "div",
 }

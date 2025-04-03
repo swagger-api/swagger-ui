@@ -67,7 +67,10 @@ export const foldType = (type) => {
     } else if (type.includes("object")) {
       return "object"
     } else {
-      const pickedType = randomPick(type)
+      const notNullTypes = type.filter((t) => t !== "null")
+      const pickedType = randomPick(
+        notNullTypes.length > 0 ? notNullTypes : type
+      )
       if (ALL_TYPES.includes(pickedType)) {
         return pickedType
       }

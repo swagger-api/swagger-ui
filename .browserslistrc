@@ -2,7 +2,7 @@
 maintained node versions
 
 [node-development]
-node 20.3.0
+node 22
 
 [browser-production]
 > 1%
@@ -26,4 +26,4 @@ maintained node versions
 last 1 chrome version
 last 1 firefox version
 last 1 safari version
-node 20.3.0
+node 22

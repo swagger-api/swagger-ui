@@ -1,4 +1,4 @@
-openapi: 3.0.2
+openapi: 3.0.4
 info:
   title: test
   version: 1.0.0

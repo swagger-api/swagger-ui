@@ -10,6 +10,7 @@ export default class BasicAuth extends React.Component {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     errSelectors: PropTypes.object.isRequired,
+    authSelectors: PropTypes.object.isRequired
   }
 
   constructor(props, context) {
@@ -47,19 +48,20 @@ export default class BasicAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, name, errSelectors } = this.props
+    let { schema, getComponent, name, errSelectors, authSelectors } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent("Markdown", true)
+    const path = authSelectors.selectAuthPath(name)
     let username = this.getValue().username
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
     return (
       <div>
-        <h4>Basic authorization<JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        <h4>Basic authorization<JumpToPath path={path} /></h4>
         { username && <h6>Authorized</h6> }
         <Row>
           <Markdown source={ schema.get("description") } />

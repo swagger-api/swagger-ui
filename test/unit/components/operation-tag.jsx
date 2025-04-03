@@ -48,6 +48,6 @@ describe("<OperationTag/>", function(){
 
     const renderedLink = wrapper.find("Link")
     expect(renderedLink.length).toEqual(1)
-    expect(renderedLink.props().href).toEqual("http://swagger.io")
+    expect(renderedLink.props().href).toEqual("http://swagger.io/")
   })
 })

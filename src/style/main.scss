@@ -1,23 +1,25 @@
-.swagger-ui
-{
-    @import '~tachyons-sass/tachyons.scss';
-    @import 'mixins';
-    @import 'variables';
-    @import 'type';
-    @import 'layout';
-    @import 'buttons';
-    @import 'form';
-    @import 'modal';
-    @import 'models';
-    @import 'servers';
-    @import 'table';
-    @import 'topbar';
-    @import 'information';
-    @import 'authorize';
-    @import 'errors';
-    @include text_body();
-    @import 'split-pane-mode';
-    @import 'markdown';
-    @import '../core/plugins/json-schema-2020-12/components/all';
-    @import '../core/plugins/oas31/components/all';
+@use "sass:meta";
+@use "type";
+
+.swagger-ui {
+  @include type.text_body();
+  @include meta.load-css("~tachyons-sass/tachyons.scss");
+  @include meta.load-css("mixins");
+  @include meta.load-css("variables");
+  @include meta.load-css("type");
+  @include meta.load-css("layout");
+  @include meta.load-css("buttons");
+  @include meta.load-css("form");
+  @include meta.load-css("modal");
+  @include meta.load-css("models");
+  @include meta.load-css("servers");
+  @include meta.load-css("table");
+  @include meta.load-css("topbar");
+  @include meta.load-css("information");
+  @include meta.load-css("authorize");
+  @include meta.load-css("errors");
+  @include meta.load-css("split-pane-mode");
+  @include meta.load-css("markdown");
+  @include meta.load-css("../core/plugins/json-schema-2020-12/components/all");
+  @include meta.load-css("../core/plugins/oas31/components/all");
 }

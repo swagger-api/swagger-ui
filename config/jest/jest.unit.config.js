@@ -18,6 +18,6 @@ module.exports = {
   moduleNameMapper: {
     '^.+\\.svg$': 'jest-transform-stub'
   },
-  transformIgnorePatterns: ['/node_modules/(?!(sinon|react-syntax-highlighter)/)'],
+  transformIgnorePatterns: ['/node_modules/(?!(sinon|react-syntax-highlighter|@asamuzakjp/css-color)/)'],
   silent: true, // set to `false` to allow console.* calls to be printed
 };

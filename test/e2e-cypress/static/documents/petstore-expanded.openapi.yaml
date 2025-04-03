@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: "3.0.4"
 info:
   version: 1.0.0
   title: Swagger Petstore
@@ -138,12 +138,12 @@ components:
 
     NewPet:
       required:
-        - name  
+        - name
       properties:
         name:
           type: string
         tag:
-          type: string    
+          type: string
 
     Error:
       required:
@@ -158,7 +158,7 @@ components:
   securitySchemes:
     Petstore:
       type: oauth2
-      flows: 
+      flows:
         implicit:
           authorizationUrl: https://example.com/api/oauth/dialog
           scopes:
