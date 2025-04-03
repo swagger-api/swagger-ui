@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
     <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+    <link rel="stylesheet" href="swagger-ui-dist/swagger-ui.css" />
+
   </head>
 
   <body>
@@ -15,5 +17,68 @@
     <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
     <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
     <script src="./swagger-initializer.js" charset="UTF-8"> </script>
+    <script src="swagger-ui-dist/swagger-ui-bundle.js"></script>
+    <script src="swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+    
+    <script>
+      // Your custom plugin for wrapping long curl lines
+      const CurlWrapPlugin = function() {
+        return {
+          fn: {
+            curlify: (req) => {
+              const MAX_LINE_LENGTH = 100;
+  
+              const wrapLine = (line) => {
+                if (line.length <= MAX_LINE_LENGTH) return line;
+                const parts = [];
+                while (line.length > MAX_LINE_LENGTH) {
+                  parts.push(line.slice(0, MAX_LINE_LENGTH) + " \\");
+                  line = line.slice(MAX_LINE_LENGTH);
+                }
+                parts.push(line);
+                return parts.join("\n");
+              };
+  
+              const method = req.method || 'get';
+              let curl = [`curl -X ${method.toUpperCase()}`];
+  
+              if (req.url) curl.push(`"${req.url}"`);
+              if (req.headers) {
+                Object.keys(req.headers).forEach(h => {
+                  curl.push(`-H "${h}: ${req.headers[h]}"`);
+                });
+              }
+              if (req.body) {
+                try {
+                  const body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+                  curl.push(`-d '${body}'`);
+                } catch (e) {}
+              }
+  
+              return wrapLine(curl.join(" "));
+            }
+          }
+        }
+      };
+  
+      // Initialize Swagger UI with the custom plugin
+      const ui = SwaggerUIBundle({
+            url: "your-openapi-spec-url",
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+              SwaggerUIBundle.presets.apis,
+              SwaggerUIBundle.presets.plugins.DownloadUrl
+            ],
+            layout: "BaseLayout",
+            requestInterceptor: (request) => {
+              // Force JSON if you don't want XML support
+              request.headers['Accept'] = 'application/json';
+              return request;
+            }
+          });
+
+    </script>
+
   </body>
 </html>

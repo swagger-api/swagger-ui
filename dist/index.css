@@ -14,3 +14,9 @@ body {
     margin: 0;
     background: #fafafa;
 }
+/* Add this to index.css or your custom stylesheet */
+.swagger-ui .curl-command {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  

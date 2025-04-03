@@ -1,30 +1,108 @@
+# openapi: "3.0.4"
+# info:
+#   version: "0.0.1"
+#   title: "Swagger UI Webpack Setup"
+#   description: "Demonstrates Swagger UI with Webpack including CSS and OAuth"
+# servers:
+#   - url: "https://demo.identityserver.io/api"
+#     description: "Identity Server test API"
+# components:
+#   securitySchemes:
+#     # See https://demo.identityserver.io/ for configuration details.
+#     identity_server_auth:
+#       type: oauth2
+#       flows:
+#         implicit:
+#           authorizationUrl: "https://demo.identityserver.io/connect/authorize"
+#           scopes:
+#             api: "api"
+# security:
+#   - identity_server_auth:
+#     - api
+# paths:
+#   /test:
+#     get:
+#       summary: "Runs a test request against the Identity Server demo API"
+#       responses:
+#         401:
+#           description: "Unauthorized"
+#         200:
+#           description: "OK"
+
 openapi: "3.0.4"
 info:
   version: "0.0.1"
-  title: "Swagger UI Webpack Setup"
-  description: "Demonstrates Swagger UI with Webpack including CSS and OAuth"
-servers:
-  - url: "https://demo.identityserver.io/api"
-    description: "Identity Server test API"
-components:
-  securitySchemes:
-    # See https://demo.identityserver.io/ for configuration details.
-    identity_server_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: "https://demo.identityserver.io/connect/authorize"
-          scopes:
-            api: "api"
-security:
-  - identity_server_auth:
-    - api
+  title: "Pet API"
+  description: "An API for managing pets"
 paths:
-  /test:
-    get:
-      summary: "Runs a test request against the Identity Server demo API"
+  /pets:
+    post:
+      summary: "Create a new pet"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Pet"
       responses:
-        401:
-          description: "Unauthorized"
         200:
-          description: "OK"
+          description: "Pet created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        400:
+          description: "Bad request"
+        500:
+          description: "Internal server error"
+
+ccomponents:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        category:
+          $ref: '#/components/schemas/Category'  # This should reference the Category schema
+        name:
+          type: string
+        photoUrls:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'  # This should reference the Tag schema
+        status:
+          type: string
+
+
+
+
+
+
+
