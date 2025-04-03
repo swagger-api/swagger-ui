@@ -5,8 +5,6 @@ import { Map, OrderedMap, List, fromJS } from "immutable"
 import { getCommonExtensions, stringify, isEmptyValue, immutableToJS } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
-/* eslint-disable  react/jsx-no-bind */
-
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
   const schema = mediaTypeValue.get("schema", OrderedMap()).toJS()
@@ -105,22 +103,15 @@ const RequestBody = ({
   }
   requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
-  if(!mediaTypeValue.size) {
+  const isFileContentType = fn.getIsFileContentType(contentType)
+  const isFileFormat = fn.getIsFileFormat(mediaTypeValue?.get("schema"))
+  const isOAS31FileSchema = specSelectors.isOAS31() && isFileContentType
+
+  if (!mediaTypeValue.size && !isOAS31FileSchema) {
     return null
   }
-
-  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
-  const isBinaryFormat = mediaTypeValue.getIn(["schema", "format"]) === "binary"
-  const isBase64Format = mediaTypeValue.getIn(["schema", "format"]) === "base64"
-
-  if(
-    contentType === "application/octet-stream"
-    || contentType.indexOf("image/") === 0
-    || contentType.indexOf("audio/") === 0
-    || contentType.indexOf("video/") === 0
-    || isBinaryFormat
-    || isBase64Format
-  ) {
+  
+  if (isFileContentType || isFileFormat) {
     const Input = getComponent("Input")
 
     if(!isExecute) {
@@ -131,6 +122,8 @@ const RequestBody = ({
 
     return <Input type={"file"} onChange={handleFile} />
   }
+
+  const isObjectContent = mediaTypeValue?.getIn(["schema", "type"]) === "object"
 
   if (
     isObjectContent &&
@@ -162,8 +155,8 @@ const RequestBody = ({
               let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
               const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
-              const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type")))
-              const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"])))
+              const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type"))) 
+              const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"]))) 
               const format = schema.get("format")
               const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
@@ -190,7 +183,7 @@ const RequestBody = ({
                 initialValue = JSON.parse(initialValue)
               }
 
-              const isFile = type === "string" && (format === "binary" || format === "base64")
+              const isFile = fn.getIsFileFormat(schema)
 
               const jsonSchemaForm = <JsonSchemaForm
                 fn={fn}
@@ -225,7 +218,7 @@ const RequestBody = ({
                 <Markdown source={ description }></Markdown>
                 {isExecute ? <div>
                   {(type === "object" || itemType === "object") ? (
-                    <ModelExample
+                    <ModelExample 
                       getComponent={getComponent}
                       specPath={specPath.push("schema")}
                       getConfigs={getConfigs}
