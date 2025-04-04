@@ -156,17 +156,14 @@ const curlify = (request, escape, newLine, ext = "") => {
   return curlified
 }
 
-// eslint-disable-next-line camelcase
 export const requestSnippetGenerator_curl_powershell = (request) => {
   return curlify(request, escapePowershell, "`\n", ".exe")
 }
 
-// eslint-disable-next-line camelcase
 export const requestSnippetGenerator_curl_bash = (request) => {
   return curlify(request, escapeShell, "\\\n")
 }
 
-// eslint-disable-next-line camelcase
 export const requestSnippetGenerator_curl_cmd = (request) => {
   return curlify(request, escapeCMD, "^\n")
 }

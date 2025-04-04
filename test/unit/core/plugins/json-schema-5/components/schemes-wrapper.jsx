@@ -23,22 +23,6 @@ describe("<SchemesContainer/>", function(){
     },
     getComponent: c => components[c]
   }
-  const twoSecurityDefinitions = {
-    "petstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
-    "api_key": {
-      "type": "apiKey",
-      "name": "api_key",
-      "in": "header"
-    }
-  }
 
   it("renders Schemes inside SchemesContainer if schemes are provided", function(){
 

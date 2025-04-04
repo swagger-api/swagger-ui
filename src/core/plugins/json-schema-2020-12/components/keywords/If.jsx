@@ -23,7 +23,7 @@ const If = ({ schema }) => {
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--if">
-      <JSONSchema name={name} schema={schema.if} />
+      <JSONSchema name={name} schema={schema.if} identifier="if" />
     </div>
   )
 }

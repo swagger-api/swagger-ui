@@ -1,0 +1,37 @@
+openapi: 3.0.4
+info:
+  title: Parameter Schema Example
+  version: 1.0.0
+paths:
+  /object:
+    post:
+      parameters:
+        - in: query
+          name: objectParam
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+      responses:
+        '200':
+          description: OK
+  /arrayOfObjects:
+    post:
+      parameters:
+        - in: query
+          name: arrayOfObjectsParam
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK

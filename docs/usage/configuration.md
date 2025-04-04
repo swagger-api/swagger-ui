@@ -371,7 +371,7 @@ Set the value to the literal object value you'd like, taking care to escape char
 Example:
 
 ```sh
-SPEC="{ \"openapi\": \"3.0.0\" }"
+SPEC="{ \"openapi\": \"3.0.4\" }"
 ```
 
 ### Docker-Compose
