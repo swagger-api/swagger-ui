@@ -17,18 +17,6 @@ let config = {
   }]
 }
 
-/**
- * Dump the memory storage content (for debug).
- */
-
-let dump = function () {
-
-  console.log("clients", config.clients)
-  console.log("confidentialClients", config.confidentialClients)
-  console.log("tokens", config.tokens)
-  console.log("users", config.users)
-}
-
 /*
  * Methods used by all grant types.
  */

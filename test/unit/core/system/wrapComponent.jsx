@@ -2,6 +2,7 @@ import React from "react"
 
 import { render } from "enzyme"
 import System from "core/system"
+import PropTypes from "prop-types"
 
 describe("wrapComponents", () => {
   describe("should wrap a component and provide a reference to the original", () => {
@@ -46,7 +47,11 @@ describe("wrapComponents", () => {
         }
       }
 
-      // Given
+      MyComponent.propTypes = {
+        name: PropTypes.string,
+      }
+
+        // Given
       const system = new System({
         plugins: [
           {
@@ -207,7 +212,7 @@ describe("wrapComponents", () => {
       () => {
         return {
           wrapComponents: {
-            wow: (OriginalComponent, system) => (props) => {
+            wow: (OriginalComponent) => (props) => {
               return <container1>
                 <OriginalComponent {...props}></OriginalComponent>
                 <div>Injected after</div>
@@ -219,7 +224,7 @@ describe("wrapComponents", () => {
       () => {
         return {
           wrapComponents: {
-            wow: (OriginalComponent, system) => (props) => {
+            wow: (OriginalComponent) => (props) => {
               return <container2>
                 <div>Injected before</div>
                 <OriginalComponent {...props}></OriginalComponent>
