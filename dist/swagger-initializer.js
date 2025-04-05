@@ -6,6 +6,7 @@ window.onload = function() {
     url: "https://petstore.swagger.io/v2/swagger.json",
     dom_id: '#swagger-ui',
     deepLinking: true,
+    displayRequestDuration: true, // ✅ Add this line
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
@@ -14,7 +15,5 @@ window.onload = function() {
       SwaggerUIBundle.plugins.DownloadUrl
     ],
     layout: "StandaloneLayout"
-  });
-
-  //</editor-fold>
-};
+  })
+}  
