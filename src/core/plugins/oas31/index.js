@@ -59,9 +59,10 @@ import { selectLicenseUrl as selectOAS31LicenseUrl } from "./selectors"
 import JSONSchema202012KeywordExample from "./json-schema-2020-12-extensions/components/keywords/Example"
 import JSONSchema202012KeywordXml from "./json-schema-2020-12-extensions/components/keywords/Xml"
 import JSONSchema202012KeywordDiscriminator from "./json-schema-2020-12-extensions/components/keywords/Discriminator/Discriminator"
+import OpenAPIExtensions from "./json-schema-2020-12-extensions/components/keywords/OpenAPIExtensions"
 import JSONSchema202012KeywordExternalDocs from "./json-schema-2020-12-extensions/components/keywords/ExternalDocs"
 import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
-import JSONSchema202012KeywordDefaultWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Default"
+import JSONSchema202012KeywordExamplesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Examples"
 import JSONSchema202012KeywordPropertiesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Properties"
 import afterLoad from "./after-load"
 
@@ -91,6 +92,7 @@ const OAS31Plugin = ({ fn }) => {
       JSONSchema202012KeywordXml,
       JSONSchema202012KeywordDiscriminator,
       JSONSchema202012KeywordExternalDocs,
+      OpenAPI31Extensions: OpenAPIExtensions,
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
@@ -103,7 +105,7 @@ const OAS31Plugin = ({ fn }) => {
       auths: AuthsWrapper,
       JSONSchema202012KeywordDescription:
         JSONSchema202012KeywordDescriptionWrapper,
-      JSONSchema202012KeywordDefault: JSONSchema202012KeywordDefaultWrapper,
+      JSONSchema202012KeywordExamples: JSONSchema202012KeywordExamplesWrapper,
       JSONSchema202012KeywordProperties:
         JSONSchema202012KeywordPropertiesWrapper,
     },

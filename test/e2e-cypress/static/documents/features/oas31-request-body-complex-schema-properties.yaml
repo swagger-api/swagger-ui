@@ -1,0 +1,84 @@
+openapi: 3.1.0
+info:
+  title: Request Body Example
+  version: 1.0.0
+paths:
+  /objectTypeUnion:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                objectTypeUnion:
+                  type: [object, integer]
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+      responses:
+        '200':
+          description: OK
+  /arrayTypeUnion:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                arrayTypeUnion:
+                  type: [array, integer]
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+      responses:
+        '200':
+          description: OK
+  /arrayItemTypeUnion:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                arrayItemTypeUnion:
+                  type: array
+                  items:
+                    type: [object, integer]
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+      responses:
+        '200':
+          description: OK
+  /arrayTypeAndItemTypeUnion:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                arrayTypeAndItemTypeUnion:
+                  type: [array, integer]
+                  items:
+                    type: [object, string]
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+      responses:
+        '200':
+          description: OK
+

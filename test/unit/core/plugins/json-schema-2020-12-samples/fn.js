@@ -79,12 +79,8 @@ describe("sampleFromSchema", () => {
     expect(sample({ type: "number", format: "float" })).toStrictEqual(0.1)
     expect(sample({ type: "number", format: "double" })).toStrictEqual(0.1)
     expect(sample({ type: "integer" })).toStrictEqual(0)
-    expect(sample({ type: "integer", format: "int32" })).toStrictEqual(
-      (2 ** 30) >>> 0
-    )
-    expect(sample({ type: "integer", format: "int64" })).toStrictEqual(
-      2 ** 53 - 1
-    )
+    expect(sample({ type: "integer", format: "int32" })).toStrictEqual(0)
+    expect(sample({ type: "integer", format: "int64" })).toStrictEqual(0)
     expect(sample({ type: "boolean" })).toStrictEqual(true)
     expect(sample({ type: "null" })).toStrictEqual(null)
   })
@@ -371,6 +367,20 @@ describe("sampleFromSchema", () => {
     const expected = "string"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle nullable primitive types defined as list of types", function () {
+    const sample = (schema) => sampleFromSchema(fromJS(schema))
+
+    expect(sample({ type: ["string", "null"] })).toStrictEqual("string")
+    expect(sample({ type: ["null", "string"] })).toStrictEqual("string")
+    expect(sample({ type: ["number", "null"] })).toStrictEqual(0)
+    expect(sample({ type: ["null", "number"] })).toStrictEqual(0)
+    expect(sample({ type: ["integer", "null"] })).toStrictEqual(0)
+    expect(sample({ type: ["null", "integer"] })).toStrictEqual(0)
+    expect(sample({ type: ["boolean", "null"] })).toStrictEqual(true)
+    expect(sample({ type: ["null", "boolean"] })).toStrictEqual(true)
+    expect(sample({ type: ["null"] })).toStrictEqual(null)
   })
 
   it("should return const value", function () {

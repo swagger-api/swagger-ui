@@ -1,14 +1,16 @@
+@use "./../../../../../../style/type";
+
 .json-schema-2020-12__constraint {
-  @include text_code();
+  @include type.text_code();
   margin-left: 10px;
   line-height: 1.5;
   padding: 1px 3px;
   color: white;
-  background-color: #805AD5;
+  background-color: #805ad5;
   border-radius: 4px;
 
   &--string {
     color: white;
-    background-color: #D69E2E;
+    background-color: #d69e2e;
   }
 }
