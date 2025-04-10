@@ -1,22 +1,26 @@
 /**
  * @prettier
  */
+import { Map } from "immutable"
 
-export const isFileUploadIntended = (schema, mediaType = null) => {
-  if (
+export const isFileUploadIntended = (
+  schema,
+  { mediaType = null, fileUploadMediaTypes = [] } = {}
+) => {
+  const isFileUploadMediaType =
     typeof mediaType === "string" &&
-    (mediaType.startsWith("application/octet-stream") ||
-      mediaType.startsWith("image/") ||
-      mediaType.startsWith("audio/") ||
-      mediaType.startsWith("video/"))
-  ) {
+    fileUploadMediaTypes.some((fileUploadMediaType) =>
+      mediaType.startsWith(fileUploadMediaType)
+    )
+
+  if (isFileUploadMediaType) {
     return true
   }
 
-  if (!schema) return false
+  if (!Map.isMap(schema)) return false
 
   const type = schema.get("type")
   const format = schema.get("format")
 
-  return type === "string" && (format === "binary" || format === "byte")
+  return type === "string" && ["binary", "byte"].includes(format)
 }

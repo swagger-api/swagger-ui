@@ -78,7 +78,7 @@ const RequestBody = ({
   const Example = getComponent("Example")
   const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
-  const { showCommonExtensions } = getConfigs()
+  const { showCommonExtensions, fileUploadMediaTypes } = getConfigs()
 
   const requestBodyDescription = requestBody?.get("description") ?? null
   const requestBodyContent = requestBody?.get("content") ?? new OrderedMap()
@@ -105,7 +105,10 @@ const RequestBody = ({
   }
   requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
-  const isFileUploadIntended = fn.isFileUploadIntended(mediaTypeValue?.get("schema"), contentType)
+  const isFileUploadIntended = fn.isFileUploadIntended(
+    mediaTypeValue?.get("schema"),
+    { mediaType: contentType, fileUploadMediaTypes }
+  )
 
   if(
     isFileUploadIntended
@@ -126,7 +129,12 @@ const RequestBody = ({
     return null
   }
 
-  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
+  const schemaType = mediaTypeValue.getIn(["schema", "type"])
+  const isObjectContent =
+    schemaType === "object" ||
+    (specSelectors.isOAS31() &&
+      List.isList(schemaType) &&
+      schemaType.includes("object"))
 
   if (
     isObjectContent &&

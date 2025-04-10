@@ -40,12 +40,14 @@ function afterLoad({ fn, getSystem }) {
     Object.assign(this.fn, wrappedFns)
   }
 
+  // overrides behavior in OpenAPI 3.1.x, recognizes more intentions
   const { isFileUploadIntended: isFileUploadIntendedWrap } = wrapOAS31Fn(
     { isFileUploadIntended },
     getSystem()
   )
 
   this.fn.isFileUploadIntended = isFileUploadIntendedWrap
+  this.fn.isFileUploadIntendedOAS31 = isFileUploadIntended
 }
 
 export default afterLoad
