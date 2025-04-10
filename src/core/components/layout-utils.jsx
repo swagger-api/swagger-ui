@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import DebounceInput from "react-debounce-input"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
@@ -124,8 +125,7 @@ export class Button extends React.Component {
 
 }
 
-
-export const TextArea = (props) => <textarea {...props} />
+export const TextArea = (props) => <DebounceInput element="textarea" debounceTimeout={350} forceNotifyByEnter={false} {...props} />
 
 export const Input = (props) => <input {...props} />
 
