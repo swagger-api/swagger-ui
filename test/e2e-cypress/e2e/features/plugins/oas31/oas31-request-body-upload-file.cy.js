@@ -91,6 +91,28 @@ describe("OpenAPI 3.1 Request Body upload file button", () => {
     })
   })
 
+  describe("application/octet-stream with empty Media Type Object", () => {
+    beforeEach(() => {
+      cy.get("#operations-default-uploadApplicationOctetStreamEmpty").click()
+    })
+
+    it("should display description with the correct content type", () => {
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper i"
+      ).should(
+        "have.text",
+        "Example values are not available for application/octet-stream media types."
+      )
+    })
+
+    it("should display a file upload button", () => {
+      cy.get(".try-out__btn").click()
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper input"
+      ).should("have.prop", "type", "file")
+    })
+  })
+
   describe("schema type string and format binary", () => {
     beforeEach(() => {
       cy.get("#operations-default-uploadSchemaTypeFormatBinary").click()
