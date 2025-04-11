@@ -129,12 +129,7 @@ const RequestBody = ({
     return null
   }
 
-  const schemaType = mediaTypeValue.getIn(["schema", "type"])
-  const isObjectContent =
-    schemaType === "object" ||
-    (specSelectors.isOAS31() &&
-      List.isList(schemaType) &&
-      schemaType.includes("object"))
+  const isObjectContent = fn.schemaHasType(mediaTypeValue.get("schema"), ["object"])
 
   if (
     isObjectContent &&

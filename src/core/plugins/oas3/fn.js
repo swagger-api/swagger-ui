@@ -1,11 +1,13 @@
 /**
  * @prettier
  */
-import { objectify } from "core/utils"
+import { Map } from "immutable"
+import isPlainObject from "lodash/isPlainObject"
 
 export const makeIsFileUploadIntended = (getSystem) => {
   const isFileUploadIntended = (schema, mediaType = null) => {
-    const { fileUploadMediaTypes } = getSystem().getConfigs()
+    const { getConfigs, fn } = getSystem()
+    const { fileUploadMediaTypes } = getConfigs()
     const isFileUploadMediaType =
       typeof mediaType === "string" &&
       fileUploadMediaTypes.some((fileUploadMediaType) =>
@@ -16,9 +18,18 @@ export const makeIsFileUploadIntended = (getSystem) => {
       return true
     }
 
-    const { type, format } = objectify(schema)
+    const isSchemaImmutable = Map.isMap(schema)
 
-    return type === "string" && ["binary", "byte"].includes(format)
+    if (!isSchemaImmutable && !isPlainObject(schema)) {
+      return false
+    }
+
+    const format = isSchemaImmutable ? schema.get("format") : schema.format
+
+    return (
+      fn.schemaHasType(schema, ["string"]) &&
+      ["binary", "byte"].includes(format)
+    )
   }
 
   return isFileUploadIntended

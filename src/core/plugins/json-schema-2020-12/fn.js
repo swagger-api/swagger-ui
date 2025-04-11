@@ -1,6 +1,8 @@
 /**
  * @prettier
  */
+import { List, Map } from "immutable"
+
 export const upperFirst = (value) => {
   if (typeof value === "string") {
     return `${value.charAt(0).toUpperCase()}${value.slice(1)}`
@@ -501,4 +503,20 @@ export const makeGetExtensionKeywords = (fnAccessor) => {
   }
 
   return getExtensionKeywords
+}
+
+export const schemaHasType = (schema, types) => {
+  const isSchemaImmutable = Map.isMap(schema)
+
+  if (!isSchemaImmutable && !isPlainObject(schema)) {
+    return false
+  }
+
+  const type = isSchemaImmutable ? schema.get("type") : schema.type
+
+  if (List.isList(type) || Array.isArray(type)) {
+    return type.some((t) => types.includes(t))
+  }
+
+  return types.includes(type)
 }
