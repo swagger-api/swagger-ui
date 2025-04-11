@@ -98,7 +98,9 @@ export const makeGetType = (fnAccessor) => {
         Object.hasOwn(schema, "pattern") ||
         Object.hasOwn(schema, "format") ||
         Object.hasOwn(schema, "minLength") ||
-        Object.hasOwn(schema, "maxLength")
+        Object.hasOwn(schema, "maxLength") ||
+        Object.hasOwn(schema, "contentEncoding") ||
+        Object.hasOwn(schema, "contentMediaType")
       ) {
         return "string"
       } else if (typeof schema.const !== "undefined") {
