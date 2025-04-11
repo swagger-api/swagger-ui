@@ -15,9 +15,13 @@ const getComponentStub = (name) => {
 }
 
 const getSystemStub = () => ({
- getConfigs: () => ({
-    fileUploadMediaTypes: []
-  })
+  getConfigs: () => ({
+    fileUploadMediaTypes: [],
+  }),
+  fn: {
+    schemaHasType: () => {},
+    isFileUploadIntendedOAS30: () => {},
+  },
 })
 
 describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
