@@ -12,10 +12,14 @@ info:
     * schema type is `string` and format is `binary` (no matter what content type)
     * schema union type includes `string` and format is `byte` (no matter what content type)
     * schema union type includes `string` and format is `binary` (no matter what content type)
+    * schema `contentMediaType` is present and is a non-empty `string`
+    * schema `contentEncoding` is present and is a non-empty `string`
     * multipart/form-data object property schema type is `string` and format is `byte`
     * multipart/form-data object property schema type is `string` and format is `binary`
     * multipart/form-data object property schema union type includes `string` and format is `byte`
     * multipart/form-data object property schema union type includes `string` and format is `binary`
+    * multipart/form-data object property schema `contentMediaType` is present and is a non-empty `string` 
+    * multipart/form-data object property schema `contentEncoding` is present and is a non-empty `string`
   version: "1.0.0"
 paths:
   /upload-application-octet-stream:
@@ -96,6 +100,22 @@ paths:
                 - object
                 - string
               format: byte
+  /upload-schema-contentMediaType:
+    post:
+      operationId: uploadSchemaContentMediaType
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              contentMediaType: application/x-custom
+  /upload-schema-contentEncoding:
+    post:
+      operationId: uploadSchemaContentEncoding
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              contentEncoding: base64
   /upload-property-schema-format-binary:
     post:
       operationId: uploadPropertySchemaFormatBinary
@@ -148,3 +168,25 @@ paths:
                     - object 
                     - string
                   format: byte
+  /upload-property-schema-contentMediaType:
+    post:
+      operationId: uploadPropertySchemaContentMediaType
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  contentMediaType: application/x-custom
+  /upload-property-schema-contentEncoding:
+    post:
+      operationId: uploadPropertySchemaContentEncoding
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  contentEncoding: base64
