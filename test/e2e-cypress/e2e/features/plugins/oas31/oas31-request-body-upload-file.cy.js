@@ -199,6 +199,50 @@ describe("OpenAPI 3.1 Request Body upload file button", () => {
     })
   })
 
+  describe("schema contentMediaType is a non-empty string", () => {
+    beforeEach(() => {
+      cy.get("#operations-default-uploadSchemaContentMediaType").click()
+    })
+
+    it("should display description with the correct content type", () => {
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper i"
+      ).should(
+        "have.text",
+        "Example values are not available for application/x-custom media types."
+      )
+    })
+
+    it("should display a file upload button", () => {
+      cy.get(".try-out__btn").click()
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper input"
+      ).should("have.prop", "type", "file")
+    })
+  })
+
+  describe("schema contentEncoding is a non-empty string", () => {
+    beforeEach(() => {
+      cy.get("#operations-default-uploadSchemaContentEncoding").click()
+    })
+
+    it("should display description with the correct content type", () => {
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper i"
+      ).should(
+        "have.text",
+        "Example values are not available for application/x-custom media types."
+      )
+    })
+
+    it("should display a file upload button", () => {
+      cy.get(".try-out__btn").click()
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper input"
+      ).should("have.prop", "type", "file")
+    })
+  })
+
   describe("multipart/form-data object property with schema type string and format binary", () => {
     beforeEach(() => {
       cy.get("#operations-default-uploadPropertySchemaFormatBinary").click()
@@ -245,6 +289,32 @@ describe("OpenAPI 3.1 Request Body upload file button", () => {
       cy.get(
         "#operations-default-uploadPropertySchemaUnionTypeFormatByte"
       ).click()
+    })
+
+    it("should display a file upload button", () => {
+      cy.get(".try-out__btn").click()
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper input"
+      ).should("have.prop", "type", "file")
+    })
+  })
+
+  describe("multipart/form-data object property schema has contentMediaType with non-empty string", () => {
+    beforeEach(() => {
+      cy.get("#operations-default-uploadPropertySchemaContentMediaType").click()
+    })
+
+    it("should display a file upload button", () => {
+      cy.get(".try-out__btn").click()
+      cy.get(
+        ".opblock-section-request-body .opblock-description-wrapper input"
+      ).should("have.prop", "type", "file")
+    })
+  })
+
+  describe("multipart/form-data object property schema has contentEncoding with non-empty string", () => {
+    beforeEach(() => {
+      cy.get("#operations-default-uploadPropertySchemaContentEncoding").click()
     })
 
     it("should display a file upload button", () => {
