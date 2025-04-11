@@ -8,6 +8,12 @@ export const makeIsFileUploadIntended = (getSystem) => {
   const isFileUploadIntended = (schema, mediaType = null) => {
     const { fn } = getSystem()
 
+    /**
+     *  Return `true` early if the media type indicates a file upload
+     *  or if a combination of type: `string` and format: `binary/byte` is detected.
+     *  This ensures support for empty Media Type Objects,
+     *  as the schema check is performed later.
+     */
     const isFileUploadIntendedOAS30 = fn.isFileUploadIntendedOAS30(
       schema,
       mediaType
@@ -31,8 +37,8 @@ export const makeIsFileUploadIntended = (getSystem) => {
       : schema.contentEncoding
 
     return (
-      (contentMediaType && typeof contentMediaType === "string") ||
-      (contentEncoding && typeof contentEncoding === "string")
+      (typeof contentMediaType === "string" && contentMediaType !== "") ||
+      (typeof contentEncoding === "string" && contentEncoding !== "")
     )
   }
 
