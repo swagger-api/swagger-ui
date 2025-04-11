@@ -505,18 +505,21 @@ export const makeGetExtensionKeywords = (fnAccessor) => {
   return getExtensionKeywords
 }
 
-export const schemaHasType = (schema, types) => {
+export const hasSchemaType = (schema, type) => {
   const isSchemaImmutable = Map.isMap(schema)
 
   if (!isSchemaImmutable && !isPlainObject(schema)) {
     return false
   }
 
-  const type = isSchemaImmutable ? schema.get("type") : schema.type
+  const hasType = (schemaType) =>
+    type === schemaType || (Array.isArray(type) && type.includes(schemaType))
 
-  if (List.isList(type) || Array.isArray(type)) {
-    return type.some((t) => types.includes(t))
+  const schemaType = isSchemaImmutable ? schema.get("type") : schema.type
+
+  if (List.isList(schemaType) || Array.isArray(schemaType)) {
+    return schemaType.some((t) => hasType(t))
   }
 
-  return types.includes(type)
+  return hasType(schemaType)
 }

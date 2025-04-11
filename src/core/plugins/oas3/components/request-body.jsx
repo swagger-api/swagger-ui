@@ -129,7 +129,7 @@ const RequestBody = ({
     return null
   }
 
-  const isObjectContent = fn.schemaHasType(mediaTypeValue.get("schema"), ["object"])
+  const isObjectContent = fn.hasSchemaType(mediaTypeValue.get("schema"), "object")
 
   if (
     isObjectContent &&

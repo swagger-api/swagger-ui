@@ -19,7 +19,7 @@ const getSystemStub = () => ({
     fileUploadMediaTypes: [],
   }),
   fn: {
-    schemaHasType: () => {},
+    hasSchemaType: () => {},
     isFileUploadIntendedOAS30: () => {},
   },
 })

@@ -27,8 +27,7 @@ export const makeIsFileUploadIntended = (getSystem) => {
     const format = isSchemaImmutable ? schema.get("format") : schema.format
 
     return (
-      fn.schemaHasType(schema, ["string"]) &&
-      ["binary", "byte"].includes(format)
+      fn.hasSchemaType(schema, "string") && ["binary", "byte"].includes(format)
     )
   }
 

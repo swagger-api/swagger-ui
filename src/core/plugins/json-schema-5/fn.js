@@ -4,14 +4,16 @@
 import { Map } from "immutable"
 import isPlainObject from "lodash/isPlainObject"
 
-export const schemaHasType = (schema, types) => {
+export const hasSchemaType = (schema, type) => {
   const isSchemaImmutable = Map.isMap(schema)
 
   if (!isSchemaImmutable && !isPlainObject(schema)) {
     return false
   }
 
-  const type = isSchemaImmutable ? schema.get("type") : schema.type
+  const schemaType = isSchemaImmutable ? schema.get("type") : schema.type
 
-  return types.includes(type)
+  return (
+    type === schemaType || (Array.isArray(type) && type.includes(schemaType))
+  )
 }

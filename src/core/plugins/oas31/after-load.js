@@ -42,20 +42,26 @@ function afterLoad({ fn, getSystem }) {
 
   // overrides behavior in OpenAPI 3.1.x, recognizes more intentions
   const isFileUploadIntended = makeIsFileUploadIntended(getSystem)
-  const { isFileUploadIntended: isFileUploadIntendedWrap, schemaHasType } =
-    wrapOAS31Fn(
+  const { isFileUploadIntended: isFileUploadIntendedWrap } = wrapOAS31Fn(
+    {
+      isFileUploadIntended,
+    },
+    getSystem()
+  )
+
+  this.fn.isFileUploadIntended = isFileUploadIntendedWrap
+  this.fn.isFileUploadIntendedOAS31 = isFileUploadIntended
+
+  if (fn.jsonSchema202012) {
+    const { hasSchemaType } = wrapOAS31Fn(
       {
-        isFileUploadIntended,
-        ...(fn.jsonSchema202012 && {
-          schemaHasType: fn.jsonSchema202012.schemaHasType,
-        }),
+        hasSchemaType: fn.jsonSchema202012.hasSchemaType,
       },
       getSystem()
     )
 
-  this.fn.isFileUploadIntended = isFileUploadIntendedWrap
-  this.fn.isFileUploadIntendedOAS31 = isFileUploadIntended
-  this.fn.schemaHasType = schemaHasType
+    this.fn.hasSchemaType = hasSchemaType
+  }
 }
 
 export default afterLoad
