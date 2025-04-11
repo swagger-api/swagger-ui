@@ -1,30 +1,27 @@
 /**
  * @prettier
  */
-import { Map } from "immutable"
+import { objectify } from "core/utils"
 
-import { immutableToJS } from "core/utils"
+export const makeIsFileUploadIntended = (getSystem) => {
+  const isFileUploadIntended = (schema, mediaType = null) => {
+    const { fileUploadMediaTypes } = getSystem().getConfigs()
+    const isFileUploadMediaType =
+      typeof mediaType === "string" &&
+      fileUploadMediaTypes.some((fileUploadMediaType) =>
+        mediaType.startsWith(fileUploadMediaType)
+      )
 
-export const isFileUploadIntended = (
-  schema,
-  { mediaType = null, fileUploadMediaTypes = [] } = {}
-) => {
-  const isFileUploadMediaType =
-    typeof mediaType === "string" &&
-    fileUploadMediaTypes.some((fileUploadMediaType) =>
-      mediaType.startsWith(fileUploadMediaType)
-    )
+    if (isFileUploadMediaType) {
+      return true
+    }
 
-  if (isFileUploadMediaType) {
-    return true
+    const { type, format } = objectify(schema)
+    const includesStringType =
+      type === "string" || (Array.isArray(type) && type.includes("string"))
+
+    return includesStringType && ["binary", "byte"].includes(format)
   }
 
-  if (!Map.isMap(schema)) return null
-
-  const type = immutableToJS(schema.get("type"))
-  const includesStringType =
-    type === "string" || (Array.isArray(type) && type.includes("string"))
-  const format = schema.get("format")
-
-  return includesStringType && ["binary", "byte"].includes(format)
+  return isFileUploadIntended
 }

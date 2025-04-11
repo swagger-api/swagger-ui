@@ -78,7 +78,7 @@ const RequestBody = ({
   const Example = getComponent("Example")
   const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
-  const { showCommonExtensions, fileUploadMediaTypes } = getConfigs()
+  const { showCommonExtensions } = getConfigs()
 
   const requestBodyDescription = requestBody?.get("description") ?? null
   const requestBodyContent = requestBody?.get("content") ?? new OrderedMap()
@@ -107,7 +107,7 @@ const RequestBody = ({
 
   const isFileUploadIntended = fn.isFileUploadIntended(
     mediaTypeValue?.get("schema"),
-    { mediaType: contentType, fileUploadMediaTypes }
+    contentType
   )
 
   if(
