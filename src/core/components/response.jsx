@@ -39,6 +39,7 @@ export default class Response extends React.Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     specPath: ImPropTypes.list.isRequired,
     fn: PropTypes.object.isRequired,
@@ -85,6 +86,7 @@ export default class Response extends React.Component {
       getComponent,
       getConfigs,
       specSelectors,
+      specActions,
       contentType,
       controlsAcceptHeader,
       oas3Actions,
@@ -240,6 +242,7 @@ export default class Response extends React.Component {
               getComponent={ getComponent }
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
+              specActions={ specActions }
               schema={ fromJSOrdered(schema) }
               example={ example }
               includeReadOnly={ true }/>
