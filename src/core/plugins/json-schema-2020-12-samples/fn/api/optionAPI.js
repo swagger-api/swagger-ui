@@ -13,5 +13,7 @@ const optionAPI = (optionName, optionValue) => {
 
   return registry.get(optionName)
 }
+optionAPI.getDefaults = () => registry.defaults
+optionAPI.setDefaults = () => registry.registerMany(registry.defaults)
 
 export default optionAPI
