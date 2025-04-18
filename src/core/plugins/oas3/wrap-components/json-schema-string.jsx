@@ -6,14 +6,14 @@ export default OAS3ComponentWrapFactory(({ Ori, ...props }) => {
     schema,
     getComponent,
     errors,
-    onChange
+    onChange,
+    fn
   } = props
 
-  const format = schema && schema.get ? schema.get("format") : null
-  const type = schema && schema.get ? schema.get("type") : null
+  const isFileUploadIntended = fn.isFileUploadIntended(schema)
   const Input = getComponent("Input")
 
-  if(type && type === "string" && (format && (format === "binary" || format === "base64"))) {
+  if (isFileUploadIntended) {
     return <Input type="file"
                    className={ errors.length ? "invalid" : ""}
                    title={ errors.length ? errors : ""}

@@ -35,7 +35,7 @@ const JSONSchema = forwardRef(
   ) => {
     const fn = useFn()
     // this implementation assumes that $id is always non-relative URI
-    const pathToken = identifier || schema.$id || name
+    const pathToken = identifier || schema?.$id || name
     const { path } = usePath(pathToken)
     const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(pathToken)
     const [level, nextLevel] = useLevel()
