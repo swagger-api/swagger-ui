@@ -19,6 +19,7 @@ const primitives = {
   "string_email": () => "user@example.com",
   "string_date-time": () => new Date().toISOString(),
   "string_date": () => new Date().toISOString().substring(0, 10),
+  "string_time": () => new Date().toISOString().substring(11, 23),
   "string_uuid": () => "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "string_hostname": () => "example.com",
   "string_ipv4": () => "198.51.100.42",
