@@ -6,6 +6,7 @@ import {
   getProperties,
 } from "./json-schema-2020-12-extensions/fn"
 import { wrapOAS31Fn } from "./fn"
+import { makeIsFileUploadIntended } from "./oas3-extensions/fn"
 
 function afterLoad({ fn, getSystem }) {
   // overrides for fn.jsonSchema202012
@@ -37,6 +38,29 @@ function afterLoad({ fn, getSystem }) {
     )
 
     Object.assign(this.fn, wrappedFns)
+  }
+
+  // overrides behavior in OpenAPI 3.1.x, recognizes more intentions
+  const isFileUploadIntended = makeIsFileUploadIntended(getSystem)
+  const { isFileUploadIntended: isFileUploadIntendedWrap } = wrapOAS31Fn(
+    {
+      isFileUploadIntended,
+    },
+    getSystem()
+  )
+
+  this.fn.isFileUploadIntended = isFileUploadIntendedWrap
+  this.fn.isFileUploadIntendedOAS31 = isFileUploadIntended
+
+  if (fn.jsonSchema202012) {
+    const { hasSchemaType } = wrapOAS31Fn(
+      {
+        hasSchemaType: fn.jsonSchema202012.hasSchemaType,
+      },
+      getSystem()
+    )
+
+    this.fn.hasSchemaType = hasSchemaType
   }
 }
 

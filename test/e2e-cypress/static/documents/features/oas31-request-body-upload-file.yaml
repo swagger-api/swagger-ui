@@ -1,0 +1,192 @@
+openapi: 3.1.0
+info:
+  title: "Request body file upload"
+  description: |-
+    This document has examples for examining the `schema` or content type for request bodies requiring a file upload
+    * `application/octect-stream` content type (no matter what schema format)
+    * `audio/*` content type (no matter what schema format)
+    * `image/*` content type (no matter what schema format)
+    * `video/*` content type (no matter what schema format)
+    * `application/octect-stream` content type with empty Media Type Object
+    * schema type is `string` and format is `byte` (no matter what content type)
+    * schema type is `string` and format is `binary` (no matter what content type)
+    * schema union type includes `string` and format is `byte` (no matter what content type)
+    * schema union type includes `string` and format is `binary` (no matter what content type)
+    * schema `contentMediaType` is present and is a non-empty `string`
+    * schema `contentEncoding` is present and is a non-empty `string`
+    * multipart/form-data object property schema type is `string` and format is `byte`
+    * multipart/form-data object property schema type is `string` and format is `binary`
+    * multipart/form-data object property schema union type includes `string` and format is `byte`
+    * multipart/form-data object property schema union type includes `string` and format is `binary`
+    * multipart/form-data object property schema `contentMediaType` is present and is a non-empty `string` 
+    * multipart/form-data object property schema `contentEncoding` is present and is a non-empty `string`
+  version: "1.0.0"
+paths:
+  /upload-application-octet-stream:
+    post:
+      operationId: uploadApplicationOctetStream
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+  /upload-image-png:
+    post:
+      operationId: uploadImagePng
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+  /upload-audio-wav:
+    post:
+      operationId: uploadAudioWav
+      requestBody:
+        content:
+          audio/wav:
+            schema:
+              type: string
+  /upload-video-mpeg:
+    post:
+      operationId: uploadVideoMpeg
+      requestBody:
+        content:
+          video/mpeg:
+            schema:
+              type: string
+  /upload-application-octet-stream-empty:
+    post:
+      operationId: uploadApplicationOctetStreamEmpty
+      requestBody:
+        content:
+          application/octet-stream: {}
+  /upload-schema-type-format-binary:
+    post:
+      operationId: uploadSchemaTypeFormatBinary
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type: string
+              format: binary
+  /upload-schema-type-format-byte:
+    post:
+      operationId: uploadSchemaTypeFormatByte
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type: string
+              format: byte
+  /upload-schema-union-type-format-binary:
+    post:
+      operationId: uploadSchemaUnionTypeFormatBinary
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type: 
+                - object
+                - string
+              format: binary
+  /upload-schema-union-type-format-byte:
+    post:
+      operationId: uploadSchemaUnionTypeFormatByte
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type:
+                - object
+                - string
+              format: byte
+  /upload-schema-contentMediaType:
+    post:
+      operationId: uploadSchemaContentMediaType
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              contentMediaType: application/x-custom
+  /upload-schema-contentEncoding:
+    post:
+      operationId: uploadSchemaContentEncoding
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              contentEncoding: base64
+  /upload-property-schema-format-binary:
+    post:
+      operationId: uploadPropertySchemaFormatBinary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+  /upload-property-schema-format-byte:
+    post:
+      operationId: uploadPropertySchemaFormatByte
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+  /upload-property-schema-union-type-format-binary:
+    post:
+      operationId: uploadPropertySchemaUnionTypeFormatBinary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type:
+                    - object 
+                    - string
+                  format: binary
+  /upload-property-schema-union-type-format-byte:
+    post:
+      operationId: uploadPropertySchemaUnionTypeFormatByte
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type:
+                    - object 
+                    - string
+                  format: byte
+  /upload-property-schema-contentMediaType:
+    post:
+      operationId: uploadPropertySchemaContentMediaType
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  contentMediaType: application/x-custom
+  /upload-property-schema-contentEncoding:
+    post:
+      operationId: uploadPropertySchemaContentEncoding
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  contentEncoding: base64
