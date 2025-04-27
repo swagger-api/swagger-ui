@@ -51,6 +51,7 @@ export class JsonSchemaForm extends Component {
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
     const foldedType = fn.jsonSchema202012.foldType(immutableToJS(type))
+    const isFileUploadIntended = fn.isFileUploadIntended(schema)
 
     let getComponentSilently = (name) => getComponent(name, false, { failSilently: true })
     let Comp = type ? format ?
@@ -58,7 +59,7 @@ export class JsonSchemaForm extends Component {
       getComponentSilently(`JsonSchema_${type}`) :
       getComponent("JsonSchema_string")
 
-    if (List.isList(type) && (foldedType === "array" || foldedType === "object")) {
+    if (!isFileUploadIntended && List.isList(type) && (foldedType === "array" || foldedType === "object")) {
       Comp = getComponent("JsonSchema_object")
     }
 

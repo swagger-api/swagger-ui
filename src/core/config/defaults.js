@@ -87,6 +87,13 @@ const defaultOptions = Object.freeze({
   onComplete: null,
   modelPropertyMacro: null,
   parameterMacro: null,
+
+  fileUploadMediaTypes: [
+    "application/octet-stream",
+    "image/",
+    "audio/",
+    "video/",
+  ],
 })
 
 export default defaultOptions
