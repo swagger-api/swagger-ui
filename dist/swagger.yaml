@@ -1,0 +1,1172 @@
+swagger: '2.0'
+info:
+  title: RIZON for Developers
+  description: Documentation for Access Control Cloud - Based Server API
+  contact:
+    email: ac@otoos.com
+  url: https://ac.safeguardai.net/api/v2/
+  version: v2
+host: ac.safeguardai.net
+schemes:
+- https
+basePath: /
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+- Basic: []
+- Bearer: []
+paths:
+  /api/v2/jwt-token:
+    post:
+      operationId: Token endpoint
+      description: Logs in user by providing JWT token.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/JSONWebToken'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/JSONWebToken'
+      tags:
+      - Identification
+    parameters: []
+  /api/v2/faces/:
+    get:
+      operationId: Faces list
+      description: list faces
+      parameters:
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        required: false
+        type: string
+      - name: page
+        in: query
+        description: Page number
+        type: integer
+      - name: page_size
+        in: query
+        description: Page size
+        type: integer
+      - name: is_recognized
+        in: query
+        description: Is this face event recognized
+        type: boolean
+      - name: image
+        in: query
+        description: Image id
+        type: string
+      - name: group_id
+        in: query
+        description: Group id, list of ids separated by comma
+        type: string
+      - name: camera_id
+        in: query
+        description: Camera id, list of ids separated by comma
+        type: string
+      - name: person_id
+        in: query
+        description: Person id, list of ids separated by comma
+        type: string
+      - name: predicted_id
+        in: query
+        description: Predicted id, list of ids separated by comma
+        type: string
+      - name: create_at_after
+        in: query
+        description: Create at after
+        type: string
+      - name: create_at_before
+        in: query
+        description: Create at before
+        type: string
+      - name: grade_min
+        in: query
+        description: Grade min
+        type: integer
+      - name: grade_max
+        in: query
+        description: Grade max
+        type: integer
+      - name: spoof
+        in: query
+        description: Spoof
+        type: string
+      - name: user_action
+        in: query
+        description: User action
+        type: string
+      - name: events_only
+        in: query
+        description: Events only, whether or not to show events only or also faces
+          that was manually uploaded or predicted by API
+        type: boolean
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - count
+            - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/FaceVeryLight'
+        '401':
+          description: Authentication, credentials were not provided.
+      tags:
+      - Faces
+    parameters: []
+  /api/v2/faces/check/:
+    post:
+      operationId: Check faces quality
+      description: Checks whether the facial images are good enough to be added to
+        a person for facial recognition
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/FaceVeryLight'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Face Check Result'
+      tags:
+      - Faces
+    parameters: []
+  /api/v2/groups/:
+    get:
+      operationId: List groups
+      description: List groups
+      parameters:
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        required: false
+        type: string
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - count
+            - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Group'
+        '401':
+          description: Authentication, credentials were not provided.
+      tags:
+      - Groups
+
+  /api/v2/notifications-settings/{tenant_id}/:
+    put:
+      operationId: Update Notifications Settings
+      description: Update Notifications Settings
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - tenant_id
+          type: object
+          properties:
+            notify_groups:
+              type: array
+              items:
+                required:
+                - group_id
+                - active_type
+                type: object
+                properties:
+                  group_id:
+                    type: string
+                    format: uuid
+                  active_type:
+                    type: string
+                    enum:
+                    - time_range
+                    - disabled
+                    - all_day
+                  time_range:
+                    required:
+                    - from_time
+                    - to_time
+                    type: object
+                    properties:
+                      from_time:
+                        type: string
+                        format: date-time
+                      to_time:
+                        type: string
+                        format: date-time
+            tenant_id:
+              type: integer
+            enable:
+              type: boolean
+            enable_web:
+              type: boolean
+            web_notification_urls:
+              type: array
+              items:
+                type: string
+            country:
+              type: string
+            filter_events:
+              type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - tenant_id
+            type: object
+            properties:
+              notify_groups:
+                type: array
+                items:
+                  required:
+                  - group_id
+                  - active_type
+                  type: object
+                  properties:
+                    group_id:
+                      type: string
+                      format: uuid
+                    active_type:
+                      type: string
+                      enum:
+                      - time_range
+                      - disabled
+                      - all_day
+                    time_range:
+                      required:
+                      - from_time
+                      - to_time
+                      type: object
+                      properties:
+                        from_time:
+                          type: string
+                          format: date-time
+                        to_time:
+                          type: string
+                          format: date-time
+              tenant_id:
+                type: integer
+              enable:
+                type: boolean
+              enable_web:
+                type: boolean
+              web_notification_urls:
+                type: array
+                items:
+                  type: string
+              country:
+                type: string
+              filter_events:
+                type: integer
+        '404':
+          description: Object not found
+      tags:
+      - API
+    patch:
+      operationId: api_v2_notifications-settings_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/NotificationSettings'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/NotificationSettings'
+      tags:
+      - Notifications Settings
+    parameters:
+    - name: tenant_id
+      in: path
+      description: The customer ID
+      required: true
+      type: integer
+  /api/v2/persons/:
+    get:
+      operationId: List persons
+      description: List persons
+      parameters:
+      - name: person_name
+        in: query
+        description: person_name
+        required: false
+        type: string
+      - name: group
+        in: query
+        description: group
+        required: false
+        type: string
+      - name: id
+        in: query
+        description: id
+        required: false
+        type: string
+      - name: tag_id
+        in: query
+        description: tag_id
+        required: false
+        type: string
+      - name: description
+        in: query
+        description: description
+        required: false
+        type: string
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        required: false
+        type: string
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - count
+            - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Person'
+        '401':
+          description: Authentication, credentials were not provided.
+      tags:
+      - Persons
+    parameters: []
+  /api/v2/persons/bulk/:
+    post:
+      operationId: Bulk create persons
+      description: |2
+
+        Create bulk persons with faces.
+        Request body should be a list of persons with faces.
+        Request example: { persons: [ {<person-data>}, {<person-data>}, ... ]}
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Person'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Person'
+        '400':
+          description: Person with same name already exists
+      tags:
+      - Persons
+    parameters: []
+  /api/v2/persons/create_directly/:
+    post:
+      operationId: Create person with image
+      description: Create person with image
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreatePersonDirectlyRequest'
+      responses:
+        '401':
+          description: Authentication, credentials were not provided.
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Person'
+      tags:
+      - Persons
+    parameters: []
+  /api/v2/persons/predict/:
+    post:
+      operationId: Predict face image
+      description: |2
+
+        Preform a facial recognition on a face image.
+        Request body: { image: <base64 encoded image> }
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PersonPredictRequest'
+      responses:
+        '400':
+          description: No people in DB
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/FaceVeryLight'
+      tags:
+      - Persons
+    parameters: []
+  /api/v2/persons/{id}/:
+    get:
+      operationId: Get Person
+      description: Get person details
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Person'
+        '404':
+          description: Person not found
+      tags:
+      - Persons
+    put:
+      operationId: Update person
+      description: Update person
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Person'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Person'
+        '404':
+          description: Group not found
+      tags:
+      - Persons
+    patch:
+      operationId: api_v2_persons_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Person'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Person'
+      tags:
+      - Persons
+    delete:
+      operationId: Delete person
+      description: Delete person
+      parameters: []
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: Group not found
+      tags:
+      - Persons
+    parameters:
+    - name: id
+      in: path
+      description: A unique value identifying this person.
+      required: true
+      type: string
+definitions:
+  JSONWebToken:
+    required:
+    - password
+    - username
+    type: object
+    properties:
+      password:
+        title: Password
+        type: string
+        minLength: 1
+      token:
+        title: Token
+        type: string
+        readOnly: true
+        minLength: 1
+      username:
+        title: Username
+        type: string
+        minLength: 1
+  Face:
+    required:
+    - detected_at
+    - tenant_id
+    - create_at
+    type: object
+    properties:
+      image:
+        title: Image
+        description: Image path, used as unique object identifier (ID)
+        type: string
+        maxLength: 60
+        minLength: 1
+      detected_at:
+        title: Detected at
+        type: string
+        format: date-time
+      embedded:
+        title: Embedded
+        type: string
+        readOnly: true
+      embedded_192:
+        title: Embedded 192
+        type: object
+      pose_vector:
+        title: Pose vector
+        type: object
+      face_extra:
+        title: Face extra
+        type: string
+        readOnly: true
+      alerted_types:
+        title: Alerted types
+        type: object
+      predicted_id:
+        title: Predicted ID
+        description: The ID of the person whose face was the top result in the face
+          recognition
+        type: string
+        maxLength: 250
+        x-nullable: true
+      camera_id:
+        title: Camera ID
+        description: The ID of the camera that captured the face
+        type: string
+        maxLength: 60
+        x-nullable: true
+      person_id:
+        title: Person ID
+        description: The ID of the person who was recognized, "N/A" if unknown
+        type: string
+        maxLength: 60
+        x-nullable: true
+      group_id:
+        title: Group ID
+        description: The ID of the group that was recognized, "unidentified" if unknown
+        type: string
+        maxLength: 60
+        x-nullable: true
+      blurring:
+        title: Blurring
+        description: The blurring level of the face
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      tenant_id:
+        title: Tenant ID
+        description: The customer ID
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+      video:
+        title: Video
+        description: The video path
+        type: string
+        maxLength: 250
+        x-nullable: true
+      create_at:
+        title: Created at
+        description: The time when the face was detected
+        type: string
+        format: date-time
+      bbox:
+        title: Face bounding-box
+        description: The face bounding box coordinates position in the frame
+        type: string
+        x-nullable: true
+      center:
+        title: Face center
+        description: The face bounding box center coordinates position in the frame
+        type: string
+        x-nullable: true
+      image_size:
+        title: Image size
+        description: The face width
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      grade:
+        title: Grade
+        description: The confidence grade of the recognition (0 - 100)
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      cosine_similarity:
+        title: Cosine similarity
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      spoof:
+        title: Spoof
+        description: Anti-fraud result, If there is no suspicion or lock it will be
+          "unknown"
+        type: string
+        maxLength: 50
+        x-nullable: true
+      spoof_image:
+        title: Spoof image
+        description: Anti-fraud image name relevant if spoof is not "unknown"
+        type: string
+        maxLength: 50
+        x-nullable: true
+      spoof_score:
+        title: Spoof score
+        description: Anti-fraud confidante score
+        type: number
+        x-nullable: true
+      gender_proba:
+        title: Gender / Age Probability
+        type: number
+        x-nullable: true
+      gender:
+        title: Gender
+        description: Gender prediction, 0 stand for female and 1 for male
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      age:
+        title: Age
+        description: Age prediction
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      alerted:
+        title: Is face event has alerted?
+        type: boolean
+        x-nullable: true
+      alerted_at:
+        title: Alerted at
+        description: The time when the face was alerted
+        type: string
+        format: date-time
+        x-nullable: true
+      entrance:
+        title: Is face event triggered a door controller?
+        type: boolean
+        x-nullable: true
+      blocked:
+        title: Blocked
+        description: Is this face blocked, by anti-passback?
+        type: string
+        maxLength: 50
+        x-nullable: true
+      user_action:
+        title: User action
+        description: 'User action in the android interface (in case of android): clicked_enter,
+          clicked_exit, clicked_cancel'
+        type: string
+        maxLength: 50
+        x-nullable: true
+      is_deleted:
+        title: Image deleted
+        description: Is this image deleted?
+        type: boolean
+        x-nullable: true
+      tracking_id:
+        title: Tracking ID
+        description: The tracking ID of the face
+        type: string
+        maxLength: 50
+        x-nullable: true
+      has_helmet:
+        title: Has helmet
+        description: is this person wear hard helmet
+        type: boolean
+        x-nullable: true
+      has_vest:
+        title: Has vest
+        description: is this person wear vest
+        type: boolean
+        x-nullable: true
+      first_seen:
+        title: First seen
+        description: should notify
+        type: boolean
+        x-nullable: true
+      track_has_vest:
+        title: Track has vest
+        description: is this person in the tracking_id wear vest
+        type: boolean
+        x-nullable: true
+      track_has_helmet:
+        title: Track has helmet
+        description: is this person in the tracking_id wear helmet
+        type: boolean
+        x-nullable: true
+      track_representor:
+        title: Track representor
+        description: The track representor image path
+        type: string
+        maxLength: 50
+        x-nullable: true
+      approval_reason:
+        title: Approval reason
+        description: The reason for the approval- access rule name ant type
+        type: string
+        maxLength: 50
+        x-nullable: true
+      created:
+        title: Created
+        type: string
+        format: date-time
+        readOnly: true
+      updated:
+        title: Updated
+        type: string
+        format: date-time
+        readOnly: true
+      access_rule:
+        title: Access rule
+        description: The access rule that was triggered
+        type: string
+        x-nullable: true 
+  Face Check Result:
+    type: object
+    properties:
+      status:
+        title: Status
+        description: result of face check, 1 is success, else is fail
+        type: string
+        minLength: 1
+      name:
+        title: Name
+        description: name of the person
+        type: string
+        minLength: 1
+      bbox:
+        title: Bbox
+        description: bounding box of the face
+        type: object
+      image:
+        title: Image
+        description: image name
+        type: string
+        minLength: 1
+      vectors:
+        title: Vectors
+        description: face embedding vectors
+        type: object
+      fiq:
+        $ref: '#/definitions/Fiq'
+      closets:
+        title: Closets
+        description: The person how is must similar to the face
+        type: object
+  Group:
+    required:
+    - name
+    - tenant_id
+    - conf
+    type: object
+    properties:
+      id:
+        title: Id
+        type: string
+        maxLength: 60
+        minLength: 1
+      name:
+        title: Name
+        type: string
+        maxLength: 60
+        minLength: 1
+      tenant_id:
+        title: Tenant ID
+        description: The customer ID
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+      conf:
+        title: Confidence
+        description: The confidence level from which to recognize people; number between
+          0 - 100
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+      color:
+        title: Color
+        description: |2
+
+          The color of the group.
+          options:
+          - "red"
+          - "blue"
+          - "green"
+          - "orange"
+          - "pink"
+          - "yellow"
+          - "gray"
+          - "purple"
+          - "none"
+        type: string
+        maxLength: 50
+        x-nullable: true
+      created:
+        title: Created
+        type: string
+        format: date-time
+        readOnly: true
+      updated:
+        title: Updated
+        type: string
+        format: date-time
+        readOnly: true
+  NotificationSettings:
+    required:
+    - tenant_id
+    type: object
+    properties:
+      tenant_id:
+        title: Tenant ID
+        description: The customer ID
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+      enable:
+        title: Enable
+        description: Enable or disable notifications
+        type: boolean
+      enable_web:
+        title: Enable web
+        description: Enable or disable web notifications
+        type: boolean
+      emails:
+        title: Emails
+        description: Email lists for notifications recipients
+        type: object
+        default: []
+      notify_groups:
+        title: Notify groups
+        description: |2
+
+          Groups for notifications.
+          format: array of objects
+          properties:
+          - group_id:
+              type: string
+              format: uuid
+              description: The group id to notify on
+          - active_type:
+              description: Activation type
+              type: string
+              enum:
+              |- disable
+              |- time_range
+              |- all_day
+          - time_ranges:
+              description: When active_type is time_range, list of time ranges to notify on, important note, this list will be override in every change
+              type: array
+              items:
+              type: object
+              properties:
+                  from_time:
+                  description: Time to start from, format hours 0 - 23, E.G - "00:00"
+                  type: string
+                  to_time:
+                  description: Time to end from, format hours 0 - 23, E.G - "05:30"
+                  type: string
+        type: object
+        default: []
+      web_notification_urls:
+        title: Web notification urls
+        description: Destination urls (Web hooks) for the push notifications
+        type: object
+        default: []
+      telegram_link:
+        title: Telegram link
+        description: Telegram channel link
+        type: string
+        readOnly: true
+      extra_urls:
+        title: Extra urls
+        description: Destination urls (Web hooks) for the push alerts
+        type: string
+        readOnly: true
+      frames_for_unknown:
+        title: Frames for unknown
+        description: Number of frames without identification to define as unknown
+          face
+        type: string
+        readOnly: true
+      unknowns_expration:
+        title: Unknowns expration
+        description: The time frame in seconds to consider a face as unknown (must
+          comply with 'frames_for_unknown')
+        type: string
+        readOnly: true
+      country:
+        title: Country
+        description: The time zone of the notification, valid input can be found here
+          - https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+        type: string
+        maxLength: 50
+        x-nullable: true
+      webhook_edge_sync_notifications:
+        title: Webhook edge sync notifications
+        description: URL for sending push about sync of detectors
+        type: string
+        maxLength: 250
+        x-nullable: true
+      video_call_server:
+        title: Video call server
+        description: URL for video call server
+        type: string
+        maxLength: 250
+        x-nullable: true
+      enable_emails:
+        title: Enable Emails Notification
+        type: boolean
+        x-nullable: true
+      enable_telegram:
+        title: Enable Telegram Notification
+        type: boolean
+        x-nullable: true
+      filter_events:
+        title: Filter events
+        description: The amount of seconds during which consecutive notifications
+          for the same identified person, will not be sent
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      person_tracking_unknowns_similarity_threshold:
+        title: Person tracking unknowns similarity threshold
+        description: The similarity threshold for unknown person tracking
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      person_tracking_union_expiration_time:
+        title: Person tracking union expiration time
+        description: The amount of seconds during which the union of tracked persons
+          is kept
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      time_wait_before_notify_unknown:
+        title: Time wait before notify unknown
+        description: The amount of seconds before sending a notification about an
+          unknown person on tracking
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      min_events_for_alert:
+        title: Min events for alert
+        description: The minimum number of events to wait before sending an alert
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      created:
+        title: Created
+        type: string
+        format: date-time
+        readOnly: true
+      updated:
+        title: Updated
+        type: string
+        format: date-time
+        readOnly: true
+  Person:
+    required:
+    - tenant_id
+    - person_name
+    - group
+    type: object
+    properties:
+      id:
+        title: Id
+        type: string
+        maxLength: 60
+        minLength: 1
+      faces:
+        title: Faces
+        description: |2
+
+          Faces that belong to this person.
+          Format: array of strings
+          E.G: ["face_id1", "face_id2"]
+        type: object
+      tenant_id:
+        title: Tenant ID
+        description: The customer ID
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+      person_name:
+        title: Person Name
+        description: The name of the person
+        type: string
+        maxLength: 250
+        x-nullable: true
+      description:
+        title: Description
+        type: string
+        maxLength: 500
+        x-nullable: true
+      tag_id:
+        title: Tag ID
+        description: The ID of the tag/card if exists for MFA
+        type: string
+        maxLength: 150
+        x-nullable: true
+      last_seen:
+        title: Last Seen
+        description: The last time the person was recognized
+        type: string
+        format: date-time
+        x-nullable: true
+      last_location:
+        title: Last Location
+        description: Id of the camera that last recognized this person
+        type: string
+        maxLength: 10
+        x-nullable: true
+      identifications:
+        title: Identifications
+        description: The number of times this person was recognized
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      created:
+        title: Created
+        type: string
+        format: date-time
+        readOnly: true
+      updated:
+        title: Updated
+        type: string
+        format: date-time
+        readOnly: true
+      group:
+        title: Group
+        type: string
+  CreatePersonDirectlyRequest:
+    required:
+    - group_id
+    - image
+    type: object
+    properties:
+      person_name:
+        title: Person name
+        type: string
+        minLength: 1
+      group_id:
+        title: Group id
+        type: string
+        minLength: 1
+      image:
+        title: Image
+        description: Base64 encoded image
+        type: string
+        minLength: 1
+      description:
+        title: Description
+        type: string
+        minLength: 1
+      ignore_quality_check:
+        title: Ignore quality check
+        type: boolean
+        default: false
+      similarity_threshold:
+        title: Similarity threshold
+        type: integer
+        default: 86
+  PersonPredictRequest:
+    required:
+    - image
+    - image_name
+    type: object
+    properties:
+      image:
+        title: Image
+        description: Base64 encoded image
+        type: string
+        minLength: 1
+      image_name:
+        title: Image name
+        type: string
+        minLength: 1

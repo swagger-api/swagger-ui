@@ -3,17 +3,64 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Swagger UI</title>
+    <title>Rizon for Developers</title>
+
     <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
     <link rel="stylesheet" type="text/css" href="index.css" />
     <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+
+    <style>
+      /* Hide the Swagger UI Topbar */
+      .swagger-ui .topbar {
+        display: none;
+      }
+
+      /* Page background */
+      body {
+        background-color: #f5f7fa;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Logo area */
+      .custom-logo {
+        text-align: center;
+        background-color: #000000; /* Black background behind logo */
+        padding: 60px 0; /* More breathing space */
+      }
+
+      .custom-logo img {
+        height: 200px; /* MUCH larger logo */
+        max-width: 90%; /* Still responsive on small screens */
+        object-fit: contain;
+      }
+
+      /* Customize Buttons */
+      .swagger-ui .btn {
+        background-color: #0A75AD;
+        color: white;
+        border-radius: 8px;
+      }
+
+      /* Customize API Title */
+      .swagger-ui .info h2.title {
+        font-size: 28px;
+        color: #0A75AD;
+      }
+    </style>
   </head>
 
   <body>
+    <div class="custom-logo">
+      <img src="otoos.png" alt="Company Logo">
+    </div>
+
     <div id="swagger-ui"></div>
-    <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
-    <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-    <script src="./swagger-initializer.js" charset="UTF-8"> </script>
+
+    <script src="./swagger-ui-bundle.js" charset="UTF-8"></script>
+    <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"></script>
+    <script src="./swagger-initializer.js" charset="UTF-8"></script>
   </body>
 </html>
