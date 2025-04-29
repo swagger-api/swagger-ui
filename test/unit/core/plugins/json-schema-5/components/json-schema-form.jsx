@@ -5,8 +5,9 @@ import { mount, render } from "enzyme"
 import * as JsonSchemaComponents from "core/plugins/json-schema-5/components/json-schema-components"
 import { foldType } from "core/plugins/json-schema-2020-12-samples/fn/index"
 import { makeIsFileUploadIntended } from "core/plugins/oas3/fn"
+import { DebounceTextArea } from "core/components/layout-utils"
 
-const components = {...JsonSchemaComponents, Select, Input, TextArea}
+const components = {...JsonSchemaComponents, Select, Input, TextArea, DebounceTextArea}
 
 const getComponentStub = (name) => {
   if(components[name]) return components[name]

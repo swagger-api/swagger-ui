@@ -125,7 +125,9 @@ export class Button extends React.Component {
 
 }
 
-export const TextArea = (props) => <DebounceInput element="textarea" debounceTimeout={350} forceNotifyByEnter={false} {...props} />
+export const TextArea = (props) => <textarea {...props} />
+
+export const DebounceTextArea = (props) => <DebounceInput element={TextArea} debounceTimeout={350} forceNotifyByEnter={false} {...props} />
 
 export const Input = (props) => <input {...props} />
 
