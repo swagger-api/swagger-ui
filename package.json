@@ -116,7 +116,7 @@
     "@babel/plugin-transform-runtime": "=7.26.10",
     "@babel/preset-env": "=7.26.9",
     "@babel/preset-react": "=7.26.3",
-    "@babel/register": "=7.25.9",
+    "@babel/register": "=7.27.1",
     "@cfaester/enzyme-adapter-react-18": "=0.8.0",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
