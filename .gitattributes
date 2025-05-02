@@ -1,1 +1,3 @@
 docker-run.sh text eol=lf
+*.js.map export-ignore
+/test export-ignore
