@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List, fromJS } from "immutable"
-import { getCommonExtensions, stringify, isEmptyValue, immutableToJS } from "core/utils"
+import { getCommonExtensions, stringify, isEmptyValue } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
@@ -159,8 +159,8 @@ const RequestBody = ({
               let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
               const objectType = fn.getSchemaObjectType(schema)
-              const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.get("type")))
-              const itemTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.getIn(["items", "type"])))
+              const objectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
+              const itemTypeLabel = fn.getSchemaObjectTypeLabel(schema?.get("items"))
               const format = schema.get("format")
               const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])

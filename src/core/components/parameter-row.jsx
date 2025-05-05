@@ -3,7 +3,7 @@ import { Map, List, fromJS } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue, immutableToJS } from "core/utils"
+import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
 import getParameterSchema from "core/utils/get-parameter-schema.js"
 
 export default class ParameterRow extends Component {
@@ -152,8 +152,8 @@ export default class ParameterRow extends Component {
 
       //// Dispatch the initial value
 
-      const type = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.get("type")))
-      const itemType = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.getIn(["items", "type"])))
+      const type = fn.getSchemaObjectTypeLabel(schema)
+      const itemType = fn.getSchemaObjectTypeLabel(schema?.get("items"))
 
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
@@ -258,8 +258,8 @@ export default class ParameterRow extends Component {
     let required = param.get("required")
 
     const type = fn.getSchemaObjectType(schema)
-    const typeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.get("type")))
-    const itemTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.getIn(["items", "type"])))
+    const typeLabel = fn.getSchemaObjectTypeLabel(schema)
+    const itemTypeLabel = fn.getSchemaObjectTypeLabel(schema?.get("items"))
     const isObject = !bodyParam && typeLabel === "object"
     const isArrayOfObjects = !bodyParam && itemTypeLabel === "object"
 

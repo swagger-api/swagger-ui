@@ -5,6 +5,7 @@ import { ALL_TYPES } from "./constants"
 import { isJSONSchemaObject } from "./predicates"
 import { pick as randomPick } from "./random"
 import { hasExample, extractExample } from "./example"
+import { immutableToJS, isImmutable } from "../../../../utils"
 
 const inferringKeywords = {
   array: [
@@ -153,4 +154,12 @@ export const inferType = (schema, processedSchemas = new WeakSet()) => {
 
 export const getType = (schema) => {
   return inferType(schema)
+}
+
+export const getFoldType = (schema) => {
+  if (isImmutable(schema)) {
+    schema = immutableToJS(schema)
+  }
+
+  return foldType(schema?.type)
 }

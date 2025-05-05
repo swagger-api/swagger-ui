@@ -1,6 +1,5 @@
 import XML from "xml"
 import RandExp from "randexp"
-import identity from "lodash/identity"
 import isEmpty from "lodash/isEmpty"
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import memoizeN from "core/utils/memoizeN"
@@ -637,7 +636,7 @@ export const memoizedCreateXMLExample = memoizeN(createXMLExample, resolver)
 
 export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
 
-export const getSchemaObjectTypeLabel = identity
+export const getSchemaObjectTypeLabel = (schema) => schema?.get("type")
 
 export const getSchemaObjectType = (schema) => schema?.get("type") ?? "string"
 

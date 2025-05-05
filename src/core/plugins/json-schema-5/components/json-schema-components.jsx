@@ -4,7 +4,7 @@ import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
-import { stringify, isImmutable, immutableToJS } from "core/utils"
+import { stringify, isImmutable } from "core/utils"
 
 const noop = ()=> {}
 const JsonSchemaPropShape = {
@@ -48,7 +48,7 @@ export class JsonSchemaForm extends Component {
     let { schema, errors, value, onChange, getComponent, fn, disabled } = this.props
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
-    const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(type))
+    const objectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
     const isFileUploadIntended = fn.isFileUploadIntended(schema)
 
     let getComponentSilently = (name) => getComponent(name, false, { failSilently: true })
@@ -190,23 +190,23 @@ export class JsonSchema_array extends PureComponent {
       .map(e => e.error)
     const value = this.state.value // expect Im List
     const shouldRenderValue =
-      value && value.count && value.count() > 0 ? true : false
+      !!(value && value.count && value.count() > 0)
     const schemaItemsEnum = schema.getIn(["items", "enum"])
-    const schemaItemsType = schema.getIn(["items", "type"])
-    const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schemaItemsType))
-    const objectType = fn.getSchemaObjectType(schema.get("items"))
+    const schemaItems = schema.get("items")
+    const objectTypeLabel = fn.getSchemaObjectTypeLabel(schemaItems)
+    const objectType = fn.getSchemaObjectType(schemaItems)
     const schemaItemsFormat = schema.getIn(["items", "format"])
     const schemaItemsSchema = schema.get("items")
     let ArrayItemsComponent
     let isArrayItemText = false
-    let isArrayItemFile = (schemaItemsType === "file" || (schemaItemsType === "string" && schemaItemsFormat === "binary")) ? true : false
-    if (schemaItemsType && schemaItemsFormat) {
-      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}_${schemaItemsFormat}`)
-    } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {
-      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}`)
+    let isArrayItemFile = (objectTypeLabel === "file" || (objectTypeLabel === "string" && schemaItemsFormat === "binary"))
+    if (objectTypeLabel && schemaItemsFormat) {
+      ArrayItemsComponent = getComponent(`JsonSchema_${objectTypeLabel}_${schemaItemsFormat}`)
+    } else if (objectTypeLabel === "boolean" || objectTypeLabel === "array" || objectTypeLabel === "object") {
+      ArrayItemsComponent = getComponent(`JsonSchema_${objectTypeLabel}`)
     }
 
-    if (List.isList(schemaItemsType) && (objectTypeLabel === "array" || objectTypeLabel === "object")) {
+    if (List.isList(objectTypeLabel) && (objectTypeLabel === "array" || objectTypeLabel === "object")) {
       ArrayItemsComponent = getComponent(`JsonSchema_object`)
     }
 
