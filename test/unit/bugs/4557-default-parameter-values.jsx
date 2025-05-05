@@ -52,10 +52,8 @@ describe("bug #4557: default parameter values", function () {
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
-        jsonSchema202012: {
-          foldType,
-          getType: makeGetType(() => ({ isBooleanJSONSchema })),
-        },
+        getSchemaObjectTypeLabel: foldType,
+        getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
     })
     const props = {
@@ -114,10 +112,8 @@ describe("bug #4557: default parameter values", function () {
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
         mergeJsonSchema,
-        jsonSchema202012: {
-          foldType,
-          getType: makeGetType(() => ({ isBooleanJSONSchema })),
-        },
+        getSchemaObjectTypeLabel: foldType,
+        getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
     })
     const props = {

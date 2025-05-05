@@ -2,6 +2,7 @@
  * @prettier
  */
 import { List, Map } from "immutable"
+import { immutableToJS, isImmutable } from "../../utils"
 
 export const upperFirst = (value) => {
   if (typeof value === "string") {
@@ -35,6 +36,10 @@ export const makeGetType = (fnAccessor) => {
 
     if (schema == null) {
       return "any"
+    }
+
+    if (isImmutable(schema)) {
+      schema = immutableToJS(schema)
     }
 
     if (fn.isBooleanJSONSchema(schema)) {

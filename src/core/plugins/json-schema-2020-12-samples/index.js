@@ -12,7 +12,6 @@ import {
   mediaTypeAPI,
   formatAPI,
   mergeJsonSchema,
-  foldType,
 } from "./fn/index"
 import makeGetJsonSampleSchema from "./fn/get-json-sample-schema"
 import makeGetYamlSampleSchema from "./fn/get-yaml-sample-schema"
@@ -42,7 +41,6 @@ const JSONSchema202012SamplesPlugin = ({ getSystem }) => {
         getXmlSampleSchema,
         getSampleSchema,
         mergeJsonSchema,
-        foldType,
       },
     },
   }
