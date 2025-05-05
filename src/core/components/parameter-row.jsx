@@ -257,11 +257,11 @@ export default class ParameterRow extends Component {
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
 
-    const typeLabel = fn.getSchemaObjectType(immutableToJS(schema))
-    const type = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.get("type")))
-    const itemType = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.getIn(["items", "type"])))
-    const isObject = !bodyParam && type === "object"
-    const isArrayOfObjects = !bodyParam && itemType === "object"
+    const type = fn.getSchemaObjectType(immutableToJS(schema))
+    const typeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.get("type")))
+    const itemTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.getIn(["items", "type"])))
+    const isObject = !bodyParam && typeLabel === "object"
+    const isArrayOfObjects = !bodyParam && itemTypeLabel === "object"
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
@@ -322,7 +322,7 @@ export default class ParameterRow extends Component {
             { !required ? null : <span>&nbsp;*</span> }
           </div>
           <div className="parameter__type">
-            { typeLabel }
+            { type }
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">
