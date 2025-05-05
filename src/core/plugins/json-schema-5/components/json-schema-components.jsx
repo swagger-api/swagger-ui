@@ -194,7 +194,7 @@ export class JsonSchema_array extends PureComponent {
     const schemaItemsEnum = schema.getIn(["items", "enum"])
     const schemaItemsType = schema.getIn(["items", "type"])
     const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schemaItemsType))
-    const objectType = fn.getSchemaObjectType(immutableToJS(schema.get("items")))
+    const objectType = fn.getSchemaObjectType(schema.get("items"))
     const schemaItemsFormat = schema.getIn(["items", "format"])
     const schemaItemsSchema = schema.get("items")
     let ArrayItemsComponent

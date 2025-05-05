@@ -158,7 +158,7 @@ const RequestBody = ({
 
               let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
-              const objectType = fn.getSchemaObjectType(immutableToJS(schema))
+              const objectType = fn.getSchemaObjectType(schema)
               const objectTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.get("type")))
               const itemTypeLabel = fn.getSchemaObjectTypeLabel(immutableToJS(schema?.getIn(["items", "type"])))
               const format = schema.get("format")

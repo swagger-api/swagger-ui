@@ -639,4 +639,5 @@ export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
 
 export const getSchemaObjectTypeLabel = identity
 
-export const getSchemaObjectType = (schema) => schema.type ?? "any"
+export const getSchemaObjectType = (schema) => schema?.get("type") ?? "string"
+
