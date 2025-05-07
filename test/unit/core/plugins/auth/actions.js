@@ -1,3 +1,5 @@
+import { BroadcastChannel } from "broadcastchannel-polyfill"
+import { MessageChannel } from "node:worker_threads"
 import { Map } from "immutable"
 import win from "core/window"
 import {
@@ -9,6 +11,9 @@ import {
   persistAuthorizationIfNeeded
 } from "core/plugins/auth/actions"
 import {authorizeAccessCodeWithBasicAuthentication, authPopup} from "../../../../../src/core/plugins/auth/actions"
+
+// broadcastchannel-polyfill expects MessageChannel to exist
+global.MessageChannel = MessageChannel
 
 describe("auth plugin - actions", () => {
 
