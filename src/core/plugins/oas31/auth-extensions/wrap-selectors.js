@@ -12,7 +12,7 @@ export const definitionsToAuthorize = createOnlyOAS31SelectorWrapper(
     if (!definitions) return list
 
     definitions.entrySeq().forEach(([defName, definition]) => {
-      const type = definition.get("type")
+      const type = definition?.get("type")
 
       if (type === "mutualTLS") {
         list = list.push(

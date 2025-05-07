@@ -45,6 +45,10 @@ const mappings = {
   docExpansion: { typeCaster: stringTypeCaster },
   dom_id: { typeCaster: nullableStringTypeCaster },
   domNode: { typeCaster: domNodeTypeCaster },
+  fileUploadMediaTypes: {
+    typeCaster: arrayTypeCaster,
+    defaultValue: defaultOptions.fileUploadMediaTypes,
+  },
   filter: { typeCaster: filterTypeCaster },
   fn: { typeCaster: objectTypeCaster },
   initialState: { typeCaster: objectTypeCaster },

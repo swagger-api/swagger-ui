@@ -124,13 +124,10 @@ export const validOperationMethods = constant(["get", "put", "post", "delete", "
 export const operations = createSelector(
   paths,
   paths => {
-    if(!paths || paths.size < 1)
-      return List()
-
     let list = List()
 
-    if(!paths || !paths.forEach) {
-      return List()
+    if (!Map.isMap(paths) || paths.isEmpty()) {
+      return list
     }
 
     paths.forEach((path, pathName) => {
@@ -499,8 +496,8 @@ export const validationErrors = (state, pathMethod) => {
   const getErrorsWithPaths = (errors, path = []) => {
     const getNestedErrorsWithPaths = (e, path) => {
       const currPath = [...path, e.get("propKey") || e.get("index")]
-      return Map.isMap(e.get("error")) 
-        ? getErrorsWithPaths(e.get("error"), currPath) 
+      return Map.isMap(e.get("error"))
+        ? getErrorsWithPaths(e.get("error"), currPath)
         : { error: e.get("error"), path: currPath }
     }
 
@@ -511,10 +508,10 @@ export const validationErrors = (state, pathMethod) => {
 
   const formatError = (error, path, paramName) => {
     path = path.reduce((acc, curr) => {
-      return typeof curr === "number" 
-        ? `${acc}[${curr}]` 
-        : acc 
-        ? `${acc}.${curr}` 
+      return typeof curr === "number"
+        ? `${acc}[${curr}]`
+        : acc
+        ? `${acc}.${curr}`
         : curr
     }, "")
     return `For '${paramName}'${path ? ` at path '${path}'` : ""}: ${error}.`

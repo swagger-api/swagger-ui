@@ -2,8 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List, fromJS } from "immutable"
-import { getCommonExtensions, stringify, isEmptyValue } from "core/utils"
+import { getCommonExtensions, stringify, isEmptyValue, immutableToJS } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
+
+/* eslint-disable  react/jsx-no-bind */
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
@@ -103,21 +105,13 @@ const RequestBody = ({
   }
   requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
-  if(!mediaTypeValue.size) {
-    return null
-  }
-
-  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
-  const isBinaryFormat = mediaTypeValue.getIn(["schema", "format"]) === "binary"
-  const isBase64Format = mediaTypeValue.getIn(["schema", "format"]) === "base64"
+  const isFileUploadIntended = fn.isFileUploadIntended(
+    mediaTypeValue?.get("schema"),
+    contentType
+  )
 
   if(
-    contentType === "application/octet-stream"
-    || contentType.indexOf("image/") === 0
-    || contentType.indexOf("audio/") === 0
-    || contentType.indexOf("video/") === 0
-    || isBinaryFormat
-    || isBase64Format
+    isFileUploadIntended
   ) {
     const Input = getComponent("Input")
 
@@ -129,6 +123,13 @@ const RequestBody = ({
 
     return <Input type={"file"} onChange={handleFile} />
   }
+
+
+  if (!mediaTypeValue.size) {
+    return null
+  }
+
+  const isObjectContent = fn.hasSchemaType(mediaTypeValue.get("schema"), "object")
 
   if (
     isObjectContent &&
@@ -159,7 +160,9 @@ const RequestBody = ({
 
               let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
-              const type = schema.get("type")
+              const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
+              const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type")))
+              const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"])))
               const format = schema.get("format")
               const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
@@ -186,7 +189,21 @@ const RequestBody = ({
                 initialValue = JSON.parse(initialValue)
               }
 
-              const isFile = type === "string" && (format === "binary" || format === "base64")
+              const isFileUploadIntended = fn.isFileUploadIntended(schema)
+
+              const jsonSchemaForm = <JsonSchemaForm
+                fn={fn}
+                dispatchInitialValue={!isFileUploadIntended}
+                schema={schema}
+                description={key}
+                getComponent={getComponent}
+                value={currentValue === undefined ? initialValue : currentValue}
+                required={required}
+                errors={currentErrors}
+                onChange={(value) => {
+                  onChange(value, [key])
+                }}
+              />
 
               return <tr key={key} className="parameters" data-property-name={key}>
               <td className="parameters-col_name">
@@ -195,7 +212,7 @@ const RequestBody = ({
                   { !required ? null : <span>&nbsp;*</span> }
                 </div>
                 <div className="parameter__type">
-                  { type }
+                  { typeLabel }
                   { format && <span className="prop-format">(${format})</span>}
                   {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                 </div>
@@ -206,19 +223,18 @@ const RequestBody = ({
               <td className="parameters-col_description">
                 <Markdown source={ description }></Markdown>
                 {isExecute ? <div>
-                  <JsonSchemaForm
-                    fn={fn}
-                    dispatchInitialValue={!isFile}
-                    schema={schema}
-                    description={key}
-                    getComponent={getComponent}
-                    value={currentValue === undefined ? initialValue : currentValue}
-                    required = { required }
-                    errors = { currentErrors }
-                    onChange={(value) => {
-                      onChange(value, [key])
-                    }}
-                  />
+                  {(type === "object" || itemType === "object") ? (
+                    <ModelExample
+                      getComponent={getComponent}
+                      specPath={specPath.push("schema")}
+                      getConfigs={getConfigs}
+                      isExecute={isExecute}
+                      specSelectors={specSelectors}
+                      schema={schema}
+                      example={jsonSchemaForm}
+                    />
+                    ) : jsonSchemaForm
+                  }
                   {required ? null : (
                     <ParameterIncludeEmpty
                       onChange={(value) => onChangeIncludeEmpty(key, value)}

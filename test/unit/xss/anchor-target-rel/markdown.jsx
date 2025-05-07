@@ -54,11 +54,3 @@ describe("Markdown Link Anchor Safety", function () {
     })
   })
 })
-
-function withMarkdownWrapper(str, { isOAS3 = false } = {}) {
-  if(isOAS3) {
-    return `<div class="renderedMarkdown"><p>${str}</p></div>`
-  }
-
-  return `<div class="markdown"><p>${str}</p>\n</div>`
-}
