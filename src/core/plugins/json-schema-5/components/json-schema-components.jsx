@@ -193,20 +193,20 @@ export class JsonSchema_array extends PureComponent {
       !!(value && value.count && value.count() > 0)
     const schemaItemsEnum = schema.getIn(["items", "enum"])
     const schemaItems = schema.get("items")
-    const objectTypeLabel = fn.getSchemaObjectTypeLabel(schemaItems)
-    const objectType = fn.getSchemaObjectType(schemaItems)
+    const schemaItemsTypeLabel = fn.getSchemaObjectTypeLabel(schemaItems)
+    const schemaItemsType = fn.getSchemaObjectType(schemaItems)
     const schemaItemsFormat = schema.getIn(["items", "format"])
     const schemaItemsSchema = schema.get("items")
     let ArrayItemsComponent
     let isArrayItemText = false
-    let isArrayItemFile = (objectTypeLabel === "file" || (objectTypeLabel === "string" && schemaItemsFormat === "binary"))
-    if (objectTypeLabel && schemaItemsFormat) {
-      ArrayItemsComponent = getComponent(`JsonSchema_${objectTypeLabel}_${schemaItemsFormat}`)
-    } else if (objectTypeLabel === "boolean" || objectTypeLabel === "array" || objectTypeLabel === "object") {
-      ArrayItemsComponent = getComponent(`JsonSchema_${objectTypeLabel}`)
+    let isArrayItemFile = (schemaItemsTypeLabel === "file" || (schemaItemsTypeLabel === "string" && schemaItemsFormat === "binary"))
+    if (schemaItemsTypeLabel && schemaItemsFormat) {
+      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsTypeLabel}_${schemaItemsFormat}`)
+    } else if (schemaItemsTypeLabel === "boolean" || schemaItemsTypeLabel === "array" || schemaItemsTypeLabel === "object") {
+      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsTypeLabel}`)
     }
 
-    if (List.isList(objectTypeLabel) && (objectTypeLabel === "array" || objectTypeLabel === "object")) {
+    if (List.isList(schemaItemsTypeLabel) && (schemaItemsTypeLabel === "array" || schemaItemsTypeLabel === "object")) {
       ArrayItemsComponent = getComponent(`JsonSchema_object`)
     }
 
@@ -284,7 +284,7 @@ export class JsonSchema_array extends PureComponent {
             title={arrayErrors.length ? arrayErrors : ""}
             onClick={this.addItem}
           >
-            Add {objectType} item
+            Add {schemaItemsType} item
           </Button>
         ) : null}
       </div>

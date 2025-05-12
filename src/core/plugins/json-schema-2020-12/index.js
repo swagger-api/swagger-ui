@@ -67,7 +67,6 @@ import {
   useLevel,
 } from "./hooks"
 import { withJSONSchemaContext, makeWithJSONSchemaSystemContext } from "./hoc"
-import { getFoldType } from "../json-schema-2020-12-samples/fn/core/type"
 
 const JSONSchema202012Plugin = ({ getSystem, fn }) => {
   const fnAccessor = () => ({
@@ -134,7 +133,6 @@ const JSONSchema202012Plugin = ({ getSystem, fn }) => {
       jsonSchema202012: {
         getTitle: makeGetTitle(fnAccessor),
         getType: makeGetType(fnAccessor),
-        foldType: getFoldType,
         isExpandable: makeIsExpandable(fnAccessor),
         isBooleanJSONSchema,
         hasKeyword,

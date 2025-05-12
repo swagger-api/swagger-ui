@@ -12,17 +12,20 @@ import {
   mediaTypeAPI,
   formatAPI,
   mergeJsonSchema,
+  foldType,
 } from "./fn/index"
 import makeGetJsonSampleSchema from "./fn/get-json-sample-schema"
 import makeGetYamlSampleSchema from "./fn/get-yaml-sample-schema"
 import makeGetXmlSampleSchema from "./fn/get-xml-sample-schema"
 import makeGetSampleSchema from "./fn/get-sample-schema"
+import { immutableToJS } from "../../utils"
 
 const JSONSchema202012SamplesPlugin = ({ getSystem }) => {
   const getJsonSampleSchema = makeGetJsonSampleSchema(getSystem)
   const getYamlSampleSchema = makeGetYamlSampleSchema(getSystem)
   const getXmlSampleSchema = makeGetXmlSampleSchema(getSystem)
   const getSampleSchema = makeGetSampleSchema(getSystem)
+  const makeFoldType = (schema) => foldType(immutableToJS(schema)?.type)
 
   return {
     fn: {
@@ -41,6 +44,7 @@ const JSONSchema202012SamplesPlugin = ({ getSystem }) => {
         getXmlSampleSchema,
         getSampleSchema,
         mergeJsonSchema,
+        foldType: makeFoldType,
       },
     },
   }
