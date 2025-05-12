@@ -152,13 +152,13 @@ export default class ParameterRow extends Component {
 
       //// Dispatch the initial value
 
-      const type = fn.getSchemaObjectTypeLabel(schema)
+      const typeLabel = fn.getSchemaObjectTypeLabel(schema)
       const itemType = fn.getSchemaObjectTypeLabel(schema?.get("items"))
 
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
       } else if(
-        type === "object"
+        typeLabel === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
@@ -176,7 +176,7 @@ export default class ParameterRow extends Component {
         )
       }
       else if (
-        type === "array"
+        typeLabel.includes("array")
         && itemType === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
@@ -322,7 +322,7 @@ export default class ParameterRow extends Component {
             { !required ? null : <span>&nbsp;*</span> }
           </div>
           <div className="parameter__type">
-            { type }
+            { typeLabel }
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">
