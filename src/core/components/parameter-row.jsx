@@ -257,7 +257,6 @@ export default class ParameterRow extends Component {
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
 
-    const type = fn.getSchemaObjectType(schema)
     const typeLabel = fn.getSchemaObjectTypeLabel(schema)
     const itemTypeLabel = fn.getSchemaObjectTypeLabel(schema?.get("items"))
     const isObject = !bodyParam && typeLabel === "object"
