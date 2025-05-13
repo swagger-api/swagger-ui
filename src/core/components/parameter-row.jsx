@@ -176,7 +176,7 @@ export default class ParameterRow extends Component {
         )
       }
       else if (
-        typeLabel.includes("array")
+        typeLabel?.startsWith("array")
         && itemType === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")

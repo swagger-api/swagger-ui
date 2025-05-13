@@ -20,6 +20,7 @@ import {
   makeGetType,
   isBooleanJSONSchema,
 } from "core/plugins/json-schema-2020-12/fn.js"
+import { immutableToJS } from "../../../src/core/utils"
 
 describe("<ParameterRow/>", () => {
   const createProps = ({ param, isOAS3 }) => {
@@ -38,7 +39,8 @@ describe("<ParameterRow/>", () => {
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
         mergeJsonSchema,
-        getSchemaObjectTypeLabel: foldType,
+        getSchemaObjectTypeLabel: (schema) =>
+          foldType(immutableToJS(schema)?.type),
         getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
       oas3Selectors: { activeExamplesMember: () => {} },

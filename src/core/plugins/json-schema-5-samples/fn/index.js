@@ -642,12 +642,12 @@ const getType = (schema, processedSchemas = new WeakSet()) => {
   const { type, items } = schema
 
   const getArrayType = () => {
-      if (items) {
-        const itemsType = getType(items, processedSchemas)
-        return `array<${itemsType}>`
-      } else {
-        return "array<any>"
-      }
+    if (items) {
+      const itemsType = getType(items, processedSchemas)
+      return `array<${itemsType}>`
+    } else {
+      return "array<any>"
+    }
   }
 
   if (
@@ -670,5 +670,21 @@ export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
 
 export const getSchemaObjectTypeLabel = (schema) => getType(immutableToJS(schema))
 
-export const getSchemaObjectType = (schema) => schema?.get("type") ?? "string"
+export const getSchemaObjectType = (schema) => {
+  const type = immutableToJS(schema)?.type
 
+  if (!type) {
+    return "string"
+  }
+  if (Array.isArray(type) && type.length >= 1) {
+    if (type.includes("array")) {
+      return "array"
+    } else if (type.includes("object")) {
+      return "object"
+    }
+
+    const notNullTypes = type.filter((t) => t !== "null")
+    return notNullTypes.length > 0 ? notNullTypes[0] : type
+  }
+  return type
+}

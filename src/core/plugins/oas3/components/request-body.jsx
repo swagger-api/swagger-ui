@@ -179,11 +179,11 @@ const RequestBody = ({
                 initialValue = "0"
               }
 
-              if (typeof initialValue !== "string" && objectTypeLabel === "object") {
+              if (typeof initialValue !== "string" && objectType === "object") {
                initialValue = stringify(initialValue)
               }
 
-              if (typeof initialValue === "string" && objectTypeLabel === "array") {
+              if (typeof initialValue === "string" && objectType.startsWith("array")) {
                 initialValue = JSON.parse(initialValue)
               }
 
@@ -210,7 +210,7 @@ const RequestBody = ({
                   { !required ? null : <span>&nbsp;*</span> }
                 </div>
                 <div className="parameter__type">
-                  { objectType }
+                  { objectTypeLabel }
                   { format && <span className="prop-format">(${format})</span>}
                   {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                 </div>
