@@ -91,7 +91,7 @@
     "react": ">=16.8.0 <19",
     "react-copy-to-clipboard": "5.1.0",
     "react-debounce-input": "=3.3.0",
-    "react-dom": ">=16.8.0 <19",
+    "react-dom": ">=16.8.0 <20",
     "react-immutable-proptypes": "2.2.0",
     "react-immutable-pure-component": "^2.2.0",
     "react-inspector": "^6.0.1",
