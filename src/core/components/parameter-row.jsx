@@ -152,13 +152,13 @@ export default class ParameterRow extends Component {
 
       //// Dispatch the initial value
 
-      const typeLabel = fn.getSchemaObjectTypeLabel(schema)
-      const itemType = fn.getSchemaObjectTypeLabel(schema?.get("items"))
+      const schemaObjectType = fn.getSchemaObjectType(schema)
+      const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
 
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
       } else if(
-        typeLabel === "object"
+        schemaObjectType === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
@@ -176,8 +176,8 @@ export default class ParameterRow extends Component {
         )
       }
       else if (
-        typeLabel?.startsWith("array")
-        && itemType === "object"
+        schemaObjectType === "array"
+        && schemaItemsType === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
@@ -257,10 +257,10 @@ export default class ParameterRow extends Component {
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
 
-    const typeLabel = fn.getSchemaObjectTypeLabel(schema)
-    const itemTypeLabel = fn.getSchemaObjectTypeLabel(schema?.get("items"))
-    const isObject = !bodyParam && typeLabel === "object"
-    const isArrayOfObjects = !bodyParam && itemTypeLabel === "object"
+    const schemaObjectType = fn.getSchemaObjectType(schema)
+    const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+    const isObject = !bodyParam && schemaObjectType === "object"
+    const isArrayOfObjects = !bodyParam && schemaItemsType === "object"
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
@@ -321,7 +321,7 @@ export default class ParameterRow extends Component {
             { !required ? null : <span>&nbsp;*</span> }
           </div>
           <div className="parameter__type">
-            { typeLabel }
+            { schemaObjectType }
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">

@@ -1,7 +1,7 @@
 import XML from "xml"
 import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
-import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
+import { deeplyStripKey, isFunc, normalizeArray, objectify } from "core/utils"
 import memoizeN from "core/utils/memoizeN"
 import { immutableToJS } from "../../../utils"
 
@@ -670,21 +670,4 @@ export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
 
 export const getSchemaObjectTypeLabel = (schema) => getType(immutableToJS(schema))
 
-export const getSchemaObjectType = (schema) => {
-  const type = immutableToJS(schema)?.type
-
-  if (!type) {
-    return "string"
-  }
-  if (Array.isArray(type) && type.length >= 1) {
-    if (type.includes("array")) {
-      return "array"
-    } else if (type.includes("object")) {
-      return "object"
-    }
-
-    const notNullTypes = type.filter((t) => t !== "null")
-    return notNullTypes.length > 0 ? notNullTypes[0] : type
-  }
-  return type
-}
+export const getSchemaObjectType = (schema) => schema?.get("type") ?? "string"

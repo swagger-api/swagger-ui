@@ -48,7 +48,7 @@ export class JsonSchemaForm extends Component {
     let { schema, errors, value, onChange, getComponent, fn, disabled } = this.props
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
-    const objectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
+    const objectType = fn.getSchemaObjectType(schema)
     const isFileUploadIntended = fn.isFileUploadIntended(schema)
 
     let getComponentSilently = (name) => getComponent(name, false, { failSilently: true })
@@ -57,7 +57,7 @@ export class JsonSchemaForm extends Component {
       getComponentSilently(`JsonSchema_${type}`) :
       getComponent("JsonSchema_string")
 
-    if (!isFileUploadIntended && List.isList(type) && (objectTypeLabel === "array" || objectTypeLabel === "object")) {
+    if (!isFileUploadIntended && List.isList(type) && (objectType === "array" || objectType === "object")) {
       Comp = getComponent("JsonSchema_object")
     }
 
@@ -193,20 +193,20 @@ export class JsonSchema_array extends PureComponent {
       !!(value && value.count && value.count() > 0)
     const schemaItemsEnum = schema.getIn(["items", "enum"])
     const schemaItems = schema.get("items")
-    const schemaItemsTypeLabel = fn.getSchemaObjectTypeLabel(schemaItems)
     const schemaItemsType = fn.getSchemaObjectType(schemaItems)
+    const schemaItemsTypeLabel = fn.getSchemaObjectTypeLabel(schemaItems)
     const schemaItemsFormat = schema.getIn(["items", "format"])
     const schemaItemsSchema = schema.get("items")
     let ArrayItemsComponent
     let isArrayItemText = false
-    let isArrayItemFile = (schemaItemsTypeLabel === "file" || (schemaItemsTypeLabel === "string" && schemaItemsFormat === "binary"))
-    if (schemaItemsTypeLabel && schemaItemsFormat) {
-      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsTypeLabel}_${schemaItemsFormat}`)
-    } else if (schemaItemsTypeLabel === "boolean" || schemaItemsTypeLabel === "array" || schemaItemsTypeLabel === "object") {
-      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsTypeLabel}`)
+    let isArrayItemFile = (schemaItemsType === "file" || (schemaItemsType === "string" && schemaItemsFormat === "binary"))
+    if (schemaItemsType && schemaItemsFormat) {
+      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}_${schemaItemsFormat}`)
+    } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {
+      ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}`)
     }
 
-    if (List.isList(schemaItems.get("type")) && (schemaItemsTypeLabel === "array" || schemaItemsTypeLabel === "object")) {
+    if (List.isList(schemaItems.get("type")) && (schemaItemsType === "array" || schemaItemsType === "object")) {
       ArrayItemsComponent = getComponent(`JsonSchema_object`)
     }
 
@@ -284,7 +284,7 @@ export class JsonSchema_array extends PureComponent {
             title={arrayErrors.length ? arrayErrors : ""}
             onClick={this.addItem}
           >
-            Add {schemaItemsType} item
+            Add {schemaItemsTypeLabel} item
           </Button>
         ) : null}
       </div>

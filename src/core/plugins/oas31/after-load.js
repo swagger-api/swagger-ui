@@ -33,8 +33,8 @@ function afterLoad({ fn, getSystem }) {
         getXmlSampleSchema: fn.jsonSchema202012.getXmlSampleSchema,
         getSampleSchema: fn.jsonSchema202012.getSampleSchema,
         mergeJsonSchema: fn.jsonSchema202012.mergeJsonSchema,
-        getSchemaObjectTypeLabel: fn.jsonSchema202012.foldType,
-        getSchemaObjectType: fn.jsonSchema202012.getType,
+        getSchemaObjectTypeLabel: fn.jsonSchema202012.getType,
+        getSchemaObjectType: fn.jsonSchema202012.foldType,
       },
       getSystem()
     )

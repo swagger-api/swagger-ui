@@ -160,7 +160,7 @@ const RequestBody = ({
               const required = schemaForMediaType.get("required", List()).includes(key)
               const objectType = fn.getSchemaObjectType(schema)
               const objectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
-              const itemTypeLabel = fn.getSchemaObjectTypeLabel(schema?.get("items"))
+              const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
               const format = schema.get("format")
               const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
@@ -183,7 +183,7 @@ const RequestBody = ({
                initialValue = stringify(initialValue)
               }
 
-              if (typeof initialValue === "string" && objectType.startsWith("array")) {
+              if (typeof initialValue === "string" && objectType === "array") {
                 initialValue = JSON.parse(initialValue)
               }
 
@@ -221,7 +221,7 @@ const RequestBody = ({
               <td className="parameters-col_description">
                 <Markdown source={ description }></Markdown>
                 {isExecute ? <div>
-                  {(objectTypeLabel === "object" || itemTypeLabel === "object") ? (
+                  {(objectType === "object" || schemaItemsType === "object") ? (
                     <ModelExample
                       getComponent={getComponent}
                       specPath={specPath.push("schema")}
