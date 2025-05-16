@@ -1,8 +1,9 @@
 import XML from "xml"
 import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
-import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
+import { deeplyStripKey, isFunc, normalizeArray, objectify } from "core/utils"
 import memoizeN from "core/utils/memoizeN"
+import { immutableToJS } from "../../../utils"
 
 const generateStringFromRegex = (pattern) => {
   try {
@@ -627,6 +628,37 @@ export const createXMLExample = (schema, config, o) => {
   return XML(json, { declaration: true, indent: "\t" })
 }
 
+const getType = (schema, processedSchemas = new WeakSet()) => {
+  if (schema == null) {
+    return "any"
+  }
+
+  if (processedSchemas.has(schema)) {
+    return "any" // detect a cycle
+  }
+
+  processedSchemas.add(schema)
+
+  const { type, items } = schema
+
+  const getArrayType = () => {
+    if (items) {
+      const itemsType = getType(items, processedSchemas)
+      return `array<${itemsType}>`
+    } else {
+      return "array<any>"
+    }
+  }
+
+  if (
+    Object.hasOwn(schema, "items")
+  ) {
+    return getArrayType()
+  }
+  return type
+}
+
+
 export const sampleFromSchema = (schema, config, o) =>
   sampleFromSchemaGeneric(schema, config, o, false)
 
@@ -635,3 +667,7 @@ const resolver = (arg1, arg2, arg3) => [arg1, JSON.stringify(arg2), JSON.stringi
 export const memoizedCreateXMLExample = memoizeN(createXMLExample, resolver)
 
 export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
+
+export const getSchemaObjectTypeLabel = (schema) => getType(immutableToJS(schema))
+
+export const getSchemaObjectType = (schema) => schema?.get("type") ?? "string"
