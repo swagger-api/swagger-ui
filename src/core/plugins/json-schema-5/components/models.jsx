@@ -45,7 +45,7 @@ export default class Models extends Component {
   }
 
   render(){
-    let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
+    let { specSelectors, specActions, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
     let { docExpansion, defaultModelsExpandDepth } = getConfigs()
     if (!definitions.size || defaultModelsExpandDepth < 0) return null
@@ -102,6 +102,7 @@ export default class Models extends Component {
               specPath={specPath}
               getComponent={ getComponent }
               specSelectors={ specSelectors }
+              specActions={ specActions }
               getConfigs = {getConfigs}
               layoutSelectors = {layoutSelectors}
               layoutActions = {layoutActions}
