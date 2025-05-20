@@ -110,7 +110,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     sanitizedAuthorizationUrl = sanitizeUrl(authorizationUrl)
   }
   let url = [sanitizedAuthorizationUrl, query.join("&")].join(
-    typeof authorizationUrl === "string" && authorizationUrl.indexOf("?") === -1
+    typeof authorizationUrl === "string" && !authorizationUrl.includes("?")
       ? "?"
       : "&"
   )
