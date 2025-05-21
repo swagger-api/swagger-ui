@@ -133,6 +133,7 @@ const mappings = {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.withCredentials,
   },
+  uncaughtExceptionHandler: { typeCaster: nullableFunctionTypeCaster },
 }
 
 export default mappings
