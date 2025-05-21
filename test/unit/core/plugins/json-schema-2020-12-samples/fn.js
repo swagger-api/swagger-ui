@@ -2954,6 +2954,80 @@ describe("createXMLExample", function () {
 
     expect(sut(definition)).toEqual(expected)
   })
+
+  it("should handle object properties of type `array` as an attribute", () => {
+    const definition = {
+      type: "object",
+      xml: {
+        name: "test",
+      },
+      properties: {
+        arrayOfStrings: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          xml: {
+            attribute: true,
+          },
+        },
+        arrayOfArrays: {
+          type: "array",
+          items: {
+            type: "array",
+          },
+          minItems: 3,
+          xml: {
+            attribute: true,
+          },
+        },
+        arrayOfContainsObject: {
+          type: "array",
+          contains: {
+            type: "object",
+          },
+          minContains: 3,
+          xml: {
+            attribute: true,
+          },
+        },
+      },
+    }
+
+    const expected = `<?xml version="1.0" encoding="UTF-8"?>
+<test arrayOfStrings="string" arrayOfArrays="UnknownTypeArray UnknownTypeArray UnknownTypeArray" arrayOfContainsObject="UnknownTypeObject UnknownTypeObject UnknownTypeObject">
+</test>`
+
+    expect(sut(definition)).toEqual(expected)
+  })
+
+  it("should handle object properties of type `object` as an attribute", () => {
+    const definition = {
+      type: "object",
+      xml: {
+        name: "test",
+      },
+      properties: {
+        object: {
+          type: "object",
+          properties: {
+            string: {
+              type: "string",
+            },
+          },
+          xml: {
+            attribute: true,
+          },
+        },
+      },
+    }
+
+    const expected = `<?xml version="1.0" encoding="UTF-8"?>
+<test object="UnknownTypeObject">
+</test>`
+
+    expect(sut(definition)).toEqual(expected)
+  })
 })
 
 describe("memoizedSampleFromSchema", () => {

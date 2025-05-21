@@ -148,7 +148,31 @@ export const sampleFromSchemaGeneric = (
             const propSchema = typeCast(props[propName])
             const propSchemaType = getType(propSchema)
             const attrName = props[propName].xml.name || propName
-            _attr[attrName] = typeMap[propSchemaType](propSchema)
+
+            if (propSchemaType === "array") {
+              const arraySample = sampleFromSchemaGeneric(
+                props[propName],
+                config,
+                overrideE,
+                false
+              )
+              _attr[attrName] = arraySample
+                .map((item) => {
+                  if (isPlainObject(item)) {
+                    return "UnknownTypeObject"
+                  }
+                  if (Array.isArray(item)) {
+                    return "UnknownTypeArray"
+                  }
+                  return item
+                })
+                .join(" ")
+            } else {
+              _attr[attrName] =
+                propSchemaType === "object"
+                  ? "UnknownTypeObject"
+                  : typeMap[propSchemaType](propSchema)
+            }
           }
 
           return
