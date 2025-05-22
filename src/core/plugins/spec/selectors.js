@@ -209,8 +209,7 @@ export const operationsWithRootInherited = createSelector(
   ],
   (operations, consumes, produces) => {
     return operations.map( ops => ops.update("operation", op => {
-      if(op) {
-        if(!Map.isMap(op)) { return }
+      if (Map.isMap(op)) {
         return op.withMutations( op => {
           if ( !op.get("consumes") ) {
             op.update("consumes", a => Set(a).merge(consumes))

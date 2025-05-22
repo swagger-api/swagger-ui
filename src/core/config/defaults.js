@@ -94,6 +94,8 @@ const defaultOptions = Object.freeze({
     "audio/",
     "video/",
   ],
+
+  uncaughtExceptionHandler: null,
 })
 
 export default defaultOptions
