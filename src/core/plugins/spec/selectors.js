@@ -48,6 +48,36 @@ export const specResolved = createSelector(
   spec => spec.get("resolved", Map())
 )
 
+
+
+// Get parent-child schema map
+export const getParentToChildMap = createSelector(
+  specJS,
+  spec => {
+    const schemaMap = {}
+    const schemas = spec?.components?.schemas
+    if (schemas) {
+      Object.entries(schemas).forEach(([schemaName, schema]) => {
+        if (schema.allOf) {
+          schema.allOf.forEach(item => {
+            if (item.$ref) {
+              // Extract parent schema name from $ref
+              const parentName = item.$ref.split("/").pop()
+              // Add current schema as child of parent
+              if (!schemaMap[parentName]) {
+                schemaMap[parentName] = []
+              } 
+              schemaMap[parentName].push(schemaName)
+            }
+          })
+        }
+      })
+    }
+    return schemaMap
+  }
+)
+
+
 export const specResolvedSubtree = (state, path) => {
   return state.getIn(["resolvedSubtrees", ...path], undefined)
 }
