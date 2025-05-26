@@ -1,9 +1,8 @@
 import XML from "xml"
 import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
-import { deeplyStripKey, isFunc, normalizeArray, objectify } from "core/utils"
+import { deeplyStripKey, isFunc, normalizeArray, objectify, immutableToJS } from "core/utils"
 import memoizeN from "core/utils/memoizeN"
-import { immutableToJS } from "core/utils"
 
 const generateStringFromRegex = (pattern) => {
   try {
