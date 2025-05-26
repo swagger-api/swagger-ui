@@ -2,7 +2,6 @@
  * @prettier
  */
 import { List, Map } from "immutable"
-import { immutableToJS } from "core/utils"
 
 export const upperFirst = (value) => {
   if (typeof value === "string") {
@@ -165,7 +164,7 @@ export const makeGetType = (fnAccessor) => {
     return combinedStrings || "any"
   }
 
-  return (schema, ...rest) => getType(immutableToJS(schema), ...rest)
+  return getType
 }
 
 export const isBooleanJSONSchema = (schema) => typeof schema === "boolean"

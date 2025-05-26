@@ -206,7 +206,7 @@ export class JsonSchema_array extends PureComponent {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}`)
     }
 
-    if (List.isList(schemaItems.get("type")) && (schemaItemsType === "array" || schemaItemsType === "object")) {
+    if (List.isList(schemaItems?.get("type")) && (schemaItemsType === "array" || schemaItemsType === "object")) {
       ArrayItemsComponent = getComponent(`JsonSchema_object`)
     }
 

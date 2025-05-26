@@ -259,6 +259,7 @@ export default class ParameterRow extends Component {
 
     const schemaObjectType = fn.getSchemaObjectType(schema)
     const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+    const schemaObjectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
     const isObject = !bodyParam && schemaObjectType === "object"
     const isArrayOfObjects = !bodyParam && schemaItemsType === "object"
 
@@ -321,7 +322,7 @@ export default class ParameterRow extends Component {
             { !required ? null : <span>&nbsp;*</span> }
           </div>
           <div className="parameter__type">
-            { schemaObjectType }
+            { schemaObjectTypeLabel }
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">
