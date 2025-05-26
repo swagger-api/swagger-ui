@@ -379,7 +379,7 @@ describe("sampleFromSchema", () => {
       format: "time"
     }
 
-    let expected = "09:13:28.927"
+    let expected = "09:13:28.927Z"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
