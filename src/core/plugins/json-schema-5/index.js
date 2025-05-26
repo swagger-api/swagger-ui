@@ -30,11 +30,11 @@ const JSONSchema5Plugin = () => ({
     ModelExtensions,
     schemes: Schemes,
     SchemesContainer,
-    getSchemaObjectTypeLabel,
     ...JSONSchemaComponents,
   },
   fn: {
     hasSchemaType,
+    getSchemaObjectTypeLabel,
   },
 })
 

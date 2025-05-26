@@ -6,21 +6,17 @@ import { List, fromJS } from "immutable"
 import { render } from "enzyme"
 
 import ParameterRow from "core/components/parameter-row"
+import { getSchemaObjectTypeLabel } from "core/plugins/json-schema-5/fn"
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
   mergeJsonSchema,
+  getSchemaObjectType,
 } from "core/plugins/json-schema-5-samples/fn/index"
 import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
 import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
 import makeGetYamlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-yaml-sample-schema"
 import makeGetXmlSampleSchema from "core/plugins/json-schema-5-samples/fn/get-xml-sample-schema"
-import { foldType } from "core/plugins/json-schema-2020-12-samples/fn/index"
-import {
-  makeGetType,
-  isBooleanJSONSchema,
-} from "core/plugins/json-schema-2020-12/fn.js"
-import { immutableToJS } from "../../../src/core/utils"
 
 describe("<ParameterRow/>", () => {
   const createProps = ({ param, isOAS3 }) => {
@@ -34,14 +30,13 @@ describe("<ParameterRow/>", () => {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
         mergeJsonSchema,
-        getSchemaObjectTypeLabel: (schema) =>
-          foldType(immutableToJS(schema)?.type),
-        getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
       oas3Selectors: { activeExamplesMember: () => {} },
       getConfigs: () => ({}),
@@ -178,12 +173,12 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
-        getSchemaObjectTypeLabel: foldType,
-        getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
       getConfigs: () => {
         return {}
@@ -232,12 +227,12 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
-        getSchemaObjectTypeLabel: foldType,
-        getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
     })
     const props = {
@@ -287,13 +282,13 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
         mergeJsonSchema,
-        getSchemaObjectTypeLabel: foldType,
-        getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
     })
     const props = {
@@ -343,13 +338,13 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
         mergeJsonSchema,
-        getSchemaObjectTypeLabel: foldType,
-        getSchemaObjectType: makeGetType(() => ({ isBooleanJSONSchema })),
       },
     })
     const props = {
