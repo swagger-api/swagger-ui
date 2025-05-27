@@ -41,6 +41,7 @@ const RequestBody = ({
   getComponent,
   getConfigs,
   specSelectors,
+  specActions,
   fn,
   contentType,
   isExecute,
@@ -298,6 +299,7 @@ const RequestBody = ({
           getComponent={ getComponent }
           getConfigs={ getConfigs }
           specSelectors={ specSelectors }
+          specActions={ specActions }
           expandDepth={1}
           isExecute={isExecute}
           schema={mediaTypeValue.get("schema")}
@@ -333,6 +335,7 @@ RequestBody.propTypes = {
   getConfigs: PropTypes.func.isRequired,
   fn: PropTypes.object.isRequired,
   specSelectors: PropTypes.object.isRequired,
+  specActions: PropTypes.object.isRequired,
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
