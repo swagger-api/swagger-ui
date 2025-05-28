@@ -3,7 +3,7 @@ import { Map, List, fromJS } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue, immutableToJS } from "core/utils"
+import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
 import getParameterSchema from "core/utils/get-parameter-schema.js"
 
 export default class ParameterRow extends Component {
@@ -152,13 +152,13 @@ export default class ParameterRow extends Component {
 
       //// Dispatch the initial value
 
-      const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type")))
-      const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"])))
+      const schemaObjectType = fn.getSchemaObjectType(schema)
+      const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
 
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
       } else if(
-        type === "object"
+        schemaObjectType === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
@@ -174,10 +174,10 @@ export default class ParameterRow extends Component {
             stringify(generatedSampleValue)
           )
         )
-      } 
+      }
       else if (
-        type === "array"
-        && itemType === "object"
+        schemaObjectType === "array"
+        && schemaItemsType === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
@@ -251,17 +251,17 @@ export default class ParameterRow extends Component {
     if (isOAS3) {
       schema = this.composeJsonSchema(schema)
     }
-    
+
     let format = schema ? schema.get("format") : null
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
 
-    const typeLabel = fn.jsonSchema202012.getType(immutableToJS(schema))
-    const type = fn.jsonSchema202012.foldType(immutableToJS(schema?.get("type"))) 
-    const itemType = fn.jsonSchema202012.foldType(immutableToJS(schema?.getIn(["items", "type"]))) 
-    const isObject = !bodyParam && type === "object"
-    const isArrayOfObjects = !bodyParam && itemType === "object"
+    const schemaObjectType = fn.getSchemaObjectType(schema)
+    const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+    const schemaObjectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
+    const isObject = !bodyParam && schemaObjectType === "object"
+    const isArrayOfObjects = !bodyParam && schemaItemsType === "object"
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
@@ -322,7 +322,7 @@ export default class ParameterRow extends Component {
             { !required ? null : <span>&nbsp;*</span> }
           </div>
           <div className="parameter__type">
-            { typeLabel }
+            { schemaObjectTypeLabel }
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">
@@ -371,7 +371,7 @@ export default class ParameterRow extends Component {
           }
 
           { (isObject || isArrayOfObjects) ? (
-            <ModelExample 
+            <ModelExample
               getComponent={getComponent}
               specPath={specPath.push("schema")}
               getConfigs={getConfigs}
@@ -380,7 +380,7 @@ export default class ParameterRow extends Component {
               schema={schema}
               example={jsonSchemaForm}
             />
-            ) : jsonSchemaForm 
+            ) : jsonSchemaForm
           }
 
           {
