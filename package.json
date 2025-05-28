@@ -121,7 +121,7 @@
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@jest/globals": "=29.7.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
     "@release-it/conventional-changelog": "=8.0.2",
     "@svgr/webpack": "=8.1.0",
     "autoprefixer": "^10.4.21",
