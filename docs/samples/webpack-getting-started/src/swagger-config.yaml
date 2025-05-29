@@ -28,3 +28,18 @@ paths:
           description: "Unauthorized"
         200:
           description: "OK"
+
+tags:
+  - name: "pet-list"
+    description: "Everything about your Pets"
+
+paths:
+  /pet:
+    get:
+      tags:
+        - "pet-list"
+      summary: "Returns all pets"
+      responses:
+        "200":
+          description: OK
+
