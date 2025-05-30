@@ -90,15 +90,15 @@ export default class OperationContainer extends PureComponent {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { response, isShown } = nextProps
+  componentDidUpdate(prevProps) {
+    const { response, isShown } = this.props
     const resolvedSubtree = this.getResolvedSubtree()
-
-    if(response !== this.props.response) {
+  
+    if (response !== prevProps.response) {
       this.setState({ executeInProgress: false })
     }
-
-    if(isShown && resolvedSubtree === undefined) {
+  
+    if (isShown && resolvedSubtree === undefined && !prevProps.isShown) {
       this.requestResolvedSubtree()
     }
   }
