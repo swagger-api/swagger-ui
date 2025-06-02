@@ -1,7 +1,7 @@
 import XML from "xml"
 import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
-import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
+import { deeplyStripKey, isFunc, normalizeArray, objectify, immutableToJS } from "core/utils"
 import memoizeN from "core/utils/memoizeN"
 
 const generateStringFromRegex = (pattern) => {
@@ -19,6 +19,7 @@ const primitives = {
   "string_email": () => "user@example.com",
   "string_date-time": () => new Date().toISOString(),
   "string_date": () => new Date().toISOString().substring(0, 10),
+  "string_time": () => new Date().toISOString().substring(11),
   "string_uuid": () => "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "string_hostname": () => "example.com",
   "string_ipv4": () => "198.51.100.42",
@@ -56,10 +57,12 @@ const numberContracts = [
 ]
 const stringContracts = ["minLength", "maxLength"]
 
-const liftSampleHelper = (oldSchema, target, config = {}) => {
+export const mergeJsonSchema = (target, source, config = {}) => {
+  const merged = { ...target }
+
   const setIfNotDefinedInTarget = (key) => {
-    if(target[key] === undefined && oldSchema[key] !== undefined) {
-      target[key] = oldSchema[key]
+    if(merged[key] === undefined && source[key] !== undefined) {
+      merged[key] = source[key]
     }
   }
 
@@ -75,22 +78,22 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
     ...stringContracts,
   ].forEach(key => setIfNotDefinedInTarget(key))
 
-  if(oldSchema.required !== undefined && Array.isArray(oldSchema.required)) {
-    if(target.required === undefined || !target.required.length) {
-      target.required = []
+  if(source.required !== undefined && Array.isArray(source.required)) {
+    if(merged.required === undefined || !merged.required.length) {
+      merged.required = []
     }
-    oldSchema.required.forEach(key => {
-      if(target.required.includes(key)) {
+    source.required.forEach(key => {
+      if(merged.required.includes(key)) {
         return
       }
-      target.required.push(key)
+      merged.required.push(key)
     })
   }
-  if(oldSchema.properties) {
-    if(!target.properties) {
-      target.properties = {}
+  if(source.properties) {
+    if(!merged.properties) {
+      merged.properties = {}
     }
-    let props = objectify(oldSchema.properties)
+    let props = objectify(source.properties)
     for (let propName in props) {
       if (!Object.prototype.hasOwnProperty.call(props, propName)) {
         continue
@@ -104,26 +107,26 @@ const liftSampleHelper = (oldSchema, target, config = {}) => {
       if ( props[propName] && props[propName].writeOnly && !config.includeWriteOnly ) {
         continue
       }
-      if(!target.properties[propName]) {
-        target.properties[propName] = props[propName]
-        if(!oldSchema.required && Array.isArray(oldSchema.required) && oldSchema.required.indexOf(propName) !== -1) {
-          if(!target.required) {
-            target.required = [propName]
+      if(!merged.properties[propName]) {
+        merged.properties[propName] = props[propName]
+        if(!source.required && Array.isArray(source.required) && source.required.indexOf(propName) !== -1) {
+          if(!merged.required) {
+            merged.required = [propName]
           } else {
-            target.required.push(propName)
+            merged.required.push(propName)
           }
         }
       }
     }
   }
-  if(oldSchema.items) {
-    if(!target.items) {
-      target.items = {}
+  if(source.items) {
+    if(!merged.items) {
+      merged.items = {}
     }
-    target.items = liftSampleHelper(oldSchema.items, target.items, config)
+    merged.items = mergeJsonSchema(merged.items, source.items, config)
   }
 
-  return target
+  return merged
 }
 
 export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = undefined, respectXML = false) => {
@@ -138,7 +141,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
       ? schema.oneOf[0]
       : schema.anyOf[0]
     )
-    liftSampleHelper(schemaToAdd, schema, config)
+    schema = mergeJsonSchema(schema, schemaToAdd, config)
     if(!schema.xml && schemaToAdd.xml) {
       schema.xml = schemaToAdd.xml
     }
@@ -378,7 +381,7 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
 
     // if json just return
     if(!respectXML) {
-      // spacial case yaml parser can not know about
+      // special case yaml parser can not know about
       if(typeof sample === "number" && type === "string") {
         return `${sample}`
       }
@@ -537,9 +540,9 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     }
 
     if(Array.isArray(items.anyOf)) {
-      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i, config), config, undefined, respectXML))
+      sampleArray = items.anyOf.map(i => sampleFromSchemaGeneric(mergeJsonSchema(i, items, config), config, undefined, respectXML))
     } else if(Array.isArray(items.oneOf)) {
-      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(liftSampleHelper(items, i, config), config, undefined, respectXML))
+      sampleArray = items.oneOf.map(i => sampleFromSchemaGeneric(mergeJsonSchema(i, items, config), config, undefined, respectXML))
     } else if(!respectXML || respectXML && xml.wrapped) {
       sampleArray = [sampleFromSchemaGeneric(items, config, undefined, respectXML)]
     } else {
@@ -625,6 +628,7 @@ export const createXMLExample = (schema, config, o) => {
   return XML(json, { declaration: true, indent: "\t" })
 }
 
+
 export const sampleFromSchema = (schema, config, o) =>
   sampleFromSchemaGeneric(schema, config, o, false)
 
@@ -633,3 +637,5 @@ const resolver = (arg1, arg2, arg3) => [arg1, JSON.stringify(arg2), JSON.stringi
 export const memoizedCreateXMLExample = memoizeN(createXMLExample, resolver)
 
 export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
+
+export const getSchemaObjectType = (schema) => immutableToJS(schema)?.type ?? "string"

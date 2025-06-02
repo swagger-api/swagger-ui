@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const ArrowDown = ({ className, width, height, ...rest }) => (
+const ArrowDown = ({ className = null, width = 20, height = 20, ...rest }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
@@ -23,12 +23,6 @@ ArrowDown.propTypes = {
   className: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-}
-
-ArrowDown.defaultProps = {
-  className: null,
-  width: 20,
-  height: 20,
 }
 
 export default ArrowDown

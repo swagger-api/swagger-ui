@@ -48,8 +48,8 @@ describe("<LiveResponse/>", function(){
         duration: 50
       })
 
-      let mutatedRequestForSpy = jest.fn().mockImplementation(function(mutatedRequest) { return mutatedRequest })
-      let requestForSpy = jest.fn().mockImplementation(function(request) { return request })
+      let mutatedRequestForSpy = jest.fn().mockImplementation(function() { return mutatedRequest })
+      let requestForSpy = jest.fn().mockImplementation(function() { return request })
 
       let components = {
         curl: Curl,
@@ -74,8 +74,8 @@ describe("<LiveResponse/>", function(){
       let wrapper = shallow(<LiveResponse {...props}/>)
 
       // Then
-      expect(mutatedRequestForSpy.calls.length).toEqual(test.expected.mutatedRequestForCalls)
-      expect(requestForSpy.calls.length).toEqual(test.expected.requestForCalls)
+      expect(mutatedRequestForSpy.mock.calls.length).toEqual(test.expected.mutatedRequestForCalls)
+      expect(requestForSpy.mock.calls.length).toEqual(test.expected.requestForCalls)
 
       const curl = wrapper.find(Curl)
       expect(curl.length).toEqual(1)
@@ -84,13 +84,13 @@ describe("<LiveResponse/>", function(){
       const expectedUrl = requests[test.expected.request].get("url")
       expect(wrapper.find("div.request-url pre.microlight").text()).toEqual(expectedUrl)
 
-      let duration = wrapper.find("Duration")
+      const duration = wrapper.find("Duration")
       expect(duration.length).toEqual(1)
       expect(duration.props().duration).toEqual(50)
       expect(duration.html())
         .toEqual("<div><h5>Request duration</h5><pre class=\"microlight\">50 ms</pre></div>")
 
-      let responseHeaders = wrapper.find("Headers")
+      const responseHeaders = wrapper.find("Headers")
       expect(duration.length).toEqual(1)
       expect(responseHeaders.props().headers.length).toEqual(1)
       expect(responseHeaders.props().headers[0].key).toEqual("content-type")

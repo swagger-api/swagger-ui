@@ -2,9 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import Im from "immutable"
-import { createDeepLinkPath, escapeDeepLinkPath, sanitizeUrl } from "core/utils"
-import { safeBuildUrl } from "core/utils/url"
-import { isFunc } from "core/utils"
+import { createDeepLinkPath, escapeDeepLinkPath, isFunc } from "core/utils"
+import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
+
+/* eslint-disable  react/jsx-no-bind */
 
 export default class OperationTag extends React.Component {
 
@@ -47,8 +48,6 @@ export default class OperationTag extends React.Component {
       deepLinking,
     } = getConfigs()
 
-    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
-
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown", true)
     const DeepLink = getComponent("DeepLink")
@@ -80,7 +79,7 @@ export default class OperationTag extends React.Component {
           data-is-open={showTag}
         >
           <DeepLink
-            enabled={isDeepLinkingEnabled}
+            enabled={deepLinking}
             isShown={showTag}
             path={createDeepLinkPath(tag)}
             text={tag} />

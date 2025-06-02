@@ -1,4 +1,4 @@
-import { Map } from "immutable"
+import { List, Map } from "immutable"
 import win from "../../window"
 
 
@@ -50,15 +50,14 @@ const escapePowershell = (str) => {
     return str
   }
   if (/\n/.test(str)) {
-    return "@\"\n" + str.replace(/"/g, "\\\"").replace(/`/g, "``").replace(/\$/, "`$") + "\n\"@"
+    const escaped = str.replace(/`/g, "``").replace(/\$/g, "`$")
+    return `@"\n${escaped}\n"@`
   }
-  // eslint-disable-next-line no-useless-escape
-  if (!/^[_\/-]/g.test(str))
-    return "'" + str
-      .replace(/"/g, "\"\"")
-      .replace(/'/g, "''") + "'"
-  else
-    return str
+  if (!/^[_\/-]/.test(str)) { // eslint-disable-line no-useless-escape
+    const escaped = str.replace(/'/g, "''")
+    return `'${escaped}'`
+  }
+  return str
 }
 
 function getStringBodyOfMap(request) {
@@ -84,7 +83,8 @@ const curlify = (request, escape, newLine, ext = "") => {
   let headers = request.get("headers")
   curlified += "curl" + ext
 
-  if (request.has("curlOptions")) {
+  const curlOptions = request.get("curlOptions")
+  if (List.isList(curlOptions) && !curlOptions.isEmpty()) {
     addWords(...request.get("curlOptions"))
   }
 
@@ -156,17 +156,14 @@ const curlify = (request, escape, newLine, ext = "") => {
   return curlified
 }
 
-// eslint-disable-next-line camelcase
 export const requestSnippetGenerator_curl_powershell = (request) => {
   return curlify(request, escapePowershell, "`\n", ".exe")
 }
 
-// eslint-disable-next-line camelcase
 export const requestSnippetGenerator_curl_bash = (request) => {
   return curlify(request, escapeShell, "\\\n")
 }
 
-// eslint-disable-next-line camelcase
 export const requestSnippetGenerator_curl_cmd = (request) => {
   return curlify(request, escapeCMD, "^\n")
 }

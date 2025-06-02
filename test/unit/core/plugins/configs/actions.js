@@ -1,4 +1,4 @@
-import { downloadConfig } from "core/plugins/configs/spec-actions"
+import { downloadConfig } from "core/plugins/configs/actions"
 
 describe("configs plugin - actions", () => {
 

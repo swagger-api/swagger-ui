@@ -1,0 +1,96 @@
+openapi: 3.0.4
+info:
+  title: "Request body file upload"
+  description: |-
+    This document has examples for examining the `schema` or content type for request bodies requiring a file upload
+    * `application/octect-stream` content type (no matter what schema format)
+    * `audio/*` content type (no matter what schema format)
+    * `image/*` content type (no matter what schema format)
+    * `video/*` content type (no matter what schema format)
+    * `application/octect-stream` content type with empty Media Type Object
+    * schema type is `string` and format is `byte` (no matter what content type)
+    * schema type is `string` and format is `binary` (no matter what content type)
+    * multipart/form-data object property schema type is `string` and format is `byte`
+    * multipart/form-data object property schema type is `string` and format is `binary`
+  version: "1.0.0"
+paths:
+  /upload-application-octet-stream:
+    post:
+      operationId: uploadApplicationOctetStream
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+  /upload-image-png:
+    post:
+      operationId: uploadImagePng
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+  /upload-audio-wav:
+    post:
+      operationId: uploadAudioWav
+      requestBody:
+        content:
+          audio/wav:
+            schema:
+              type: string
+  /upload-video-mpeg:
+    post:
+      operationId: uploadVideoMpeg
+      requestBody:
+        content:
+          video/mpeg:
+            schema:
+              type: string
+  /upload-application-octet-stream-empty:
+    post:
+      operationId: uploadApplicationOctetStreamEmpty
+      requestBody:
+        content:
+          application/octet-stream: {}
+  /upload-schema-format-binary:
+    post:
+      operationId: uploadSchemaFormatBinary
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type: string
+              format: binary
+  /upload-schema-format-byte:
+    post:
+      operationId: uploadSchemaFormatByte
+      requestBody:
+        content:
+          application/x-custom:
+            schema:
+              type: string
+              format: byte
+  /upload-property-schema-format-binary:
+    post:
+      operationId: uploadPropertySchemaFormatBinary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+  /upload-property-schema-format-byte:
+    post:
+      operationId: uploadPropertySchemaFormatByte
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: byte

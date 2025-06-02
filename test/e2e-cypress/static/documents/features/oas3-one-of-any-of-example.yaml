@@ -1,0 +1,206 @@
+openapi: 3.0.4
+info:
+  title: Example app
+  description: This is my test applicaiton
+  version: 1.0.0
+  contact:
+    name: John Doe
+    email: jonhdoe@contact.com
+servers:
+  - url: https://dev.app.com/appApplicationName
+    description: DEV
+paths:
+  /documentsWithCombineOneOf:
+    post:
+      description: ''
+      summary: Add a document - KO
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ModelPostDocumentOneOfCombineModelFile'
+      operationId: testOneOf
+      security:
+        - Basic: []
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Default'
+  /documentsWithCombineAnyOf:
+    post:
+      description: ''
+      summary: Add a document - KO
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ModelPostDocumentAnyOfCombineModelFile'
+      operationId: testAnyOf
+      security:
+        - Basic: []
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Default'
+components:
+  schemas:
+    AbstractModelPostDocument:
+      type: object
+      properties:
+        title:
+          type: string
+          default: ''
+          maxLength: 64
+          example: NestedSchemaExample.pdf'
+        category:
+          type: string
+          pattern: ''
+        type:
+          type: string
+          description: Type depends on category
+        issuingApplicationId:
+          type: string
+          enum:
+            - App1
+            - App2
+            - App3
+            - App4
+        documentDate:
+          type: string
+          description: >-
+            Creation date of the document. Example : For ID card, it is the
+            issuing date of the card.
+          format: date
+        sharedWith:
+          type: array
+          items:
+            type: string
+            enum:
+              - CustomerPortal
+              - PartnerPortal
+          uniqueItems: true
+          minItems: 0
+          maxItems: 2
+      required:
+        - title
+        - category
+        - type
+        - documentDate
+        - file
+    ModelPostDocumentPolicy:
+      allOf:
+        - $ref: '#/components/schemas/AbstractModelPostDocument'
+        - type: object
+          properties:
+            policyNumber:
+              type: string
+              description: Policy Number
+              example: '132456'
+              minLength: 1
+              maxLength: 36
+              pattern: ''
+          description: Metadata for policy documents
+          required:
+            - policyNumber
+    ModelPostDocumentCustomer:
+      allOf:
+        - $ref: '#/components/schemas/AbstractModelPostDocument'
+        - type: object
+          properties:
+            customerNumber:
+              type: number
+              description: Customer Number
+              exclusiveMinimum: true
+              minimum: 0
+              exclusiveMaximum: true
+              maximum: 99999999999999
+            organisationName:
+              type: string
+              enum:
+                - Organisation1
+                - Organisation2
+                - Organisation3
+              description: Organisation Name
+          required:
+            - organisationName
+            - customerNumber
+          description: Metadata for Customer Documents
+    ModelPostDocumentInvoice:
+      allOf:
+        - $ref: '#/components/schemas/AbstractModelPostDocument'
+        - type: object
+          properties:
+            invoiceNumber:
+              type: string
+              description: Invoice Number
+              example: '132456'
+              minLength: 1
+              maxLength: 36
+              pattern: ''
+            amount:
+              type: number
+              example: 1234.56
+              description: Invoice Amount
+          description: Metadata for invoice documents
+          required:
+            - amount
+            - invoiceNumber
+    ModelPostDocumentOneOf:
+      oneOf:
+        - $ref: '#/components/schemas/ModelPostDocumentPolicy'
+        - $ref: '#/components/schemas/ModelPostDocumentCustomer'
+        - $ref: '#/components/schemas/ModelPostDocumentInvoice'
+    ModelFile:
+      type: object
+      properties:
+        content:
+          type: string
+          format: binary
+      required:
+        - content
+    ModelPostDocumentOneOfCombineModelFile:
+      allOf:
+        - $ref: '#/components/schemas/ModelFile'
+        - type: object
+          properties:
+            metadata:
+              $ref: '#/components/schemas/ModelPostDocumentOneOf'
+          required:
+            - metadata
+    ModelPostDocumentAnyOf:
+      anyOf:
+        - $ref: '#/components/schemas/ModelPostDocumentPolicy'
+        - $ref: '#/components/schemas/ModelPostDocumentCustomer'
+        - $ref: '#/components/schemas/ModelPostDocumentInvoice'
+      example:
+        title: ParentSchemaExample.pdf
+        category: Policy
+        type: Policy
+        issuingApplicationId: App1
+        documentDate: '2021-01-01'
+        sharedWith:
+          - CustomerPortal
+        policyNumber: '132456'
+    ModelPostDocumentAnyOfCombineModelFile:
+      allOf:
+        - $ref: '#/components/schemas/ModelFile'
+        - type: object
+          properties:
+            metadata:
+              $ref: '#/components/schemas/ModelPostDocumentAnyOf'
+          required:
+            - metadata
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+  responses:
+    Default:
+      description: Not needed
+      headers: {}
+      content:
+        application/json:
+          schema:
+            type: string
+            description: not needed
+tags: []

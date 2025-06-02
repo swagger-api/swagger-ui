@@ -21,6 +21,9 @@ export const sampleFromSchemaGeneric = (
   exampleOverride = undefined,
   respectXML = false
 ) => {
+  // there is nothing to generate schema from
+  if (schema == null && exampleOverride === undefined) return undefined
+
   if (typeof schema?.toJS === "function") schema = schema.toJS()
   schema = typeCast(schema)
 
@@ -145,7 +148,31 @@ export const sampleFromSchemaGeneric = (
             const propSchema = typeCast(props[propName])
             const propSchemaType = getType(propSchema)
             const attrName = props[propName].xml.name || propName
-            _attr[attrName] = typeMap[propSchemaType](propSchema)
+
+            if (propSchemaType === "array") {
+              const arraySample = sampleFromSchemaGeneric(
+                props[propName],
+                config,
+                overrideE,
+                false
+              )
+              _attr[attrName] = arraySample
+                .map((item) => {
+                  if (isPlainObject(item)) {
+                    return "UnknownTypeObject"
+                  }
+                  if (Array.isArray(item)) {
+                    return "UnknownTypeArray"
+                  }
+                  return item
+                })
+                .join(" ")
+            } else {
+              _attr[attrName] =
+                propSchemaType === "object"
+                  ? "UnknownTypeObject"
+                  : typeMap[propSchemaType](propSchema)
+            }
           }
 
           return
@@ -216,7 +243,7 @@ export const sampleFromSchemaGeneric = (
 
     // if json just return
     if (!respectXML) {
-      // spacial case yaml parser can not know about
+      // special case yaml parser can not know about
       if (typeof sample === "number" && type === "string") {
         return `${sample}`
       }
@@ -317,10 +344,13 @@ export const sampleFromSchemaGeneric = (
       }
 
       if (Array.isArray(contains.anyOf)) {
+        // eslint-disable-next-line no-unused-vars
+        const { anyOf, ...containsWithoutAnyOf } = items
+
         sampleArray.push(
           ...contains.anyOf.map((anyOfSchema) =>
             sampleFromSchemaGeneric(
-              merge(anyOfSchema, contains, config),
+              merge(anyOfSchema, containsWithoutAnyOf, config),
               config,
               undefined,
               respectXML
@@ -328,10 +358,13 @@ export const sampleFromSchemaGeneric = (
           )
         )
       } else if (Array.isArray(contains.oneOf)) {
+        // eslint-disable-next-line no-unused-vars
+        const { oneOf, ...containsWithoutOneOf } = items
+
         sampleArray.push(
           ...contains.oneOf.map((oneOfSchema) =>
             sampleFromSchemaGeneric(
-              merge(oneOfSchema, contains, config),
+              merge(oneOfSchema, containsWithoutOneOf, config),
               config,
               undefined,
               respectXML
@@ -354,10 +387,13 @@ export const sampleFromSchemaGeneric = (
       }
 
       if (Array.isArray(items.anyOf)) {
+        // eslint-disable-next-line no-unused-vars
+        const { anyOf, ...itemsWithoutAnyOf } = items
+
         sampleArray.push(
           ...items.anyOf.map((i) =>
             sampleFromSchemaGeneric(
-              merge(i, items, config),
+              merge(i, itemsWithoutAnyOf, config),
               config,
               undefined,
               respectXML
@@ -365,10 +401,13 @@ export const sampleFromSchemaGeneric = (
           )
         )
       } else if (Array.isArray(items.oneOf)) {
+        // eslint-disable-next-line no-unused-vars
+        const { oneOf, ...itemsWithoutOneOf } = items
+
         sampleArray.push(
           ...items.oneOf.map((i) =>
             sampleFromSchemaGeneric(
-              merge(i, items, config),
+              merge(i, itemsWithoutOneOf, config),
               config,
               undefined,
               respectXML

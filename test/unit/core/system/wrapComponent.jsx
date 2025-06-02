@@ -2,6 +2,7 @@ import React from "react"
 
 import { render } from "enzyme"
 import System from "core/system"
+import PropTypes from "prop-types"
 
 describe("wrapComponents", () => {
   describe("should wrap a component and provide a reference to the original", () => {
@@ -46,7 +47,11 @@ describe("wrapComponents", () => {
         }
       }
 
-      // Given
+      MyComponent.propTypes = {
+        name: PropTypes.string,
+      }
+
+        // Given
       const system = new System({
         plugins: [
           {
@@ -187,14 +192,11 @@ describe("wrapComponents", () => {
     expect(children.eq(1).text()).toEqual("WOW much data")
   })
 
-  it("should wrap correctly when registering multiple plugins targeting the same component", function () {
+  it("should wrap component correctly when performing subsequent plugin registering targeting the same component", function () {
 
     // Given
 
     const mySystem = new System({
-      pluginsOptions: {
-        pluginLoadType: "chain"
-      },
       plugins: [
         () => {
           return {
@@ -210,7 +212,7 @@ describe("wrapComponents", () => {
       () => {
         return {
           wrapComponents: {
-            wow: (OriginalComponent, system) => (props) => {
+            wow: (OriginalComponent) => (props) => {
               return <container1>
                 <OriginalComponent {...props}></OriginalComponent>
                 <div>Injected after</div>
@@ -222,7 +224,7 @@ describe("wrapComponents", () => {
       () => {
         return {
           wrapComponents: {
-            wow: (OriginalComponent, system) => (props) => {
+            wow: (OriginalComponent) => (props) => {
               return <container2>
                 <div>Injected before</div>
                 <OriginalComponent {...props}></OriginalComponent>

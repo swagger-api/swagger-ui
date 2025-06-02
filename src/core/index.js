@@ -1,5 +1,6 @@
-import deepExtend from "deep-extend"
-
+/**
+ * @prettier
+ */
 import System from "./system"
 // presets
 import BasePreset from "./presets/base"
@@ -11,6 +12,7 @@ import DeepLinkingPlugin from "./plugins/deep-linking"
 import ErrPlugin from "./plugins/err"
 import FilterPlugin from "./plugins/filter"
 import IconsPlugin from "./plugins/icons"
+import JSONSchema5Plugin from "./plugins/json-schema-5"
 import JSONSchema202012Plugin from "./plugins/json-schema-2020-12"
 import JSONSchema202012SamplesPlugin from "./plugins/json-schema-2020-12-samples"
 import LayoutPlugin from "./plugins/layout"
@@ -24,224 +26,117 @@ import SpecPlugin from "./plugins/spec"
 import SwaggerClientPlugin from "./plugins/swagger-client"
 import UtilPlugin from "./plugins/util"
 import ViewPlugin from "./plugins/view"
+import ViewLegacyPlugin from "core/plugins/view-legacy"
 import DownloadUrlPlugin from "./plugins/download-url"
+import SyntaxHighlightingPlugin from "core/plugins/syntax-highlighting"
+import VersionsPlugin from "core/plugins/versions"
 import SafeRenderPlugin from "./plugins/safe-render"
 
-import { parseSearch } from "./utils"
-import win from "./window"
+import {
+  defaultOptions,
+  optionsFromQuery,
+  optionsFromURL,
+  optionsFromRuntime,
+  mergeOptions,
+  inlinePluginOptionsFactorization,
+  systemOptionsFactorization,
+  typeCastOptions,
+  typeCastMappings,
+} from "./config"
 
-// eslint-disable-next-line no-undef
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, BUILD_TIME } = buildInfo
+function SwaggerUI(userOptions) {
+  const queryOptions = optionsFromQuery()(userOptions)
+  const runtimeOptions = optionsFromRuntime()()
+  const mergedOptions = SwaggerUI.config.merge(
+    {},
+    SwaggerUI.config.defaults,
+    runtimeOptions,
+    userOptions,
+    queryOptions
+  )
+  const systemOptions = systemOptionsFactorization(mergedOptions)
+  const InlinePlugin = inlinePluginOptionsFactorization(mergedOptions)
 
-export default function SwaggerUI(opts) {
+  const unboundSystem = new System(systemOptions)
+  unboundSystem.register([mergedOptions.plugins, InlinePlugin])
+  const system = unboundSystem.getSystem()
 
-  win.versions = win.versions || {}
-  win.versions.swaggerUi = {
-    version: PACKAGE_VERSION,
-    gitRevision: GIT_COMMIT,
-    gitDirty: GIT_DIRTY,
-    buildTimestamp: BUILD_TIME,
-  }
-
-  const defaults = {
-    // Some general settings, that we floated to the top
-    dom_id: null, // eslint-disable-line camelcase
-    domNode: null,
-    spec: {},
-    url: "",
-    urls: null,
-    layout: "BaseLayout",
-    docExpansion: "list",
-    maxDisplayedTags: null,
-    filter: null,
-    validatorUrl: "https://validator.swagger.io/validator",
-    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/oauth2-redirect.html`,
-    persistAuthorization: false,
-    configs: {},
-    custom: {},
-    displayOperationId: false,
-    displayRequestDuration: false,
-    deepLinking: false,
-    tryItOutEnabled: false,
-    requestInterceptor: (a => a),
-    responseInterceptor: (a => a),
-    showMutatedRequest: true,
-    defaultModelRendering: "example",
-    defaultModelExpandDepth: 1,
-    defaultModelsExpandDepth: 1,
-    showExtensions: false,
-    showCommonExtensions: false,
-    withCredentials: undefined,
-    requestSnippetsEnabled: false,
-    requestSnippets: {
-      generators: {
-        "curl_bash": {
-          title: "cURL (bash)",
-          syntax: "bash"
-        },
-        "curl_powershell": {
-          title: "cURL (PowerShell)",
-          syntax: "powershell"
-        },
-        "curl_cmd": {
-          title: "cURL (CMD)",
-          syntax: "bash"
-        },
-      },
-      defaultExpanded: true,
-      languages: null, // e.g. only show curl bash = ["curl_bash"]
-    },
-    supportedSubmitMethods: [
-      "get",
-      "put",
-      "post",
-      "delete",
-      "options",
-      "head",
-      "patch",
-      "trace"
-    ],
-    queryConfigEnabled: false,
-
-    // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
-    // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
-    presets: [
-      ApisPreset
-    ],
-
-    // Plugins; ( loaded after presets )
-    plugins: [
-    ],
-
-    pluginsOptions: {
-      // Behavior during plugin registration. Can be :
-      // - legacy (default) : the current behavior for backward compatibility – last plugin takes precedence over the others
-      // - chain : chain wrapComponents when targeting the same core component
-      pluginLoadType: "legacy"
-    },
-
-    // Initial state
-    initialState: { },
-
-    // Inline Plugin
-    fn: { },
-    components: { },
-
-    syntaxHighlight: {
-      activated: true,
-      theme: "agate"
-    }
-  }
-
-  let queryConfig = opts.queryConfigEnabled ? parseSearch() : {}
-
-  const domNode = opts.domNode
-  delete opts.domNode
-
-  const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
-
-  const storeConfigs = {
-    system: {
-      configs: constructorConfig.configs
-    },
-    plugins: constructorConfig.presets,
-    pluginsOptions: constructorConfig.pluginsOptions,
-    state: deepExtend({
-      layout: {
-        layout: constructorConfig.layout,
-        filter: constructorConfig.filter
-      },
-      spec: {
-        spec: "",
-        // support Relative References
-        url: constructorConfig.url,
-      },
-      requestSnippets: constructorConfig.requestSnippets
-    }, constructorConfig.initialState)
-  }
-
-  if(constructorConfig.initialState) {
-    // if the user sets a key as `undefined`, that signals to us that we
-    // should delete the key entirely.
-    // known usage: Swagger-Editor validate plugin tests
-    for (var key in constructorConfig.initialState) {
-      if(
-        Object.prototype.hasOwnProperty.call(constructorConfig.initialState, key)
-        && constructorConfig.initialState[key] === undefined
-      ) {
-        delete storeConfigs.state[key]
-      }
-    }
-  }
-
-  let inlinePlugin = ()=> {
-    return {
-      fn: constructorConfig.fn,
-      components: constructorConfig.components,
-      state: constructorConfig.state,
-    }
-  }
-
-  var store = new System(storeConfigs)
-  store.register([constructorConfig.plugins, inlinePlugin])
-
-  var system = store.getSystem()
-
-  const downloadSpec = (fetchedConfig) => {
-    let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
-
-    // deep extend mangles domNode, we need to set it manually
-    if(domNode) {
-      mergedConfig.domNode = domNode
-    }
-
-    store.setConfigs(mergedConfig)
+  const persistConfigs = (options) => {
+    unboundSystem.setConfigs(options)
     system.configsActions.loaded()
-
-    if (fetchedConfig !== null) {
-      if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
-        system.specActions.updateUrl("")
-        system.specActions.updateLoadingStatus("success")
-        system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-      } else if (system.specActions.download && mergedConfig.url && !mergedConfig.urls) {
-        system.specActions.updateUrl(mergedConfig.url)
-        system.specActions.download(mergedConfig.url)
-      }
+  }
+  const updateSpec = (options) => {
+    if (
+      !queryOptions.url &&
+      typeof options.spec === "object" &&
+      Object.keys(options.spec).length > 0
+    ) {
+      system.specActions.updateUrl("")
+      system.specActions.updateLoadingStatus("success")
+      system.specActions.updateSpec(JSON.stringify(options.spec))
+    } else if (
+      typeof system.specActions.download === "function" &&
+      options.url &&
+      !options.urls
+    ) {
+      system.specActions.updateUrl(options.url)
+      system.specActions.download(options.url)
     }
-
-    if(mergedConfig.domNode) {
-      system.render(mergedConfig.domNode, "App")
-    } else if(mergedConfig.dom_id) {
-      let domNode = document.querySelector(mergedConfig.dom_id)
+  }
+  const render = (options) => {
+    if (options.domNode) {
+      system.render(options.domNode, "App")
+    } else if (options.dom_id) {
+      const domNode = document.querySelector(options.dom_id)
       system.render(domNode, "App")
-    } else if(mergedConfig.dom_id === null || mergedConfig.domNode === null) {
-      // do nothing
-      // this is useful for testing that does not need to do any rendering
+    } else if (options.dom_id === null || options.domNode === null) {
+      /**
+       * noop
+       *
+       * SwaggerUI instance can be created without any rendering involved.
+       * This is also useful for lazy rendering or testing.
+       */
     } else {
       console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
     }
+  }
+
+  // if no configUrl is provided, we can safely persist the configs and render
+  if (!mergedOptions.configUrl) {
+    persistConfigs(mergedOptions)
+    updateSpec(mergedOptions)
+    render(mergedOptions)
 
     return system
   }
 
-  const configUrl = queryConfig.config || constructorConfig.configUrl
+  // eslint-disable-next-line no-extra-semi
+  ;(async () => {
+    const { configUrl: url } = mergedOptions
+    const urlOptions = await optionsFromURL({ url, system })(mergedOptions)
+    const urlMergedOptions = SwaggerUI.config.merge(
+      {},
+      mergedOptions,
+      urlOptions,
+      queryOptions
+    )
 
-  if (configUrl && system.specActions && system.specActions.getConfigByUrl) {
-    system.specActions.getConfigByUrl({
-      url: configUrl,
-      loadRemoteConfig: true,
-      requestInterceptor: constructorConfig.requestInterceptor,
-      responseInterceptor: constructorConfig.responseInterceptor,
-    }, downloadSpec)
-  } else {
-    return downloadSpec()
-  }
+    persistConfigs(urlMergedOptions)
+    if (urlOptions !== null) updateSpec(urlMergedOptions)
+    render(urlMergedOptions)
+  })()
 
   return system
 }
 
 SwaggerUI.System = System
+
+SwaggerUI.config = {
+  defaults: defaultOptions,
+  merge: mergeOptions,
+  typeCast: typeCastOptions,
+  typeCastMappings,
+}
 
 SwaggerUI.presets = {
   base: BasePreset,
@@ -255,6 +150,7 @@ SwaggerUI.plugins = {
   Err: ErrPlugin,
   Filter: FilterPlugin,
   Icons: IconsPlugin,
+  JSONSchema5: JSONSchema5Plugin,
   JSONSchema5Samples: JSONSchema5SamplesPlugin,
   JSONSchema202012: JSONSchema202012Plugin,
   JSONSchema202012Samples: JSONSchema202012SamplesPlugin,
@@ -268,6 +164,11 @@ SwaggerUI.plugins = {
   SwaggerClient: SwaggerClientPlugin,
   Util: UtilPlugin,
   View: ViewPlugin,
+  ViewLegacy: ViewLegacyPlugin,
   DownloadUrl: DownloadUrlPlugin,
+  SyntaxHighlighting: SyntaxHighlightingPlugin,
+  Versions: VersionsPlugin,
   SafeRender: SafeRenderPlugin,
 }
+
+export default SwaggerUI

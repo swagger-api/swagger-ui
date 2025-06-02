@@ -1,7 +1,6 @@
 import YAML, { JSON_SCHEMA } from "js-yaml"
 import { Map as ImmutableMap } from "immutable"
 import parseUrl from "url-parse"
-import { serializeError } from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
@@ -79,7 +78,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   if(json && typeof json === "object") {
     return specActions.updateJsonSpec(json)
   }
-  return {}
+  return specActions.updateJsonSpec({})
 }
 
 let hasWarnedAboutResolveSpecDeprecation = false
@@ -195,7 +194,7 @@ const debResolveSubtrees = debounce(() => {
             // keep if...
             return err.get("type") !== "thrown" // it's not a thrown error
               || err.get("source") !== "resolver" // it's not a resolver error
-              || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
+              || !err.get("fullPath")?.every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
           })
         }
 
@@ -216,7 +215,7 @@ const debResolveSubtrees = debounce(() => {
         if (spec && specSelectors.isOAS3() && path[0] === "components" && path[1] === "securitySchemes") {
           // Resolve OIDC URLs if present
           await Promise.all(Object.values(spec)
-            .filter((scheme) => scheme.type === "openIdConnect")
+            .filter((scheme) => scheme?.type === "openIdConnect")
             .map(async (oidcScheme) => {
               const req = {
                 url: oidcScheme.openIdConnectUrl,
@@ -482,7 +481,7 @@ export const executeRequest = (req) =>
             err.message = "**Failed to fetch.**  \n**Possible Reasons:** \n  - CORS \n  - Network Failure \n  - URL scheme must be \"http\" or \"https\" for CORS request."
           }
           specActions.setResponse(req.pathName, req.method, {
-            error: true, err: serializeError(err)
+            error: true, err
           })
         }
       )

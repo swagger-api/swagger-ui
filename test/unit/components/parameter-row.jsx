@@ -6,9 +6,12 @@ import { List, fromJS } from "immutable"
 import { render } from "enzyme"
 
 import ParameterRow from "core/components/parameter-row"
+import { getSchemaObjectTypeLabel } from "core/plugins/json-schema-5/fn"
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
+  mergeJsonSchema,
+  getSchemaObjectType,
 } from "core/plugins/json-schema-5-samples/fn/index"
 import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
 import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
@@ -27,10 +30,13 @@ describe("<ParameterRow/>", () => {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
       },
       oas3Selectors: { activeExamplesMember: () => {} },
       getConfigs: () => ({}),
@@ -167,6 +173,8 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
@@ -219,6 +227,8 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
@@ -272,10 +282,13 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
       },
     })
     const props = {
@@ -325,10 +338,13 @@ describe("bug #5573: zero default and example values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
         getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
       },
     })
     const props = {

@@ -1,0 +1,69 @@
+openapi: 3.0.4
+info:
+  title: Test
+  description: 'Test'
+  license:
+    name: 'Apache 2.0'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+  version: '1.0'
+servers:
+  -
+    url: 'https://localhost:8000'
+components:
+  schemas:
+    OneOfParent:
+      title: OneOfParent
+      properties:
+        additionalData:
+          oneOf:
+            -
+              $ref: '#/components/schemas/FirstOneOf'
+            -
+              $ref: '#/components/schemas/SecondOneOf'
+            -
+              $ref: '#/components/schemas/ThirdOneOf'
+      type: object
+    FirstOneOf:
+      title: FirstOneOf
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/OneOfParent'
+        -
+          properties:
+            numberProp:
+              type: number
+              example: '1'
+          type: object
+    SecondOneOf:
+      title: SecondOneOf
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/OneOfParent'
+        -
+          properties:
+            person:
+              properties:
+                id:
+                  type: string
+              type: object
+          type: object
+    ThirdOneOf:
+      title: ThirdOneOf
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/OneOfParent'
+        -
+          properties:
+            person:
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                surname:
+                  type: string
+              type: object
+          type: object

@@ -15,7 +15,8 @@ export const isOAS31 = createSelector(
 )
 
 export const webhooks = () => (system) => {
-  return system.specSelectors.specJson().get("webhooks", map)
+  const webhooks = system.specSelectors.specJson().get("webhooks")
+  return Map.isMap(webhooks) ? webhooks : map
 }
 
 /**
@@ -24,13 +25,13 @@ export const webhooks = () => (system) => {
  * resolution happens.
  */
 export const selectWebhooksOperations = createSelector(
-  (state, system) => system.specSelectors.webhooks(),
-  (state, system) => system.specSelectors.validOperationMethods(),
-  (state, system) => system.specSelectors.specResolvedSubtree(["webhooks"]),
-  (webhooks, validOperationMethods) => {
-    if (!Map.isMap(webhooks)) return {}
-
-    return webhooks
+  [
+    (state, system) => system.specSelectors.webhooks(),
+    (state, system) => system.specSelectors.validOperationMethods(),
+    (state, system) => system.specSelectors.specResolvedSubtree(["webhooks"]),
+  ],
+  (webhooks, validOperationMethods) =>
+    webhooks
       .reduce((allOperations, pathItem, pathItemName) => {
         if (!Map.isMap(pathItem)) return allOperations
 
@@ -41,7 +42,7 @@ export const selectWebhooksOperations = createSelector(
             operation: Map({ operation }),
             method,
             path: pathItemName,
-            specPath: List(["webhooks", pathItemName, method]),
+            specPath: ["webhooks", pathItemName, method],
           }))
 
         return allOperations.concat(pathItemOperations)
@@ -49,11 +50,11 @@ export const selectWebhooksOperations = createSelector(
       .groupBy((operationDTO) => operationDTO.path)
       .map((operations) => operations.toArray())
       .toObject()
-  }
 )
 
 export const license = () => (system) => {
-  return system.specSelectors.info().get("license", map)
+  const license = system.specSelectors.info().get("license")
+  return Map.isMap(license) ? license : map
 }
 
 export const selectLicenseNameField = () => (system) => {
@@ -65,9 +66,11 @@ export const selectLicenseUrlField = () => (system) => {
 }
 
 export const selectLicenseUrl = createSelector(
-  (state, system) => system.specSelectors.url(),
-  (state, system) => system.oas3Selectors.selectedServer(),
-  (state, system) => system.specSelectors.selectLicenseUrlField(),
+  [
+    (state, system) => system.specSelectors.url(),
+    (state, system) => system.oas3Selectors.selectedServer(),
+    (state, system) => system.specSelectors.selectLicenseUrlField(),
+  ],
   (specUrl, selectedServer, url) => {
     if (url) {
       return safeBuildUrl(url, specUrl, { selectedServer })
@@ -82,7 +85,8 @@ export const selectLicenseIdentifierField = () => (system) => {
 }
 
 export const contact = () => (system) => {
-  return system.specSelectors.info().get("contact", map)
+  const contact = system.specSelectors.info().get("contact")
+  return Map.isMap(contact) ? contact : map
 }
 
 export const selectContactNameField = () => (system) => {
@@ -98,9 +102,11 @@ export const selectContactUrlField = () => (system) => {
 }
 
 export const selectContactUrl = createSelector(
-  (state, system) => system.specSelectors.url(),
-  (state, system) => system.oas3Selectors.selectedServer(),
-  (state, system) => system.specSelectors.selectContactUrlField(),
+  [
+    (state, system) => system.specSelectors.url(),
+    (state, system) => system.oas3Selectors.selectedServer(),
+    (state, system) => system.specSelectors.selectContactUrlField(),
+  ],
   (specUrl, selectedServer, url) => {
     if (url) {
       return safeBuildUrl(url, specUrl, { selectedServer })
@@ -127,9 +133,11 @@ export const selectInfoTermsOfServiceField = () => (system) => {
 }
 
 export const selectInfoTermsOfServiceUrl = createSelector(
-  (state, system) => system.specSelectors.url(),
-  (state, system) => system.oas3Selectors.selectedServer(),
-  (state, system) => system.specSelectors.selectInfoTermsOfServiceField(),
+  [
+    (state, system) => system.specSelectors.url(),
+    (state, system) => system.oas3Selectors.selectedServer(),
+    (state, system) => system.specSelectors.selectInfoTermsOfServiceField(),
+  ],
   (specUrl, selectedServer, termsOfService) => {
     if (termsOfService) {
       return safeBuildUrl(termsOfService, specUrl, { selectedServer })
@@ -148,9 +156,11 @@ export const selectExternalDocsUrlField = () => (system) => {
 }
 
 export const selectExternalDocsUrl = createSelector(
-  (state, system) => system.specSelectors.url(),
-  (state, system) => system.oas3Selectors.selectedServer(),
-  (state, system) => system.specSelectors.selectExternalDocsUrlField(),
+  [
+    (state, system) => system.specSelectors.url(),
+    (state, system) => system.oas3Selectors.selectedServer(),
+    (state, system) => system.specSelectors.selectExternalDocsUrlField(),
+  ],
   (specUrl, selectedServer, url) => {
     if (url) {
       return safeBuildUrl(url, specUrl, { selectedServer })

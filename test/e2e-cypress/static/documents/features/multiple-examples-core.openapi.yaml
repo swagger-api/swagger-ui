@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.4
 info:
   title: "Multiple Examples: Core Document"
   description: |
@@ -82,7 +82,7 @@ paths:
                   $ref: '#/components/examples/StringExampleC'
   /Number:
     post:
-      parameters: 
+      parameters:
       - in: query
         name: message
         required: true
@@ -142,7 +142,7 @@ paths:
                   $ref: '#/components/examples/NumberExampleC'
   /Boolean:
     post:
-      parameters: 
+      parameters:
       - in: query
         name: message
         required: true
@@ -194,7 +194,7 @@ paths:
                   $ref: '#/components/examples/BooleanExampleB'
   /Array:
     post:
-      parameters: 
+      parameters:
       - in: query
         name: message
         required: true
@@ -239,7 +239,7 @@ paths:
                   $ref: '#/components/examples/ArrayExampleC'
   /Object:
     post:
-      parameters: 
+      parameters:
       - in: query
         name: data
         required: true
@@ -296,11 +296,11 @@ components:
       summary: Don't just string me along...
       description: |
         A string in C is actually a character array. As an individual character variable can store only one character, we need an array of characters to store strings. Thus, in C string is stored in an array of characters. Each character in a string occupies one location in an array. The null character ‘\0’ is put after the last character. This is done so that program can tell when the end of the string has been reached.
-        
-        For example, the string “Hello” is stored as follows... 
-        
+
+        For example, the string “Hello” is stored as follows...
+
         ![](http://www.tutorialspoint.com/computer_programming/images/string_representation.jpg)
-        
+
         Since the string contains 5 characters. it requires a character array of size 6 to store it. the last character in a string is always a NULL('\0') character. Always keep in mind that the '\0' is not included in the length if the string, so here the length of the string is 5 only. Notice above that the indexes of the string starts from 0 not one so don't confuse yourself with index and length of string.
 
         Thus, in C, a string is a one-dimensional array of characters terminated a null character. The terminating null character is important. In fact, a string not terminated by ‘\0’ is not really a string, but merely a collection of characters.
@@ -311,11 +311,11 @@ components:
         A pangram (Greek: παν γράμμα, pan gramma, "every letter") or holoalphabetic sentence is a sentence using every letter of a given alphabet at least once. Pangrams have been used to display typefaces, test equipment, and develop skills in handwriting, calligraphy, and keyboarding.
 
         The best-known English pangram is "The quick brown fox jumps over the lazy dog". It has been used since at least the late 19th century, was utilized by Western Union to test Telex / TWX data communication equipment for accuracy and reliability, and is now used by a number of computer programs (most notably the font viewer built into Microsoft Windows) to display computer fonts.
-        
+
         Pangrams exist in practically every alphabet-based language. An example from German is _Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich_, which contains all letters, including every umlaut (ä, ö, ü) plus the ß. It has been used since before 1800.
-        
+
         In a sense, the pangram is the opposite of the lipogram, in which the aim is to omit one or more letters.
-        
+
         A perfect pangram contains every letter of the alphabet only once and
         can be considered an anagram of the alphabet. The only perfect pangrams
         that are known either use abbreviations, such as "Mr Jock, TV quiz PhD,
@@ -331,18 +331,18 @@ components:
       summary: "World population"
       description: |
         In demographics, the world population is the total number of humans currently living, and was estimated to have reached 7.7 billion people as of April 2019. It took over 200,000 years of human history for the world's population to reach 1 billion; and only 200 years more to reach 7 billion.
-        
+
         World population has experienced continuous growth since the end of the Great Famine of 1315–1317 and the Black Death in 1350, when it was near 370 million. The highest population growth rates – global population increases above 1.8% per year – occurred between 1955 and 1975, peaking to 2.1% between 1965 and 1970. The growth rate has declined to 1.2% between 2010 and 2015 and is projected to decline further in the course of the 21st century. However, the global population is still growing and is projected to reach about 10 billion in 2050 and more than 11 billion in 2100.
-        
+
         Total annual births were highest in the late 1980s at about 139 million, and as of 2011 were expected to remain essentially constant at a level of 135 million, while deaths numbered 56 million per year and were expected to increase to 80 million per year by 2040. The median age of the world's population was estimated to be 30.4 years in 2018.
     NumberExampleB:
       value: 9007199254740991
       summary: "Number.MAX_SAFE_INTEGER"
       description: |
         The `MAX_SAFE_INTEGER` constant has a value of `9007199254740991` (9,007,199,254,740,991 or ~9 quadrillion). The reasoning behind that number is that JavaScript uses double-precision floating-point format numbers as specified in IEEE 754 and can only safely represent numbers between `-(2^53 - 1)` and `2^53 - 1`.
-        
+
         Safe in this context refers to the ability to represent integers exactly and to correctly compare them. For example, `Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2` will evaluate to `true`, which is mathematically incorrect. See `Number.isSafeInteger()` for more information.
-        
+
         Because `MAX_SAFE_INTEGER` is a static property of `Number`, you always use it as `Number.MAX_SAFE_INTEGER`, rather than as a property of a `Number` object you created.
     NumberExampleC:
       # `description` and `summary` intentionally omitted

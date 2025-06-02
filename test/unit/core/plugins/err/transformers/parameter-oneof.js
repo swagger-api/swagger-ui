@@ -2,7 +2,7 @@
 import { fromJS } from "immutable"
 import { transform } from "core/plugins/err/error-transformers/transformers/parameter-oneof"
 
-describe.skip("err plugin - tranformers - parameter oneof", () => {
+describe.skip("err plugin - transformers - parameter oneof", () => {
 
   describe("parameter.in misuse transformation to fixed value error", () => {
 

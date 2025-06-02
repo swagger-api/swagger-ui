@@ -9,8 +9,7 @@
   If you're refactoring something in here, feel free to break it out to a file
   in `./helpers` if you have the time.
 */
-import Im, { fromJS, Set } from "immutable"
-import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
+import Im, { fromJS, Map, Set } from "immutable"
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
 import _memoize from "lodash/memoize"
@@ -29,12 +28,13 @@ const DEFAULT_RESPONSE_KEY = "default"
 
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 
+export const immutableToJS = (value) => isImmutable(value) ? value.toJS() : value
+
 export function objectify (thing) {
   if(!isObject(thing))
     return {}
-  if(isImmutable(thing))
-    return thing.toJS()
-  return thing
+
+  return immutableToJS(thing)
 }
 
 export function arrayify (thing) {
@@ -304,13 +304,13 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
 
 export const validateMaximum = ( val, max ) => {
   if (val > max) {
-    return `Value must be less than ${max}`
+    return `Value must be less than or equal to ${max}`
   }
 }
 
 export const validateMinimum = ( val, min ) => {
   if (val < min) {
-    return `Value must be greater than ${min}`
+    return `Value must be greater than or equal to ${min}`
   }
 }
 
@@ -439,13 +439,26 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
 
   const isValidNullable = nullable && value === null
 
+  // required value is not provided and there's no type defined in the schema
+  const requiredNotProvided =
+    schemaRequiresValue
+    && !hasValue
+    && !isValidNullable
+    && !bypassRequiredCheck
+    && !type
+
+  if (requiredNotProvided) {
+    errors.push("Required field is not provided")
+    return errors
+  }
+
   // will not be included in the request or [schema / value] does not [allow / require] further analysis.
   const noFurtherValidationNeeded =
     isValidNullable
     || !type
     || !requiresFurtherValidation
 
-  if(noFurtherValidationNeeded) {
+  if (noFurtherValidationNeeded) {
     return []
   }
 
@@ -605,31 +618,13 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 }
 
 export const parseSearch = () => {
-  let map = {}
-  let search = win.location.search
-
-  if(!search)
-    return {}
-
-  if ( search != "" ) {
-    let params = search.substr(1).split("&")
-
-    for (let i in params) {
-      if (!Object.prototype.hasOwnProperty.call(params, i)) {
-        continue
-      }
-      i = params[i].split("=")
-      map[decodeURIComponent(i[0])] = (i[1] && decodeURIComponent(i[1])) || ""
-    }
-  }
-
-  return map
+  const searchParams = new URLSearchParams(win.location.search)
+  return Object.fromEntries(searchParams)
 }
 
 export const serializeSearch = (searchMap) => {
-  return Object.keys(searchMap).map(k => {
-    return encodeURIComponent(k) + "=" + encodeURIComponent(searchMap[k])
-  }).join("&")
+  const searchParams = new URLSearchParams(Object.entries(searchMap))
+  return String(searchParams)
 }
 
 export const btoa = (str) => {
@@ -673,14 +668,6 @@ export const shallowEqualKeys = (a,b, keys) => {
   })
 }
 
-export function sanitizeUrl(url) {
-  if(typeof url !== "string" || url === "") {
-    return ""
-  }
-
-  return braintreeSanitizeUrl(url)
-}
-
 export function requiresValidationURL(uri) {
   if (!uri || uri.indexOf("localhost") >= 0 || uri.indexOf("127.0.0.1") >= 0 || uri === "none") {
     return false
@@ -717,7 +704,13 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 // suitable for use in CSS classes and ids
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
-export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
+export const getExtensions = (defObj) => {
+  const extensionRegExp = /^x-/
+  if(Map.isMap(defObj)) {
+    return defObj.filter((v, k) => extensionRegExp.test(k))
+  }
+  return Object.keys(defObj).filter((key) => extensionRegExp.test(key))
+}
 export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
 
 // Deeply strips a specific key from an object.

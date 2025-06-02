@@ -62,7 +62,7 @@ export default {
 
     return state.setIn(
       ["meta", "paths", ...pathMethod, "parameters", paramKey, valueKey],
-      value
+      fromJS(value)
     )
   },
 
@@ -123,8 +123,8 @@ export default {
     let newState = state.setIn( [ "responses", path, method ], fromJSOrdered(result) )
 
     // ImmutableJS messes up Blob. Needs to reset its value.
-    if (win.Blob && res.data instanceof win.Blob) {
-      newState = newState.setIn( [ "responses", path, method, "text" ], res.data)
+    if (win.Blob && result.data instanceof win.Blob) {
+      newState = newState.setIn( [ "responses", path, method, "text" ], result.data)
     }
     return newState
   },

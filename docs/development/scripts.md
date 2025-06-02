@@ -10,6 +10,8 @@ Script name | Description
 `lint` | Report ESLint style errors and warnings.
 `lint-errors` | Report ESLint style errors, without warnings.
 `lint-fix` | Attempt to fix style errors automatically.
+`lint-styles` | Report Stylelint style errors and warnings.
+`lint-styles-fix` | Attempt to fix Stylelint errors and warnings automatically.
 `watch` | Rebuild the core files in `/dist` when the source code changes. Useful for `npm link` with Swagger Editor.
 
 ### Building
@@ -27,8 +29,7 @@ Script name | Description
 Script name | Description
 --- | ---
 `test` | Run unit tests in Node, run Cypress end-to-end tests, and run ESLint in errors-only mode.
-`just-test-in-node` | Run Mocha unit tests in Node.
-`test:unit-jest` | Run Jest unit tests in Node.
+`test:unit` | Run Jest unit tests in Node.
 `e2e` | Run end-to-end tests (requires JDK and Selenium).
 `e2e-cypress` | Run end-to-end browser tests with Cypress.
 `dev-e2e-cypress` | Dev mode, open Cypress runner and manually select tests to run.

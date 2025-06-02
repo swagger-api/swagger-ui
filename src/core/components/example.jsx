@@ -6,14 +6,15 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { stringify } from "core/utils"
+import { Map } from "immutable"
 
 export default function Example(props) {
-  const { example, showValue, getComponent, getConfigs } = props
+  const { example, showValue, getComponent } = props
 
   const Markdown = getComponent("Markdown", true)
-  const HighlightCode = getComponent("highlightCode")
+  const HighlightCode = getComponent("HighlightCode", true)
 
-  if(!example) return null
+  if (!example || !Map.isMap(example)) return null
 
   return (
     <div className="example">
@@ -28,7 +29,7 @@ export default function Example(props) {
       {showValue && example.has("value") ? (
         <section className="example__section">
           <div className="example__section-header">Example Value</div>
-          <HighlightCode getConfigs={ getConfigs } value={stringify(example.get("value"))} />
+          <HighlightCode>{stringify(example.get("value"))}</HighlightCode>
         </section>
       ) : null}
     </div>
@@ -39,5 +40,4 @@ Example.propTypes = {
   example: ImPropTypes.map.isRequired,
   showValue: PropTypes.bool,
   getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.getConfigs,
 }

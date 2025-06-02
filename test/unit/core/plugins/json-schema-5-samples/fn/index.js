@@ -1,7 +1,29 @@
 import { fromJS } from "immutable"
-import { createXMLExample, sampleFromSchema, memoizedCreateXMLExample, memoizedSampleFromSchema } from "core/plugins/json-schema-5-samples/fn/index"
+import { 
+  createXMLExample, 
+  sampleFromSchema, 
+  memoizedCreateXMLExample, 
+  memoizedSampleFromSchema,
+  mergeJsonSchema,
+} from "core/plugins/json-schema-5-samples/fn/index"
 
 describe("sampleFromSchema", () => {
+  const oriDate = Date
+
+  beforeEach(() => {
+    // eslint-disable-next-line no-global-assign
+    Date = function () {
+      this.toISOString = function () {
+        return "2025-04-18T09:13:28.927Z"
+      }
+    }
+  })
+
+  afterEach(() => {
+    // eslint-disable-next-line no-global-assign
+    Date = oriDate
+  })
+
   it("handles Immutable.js objects for nested schemas", function () {
     let definition = fromJS({
       "type": "object",
@@ -335,12 +357,9 @@ describe("sampleFromSchema", () => {
       format: "date-time"
     }
 
-    // 0-20 chops off milliseconds
-    // necessary because test latency can cause failures
-    // it would be better to mock Date globally and expect a string - KS 11/18
-    let expected = new Date().toISOString().substring(0, 20)
+    let expected = "2025-04-18T09:13:28.927Z"
 
-    expect(sampleFromSchema(definition)).toContain(expected)
+    expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns example value for date property", () => {
@@ -349,7 +368,18 @@ describe("sampleFromSchema", () => {
       format: "date"
     }
 
-    let expected = new Date().toISOString().substring(0, 10)
+    let expected = "2025-04-18"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns example value for time property", () => {
+    let definition = {
+      type: "string",
+      format: "time"
+    }
+
+    let expected = "09:13:28.927Z"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
@@ -2436,5 +2466,57 @@ describe("memoizedCreateXMLExample", () => {
     }
     const updatedExpected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bar>\n\t<foo>cat</foo>\n</bar>"
     expect(memoizedCreateXMLExample(definition, {}, updatedOverrideExample)).toEqual(updatedExpected)
+  })
+})
+
+describe("mergeJsonSchema", function () {
+  it("should merge two schemas", function () {
+    const schema = {
+      properties: {
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["name"],
+    }
+  
+    const target = {
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+      },
+      required: ["username"],
+    }
+
+    const result = mergeJsonSchema(target, schema)
+
+    expect(result).toStrictEqual({
+      type: "object",
+      properties: {
+        username: {
+          type: "string",
+        },
+        name: {
+          type: "string",
+        },
+        id: {
+          type: "integer",
+        },
+      },
+      example: {
+        name: "test",
+        id: 1,
+      },
+      required: ["username", "name"],
+    })
   })
 })

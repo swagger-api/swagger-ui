@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: Empty response test case
+  version: '1'
+paths:
+  '/':
+    get:
+      responses:
+        '200':
+          description: no content
+        '201':
+          description: no schema but an example
+          content:
+            application/json:
+              example:
+                foo: bar
+        '202':
+          description: no schema but examples
+          content:
+            application/json:
+              examples:
+                first:
+                  value:
+                    foo: bar
+                second:
+                  value:
+                    baz: foobar
+        '203':
+          description: no schema no example
+          content:
+            application/json: {}

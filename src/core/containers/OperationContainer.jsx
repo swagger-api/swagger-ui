@@ -11,7 +11,7 @@ export default class OperationContainer extends PureComponent {
     const { tryItOutEnabled } = props.getConfigs()
 
     this.state = {
-      tryItOutEnabled: tryItOutEnabled === true || tryItOutEnabled === "true",
+      tryItOutEnabled,
       executeInProgress: false
     }
   }
@@ -61,14 +61,13 @@ export default class OperationContainer extends PureComponent {
     const showSummary = layoutSelectors.showSummary()
     const operationId = op.getIn(["operation", "__originalOperationId"]) || op.getIn(["operation", "operationId"]) || opId(op.get("operation"), props.path, props.method) || op.get("id")
     const isShownKey = ["operations", props.tag, operationId]
-    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
     const allowTryItOut = supportedSubmitMethods.indexOf(props.method) >= 0 && (typeof props.allowTryItOut === "undefined" ?
       props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut)
     const security = op.getIn(["operation", "security"]) || props.specSelectors.security()
 
     return {
       operationId,
-      isDeepLinkingEnabled,
+      isDeepLinkingEnabled: deepLinking,
       showSummary,
       displayOperationId,
       displayRequestDuration,

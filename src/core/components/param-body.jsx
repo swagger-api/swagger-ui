@@ -2,6 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { fromJS, List } from "immutable"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
+import createHtmlReadyId from "core/utils/create-html-ready-id"
 
 const NOOP = Function.prototype
 
@@ -14,7 +15,6 @@ export default class ParamBody extends PureComponent {
     consumes: PropTypes.object,
     consumesValue: PropTypes.string,
     fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired,
     getComponent: PropTypes.func.isRequired,
     isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
@@ -97,13 +97,12 @@ export default class ParamBody extends PureComponent {
       isExecute,
       specSelectors,
       pathMethod,
-      getConfigs,
       getComponent,
     } = this.props
 
     const Button = getComponent("Button")
     const TextArea = getComponent("TextArea")
-    const HighlightCode = getComponent("highlightCode")
+    const HighlightCode = getComponent("HighlightCode", true)
     const ContentType = getComponent("contentType")
     // for domains where specSelectors not passed
     let parameter = specSelectors ? specSelectors.parameterWithMetaByIdentity(pathMethod, param) : param
@@ -118,15 +117,15 @@ export default class ParamBody extends PureComponent {
       language = "json"
     }
 
+    const regionId = createHtmlReadyId(`${pathMethod[1]}${pathMethod[0]}_parameters`)
+    const controlId = `${regionId}_select`
+
     return (
       <div className="body-param" data-param-name={param.get("name")} data-param-in={param.get("in")}>
         {
           isEditBox && isExecute
             ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")} value={value} onChange={ this.handleOnChange }/>
-            : (value && <HighlightCode className="body-param__example"
-                          language={ language }
-                          getConfigs={ getConfigs }
-                          value={ value }/>)
+            : (value && <HighlightCode className="body-param__example" language={ language }>{value}</HighlightCode>)
         }
         <div className="body-param-options">
           {
@@ -137,14 +136,16 @@ export default class ParamBody extends PureComponent {
                          </Button>
                          </div>
           }
-          <label htmlFor="">
+          <label htmlFor={controlId}>
             <span>Parameter content type</span>
             <ContentType
               value={ consumesValue }
               contentTypes={ consumes }
               onChange={onChangeConsumes}
               className="body-param-content-type"
-              ariaLabel="Parameter content type" />
+              ariaLabel="Parameter content type"
+              controlId={controlId}
+            />
           </label>
         </div>
 

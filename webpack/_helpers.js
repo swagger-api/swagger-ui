@@ -16,6 +16,12 @@ function getRepoInfo() {
   }
 }
 
+function getDevtool(sourcemaps, minimize) {
+  if (!sourcemaps) return false
+  return minimize ? "source-map" : "cheap-module-source-map"
+}
+
 module.exports = {
   getRepoInfo,
+  getDevtool,
 }

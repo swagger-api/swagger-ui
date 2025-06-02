@@ -3,8 +3,6 @@
  */
 import { number as randomNumber } from "../core/random"
 import formatAPI from "../api/formatAPI"
-import floatGenerator from "../generators/float"
-import doubleGenerator from "../generators/double"
 
 const generateFormat = (schema) => {
   const { format } = schema
@@ -14,19 +12,10 @@ const generateFormat = (schema) => {
     return formatGenerator(schema)
   }
 
-  switch (format) {
-    case "float": {
-      return floatGenerator()
-    }
-    case "double": {
-      return doubleGenerator()
-    }
-  }
-
   return randomNumber()
 }
 
-const applyNumberConstraints = (number, constraints = {}) => {
+export const applyNumberConstraints = (number, constraints = {}) => {
   const { minimum, maximum, exclusiveMinimum, exclusiveMaximum } = constraints
   const { multipleOf } = constraints
   const epsilon = Number.isInteger(number) ? 1 : Number.EPSILON

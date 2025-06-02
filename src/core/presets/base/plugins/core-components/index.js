@@ -27,7 +27,6 @@ import OperationSummaryMethod from "core/components/operation-summary-method"
 import OperationSummaryPath from "core/components/operation-summary-path"
 import OperationExt from "core/components/operation-extensions"
 import OperationExtRow from "core/components/operation-extension-row"
-import HighlightCode from "core/components/highlight-code"
 import Responses from "core/components/responses"
 import Response from "core/components/response"
 import ResponseExtension from "core/components/response-extension"
@@ -52,17 +51,6 @@ import Footer from "core/components/footer"
 import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
-import Schemes from "core/components/schemes"
-import SchemesContainer from "core/containers/schemes"
-import ModelCollapse from "core/components/model-collapse"
-import ModelExample from "core/components/model-example"
-import ModelWrapper from "core/components/model-wrapper"
-import Model from "core/components/model"
-import Models from "core/components/models"
-import EnumModel from "core/components/enum-model"
-import ObjectModel from "core/components/object-model"
-import ArrayModel from "core/components/array-model"
-import PrimitiveModel from "core/components/primitive-model"
 import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionPragmaFilter from "core/components/version-pragma-filter"
@@ -103,7 +91,6 @@ const CoreComponentsPlugin = () => ({
     OperationSummary,
     OperationSummaryMethod,
     OperationSummaryPath,
-    highlightCode: HighlightCode,
     responses: Responses,
     response: Response,
     ResponseExtension: ResponseExtension,
@@ -119,17 +106,6 @@ const CoreComponentsPlugin = () => ({
     FilterContainer,
     ParamBody: ParamBody,
     curl: Curl,
-    schemes: Schemes,
-    SchemesContainer,
-    modelExample: ModelExample,
-    ModelWrapper,
-    ModelCollapse,
-    Model,
-    Models,
-    EnumModel,
-    ObjectModel,
-    ArrayModel,
-    PrimitiveModel,
     Property,
     TryItOutButton,
     Markdown,

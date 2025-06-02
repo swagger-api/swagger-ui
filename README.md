@@ -3,10 +3,10 @@
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 [![Build Status](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/badge/icon?subject=jenkins%20build)](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/)
 [![npm audit](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-ui-security-audit&subject=npm%20audit)](https://jenkins.swagger.io/job/oss-swagger-ui-security-audit/lastBuild/console)
-![total GitHub contributors](https://img.shields.io/github/contributors-anon/swagger-api/swagger-ui.svg)
+[![total GitHub contributors](https://img.shields.io/github/contributors-anon/swagger-api/swagger-ui.svg)](https://github.com/swagger-api/swagger-ui/graphs/contributors)
 
 ![monthly npm installs](https://img.shields.io/npm/dm/swagger-ui.svg?label=npm%20downloads)
-![total docker pulls](https://img.shields.io/docker/pulls/swaggerapi/swagger-ui.svg)
+![docker registry](https://img.shields.io/badge/docker-docker.swagger.io%2Fswaggerapi%2Fswagger--ui-blue)
 ![monthly packagist installs](https://img.shields.io/packagist/dm/swagger-api/swagger-ui.svg?label=packagist%20installs)
 ![gzip size](https://img.shields.io/bundlephobia/minzip/swagger-ui.svg?label=gzip%20size)
 
@@ -33,40 +33,58 @@ If you are looking for plain ol' HTML/JS/CSS, [download the latest release](http
 ## Compatibility
 The OpenAPI Specification has undergone 5 revisions since initial creation in 2010.  Compatibility between Swagger UI and the OpenAPI Specification is as follows:
 
-| Swagger UI Version | Release Date | OpenAPI Spec compatibility             | Notes                                                                 |
-|--------------------|--------------|----------------------------------------|-----------------------------------------------------------------------|
-| 5.0.0              | 2023-06-12   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0 | [tag v5.0.0](https://github.com/swagger-api/swagger-ui/tree/v5.0.0)   |
-| 4.0.0              | 2021-11-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3        | [tag v4.0.0](https://github.com/swagger-api/swagger-ui/tree/v4.0.0)   |
-| 3.18.3             | 2018-08-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3        | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3) |
-| 3.0.21             | 2017-07-26   | 2.0                                    | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21) |
-| 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0                          | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
-| 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0                          | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)   |
-| 2.0.24             | 2014-09-12   | 1.1, 1.2                               | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
-| 1.0.13             | 2013-03-08   | 1.1, 1.2                               | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
-| 1.0.1              | 2011-10-11   | 1.0, 1.1                               | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
+| Swagger UI Version | Release Date | OpenAPI Spec compatibility                           | Notes                                                                 |
+|--------------------|--------------|------------------------------------------------------|-----------------------------------------------------------------------|
+| 5.19.0             | 2025-02-17   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.0.4, 3.1.0, 3.1.1 | [tag v5.19.0](https://github.com/swagger-api/swagger-ui/tree/v5.19.0) |
+| 5.0.0              | 2023-06-12   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0               | [tag v5.0.0](https://github.com/swagger-api/swagger-ui/tree/v5.0.0)   |
+| 4.0.0              | 2021-11-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v4.0.0](https://github.com/swagger-api/swagger-ui/tree/v4.0.0)   |
+| 3.18.3             | 2018-08-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3) |
+| 3.0.21             | 2017-07-26   | 2.0                                                  | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21) |
+| 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0                                        | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
+| 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0                                        | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)   |
+| 2.0.24             | 2014-09-12   | 1.1, 1.2                                             | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
+| 1.0.13             | 2013-03-08   | 1.1, 1.2                                             | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
+| 1.0.1              | 2011-10-11   | 1.0, 1.1                                             | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
+
+## Anonymized analytics
+
+SwaggerUI uses [Scarf](https://scarf.sh/) to collect [anonymized installation analytics](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-what-information-does-scarf-js-send-about-me). These analytics help support the maintainers of this library and ONLY run during installation. To [opt out](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-how-can-i-opt-out-of-analytics), you can set the `scarfSettings.enabled` field to `false` in your project's `package.json`:
+
+```
+// package.json
+{
+  // ...
+  "scarfSettings": {
+    "enabled": false
+  }
+  // ...
+}
+```
+
+Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false` as part of the environment that installs your npm packages, e.g., `SCARF_ANALYTICS=false npm install`.
 
 ## Documentation
 
 #### Usage
-- [Installation](docs/usage/installation.md)
-- [Configuration](docs/usage/configuration.md)
-- [CORS](docs/usage/cors.md)
-- [OAuth2](docs/usage/oauth2.md)
-- [Deep Linking](docs/usage/deep-linking.md)
-- [Limitations](docs/usage/limitations.md)
-- [Version detection](docs/usage/version-detection.md)
+- [Installation](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/installation.md)
+- [Configuration](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/configuration.md)
+- [CORS](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/cors.md)
+- [OAuth2](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/oauth2.md)
+- [Deep Linking](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/deep-linking.md)
+- [Limitations](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/limitations.md)
+- [Version detection](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/version-detection.md)
 
 #### Customization
-- [Overview](docs/customization/overview.md)
-- [Plugin API](docs/customization/plugin-api.md)
-- [Custom layout](docs/customization/custom-layout.md)
+- [Overview](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/customization/overview.md)
+- [Plugin API](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/customization/plugin-api.md)
+- [Custom layout](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/customization/custom-layout.md)
 
 #### Development
-- [Setting up](docs/development/setting-up.md)
-- [Scripts](docs/development/scripts.md)
+- [Setting up](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/development/setting-up.md)
+- [Scripts](https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/development/scripts.md)
 
 #### Contributing
-- [Contributing](https://github.com/swagger-api/.github/blob/master/CONTRIBUTING.md)
+- [Contributing](https://github.com/swagger-api/.github/blob/HEAD/CONTRIBUTING.md)
 
 ##### Integration Tests
 

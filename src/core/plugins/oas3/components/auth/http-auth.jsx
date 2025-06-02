@@ -8,7 +8,8 @@ export default class HttpAuth extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    authSelectors: PropTypes.object.isRequired
   }
 
   constructor(props, context) {
@@ -46,7 +47,7 @@ export default class HttpAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
+    let { schema, getComponent, errSelectors, name, authSelectors } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
@@ -55,6 +56,7 @@ export default class HttpAuth extends React.Component {
     const JumpToPath = getComponent("JumpToPath", true)
 
     const scheme = (schema.get("scheme") || "").toLowerCase()
+    const path = authSelectors.selectAuthPath(name)
     let value = this.getValue()
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
@@ -62,31 +64,46 @@ export default class HttpAuth extends React.Component {
       let username = value ? value.get("username") : null
       return <div>
         <h4>
-          <code>{ name || schema.get("name") }</code>&nbsp;
+          <code>{name}</code>&nbsp;
             (http, Basic)
-            <JumpToPath path={[ "securityDefinitions", name ]} />
+            <JumpToPath path={path} />
           </h4>
         { username && <h6>Authorized</h6> }
         <Row>
           <Markdown source={ schema.get("description") } />
         </Row>
         <Row>
-          <label>Username:</label>
+          <label htmlFor="auth-basic-username">Username:</label>
           {
             username ? <code> { username } </code>
-              : <Col><Input type="text" required="required" name="username" aria-label="auth-basic-username" onChange={ this.onChange } autoFocus/></Col>
+              : <Col>
+                  <Input 
+                    id="auth-basic-username"
+                    type="text"
+                    required="required"
+                    name="username"
+                    aria-label="auth-basic-username"
+                    onChange={ this.onChange }
+                    autoFocus
+                  />
+                </Col>
           }
         </Row>
         <Row>
-          <label>Password:</label>
+          <label htmlFor="auth-basic-password">Password:</label>
             {
               username ? <code> ****** </code>
-                       : <Col><Input autoComplete="new-password"
-                                     name="password"
-                                     type="password"
-                                     aria-label="auth-basic-password"
-                                     onChange={ this.onChange }/></Col>
-            }
+                       : <Col>
+                            <Input 
+                              id="auth-basic-password"
+                              autoComplete="new-password"
+                              name="password"
+                              type="password"
+                              aria-label="auth-basic-password"
+                              onChange={ this.onChange }
+                            />
+                          </Col>
+          }
         </Row>
         {
           errors.valueSeq().map( (error, key) => {
@@ -101,19 +118,27 @@ export default class HttpAuth extends React.Component {
       return (
         <div>
           <h4>
-            <code>{ name || schema.get("name") }</code>&nbsp;
+            <code>{name}</code>&nbsp;
               (http, Bearer)
-              <JumpToPath path={[ "securityDefinitions", name ]} />
+              <JumpToPath path={path} />
             </h4>
             { value && <h6>Authorized</h6>}
             <Row>
               <Markdown source={ schema.get("description") } />
             </Row>
             <Row>
-              <label>Value:</label>
+              <label htmlFor="auth-bearer-value">Value:</label>
               {
                 value ? <code> ****** </code>
-              : <Col><Input type="text" aria-label="auth-bearer-value" onChange={ this.onChange } autoFocus/></Col>
+              : <Col>
+                  <Input
+                    id="auth-bearer-value"
+                    type="text"
+                    aria-label="auth-bearer-value"
+                    onChange={ this.onChange }
+                    autoFocus
+                  />
+                </Col>
           }
         </Row>
         {

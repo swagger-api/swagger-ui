@@ -10,15 +10,15 @@ import LockIcon from "./components/lock"
 import UnlockIcon from "./components/unlock"
 
 const IconsPlugin = () => ({
-    components: {
-        ArrowUpIcon,
-        ArrowDownIcon,
-        ArrowIcon,
-        CloseIcon,
-        CopyIcon,
-        LockIcon,
-        UnlockIcon,
-    }
+  components: {
+    ArrowUpIcon,
+    ArrowDownIcon,
+    ArrowIcon,
+    CloseIcon,
+    CopyIcon,
+    LockIcon,
+    UnlockIcon,
+  },
 })
 
 export default IconsPlugin

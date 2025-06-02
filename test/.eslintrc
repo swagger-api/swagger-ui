@@ -1,5 +1,5 @@
 env:
-  mocha: true
+  "jest/globals": true
 rules:
   "react/prop-types": 1 # bah humbug
   "react/require-render-return": 1

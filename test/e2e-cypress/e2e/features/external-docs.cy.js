@@ -14,7 +14,7 @@ function ExternalDocsTest(baseUrl) {
       .get(".info__extdocs")
       .should("exist")
       .and("contain.text", "Read external docs")
-      .and("have.attr", "href", "http://swagger.io")
+      .and("have.attr", "href", "http://swagger.io/")
     })
 
     it("should display link to external docs without description", () => {
@@ -32,7 +32,7 @@ function ExternalDocsTest(baseUrl) {
         .get(".info__extdocs")
         .should("exist")
         .and("contain.text", "http://swagger.io")
-        .and("have.attr", "href", "http://swagger.io")
+        .and("have.attr", "href", "http://swagger.io/")
     })
   })
 
@@ -43,7 +43,7 @@ function ExternalDocsTest(baseUrl) {
       .should("exist")
       .find("a")
       .should("contain.text", "Pet Documentation")
-      .and("have.attr", "href", "http://swagger.io")
+      .and("have.attr", "href", "http://swagger.io/")
     })
 
     it("should display link to external docs without description", () => {
@@ -52,7 +52,7 @@ function ExternalDocsTest(baseUrl) {
       .should("exist")
       .find("a")
       .should("contain.text", "http://swagger.io")
-      .and("have.attr", "href", "http://swagger.io")
+      .and("have.attr", "href", "http://swagger.io/")
     })
   })
 
@@ -65,7 +65,7 @@ function ExternalDocsTest(baseUrl) {
           .click()
           .get(`.models #model-${type} .external-docs a`)
           .should("contain.text", `${type} Docs`)
-          .and("have.attr", "href", "http://swagger.io")
+          .and("have.attr", "href", "http://swagger.io/")
         })
 
         it("should display link without description", () => {
@@ -74,7 +74,7 @@ function ExternalDocsTest(baseUrl) {
           .click()
           .get(`.models #model-${type}WithoutDescription .external-docs a`)
           .should("contain.text", "http://swagger.io")
-          .and("have.attr", "href", "http://swagger.io")
+          .and("have.attr", "href", "http://swagger.io/")
         })
       }
     }
@@ -92,7 +92,7 @@ function ExternalDocsTest(baseUrl) {
       .get("#operations-pet-updatePet .opblock-external-docs-wrapper .opblock-external-docs__description")
       .should("contain.text", "More details about putting a pet")
       .get("#operations-pet-updatePet .opblock-external-docs-wrapper .opblock-external-docs__link")
-      .should("have.attr", "href", "http://swagger.io")
+      .should("have.attr", "href", "http://swagger.io/")
     })
 
     it("should display link to external docs without description", () => {
@@ -102,7 +102,7 @@ function ExternalDocsTest(baseUrl) {
       .get("#operations-pet-addPet .opblock-external-docs-wrapper .opblock-external-docs__description")
       .should("not.exist")
       .get("#operations-pet-addPet .opblock-external-docs-wrapper .opblock-external-docs__link")
-      .should("have.attr", "href", "http://swagger.io")
+      .should("have.attr", "href", "http://swagger.io/")
     })
   })
 }

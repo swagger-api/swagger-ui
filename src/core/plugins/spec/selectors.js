@@ -1,4 +1,5 @@
 import { createSelector } from "reselect"
+import constant from "lodash/constant"
 import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 
@@ -118,18 +119,15 @@ export const paths = createSelector(
 	spec => spec.get("paths")
 )
 
-export const validOperationMethods = createSelector(() => ["get", "put", "post", "delete", "options", "head", "patch"])
+export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,
   paths => {
-    if(!paths || paths.size < 1)
-      return List()
-
     let list = List()
 
-    if(!paths || !paths.forEach) {
-      return List()
+    if (!Map.isMap(paths) || paths.isEmpty()) {
+      return list
     }
 
     paths.forEach((path, pathName) => {
@@ -204,13 +202,14 @@ export const schemes = createSelector(
 )
 
 export const operationsWithRootInherited = createSelector(
-  operations,
-  consumes,
-  produces,
+  [
+    operations,
+    consumes,
+    produces
+  ],
   (operations, consumes, produces) => {
     return operations.map( ops => ops.update("operation", op => {
-      if(op) {
-        if(!Map.isMap(op)) { return }
+      if (Map.isMap(op)) {
         return op.withMutations( op => {
           if ( !op.get("consumes") ) {
             op.update("consumes", a => Set(a).merge(consumes))
@@ -371,6 +370,9 @@ export function parameterValues(state, pathMethod, isXml) {
   let paramValues = operationWithMeta(state, ...pathMethod).get("parameters", List())
   return paramValues.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
+    if (List.isList(value)) {
+      value = value.filter(v => v !== "")
+    }
     return hash.set(paramToIdentifier(p, { allowHashes: false }), value)
   }, fromJS({}))
 }
@@ -485,16 +487,45 @@ export const canExecuteScheme = ( state, path, method ) => {
 
 export const validationErrors = (state, pathMethod) => {
   pathMethod = pathMethod || []
-  let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
+  const paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   const result = []
 
-  paramValues.forEach( (p) => {
-    let errors = p.get("errors")
-    if ( errors && errors.count() ) {
-      errors.forEach( e => result.push(e))
+  if (paramValues.length === 0) return result
+
+  const getErrorsWithPaths = (errors, path = []) => {
+    const getNestedErrorsWithPaths = (e, path) => {
+      const currPath = [...path, e.get("propKey") || e.get("index")]
+      return Map.isMap(e.get("error"))
+        ? getErrorsWithPaths(e.get("error"), currPath)
+        : { error: e.get("error"), path: currPath }
+    }
+
+    return List.isList(errors)
+     ? errors.map((e) => (Map.isMap(e) ? getNestedErrorsWithPaths(e, path) : { error: e, path }))
+     : getNestedErrorsWithPaths(errors, path)
+  }
+
+  const formatError = (error, path, paramName) => {
+    path = path.reduce((acc, curr) => {
+      return typeof curr === "number"
+        ? `${acc}[${curr}]`
+        : acc
+        ? `${acc}.${curr}`
+        : curr
+    }, "")
+    return `For '${paramName}'${path ? ` at path '${path}'` : ""}: ${error}.`
+  }
+
+  paramValues.forEach( (p, key) => {
+    const paramName = key.split(".").slice(1, -1).join(".")
+    const errors = p.get("errors")
+    if (errors && errors.count()) {
+      const errorsWithPaths = getErrorsWithPaths(errors)
+      errorsWithPaths.forEach(({error, path}) => {
+        result.push(formatError(error, path, paramName))
+      })
     }
   })
-
   return result
 }
 

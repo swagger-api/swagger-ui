@@ -35,7 +35,6 @@ export default class Store {
     deepExtend(this, {
       state: {},
       plugins: [],
-      pluginsOptions: {},
       system: {
         configs: {},
         fn: {},
@@ -64,7 +63,7 @@ export default class Store {
   }
 
   register(plugins, rebuild=true) {
-    var pluginSystem = combinePlugins(plugins, this.getSystem(), this.pluginsOptions)
+    var pluginSystem = combinePlugins(plugins, this.getSystem())
     systemExtend(this.system, pluginSystem)
     if(rebuild) {
       this.buildSystem()
@@ -125,7 +124,7 @@ export default class Store {
   }
 
   rebuildReducer() {
-    this.store.replaceReducer(buildReducer(this.system.statePlugins))
+    this.store.replaceReducer(buildReducer(this.system.statePlugins, this.getSystem))
   }
 
   /**
@@ -177,7 +176,7 @@ export default class Store {
                 if(!isFn(newAction)) {
                   throw new TypeError("wrapActions needs to return a function that returns a new function (ie the wrapped action)")
                 }
-                return wrapWithTryCatch(newAction)
+                return wrapWithTryCatch(newAction, this.getSystem)
               }, action || Function.prototype)
             })
           }
@@ -257,11 +256,11 @@ export default class Store {
 
       return objMap(obj, (fn) => {
         return (...args) => {
-          let res = wrapWithTryCatch(fn).apply(null, [getNestedState(), ...args])
+          let res = wrapWithTryCatch(fn, this.getSystem).apply(null, [getNestedState(), ...args])
 
           //  If a selector returns a function, give it the system - for advanced usage
           if(typeof(res) === "function")
-            res = wrapWithTryCatch(res)(getSystem())
+            res = wrapWithTryCatch(res, this.getSystem)(getSystem())
 
           return res
         }
@@ -311,21 +310,19 @@ export default class Store {
 
 }
 
-function combinePlugins(plugins, toolbox, pluginOptions) {
+function combinePlugins(plugins, toolbox) {
   if(isObject(plugins) && !isArray(plugins)) {
     return merge({}, plugins)
   }
 
   if(isFunc(plugins)) {
-    return combinePlugins(plugins(toolbox), toolbox, pluginOptions)
+    return combinePlugins(plugins(toolbox), toolbox)
   }
 
   if(isArray(plugins)) {
-    const dest = pluginOptions.pluginLoadType === "chain" ? toolbox.getComponents() : {}
-
     return plugins
-    .map(plugin => combinePlugins(plugin, toolbox, pluginOptions))
-    .reduce(systemExtend, dest)
+      .map(plugin => combinePlugins(plugin, toolbox))
+      .reduce(systemExtend, { components: toolbox.getComponents() })
   }
 
   return {}
@@ -336,7 +333,7 @@ function callAfterLoad(plugins, system, { hasLoaded } = {}) {
   if(isObject(plugins) && !isArray(plugins)) {
     if(typeof plugins.afterLoad === "function") {
       calledSomething = true
-      wrapWithTryCatch(plugins.afterLoad).call(this, system)
+      wrapWithTryCatch(plugins.afterLoad, system.getSystem).call(this, system)
     }
   }
 
@@ -439,16 +436,16 @@ function systemExtend(dest={}, src={}) {
   return deepExtend(dest, src)
 }
 
-function buildReducer(states) {
+function buildReducer(states, getSystem) {
   let reducerObj = objMap(states, (val) => {
     return val.reducers
   })
-  return allReducers(reducerObj)
+  return allReducers(reducerObj, getSystem)
 }
 
-function allReducers(reducerSystem) {
+function allReducers(reducerSystem, getSystem) {
   let reducers = Object.keys(reducerSystem).reduce((obj, key) => {
-    obj[key] = makeReducer(reducerSystem[key])
+    obj[key] = makeReducer(reducerSystem[key], getSystem)
     return obj
   },{})
 
@@ -459,14 +456,14 @@ function allReducers(reducerSystem) {
   return combineReducers(reducers)
 }
 
-function makeReducer(reducerObj) {
+function makeReducer(reducerObj, getSystem) {
   return (state = new Map(), action) => {
     if(!reducerObj)
       return state
 
     let redFn = (reducerObj[action.type])
     if(redFn) {
-      const res = wrapWithTryCatch(redFn)(state, action)
+      const res = wrapWithTryCatch(redFn, getSystem)(state, action)
       // If the try/catch wrapper kicks in, we'll get null back...
       // in that case, we want to avoid making any changes to state
       return res === null ? state : res
@@ -475,7 +472,7 @@ function makeReducer(reducerObj) {
   }
 }
 
-function wrapWithTryCatch(fn, {
+function wrapWithTryCatch(fn, getSystem, {
   logErrors = true
 } = {}) {
   if(typeof fn !== "function") {
@@ -485,9 +482,14 @@ function wrapWithTryCatch(fn, {
   return function(...args) {
     try {
       return fn.call(this, ...args)
-    } catch(e) {
+    } catch(error) {
       if(logErrors) {
-        console.error(e)
+        const { uncaughtExceptionHandler} = getSystem().getConfigs()
+        if (typeof uncaughtExceptionHandler === "function") {
+          uncaughtExceptionHandler(error)
+        } else {
+          console.error(error)
+        }
       }
       return null
     }

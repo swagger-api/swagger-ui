@@ -4,6 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: daily
+      time: "23:00"
     commit-message:
       prefix: "chore"
       include: "scope"
@@ -11,8 +12,6 @@ updates:
     ignore:
       # node-fetch must be synced manually
       - dependency-name: "node-fetch"
-      - dependency-name: "release-it"
-      - dependency-name: "@release-it/conventional-changelog"
 
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
@@ -20,4 +19,17 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+      time: "23:00"
+
+  - package-ecosystem: "github-actions"
+    target-branch: "master"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "23:00"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    open-pull-requests-limit: 3
+
 
