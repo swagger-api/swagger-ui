@@ -16,7 +16,9 @@ export const bytes = (length) => randomBytes(length)
 
 export const randexp = (pattern) => {
   try {
-    const randexpInstance = new RandExp(pattern)
+    const safeRegex = /(?<=\{[^}]*)\d{3,}(?=[^}]*\})/g
+    const safePattern = pattern.replace(safeRegex, "100")
+    const randexpInstance = new RandExp(safePattern)
     return randexpInstance.gen()
   } catch {
     // invalid regex should not cause a crash (regex syntax varies across languages)
