@@ -23,10 +23,11 @@ export const randexp = (pattern) => {
      * 3. {,y}
      * 4. {x,y}
      */
-    const safeRegex =
+    const patternSanitizer =
       /(?<=(?<!\\)\{)(\d{3,})(?=\})|(?<=(?<!\\)\{\d*,)(\d{3,})(?=\})|(?<=(?<!\\)\{)(\d{3,})(?=,\d*\})/g
-    const safePattern = pattern.replace(safeRegex, "100")
+    const safePattern = pattern.replace(patternSanitizer, "100")
     const randexpInstance = new RandExp(safePattern)
+    randexpInstance.max = 100
     return randexpInstance.gen()
   } catch {
     // invalid regex should not cause a crash (regex syntax varies across languages)
