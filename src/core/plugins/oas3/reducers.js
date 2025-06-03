@@ -33,14 +33,9 @@ export default {
     const [...valueKeys] = value.keys()
     valueKeys.forEach((valueKey) => {
       let valueKeyVal = value.getIn([valueKey])
-      if (!newVal.has(valueKey)) {
+      // there is no previous value for this key or the new value is received from user input as a string
+      if (!newVal.has(valueKey) || !Map.isMap(valueKeyVal)) {
         newVal = newVal.setIn([valueKey, "value"], valueKeyVal)
-      } else if (!Map.isMap(valueKeyVal)) {
-        // context: user input will be received as String
-        newVal = newVal.setIn([valueKey, "value"], valueKeyVal)
-      } else {
-        // context: If multiple values are edited only last edited is string, previous are map.
-        newVal = newVal.set(valueKey, valueKeyVal)
       }
     })
     return state.setIn(["requestData", path, method, "bodyValue"], newVal)
