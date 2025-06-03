@@ -10,7 +10,7 @@ const generateStringFromRegex = (pattern) => {
      * Applying maximum value (100) to numbers from regex patterns to avoid ReDoS:
      * 1. {x}
      * 2. {x,}
-     * 3. {,x}
+     * 3. {,y}
      * 4. {x,y}
      */
     const safeRegex =
