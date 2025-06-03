@@ -16,7 +16,15 @@ export const bytes = (length) => randomBytes(length)
 
 export const randexp = (pattern) => {
   try {
-    const safeRegex = /(?<=\{[^}]*)\d{3,}(?=[^}]*\})/g
+    /**
+     * Applying maximum value (100) to numbers from regex patterns to avoid ReDoS:
+     * 1. {x}
+     * 2. {x,}
+     * 3. {,x}
+     * 4. {x,y}
+     */
+    const safeRegex =
+      /(?<=(?<!\\)\{)(\d{3,})(?=\})|(?<=(?<!\\)\{\d*,)(\d{3,})(?=\})|(?<=(?<!\\)\{)(\d{3,})(?=,\d*\})/g
     const safePattern = pattern.replace(safeRegex, "100")
     const randexpInstance = new RandExp(safePattern)
     return randexpInstance.gen()
