@@ -56,6 +56,12 @@ jobs:
           - linux/arm64
           - linux/386
           - linux/ppc64le
+        docker:
+          - file: Dockerfile
+            tag: ${{ needs.inputs.outputs.docker_tag }}
+          - file: Dockerfile.unprivileged
+            tag: ${{ needs.inputs.outputs.docker_tag }}-unprivileged
+
     needs:
       - inputs
 
@@ -82,6 +88,8 @@ jobs:
         with:
           context: .
           platforms: ${{ matrix.platform }}
+          file: ${{ matrix.docker.file }}
+          tags: ${{ matrix.docker.tag }}
           provenance: false
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
@@ -114,6 +122,12 @@ jobs:
       - inputs
       - build
 
+    strategy:
+      matrix:
+        tag:
+          - ${{ needs.inputs.outputs.docker_tag }}
+          - ${{ needs.inputs.outputs.docker_tag }}-unprivileged
+
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
@@ -134,10 +148,10 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }} \
-            ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }} \
+          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ matrix.tag }} \
+            ${{ env.REGISTRY_IMAGE }}:${{ matrix.tag }} \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }}
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ matrix.tag }}
