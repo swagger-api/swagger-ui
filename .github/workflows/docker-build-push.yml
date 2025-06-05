@@ -11,9 +11,16 @@ jobs:
 
   build-push:
     if: github.event.workflow_run.conclusion == 'success'
-    name: Build & Push SwaggerUI Docker image
+    name: Build & Push SwaggerUI Docker images (normal + unprivileged)
     runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - file: Dockerfile
+            tags: swaggerapi/swagger-ui:latest,swaggerapi/swagger-ui:v
+          - file: Dockerfile.unprivileged
+            tags: swaggerapi/swagger-ui-unprivileged:latest,swaggerapi/swagger-ui-unprivileged:v
     steps:
       - uses: actions/checkout@v7
 
@@ -71,7 +78,8 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
+          file: ${{ matrix.file }}
+          tags: ${{ matrix.tags }}${{ env.RELEASED_VERSION }}
           push: true
           platforms: linux/amd64,linux/arm/v6,linux/arm64,linux/386,linux/ppc64le
           provenance: false
-          tags: swaggerapi/swagger-ui:latest,swaggerapi/swagger-ui:v${{ env.RELEASED_VERSION }}
