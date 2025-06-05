@@ -65,6 +65,7 @@ export default class Responses extends React.Component {
       getComponent,
       getConfigs,
       specSelectors,
+      specActions,
       fn,
       producesValue,
       displayRequestDuration,
@@ -145,6 +146,7 @@ export default class Responses extends React.Component {
                               code={ code }
                               response={ response }
                               specSelectors={ specSelectors }
+                              specActions={ specActions }
                               controlsAcceptHeader={response === acceptControllingResponse}
                               onContentTypeChange={this.onResponseContentTypeChange}
                               contentType={ producesValue }
