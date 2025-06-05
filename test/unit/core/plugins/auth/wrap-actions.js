@@ -38,7 +38,107 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
       authorize(jest.fn(), system)(payload)
 
       expect(document.cookie).toEqual(
-        "apiKeyCookie=test; SameSite=None; Secure"
+        "apiKeyCookie=test;samesite=None;path=/"
+      )
+    })
+
+    it("should persist secure cookie in document.cookie for non-SSL targets", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "http://example.org"
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: fromJS({
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          }),
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test;samesite=None;path=/"
+      )
+    })
+
+    it("should persist secure cookie in document.cookie for SSL targets", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "https://example.org"
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: fromJS({
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          }),
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test;samesite=None;secure;path=/"
+      )
+    })
+
+    it("should persist secure cookie in document.cookie for non-root SSL targets", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "https://example.org/api"
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: fromJS({
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          }),
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test;samesite=None;secure;path=/api"
+      )
+    })
+
+    it("should persist secure cookie in document.cookie for SSL targets with non-root multi-level base path", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "https://example.org/api/production"
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: fromJS({
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          }),
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test;samesite=None;secure;path=/api/production"
       )
     })
 
@@ -64,7 +164,33 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
 
       logout(jest.fn(), system)(["api_key"])
 
-      expect(document.cookie).toEqual("apiKeyCookie=; Max-Age=-99999999")
+      expect(document.cookie).toEqual("apiKeyCookie=;max-age=-99999999;path=/")
+    })
+
+    it("should delete cookie from document.cookie for targets with non-root multi-level base path", () => {
+      const payload = fromJS({
+        api_key: {
+          schema: {
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          },
+          value: "test",
+        },
+      })
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+          url: "https://example.org/api/production"
+        }),
+        authSelectors: {
+          authorized: () => payload,
+        },
+      }
+
+      logout(jest.fn(), system)(["api_key"])
+
+      expect(document.cookie).toEqual("apiKeyCookie=;max-age=-99999999;path=/api/production")
     })
   })
 
@@ -115,5 +241,31 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
 
       expect(document.cookie).toEqual("")
     })
+  })
+
+  it("should delete cookie from document.cookie for targets with non-root multi-level base path", () => {
+    const payload = fromJS({
+      api_key: {
+        schema: {
+          type: "apiKey",
+          name: "apiKeyCookie",
+          in: "cookie",
+        },
+        value: "test",
+      },
+    })
+    const system = {
+      getConfigs: () => ({
+        persistAuthorization: false,
+        url: "https://example.org/api/production"
+      }),
+      authSelectors: {
+        authorized: () => payload,
+      },
+    }
+
+    logout(jest.fn(), system)(["api_key"])
+
+    expect(document.cookie).toEqual("")
   })
 })
