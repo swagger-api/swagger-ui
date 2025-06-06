@@ -262,7 +262,7 @@ const RequestBody = ({
   if (testValueForJson) {
     language = "json"
   }
-  let example = isExecute ? <RequestBodyEditor
+  const example = isExecute ? <RequestBodyEditor
       value={requestBodyValue}
       errors={requestBodyErrors}
       defaultValue={sampleRequestBody}
