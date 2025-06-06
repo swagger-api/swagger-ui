@@ -262,6 +262,15 @@ const RequestBody = ({
   if (testValueForJson) {
     language = "json"
   }
+  let example = isExecute ? <RequestBodyEditor
+      value={requestBodyValue}
+      errors={requestBodyErrors}
+      defaultValue={sampleRequestBody}
+      onChange={onChange}
+      getComponent={getComponent}
+    /> : <HighlightCode className="body-param__example" language={language}>
+      {stringify(requestBodyValue) || sampleRequestBody}
+    </HighlightCode>
 
   return <div>
     { requestBodyDescription &&
@@ -290,15 +299,7 @@ const RequestBody = ({
       isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
       specPath={specPath.push("content", contentType)}
-      example={isExecute ? <RequestBodyEditor
-        value={requestBodyValue}
-        errors={requestBodyErrors}
-        defaultValue={sampleRequestBody}
-        onChange={onChange}
-        getComponent={getComponent}
-      /> : <HighlightCode className="body-param__example" language={language}>
-        {stringify(requestBodyValue) || sampleRequestBody}
-      </HighlightCode>}
+      example={example}
       includeWriteOnly={true}
     />
     {
