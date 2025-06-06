@@ -282,35 +282,25 @@ const RequestBody = ({
           />
       ) : null
     }
-    {
-      isExecute ? (
-        <div>
-          <RequestBodyEditor
-            value={requestBodyValue}
-            errors={requestBodyErrors}
-            defaultValue={sampleRequestBody}
-            onChange={onChange}
-            getComponent={getComponent}
-          />
-        </div>
-      ) : (
-        <ModelExample
-          getComponent={ getComponent }
-          getConfigs={ getConfigs }
-          specSelectors={ specSelectors }
-          expandDepth={1}
-          isExecute={isExecute}
-          schema={mediaTypeValue.get("schema")}
-          specPath={specPath.push("content", contentType)}
-          example={
-            <HighlightCode className="body-param__example" language={language}>
-              {stringify(requestBodyValue) || sampleRequestBody}
-            </HighlightCode>
-          }
-          includeWriteOnly={true}
-        />
-      )
-    }
+    <ModelExample
+      getComponent={ getComponent }
+      getConfigs={ getConfigs }
+      specSelectors={ specSelectors }
+      expandDepth={1}
+      isExecute={isExecute}
+      schema={mediaTypeValue.get("schema")}
+      specPath={specPath.push("content", contentType)}
+      example={isExecute ? <RequestBodyEditor
+        value={requestBodyValue}
+        errors={requestBodyErrors}
+        defaultValue={sampleRequestBody}
+        onChange={onChange}
+        getComponent={getComponent}
+      /> : <HighlightCode className="body-param__example" language={language}>
+        {stringify(requestBodyValue) || sampleRequestBody}
+      </HighlightCode>}
+      includeWriteOnly={true}
+    />
     {
       sampleForMediaType ? (
         <Example
