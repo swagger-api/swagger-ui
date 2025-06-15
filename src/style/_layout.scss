@@ -300,6 +300,28 @@
 
   .opblock-summary-operation-id {
     font-size: 14px;
+    
+    &.clickable {
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 2px 4px;
+      border-radius: 3px;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #3b4151;
+      }
+      
+      &.copied {
+        background-color: #4caf50;
+        color: white;
+      }
+      
+      .copy-feedback {
+        font-size: 12px;
+        margin-left: 4px;
+      }
+    }
   }
 
   .opblock-summary-description {
