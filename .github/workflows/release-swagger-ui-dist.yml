@@ -1,4 +1,4 @@
-name: Release SwaggerUI React
+name: Release SwaggerUI Dist
 
 on:
   workflow_run:
@@ -8,9 +8,9 @@ on:
     branches: [ master ]
 
 jobs:
-  release-swagger-ui-react:
+  release-swagger-ui-dist:
     if: github.event.workflow_run.conclusion == 'success'
-    name: Release swagger-ui-react npm package
+    name: Release swagger-ui-dist npm package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -54,8 +54,8 @@ jobs:
           unzip -o dist.zip -d dist
 
       - name: Publish to npmjs.com
-        run: ./run.sh
-        working-directory: ./flavors/swagger-ui-react/release
+        run: ./deploy.sh
+        working-directory: ./swagger-ui-dist-package
         env:
           NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          PUBLISH_FLAVOR_REACT: true
+          PUBLISH_DIST: true
