@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  release-swagger-ui-dist:
+  release-swagger-ui-packagist:
     if: github.event.workflow_run.conclusion == 'success'
     name: Release swagger-ui to packagist
     runs-on: ubuntu-latest
