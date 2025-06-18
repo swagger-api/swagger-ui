@@ -57,5 +57,5 @@ jobs:
         run: ./run.sh
         working-directory: ./flavors/swagger-ui-react/release
         env:
-          NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           PUBLISH_FLAVOR_REACT: true
