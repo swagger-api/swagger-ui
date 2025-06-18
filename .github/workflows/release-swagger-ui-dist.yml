@@ -57,5 +57,5 @@ jobs:
         run: ./deploy.sh
         working-directory: ./swagger-ui-dist-package
         env:
-          NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           PUBLISH_DIST: true
