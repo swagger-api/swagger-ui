@@ -5,8 +5,9 @@ import { mount, render } from "enzyme"
 import { getSchemaObjectType } from "core/plugins/json-schema-5-samples/fn/index"
 import * as JsonSchemaComponents from "core/plugins/json-schema-5/components/json-schema-components"
 import { makeIsFileUploadIntended } from "core/plugins/oas3/fn"
+import { DebounceTextArea } from "core/components/layout-utils"
 
-const components = {...JsonSchemaComponents, Select, Input, TextArea}
+const components = {...JsonSchemaComponents, Select, Input, TextArea, DebounceTextArea}
 
 const getComponentStub = (name) => {
   if(components[name]) return components[name]
