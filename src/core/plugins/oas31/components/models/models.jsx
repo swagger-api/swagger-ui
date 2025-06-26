@@ -30,11 +30,12 @@ const Models = ({
    * Effects.
    */
   useEffect(() => {
-    const hasAtLeastOneSchemaExpanded = Object.entries(schemas).some(
-      ([schemaName]) => layoutSelectors.isShown([...schemasPath, schemaName], false)
+    const includesExpandedSchema = Object.entries(schemas).some(
+      ([schemaName]) =>
+        layoutSelectors.isShown([...schemasPath, schemaName], false)
     )
     const isOpenAndExpanded =
-      isOpen && (defaultModelsExpandDepth > 1 || hasAtLeastOneSchemaExpanded)
+      isOpen && (defaultModelsExpandDepth > 1 || includesExpandedSchema)
     const isResolved = specSelectors.specResolvedSubtree(schemasPath) != null
     if (isOpenAndExpanded && !isResolved) {
       specActions.requestResolvedSubtree(schemasPath)
@@ -65,9 +66,8 @@ const Models = ({
       if (!isResolved) {
         specActions.requestResolvedSubtree([...schemasPath, schemaName])
       }
-       layoutActions.show(schemaPath, true)
-    }
-    else {
+      layoutActions.show(schemaPath, true)
+    } else {
       layoutActions.show(schemaPath, false)
     }
   }
