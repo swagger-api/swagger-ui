@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: "3.0.4"
 
 components:
   schemas:
@@ -28,7 +28,7 @@ components:
           type: boolean
           default: false
       xml:
-        name: Order    
+        name: Order
     User:
       type: object
       properties:
@@ -52,7 +52,7 @@ components:
           format: int32
           description: User Status
       xml:
-        name: User    
+        name: User
     Pet:
       type: object
       required:
@@ -90,4 +90,3 @@ components:
             - sold
       xml:
         name: Pet
-    

@@ -1,13 +1,24 @@
 import XML from "xml"
 import RandExp from "randexp"
 import isEmpty from "lodash/isEmpty"
-import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
+import { deeplyStripKey, isFunc, normalizeArray, objectify, immutableToJS } from "core/utils"
 import memoizeN from "core/utils/memoizeN"
 
 const generateStringFromRegex = (pattern) => {
   try {
-    const randexp = new RandExp(pattern)
-    return randexp.gen()
+    /**
+     * Applying maximum value (100) to numbers from regex patterns to avoid ReDoS:
+     * 1. {x}
+     * 2. {x,}
+     * 3. {,y}
+     * 4. {x,y}
+     */
+    const patternSanitizer =
+      /(?<=(?<!\\)\{)(\d{3,})(?=\})|(?<=(?<!\\)\{\d*,)(\d{3,})(?=\})|(?<=(?<!\\)\{)(\d{3,})(?=,\d*\})/g
+    const safePattern = pattern.replace(patternSanitizer, "100")
+    const randexpInstance = new RandExp(safePattern)
+    randexpInstance.max = 100
+    return randexpInstance.gen()
   } catch (e) {
     // Invalid regex should not cause a crash (regex syntax varies across languages)
     return "string"
@@ -19,6 +30,7 @@ const primitives = {
   "string_email": () => "user@example.com",
   "string_date-time": () => new Date().toISOString(),
   "string_date": () => new Date().toISOString().substring(0, 10),
+  "string_time": () => new Date().toISOString().substring(11),
   "string_uuid": () => "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "string_hostname": () => "example.com",
   "string_ipv4": () => "198.51.100.42",
@@ -627,6 +639,7 @@ export const createXMLExample = (schema, config, o) => {
   return XML(json, { declaration: true, indent: "\t" })
 }
 
+
 export const sampleFromSchema = (schema, config, o) =>
   sampleFromSchemaGeneric(schema, config, o, false)
 
@@ -635,3 +648,5 @@ const resolver = (arg1, arg2, arg3) => [arg1, JSON.stringify(arg2), JSON.stringi
 export const memoizedCreateXMLExample = memoizeN(createXMLExample, resolver)
 
 export const memoizedSampleFromSchema = memoizeN(sampleFromSchema, resolver)
+
+export const getSchemaObjectType = (schema) => immutableToJS(schema)?.type ?? "string"

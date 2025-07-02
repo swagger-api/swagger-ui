@@ -79,12 +79,8 @@ describe("sampleFromSchema", () => {
     expect(sample({ type: "number", format: "float" })).toStrictEqual(0.1)
     expect(sample({ type: "number", format: "double" })).toStrictEqual(0.1)
     expect(sample({ type: "integer" })).toStrictEqual(0)
-    expect(sample({ type: "integer", format: "int32" })).toStrictEqual(
-      (2 ** 30) >>> 0
-    )
-    expect(sample({ type: "integer", format: "int64" })).toStrictEqual(
-      2 ** 53 - 1
-    )
+    expect(sample({ type: "integer", format: "int32" })).toStrictEqual(0)
+    expect(sample({ type: "integer", format: "int64" })).toStrictEqual(0)
     expect(sample({ type: "boolean" })).toStrictEqual(true)
     expect(sample({ type: "null" })).toStrictEqual(null)
   })
@@ -371,6 +367,20 @@ describe("sampleFromSchema", () => {
     const expected = "string"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle nullable primitive types defined as list of types", function () {
+    const sample = (schema) => sampleFromSchema(fromJS(schema))
+
+    expect(sample({ type: ["string", "null"] })).toStrictEqual("string")
+    expect(sample({ type: ["null", "string"] })).toStrictEqual("string")
+    expect(sample({ type: ["number", "null"] })).toStrictEqual(0)
+    expect(sample({ type: ["null", "number"] })).toStrictEqual(0)
+    expect(sample({ type: ["integer", "null"] })).toStrictEqual(0)
+    expect(sample({ type: ["null", "integer"] })).toStrictEqual(0)
+    expect(sample({ type: ["boolean", "null"] })).toStrictEqual(true)
+    expect(sample({ type: ["null", "boolean"] })).toStrictEqual(true)
+    expect(sample({ type: ["null"] })).toStrictEqual(null)
   })
 
   it("should return const value", function () {
@@ -2941,6 +2951,80 @@ describe("createXMLExample", function () {
 <probe>
 \t<swaggerUi>cool</swaggerUi>
 </probe>`
+
+    expect(sut(definition)).toEqual(expected)
+  })
+
+  it("should handle object properties of type `array` as an attribute", () => {
+    const definition = {
+      type: "object",
+      xml: {
+        name: "test",
+      },
+      properties: {
+        arrayOfStrings: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          xml: {
+            attribute: true,
+          },
+        },
+        arrayOfArrays: {
+          type: "array",
+          items: {
+            type: "array",
+          },
+          minItems: 3,
+          xml: {
+            attribute: true,
+          },
+        },
+        arrayOfContainsObject: {
+          type: "array",
+          contains: {
+            type: "object",
+          },
+          minContains: 3,
+          xml: {
+            attribute: true,
+          },
+        },
+      },
+    }
+
+    const expected = `<?xml version="1.0" encoding="UTF-8"?>
+<test arrayOfStrings="string" arrayOfArrays="UnknownTypeArray UnknownTypeArray UnknownTypeArray" arrayOfContainsObject="UnknownTypeObject UnknownTypeObject UnknownTypeObject">
+</test>`
+
+    expect(sut(definition)).toEqual(expected)
+  })
+
+  it("should handle object properties of type `object` as an attribute", () => {
+    const definition = {
+      type: "object",
+      xml: {
+        name: "test",
+      },
+      properties: {
+        object: {
+          type: "object",
+          properties: {
+            string: {
+              type: "string",
+            },
+          },
+          xml: {
+            attribute: true,
+          },
+        },
+      },
+    }
+
+    const expected = `<?xml version="1.0" encoding="UTF-8"?>
+<test object="UnknownTypeObject">
+</test>`
 
     expect(sut(definition)).toEqual(expected)
   })

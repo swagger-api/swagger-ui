@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: "3.0.4"
 info:
   title: Simple API overview
   version: 2.0.0
@@ -13,7 +13,7 @@ paths:
             200 response
           content:
             application/json:
-              examples: 
+              examples:
                 foo:
                   value: {
                     "versions": [
@@ -45,8 +45,8 @@ paths:
           description: |-
             300 response
           content:
-            application/json: 
-              examples: 
+            application/json:
+              examples:
                 foo:
                   value: |
                    {
@@ -84,7 +84,7 @@ paths:
           description: |-
             200 response
           content:
-            application/json: 
+            application/json:
               examples:
                 foo:
                   value: {
@@ -129,7 +129,7 @@ paths:
           description: |-
             203 response
           content:
-            application/json: 
+            application/json:
               examples:
                 foo:
                   value: {

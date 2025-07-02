@@ -1,68 +1,59 @@
-# inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
-name: Build & Push SwaggerUI multi platform Docker image
+name: Build & Push SwaggerUI Docker image
 
 on:
-  workflow_dispatch:
-    inputs:
-      git_ref:
-        description: Git branch, tag or SHA to checkout.
-        type: string
-        required: true
-      docker_tag:
-        description: Docker tag associated with the `git_ref`
-        type: string
-        required: true
-
-  repository_dispatch:
-    type: [docker_build_push]
-
-env:
-  REGISTRY_IMAGE: swaggerapi/swagger-ui
+  workflow_run:
+    workflows: ["Release SwaggerUI"]
+    types:
+      - completed
+    branches: [master]
 
 jobs:
-  inputs:
-    name: Normalize inputs
+
+  build-push:
+    if: github.event.workflow_run.conclusion == 'success'
+    name: Build & Push SwaggerUI Docker image
     runs-on: ubuntu-latest
-    outputs:
-      git_ref: ${{ steps.workflow_dispatch.outputs.git_ref || steps.repository_dispatch.outputs.git_ref }}
-      docker_tag: ${{ steps.workflow_dispatch.outputs.docker_tag || steps.repository_dispatch.outputs.docker_tag }}
-
-    steps:
-      - name: Normalize inputs of `workflow_dispatch` event
-        id: workflow_dispatch
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: |
-          echo "git_ref=${{ inputs.git_ref }}" >> "$GITHUB_OUTPUT"
-          echo "docker_tag=${{ inputs.docker_tag }}" >> "$GITHUB_OUTPUT"
-
-      - name: Normalize inputs of `repository_dispatch` event
-        id: repository_dispatch
-        if: ${{ github.event_name == 'repository_dispatch' }}
-        run: |
-          echo "git_ref=${{ github.event.client_payload.git_ref }}" >> "$GITHUB_OUTPUT"
-          echo "docker_tag=${{ github.event.client_payload.docker_tag }}" >> "$GITHUB_OUTPUT"
-
-
-
-  build:
-    name: Build & Push SwaggerUI platform specific Docker images
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          # linux/amd64 is already built by Jenkins
-          - linux/arm/v6
-          - linux/arm64
-          - linux/386
-          - linux/ppc64le
-    needs:
-      - inputs
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
         with:
-          ref: ${{ needs.inputs.outputs.git_ref }}
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build SwaggerUI
+        run: npm run build
+
+      - name: Determine released version
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "released-version"
+            })[0];
+            const download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            const fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/released-version.zip', Buffer.from(download.data));
+      - run: |
+          unzip released-version.zip
+          RELEASED_VERSION=$(cat released-version.txt)
+          echo "RELEASED_VERSION=$RELEASED_VERSION" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -76,68 +67,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
-      - name: Build and push by digest
-        id: build
+      - name: Build docker image and push
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: ${{ matrix.platform }}
+          push: true
+          platforms: linux/amd64,linux/arm/v6,linux/arm64,linux/386,linux/ppc64le
           provenance: false
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
-
-      - name: Export digest
-        run: |
-          mkdir -p /tmp/digests
-          digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${digest#sha256:}"
-
-      - name: Sanitize platform variable
-        id: sanitize_platform
-        run: |
-          SANITIZED_PLATFORM="${{ matrix.platform }}" # Assuming direct usage for simplicity
-          SANITIZED_PLATFORM="${SANITIZED_PLATFORM//[^a-zA-Z0-9_-]/}" # Remove special chars
-          echo "SANITIZED_PLATFORM=${SANITIZED_PLATFORM}" # Echo for debug
-          echo "::set-output name=sanitized_platform::${SANITIZED_PLATFORM}"
-
-      - name: Upload digest
-        uses: actions/upload-artifact@v4
-        with:
-          name: digest-${{ steps.sanitize_platform.outputs.sanitized_platform }}
-          path: /tmp/digests/*
-          if-no-files-found: error
-          retention-days: 1
-
-  merge:
-    name: Merge platform specific Docker image into multi platform image
-    runs-on: ubuntu-latest
-    needs:
-      - inputs
-      - build
-
-    steps:
-      - name: Download digests
-        uses: actions/download-artifact@v4
-        with:
-          pattern: digest-*
-          path: /tmp/digests
-          merge-multiple: true
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
-
-      - name: Create manifest list and push
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }} \
-            ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }} \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
-
-      - name: Inspect image
-        run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }}
+          tags: swaggerapi/swagger-ui:latest,swaggerapi/swagger-ui:v${{ env.RELEASED_VERSION }}

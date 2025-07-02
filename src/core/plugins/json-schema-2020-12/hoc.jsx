@@ -32,30 +32,36 @@ import KeywordUnevaluatedItems from "./components/keywords/UnevaluatedItems"
 import KeywordUnevaluatedProperties from "./components/keywords/UnevaluatedProperties"
 import KeywordType from "./components/keywords/Type"
 import KeywordEnum from "./components/keywords/Enum/Enum"
-import KeywordConst from "./components/keywords/Const"
+import KeywordConst from "./components/keywords/Const/Const"
 import KeywordConstraint from "./components/keywords/Constraint/Constraint"
 import KeywordDependentRequired from "./components/keywords/DependentRequired/DependentRequired"
 import KeywordContentSchema from "./components/keywords/ContentSchema"
 import KeywordTitle from "./components/keywords/Title/Title"
 import KeywordDescription from "./components/keywords/Description/Description"
-import KeywordDefault from "./components/keywords/Default"
+import KeywordDefault from "./components/keywords/Default/Default"
 import KeywordDeprecated from "./components/keywords/Deprecated"
 import KeywordReadOnly from "./components/keywords/ReadOnly"
 import KeywordWriteOnly from "./components/keywords/WriteOnly"
+import KeywordExamples from "./components/keywords/Examples/Examples"
+import ExtensionKeywords from "./components/keywords/ExtensionKeywords/ExtensionKeywords"
+import JSONViewer from "./components/JSONViewer/JSONViewer"
 import Accordion from "./components/Accordion/Accordion"
 import ExpandDeepButton from "./components/ExpandDeepButton/ExpandDeepButton"
 import ChevronRightIcon from "./components/icons/ChevronRight"
 import { JSONSchemaContext } from "./context"
+import { useFn } from "./hooks"
 import {
-  getTitle,
+  makeGetTitle,
   isBooleanJSONSchema,
   upperFirst,
-  getType,
+  makeGetType,
   hasKeyword,
-  isExpandable,
+  makeIsExpandable,
   stringify,
   stringifyConstraints,
   getDependentRequired,
+  getSchemaKeywords,
+  makeGetExtensionKeywords,
 } from "./fn"
 
 export const withJSONSchemaContext = (Component, overrides = {}) => {
@@ -100,6 +106,9 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
       KeywordDeprecated,
       KeywordReadOnly,
       KeywordWriteOnly,
+      KeywordExamples,
+      ExtensionKeywords,
+      JSONViewer,
       Accordion,
       ExpandDeepButton,
       ChevronRightIcon,
@@ -116,20 +125,24 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
        * 3 -> [0]...(3)
        */
       defaultExpandedLevels: 0, // 2 = 0...2
+      showExtensionKeywords: true,
       ...overrides.config,
     },
     fn: {
       upperFirst,
-      getTitle,
-      getType,
+      getTitle: makeGetTitle(useFn),
+      getType: makeGetType(useFn),
       isBooleanJSONSchema,
       hasKeyword,
-      isExpandable,
+      isExpandable: makeIsExpandable(useFn),
       stringify,
       stringifyConstraints,
       getDependentRequired,
+      getSchemaKeywords,
+      getExtensionKeywords: makeGetExtensionKeywords(useFn),
       ...overrides.fn,
     },
+    state: { paths: {} },
   }
 
   const HOC = (props) => (
@@ -144,3 +157,140 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
 
   return HOC
 }
+
+export const makeWithJSONSchemaSystemContext =
+  ({ getSystem }) =>
+  (Component, overrides = {}) => {
+    const { getComponent, getConfigs } = getSystem()
+    const configs = getConfigs()
+
+    const JSONSchema = getComponent("JSONSchema202012")
+    const Keyword$schema = getComponent("JSONSchema202012Keyword$schema")
+    const Keyword$vocabulary = getComponent(
+      "JSONSchema202012Keyword$vocabulary"
+    )
+    const Keyword$id = getComponent("JSONSchema202012Keyword$id")
+    const Keyword$anchor = getComponent("JSONSchema202012Keyword$anchor")
+    const Keyword$dynamicAnchor = getComponent(
+      "JSONSchema202012Keyword$dynamicAnchor"
+    )
+    const Keyword$ref = getComponent("JSONSchema202012Keyword$ref")
+    const Keyword$dynamicRef = getComponent(
+      "JSONSchema202012Keyword$dynamicRef"
+    )
+    const Keyword$defs = getComponent("JSONSchema202012Keyword$defs")
+    const Keyword$comment = getComponent("JSONSchema202012Keyword$comment")
+    const KeywordAllOf = getComponent("JSONSchema202012KeywordAllOf")
+    const KeywordAnyOf = getComponent("JSONSchema202012KeywordAnyOf")
+    const KeywordOneOf = getComponent("JSONSchema202012KeywordOneOf")
+    const KeywordNot = getComponent("JSONSchema202012KeywordNot")
+    const KeywordIf = getComponent("JSONSchema202012KeywordIf")
+    const KeywordThen = getComponent("JSONSchema202012KeywordThen")
+    const KeywordElse = getComponent("JSONSchema202012KeywordElse")
+    const KeywordDependentSchemas = getComponent(
+      "JSONSchema202012KeywordDependentSchemas"
+    )
+    const KeywordPrefixItems = getComponent(
+      "JSONSchema202012KeywordPrefixItems"
+    )
+    const KeywordItems = getComponent("JSONSchema202012KeywordItems")
+    const KeywordContains = getComponent("JSONSchema202012KeywordContains")
+    const KeywordProperties = getComponent("JSONSchema202012KeywordProperties")
+    const KeywordPatternProperties = getComponent(
+      "JSONSchema202012KeywordPatternProperties"
+    )
+    const KeywordAdditionalProperties = getComponent(
+      "JSONSchema202012KeywordAdditionalProperties"
+    )
+    const KeywordPropertyNames = getComponent(
+      "JSONSchema202012KeywordPropertyNames"
+    )
+    const KeywordUnevaluatedItems = getComponent(
+      "JSONSchema202012KeywordUnevaluatedItems"
+    )
+    const KeywordUnevaluatedProperties = getComponent(
+      "JSONSchema202012KeywordUnevaluatedProperties"
+    )
+    const KeywordType = getComponent("JSONSchema202012KeywordType")
+    const KeywordEnum = getComponent("JSONSchema202012KeywordEnum")
+    const KeywordConst = getComponent("JSONSchema202012KeywordConst")
+    const KeywordConstraint = getComponent("JSONSchema202012KeywordConstraint")
+    const KeywordDependentRequired = getComponent(
+      "JSONSchema202012KeywordDependentRequired"
+    )
+    const KeywordContentSchema = getComponent(
+      "JSONSchema202012KeywordContentSchema"
+    )
+    const KeywordTitle = getComponent("JSONSchema202012KeywordTitle")
+    const KeywordDescription = getComponent(
+      "JSONSchema202012KeywordDescription"
+    )
+    const KeywordDefault = getComponent("JSONSchema202012KeywordDefault")
+    const KeywordDeprecated = getComponent("JSONSchema202012KeywordDeprecated")
+    const KeywordReadOnly = getComponent("JSONSchema202012KeywordReadOnly")
+    const KeywordWriteOnly = getComponent("JSONSchema202012KeywordWriteOnly")
+    const KeywordExamples = getComponent("JSONSchema202012KeywordExamples")
+    const ExtensionKeywords = getComponent("JSONSchema202012ExtensionKeywords")
+    const JSONViewer = getComponent("JSONSchema202012JSONViewer")
+    const Accordion = getComponent("JSONSchema202012Accordion")
+    const ExpandDeepButton = getComponent("JSONSchema202012ExpandDeepButton")
+    const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
+
+    return withJSONSchemaContext(Component, {
+      components: {
+        JSONSchema,
+        Keyword$schema,
+        Keyword$vocabulary,
+        Keyword$id,
+        Keyword$anchor,
+        Keyword$dynamicAnchor,
+        Keyword$ref,
+        Keyword$dynamicRef,
+        Keyword$defs,
+        Keyword$comment,
+        KeywordAllOf,
+        KeywordAnyOf,
+        KeywordOneOf,
+        KeywordNot,
+        KeywordIf,
+        KeywordThen,
+        KeywordElse,
+        KeywordDependentSchemas,
+        KeywordPrefixItems,
+        KeywordItems,
+        KeywordContains,
+        KeywordProperties,
+        KeywordPatternProperties,
+        KeywordAdditionalProperties,
+        KeywordPropertyNames,
+        KeywordUnevaluatedItems,
+        KeywordUnevaluatedProperties,
+        KeywordType,
+        KeywordEnum,
+        KeywordConst,
+        KeywordConstraint,
+        KeywordDependentRequired,
+        KeywordContentSchema,
+        KeywordTitle,
+        KeywordDescription,
+        KeywordDefault,
+        KeywordDeprecated,
+        KeywordReadOnly,
+        KeywordWriteOnly,
+        KeywordExamples,
+        ExtensionKeywords,
+        JSONViewer,
+        Accordion,
+        ExpandDeepButton,
+        ChevronRightIcon,
+        ...overrides.components,
+      },
+      config: {
+        showExtensionKeywords: configs.showExtensions,
+        ...overrides.config,
+      },
+      fn: {
+        ...overrides.fn,
+      },
+    })
+  }

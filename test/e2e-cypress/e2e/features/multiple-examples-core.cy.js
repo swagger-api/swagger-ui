@@ -617,7 +617,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .click()
           // Set an invalid value
           .get(
-            ".parameters-container > div > table > tbody > tr > td.parameters-col_description > div:nth-child(2) > textarea"
+            ".parameters-container > div > table > tbody > tr > td.parameters-col_description > div:nth-child(2) textarea"
           )
           .type("{{{{ [[[[ <<<< invalid JSON here.")
           // Execute the operation
