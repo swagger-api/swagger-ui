@@ -47,6 +47,8 @@ import Contact from "core/components/contact"
 import License from "core/components/license"
 import JumpToPath from "core/components/jump-to-path"
 import CopyToClipboardBtn from "core/components/copy-to-clipboard-btn"
+import CopyOperationIdBtn from "core/components/copy-operation-id-btn"
+import ClickableOperationId from "core/components/clickable-operation-id"
 import Footer from "core/components/footer"
 import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
@@ -85,6 +87,8 @@ const CoreComponentsPlugin = () => ({
     License,
     JumpToPath,
     CopyToClipboardBtn,
+    CopyOperationIdBtn,
+    ClickableOperationId,
     onlineValidatorBadge: OnlineValidatorBadge,
     operations: Operations,
     operation: Operation,
