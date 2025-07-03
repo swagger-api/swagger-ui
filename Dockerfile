@@ -24,14 +24,16 @@ ENV API_KEY="**None**" \
     CORS="true" \
     EMBEDDING="false"
 
-COPY --chown=nginx:nginx --chmod=0666 ./docker/default.conf.template ./docker/cors.conf ./docker/embedding.conf /etc/nginx/templates/
+COPY --chmod=0644 ./docker/default.conf.template ./docker/cors.conf ./docker/embedding.conf /etc/nginx/templates/
 
-COPY --chmod=0666 ./dist/* /usr/share/nginx/html/
-COPY --chmod=0555 ./docker/docker-entrypoint.d/ /docker-entrypoint.d/
-COPY --chmod=0666 ./docker/configurator /usr/share/nginx/configurator
+COPY --chmod=0644 ./dist/* /usr/share/nginx/html/
+COPY --chmod=0755 ./docker/docker-entrypoint.d/ /docker-entrypoint.d/
+COPY --chmod=0644 ./docker/configurator /usr/share/nginx/configurator
 
 # Simulates running NGINX as a non root; in future we want to use nginxinc/nginx-unprivileged.
 # In future we will have separate unpriviledged images tagged as v5.1.2-unprivileged.
-RUN chmod 777 /usr/share/nginx/html/ /etc/nginx/conf.d/ /etc/nginx/conf.d/default.conf /var/cache/nginx/ /var/run/
+RUN chmod 777 /etc/nginx/conf.d/ /usr/share/nginx/html/ /var/cache/nginx/ /var/run/ && \
+    chmod 666 /etc/nginx/conf.d/default.conf /usr/share/nginx/html/swagger-initializer.js && \
+    chmod 755 /etc/nginx/templates /usr/share/nginx/configurator
 
 EXPOSE 8080
