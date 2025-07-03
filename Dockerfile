@@ -26,7 +26,7 @@ ENV API_KEY="**None**" \
 
 COPY --chmod=0644 ./docker/default.conf.template ./docker/cors.conf ./docker/embedding.conf /etc/nginx/templates/
 
-COPY --chmod=0666 ./dist/* /usr/share/nginx/html/
+COPY --chmod=0644 ./dist/* /usr/share/nginx/html/
 COPY --chmod=0755 ./docker/docker-entrypoint.d/ /docker-entrypoint.d/
 COPY --chmod=0644 ./docker/configurator /usr/share/nginx/configurator
 
