@@ -6,8 +6,19 @@ import memoizeN from "core/utils/memoizeN"
 
 const generateStringFromRegex = (pattern) => {
   try {
-    const randexp = new RandExp(pattern)
-    return randexp.gen()
+    /**
+     * Applying maximum value (100) to numbers from regex patterns to avoid ReDoS:
+     * 1. {x}
+     * 2. {x,}
+     * 3. {,y}
+     * 4. {x,y}
+     */
+    const patternSanitizer =
+      /(?<=(?<!\\)\{)(\d{3,})(?=\})|(?<=(?<!\\)\{\d*,)(\d{3,})(?=\})|(?<=(?<!\\)\{)(\d{3,})(?=,\d*\})/g
+    const safePattern = pattern.replace(patternSanitizer, "100")
+    const randexpInstance = new RandExp(safePattern)
+    randexpInstance.max = 100
+    return randexpInstance.gen()
   } catch (e) {
     // Invalid regex should not cause a crash (regex syntax varies across languages)
     return "string"
