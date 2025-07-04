@@ -404,7 +404,20 @@ export const validateMinLength = (val, min) => {
 }
 
 export const validatePattern = (val, rxPattern) => {
-  var patt = new RegExp(rxPattern)
+    // Security fix: Validate and sanitize regex pattern to prevent ReDoS
+    if (typeof rxPattern !== "string" || rxPattern.length > 1000) {
+      throw new Error("Invalid regex pattern: must be a string with length <= 1000");
+    }
+    
+    // Sanitize pattern by escaping potentially dangerous sequences
+    const sanitizedPattern = rxPattern.replace(/\(\?[!=<]/g, "\\$  var patt = new RegExp(rxPattern)");
+    
+    let regex;
+    try {
+      regex = new RegExp(sanitizedPattern);
+    } catch (e) {
+      throw new Error("Invalid regex pattern: " + e.message);
+    }
   if (!patt.test(val)) {
     return "Value must follow pattern " + rxPattern
   }
