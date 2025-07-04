@@ -1,45 +1,40 @@
 import React from "react"
 import PropTypes from "prop-types"
-import cx from "classnames"
-import { Remarkable } from "remarkable"
-import { OAS3ComponentWrapFactory } from "../helpers"
-import { sanitizer } from "core/components/providers/markdown"
+import DOMPurify from "dompurify"
 
-const parser = new Remarkable("commonmark")
-parser.block.ruler.enable(["table"])
-parser.set({ linkTarget: "_blank" })
+export default (Original, system) => (props) => {
+  const { getComponent, getStore } = system
+  const { fn } = getStore().getState()
+  const { source, className = "", getConfigs = () => ({}) } = props
+  const configs = getConfigs()
 
-export const Markdown = ({ source, className = "", getConfigs = () => ({ useUnsafeMarkdown: false }) }) => {
-  if(typeof source !== "string") {
+  if (typeof source !== "string") {
     return null
   }
 
-  if ( source ) {
-    const { useUnsafeMarkdown } = getConfigs()
-    const html = parser.render(source)
-    const sanitized = sanitizer(html, { useUnsafeMarkdown })
+  if (source === "") {
+    return null
+  }
 
-    let trimmed
+  const MarkdownComponent = getComponent("Markdown", true)
+  const NewlineComponent = getComponent("Newline", true)
 
-    if(typeof sanitized === "string") {
-      trimmed = sanitized.trim()
-    }
+  const html = fn.getMarkdownParser()(source || "")
+  const sanitizedHtml = DOMPurify.sanitize(html)
 
+  if (typeof html === "string") {
     return (
       <div
-        dangerouslySetInnerHTML={{
-          __html: trimmed
-        }}
-        className={cx(className, "renderedMarkdown")}
+        className={className}
+        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
       />
     )
   }
-  return null
-}
-Markdown.propTypes = {
-  source: PropTypes.string,
-  className: PropTypes.string,
-  getConfigs: PropTypes.func,
-}
 
-export default OAS3ComponentWrapFactory(Markdown)
+  return (
+    <div className={className}>
+      <MarkdownComponent source={source} />
+      <NewlineComponent />
+    </div>
+  )
+}
