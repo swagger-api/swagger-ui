@@ -159,7 +159,7 @@
     "jest-transform-stub": "=2.0.0",
     "jsdom": "=26.0.0",
     "json-loader": "^0.5.7",
-    "json-merger": "^2.0.0",
+    "json-merger": "^3.0.0",
     "json-server": "=0.17.4",
     "less": "^4.2.2",
     "license-checker": "^25.0.0",
