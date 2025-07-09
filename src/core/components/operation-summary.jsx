@@ -59,6 +59,8 @@ export default class OperationSummary extends PureComponent {
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
     const CopyToClipboardBtn = getComponent("CopyToClipboardBtn", true)
+    const CopyOperationIdBtn = getComponent("CopyOperationIdBtn", true)
+    const ClickableOperationId = getComponent("ClickableOperationId", true)
     const ArrowUpIcon = getComponent("ArrowUpIcon")
     const ArrowDownIcon = getComponent("ArrowDownIcon")
 
@@ -83,9 +85,18 @@ export default class OperationSummary extends PureComponent {
             }
           </div>
 
-          {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
+          {displayOperationId && (originalOperationId || operationId) ? 
+            <ClickableOperationId 
+              operationId={operationId} 
+              originalOperationId={originalOperationId} 
+            /> : null}
         </button>
         <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
+        {displayOperationId && (originalOperationId || operationId) ? 
+          <CopyOperationIdBtn 
+            getComponent={getComponent}
+            operationId={originalOperationId || operationId} 
+          /> : null}
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn

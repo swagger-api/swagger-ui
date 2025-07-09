@@ -197,3 +197,18 @@ button {
   height: 26px;
   position: unset;
 }
+
+// styles for copy operation id button
+.opblock .opblock-summary .view-line-link.copy-operation-id {
+  height: 26px;
+  position: unset;
+  background: #49cc90; // 使用绿色来区分 operationId 复制按钮
+  
+  &:hover {
+    background: #3ea876;
+  }
+  
+  &:active {
+    background: #2e8a5f;
+  }
+}
