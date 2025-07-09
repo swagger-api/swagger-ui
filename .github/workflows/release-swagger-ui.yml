@@ -60,7 +60,7 @@ jobs:
             @semantic-release/git
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Release failed
         if: steps.semantic.outputs.new_release_published == 'false'
