@@ -66,13 +66,20 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
     errActions.clear({ source: "parser" })
     json = YAML.load(str, { schema: JSON_SCHEMA })
   } catch(e) {
-    // TODO: push error to state
-    console.error(e)
+    // Handle parsing errors by creating proper error state
+    const errorMessage = e.reason || e.message || "Failed to parse specification"
+    const errorLine = e.mark && e.mark.line ? e.mark.line + 1 : undefined
+
+    // Only log to console in development
+    if (process.env.NODE_ENV === "development") {
+      console.error("Spec parsing error:", e)
+    }
+    
     return errActions.newSpecErr({
       source: "parser",
       level: "error",
-      message: e.reason,
-      line: e.mark && e.mark.line ? e.mark.line + 1 : undefined
+      message: errorMessage,
+      line: errorLine
     })
   }
   if(json && typeof json === "object") {
