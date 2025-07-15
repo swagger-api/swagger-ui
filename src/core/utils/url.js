@@ -60,8 +60,10 @@ export function sanitizeUrl(url) {
     if (urlObject.origin === base) {
       return urlTrimmed.startsWith("/")
         ? `${urlObject.pathname}${urlObject.search}${urlObject.hash}`
-        : urlTrimmed.startsWith(".")
+        : urlTrimmed.startsWith("./")
         ? `.${urlObject.pathname}${urlObject.search}${urlObject.hash}`
+        : urlTrimmed.startsWith("../")
+        ? `..${urlObject.pathname}${urlObject.search}${urlObject.hash}`
         : `${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
     }
 
