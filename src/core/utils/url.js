@@ -58,11 +58,19 @@ export function sanitizeUrl(url) {
 
     // return sanitized URI reference
     if (urlObject.origin === base) {
-      return urlTrimmed.startsWith("/")
-        ? `${urlObject.pathname}${urlObject.search}${urlObject.hash}`
-        : urlTrimmed.startsWith(".")
-        ? `.${urlObject.pathname}${urlObject.search}${urlObject.hash}`
-        : `${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
+      if (urlTrimmed.startsWith("/")) {
+        return `${urlObject.pathname}${urlObject.search}${urlObject.hash}`
+      }
+    
+      if (urlTrimmed.startsWith("./")) {
+        return `.${urlObject.pathname}${urlObject.search}${urlObject.hash}`
+      }
+    
+      if (urlTrimmed.startsWith("../")) {
+        return `..${urlObject.pathname}${urlObject.search}${urlObject.hash}`
+      }
+    
+      return `${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
     }
 
     return String(urlObject)
