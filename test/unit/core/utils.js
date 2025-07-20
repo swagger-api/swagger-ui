@@ -1449,6 +1449,13 @@ describe("utils", () => {
       expect(sanitizeUrl(url)).toEqual("https://swagger.io/")
     })
 
+    it("should gracefully handle relative paths", () => {
+      expect(sanitizeUrl(".openapi.json")).toEqual(".openapi.json")
+      expect(sanitizeUrl("./openapi.json")).toEqual("./openapi.json")
+      expect(sanitizeUrl("..openapi.json")).toEqual("..openapi.json")
+      expect(sanitizeUrl("../openapi.json")).toEqual("../openapi.json")
+    })
+
     it("should gracefully handle empty strings", () => {
       expect(sanitizeUrl("")).toEqual("")
     })
