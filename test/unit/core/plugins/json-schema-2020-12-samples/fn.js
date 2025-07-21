@@ -1263,6 +1263,30 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
+  it("should handle additionalProperties with x-additionalPropertiesName", () => {
+    const definition = {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+        "x-additionalPropertiesName": "bar",
+      },
+      properties: {
+        foo: {
+          type: "string",
+        },
+      },
+    }
+
+    const expected = {
+      foo: "string",
+      bar1: "string",
+      bar2: "string",
+      bar3: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   it("should handle additionalProperties=true", () => {
     const definition = {
       type: "object",
@@ -2765,6 +2789,28 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
+    it("returns object with additional props with x-additionalPropertiesName", function () {
+      const expected =
+        '<?xml version="1.0" encoding="UTF-8"?>\n<animals>\n\t<dog>string</dog>\n\t<animal1>string</animal1>\n\t<animal2>string</animal2>\n\t<animal3>string</animal3>\n</animals>'
+      const definition = {
+        type: "object",
+        properties: {
+          dog: {
+            type: "string",
+          },
+        },
+        additionalProperties: {
+          type: "string",
+          "x-additionalPropertiesName": "animal",
+        },
+        xml: {
+          name: "animals",
+        },
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
     it("returns object with additional props =true", function () {
       const expected =
         '<?xml version="1.0" encoding="UTF-8"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp>Anything can be here</additionalProp>\n</animals>'
@@ -2951,6 +2997,80 @@ describe("createXMLExample", function () {
 <probe>
 \t<swaggerUi>cool</swaggerUi>
 </probe>`
+
+    expect(sut(definition)).toEqual(expected)
+  })
+
+  it("should handle object properties of type `array` as an attribute", () => {
+    const definition = {
+      type: "object",
+      xml: {
+        name: "test",
+      },
+      properties: {
+        arrayOfStrings: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          xml: {
+            attribute: true,
+          },
+        },
+        arrayOfArrays: {
+          type: "array",
+          items: {
+            type: "array",
+          },
+          minItems: 3,
+          xml: {
+            attribute: true,
+          },
+        },
+        arrayOfContainsObject: {
+          type: "array",
+          contains: {
+            type: "object",
+          },
+          minContains: 3,
+          xml: {
+            attribute: true,
+          },
+        },
+      },
+    }
+
+    const expected = `<?xml version="1.0" encoding="UTF-8"?>
+<test arrayOfStrings="string" arrayOfArrays="UnknownTypeArray UnknownTypeArray UnknownTypeArray" arrayOfContainsObject="UnknownTypeObject UnknownTypeObject UnknownTypeObject">
+</test>`
+
+    expect(sut(definition)).toEqual(expected)
+  })
+
+  it("should handle object properties of type `object` as an attribute", () => {
+    const definition = {
+      type: "object",
+      xml: {
+        name: "test",
+      },
+      properties: {
+        object: {
+          type: "object",
+          properties: {
+            string: {
+              type: "string",
+            },
+          },
+          xml: {
+            attribute: true,
+          },
+        },
+      },
+    }
+
+    const expected = `<?xml version="1.0" encoding="UTF-8"?>
+<test object="UnknownTypeObject">
+</test>`
 
     expect(sut(definition)).toEqual(expected)
   })

@@ -148,7 +148,31 @@ export const sampleFromSchemaGeneric = (
             const propSchema = typeCast(props[propName])
             const propSchemaType = getType(propSchema)
             const attrName = props[propName].xml.name || propName
-            _attr[attrName] = typeMap[propSchemaType](propSchema)
+
+            if (propSchemaType === "array") {
+              const arraySample = sampleFromSchemaGeneric(
+                props[propName],
+                config,
+                overrideE,
+                false
+              )
+              _attr[attrName] = arraySample
+                .map((item) => {
+                  if (isPlainObject(item)) {
+                    return "UnknownTypeObject"
+                  }
+                  if (Array.isArray(item)) {
+                    return "UnknownTypeArray"
+                  }
+                  return item
+                })
+                .join(" ")
+            } else {
+              _attr[attrName] =
+                propSchemaType === "object"
+                  ? "UnknownTypeObject"
+                  : typeMap[propSchemaType](propSchema)
+            }
           }
 
           return
@@ -458,6 +482,8 @@ export const sampleFromSchemaGeneric = (
       ) {
         res[displayName].push(additionalPropSample)
       } else {
+        const keyName =
+          additionalProps?.["x-additionalPropertiesName"] || "additionalProp"
         const toGenerateCount =
           Number.isInteger(schema.minProperties) &&
           schema.minProperties > 0 &&
@@ -470,10 +496,10 @@ export const sampleFromSchemaGeneric = (
           }
           if (respectXML) {
             const temp = {}
-            temp["additionalProp" + i] = additionalPropSample["notagname"]
+            temp[keyName + i] = additionalPropSample["notagname"]
             res[displayName].push(temp)
           } else {
-            res["additionalProp" + i] = additionalPropSample
+            res[keyName + i] = additionalPropSample
           }
           propertyAddedCounter++
         }
