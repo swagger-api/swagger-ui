@@ -1,0 +1,182 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "RudiusMed NGS Integration API",
+    "version": "1.0.0",
+    "description": "API for integrating NGS data with RudiusMed genetic module"
+  },
+  "servers": [
+    {
+      "url": "https://api.rudiusmed.pl/v1/ngs",
+      "description": "Production server"
+    },
+    {
+      "url": "https://api.rudiusmed.test/v1/ngs",
+      "description": "Test server"
+    }
+  ],
+  "paths": {
+    "/import": {
+      "post": {
+        "summary": "Import NGS data (VCF)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patient_id": { "type": "string" },
+                  "vcf_file": { "type": "string", "format": "base64" },
+                  "gene_list": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["patient_id", "vcf_file", "gene_list"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful import",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "variants": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "gene": { "type": "string" },
+                          "position": { "type": "integer" },
+                          "change": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid VCF format" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/report": {
+      "get": {
+        "summary": "Get genetic report",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "patient_id", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "date_range", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "patient_id": { "type": "string" },
+                    "report": {
+                      "type": "object",
+                      "properties": {
+                        "mutations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "gene": { "type": "string" },
+                              "status": { "type": "string" },
+                              "ngf_increase": { "type": "string" }
+                            }
+                          }
+                        },
+                        "pdf_url": { "type": "string", "format": "uri" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Report not found" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/annotate": {
+      "post": {
+        "summary": "Annotate genetic variants",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "variants": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "gene": { "type": "string" },
+                        "position": { "type": "integer" },
+                        "change": { "type": "string" }
+                      }
+                    }
+                  },
+                  "databases": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["variants", "databases"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful annotation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "annotations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "gene": { "type": "string" },
+                          "impact": { "type": "string" },
+                          "source": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid variant data" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
