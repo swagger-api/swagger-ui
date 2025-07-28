@@ -101,6 +101,7 @@ const ModelExample = ({
           </li>
         )}
       </ul>
+
       {activeTab === tabs.example && (
         <div
           aria-hidden={activeTab !== tabs.example}
@@ -110,11 +111,19 @@ const ModelExample = ({
           role="tabpanel"
           tabIndex="0"
         >
-          {example ? (
-            example
-          ) : (
-            <HighlightCode>(no example available</HighlightCode>
-          )}
+          <HighlightCode>
+            {example
+              ? typeof example === "string"
+                ? example
+                : JSON.stringify(
+                    typeof example.toJS === "function"
+                      ? example.toJS()
+                      : example,
+                    null,
+                    2
+                  )
+              : "(no example available)"}
+          </HighlightCode>
         </div>
       )}
 
