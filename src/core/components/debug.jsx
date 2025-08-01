@@ -23,7 +23,10 @@ export default class Debug extends React.Component {
 
     let { getState, getComponent } = this.props
 
-    window.props = this.props
+    // Only expose props to window in development mode
+    if (process.env.NODE_ENV === "development") {
+      window.props = this.props
+    }
 
     const Collapse = getComponent("Collapse")
 
