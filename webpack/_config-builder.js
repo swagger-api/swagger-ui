@@ -153,6 +153,7 @@ function buildConfig(
                   comments: false,
                 },
               },
+              extractComments: false,
             }).apply(compiler),
         ],
       },
