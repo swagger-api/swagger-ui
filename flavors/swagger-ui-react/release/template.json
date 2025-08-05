@@ -47,7 +47,7 @@
     }
   },
   "peerDependencies": {
-    "react": ">=16.8.0 <19",
-    "react-dom": ">=16.8.0 <19"
+    "react": ">=16.8.0 <20",
+    "react-dom": ">=16.8.0 <20"
   }
 }
