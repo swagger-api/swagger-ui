@@ -15,7 +15,7 @@ describe("Deep linking feature", () => {
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
       const correctFragment = "#/my%20Tag/my%20Operation"
-      
+
       OperationDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet,
@@ -109,7 +109,7 @@ describe("Deep linking feature", () => {
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
       const correctFragment = "#/my%20Tag/my%20Operation"
-      
+
       OperationDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-post",
@@ -117,7 +117,7 @@ describe("Deep linking feature", () => {
         correctFragment,
         correctHref: "#/my%20Tag/my%20Operation"
       })
-      
+
       const legacyFragment = "#/my_Tag/my_Operation"
 
       it("should expand the operation when reloaded and provided the legacy fragment", () => {
@@ -190,7 +190,7 @@ describe("Deep linking feature", () => {
   })
 })
 
-function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {  
+function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {
   it("should generate a correct element ID", () => {
     cy.visit(baseUrl)
       .get(elementToGet)
@@ -245,7 +245,7 @@ function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId,
   })
 }
 
-function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref, isTagCase = false }) {
+function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {
   it("should generate a correct element ID", () => {
     cy.visit(baseUrl)
       .get(elementToGet)

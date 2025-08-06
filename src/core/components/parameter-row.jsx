@@ -152,10 +152,13 @@ export default class ParameterRow extends Component {
 
       //// Dispatch the initial value
 
+      const schemaObjectType = fn.getSchemaObjectType(schema)
+      const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
       } else if(
-        schema && schema.get("type") === "object"
+        schemaObjectType === "object"
         && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
@@ -169,6 +172,20 @@ export default class ParameterRow extends Component {
             generatedSampleValue
           ) : (
             stringify(generatedSampleValue)
+          )
+        )
+      }
+      else if (
+        schemaObjectType === "array"
+        && schemaItemsType === "object"
+        && generatedSampleValue
+        && !paramWithMeta.get("examples")
+      ) {
+        this.onChangeWrapper(
+          List.isList(generatedSampleValue) ? (
+            generatedSampleValue
+          ) : (
+            List(JSON.parse(generatedSampleValue))
           )
         )
       }
@@ -234,13 +251,17 @@ export default class ParameterRow extends Component {
     if (isOAS3) {
       schema = this.composeJsonSchema(schema)
     }
-    
+
     let format = schema ? schema.get("format") : null
-    let type = schema ? schema.get("type") : null
-    let itemType = schema ? schema.getIn(["items", "type"]) : null
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
+
+    const schemaObjectType = fn.getSchemaObjectType(schema)
+    const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+    const schemaObjectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
+    const isObject = !bodyParam && schemaObjectType === "object"
+    const isArrayOfObjects = !bodyParam && schemaItemsType === "object"
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
@@ -281,6 +302,18 @@ export default class ParameterRow extends Component {
       }
     }
 
+    const jsonSchemaForm = bodyParam ? null
+      : <JsonSchemaForm fn={fn}
+        getComponent={getComponent}
+        value={ value }
+        required={ required }
+        disabled={!isExecute}
+        description={param.get("name")}
+        onChange={ this.onChangeWrapper }
+        errors={ paramWithMeta.get("errors") }
+        schema={ schema }
+      />
+
     return (
       <tr data-param-name={param.get("name")} data-param-in={param.get("in")}>
         <td className="parameters-col_name">
@@ -289,8 +322,7 @@ export default class ParameterRow extends Component {
             { !required ? null : <span>&nbsp;*</span> }
           </div>
           <div className="parameter__type">
-            { type }
-            { itemType && `[${itemType}]` }
+            { schemaObjectTypeLabel }
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">
@@ -338,18 +370,18 @@ export default class ParameterRow extends Component {
             ) : null
           }
 
-          { bodyParam ? null
-            : <JsonSchemaForm fn={fn}
-                              getComponent={getComponent}
-                              value={ value }
-                              required={ required }
-                              disabled={!isExecute}
-                              description={param.get("name")}
-                              onChange={ this.onChangeWrapper }
-                              errors={ paramWithMeta.get("errors") }
-                              schema={ schema }/>
+          { (isObject || isArrayOfObjects) ? (
+            <ModelExample
+              getComponent={getComponent}
+              specPath={specPath.push("schema")}
+              getConfigs={getConfigs}
+              isExecute={isExecute}
+              specSelectors={specSelectors}
+              schema={schema}
+              example={jsonSchemaForm}
+            />
+            ) : jsonSchemaForm
           }
-
 
           {
             bodyParam && schema ? <ModelExample getComponent={ getComponent }

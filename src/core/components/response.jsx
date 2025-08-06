@@ -139,7 +139,9 @@ export default class Response extends React.Component {
         const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
         const getMediaTypeExample = (targetExample) =>
-          targetExample.get("value")
+          Map.isMap(targetExample) 
+          ? targetExample.get("value") 
+          : undefined
         mediaTypeExample = getMediaTypeExample(targetExample)
         if(mediaTypeExample === undefined) {
           mediaTypeExample = getMediaTypeExample(examplesForMediaType.values().next().value)

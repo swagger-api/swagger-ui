@@ -1,5 +1,3 @@
-import repeat from "lodash/repeat"
-
 describe("Editor #1868: model changes break rendering", () => {
   it("should render model content changes correctly", () => {
     cy

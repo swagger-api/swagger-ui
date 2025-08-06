@@ -44,7 +44,7 @@ describe("oauth2", () => {
     it("should build authorize url", () => {
       oauth2Authorize(authConfig)
       expect(authConfig.authActions.authPopup.mock.calls.length).toEqual(1)
-      expect(authConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
+      expect(authConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://testauthorizationurl/?response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
 
       authConfig.authActions.authPopup.mockReset()
     })
@@ -76,7 +76,7 @@ describe("oauth2", () => {
       oauth2Authorize(authConfig)
 
       expect(authConfig.authActions.authPopup.mock.calls.length).toEqual(1)
-      expect(authConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
+      expect(authConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://testauthorizationurl/?param=1&response_type=code&redirect_uri=&scope=scope1%20scope2&state=")
 
       authConfig.authActions.authPopup.mockReset()
     })
@@ -182,7 +182,7 @@ describe("oauth2", () => {
 
       oauth2Authorize(authConfig2)
       expect(authConfig2.authActions.authPopup.mock.calls.length).toEqual(1)
-      expect(authConfig2.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&scope=scope2%20scope3&state=")
+      expect(authConfig2.authActions.authPopup.mock.calls[0][0]).toMatch("https://testauthorizationurl/?param=1&response_type=code&redirect_uri=&scope=scope2%20scope3&state=")
 
       authConfig2.authActions.authPopup.mockReset()
     })
@@ -193,7 +193,7 @@ describe("oauth2", () => {
 
       oauth2Authorize(authConfig3)
       expect(authConfig3.authActions.authPopup.mock.calls.length).toEqual(1)
-      expect(authConfig3.authActions.authPopup.mock.calls[0][0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&scope=scope4%20scope5&state=")
+      expect(authConfig3.authActions.authPopup.mock.calls[0][0]).toMatch("https://testauthorizationurl/?response_type=code&redirect_uri=&scope=scope4%20scope5&state=")
 
       authConfig3.authActions.authPopup.mockReset()
     })

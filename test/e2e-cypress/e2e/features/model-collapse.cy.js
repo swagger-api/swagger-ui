@@ -10,7 +10,7 @@ describe("Model collapse/expand feature", () => {
   })
 })
 
-function ModelCollapseTest(baseUrl, urlFragment) {
+function ModelCollapseTest(baseUrl) {
   it("Models section should be expanded on load", () => {
     cy.visit(baseUrl)
     .get(".models")

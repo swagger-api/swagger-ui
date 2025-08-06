@@ -112,8 +112,6 @@ describe("auth plugin - selectors", () => {
     })
 
     it("should fail gracefully with bad data", () => {
-      const securityDefinitions = null
-
       const system = {
         authSelectors: {
           definitionsToAuthorize() {
