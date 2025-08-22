@@ -1,6 +1,6 @@
-# Plugin system overview
+# Plugin System Overview
 
-### Prior art
+### Prior Art
 
 Swagger UI leans heavily on concepts and patterns found in React and Redux.
 
