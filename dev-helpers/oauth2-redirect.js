@@ -1,19 +1,19 @@
-'use strict';
+"use strict"
 function run () {
-    var oauth2 = window.opener.swaggerUIRedirectOauth2;
-    var sentState = oauth2.state;
-    var redirectUrl = oauth2.redirectUrl;
-    var isValid, qp, arr;
+    var oauth2 = window.opener.swaggerUIRedirectOauth2
+    var sentState = oauth2.state
+    var redirectUrl = oauth2.redirectUrl
+    var isValid, qp, arr
 
     if (/code|token|error/.test(window.location.hash)) {
-        qp = window.location.hash.substring(1).replace('?', '&');
+        qp = window.location.hash.substring(1).replace("?", "&")
     } else {
-        qp = location.search.substring(1);
+        qp = location.search.substring(1)
     }
 
     arr = qp.split("&")
-    arr.forEach(function (v,i,_arr) { _arr[i] = '"' + v.replace('=', '":"') + '"';})
-    qp = qp ? JSON.parse('{' + arr.join() + '}',
+    arr.forEach(function (v,i,_arr) { _arr[i] = '"' + v.replace("=", '":"') + '"' })
+    qp = qp ? JSON.parse("{" + arr.join() + "}",
             function (key, value) {
                 return key === "" ? value : decodeURIComponent(value)
             }
@@ -32,19 +32,19 @@ function run () {
                 source: "auth",
                 level: "warning",
                 message: "Authorization may be unsafe, passed state was changed in server Passed state wasn't returned from auth server"
-            });
+            })
         }
 
         if (qp.code) {
-            delete oauth2.state;
-            oauth2.auth.code = qp.code;
-            oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl});
+            delete oauth2.state
+            oauth2.auth.code = qp.code
+            oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl})
         } else {
             let oauthErrorMsg
             if (qp.error) {
                 oauthErrorMsg = "["+qp.error+"]: " +
                     (qp.error_description ? qp.error_description+ ". " : "no accessCode received from the server. ") +
-                    (qp.error_uri ? "More info: "+qp.error_uri : "");
+                    (qp.error_uri ? "More info: "+qp.error_uri : "")
             }
 
             oauth2.errCb({
@@ -52,18 +52,18 @@ function run () {
                 source: "auth",
                 level: "error",
                 message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server"
-            });
+            })
         }
     } else {
-        oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl});
+        oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl})
     }
-    window.close();
+    window.close()
 }
 
-if( document.readyState !== 'loading' ) {
-    run();
+if( document.readyState !== "loading" ) {
+    run()
 } else {
-    document.addEventListener('DOMContentLoaded', function () {
-    run();
-    });
+    document.addEventListener("DOMContentLoaded", function () {
+    run()
+    })
 }
