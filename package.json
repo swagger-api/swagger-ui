@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "5.28.1",
+  "version": "5.29.0",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -123,7 +123,7 @@
     "@commitlint/config-conventional": "^19.8.0",
     "@jest/globals": "=29.7.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
-    "@release-it/conventional-changelog": "=8.0.2",
+    "@release-it/conventional-changelog": "=10.0.1",
     "@svgr/webpack": "=8.1.0",
     "autoprefixer": "^10.4.21",
     "babel-loader": "^9.2.1",
@@ -132,6 +132,7 @@
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
     "body-parser": "^1.19.0",
     "cheerio": "=1.0.0",
+    "copy-webpack-plugin": "13.0.1",
     "cors": "^2.8.5",
     "cross-env": "=7.0.3",
     "css-loader": "=7.1.2",
@@ -179,7 +180,7 @@
     "process": "^0.11.10",
     "react-refresh": "^0.17.0",
     "react-test-renderer": "^18.3.1",
-    "release-it": "=17.11.0",
+    "release-it": "=19.0.4",
     "rimraf": "^6.0.1",
     "sass-embedded": "=1.86.0",
     "sass-loader": "^16.0.4",
