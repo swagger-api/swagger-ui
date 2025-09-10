@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Download build artifact
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
