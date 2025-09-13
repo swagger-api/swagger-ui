@@ -24,7 +24,11 @@ export const authorize = (oriAction, system) => (payload) => {
     const isApiKeyInCookie = isApiKeyAuth && isInCookie
 
     if (isApiKeyInCookie) {
-      document.cookie = `${schema.get("name")}=${value}; SameSite=None; Secure`
+      const secure = `${configs.url?.split("/")[0] === "https:" ? ";secure" : ""}`
+      const urlBasePath = configs.url?.split("/").splice(3).join("/")
+      const path = `${urlBasePath === undefined ? ";path=/" : ";path=/".concat(urlBasePath)}`
+      let cookieStr = `${schema.get("name")}=${value};samesite=None${secure}${path}`
+      document.cookie = cookieStr
     }
   } catch (error) {
     console.error(
@@ -49,7 +53,9 @@ export const logout = (oriAction, system) => (payload) => {
 
         if (isApiKeyInCookie) {
           const cookieName = auth.getIn(["schema", "name"])
-          document.cookie = `${cookieName}=; Max-Age=-99999999`
+          const urlBasePath = configs.url?.split("/").splice(3).join("/")
+          const path = `${urlBasePath === undefined ? ";path=/" : ";path=/".concat(urlBasePath)}`
+          document.cookie = `${cookieName}=;max-age=-99999999${path}`
         }
       })
     }
