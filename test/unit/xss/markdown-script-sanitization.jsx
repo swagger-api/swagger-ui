@@ -20,7 +20,7 @@ describe("Markdown Script Sanitization", function() {
     it("sanitizes <form> elements", function() {
       const str = `"<form action='https://do.not.use.url/fake' method='post' action='java'><input type='email' id='email' placeholder='Email-address' name='email' value=''><button type='submit'>Login</button>"`
       const el = render(<Markdown source={str} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p>"</p><input value="" name="email" placeholder="Email-address" id="email" type="email"><button type="submit">Login</button>"<p></p>\n</div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p>"</p><input type="email" id="email" placeholder="Email-address" name="email" value=""><button type="submit">Login</button>"<p></p>\n</div>`)
     })
   })
 
@@ -40,7 +40,7 @@ describe("Markdown Script Sanitization", function() {
     it("sanitizes <form> elements", function () {
       const str = `"<form action='https://do.not.use.url/fake' method='post' action='java'><input type='email' id='email' placeholder='Email-address' name='email' value=''><button type='submit'>Login</button>"`
       const el = render(<OAS3Markdown source={str} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p>"</p><input value="" name="email" placeholder="Email-address" id="email" type="email"><button type="submit">Login</button>"<p></p></div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p>"</p><input type="email" id="email" placeholder="Email-address" name="email" value=""><button type="submit">Login</button>"<p></p></div>`)
     })
   })
 })
