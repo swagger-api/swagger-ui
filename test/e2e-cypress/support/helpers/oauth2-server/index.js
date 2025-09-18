@@ -4,7 +4,7 @@ let Http = require("http")
 let path = require("path")
 let express = require("express")
 let bodyParser = require("body-parser")
-let oauthserver = require("oauth2-server")
+let oauthserver = require("@node-oauth/oauth2-server")
 let cors = require("cors")
 
 let app = express()
