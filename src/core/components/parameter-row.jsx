@@ -6,6 +6,48 @@ import win from "core/window"
 import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
 import getParameterSchema from "core/utils/get-parameter-schema.js"
 
+// Helper function to format numeric constraints
+const formatNumericConstraints = (schema) => {
+  if (!schema) return null
+  
+  const minimum = schema.get ? schema.get("minimum") : schema.minimum
+  const maximum = schema.get ? schema.get("maximum") : schema.maximum
+  const exclusiveMinimum = schema.get ? schema.get("exclusiveMinimum") : schema.exclusiveMinimum
+  const exclusiveMaximum = schema.get ? schema.get("exclusiveMaximum") : schema.exclusiveMaximum
+  
+  const hasMinimum = typeof minimum === "number"
+  const hasMaximum = typeof maximum === "number"
+  const hasExclusiveMinimum = typeof exclusiveMinimum === "number"
+  const hasExclusiveMaximum = typeof exclusiveMaximum === "number"
+  
+  if (!hasMinimum && !hasMaximum && !hasExclusiveMinimum && !hasExclusiveMaximum) {
+    return null
+  }
+  
+  const isMinExclusive = hasExclusiveMinimum && (!hasMinimum || minimum < exclusiveMinimum)
+  const isMaxExclusive = hasExclusiveMaximum && (!hasMaximum || maximum > exclusiveMaximum)
+
+  if ((hasMinimum || hasExclusiveMinimum) && (hasMaximum || hasExclusiveMaximum)) {
+    const minSymbol = isMinExclusive ? "(" : "["
+    const maxSymbol = isMaxExclusive ? ")" : "]"
+    const minValue = isMinExclusive ? exclusiveMinimum : minimum
+    const maxValue = isMaxExclusive ? exclusiveMaximum : maximum
+    return `${minSymbol}${minValue}, ${maxValue}${maxSymbol}`
+  }
+  if (hasMinimum || hasExclusiveMinimum) {
+    const minSymbol = isMinExclusive ? ">" : "≥"
+    const minValue = isMinExclusive ? exclusiveMinimum : minimum
+    return `${minSymbol} ${minValue}`
+  }
+  if (hasMaximum || hasExclusiveMaximum) {
+    const maxSymbol = isMaxExclusive ? "<" : "≤"
+    const maxValue = isMaxExclusive ? exclusiveMaximum : maximum
+    return `${maxSymbol} ${maxValue}`
+  }
+
+  return null
+}
+
 export default class ParameterRow extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -351,6 +393,13 @@ export default class ParameterRow extends Component {
             <Markdown source={"<i>Example</i> : " + paramExample}/>
             : null
           }
+
+          {(() => {
+            const numericConstraint = formatNumericConstraints(schema)
+            return numericConstraint ? (
+              <Markdown className="parameter__constraint" source={`<i>Constraints</i> : ${numericConstraint}`}/>
+            ) : null
+          })()}
 
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
