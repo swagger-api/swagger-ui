@@ -2,7 +2,7 @@ import React from "react"
 import { fromJS, Iterable } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { defaultStatusCode, getAcceptControllingResponse } from "core/utils"
+import { defaultStatusCode, getAcceptControllingResponse, isExtension } from "core/utils"
 import createHtmlReadyId from "core/utils/create-html-ready-id"
 
 export default class Responses extends React.Component {
@@ -131,7 +131,7 @@ export default class Responses extends React.Component {
             </thead>
             <tbody>
               {
-                responses.filter((_, key) => !key.startsWith("x-")).entrySeq().map( ([code, response]) => {
+                responses.filter((_, key) => !isExtension(key)).entrySeq().map( ([code, response]) => {
 
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
