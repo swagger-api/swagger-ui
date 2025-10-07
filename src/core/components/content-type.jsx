@@ -37,7 +37,7 @@ export default class ContentType extends React.Component {
       return
     }
 
-    if (contentTypes !== prevProps.contentTypes || !contentTypes.includes(value)) {
+    if (!contentTypes.includes(value)) {
       onChange(contentTypes.first())
     }
   }
