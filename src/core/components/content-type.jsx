@@ -42,29 +42,20 @@ export default class ContentType extends React.Component {
     }
   }
 
-  onChangeWrapper = (e) => this.props.onChange(e.target.value)
+  onChangeWrapper = e => this.props.onChange(e.target.value)
 
   render() {
-    const { ariaControls, ariaLabel, className, contentTypes, controlId, value } = this.props
+    let { ariaControls, ariaLabel, className, contentTypes, controlId, value } = this.props
 
     if (!contentTypes || !contentTypes.size) 
       return null
 
     return (
-      <div className={`content-type-wrapper ${className || ""}`}>
-        <select 
-          aria-controls={ariaControls} 
-          aria-label={ariaLabel} 
-          className="content-type" 
-          id={controlId} 
-          onChange={this.onChangeWrapper} 
-          value={value || ""}
-        >
-          {contentTypes.map((val) => (
-            <option key={ val } value={ val }>
-              { val }
-            </option>
-          )).toArray()}
+      <div className={ "content-type-wrapper " + ( className || "" ) }>
+        <select aria-controls={ariaControls} aria-label={ariaLabel} className="content-type" id={controlId} onChange={this.onChangeWrapper} value={value || ""} >
+          { contentTypes.map( (val) => {
+            return <option key={ val } value={ val }>{ val }</option>
+          }).toArray()}
         </select>
       </div>
     )
