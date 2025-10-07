@@ -87,10 +87,11 @@ export default class Responses extends React.Component {
     const acceptControllingResponse = isSpecOAS3 ?
       getAcceptControllingResponse(responses) : null
 
+    const nonExtensionResponses = responses.filter((_, key) => !isExtension(key))
     const regionId = createHtmlReadyId(`${method}${path}_responses`)
     const controlId = `${regionId}_select`
 
-    return (
+    return (!nonExtensionResponses || !nonExtensionResponses.size) ? null : (
       <div className="responses-wrapper">
         <div className="opblock-section-header">
           <h4>Responses</h4>
@@ -131,7 +132,7 @@ export default class Responses extends React.Component {
             </thead>
             <tbody>
               {
-                responses.filter((_, key) => !isExtension(key)).entrySeq().map( ([code, response]) => {
+                nonExtensionResponses.entrySeq().map( ([code, response]) => {
 
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
