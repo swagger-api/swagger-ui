@@ -131,7 +131,7 @@ export default class Responses extends React.Component {
             </thead>
             <tbody>
               {
-                responses.entrySeq().map( ([code, response]) => {
+                responses.filter((_, key) => !key.startsWith("x-")).entrySeq().map( ([code, response]) => {
 
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
