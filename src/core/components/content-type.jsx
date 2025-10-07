@@ -30,7 +30,7 @@ export default class ContentType extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { contentTypes, value, onChange } = this.props
 
     if (!contentTypes || !contentTypes.size) {
@@ -47,7 +47,7 @@ export default class ContentType extends React.Component {
   render() {
     let { ariaControls, ariaLabel, className, contentTypes, controlId, value } = this.props
 
-    if (!contentTypes || !contentTypes.size) 
+    if ( !contentTypes || !contentTypes.size )
       return null
 
     return (
