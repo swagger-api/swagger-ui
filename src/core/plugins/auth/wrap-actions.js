@@ -1,6 +1,7 @@
 /**
  * @prettier
  */
+import { fromJS } from "immutable"
 
 /**
  * `authorize` and `logout` wrapped actions provide capacity
@@ -18,7 +19,8 @@ export const authorize = (oriAction, system) => (payload) => {
 
   // create cookie
   try {
-    const [{ schema, value }] = Object.values(payload)
+    const [{ schema: payloadSchema, value }] = Object.values(payload)
+    const schema = fromJS(payloadSchema)
     const isApiKeyAuth = schema.get("type") === "apiKey"
     const isInCookie = schema.get("in") === "cookie"
     const isApiKeyInCookie = isApiKeyAuth && isInCookie
