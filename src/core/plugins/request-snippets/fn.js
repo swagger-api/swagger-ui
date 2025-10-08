@@ -33,6 +33,7 @@ const escapeCMD = (str) => {
     .replace(/\^/g, "^^")
     .replace(/\\"/g, "\\\\\"")
     .replace(/"/g, "\"\"")
+    .replace(/\|/g, "^|") 
     .replace(/\n/g, "^\n")
   if (str === "-d ") {
     return str
