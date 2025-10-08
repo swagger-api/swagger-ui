@@ -704,12 +704,16 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 // suitable for use in CSS classes and ids
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
-export const getExtensions = (defObj) => {
+export const isExtension = (key) => {
   const extensionRegExp = /^x-/
+  return extensionRegExp.test(key)
+}
+
+export const getExtensions = (defObj) => {
   if(Map.isMap(defObj)) {
-    return defObj.filter((v, k) => extensionRegExp.test(k))
+    return defObj.filter((v, k) => isExtension(k))
   }
-  return Object.keys(defObj).filter((key) => extensionRegExp.test(key))
+  return Object.keys(defObj).filter((key) => isExtension(key))
 }
 export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
 
