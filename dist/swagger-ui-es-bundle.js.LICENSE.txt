@@ -3,7 +3,6 @@
 	Licensed under the MIT License (MIT), see
 	http://jedwatson.github.io/classnames
 */
-
 /*!
  * @description Recursive object extending
  * @author Viacheslav Lotsmanov <lotsmanov89@gmail.com>
@@ -30,14 +29,12 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 /*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
-
 /*!
  * https://github.com/Starcounter-Jack/JSON-Patch
  * (c) 2017-2021 Joachim Wester
