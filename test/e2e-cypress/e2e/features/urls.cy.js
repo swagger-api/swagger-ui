@@ -19,7 +19,7 @@ describe("configuration options: `urls` and `urls.primaryName`", () => {
 
     it("should render the first URL in the list", () => {
       cy.visit("/?configUrl=/configs/urls.yaml")
-        .get("h2.title")
+        .get("h1.title")
         .should("have.text", "OneOAS 2.0")
         .window()
         .then(win => win.ui.specSelectors.url())
@@ -31,7 +31,7 @@ describe("configuration options: `urls` and `urls.primaryName`", () => {
     cy.visit("/?configUrl=/configs/urls-primary-name.yaml")
       .get("select")
       .should("contain.value", "/documents/features/urls/2.yaml")
-      .get("h2.title")
+      .get("h1.title")
       .should("have.text", "TwoOAS 3.0")
       .window()
       .then(win => win.ui.specSelectors.url())
