@@ -19,6 +19,7 @@ const Examples = ({ schema }) => {
       name="Examples"
       value={schema.examples}
       className="json-schema-2020-12-keyword json-schema-2020-12-keyword--examples"
+      hideArrayIndices={true}
     />
   )
 }
