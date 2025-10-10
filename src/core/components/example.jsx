@@ -6,7 +6,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { stringify } from "core/utils"
-import { Map } from "immutable"
+import { Map,List } from "immutable"
 
 export default function Example(props) {
   const { example, showValue, getComponent } = props
@@ -15,6 +15,13 @@ export default function Example(props) {
   const HighlightCode = getComponent("HighlightCode", true)
 
   if (!example || !Map.isMap(example)) return null
+
+  let value = example.get("value");
+  if (Map.isMap(value) || Array.isArray(value) || List.isList(value)) {
+    
+   value=value.toJS();
+  }
+value = stringify(value, null, 2);
 
   return (
     <div className="example">
@@ -29,7 +36,7 @@ export default function Example(props) {
       {showValue && example.has("value") ? (
         <section className="example__section">
           <div className="example__section-header">Example Value</div>
-          <HighlightCode>{stringify(example.get("value"))}</HighlightCode>
+          <HighlightCode>{value}</HighlightCode>
         </section>
       ) : null}
     </div>
