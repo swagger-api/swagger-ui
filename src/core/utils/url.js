@@ -62,27 +62,28 @@ export function sanitizeUrl(url) {
         return `${urlObject.pathname}${urlObject.search}${urlObject.hash}`
       }
 
-      if (urlTrimmed.startsWith("./")) {
-        return `.${urlObject.pathname}${urlObject.search}${urlObject.hash}`
-      }
-
-      // Handle multiple levels of relative paths (../, ../../, ../../../, etc.)
-      if (urlTrimmed.startsWith("../")) {
-        // Count the number of ../ segments
+      // Handle relative paths (./path, ../path, ./../../path, etc.)
+      if (urlTrimmed.startsWith("./") || urlTrimmed.startsWith("../")) {
         const segments = urlTrimmed.split("/")
-        let relativeLevels = 0
+        let relativePath = ""
+        let pathStartIndex = 0
 
-        for (const segment of segments) {
-          if (segment === "..") {
-            relativeLevels++
+        // Process initial relative segments
+        for (let i = 0; i < segments.length; i++) {
+          if (segments[i] === ".") {
+            relativePath += "./"
+            pathStartIndex = i + 1
+          } else if (segments[i] === "..") {
+            relativePath += "../"
+            pathStartIndex = i + 1
           } else {
             break
           }
         }
 
-        // Reconstruct the relative path with correct number of ../
-        const relativePath = "../".repeat(relativeLevels)
-        return `${relativePath}${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
+        // Get the remaining path from the URL object
+        const remainingPath = urlObject.pathname.substring(1)
+        return `${relativePath}${remainingPath}${urlObject.search}${urlObject.hash}`
       }
 
       return `${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
