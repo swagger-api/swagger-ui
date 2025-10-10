@@ -61,15 +61,30 @@ export function sanitizeUrl(url) {
       if (urlTrimmed.startsWith("/")) {
         return `${urlObject.pathname}${urlObject.search}${urlObject.hash}`
       }
-    
+
       if (urlTrimmed.startsWith("./")) {
         return `.${urlObject.pathname}${urlObject.search}${urlObject.hash}`
       }
-    
+
+      // Handle multiple levels of relative paths (../, ../../, ../../../, etc.)
       if (urlTrimmed.startsWith("../")) {
-        return `..${urlObject.pathname}${urlObject.search}${urlObject.hash}`
+        // Count the number of ../ segments
+        const segments = urlTrimmed.split("/")
+        let relativeLevels = 0
+
+        for (const segment of segments) {
+          if (segment === "..") {
+            relativeLevels++
+          } else {
+            break
+          }
+        }
+
+        // Reconstruct the relative path with correct number of ../
+        const relativePath = "../".repeat(relativeLevels)
+        return `${relativePath}${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
       }
-    
+
       return `${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
     }
 
@@ -78,4 +93,3 @@ export function sanitizeUrl(url) {
     return blankURL
   }
 }
-
