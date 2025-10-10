@@ -1489,6 +1489,7 @@ describe("utils", () => {
       expect(sanitizeUrl("../../openapi.json")).toEqual("../../openapi.json")
       expect(sanitizeUrl("../../../openapi.json")).toEqual("../../../openapi.json")
       expect(sanitizeUrl("../../../../openapi.json")).toEqual("../../../../openapi.json")
+      expect(sanitizeUrl("./../../../openapi.json")).toEqual("./../../../openapi.json")
     })
 
     it("should gracefully handle empty strings", () => {
