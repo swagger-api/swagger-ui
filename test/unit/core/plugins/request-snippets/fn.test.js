@@ -7,10 +7,6 @@ describe("escapeCMD", () => {
     expect(output).toContain('^|');
   });
 
-  it("does not escape vertical bar for bash", () => {
-    expect('foo|bar').toContain('|');
-  });
-
   it("escapes other CMD special characters", () => {
     expect(escapeCMD('foo^bar')).toContain('^^');
     expect(escapeCMD('foo"bar')).toContain('""');
