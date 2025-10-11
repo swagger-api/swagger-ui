@@ -13,7 +13,7 @@ window.onload = function() {
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
     ],
-  // requestSnippetsEnabled: true,
+// requestSnippetsEnabled: true,
     layout: "StandaloneLayout"
   })
 
