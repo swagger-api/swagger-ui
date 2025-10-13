@@ -28,6 +28,8 @@ import {
   license as selectLicense,
   contact as selectContact,
   webhooks as selectWebhooks,
+  webhooksWithTags as selectWebhooksWithTags,
+  taggedWebhooks as selectTaggedWebhooks,
   selectLicenseNameField,
   selectLicenseUrlField,
   selectLicenseIdentifierField,
@@ -143,6 +145,8 @@ const OAS31Plugin = ({ fn }) => {
 
           webhooks: createOnlyOAS31Selector(selectWebhooks),
           selectWebhooksOperations: createOnlyOAS31Selector(createSystemSelector(selectWebhooksOperations)), // prettier-ignore
+          webhooksWithTags: createOnlyOAS31Selector(createSystemSelector(selectWebhooksWithTags)), // prettier-ignore
+          taggedWebhooks: createOnlyOAS31Selector(createSystemSelector(selectTaggedWebhooks)), // prettier-ignore
 
           selectJsonSchemaDialectField,
           selectJsonSchemaDialectDefault,
