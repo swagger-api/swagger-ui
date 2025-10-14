@@ -525,3 +525,5 @@ export const hasSchemaType = (schema, type) => {
 
   return hasType(schemaType)
 }
+
+export { stringifyConstraintNumberRange }
