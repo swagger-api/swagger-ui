@@ -2,7 +2,7 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1.29.1-alpine
+FROM nginx:1.29.2-alpine
 
 LABEL maintainer="vladimir.gorej@gmail.com" \
       org.opencontainers.image.authors="vladimir.gorej@gmail.com" \

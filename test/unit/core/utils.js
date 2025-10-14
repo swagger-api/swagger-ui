@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable"
+import { Map, fromJS, OrderedMap } from "immutable"
 import {
   mapToList,
   parseSearch,
@@ -23,6 +23,7 @@ import {
   requiresValidationURL,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
+  stringify,
   paramToIdentifier,
   paramToValue,
   generateCodeVerifier,
@@ -1307,6 +1308,37 @@ describe("utils", () => {
       })
 
       expect(count).toEqual(2)
+    })
+  })
+
+  describe("stringify", () => {
+    it("returns the string as-is", () => {
+      expect(stringify("hello")).toBe("hello")
+    })
+
+    it("converts Immutable objects to plain JS and stringifies", () => {
+      const immutableMap = OrderedMap({ key: "value" })
+      expect(stringify(immutableMap)).toBe('{\n  "key": "value"\n}')
+    })
+
+    it("stringifies plain JS objects", () => {
+      const obj = { key: "value" }
+      expect(stringify(obj)).toBe('{\n  "key": "value"\n}')
+    })
+
+    it("returns empty string for null or undefined", () => {
+      expect(stringify(null)).toBe("")
+      expect(stringify(undefined)).toBe("")
+    })
+
+    it("calls toString for numbers", () => {
+      expect(stringify(42)).toBe("42")
+    })
+
+    it("falls back to String() on JSON.stringify error", () => {
+      const circularObj = {}
+      circularObj.self = circularObj
+      expect(stringify(circularObj)).toBe("[object Object]")
     })
   })
 
