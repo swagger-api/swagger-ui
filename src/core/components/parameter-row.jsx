@@ -247,6 +247,10 @@ export default class ParameterRow extends Component {
 
     let { schema } = getParameterSchema(param, { isOAS3 })
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
+    const parameterMediaType = paramWithMeta
+      .get("content", Map())
+      .keySeq()
+      .first()
 
     if (isOAS3) {
       schema = this.composeJsonSchema(schema)
@@ -373,7 +377,11 @@ export default class ParameterRow extends Component {
           { (isObject || isArrayOfObjects) ? (
             <ModelExample
               getComponent={getComponent}
-              specPath={specPath.push("schema")}
+              specPath={
+                parameterMediaType
+                  ? specPath.push("content", parameterMediaType, "schema")
+                  : specPath.push("schema")
+              }
               getConfigs={getConfigs}
               isExecute={isExecute}
               specSelectors={specSelectors}
