@@ -13,8 +13,13 @@ const optionsFromQuery = () => (options) => {
   const urlSearchParams = options.queryConfigEnabled ? parseSearch() : {}
 
   return Object.entries(urlSearchParams).reduce((acc, [key, value]) => {
-    // TODO(oliwia.rogala@smartbear.com): drop support for `config` in the next major release
+    // Legacy support for 'config' parameter (deprecated, will be removed in next major release)
     if (key === "config") {
+      if (process.env.NODE_ENV === "development") {
+        console.warn(
+          "The 'config' query parameter is deprecated and will be removed in the next major release. Use 'configUrl' instead."
+        )
+      }
       acc["configUrl"] = value
     } else if (key === "urls.primaryName") {
       acc[key] = value
