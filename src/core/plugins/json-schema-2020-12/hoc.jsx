@@ -236,6 +236,74 @@ export const makeWithJSONSchemaSystemContext =
     const ExpandDeepButton = getComponent("JSONSchema202012ExpandDeepButton")
     const ChevronRightIcon = getComponent("JSONSchema202012ChevronRightIcon")
 
+    // LocalRef cache
+    const refSchemaCache = new Map()
+
+    const getModelNameFromRef = (ref) => {
+      if (typeof ref !== "string") return null
+
+      const decodeRefName = (uri) => {
+        const unescaped = uri.replace(/~1/g, "/").replace(/~0/g, "~")
+        try {
+          return decodeURIComponent(unescaped)
+        } catch {
+          return unescaped
+        }
+      }
+
+      if (ref.indexOf("#/definitions/") !== -1) {
+        return decodeRefName(ref.replace(/^.*#\/definitions\//, ""))
+      }
+      if (ref.indexOf("#/components/schemas/") !== -1) {
+        return decodeRefName(ref.replace(/^.*#\/components\/schemas\//, ""))
+      }
+      const hashIdx = ref.indexOf("#")
+      if (hashIdx !== -1) {
+        const frag = ref.slice(hashIdx + 1)
+        if (frag.indexOf("/components/schemas/") !== -1) {
+          return decodeRefName(frag.replace(/^.*\/components\/schemas\//, ""))
+        }
+        if (frag.indexOf("/definitions/") !== -1) {
+          return decodeRefName(frag.replace(/^.*\/definitions\//, ""))
+        }
+      }
+
+      return null
+    }
+
+    const getRefSchemaByRef = (ref) => {
+      try {
+        if (typeof ref !== "string") return null
+
+        if (refSchemaCache.has(ref)) {
+          return refSchemaCache.get(ref)
+        }
+
+        const modelName = getModelNameFromRef(ref)
+        const system = getSystem()
+        const specSelectors = system.getSystem().specSelectors
+        let result = null
+        if (
+          modelName &&
+          specSelectors &&
+          typeof specSelectors.findDefinition === "function"
+        ) {
+          const schema = specSelectors.findDefinition(modelName)
+          if (schema && typeof schema.toJS === "function") {
+            result = schema.toJS()
+          } else {
+            result = schema || null
+          }
+        }
+
+        // Cache even null results to avoid repeated work.
+        refSchemaCache.set(ref, result)
+        return result
+      } catch (e) {
+        return null
+      }
+    }
+
     return withJSONSchemaContext(Component, {
       components: {
         JSONSchema,
@@ -290,6 +358,8 @@ export const makeWithJSONSchemaSystemContext =
         ...overrides.config,
       },
       fn: {
+        getModelNameFromRef,
+        getRefSchemaByRef,
         ...overrides.fn,
       },
     })
