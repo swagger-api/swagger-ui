@@ -19,8 +19,8 @@ describe("Render Webhooks Component", () => {
     const baseUrl = "/?url=/documents/features/webhooks-openAPI30.yaml"
     it("should render nothing", () => {
       cy.visit(baseUrl)
-      cy.get('#swagger-ui .information-container')
-        .should('exist');
+      cy.get("#swagger-ui .information-container")
+        .should("exist")
       cy.get(".webhooks", {timeout: 0})
         .should("not.exist")
     })
