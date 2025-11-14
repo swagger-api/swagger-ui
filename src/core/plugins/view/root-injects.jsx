@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import ReactDOM from "react-dom"
 import ReactDOMClient from "react-dom/client"
 import { compose } from "redux"
 import { connect, Provider } from "react-redux"
