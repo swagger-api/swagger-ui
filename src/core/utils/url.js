@@ -64,24 +64,7 @@ export function sanitizeUrl(url) {
 
       // Handle relative paths (./path, ../path, ./../../path, etc.)
       if (urlTrimmed.startsWith("./") || urlTrimmed.startsWith("../")) {
-        const segments = urlTrimmed.split("/")
-        let relativePath = ""
-        let pathStartIndex = 0
-
-        // Process initial relative segments
-        for (let i = 0; i < segments.length; i++) {
-          if (segments[i] === ".") {
-            relativePath += "./"
-            pathStartIndex = i + 1
-          } else if (segments[i] === "..") {
-            relativePath += "../"
-            pathStartIndex = i + 1
-          } else {
-            break
-          }
-        }
-
-        // Get the remaining path from the URL object
+        const relativePath = urlTrimmed.match(/^(\.\.?\/)+/)[0]
         const remainingPath = urlObject.pathname.substring(1)
         return `${relativePath}${remainingPath}${urlObject.search}${urlObject.hash}`
       }
