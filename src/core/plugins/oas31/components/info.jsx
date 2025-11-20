@@ -33,13 +33,13 @@ const Info = ({ getComponent, specSelectors }) => {
   return (
     <div className="info">
       <hgroup className="main">
-        <h1 className="title">
+        <h2 className="title">
           {title}
           <span>
             {version && <VersionStamp version={version} />}
             <OpenAPIVersion oasVersion="3.1" />
           </span>
-        </h1>
+        </h2>
 
         {(host || basePath) && <InfoBasePath host={host} basePath={basePath} />}
         {url && <InfoUrl getComponent={getComponent} url={url} />}
