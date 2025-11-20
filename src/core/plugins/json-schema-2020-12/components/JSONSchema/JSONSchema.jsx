@@ -34,6 +34,22 @@ const JSONSchema = forwardRef(
     ref
   ) => {
     const fn = useFn()
+    // Attempt to resolve unresolved $ref to a local schema with circular detection.
+    // This is also to avoid infinite expansion when 'expand all' is triggered.
+    try {
+      if (
+        schema &&
+        schema.$ref &&
+        typeof fn?.getRefSchemaByRef === "function"
+      ) {
+        const refSchema = fn.getRefSchemaByRef(schema.$ref)
+        if (refSchema && typeof refSchema === "object") {
+          schema = refSchema
+        }
+      }
+    } catch (e) {
+      // ignore resolution errors and fall back to provided schema
+    }
     // this implementation assumes that $id is always non-relative URI
     const pathToken = identifier || schema?.$id || name
     const { path } = usePath(pathToken)
