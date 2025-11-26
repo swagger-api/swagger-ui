@@ -38,7 +38,8 @@ const primitives = {
   "number": () => 0,
   "number_float": () => 0.0,
   "integer": () => 0,
-  "boolean": (schema) => typeof schema.default === "boolean" ? schema.default : true
+  "boolean": (schema) => typeof schema.default === "boolean" ? schema.default : true,
+  "any": ()=> ({})
 }
 
 const primitive = (schema) => {
