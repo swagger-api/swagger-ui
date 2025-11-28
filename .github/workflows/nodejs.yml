@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Use Node.js 20.x
         uses: actions/setup-node@v6
@@ -62,7 +62,7 @@ jobs:
         containers: ['+(a11y|security|bugs)/**/*cy.js', 'features/**/+(o|d)*.cy.js', 'features/**/m*.cy.js', 'features/**/!(o|d|m)*.cy.js']
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Use Node.js 20.x
         uses: actions/setup-node@v6
