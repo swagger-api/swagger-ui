@@ -6,7 +6,6 @@ import { fromJS } from "immutable"
 const noop = ()=>{}
 
 export default class ContentType extends React.Component {
-
   static propTypes = {
     ariaControls: PropTypes.string,
     contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set, ImPropTypes.seq]),
@@ -24,19 +23,22 @@ export default class ContentType extends React.Component {
   }
 
   componentDidMount() {
-    // Needed to populate the form, initially
-    if(this.props.contentTypes) {
-      this.props.onChange(this.props.contentTypes.first())
+    // Populate the form initially
+    const { contentTypes, onChange } = this.props
+    if (contentTypes && contentTypes.size) {
+      onChange(contentTypes.first())
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if(!nextProps.contentTypes || !nextProps.contentTypes.size) {
+  componentDidUpdate() {
+    const { contentTypes, value, onChange } = this.props
+
+    if (!contentTypes || !contentTypes.size) {
       return
     }
 
-    if(!nextProps.contentTypes.includes(nextProps.value)) {
-      nextProps.onChange(nextProps.contentTypes.first())
+    if (!contentTypes.includes(value)) {
+      onChange(contentTypes.first())
     }
   }
 
@@ -58,4 +60,5 @@ export default class ContentType extends React.Component {
       </div>
     )
   }
+  
 }

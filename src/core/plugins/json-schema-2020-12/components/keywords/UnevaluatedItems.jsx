@@ -8,7 +8,6 @@ import { useFn, useComponent } from "../../hooks"
 
 const UnevaluatedItems = ({ schema }) => {
   const fn = useFn()
-  const { unevaluatedItems } = schema
   const JSONSchema = useComponent("JSONSchema")
 
   /**
@@ -24,7 +23,11 @@ const UnevaluatedItems = ({ schema }) => {
 
   return (
     <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--unevaluatedItems">
-      <JSONSchema name={name} schema={unevaluatedItems} />
+      <JSONSchema
+        name={name}
+        schema={schema.unevaluatedItems}
+        identifier="unevaluatedItems"
+      />
     </div>
   )
 }

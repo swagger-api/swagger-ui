@@ -1,79 +1,61 @@
-name: Build & Release SwaggerUI-React@next
+name: Release SwaggerUI React
 
-# single-stage
 on:
-  workflow_dispatch:
-    branches:
-      - next
+  workflow_run:
+    workflows: ["Release SwaggerUI"]
+    types:
+      - completed
+    branches: [ master ]
 
-# multi-stage automation
-# on:
-#   workflow_run:
-#     workflows: ["Release SwaggerUI@next"]
-#     types:
-#       - completed
-#     branches: [next]
-
-defaults:
-  run:
-    working-directory: flavors/swagger-ui-react/release
 jobs:
   release-swagger-ui-react:
-    name: Release SwaggerUI React
+    if: github.event.workflow_run.conclusion == 'success'
+    name: Release swagger-ui-react npm package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: next
+          ref: master
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
 
-      - name: Prepare SwaggerUI dist
-        run: |
-          cd ../../../
-          npm ci
-          npm run build
-
-      - name: Install dependencies (to create package manifest)
+      - name: Install dependencies
         run: npm ci
 
-      - name: MKDIR `dist` working directory
-        run: mkdir -p ../dist
+      - name: Download build artifact
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "dist"
+            })[0];
+            const download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            const fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/dist.zip', Buffer.from(download.data));
+      - run: |
+          unzip -o dist.zip -d dist
 
-      - name: Copy SwaggerUI dist files to MKDIR
-        run: |
-          ls ../dist
-          cp ../../../dist/swagger-ui-es-bundle-core.js ../dist
-          cp ../../../dist/swagger-ui-es-bundle-core.js.map ../dist
-          cp ../../../dist/swagger-ui.css ../dist
-          cp ../../../dist/swagger-ui.css.map ../dist
-
-      - name: Create a releasable package manifest
-        run: node create-manifest.js > ../dist/package.json
-
-      - name: Transpile our top-level React Component
-        run: |
-          ../../../node_modules/.bin/cross-env BABEL_ENV=commonjs ../../../node_modules/.bin/babel --config-file ../../../babel.config.js ../index.jsx > ../dist/commonjs.js
-          ../../../node_modules/.bin/cross-env BABEL_ENV=es ../../../node_modules/.bin/babel --config-file ../../../babel.config.js ../index.jsx > ../dist/index.js
-
-      - name: Copy our README into the dist folder for npm
-        run: cp ../README.md ../dist
-
-      - name: Copy LICENSE & NOTICE into the dist folder for npm
-        run: |
-          cp ../../../LICENSE ../dist
-          cp ../../../NOTICE ../dist
-
-      - name: Run the release from the dist folder
-        run: |
-          cd ../dist
-          pwd
-          npm publish . --tag alpha
+      - name: Publish to npmjs.com
+        run: ./run.sh
+        working-directory: ./flavors/swagger-ui-react/release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PUBLISH_FLAVOR_REACT: true

@@ -103,21 +103,13 @@ const RequestBody = ({
   }
   requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
-  if(!mediaTypeValue.size) {
-    return null
-  }
-
-  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
-  const isBinaryFormat = mediaTypeValue.getIn(["schema", "format"]) === "binary"
-  const isBase64Format = mediaTypeValue.getIn(["schema", "format"]) === "base64"
+  const isFileUploadIntended = fn.isFileUploadIntended(
+    mediaTypeValue?.get("schema"),
+    contentType
+  )
 
   if(
-    contentType === "application/octet-stream"
-    || contentType.indexOf("image/") === 0
-    || contentType.indexOf("audio/") === 0
-    || contentType.indexOf("video/") === 0
-    || isBinaryFormat
-    || isBase64Format
+    isFileUploadIntended
   ) {
     const Input = getComponent("Input")
 
@@ -129,6 +121,13 @@ const RequestBody = ({
 
     return <Input type={"file"} onChange={handleFile} />
   }
+
+
+  if (!mediaTypeValue.size) {
+    return null
+  }
+
+  const isObjectContent = fn.hasSchemaType(mediaTypeValue.get("schema"), "object")
 
   if (
     isObjectContent &&
@@ -159,7 +158,9 @@ const RequestBody = ({
 
               let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
               const required = schemaForMediaType.get("required", List()).includes(key)
-              const type = schema.get("type")
+              const objectType = fn.getSchemaObjectType(schema)
+              const objectTypeLabel = fn.getSchemaObjectTypeLabel(schema)
+              const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
               const format = schema.get("format")
               const description = schema.get("description")
               const currentValue = requestBodyValue.getIn([key, "value"])
@@ -178,15 +179,29 @@ const RequestBody = ({
                 initialValue = "0"
               }
 
-              if (typeof initialValue !== "string" && type === "object") {
+              if (typeof initialValue !== "string" && objectType === "object") {
                initialValue = stringify(initialValue)
               }
 
-              if (typeof initialValue === "string" && type === "array") {
+              if (typeof initialValue === "string" && objectType === "array") {
                 initialValue = JSON.parse(initialValue)
               }
 
-              const isFile = type === "string" && (format === "binary" || format === "base64")
+              const isFileUploadIntended = fn.isFileUploadIntended(schema)
+
+              const jsonSchemaForm = <JsonSchemaForm
+                fn={fn}
+                dispatchInitialValue={!isFileUploadIntended}
+                schema={schema}
+                description={key}
+                getComponent={getComponent}
+                value={currentValue === undefined ? initialValue : currentValue}
+                required={required}
+                errors={currentErrors}
+                onChange={(value) => {
+                  onChange(value, [key])
+                }}
+              />
 
               return <tr key={key} className="parameters" data-property-name={key}>
               <td className="parameters-col_name">
@@ -195,7 +210,7 @@ const RequestBody = ({
                   { !required ? null : <span>&nbsp;*</span> }
                 </div>
                 <div className="parameter__type">
-                  { type }
+                  { objectTypeLabel }
                   { format && <span className="prop-format">(${format})</span>}
                   {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                 </div>
@@ -206,19 +221,18 @@ const RequestBody = ({
               <td className="parameters-col_description">
                 <Markdown source={ description }></Markdown>
                 {isExecute ? <div>
-                  <JsonSchemaForm
-                    fn={fn}
-                    dispatchInitialValue={!isFile}
-                    schema={schema}
-                    description={key}
-                    getComponent={getComponent}
-                    value={currentValue === undefined ? initialValue : currentValue}
-                    required = { required }
-                    errors = { currentErrors }
-                    onChange={(value) => {
-                      onChange(value, [key])
-                    }}
-                  />
+                  {(objectType === "object" || schemaItemsType === "object") ? (
+                    <ModelExample
+                      getComponent={getComponent}
+                      specPath={specPath.push("schema")}
+                      getConfigs={getConfigs}
+                      isExecute={isExecute}
+                      specSelectors={specSelectors}
+                      schema={schema}
+                      example={jsonSchemaForm}
+                    />
+                    ) : jsonSchemaForm
+                  }
                   {required ? null : (
                     <ParameterIncludeEmpty
                       onChange={(value) => onChangeIncludeEmpty(key, value)}
@@ -248,6 +262,15 @@ const RequestBody = ({
   if (testValueForJson) {
     language = "json"
   }
+  const example = isExecute ? <RequestBodyEditor
+      value={requestBodyValue}
+      errors={requestBodyErrors}
+      defaultValue={sampleRequestBody}
+      onChange={onChange}
+      getComponent={getComponent}
+    /> : <HighlightCode className="body-param__example" language={language}>
+      {stringify(requestBodyValue) || sampleRequestBody}
+    </HighlightCode>
 
   return <div>
     { requestBodyDescription &&
@@ -268,35 +291,17 @@ const RequestBody = ({
           />
       ) : null
     }
-    {
-      isExecute ? (
-        <div>
-          <RequestBodyEditor
-            value={requestBodyValue}
-            errors={requestBodyErrors}
-            defaultValue={sampleRequestBody}
-            onChange={onChange}
-            getComponent={getComponent}
-          />
-        </div>
-      ) : (
-        <ModelExample
-          getComponent={ getComponent }
-          getConfigs={ getConfigs }
-          specSelectors={ specSelectors }
-          expandDepth={1}
-          isExecute={isExecute}
-          schema={mediaTypeValue.get("schema")}
-          specPath={specPath.push("content", contentType)}
-          example={
-            <HighlightCode className="body-param__example" language={language}>
-              {stringify(requestBodyValue) || sampleRequestBody}
-            </HighlightCode>
-          }
-          includeWriteOnly={true}
-        />
-      )
-    }
+    <ModelExample
+      getComponent={ getComponent }
+      getConfigs={ getConfigs }
+      specSelectors={ specSelectors }
+      expandDepth={1}
+      isExecute={isExecute}
+      schema={mediaTypeValue.get("schema")}
+      specPath={specPath.push("content", contentType, "schema")}
+      example={example}
+      includeWriteOnly={true}
+    />
     {
       sampleForMediaType ? (
         <Example

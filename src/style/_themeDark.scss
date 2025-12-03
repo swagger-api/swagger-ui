@@ -1,3 +1,6 @@
+@use "sass:list";
+@use "sass:map";
+
 // Variables for consistent theme
 $text_color_1: #ffffffde;
 $text_color_2: #f1f1f1e5;
@@ -79,13 +82,13 @@ html.dark {
     // OPblock styles
     @each $type, $colors in $opblock_colors {
       .opblock-#{$type} {
-        background: nth($colors, 1);
-        border-color: nth($colors, 2);
+        background: list.nth($colors, 1);
+        border-color: list.nth($colors, 2);
         .opblock-section-header {
-          background-color: nth($colors, 3);
+          background-color: list.nth($colors, 3);
         }
         .opblock-summary {
-          border-color: nth($colors, 2);
+          border-color: list.nth($colors, 2);
         }
       }
     }
@@ -106,8 +109,8 @@ html.dark {
       }
 
       .model-box {
-        background: map-get($models_colors, background);
-        border-color: map-get($models_colors, border);
+        background: map.get($models_colors, background);
+        border-color: map.get($models_colors, border);
         .model-title {
           color: $text_color_1;
         }
@@ -139,8 +142,8 @@ html.dark {
     }
 
     section.models {
-      background: map-get($models_colors, background);
-      border-color: map-get($models_colors, border);
+      background: map.get($models_colors, background);
+      border-color: map.get($models_colors, border);
 
       h4 span,
       .model-title {
@@ -152,9 +155,9 @@ html.dark {
       }
 
       .model-container {
-        background: map-get($models_colors, item_background);
+        background: map.get($models_colors, item_background);
         &:hover {
-          background: map-get($models_colors, item_hover);
+          background: map.get($models_colors, item_hover);
         }
       }
 

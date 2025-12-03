@@ -4,7 +4,7 @@ describe("XSS: OAuth2 authorizationUrl sanitization", () => {
       .window()
       .then(win => {
         let args = null
-        const stub = cy.stub(win, "open", (...callArgs) => {
+        cy.stub(win, "open", (...callArgs) => {
           args = callArgs
         }).as("windowOpen")
 
@@ -15,7 +15,7 @@ describe("XSS: OAuth2 authorizationUrl sanitization", () => {
           .wait(100)
           .then(() => {
             console.log(args)
-            expect(args[0]).to.match(/^about:blank/) 
+            expect(args[0]).to.match(/^about:blank/)
           })
 
       })

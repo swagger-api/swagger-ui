@@ -6,10 +6,12 @@ import { List, fromJS } from "immutable"
 import { render } from "enzyme"
 
 import ParameterRow from "core/components/parameter-row"
+import { getSchemaObjectTypeLabel } from "core/plugins/json-schema-5/fn"
 import {
   memoizedSampleFromSchema,
   memoizedCreateXMLExample,
   mergeJsonSchema,
+  getSchemaObjectType,
 } from "core/plugins/json-schema-5-samples/fn/index"
 import makeGetSampleSchema from "core/plugins/json-schema-5-samples/fn/get-sample-schema"
 import makeGetJsonSampleSchema from "core/plugins/json-schema-5-samples/fn/get-json-sample-schema"
@@ -43,6 +45,8 @@ describe("bug #4557: default parameter values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
@@ -100,6 +104,8 @@ describe("bug #4557: default parameter values", function () {
       fn: {
         memoizedSampleFromSchema,
         memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
         getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
         getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
         getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
