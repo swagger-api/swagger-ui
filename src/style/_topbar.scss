@@ -103,21 +103,24 @@
     }
   }
 
-  .dark-toggle {
+  .dark-mode-toggle {
     margin-left: 10px;
     opacity: 0.8;
     transition: all .2s;
+    cursor: pointer;
 
-    svg {
-      fill: #f1f1f1cb !important;
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+
+      svg {
+        fill: #E4E6E6;
+      }
     }
 
     &:hover {
       opacity: 1;
-      
-      svg {
-        fill: #ffff0081 !important;
-      }
     }
   }
 }

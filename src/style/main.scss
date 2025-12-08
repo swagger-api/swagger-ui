@@ -25,4 +25,4 @@
 }
 
 // Themes must live outside of the '.swagger-ui' class to target HTML parent.
-@include meta.load-css("themeDark");
+@include meta.load-css("dark-mode");
