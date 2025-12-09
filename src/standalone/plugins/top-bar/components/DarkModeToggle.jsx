@@ -1,27 +1,47 @@
 /**
  * @prettier
  */
-import React, { useState, useCallback } from "react"
+import React, { Component } from "react"
+
 import LightBulb from "../assets/lightbulb.svg"
 import LightBulbOff from "../assets/lightbulb-off.svg"
 
-const DarkModeToggle = () => {
-  const [isDarkMode, setIsDarkMode] = useState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  )
+class DarkModeToggle extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isDarkMode: false,
+    }
+  }
 
-  const toggleDarkMode = useCallback(() => {
+  componentDidMount() {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.classList.add("dark-mode")
+      this.setState({ isDarkMode: true })
+      this.toggleIsDarkMode = this.toggleIsDarkMode.bind(this)
+    }
+  }
+
+  toggleIsDarkMode() {
     document.documentElement.classList.toggle("dark-mode")
-    setIsDarkMode((prevState) => !prevState)
-  }, [])
+    this.setState((prevState) => ({ isDarkMode: !prevState.isDarkMode }))
+  }
 
-  return (
-    <div className="dark-mode-toggle">
-      <button onClick={toggleDarkMode}>
-        {!isDarkMode ? <LightBulbOff height="24" /> : <LightBulb height="24" />}
-      </button>
-    </div>
-  )
+  render() {
+    const { isDarkMode } = this.state
+
+    return (
+      <div className="dark-mode-toggle">
+        <button onClick={this.toggleIsDarkMode}>
+          {!isDarkMode ? (
+            <LightBulbOff height="24" />
+          ) : (
+            <LightBulb height="24" />
+          )}
+        </button>
+      </div>
+    )
+  }
 }
 
 export default DarkModeToggle
