@@ -3,13 +3,13 @@
  */
 import React from "react"
 import { mount } from "enzyme"
-import DarkModeToggle from "../../../src/standalone/plugins/top-bar/components/DarkModeToggle"
+import DarkModeToggle from "standalone/plugins/top-bar/components/DarkModeToggle"
 
-jest.mock("../../../src/assets/lightbulb.svg", () => () => (
-  <div data-testid="lightbulb">LightBulb</div>
+jest.mock("standalone/plugins/top-bar/assets/lightbulb.svg", () => () => (
+  <div>LightBulb</div>
 ))
-jest.mock("../../../src/assets/lightbulb-off.svg", () => () => (
-  <div data-testid="lightbulb-off">LightBulbOff</div>
+jest.mock("standalone/plugins/top-bar/assets/lightbulb-off.svg", () => () => (
+  <div>LightBulbOff</div>
 ))
 
 describe("DarkModeToggle Component", () => {
