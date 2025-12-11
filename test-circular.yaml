@@ -1,0 +1,22 @@
+### Description
+This PR resolves issue #10616 where Swagger-UI becomes unresponsive when expanding certain operations that include circular model references.
+
+### Root Cause
+Circular `$ref` references in schemas cause infinite recursion in the React component tree while rendering model properties.
+
+### Solution
+Added a recursion guard in `model.jsx` that:
+- Tracks visited schema references
+- Prevents infinite rendering loops
+- Displays a short warning for circular structures instead
+
+### Reproduction
+1. Create a simple OpenAPI file with a self-referencing schema:
+   ```yaml
+   components:
+     schemas:
+       User:
+         type: object
+         properties:
+           manager:
+             $ref: '#/components/schemas/User'
