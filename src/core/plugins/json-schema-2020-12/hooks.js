@@ -121,11 +121,11 @@ export const useIsExpanded = (name) => {
         ? JSONSchemaIsExpandedState.DeeplyExpanded
         : JSONSchemaIsExpandedState.Expanded
     )
-  }, [])
+  }, [pathMutator])
 
   const setCollapsed = useCallback((options = { deep: false }) => {
     pathMutator(JSONSchemaIsExpandedState.Collapsed, options)
-  }, [])
+  }, [pathMutator])
 
   return { isExpanded, setExpanded, setCollapsed }
 }
