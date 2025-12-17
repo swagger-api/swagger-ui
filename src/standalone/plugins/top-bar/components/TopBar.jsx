@@ -109,7 +109,7 @@ class TopBar extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, getConfigs } = this.props
+    let { getComponent, specSelectors, getConfigs, darkModeSelectors, darkModeActions } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
     const Logo = getComponent("Logo")
@@ -165,7 +165,10 @@ class TopBar extends React.Component {
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}
             </form>
-            <DarkModeToggle />
+            <DarkModeToggle 
+              darkModeSelectors={darkModeSelectors}
+              darkModeActions={darkModeActions}
+            />
           </div>
         </div>
       </div>
@@ -177,7 +180,9 @@ TopBar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.isRequired
+  getConfigs: PropTypes.func.isRequired,
+  darkModeSelectors: PropTypes.object,
+  darkModeActions: PropTypes.object
 }
 
 export default TopBar

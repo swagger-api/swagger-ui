@@ -12,6 +12,9 @@ const defaultOptions = Object.freeze({
   configUrl: null,
   layout: "BaseLayout",
   docExpansion: "list",
+  theme: {
+    defaultMode: "system",
+  },
   maxDisplayedTags: -1,
   filter: false,
   validatorUrl: "https://validator.swagger.io/validator",
