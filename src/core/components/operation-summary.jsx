@@ -16,6 +16,7 @@ export default class OperationSummary extends PureComponent {
     getConfigs: PropTypes.func.isRequired,
     authActions: PropTypes.object,
     authSelectors: PropTypes.object,
+    specSelectors: PropTypes.object,
   }
 
   static defaultProps = {
@@ -32,6 +33,7 @@ export default class OperationSummary extends PureComponent {
       getComponent,
       authActions,
       authSelectors,
+      specSelectors,
       operationProps,
       specPath,
     } = this.props
@@ -55,6 +57,7 @@ export default class OperationSummary extends PureComponent {
     let security = operationProps.get("security")
 
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
+    const ScopeDisplay = getComponent("ScopeDisplay", true)
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
     const OperationSummaryPath = getComponent("OperationSummaryPath")
     const JumpToPath = getComponent("JumpToPath", true)
@@ -88,13 +91,21 @@ export default class OperationSummary extends PureComponent {
         <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         {
           allowAnonymous ? null :
-            <AuthorizeOperationBtn
-              isAuthorized={isAuthorized}
-              onClick={() => {
-                const applicableDefinitions = authSelectors.definitionsForRequirements(security)
-                authActions.showDefinitions(applicableDefinitions)
-              }}
-            />
+            <div className="opblock-auth-wrapper">
+              <ScopeDisplay
+                security={security}
+                authSelectors={authSelectors}
+                authDefinitions={authSelectors.definitionsToAuthorize()}
+                specSelectors={specSelectors}
+              />
+              <AuthorizeOperationBtn
+                isAuthorized={isAuthorized}
+                onClick={() => {
+                  const applicableDefinitions = authSelectors.definitionsForRequirements(security)
+                  authActions.showDefinitions(applicableDefinitions)
+                }}
+              />
+            </div>
         }
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
         <button
