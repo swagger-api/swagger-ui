@@ -70,7 +70,7 @@ const HighlightCode = ({
       {canCopy && (
         <div className="copy-to-clipboard">
           <CopyToClipboard text={children}>
-            <button aria-label='Copy to Clipboard' />
+            <button aria-label="Copy to Clipboard" />
           </CopyToClipboard>
         </div>
       )}
