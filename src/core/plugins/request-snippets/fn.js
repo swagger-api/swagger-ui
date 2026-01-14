@@ -28,11 +28,12 @@ const escapeShell = (str) => {
     return str
 }
 
-const escapeCMD = (str) => {
+export const escapeCMD = (str) => {
   str = str
     .replace(/\^/g, "^^")
     .replace(/\\"/g, "\\\\\"")
     .replace(/"/g, "\"\"")
+    .replace(/\|/g, "^|") 
     .replace(/\n/g, "^\n")
   if (str === "-d ") {
     return str
@@ -167,3 +168,5 @@ export const requestSnippetGenerator_curl_bash = (request) => {
 export const requestSnippetGenerator_curl_cmd = (request) => {
   return curlify(request, escapeCMD, "^\n")
 }
+
+
