@@ -23,7 +23,7 @@ $alto-gray: #d9d9d9 !default;
 $mercury-gray: #e4e4e4 !default;
 $concrete-gray: #e8e8e8 !default;
 $alabaster: #f7f7f7 !default;
-$apple-green: #62a03f !default;
+$apple-green: #307d3e !default;
 $green-haze: #009d77 !default;
 $japanese-laurel: #008000 !default;
 $persian-green: #00a0a7 !default;
@@ -39,16 +39,16 @@ $mango-tango: #e97500 !default;
 
 $color-primary: #89bf04 !default;
 $color-secondary: #9012fe !default;
-$color-info: #4990e2 !default;
+$color-info: #3b71af !default;
 $color-warning: #ff6060 !default;
 $color-danger: #f00 !default;
 
 $color-primary-hover: color.adjust($color-primary, $lightness: 0.5%) !default;
 
-$color-post: #49cc90 !default;
-$color-get: #61affe !default;
-$color-put: #fca130 !default;
-$color-delete: #f93e3e !default;
+$color-post: #307d3e !default;
+$color-get: #0073e5 !default;
+$color-put: #af6101 !default;
+$color-delete: #d61111 !default;
 $color-head: #9012fe !default;
 $color-patch: #50e3c2 !default;
 $color-disabled: #ebebeb !default;
@@ -116,7 +116,7 @@ $info-code-font-color: $color-head !default;
 $info-link-font-color: $color-info !default;
 $info-link-font-color-hover: $info-link-font-color !default;
 
-$info-title-small-background-color: $waterloo-gray !default;
+$info-title-small-background-color: $gray-600 !default;
 
 $info-title-small-pre-font-color: $white !default;
 
