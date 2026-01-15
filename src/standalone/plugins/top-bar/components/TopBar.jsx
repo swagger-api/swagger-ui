@@ -150,6 +150,7 @@ class TopBar extends React.Component {
           value={this.state.url}
           disabled={isLoading}
           id="download-url-input"
+          aria-label="Download URL Button"
         />
       )
       control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
