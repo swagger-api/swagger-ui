@@ -32,7 +32,7 @@ class DarkModeToggle extends Component {
 
     return (
       <div className="dark-mode-toggle">
-        <button onClick={this.toggleIsDarkMode}>
+        <button onClick={this.toggleIsDarkMode} aria-label="Toggle Dark Mode">
           {!isDarkMode ? (
             <LightBulbOff height="24" />
           ) : (
