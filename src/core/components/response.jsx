@@ -237,6 +237,7 @@ export default class Response extends React.Component {
 
           { example || schema ? (
             <ModelExample
+              key={ specPathWithPossibleSchema.join("\n") }
               specPath={specPathWithPossibleSchema}
               getComponent={ getComponent }
               getConfigs={ getConfigs }
