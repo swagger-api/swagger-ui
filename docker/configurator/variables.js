@@ -51,6 +51,10 @@ const standardVariables = {
     type: "string",
     name: "defaultModelRendering"
   },
+  DEFAULT_SEND_EMPTY_VAlUE: {
+    type: "boolean",
+    name: "defaultSendEmptyValue"
+  },
   DISPLAY_REQUEST_DURATION: {
     type: "boolean",
     name: "displayRequestDuration"
