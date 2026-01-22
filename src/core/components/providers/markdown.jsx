@@ -67,6 +67,7 @@ export function sanitizer(str, { useUnsafeMarkdown = false } = {}) {
     FORBID_TAGS: ["style", "form"],
     ALLOW_DATA_ATTR,
     FORBID_ATTR,
+    RETURN_TRUSTED_TYPE: true
   })
 }
 sanitizer.hasWarnedAboutDeprecation = false
