@@ -76,13 +76,11 @@ export default class Operation extends PureComponent {
       displayRequestDuration,
       tryItOutEnabled,
       executeInProgress
-    } = operationProps.toJS()
+    } = operationProps.toObject()
 
-    let {
-      description,
-      externalDocs,
-      schemes
-    } = op
+    const description = op.get("description")
+    const externalDocs = op.get("externalDocs")?.toJS()
+    const schemes = op.get("schemes")?.toJS()
 
     const externalDocsUrl = externalDocs ? safeBuildUrl(externalDocs.url, specSelectors.url(), { selectedServer: oas3Selectors.selectedServer() }) : ""
     let operation = operationProps.getIn(["op"])
