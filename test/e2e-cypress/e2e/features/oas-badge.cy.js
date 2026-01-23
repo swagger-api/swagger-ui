@@ -22,4 +22,12 @@ describe("OpenAPI Badge", () => {
       .get("pre.version")
       .contains("OAS 3.1")
   })
+
+  it("should display light green badge with version indicator for OpenAPI 3.2.0", () => {
+    cy.visit("/?url=/documents/oas32/oas32-features.yaml")
+      .get("#swagger-ui")
+      .get('*[class^="version-stamp"]')
+      .get("pre.version")
+      .contains("OAS 3.2")
+  })
 })

@@ -1,0 +1,200 @@
+openapi: 3.2.0
+$self: https://api.example.com/oas32-features
+info:
+  title: OAS 3.2.0 Feature Demonstration
+  summary: Demonstrates new OpenAPI 3.2.0 features
+  version: 1.0.0
+  description: |
+    This specification demonstrates the new features introduced in OpenAPI 3.2.0:
+    - $self field for base URI
+    - QUERY HTTP method
+    - additionalOperations for custom HTTP methods
+    - mediaTypes in components
+    - pathItems in components
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /search:
+    query:
+      summary: Search with query payload
+      description: |
+        The QUERY method is a new HTTP method in OAS 3.2 that allows
+        safe, idempotent queries with a request body.
+      operationId: searchQuery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  example: "user:john"
+                filters:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      enum: [active, inactive]
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SearchResult'
+
+  /resource/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get resource
+      operationId: getResource
+      responses:
+        '200':
+          description: Resource retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+    additionalOperations:
+      COPY:
+        summary: Copy resource
+        description: Custom COPY method to duplicate a resource
+        operationId: copyResource
+        responses:
+          '201':
+            description: Resource copied
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Resource'
+      LOCK:
+        summary: Lock resource
+        description: Custom LOCK method to prevent modifications
+        operationId: lockResource
+        responses:
+          '200':
+            description: Resource locked
+      UNLOCK:
+        summary: Unlock resource
+        description: Custom UNLOCK method to allow modifications
+        operationId: unlockResource
+        responses:
+          '200':
+            description: Resource unlocked
+
+components:
+  schemas:
+    SearchResult:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        score:
+          type: number
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [active, locked, archived]
+
+  mediaTypes:
+    JsonError:
+      schema:
+        type: object
+        properties:
+          error:
+            type: string
+          code:
+            type: integer
+          details:
+            type: object
+      examples:
+        notFound:
+          summary: Resource not found
+          value:
+            error: "Resource not found"
+            code: 404
+            details:
+              resource: "user"
+              id: "12345"
+    JsonSuccess:
+      schema:
+        type: object
+        properties:
+          message:
+            type: string
+          data:
+            type: object
+
+  pathItems:
+    UserEndpoint:
+      get:
+        summary: Get user
+        operationId: getUser
+        parameters:
+          - name: userId
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: User retrieved
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+      put:
+        summary: Update user
+        operationId: updateUser
+        parameters:
+          - name: userId
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+        responses:
+          '200':
+            description: User updated

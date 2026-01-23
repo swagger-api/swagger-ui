@@ -1,0 +1,31 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2.0 Contact and License Test
+  version: 1.0.0
+  description: This spec tests contact and license rendering in OAS 3.2.0
+  contact:
+    name: API Support Team
+    url: https://www.example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /test:
+    get:
+      summary: Test endpoint
+      operationId: test
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
