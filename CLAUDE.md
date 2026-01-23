@@ -51,8 +51,8 @@ This repository publishes **three different npm packages**:
 
 ### OpenAPI Specification Compatibility
 
-- **Current Support:** OpenAPI 2.0, 3.0.x, 3.1.x
-- **Latest Version:** v5.31.0 (supports up to OpenAPI 3.1.1)
+- **Current Support:** OpenAPI 2.0, 3.0.x, 3.1.x, 3.2.x
+- **Latest Version:** v5.31.0 (supports up to OpenAPI 3.2.0)
 
 ### License
 
@@ -124,6 +124,7 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 - `logs` - Logging
 - `oas3` - OpenAPI 3.0.x support
 - `oas31` - OpenAPI 3.1.x support
+- `oas32` - OpenAPI 3.2.x support
 - `on-complete` - Completion callbacks
 - `request-snippets` - Code snippet generation
 - `safe-render` - Safe component rendering
@@ -813,6 +814,7 @@ dist/                            # Build output (generated)
 - OAS 2.0: Use `src/core/plugins/swagger-client/`
 - OAS 3.0.x: Use `src/core/plugins/oas3/`
 - OAS 3.1.x: Use `src/core/plugins/oas31/`
+- OAS 3.2.x: Use `src/core/plugins/oas32/`
 
 **Adding Test Specs:**
 - Add to `test/e2e-cypress/static/documents/`
