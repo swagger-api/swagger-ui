@@ -30,7 +30,7 @@ import { validOperationMethods } from "./selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
   isOAS31 as isOAS31SelectorWrapper,
-  operations as operationsSelectorWrapper,
+  operationsWithRootInherited as operationsWithRootInheritedWrapper,
   validOperationMethods as validOperationMethodsWrapper,
 } from "./spec-extensions/wrap-selectors"
 // Import license and contact selectors from OAS31 plugin (OAS32 uses the same)
@@ -71,7 +71,7 @@ const OAS32Plugin = ({ fn }) => {
   const createOnlyOAS32Selector =
     fn.createOnlyOAS32Selector || createOnlyOAS32SelectorFn
 
-  return {
+  const plugin = {
     afterLoad,
     fn: {
       isOAS32: isOAS32Fn,
@@ -136,8 +136,8 @@ const OAS32Plugin = ({ fn }) => {
           isOAS3: isOAS3SelectorWrapper,
           // Ensure OAS 3.2 specs are not detected as OAS 3.1
           isOAS31: isOAS31SelectorWrapper,
-          // Add QUERY operations to the operations list for OAS 3.2
-          operations: operationsSelectorWrapper,
+          // Add QUERY operations after base operations are collected (wraps operationsWithRootInherited)
+          operationsWithRootInherited: operationsWithRootInheritedWrapper,
           // Override validOperationMethods to include QUERY for OAS 3.2
           validOperationMethods: validOperationMethodsWrapper,
         },
@@ -149,6 +149,8 @@ const OAS32Plugin = ({ fn }) => {
       },
     },
   }
+
+  return plugin
 }
 
 export default OAS32Plugin

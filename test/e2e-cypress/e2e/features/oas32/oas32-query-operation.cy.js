@@ -73,8 +73,9 @@ describe("OAS 3.2 QUERY Operation Support", () => {
         .get("#operations-Search-searchWithQuery")
         .click()
         .get(".opblock-section-request-body")
+        .should("exist")
         .within(() => {
-          cy.get(".opblock-control-arrow").should("exist")
+          cy.get(".opblock-description-wrapper").should("exist")
         })
     })
 

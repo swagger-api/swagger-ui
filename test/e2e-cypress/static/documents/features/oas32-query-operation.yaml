@@ -5,98 +5,56 @@ info:
   description: Test API demonstrating the QUERY HTTP method introduced in OAS 3.2
 
 paths:
-  /pets:
-    get:
-      operationId: getPets
-      summary: List all pets
-      description: Returns a list of all pets
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-
-    post:
-      operationId: createPet
-      summary: Create a pet
-      description: Create a new pet
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-      responses:
-        '201':
-          description: Pet created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-
+  /search:
     query:
-      operationId: searchPets
-      summary: Search pets with complex criteria
+      operationId: searchWithQuery
+      summary: Search with complex query payload
       description: >
-        Search for pets using complex query criteria sent in the request body.
+        This endpoint demonstrates the QUERY HTTP method introduced in OAS 3.2.
         The QUERY method is a new HTTP method in OAS 3.2 that allows sending
-        a request body with search parameters (similar to POST but for queries).
-      parameters:
-        - name: limit
-          in: query
-          description: Maximum number of results to return
-          schema:
-            type: integer
-            default: 20
-            maximum: 100
+        a request body with search parameters, providing more flexibility than GET.
+      tags:
+        - Search
       requestBody:
-        description: Complex search criteria
+        description: Search payload with query, filters, and pagination
         required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                name:
+                query:
                   type: string
-                  description: Filter by pet name (supports wildcards)
-                species:
-                  type: string
-                  enum: [cat, dog, bird, fish, other]
-                  description: Filter by species
-                ageRange:
+                  description: Search query string
+                filters:
                   type: object
+                  description: Additional filters to apply
                   properties:
-                    min:
-                      type: integer
-                      minimum: 0
-                    max:
-                      type: integer
-                      minimum: 0
-                tags:
-                  type: array
-                  items:
-                    type: string
-                  description: Filter by tags (AND logic)
-                owner:
+                    category:
+                      type: string
+                    status:
+                      type: string
+                pagination:
                   type: object
+                  description: Pagination settings
                   properties:
-                    name:
-                      type: string
-                    email:
-                      type: string
-                      format: email
+                    page:
+                      type: integer
+                      minimum: 1
+                      default: 1
+                    pageSize:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                      default: 20
             example:
-              name: "Fluffy*"
-              species: "cat"
-              ageRange:
-                min: 1
-                max: 5
-              tags: ["friendly", "indoor"]
+              query: "example search"
+              filters:
+                category: "electronics"
+                status: "active"
+              pagination:
+                page: 1
+                pageSize: 20
       responses:
         '200':
           description: Search results
@@ -108,7 +66,7 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Pet'
+                      type: object
                   total:
                     type: integer
                   page:
@@ -119,39 +77,137 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '413':
+          description: Payload too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /products/search:
+    get:
+      operationId: searchProducts
+      summary: Simple product search
+      description: Search products using query parameters (traditional GET)
+      tags:
+        - Search
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Product category filter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    query:
+      operationId: advancedSearchProducts
+      summary: Advanced product search
+      description: >
+        Advanced product search using complex criteria in request body.
+        Demonstrates QUERY method alongside GET on the same path.
+      tags:
+        - Search
+      requestBody:
+        description: Advanced search criteria
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priceRange:
+                  type: object
+                  properties:
+                    min:
+                      type: number
+                      format: float
+                    max:
+                      type: number
+                      format: float
+                specifications:
+                  type: object
+                  description: Product specifications to match
+                  additionalProperties:
+                    type: string
+                categories:
+                  type: array
+                  items:
+                    type: string
+                sortBy:
+                  type: string
+                  enum: [price, rating, name, date]
+            example:
+              priceRange:
+                min: 10.0
+                max: 100.0
+              specifications:
+                brand: "Example Brand"
+                color: "blue"
+              categories: ["electronics", "computers"]
+              sortBy: "price"
+      responses:
+        '200':
+          description: Advanced search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  total:
+                    type: integer
+                  facets:
+                    type: object
+        '400':
+          description: Invalid search criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   schemas:
-    Pet:
+    Product:
       type: object
       required:
         - id
         - name
-        - species
+        - price
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
         name:
           type: string
-        species:
+        price:
+          type: number
+          format: float
+        category:
           type: string
-          enum: [cat, dog, bird, fish, other]
-        age:
-          type: integer
-          minimum: 0
-        tags:
-          type: array
-          items:
-            type: string
-        owner:
+        specifications:
           type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-              format: email
+          additionalProperties:
+            type: string
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
 
     Error:
       type: object
