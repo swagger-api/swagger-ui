@@ -19,7 +19,11 @@ import {
   selectHasQueryOperations,
   selectHasAdditionalOperations,
 } from "./spec-extensions/selectors"
-import { isOAS31 as isOAS31SelectorWrapper } from "./spec-extensions/wrap-selectors"
+import { validOperationMethods } from "./selectors"
+import {
+  isOAS31 as isOAS31SelectorWrapper,
+  validOperationMethods as validOperationMethodsWrapper,
+} from "./spec-extensions/wrap-selectors"
 // Import license and contact selectors from OAS31 plugin (OAS32 uses the same)
 import {
   license as selectLicense,
@@ -110,10 +114,14 @@ const OAS32Plugin = ({ fn }) => {
         wrapSelectors: {
           // Ensure OAS 3.2 specs are not detected as OAS 3.1
           isOAS31: isOAS31SelectorWrapper,
+          // Override validOperationMethods to include QUERY for OAS 3.2
+          validOperationMethods: validOperationMethodsWrapper,
         },
       },
       oas32: {
-        selectors: {},
+        selectors: {
+          validOperationMethods,
+        },
       },
     },
   }
