@@ -4,6 +4,18 @@
 import { createOnlyOAS32SelectorWrapper } from "../fn"
 
 /**
+ * Wraps isOAS3 selector to return true when spec is OAS 3.2.x
+ * This ensures OAS 3.2 specs are recognized as OAS 3.x for
+ * OAS3-specific features like servers, security, etc.
+ */
+export const isOAS3 =
+  (oriSelector, system) =>
+  (state, ...args) => {
+    const isOAS32 = system.specSelectors.isOAS32()
+    return isOAS32 || oriSelector(...args)
+  }
+
+/**
  * Wraps isOAS31 selector to return false when spec is OAS 3.2.x
  * This ensures OAS 3.2 specs are not detected as OAS 3.1
  */
