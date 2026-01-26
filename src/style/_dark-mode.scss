@@ -485,6 +485,11 @@ html.dark-mode {
         }
       }
 
+      .examples-select__section-label,
+      .example__section-header {
+        color: $neutral-20;
+      }
+
       .responses-inner {
         h4, h5 {
           color: $neutral-20;
