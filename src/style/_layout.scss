@@ -943,3 +943,28 @@ span {
     font-weight: bold;
   }
 }
+
+// OAS 3.2 Additional Operations section
+.additional-operations {
+  margin-top: 2em;
+  margin-bottom: 2em;
+
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    padding: 0 20px;
+
+    @include type.text_headline();
+  }
+
+  &__description {
+    padding: 0 20px;
+    margin-bottom: 1em;
+    color: #777;
+    font-size: 0.9em;
+
+    p {
+      margin: 0;
+    }
+  }
+}

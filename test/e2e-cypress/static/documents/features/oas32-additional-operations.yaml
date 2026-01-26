@@ -1,0 +1,388 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2 additionalOperations Test API
+  version: 1.0.0
+  summary: Test API for additionalOperations support
+  description: |
+    This API demonstrates the additionalOperations field in Path Item Objects,
+    which is new in OAS 3.2.0.
+
+    The additionalOperations field allows defining custom HTTP methods beyond
+    the standard set (GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH, TRACE, QUERY).
+    Common custom methods include COPY, MOVE, LOCK, UNLOCK, PROPFIND, PROPPATCH,
+    MKCOL, and others from WebDAV and other specifications.
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /documents/{documentId}:
+    get:
+      summary: Get document
+      description: Retrieve a document by ID
+      operationId: getDocument
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "doc-123"
+      responses:
+        '200':
+          description: Document retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  content:
+                    type: string
+
+    put:
+      summary: Update document
+      description: Update an existing document
+      operationId: updateDocument
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Document updated successfully
+
+    delete:
+      summary: Delete document
+      description: Delete a document
+      operationId: deleteDocument
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Document deleted successfully
+
+    additionalOperations:
+      COPY:
+        summary: Copy document
+        description: |
+          Creates a copy of the document at the specified destination.
+          This is a WebDAV COPY method.
+        operationId: copyDocument
+        tags:
+          - Documents
+        parameters:
+          - name: documentId
+            in: path
+            required: true
+            schema:
+              type: string
+          - name: Destination
+            in: header
+            description: The destination URI for the copy
+            required: true
+            schema:
+              type: string
+              format: uri
+              example: "/documents/doc-456"
+          - name: Overwrite
+            in: header
+            description: Whether to overwrite an existing document
+            schema:
+              type: string
+              enum: ["T", "F"]
+              default: "F"
+        responses:
+          '201':
+            description: Document copied successfully
+            headers:
+              Location:
+                description: URI of the newly created copy
+                schema:
+                  type: string
+                  format: uri
+          '204':
+            description: Document copied and overwrote existing document
+          '412':
+            description: Precondition failed
+
+      MOVE:
+        summary: Move document
+        description: |
+          Moves the document to the specified destination.
+          This is a WebDAV MOVE method.
+        operationId: moveDocument
+        tags:
+          - Documents
+        parameters:
+          - name: documentId
+            in: path
+            required: true
+            schema:
+              type: string
+          - name: Destination
+            in: header
+            description: The destination URI for the move
+            required: true
+            schema:
+              type: string
+              format: uri
+          - name: Overwrite
+            in: header
+            schema:
+              type: string
+              enum: ["T", "F"]
+              default: "F"
+        responses:
+          '201':
+            description: Document moved successfully
+          '204':
+            description: Document moved and overwrote existing document
+          '403':
+            description: Forbidden
+          '412':
+            description: Precondition failed
+
+      LOCK:
+        summary: Lock document
+        description: |
+          Locks the document to prevent modifications.
+          This is a WebDAV LOCK method.
+        operationId: lockDocument
+        tags:
+          - Documents
+        parameters:
+          - name: documentId
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/xml:
+              schema:
+                type: string
+                example: |
+                  <?xml version="1.0" encoding="utf-8" ?>
+                  <D:lockinfo xmlns:D='DAV:'>
+                    <D:lockscope><D:exclusive/></D:lockscope>
+                    <D:locktype><D:write/></D:locktype>
+                    <D:owner>John Doe</D:owner>
+                  </D:lockinfo>
+        responses:
+          '200':
+            description: Document locked successfully
+            content:
+              application/xml:
+                schema:
+                  type: string
+          '423':
+            description: Document already locked
+
+      UNLOCK:
+        summary: Unlock document
+        description: |
+          Unlocks a previously locked document.
+          This is a WebDAV UNLOCK method.
+        operationId: unlockDocument
+        tags:
+          - Documents
+        parameters:
+          - name: documentId
+            in: path
+            required: true
+            schema:
+              type: string
+          - name: Lock-Token
+            in: header
+            description: The lock token to unlock
+            required: true
+            schema:
+              type: string
+              example: "<opaquelocktoken:12345>"
+        responses:
+          '204':
+            description: Document unlocked successfully
+          '403':
+            description: Forbidden - invalid lock token
+
+  /collections/{collectionId}:
+    get:
+      summary: Get collection properties
+      description: Get properties of a collection
+      operationId: getCollection
+      tags:
+        - Collections
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Collection properties
+
+    additionalOperations:
+      PROPFIND:
+        summary: Find properties
+        description: |
+          Retrieves properties of the collection.
+          This is a WebDAV PROPFIND method.
+        operationId: findCollectionProperties
+        tags:
+          - Collections
+        parameters:
+          - name: collectionId
+            in: path
+            required: true
+            schema:
+              type: string
+          - name: Depth
+            in: header
+            description: Depth of the property search
+            schema:
+              type: string
+              enum: ["0", "1", "infinity"]
+              default: "0"
+        requestBody:
+          content:
+            application/xml:
+              schema:
+                type: string
+        responses:
+          '207':
+            description: Multi-Status response with properties
+            content:
+              application/xml:
+                schema:
+                  type: string
+
+      PROPPATCH:
+        summary: Update properties
+        description: |
+          Updates properties of the collection.
+          This is a WebDAV PROPPATCH method.
+        operationId: patchCollectionProperties
+        tags:
+          - Collections
+        parameters:
+          - name: collectionId
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/xml:
+              schema:
+                type: string
+        responses:
+          '207':
+            description: Multi-Status response
+            content:
+              application/xml:
+                schema:
+                  type: string
+
+      MKCOL:
+        summary: Create collection
+        description: |
+          Creates a new collection (directory).
+          This is a WebDAV MKCOL method.
+        operationId: makeCollection
+        tags:
+          - Collections
+        parameters:
+          - name: collectionId
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '201':
+            description: Collection created successfully
+          '405':
+            description: Collection already exists
+          '409':
+            description: Conflict - parent collection does not exist
+
+  /search:
+    query:
+      summary: Search with QUERY method
+      description: Standard QUERY operation
+      operationId: searchQuery
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+      responses:
+        '200':
+          description: Search results
+
+    additionalOperations:
+      SEARCH:
+        summary: Search with custom SEARCH method
+        description: |
+          Custom SEARCH method (different from QUERY).
+          Some APIs use SEARCH as a custom method.
+        operationId: searchCustom
+        tags:
+          - Search
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  searchTerm:
+                    type: string
+                  filters:
+                    type: object
+        responses:
+          '200':
+            description: Search results
+
+tags:
+  - name: Documents
+    description: Document operations including standard and WebDAV methods
+  - name: Collections
+    description: Collection operations for WebDAV
+  - name: Search
+    description: Search operations with multiple methods

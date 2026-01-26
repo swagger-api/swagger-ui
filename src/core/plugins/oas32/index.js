@@ -4,6 +4,7 @@
 import Info from "./components/info"
 import SelfUri from "./components/self-uri"
 import VersionPragmaFilter from "./components/version-pragma-filter"
+import AdditionalOperations from "./components/additional-operations"
 import InfoWrapper from "./wrap-components/info"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import {
@@ -18,6 +19,7 @@ import {
   selectPathItems,
   selectHasQueryOperations,
   selectHasAdditionalOperations,
+  selectAdditionalOperations,
 } from "./spec-extensions/selectors"
 import { validOperationMethods } from "./selectors"
 import {
@@ -73,6 +75,7 @@ const OAS32Plugin = ({ fn }) => {
       OAS32Info: Info,
       SelfUri,
       OAS32VersionPragmaFilter: VersionPragmaFilter,
+      AdditionalOperations,
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
@@ -109,6 +112,9 @@ const OAS32Plugin = ({ fn }) => {
           ),
           selectHasAdditionalOperations: createOnlyOAS32Selector(
             selectHasAdditionalOperations
+          ),
+          selectAdditionalOperations: createOnlyOAS32Selector(
+            selectAdditionalOperations
           ),
         },
         wrapSelectors: {

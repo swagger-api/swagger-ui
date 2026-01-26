@@ -8,6 +8,7 @@ import {
   selectPathItems,
   selectHasQueryOperations,
   selectHasAdditionalOperations,
+  selectAdditionalOperations,
 } from "core/plugins/oas32/spec-extensions/selectors"
 
 describe("oas32 plugin - spec-extensions - selectors", () => {
@@ -245,6 +246,162 @@ describe("oas32 plugin - spec-extensions - selectors", () => {
 
       const result = selectHasAdditionalOperations(state)
       expect(result).toBe(false)
+    })
+  })
+
+  describe("selectAdditionalOperations", () => {
+    it("should select additionalOperations grouped by path", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            paths: {
+              "/resource": {
+                additionalOperations: {
+                  COPY: {
+                    summary: "Copy resource",
+                  },
+                  MOVE: {
+                    summary: "Move resource",
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+
+      const mockSystem = {
+        specSelectors: {
+          specResolvedSubtree: () => state.getIn(["spec", "json", "paths"]),
+        },
+      }
+
+      const result = selectAdditionalOperations(state, mockSystem)
+      expect(result).toBeDefined()
+      expect(result["/resource"]).toBeDefined()
+      expect(result["/resource"].length).toBe(2)
+      expect(result["/resource"][0].method).toBe("COPY")
+      expect(result["/resource"][1].method).toBe("MOVE")
+      expect(result["/resource"][0].path).toBe("/resource")
+    })
+
+    it("should return empty object when no paths exist", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+          },
+        },
+      })
+
+      const mockSystem = {
+        specSelectors: {
+          specResolvedSubtree: () => undefined,
+        },
+      }
+
+      const result = selectAdditionalOperations(state, mockSystem)
+      expect(result).toEqual({})
+    })
+
+    it("should return empty object when no additionalOperations exist", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            paths: {
+              "/resource": {
+                get: {
+                  summary: "Get resource",
+                },
+              },
+            },
+          },
+        },
+      })
+
+      const mockSystem = {
+        specSelectors: {
+          specResolvedSubtree: () => state.getIn(["spec", "json", "paths"]),
+        },
+      }
+
+      const result = selectAdditionalOperations(state, mockSystem)
+      expect(result).toEqual({})
+    })
+
+    it("should include correct specPath for each operation", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            paths: {
+              "/documents/{id}": {
+                additionalOperations: {
+                  LOCK: {
+                    summary: "Lock document",
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+
+      const mockSystem = {
+        specSelectors: {
+          specResolvedSubtree: () => state.getIn(["spec", "json", "paths"]),
+        },
+      }
+
+      const result = selectAdditionalOperations(state, mockSystem)
+      expect(result["/documents/{id}"][0].specPath).toEqual([
+        "paths",
+        "/documents/{id}",
+        "additionalOperations",
+        "LOCK",
+      ])
+    })
+
+    it("should handle multiple paths with additionalOperations", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            paths: {
+              "/documents": {
+                additionalOperations: {
+                  COPY: {
+                    summary: "Copy document",
+                  },
+                },
+              },
+              "/collections": {
+                additionalOperations: {
+                  PROPFIND: {
+                    summary: "Find properties",
+                  },
+                  MKCOL: {
+                    summary: "Make collection",
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+
+      const mockSystem = {
+        specSelectors: {
+          specResolvedSubtree: () => state.getIn(["spec", "json", "paths"]),
+        },
+      }
+
+      const result = selectAdditionalOperations(state, mockSystem)
+      expect(Object.keys(result).length).toBe(2)
+      expect(result["/documents"].length).toBe(1)
+      expect(result["/collections"].length).toBe(2)
     })
   })
 })

@@ -134,3 +134,62 @@ export const selectHasAdditionalOperations = createSelector(
     )
   }
 )
+
+/**
+ * Selects all additionalOperations from all paths
+ * OAS 3.2 spec reference: https://spec.openapis.org/oas/v3.2.0.html#path-item-object
+ *
+ * Returns operations grouped by path in the format:
+ * {
+ *   "/resource": [
+ *     {
+ *       operation: Map({ operation }),
+ *       method: "COPY",
+ *       path: "/resource",
+ *       specPath: ["paths", "/resource", "additionalOperations", "COPY"]
+ *     }
+ *   ]
+ * }
+ */
+export const selectAdditionalOperations = createSelector(
+  (state) => state,
+  (state, system) => system.specSelectors.specResolvedSubtree(["paths"]),
+  (state) => {
+    const spec = state.getIn(["spec", "json"])
+    const paths = spec.get("paths")
+
+    if (!paths || !Map.isMap(paths) || !paths.size) {
+      return {}
+    }
+
+    const allOperations = []
+
+    paths.forEach((pathItem, pathName) => {
+      if (!pathItem || !Map.isMap(pathItem)) return
+
+      const additionalOperations = pathItem.get("additionalOperations")
+      if (!additionalOperations || !Map.isMap(additionalOperations)) return
+
+      additionalOperations.forEach((operation, method) => {
+        allOperations.push({
+          operation: Map({ operation }),
+          method,
+          path: pathName,
+          specPath: ["paths", pathName, "additionalOperations", method],
+        })
+      })
+    })
+
+    // Group by path
+    const grouped = {}
+    allOperations.forEach((operationDTO) => {
+      const path = operationDTO.path
+      if (!grouped[path]) {
+        grouped[path] = []
+      }
+      grouped[path].push(operationDTO)
+    })
+
+    return grouped
+  }
+)
