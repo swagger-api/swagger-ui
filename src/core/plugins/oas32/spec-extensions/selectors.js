@@ -193,3 +193,60 @@ export const selectAdditionalOperations = createSelector(
     return grouped
   }
 )
+
+/**
+ * Selects the summary field from a tag
+ * OAS 3.2 spec reference: https://spec.openapis.org/oas/v3.2.0.html#tag-object
+ *
+ * The summary field provides a short summary of the tag.
+ */
+export const selectTagSummaryField = (tagName) =>
+  createSelector(
+    (state) => state,
+    (state) => {
+      const spec = state.getIn(["spec", "json"])
+      const tags = spec.get("tags")
+      if (!tags || !tags.size) return null
+
+      const tag = tags.find((t) => t.get("name") === tagName)
+      return tag ? tag.get("summary") : null
+    }
+  )
+
+/**
+ * Selects the kind field from a tag
+ * OAS 3.2 spec reference: https://spec.openapis.org/oas/v3.2.0.html#tag-object
+ *
+ * The kind field categorizes the tag (e.g., "webhook", "callback", etc.).
+ */
+export const selectTagKindField = (tagName) =>
+  createSelector(
+    (state) => state,
+    (state) => {
+      const spec = state.getIn(["spec", "json"])
+      const tags = spec.get("tags")
+      if (!tags || !tags.size) return null
+
+      const tag = tags.find((t) => t.get("name") === tagName)
+      return tag ? tag.get("kind") : null
+    }
+  )
+
+/**
+ * Selects the parent field from a tag
+ * OAS 3.2 spec reference: https://spec.openapis.org/oas/v3.2.0.html#tag-object
+ *
+ * The parent field establishes a hierarchical relationship between tags.
+ */
+export const selectTagParentField = (tagName) =>
+  createSelector(
+    (state) => state,
+    (state) => {
+      const spec = state.getIn(["spec", "json"])
+      const tags = spec.get("tags")
+      if (!tags || !tags.size) return null
+
+      const tag = tags.find((t) => t.get("name") === tagName)
+      return tag ? tag.get("parent") : null
+    }
+  )

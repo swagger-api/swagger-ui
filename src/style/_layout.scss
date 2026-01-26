@@ -968,3 +968,68 @@ span {
     }
   }
 }
+
+// OAS 3.2 Tag Extensions
+.oas32-tag-wrapper {
+  .oas32-tag-extensions {
+    padding: 0 20px;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+  }
+
+  .oas32-tag-summary {
+    margin-bottom: 0.5em;
+    color: #555;
+
+    small {
+      display: inline-block;
+
+      strong {
+        color: #333;
+      }
+    }
+
+    p {
+      display: inline;
+      margin: 0;
+    }
+  }
+
+  .oas32-tag-metadata {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .oas32-tag-kind {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    background-color: $color-query;
+    color: white;
+    font-weight: 500;
+
+    strong {
+      margin-right: 4px;
+    }
+  }
+
+  .oas32-tag-parent {
+    color: #666;
+    font-size: 0.9em;
+
+    strong {
+      color: #333;
+      margin-right: 4px;
+    }
+
+    code {
+      background-color: #f5f5f5;
+      padding: 2px 5px;
+      border-radius: 2px;
+      font-size: 0.9em;
+    }
+  }
+}

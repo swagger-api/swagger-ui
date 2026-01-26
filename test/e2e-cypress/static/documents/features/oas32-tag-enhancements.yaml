@@ -1,0 +1,202 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2 Tag Enhancements Test API
+  version: 1.0.0
+  summary: Test API for tag enhancements support
+  description: |
+    This API demonstrates the tag enhancements introduced in OAS 3.2.0.
+
+    New tag fields include:
+    - summary: Short summary of the tag
+    - kind: Tag categorization
+    - parent: Hierarchical tag organization
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /users:
+    get:
+      summary: List users
+      description: Get a list of all users
+      operationId: listUsers
+      tags:
+        - Users
+      responses:
+        '200':
+          description: User list
+
+  /users/{userId}:
+    get:
+      summary: Get user
+      description: Get a specific user by ID
+      operationId: getUser
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User details
+
+  /users/{userId}/profile:
+    get:
+      summary: Get user profile
+      description: Get the profile of a specific user
+      operationId: getUserProfile
+      tags:
+        - User Profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User profile
+
+  /users/{userId}/settings:
+    get:
+      summary: Get user settings
+      description: Get the settings for a specific user
+      operationId: getUserSettings
+      tags:
+        - User Settings
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User settings
+
+  /products:
+    get:
+      summary: List products
+      description: Get a list of all products
+      operationId: listProducts
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Product list
+
+  /products/{productId}:
+    get:
+      summary: Get product
+      description: Get a specific product by ID
+      operationId: getProduct
+      tags:
+        - Products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product details
+
+  /webhooks/subscribe:
+    post:
+      summary: Subscribe to webhook
+      description: Register a webhook subscription
+      operationId: subscribeWebhook
+      tags:
+        - Webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Webhook subscription created
+
+  /admin/users:
+    get:
+      summary: Admin list users
+      description: Administrative endpoint to list all users
+      operationId: adminListUsers
+      tags:
+        - Admin Users
+      responses:
+        '200':
+          description: User list
+
+  /admin/settings:
+    get:
+      summary: Admin settings
+      description: Administrative settings
+      operationId: adminSettings
+      tags:
+        - Admin Settings
+      responses:
+        '200':
+          description: Admin settings
+
+tags:
+  - name: Users
+    summary: User management operations
+    description: |
+      This tag groups all user-related operations including listing,
+      retrieving, creating, updating, and deleting users.
+    kind: resource
+    externalDocs:
+      description: User API documentation
+      url: https://docs.example.com/users
+
+  - name: User Profile
+    summary: User profile operations
+    description: Operations related to user profiles
+    kind: resource
+    parent: Users
+
+  - name: User Settings
+    summary: User settings operations
+    description: Operations for managing user settings and preferences
+    kind: resource
+    parent: Users
+
+  - name: Products
+    summary: Product catalog operations
+    description: |
+      Operations for managing the product catalog including listing,
+      searching, and retrieving product details.
+    kind: resource
+
+  - name: Webhooks
+    summary: Webhook management
+    description: Operations for managing webhook subscriptions
+    kind: webhook
+    externalDocs:
+      description: Webhook guide
+      url: https://docs.example.com/webhooks
+
+  - name: Admin Users
+    summary: Administrative user operations
+    description: Administrative operations for user management
+    kind: admin
+    parent: Users
+
+  - name: Admin Settings
+    summary: Administrative settings
+    description: System-wide administrative settings
+    kind: admin

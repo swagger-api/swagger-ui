@@ -7,6 +7,7 @@ import VersionPragmaFilter from "./components/version-pragma-filter"
 import AdditionalOperations from "./components/additional-operations"
 import InfoWrapper from "./wrap-components/info"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
+import OperationTagWrapper from "./wrap-components/operation-tag"
 import {
   isOAS32 as isOAS32Fn,
   createOnlyOAS32Selector as createOnlyOAS32SelectorFn,
@@ -20,6 +21,9 @@ import {
   selectHasQueryOperations,
   selectHasAdditionalOperations,
   selectAdditionalOperations,
+  selectTagSummaryField,
+  selectTagKindField,
+  selectTagParentField,
 } from "./spec-extensions/selectors"
 import { validOperationMethods } from "./selectors"
 import {
@@ -80,6 +84,7 @@ const OAS32Plugin = ({ fn }) => {
     wrapComponents: {
       InfoContainer: InfoWrapper,
       VersionPragmaFilter: VersionPragmaFilterWrapper,
+      OperationTag: OperationTagWrapper,
     },
     statePlugins: {
       spec: {
@@ -116,6 +121,11 @@ const OAS32Plugin = ({ fn }) => {
           selectAdditionalOperations: createOnlyOAS32Selector(
             selectAdditionalOperations
           ),
+
+          // Tag Object fields (OAS 3.2)
+          selectTagSummaryField: createOnlyOAS32Selector(selectTagSummaryField),
+          selectTagKindField: createOnlyOAS32Selector(selectTagKindField),
+          selectTagParentField: createOnlyOAS32Selector(selectTagParentField),
         },
         wrapSelectors: {
           // Ensure OAS 3.2 specs are not detected as OAS 3.1

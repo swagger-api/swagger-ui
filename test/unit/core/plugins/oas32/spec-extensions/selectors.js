@@ -9,6 +9,9 @@ import {
   selectHasQueryOperations,
   selectHasAdditionalOperations,
   selectAdditionalOperations,
+  selectTagSummaryField,
+  selectTagKindField,
+  selectTagParentField,
 } from "core/plugins/oas32/spec-extensions/selectors"
 
 describe("oas32 plugin - spec-extensions - selectors", () => {
@@ -402,6 +405,280 @@ describe("oas32 plugin - spec-extensions - selectors", () => {
       expect(Object.keys(result).length).toBe(2)
       expect(result["/documents"].length).toBe(1)
       expect(result["/collections"].length).toBe(2)
+    })
+  })
+
+  describe("selectTagSummaryField", () => {
+    it("should select summary field from a tag", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                summary: "User management operations",
+                description: "Operations for managing users",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagSummaryField("Users")(state)
+      expect(result).toBe("User management operations")
+    })
+
+    it("should return null when tag is not found", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                summary: "User operations",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagSummaryField("Products")(state)
+      expect(result).toBeNull()
+    })
+
+    it("should return null when tag has no summary field", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                description: "User operations",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagSummaryField("Users")(state)
+      expect(result).toBeUndefined()
+    })
+
+    it("should return null when tags array is not present", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+          },
+        },
+      })
+
+      const result = selectTagSummaryField("Users")(state)
+      expect(result).toBeNull()
+    })
+  })
+
+  describe("selectTagKindField", () => {
+    it("should select kind field from a tag", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Webhooks",
+                kind: "webhook",
+                description: "Webhook operations",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagKindField("Webhooks")(state)
+      expect(result).toBe("webhook")
+    })
+
+    it("should handle resource kind", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                kind: "resource",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagKindField("Users")(state)
+      expect(result).toBe("resource")
+    })
+
+    it("should handle admin kind", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Admin",
+                kind: "admin",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagKindField("Admin")(state)
+      expect(result).toBe("admin")
+    })
+
+    it("should return null when tag is not found", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                kind: "resource",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagKindField("Products")(state)
+      expect(result).toBeNull()
+    })
+
+    it("should return null when tag has no kind field", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                description: "User operations",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagKindField("Users")(state)
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe("selectTagParentField", () => {
+    it("should select parent field from a tag", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "User Profile",
+                parent: "Users",
+                description: "User profile operations",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagParentField("User Profile")(state)
+      expect(result).toBe("Users")
+    })
+
+    it("should handle nested parent relationships", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                description: "User operations",
+              },
+              {
+                name: "User Profile",
+                parent: "Users",
+              },
+              {
+                name: "User Settings",
+                parent: "Users",
+              },
+            ],
+          },
+        },
+      })
+
+      const result1 = selectTagParentField("User Profile")(state)
+      const result2 = selectTagParentField("User Settings")(state)
+
+      expect(result1).toBe("Users")
+      expect(result2).toBe("Users")
+    })
+
+    it("should return null when tag is not found", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "User Profile",
+                parent: "Users",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagParentField("Products")(state)
+      expect(result).toBeNull()
+    })
+
+    it("should return null when tag has no parent field", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+            tags: [
+              {
+                name: "Users",
+                description: "User operations",
+              },
+            ],
+          },
+        },
+      })
+
+      const result = selectTagParentField("Users")(state)
+      expect(result).toBeUndefined()
+    })
+
+    it("should return null when tags array is not present", () => {
+      const state = fromJS({
+        spec: {
+          json: {
+            openapi: "3.2.0",
+          },
+        },
+      })
+
+      const result = selectTagParentField("Users")(state)
+      expect(result).toBeNull()
     })
   })
 })
