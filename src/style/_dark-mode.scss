@@ -476,6 +476,15 @@ html.dark-mode {
         }
       }
 
+      .example-summary,
+      .example-description {
+        color: $neutral-30;
+
+        p {
+          color: $neutral-30;
+        }
+      }
+
       .responses-inner {
         h4, h5 {
           color: $neutral-20;
