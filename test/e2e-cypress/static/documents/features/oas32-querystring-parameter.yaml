@@ -1,0 +1,260 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2 querystring Parameter Test API
+  version: 1.0.0
+  summary: Test API for querystring parameter support
+  description: |
+    This API demonstrates the querystring parameter location, which is new
+    in OAS 3.2.0.
+
+    The querystring location allows parameters to be passed in the query
+    string with special handling for complex structures and encoding.
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /search:
+    get:
+      summary: Search with querystring parameters
+      description: |
+        Performs a search using parameters in the querystring location.
+        The querystring location provides enhanced query parameter handling
+        in OAS 3.2.0.
+      operationId: searchWithQuerystring
+      tags:
+        - Search
+      parameters:
+        - name: query
+          in: querystring
+          description: Main search query term
+          required: true
+          schema:
+            type: string
+            example: "openapi specification"
+        - name: filter
+          in: querystring
+          description: Filter criteria for search results
+          required: false
+          schema:
+            type: object
+            properties:
+              category:
+                type: string
+                example: "documentation"
+              tags:
+                type: array
+                items:
+                  type: string
+                example: ["api", "openapi"]
+              minScore:
+                type: number
+                minimum: 0
+                maximum: 1
+                example: 0.5
+        - name: sort
+          in: querystring
+          description: Sort order for results
+          schema:
+            type: string
+            enum:
+              - relevance
+              - date
+              - popularity
+            default: relevance
+            example: relevance
+        - name: limit
+          in: query
+          description: Maximum number of results (standard query parameter)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+            example: 20
+        - name: offset
+          in: query
+          description: Offset for pagination (standard query parameter)
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+            example: 0
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        score:
+                          type: number
+                  totalResults:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid query syntax"
+
+  /advanced-search:
+    query:
+      summary: Advanced search with QUERY method and querystring parameters
+      description: |
+        Combines QUERY HTTP method with querystring parameters to demonstrate
+        both OAS 3.2 features together.
+      operationId: advancedSearch
+      tags:
+        - Search
+      parameters:
+        - name: complexFilter
+          in: querystring
+          description: Complex filtering options passed in querystring
+          required: true
+          schema:
+            type: object
+            properties:
+              searchTerms:
+                type: array
+                items:
+                  type: string
+                example: ["openapi", "swagger", "api"]
+              dateRange:
+                type: object
+                properties:
+                  start:
+                    type: string
+                    format: date
+                  end:
+                    type: string
+                    format: date
+              priceRange:
+                type: object
+                properties:
+                  min:
+                    type: number
+                  max:
+                    type: number
+            required:
+              - searchTerms
+      requestBody:
+        description: Additional search criteria in request body
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                includeMetadata:
+                  type: boolean
+                  default: false
+                preferredLanguage:
+                  type: string
+                  example: "en"
+      responses:
+        '200':
+          description: Advanced search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                  metadata:
+                    type: object
+
+  /products:
+    get:
+      summary: List products with mixed parameter types
+      description: |
+        Demonstrates mixing standard query parameters with querystring
+        parameters in the same operation.
+      operationId: listProducts
+      tags:
+        - Products
+      parameters:
+        - name: category
+          in: query
+          description: Product category (standard query)
+          schema:
+            type: string
+            example: "electronics"
+        - name: filters
+          in: querystring
+          description: Advanced filters (querystring)
+          schema:
+            type: object
+            properties:
+              brands:
+                type: array
+                items:
+                  type: string
+              priceRange:
+                type: object
+                properties:
+                  min:
+                    type: number
+                  max:
+                    type: number
+              inStock:
+                type: boolean
+                default: true
+        - name: page
+          in: query
+          description: Page number (standard query)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: includeVariants
+          in: querystring
+          description: Whether to include product variants (querystring)
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Product list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      type: object
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+
+tags:
+  - name: Search
+    description: Search operations
+  - name: Products
+    description: Product operations

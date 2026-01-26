@@ -224,6 +224,8 @@ export default class ParameterRow extends Component {
     const JsonSchemaForm = getComponent("JsonSchemaForm")
     const ParamBody = getComponent("ParamBody")
     let inType = param.get("in")
+    // Format "in" value for display (e.g., "querystring" -> "query string")
+    let inTypeDisplay = inType === "querystring" ? "query string" : inType
     let bodyParam = inType !== "body" ? null
       : <ParamBody getComponent={getComponent}
                    getConfigs={ getConfigs }
@@ -332,7 +334,7 @@ export default class ParameterRow extends Component {
           <div className="parameter__deprecated">
             { isOAS3 && param.get("deprecated") ? "deprecated": null }
           </div>
-          <div className="parameter__in">({ param.get("in") })</div>
+          <div className={`parameter__in ${inType === "querystring" ? "parameter__in--querystring" : ""}`}>({ inTypeDisplay })</div>
         </td>
 
         <td className="parameters-col_description">

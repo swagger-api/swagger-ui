@@ -136,6 +136,12 @@ table {
   font-style: italic;
 
   @include type.text_code($table-parameter-in-font-color);
+
+  &.parameter__in--querystring {
+    // OAS 3.2 querystring parameter - distinguish with slightly different color
+    color: $color-query;
+    font-weight: 500;
+  }
 }
 
 .parameter__deprecated {
