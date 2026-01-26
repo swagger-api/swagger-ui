@@ -1,77 +1,102 @@
 openapi: 3.2.0
 info:
-  title: OAS 3.2 QUERY Operation Test API
+  title: OAS 3.2 QUERY Operation Test
   version: 1.0.0
-  summary: Test API for QUERY HTTP method support
-  description: |
-    This API demonstrates the QUERY operation, which is a new HTTP method
-    introduced in OAS 3.2.0 per draft-ietf-httpbis-safe-method-w-body.
-
-    The QUERY method is a safe HTTP method that allows sending a request
-    body for complex queries, similar to POST but with GET semantics.
-
-servers:
-  - url: https://api.example.com/v1
+  description: Test API demonstrating the QUERY HTTP method introduced in OAS 3.2
 
 paths:
-  /search:
-    query:
-      summary: Search with complex query payload
-      description: |
-        Performs a search operation using a complex query structure in the request body.
-        This demonstrates the QUERY HTTP method, which combines the semantics of GET
-        (safe, idempotent) with the ability to send a request body like POST.
-      operationId: searchWithQuery
-      tags:
-        - Search
+  /pets:
+    get:
+      operationId: getPets
+      summary: List all pets
+      description: Returns a list of all pets
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+    post:
+      operationId: createPet
+      summary: Create a pet
+      description: Create a new pet
       requestBody:
-        description: Complex search query payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '201':
+          description: Pet created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+
+    query:
+      operationId: searchPets
+      summary: Search pets with complex criteria
+      description: >
+        Search for pets using complex query criteria sent in the request body.
+        The QUERY method is a new HTTP method in OAS 3.2 that allows sending
+        a request body with search parameters (similar to POST but for queries).
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      requestBody:
+        description: Complex search criteria
         required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                query:
+                name:
                   type: string
-                  description: Search query string
-                  example: "openapi query method"
-                filters:
-                  type: object
-                  description: Advanced filters
-                  properties:
-                    tags:
-                      type: array
-                      items:
-                        type: string
-                      example: ["api", "specification"]
-                    dateRange:
-                      type: object
-                      properties:
-                        start:
-                          type: string
-                          format: date
-                          example: "2024-01-01"
-                        end:
-                          type: string
-                          format: date
-                          example: "2024-12-31"
-                pagination:
+                  description: Filter by pet name (supports wildcards)
+                species:
+                  type: string
+                  enum: [cat, dog, bird, fish, other]
+                  description: Filter by species
+                ageRange:
                   type: object
                   properties:
-                    page:
+                    min:
                       type: integer
-                      minimum: 1
-                      default: 1
-                      example: 1
-                    pageSize:
+                      minimum: 0
+                    max:
                       type: integer
-                      minimum: 1
-                      maximum: 100
-                      default: 20
-                      example: 20
-              required:
-                - query
+                      minimum: 0
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  description: Filter by tags (AND logic)
+                owner:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                      format: email
+            example:
+              name: "Fluffy*"
+              species: "cat"
+              ageRange:
+                min: 1
+                max: 5
+              tags: ["friendly", "indoor"]
       responses:
         '200':
           description: Search results
@@ -83,137 +108,58 @@ paths:
                   results:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                          example: "result-123"
-                        title:
-                          type: string
-                          example: "OpenAPI Specification"
-                        description:
-                          type: string
-                          example: "A standard for describing REST APIs"
-                        score:
-                          type: number
-                          format: float
-                          example: 0.95
-                  totalResults:
+                      $ref: '#/components/schemas/Pet'
+                  total:
                     type: integer
-                    example: 42
                   page:
                     type: integer
-                    example: 1
-                  pageSize:
-                    type: integer
-                    example: 20
         '400':
-          description: Bad request - invalid query structure
+          description: Invalid search criteria
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Invalid query syntax"
-        '413':
-          description: Payload too large
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Query payload exceeds maximum size"
+                $ref: '#/components/schemas/Error'
 
-  /products/search:
-    get:
-      summary: Simple product search
-      description: Basic product search using query parameters
-      operationId: searchProducts
-      tags:
-        - Search
-      parameters:
-        - name: q
-          in: query
-          description: Search query
-          required: true
-          schema:
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - id
+        - name
+        - species
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        species:
+          type: string
+          enum: [cat, dog, bird, fish, other]
+        age:
+          type: integer
+          minimum: 0
+        tags:
+          type: array
+          items:
             type: string
-            example: "laptop"
-      responses:
-        '200':
-          description: Product search results
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    name:
-                      type: string
+        owner:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+              format: email
 
-    query:
-      summary: Advanced product search with query body
-      description: |
-        Advanced product search using the QUERY method with a complex
-        search structure in the request body.
-      operationId: advancedSearchProducts
-      tags:
-        - Search
-      requestBody:
-        description: Advanced search criteria
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  example: "gaming laptop"
-                priceRange:
-                  type: object
-                  properties:
-                    min:
-                      type: number
-                      example: 500
-                    max:
-                      type: number
-                      example: 2000
-                specifications:
-                  type: object
-                  properties:
-                    ram:
-                      type: string
-                      example: "16GB"
-                    storage:
-                      type: string
-                      example: "512GB SSD"
-      responses:
-        '200':
-          description: Advanced search results
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    name:
-                      type: string
-                    price:
-                      type: number
-                    specifications:
-                      type: object
-
-tags:
-  - name: Search
-    description: Search operations using various HTTP methods
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
