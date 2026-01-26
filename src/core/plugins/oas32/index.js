@@ -123,13 +123,13 @@ const OAS32Plugin = ({ fn }) => {
             selectHasAdditionalOperations
           ),
           selectAdditionalOperations: createOnlyOAS32Selector(
-            selectAdditionalOperations
+            createSystemSelector(selectAdditionalOperations)
           ),
 
           // Tag Object fields (OAS 3.2)
-          selectTagSummaryField: createOnlyOAS32Selector(selectTagSummaryField),
-          selectTagKindField: createOnlyOAS32Selector(selectTagKindField),
-          selectTagParentField: createOnlyOAS32Selector(selectTagParentField),
+          selectTagSummaryField,
+          selectTagKindField,
+          selectTagParentField,
         },
         wrapSelectors: {
           // Ensure OAS 3.2 specs are recognized as OAS 3.x (for servers, etc.)
