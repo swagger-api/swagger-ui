@@ -3,8 +3,6 @@
  */
 import React from "react"
 
-import { createOnlyOAS32ComponentWrapper } from "../fn"
-
 /**
  * OperationTag wrapper for OAS 3.2
  *
@@ -13,57 +11,66 @@ import { createOnlyOAS32ComponentWrapper } from "../fn"
  * - kind: Tag categorization (e.g., "webhook", "callback")
  * - parent: Hierarchical parent tag reference
  */
-const OAS32OperationTagWrapper = createOnlyOAS32ComponentWrapper(
-  ({ getSystem, ...props }) => {
-    const system = getSystem()
-    const { specSelectors, getComponent } = system
-    const { tag } = props
+/* eslint-disable react/prop-types */
+const OAS32OperationTagWrapper = (Original, system) => (props) => {
+  const { specSelectors, getComponent } = system
+  const isOAS32 = specSelectors.isOAS32 && specSelectors.isOAS32()
 
-    const OperationTag = getComponent("OperationTag", true)
-    const Markdown = getComponent("Markdown", true)
+  if (!isOAS32) {
+    return <Original {...props} />
+  }
 
-    // Get OAS 3.2 tag fields
-    const tagSummary = specSelectors.selectTagSummaryField(tag)
-    const tagKind = specSelectors.selectTagKindField(tag)
-    const tagParent = specSelectors.selectTagParentField(tag)
+  const { tag } = props
+  const Markdown = getComponent("Markdown", true)
 
-    const hasExtensions = tagSummary || tagKind || tagParent
+  // Get OAS 3.2 tag fields
+  const tagSummary = specSelectors.selectTagSummaryField
+    ? specSelectors.selectTagSummaryField(tag)
+    : null
+  const tagKind = specSelectors.selectTagKindField
+    ? specSelectors.selectTagKindField(tag)
+    : null
+  const tagParent = specSelectors.selectTagParentField
+    ? specSelectors.selectTagParentField(tag)
+    : null
 
-    return (
-      <div className="oas32-tag-wrapper">
-        <OperationTag {...props} />
+  const hasExtensions = tagSummary || tagKind || tagParent
 
-        {hasExtensions && (
-          <div className="oas32-tag-extensions">
-            {tagSummary && (
-              <div className="oas32-tag-summary">
-                <small>
-                  <strong>Summary: </strong>
-                  <Markdown source={tagSummary} />
-                </small>
-              </div>
+  return (
+    <div className="oas32-tag-wrapper">
+      <Original {...props} />
+
+      {hasExtensions && (
+        <div className="oas32-tag-extensions">
+          {tagSummary && (
+            <div className="oas32-tag-summary">
+              <small>
+                <strong>Summary: </strong>
+                <Markdown source={tagSummary} />
+              </small>
+            </div>
+          )}
+
+          <div className="oas32-tag-metadata">
+            {tagKind && (
+              <span className="oas32-tag-kind badge">
+                <strong>Kind:</strong> {tagKind}
+              </span>
             )}
 
-            <div className="oas32-tag-metadata">
-              {tagKind && (
-                <span className="oas32-tag-kind badge">
-                  <strong>Kind:</strong> {tagKind}
-                </span>
-              )}
-
-              {tagParent && (
-                <span className="oas32-tag-parent">
-                  <small>
-                    <strong>Parent:</strong> <code>{tagParent}</code>
-                  </small>
-                </span>
-              )}
-            </div>
+            {tagParent && (
+              <span className="oas32-tag-parent">
+                <small>
+                  <strong>Parent:</strong> <code>{tagParent}</code>
+                </small>
+              </span>
+            )}
           </div>
-        )}
-      </div>
-    )
-  }
-)
+        </div>
+      )}
+    </div>
+  )
+}
+/* eslint-enable react/prop-types */
 
 export default OAS32OperationTagWrapper
