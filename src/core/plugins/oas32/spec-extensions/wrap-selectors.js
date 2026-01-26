@@ -1,7 +1,6 @@
 /**
  * @prettier
  */
-import { createSelector } from "reselect"
 import { fromJS, Map } from "immutable"
 import { createOnlyOAS32SelectorWrapper } from "../fn"
 
@@ -30,46 +29,44 @@ export const isOAS31 = createOnlyOAS32SelectorWrapper(() => () => false)
  *
  * Reference: https://spec.openapis.org/oas/v3.2.0.html#path-item-object
  */
-export const operations = (oriSelector, system) =>
-  createSelector(
-    (state) => {
-      const isOAS32 =
-        system.specSelectors.isOAS32 && system.specSelectors.isOAS32()
-      if (!isOAS32) {
-        return oriSelector(state)
-      }
+export const operations =
+  (oriSelector, system) =>
+  (state, ...args) => {
+    const isOAS32 =
+      system.specSelectors.isOAS32 && system.specSelectors.isOAS32()
+    if (!isOAS32) {
+      return oriSelector(state, ...args)
+    }
 
-      // For OAS 3.2, we need to manually add query operations
-      // since they're filtered out by the base selector
-      const paths = system.specSelectors.paths()
-      let list = oriSelector(state)
+    // For OAS 3.2, we need to manually add query operations
+    // since they're filtered out by the base selector
+    const paths = system.specSelectors.paths()
+    let list = oriSelector(state, ...args)
 
-      if (!Map.isMap(paths) || paths.isEmpty()) {
-        return list
-      }
-
-      // Add query operations to the list
-      paths.forEach((path, pathName) => {
-        if (!path || !path.forEach) {
-          return
-        }
-        const queryOperation = path.get("query")
-        if (queryOperation) {
-          list = list.push(
-            fromJS({
-              path: pathName,
-              method: "query",
-              operation: queryOperation,
-              id: `query-${pathName}`,
-            })
-          )
-        }
-      })
-
+    if (!Map.isMap(paths) || paths.isEmpty()) {
       return list
-    },
-    (operations) => operations
-  )
+    }
+
+    // Add query operations to the list
+    paths.forEach((path, pathName) => {
+      if (!path || !path.forEach) {
+        return
+      }
+      const queryOperation = path.get("query")
+      if (queryOperation) {
+        list = list.push(
+          fromJS({
+            path: pathName,
+            method: "query",
+            operation: queryOperation,
+            id: `query-${pathName}`,
+          })
+        )
+      }
+    })
+
+    return list
+  }
 
 /**
  * Wraps validOperationMethods to include QUERY method for OAS 3.2.x
