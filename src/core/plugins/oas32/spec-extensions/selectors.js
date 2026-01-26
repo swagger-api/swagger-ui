@@ -20,13 +20,10 @@ export const selectIsOAS32 = (state, system) => () => {
  * The $self field provides the self-assigned URI of the document,
  * serving as its base URI for reference resolution.
  */
-export const selectSelfUriField = createSelector(
-  (state) => state,
-  (state) => {
-    const spec = state.getIn(["spec", "json"])
-    return spec.get("$self")
-  }
-)
+export const selectSelfUriField = () => (system) => {
+  const spec = system.specSelectors.specJson()
+  return spec.get("$self")
+}
 
 /**
  * Selects the mediaTypes from Components Object
@@ -34,15 +31,12 @@ export const selectSelfUriField = createSelector(
  *
  * Holds reusable Media Type Objects for component-level reference.
  */
-export const selectMediaTypes = createSelector(
-  (state) => state,
-  (state) => {
-    const spec = state.getIn(["spec", "json"])
-    const components = spec.get("components")
-    if (!components) return Map()
-    return components.get("mediaTypes") || Map()
-  }
-)
+export const selectMediaTypes = () => (system) => {
+  const spec = system.specSelectors.specJson()
+  const components = spec.get("components")
+  if (!components) return Map()
+  return components.get("mediaTypes") || Map()
+}
 
 /**
  * Selects the pathItems from Components Object
@@ -50,15 +44,12 @@ export const selectMediaTypes = createSelector(
  *
  * Provides reusable Path Item Objects for consistent endpoint definitions.
  */
-export const selectPathItems = createSelector(
-  (state) => state,
-  (state) => {
-    const spec = state.getIn(["spec", "json"])
-    const components = spec.get("components")
-    if (!components) return Map()
-    return components.get("pathItems") || Map()
-  }
-)
+export const selectPathItems = () => (system) => {
+  const spec = system.specSelectors.specJson()
+  const components = spec.get("components")
+  if (!components) return Map()
+  return components.get("pathItems") || Map()
+}
 
 /**
  * Checks if a path item has the QUERY operation
@@ -66,20 +57,16 @@ export const selectPathItems = createSelector(
  *
  * Supports QUERY HTTP method per draft-ietf-httpbis-safe-method-w-body
  */
-export const selectPathItemQuery = (path) =>
-  createSelector(
-    (state) => state,
-    (state) => {
-      const spec = state.getIn(["spec", "json"])
-      const paths = spec.get("paths")
-      if (!paths) return null
+export const selectPathItemQuery = (path) => (system) => {
+  const spec = system.specSelectors.specJson()
+  const paths = spec.get("paths")
+  if (!paths) return null
 
-      const pathItem = paths.get(path)
-      if (!pathItem) return null
+  const pathItem = paths.get(path)
+  if (!pathItem) return null
 
-      return pathItem.get("query") || null
-    }
-  )
+  return pathItem.get("query") || null
+}
 
 /**
  * Selects additionalOperations from a path item
@@ -87,50 +74,40 @@ export const selectPathItemQuery = (path) =>
  *
  * Allows defining custom HTTP methods beyond standard ones
  */
-export const selectPathItemAdditionalOperations = (path) =>
-  createSelector(
-    (state) => state,
-    (state) => {
-      const spec = state.getIn(["spec", "json"])
-      const paths = spec.get("paths")
-      if (!paths) return Map()
+export const selectPathItemAdditionalOperations = (path) => (system) => {
+  const spec = system.specSelectors.specJson()
+  const paths = spec.get("paths")
+  if (!paths) return Map()
 
-      const pathItem = paths.get(path)
-      if (!pathItem) return Map()
+  const pathItem = paths.get(path)
+  if (!pathItem) return Map()
 
-      return pathItem.get("additionalOperations") || Map()
-    }
-  )
+  return pathItem.get("additionalOperations") || Map()
+}
 
 /**
  * Checks if any path has QUERY operations
  */
-export const selectHasQueryOperations = createSelector(
-  (state) => state,
-  (state) => {
-    const spec = state.getIn(["spec", "json"])
-    const paths = spec.get("paths")
-    if (!paths || !paths.size) return false
+export const selectHasQueryOperations = () => (system) => {
+  const spec = system.specSelectors.specJson()
+  const paths = spec.get("paths")
+  if (!paths || !paths.size) return false
 
-    return paths.some((pathItem) => pathItem && pathItem.has("query"))
-  }
-)
+  return paths.some((pathItem) => pathItem && pathItem.has("query"))
+}
 
 /**
  * Checks if any path has additionalOperations
  */
-export const selectHasAdditionalOperations = createSelector(
-  (state) => state,
-  (state) => {
-    const spec = state.getIn(["spec", "json"])
-    const paths = spec.get("paths")
-    if (!paths || !paths.size) return false
+export const selectHasAdditionalOperations = () => (system) => {
+  const spec = system.specSelectors.specJson()
+  const paths = spec.get("paths")
+  if (!paths || !paths.size) return false
 
-    return paths.some(
-      (pathItem) =>
-        pathItem &&
-        pathItem.has("additionalOperations") &&
-        pathItem.get("additionalOperations").size > 0
-    )
-  }
-)
+  return paths.some(
+    (pathItem) =>
+      pathItem &&
+      pathItem.has("additionalOperations") &&
+      pathItem.get("additionalOperations").size > 0
+  )
+}
