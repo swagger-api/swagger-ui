@@ -28,6 +28,7 @@ import {
 } from "./spec-extensions/selectors"
 import { validOperationMethods } from "./selectors"
 import {
+  isOAS3 as isOAS3SelectorWrapper,
   isOAS31 as isOAS31SelectorWrapper,
   validOperationMethods as validOperationMethodsWrapper,
 } from "./spec-extensions/wrap-selectors"
@@ -130,6 +131,8 @@ const OAS32Plugin = ({ fn }) => {
           selectTagParentField: createOnlyOAS32Selector(selectTagParentField),
         },
         wrapSelectors: {
+          // Ensure OAS 3.2 specs are recognized as OAS 3.x (for servers, etc.)
+          isOAS3: isOAS3SelectorWrapper,
           // Ensure OAS 3.2 specs are not detected as OAS 3.1
           isOAS31: isOAS31SelectorWrapper,
           // Override validOperationMethods to include QUERY for OAS 3.2
