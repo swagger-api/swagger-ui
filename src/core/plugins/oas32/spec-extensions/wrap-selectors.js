@@ -1,6 +1,8 @@
 /**
  * @prettier
  */
+import { createSelector } from "reselect"
+import { fromJS, Map } from "immutable"
 import { createOnlyOAS32SelectorWrapper } from "../fn"
 
 /**
@@ -20,6 +22,54 @@ export const isOAS3 =
  * This ensures OAS 3.2 specs are not detected as OAS 3.1
  */
 export const isOAS31 = createOnlyOAS32SelectorWrapper(() => () => false)
+
+/**
+ * Wraps operations selector to include QUERY method operations for OAS 3.2.x
+ * The base operations selector filters by OPERATION_METHODS constant which
+ * doesn't include "query". This wrapper adds query operations for OAS 3.2.
+ *
+ * Reference: https://spec.openapis.org/oas/v3.2.0.html#path-item-object
+ */
+export const operations = (oriSelector, system) =>
+  createSelector(
+    (state) => {
+      const isOAS32 =
+        system.specSelectors.isOAS32 && system.specSelectors.isOAS32()
+      if (!isOAS32) {
+        return oriSelector(state)
+      }
+
+      // For OAS 3.2, we need to manually add query operations
+      // since they're filtered out by the base selector
+      const paths = system.specSelectors.paths()
+      let list = oriSelector(state)
+
+      if (!Map.isMap(paths) || paths.isEmpty()) {
+        return list
+      }
+
+      // Add query operations to the list
+      paths.forEach((path, pathName) => {
+        if (!path || !path.forEach) {
+          return
+        }
+        const queryOperation = path.get("query")
+        if (queryOperation) {
+          list = list.push(
+            fromJS({
+              path: pathName,
+              method: "query",
+              operation: queryOperation,
+              id: `query-${pathName}`,
+            })
+          )
+        }
+      })
+
+      return list
+    },
+    (operations) => operations
+  )
 
 /**
  * Wraps validOperationMethods to include QUERY method for OAS 3.2.x

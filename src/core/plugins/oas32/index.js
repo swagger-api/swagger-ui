@@ -30,6 +30,7 @@ import { validOperationMethods } from "./selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
   isOAS31 as isOAS31SelectorWrapper,
+  operations as operationsSelectorWrapper,
   validOperationMethods as validOperationMethodsWrapper,
 } from "./spec-extensions/wrap-selectors"
 // Import license and contact selectors from OAS31 plugin (OAS32 uses the same)
@@ -135,6 +136,8 @@ const OAS32Plugin = ({ fn }) => {
           isOAS3: isOAS3SelectorWrapper,
           // Ensure OAS 3.2 specs are not detected as OAS 3.1
           isOAS31: isOAS31SelectorWrapper,
+          // Add QUERY operations to the operations list for OAS 3.2
+          operations: operationsSelectorWrapper,
           // Override validOperationMethods to include QUERY for OAS 3.2
           validOperationMethods: validOperationMethodsWrapper,
         },
