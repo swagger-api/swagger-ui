@@ -100,6 +100,8 @@ export default class BaseLayout extends React.Component {
         <VersionPragmaFilter
           isSwagger2={isSwagger2}
           isOAS3={isOAS3}
+          isOAS31={isOAS31}
+          isOAS32={isOAS32}
           alsoShow={<Errors />}
         >
           <Errors />
