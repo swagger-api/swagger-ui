@@ -3,7 +3,7 @@
  */
 import { fromJS, Map, List } from "immutable"
 import { validOperationMethods as validOperationMethodsWrapper } from "core/plugins/oas32/spec-extensions/wrap-selectors"
-import { operations as operationsWrapper } from "core/plugins/oas32/spec-extensions/wrap-selectors"
+import { operationsWithRootInherited as operationsWithRootInheritedWrapper } from "core/plugins/oas32/spec-extensions/wrap-selectors"
 import { validOperationMethods as oas32ValidOperationMethods } from "core/plugins/oas32/selectors"
 
 describe("OAS 3.2 QUERY operation rendering", () => {
@@ -75,7 +75,7 @@ describe("OAS 3.2 QUERY operation rendering", () => {
     })
   })
 
-  describe("operations wrapper", () => {
+  describe("operationsWithRootInherited wrapper", () => {
     it("should include QUERY operations for OAS 3.2 specs", () => {
       const originalOperations = fromJS([
         {
@@ -106,10 +106,22 @@ describe("OAS 3.2 QUERY operation rendering", () => {
               },
             })
           ),
+          specJson: jest.fn(() =>
+            fromJS({
+              openapi: "3.2.0",
+              paths: {
+                "/pets": {
+                  get: { summary: "Get pets" },
+                  post: { summary: "Create pet" },
+                  query: { summary: "Search pets with complex criteria" },
+                },
+              },
+            })
+          ),
         },
       }
 
-      const wrappedSelector = operationsWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -148,10 +160,11 @@ describe("OAS 3.2 QUERY operation rendering", () => {
               },
             })
           ),
+          specJson: jest.fn(() => fromJS({ openapi: "3.2.0" })),
         },
       }
 
-      const wrappedSelector = operationsWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -180,10 +193,11 @@ describe("OAS 3.2 QUERY operation rendering", () => {
               },
             })
           ),
+          specJson: jest.fn(() => fromJS({ openapi: "3.2.0" })),
         },
       }
 
-      const wrappedSelector = operationsWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -225,7 +239,7 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -244,7 +258,7 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -274,10 +288,11 @@ describe("OAS 3.2 QUERY operation rendering", () => {
               },
             })
           ),
+          specJson: jest.fn(() => fromJS({ openapi: "3.2.0" })),
         },
       }
 
-      const wrappedSelector = operationsWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
       const state = Map()
       const result = wrappedSelector(state)
 

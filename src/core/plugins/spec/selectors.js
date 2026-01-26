@@ -6,7 +6,7 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 const DEFAULT_TAG = "default"
 
 const OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch", "trace"
+  "get", "put", "post", "delete", "options", "head", "patch", "trace", "query"
 ]
 
 const state = state => {
@@ -119,7 +119,7 @@ export const paths = createSelector(
 	spec => spec.get("paths")
 )
 
-export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch"])
+export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch", "query"])
 
 export const operations = createSelector(
   paths,
