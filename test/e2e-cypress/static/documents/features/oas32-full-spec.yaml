@@ -1,0 +1,533 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2.0 Complete Feature Test API
+  version: 2.0.0
+  summary: Comprehensive API demonstrating all OAS 3.2 and inherited 3.1 features
+  description: |
+    This API specification demonstrates all new features introduced in OAS 3.2.0
+    as well as features inherited from OAS 3.1.x.
+
+    **OAS 3.2 Features:**
+    - $self field for base URI resolution
+    - QUERY operation method
+    - additionalOperations for custom HTTP methods
+    - querystring parameter location
+    - Tag enhancements (summary, kind, parent)
+    - Components mediaTypes for reusable Media Type Objects
+    - itemSchema for streaming responses
+
+    **OAS 3.1 Features (Inherited):**
+    - Webhooks
+    - License identifier
+    - Info summary
+    - JSON Schema 2020-12 compatibility
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+    identifier: Apache-2.0
+  contact:
+    name: API Support
+    email: support@example.com
+    url: https://www.example.com/support
+
+$self: https://api.example.com/openapi.yaml
+
+servers:
+  - url: https://api.example.com/v2
+    description: Production server
+
+tags:
+  - name: Users
+    summary: User management endpoints
+    description: Operations for managing user accounts
+    kind: domain
+  - name: Admin
+    summary: Administrative operations
+    description: Restricted administrative endpoints
+    kind: system
+    parent: Users
+  - name: Products
+    summary: Product catalog operations
+    description: Browse and manage products
+    kind: domain
+  - name: Events
+    summary: Real-time event streaming
+    description: Server-sent events for real-time updates
+    kind: integration
+
+paths:
+  /users:
+    get:
+      summary: List users
+      description: Retrieve a paginated list of users
+      operationId: listUsers
+      tags:
+        - Users
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: User list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  total:
+                    type: integer
+
+    post:
+      summary: Create user
+      description: Create a new user account
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            $ref: '#/components/mediaTypes/JsonUser'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              $ref: '#/components/mediaTypes/JsonUser'
+
+    query:
+      summary: Query users (OAS 3.2 QUERY method)
+      description: Search users using complex query criteria
+      operationId: queryUsers
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filter:
+                  type: object
+                  description: Filter criteria
+                sort:
+                  type: string
+                  description: Sort field
+                order:
+                  type: string
+                  enum: [asc, desc]
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+    additionalOperations:
+      SEARCH:
+        summary: Search users (custom HTTP method)
+        description: Full-text search across user fields using SEARCH method
+        operationId: searchUsers
+        tags:
+          - Users
+        parameters:
+          - name: q
+            in: querystring
+            description: Search query string (OAS 3.2 querystring parameter)
+            required: true
+            schema:
+              type: string
+          - name: fields
+            in: querystring
+            description: Fields to search in
+            schema:
+              type: array
+              items:
+                type: string
+        responses:
+          '200':
+            description: Search results
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/User'
+
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    get:
+      summary: Get user
+      description: Retrieve a specific user by ID
+      operationId: getUser
+      tags:
+        - Users
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              $ref: '#/components/mediaTypes/JsonUser'
+
+    put:
+      summary: Update user
+      description: Update an existing user
+      operationId: updateUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            $ref: '#/components/mediaTypes/JsonUser'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              $ref: '#/components/mediaTypes/JsonUser'
+
+    delete:
+      summary: Delete user
+      description: Remove a user account
+      operationId: deleteUser
+      tags:
+        - Users
+      responses:
+        '204':
+          description: User deleted
+
+    additionalOperations:
+      COPY:
+        summary: Copy user (WebDAV COPY method)
+        description: Duplicate user with new ID
+        operationId: copyUser
+        tags:
+          - Admin
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  destination:
+                    type: string
+                    description: Destination user ID
+        responses:
+          '201':
+            description: User copied
+
+  /events:
+    get:
+      summary: Stream events
+      description: Server-sent event stream
+      operationId: streamEvents
+      tags:
+        - Events
+      responses:
+        '200':
+          description: Event stream
+          content:
+            text/event-stream:
+              $ref: '#/components/mediaTypes/EventStream'
+
+  /metrics:
+    get:
+      summary: Stream metrics
+      description: Real-time metrics stream
+      operationId: streamMetrics
+      tags:
+        - Events
+      responses:
+        '200':
+          description: Metrics stream
+          content:
+            application/jsonl:
+              $ref: '#/components/mediaTypes/JsonLinesFeed'
+
+  /products:
+    get:
+      summary: List products
+      description: Browse product catalog
+      operationId: listProducts
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Product list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    post:
+      summary: Create product
+      description: Add new product
+      operationId: createProduct
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            $ref: '#/components/mediaTypes/JsonProduct'
+          application/xml:
+            $ref: '#/components/mediaTypes/XmlProduct'
+      responses:
+        '201':
+          description: Product created
+
+webhooks:
+  userCreated:
+    post:
+      summary: User created webhook
+      description: Triggered when a new user is created
+      operationId: onUserCreated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Webhook received
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: "johndoe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        fullName:
+          type: string
+          example: "John Doe"
+        age:
+          type: integer
+          minimum: 0
+          example: 30
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
+      required:
+        - username
+        - email
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: "Laptop"
+        price:
+          type: number
+          format: double
+          example: 999.99
+        category:
+          type: string
+          example: "Electronics"
+        inStock:
+          type: boolean
+          example: true
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["computer", "tech", "portable"]
+      required:
+        - name
+        - price
+
+  mediaTypes:
+    JsonUser:
+      schema:
+        $ref: '#/components/schemas/User'
+      examples:
+        default:
+          summary: Default user example
+          description: A typical user with all fields populated
+          value:
+            id: "550e8400-e29b-41d4-a716-446655440000"
+            username: "johndoe"
+            email: "john@example.com"
+            fullName: "John Doe"
+            age: 30
+            createdAt: "2024-01-15T10:30:00Z"
+        minimal:
+          summary: Minimal user example
+          description: User with only required fields
+          value:
+            username: "janedoe"
+            email: "jane@example.com"
+
+    EventStream:
+      schema:
+        type: object
+        properties:
+          id:
+            type: string
+          event:
+            type: string
+          data:
+            type: object
+      itemSchema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Unique event ID
+            example: "evt_12345"
+          event:
+            type: string
+            description: Event type
+            enum:
+              - "user.created"
+              - "user.updated"
+              - "user.deleted"
+            example: "user.created"
+          data:
+            type: object
+            description: Event payload
+            properties:
+              userId:
+                type: string
+              timestamp:
+                type: string
+                format: date-time
+              changes:
+                type: object
+            example:
+              userId: "550e8400-e29b-41d4-a716-446655440000"
+              timestamp: "2024-01-15T10:30:00Z"
+              changes: {}
+        required:
+          - id
+          - event
+          - data
+      examples:
+        userCreated:
+          summary: User created event
+          value:
+            id: "evt_12345"
+            event: "user.created"
+            data:
+              userId: "550e8400-e29b-41d4-a716-446655440000"
+              timestamp: "2024-01-15T10:30:00Z"
+
+    JsonLinesFeed:
+      schema:
+        type: object
+        properties:
+          records:
+            type: array
+            items:
+              type: object
+      itemSchema:
+        type: object
+        properties:
+          metricName:
+            type: string
+            description: Name of the metric
+            example: "cpu_usage"
+          value:
+            type: number
+            description: Metric value
+            example: 75.5
+          unit:
+            type: string
+            description: Unit of measurement
+            example: "percentage"
+          timestamp:
+            type: string
+            format: date-time
+            description: Measurement timestamp
+        required:
+          - metricName
+          - value
+          - timestamp
+
+    JsonProduct:
+      schema:
+        $ref: '#/components/schemas/Product'
+      encoding:
+        tags:
+          style: form
+          explode: false
+      examples:
+        laptop:
+          summary: Laptop product
+          description: A typical laptop product
+          value:
+            id: "prod_001"
+            name: "Gaming Laptop"
+            price: 1499.99
+            category: "Electronics"
+            inStock: true
+            tags: ["gaming", "computer", "high-performance"]
+
+    XmlProduct:
+      schema:
+        type: object
+        xml:
+          name: Product
+        properties:
+          id:
+            type: string
+            xml:
+              attribute: true
+          name:
+            type: string
+          price:
+            type: number
+          category:
+            type: string
+      examples:
+        laptop:
+          summary: XML laptop product
+          value: |
+            <?xml version="1.0" encoding="UTF-8"?>
+            <Product id="prod_001">
+              <name>Gaming Laptop</name>
+              <price>1499.99</price>
+              <category>Electronics</category>
+            </Product>
