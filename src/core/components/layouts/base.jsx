@@ -24,6 +24,7 @@ export default class BaseLayout extends React.Component {
     const Models = getComponent("Models", true)
     const Webhooks = getComponent("Webhooks", true)
     const AdditionalOperations = getComponent("AdditionalOperations", true)
+    const MediaTypes = getComponent("MediaTypes", true)
     const Row = getComponent("Row")
     const Col = getComponent("Col")
     const Errors = getComponent("errors", true)
@@ -154,6 +155,14 @@ export default class BaseLayout extends React.Component {
               <Models />
             </Col>
           </Row>
+
+          {isOAS32 && (
+            <Row className="media-types-container">
+              <Col mobile={12} desktop={12}>
+                <MediaTypes />
+              </Col>
+            </Row>
+          )}
         </VersionPragmaFilter>
       </div>
     )

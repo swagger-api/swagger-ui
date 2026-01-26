@@ -1,0 +1,350 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2 Media Types Test API
+  version: 1.0.0
+  summary: Test API for mediaTypes in Components Object
+  description: |
+    This API demonstrates the mediaTypes field in the Components Object,
+    which is new in OAS 3.2.0.
+
+    The mediaTypes field allows defining reusable Media Type Objects
+    for consistent media type definitions across the specification.
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /users:
+    post:
+      summary: Create user
+      description: Create a new user
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            $ref: '#/components/mediaTypes/JsonUser'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              $ref: '#/components/mediaTypes/JsonUser'
+
+  /events:
+    get:
+      summary: Stream events
+      description: Server-sent events stream
+      operationId: streamEvents
+      tags:
+        - Events
+      responses:
+        '200':
+          description: Event stream
+          content:
+            text/event-stream:
+              $ref: '#/components/mediaTypes/EventStream'
+
+  /feed:
+    get:
+      summary: Get JSON Lines feed
+      description: Streaming JSONL feed
+      operationId: getJsonLinesFeed
+      tags:
+        - Feed
+      responses:
+        '200':
+          description: JSONL feed
+          content:
+            application/jsonl:
+              $ref: '#/components/mediaTypes/JsonLinesFeed'
+
+  /products:
+    post:
+      summary: Create product
+      description: Create a new product
+      operationId: createProduct
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            $ref: '#/components/mediaTypes/JsonProduct'
+          application/xml:
+            $ref: '#/components/mediaTypes/XmlProduct'
+      responses:
+        '201':
+          description: Product created
+
+components:
+  mediaTypes:
+    JsonUser:
+      schema:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+          username:
+            type: string
+            minLength: 3
+            maxLength: 50
+            example: "johndoe"
+          email:
+            type: string
+            format: email
+            example: "john@example.com"
+          fullName:
+            type: string
+            example: "John Doe"
+          age:
+            type: integer
+            minimum: 0
+            example: 30
+          createdAt:
+            type: string
+            format: date-time
+            example: "2024-01-15T10:30:00Z"
+        required:
+          - username
+          - email
+      examples:
+        default:
+          summary: Default user example
+          description: A typical user with all fields populated
+          value:
+            id: "550e8400-e29b-41d4-a716-446655440000"
+            username: "johndoe"
+            email: "john@example.com"
+            fullName: "John Doe"
+            age: 30
+            createdAt: "2024-01-15T10:30:00Z"
+        minimal:
+          summary: Minimal user example
+          description: User with only required fields
+          value:
+            username: "janedoe"
+            email: "jane@example.com"
+
+    EventStream:
+      schema:
+        type: object
+        properties:
+          id:
+            type: string
+          event:
+            type: string
+          data:
+            type: object
+      itemSchema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Unique event ID
+            example: "evt_12345"
+          event:
+            type: string
+            description: Event type
+            enum:
+              - "user.created"
+              - "user.updated"
+              - "user.deleted"
+            example: "user.created"
+          data:
+            type: object
+            description: Event payload
+            properties:
+              userId:
+                type: string
+              timestamp:
+                type: string
+                format: date-time
+              changes:
+                type: object
+            example:
+              userId: "550e8400-e29b-41d4-a716-446655440000"
+              timestamp: "2024-01-15T10:30:00Z"
+              changes: {}
+        required:
+          - id
+          - event
+          - data
+      examples:
+        userCreated:
+          summary: User created event
+          value:
+            id: "evt_12345"
+            event: "user.created"
+            data:
+              userId: "550e8400-e29b-41d4-a716-446655440000"
+              timestamp: "2024-01-15T10:30:00Z"
+
+    JsonLinesFeed:
+      schema:
+        type: object
+        properties:
+          records:
+            type: array
+            items:
+              type: object
+      itemSchema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Record ID
+          type:
+            type: string
+            description: Record type
+            enum:
+              - "post"
+              - "comment"
+              - "user"
+          content:
+            type: object
+            description: Record content
+          timestamp:
+            type: string
+            format: date-time
+            description: Record timestamp
+        required:
+          - id
+          - type
+          - content
+      examples:
+        postFeed:
+          summary: Post feed example
+          value:
+            id: "post_123"
+            type: "post"
+            content:
+              title: "Hello World"
+              body: "This is a post"
+            timestamp: "2024-01-15T10:30:00Z"
+
+    JsonProduct:
+      schema:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+            example: "Laptop"
+          price:
+            type: number
+            format: double
+            example: 999.99
+          category:
+            type: string
+            example: "Electronics"
+          inStock:
+            type: boolean
+            example: true
+          tags:
+            type: array
+            items:
+              type: string
+            example: ["computer", "tech", "portable"]
+        required:
+          - name
+          - price
+      encoding:
+        tags:
+          style: form
+          explode: false
+      examples:
+        laptop:
+          summary: Laptop product
+          description: A typical laptop product
+          value:
+            id: "prod_001"
+            name: "Gaming Laptop"
+            price: 1499.99
+            category: "Electronics"
+            inStock: true
+            tags: ["gaming", "computer", "high-performance"]
+        phone:
+          summary: Phone product
+          description: A smartphone product
+          value:
+            id: "prod_002"
+            name: "Smartphone"
+            price: 799.99
+            category: "Electronics"
+            inStock: false
+            tags: ["phone", "mobile", "communication"]
+
+    XmlProduct:
+      schema:
+        type: object
+        xml:
+          name: Product
+        properties:
+          id:
+            type: string
+            xml:
+              attribute: true
+          name:
+            type: string
+          price:
+            type: number
+          category:
+            type: string
+      examples:
+        laptop:
+          summary: XML laptop product
+          value: |
+            <?xml version="1.0" encoding="UTF-8"?>
+            <Product id="prod_001">
+              <name>Gaming Laptop</name>
+              <price>1499.99</price>
+              <category>Electronics</category>
+            </Product>
+
+    StreamingMetrics:
+      schema:
+        type: object
+        properties:
+          metrics:
+            type: array
+            items:
+              type: object
+      itemSchema:
+        type: object
+        properties:
+          metricName:
+            type: string
+            description: Name of the metric
+            example: "cpu_usage"
+          value:
+            type: number
+            description: Metric value
+            example: 75.5
+          unit:
+            type: string
+            description: Unit of measurement
+            example: "percentage"
+          timestamp:
+            type: string
+            format: date-time
+            description: Measurement timestamp
+        required:
+          - metricName
+          - value
+          - timestamp
+
+tags:
+  - name: Users
+    description: User management operations
+  - name: Events
+    description: Event streaming operations
+  - name: Feed
+    description: Feed operations
+  - name: Products
+    description: Product management operations

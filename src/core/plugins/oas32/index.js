@@ -5,6 +5,7 @@ import Info from "./components/info"
 import SelfUri from "./components/self-uri"
 import VersionPragmaFilter from "./components/version-pragma-filter"
 import AdditionalOperations from "./components/additional-operations"
+import MediaTypes from "./components/media-types"
 import InfoWrapper from "./wrap-components/info"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import OperationTagWrapper from "./wrap-components/operation-tag"
@@ -80,6 +81,7 @@ const OAS32Plugin = ({ fn }) => {
       SelfUri,
       OAS32VersionPragmaFilter: VersionPragmaFilter,
       AdditionalOperations,
+      MediaTypes,
     },
     wrapComponents: {
       InfoContainer: InfoWrapper,
