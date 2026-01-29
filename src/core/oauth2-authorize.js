@@ -78,6 +78,9 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
 
   if ((flow === "authorizationCode" || flow === "authorization_code" || flow === "accessCode") && authConfigs.usePkceWithAuthorizationCodeGrant) {
+      // deleting old authorization code before new attempt
+      delete auth.code
+      
       const codeVerifier = generateCodeVerifier()
       const codeChallenge = createCodeChallenge(codeVerifier)
 
