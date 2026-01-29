@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
           ref: master
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Download build artifact
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({

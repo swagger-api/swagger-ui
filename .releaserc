@@ -16,6 +16,7 @@
     "@semantic-release/github",
     ["@semantic-release/git", {
       "assets": [
+        "dist/*.{js,html,css}",
         "package.json",
         "package-lock.json"
       ],
