@@ -197,5 +197,22 @@ describe("oauth2", () => {
 
       authConfig3.authActions.authPopup.mockReset()
     })
+
+    it("should delete previous authorization code when using authorizationCode flow with usePkceWithAuthorizationCodeGrant enabled", () => {
+      mockSchema.flow = "authorizationCode"
+
+      authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
+
+      // Simulate a stale authorization code from a previous attempt
+      authConfig.auth.code = "mock_authorization_code"
+
+      expect(authConfig.auth.code).toBe("mock_authorization_code")
+
+      oauth2Authorize(authConfig)
+      expect(authConfig.auth.code).toBeUndefined()
+
+      authConfig.authActions.authPopup.mockReset()
+    })
+
   })
 })
