@@ -678,7 +678,10 @@
 
 .scheme-container {
   margin: 0 0 20px 0;
-  padding: 30px 0;
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
   background: $scheme-container-background-color;
   box-shadow: 0 1px 2px 0 rgba($scheme-container-box-shadow-color, 0.15);
@@ -707,7 +710,8 @@
         font-weight: bold;
 
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        column-gap: 10px;
 
         margin: -20px 15px 0 0;
 
