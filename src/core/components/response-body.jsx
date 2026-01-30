@@ -130,7 +130,7 @@ export default class ResponseBody extends React.PureComponent {
       if(contentType.includes("svg")) {
         bodyEl = <div> { content } </div>
       } else {
-        bodyEl = <img src={ window.URL.createObjectURL(content) } />
+        bodyEl = <img src={ window.URL.createObjectURL(content) } alt={`URL for ${content}`} />
       }
 
       // Audio
