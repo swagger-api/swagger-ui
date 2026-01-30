@@ -85,7 +85,7 @@
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.12",
     "js-yaml": "=4.1.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "prop-types": "^15.8.1",
     "randexp": "^0.5.3",
     "randombytes": "^2.1.0",
