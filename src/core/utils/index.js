@@ -466,7 +466,6 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let stringCheck = type === "string" && value
   let arrayCheck = type === "array" && Array.isArray(value) && value.length
   let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
-  let arrayStringCheck = type === "array" && typeof value === "string" && value
   let fileCheck = type === "file" && value instanceof win.File
   let booleanCheck = type === "boolean" && (value || value === false)
   let numberCheck = type === "number" && (value || value === 0)
@@ -475,7 +474,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let objectStringCheck = type === "object" && typeof value === "string" && value
 
   const allChecks = [
-    stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck,
+    stringCheck, arrayCheck, arrayListCheck, fileCheck,
     booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
   ]
 
