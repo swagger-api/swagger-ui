@@ -22,6 +22,7 @@ import DownloadUrlPlugin from "core/plugins/download-url"
 import SyntaxHighlightingPlugin from "core/plugins/syntax-highlighting"
 import VersionsPlugin from "core/plugins/versions"
 import SafeRenderPlugin from "core/plugins/safe-render"
+import DarkModePlugin from "core/plugins/dark-mode"
 // ad-hoc plugins
 import CoreComponentsPlugin from "core/presets/base/plugins/core-components"
 import FormComponentsPlugin from "core/presets/base/plugins/form-components"
@@ -32,6 +33,7 @@ const BasePreset = () => [
   LogsPlugin,
   ViewPlugin,
   ViewLegacyPlugin,
+  DarkModePlugin,
   SpecPlugin,
   ErrPlugin,
   IconsPlugin,
