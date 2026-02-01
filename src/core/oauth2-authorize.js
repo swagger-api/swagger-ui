@@ -8,6 +8,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let flow = schema.get("flow")
   let query = []
 
+  // deleting old authorization code before new attempt if defined. 
+  // At this stage we don't care about flow type. 
+  // It fails silently if not defined yet
+  delete auth.code
+
   switch (flow) {
     case "password":
       authActions.authorizePassword(auth)
@@ -78,9 +83,6 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
 
   if ((flow === "authorizationCode" || flow === "authorization_code" || flow === "accessCode") && authConfigs.usePkceWithAuthorizationCodeGrant) {
-      // deleting old authorization code before new attempt
-      delete auth.code
-      
       const codeVerifier = generateCodeVerifier()
       const codeChallenge = createCodeChallenge(codeVerifier)
 
