@@ -198,7 +198,7 @@ describe("oauth2", () => {
       authConfig3.authActions.authPopup.mockReset()
     })
 
-    it("should delete previous authorization code when using authorizationCode flow with usePkceWithAuthorizationCodeGrant enabled", () => {
+    it("should delete previous authorization code when using authorizationCode flow on each attempt", () => {
       mockSchema.flow = "authorizationCode"
 
       authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
