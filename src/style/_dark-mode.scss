@@ -1,0 +1,664 @@
+@use "sass:list";
+
+// Variables for consistent theme
+$neutral-10: #F0F1F1;
+$neutral-20: #E4E6E6;
+$neutral-30: #D2D6D7;
+$neutral-40: #B7BCBF;
+$neutral-50: #8C969A;
+$neutral-60: #6B757A;
+$neutral-80: #545D61;
+$neutral-85: #434B4F;
+$neutral-95: #2A2E30;
+$neutral-98: #1C2022;
+$neutral-100: #080A0B;
+
+$success-30: #4AC966;
+$error-30: #FF5F5F;
+
+$authorize-button: #3ECE90;
+$link: #51A8FF;
+$markdown-code: #B68AE1;
+$textarea: #0D1014;
+$textarea-disabled: #202225;
+$info-version-stamp: #1D632E;
+$curl-command-button: #3B424D;
+$curl-command-button-text: #EBEBEB;
+$json-schema-2020-12__attribute--primary: #9898FF;
+$json-schema-2020-12__constraint--string: #D4AA53;
+
+$opblock_colors: (
+  post: (#112929, #104834, #14392C, #00B572),
+  deprecated: (#272C34, #495361, #262E36, #6A6A6A),
+  put: (#27201E, #523524, #9a5b3e, #FF7D35),
+  get: (#182536, #294262, #1C3043, #55A1FF),
+  delete: (#241A20, #4B2420, #2F2020, #EB6156),
+  patch: (#11282F, #16494B, #113239, #03B7BF),
+  head: (#282231, #44336A, #352C45, #B889FF),
+  options: (#202C3C, #33465E, #314558, #6895C8),
+);
+
+html.dark-mode {
+  background: $neutral-98;
+
+  .swagger-ui {
+    color: $neutral-20;
+    background: $neutral-98;
+
+    .authorization__btn svg,
+    .expand-operation svg,
+    .opblock-control-arrow svg {
+      fill: $neutral-40;
+      opacity: 1;
+    }
+
+    section h3 {
+      color: $neutral-20;
+    }
+
+    table thead tr {
+      td, th {
+        color: $neutral-20;
+      }
+    }
+
+    .markdown, .renderedMarkdown {
+      p, pre {
+        color: $neutral-20;
+      }
+
+      code {
+        background: $neutral-100;
+        color: $markdown-code;
+      }
+    }
+
+    // ------ INPUT / TEXTAREA / SELECT ------
+
+    input {
+      background: $neutral-98;
+      border-color: $neutral-40;
+      color: $neutral-10;
+
+      &:focus:not(.download-url-input) {
+        border-color: $link !important;
+        box-shadow: none;
+        outline: none;
+      }
+    }
+
+    textarea {
+      background: $textarea;
+      border: 1px solid $textarea;
+      color: $neutral-10;
+
+      &:focus {
+        border-color: $link;
+      }
+
+      &[disabled] {
+        background-color: $textarea-disabled;
+        border-color: $textarea-disabled;
+        color: $neutral-50;
+      }
+    }
+
+    select {
+      background: $neutral-98
+        url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#B7BCBF" d="M13.418 7.859c.271-.268.709-.268.978 0 .27.268.272.701 0 .969l-3.908 3.83c-.27.268-.707.268-.979 0l-3.908-3.83c-.27-.267-.27-.701 0-.969.271-.268.709-.268.978 0L10 11l3.418-3.141z"/></svg>')
+        right 10px center no-repeat;
+      color: $neutral-10;
+      border-color: $neutral-40;
+      box-shadow: none; 
+      outline: none;
+
+      &[multiple] {
+        background: $neutral-98;
+      }
+
+      &:focus {
+        border-color: $link;
+      }
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: $neutral-10;
+      opacity: 0.5;
+    }
+
+    input.invalid, select.invalid, textarea.invalid {
+      background: $neutral-98;
+      border-color: $error-30;
+    }
+
+    // ------ TOPBAR ------
+
+    .topbar {
+      background: $neutral-95;
+
+      .download-url-wrapper {
+        .download-url-button {
+          color: $neutral-20;
+          background: $info-version-stamp;
+        }
+
+        .download-url-input {
+          border-color: $info-version-stamp;
+
+          &.failed {
+            color: $error-30;
+          }
+        }
+      }
+    }
+
+    // ------ MODAL ------
+
+    .dialog-ux {
+      .modal-ux {
+        background-color: $neutral-95;
+        color: $neutral-20;
+        border: none; 
+
+        &-header {
+          border-color: $neutral-80;
+
+          .close-modal svg { 
+            fill: $neutral-20;
+          }
+        }
+
+        h2, h3, h4, h5, p, label {
+          color: $neutral-20;
+        }
+
+        .scopes a {
+          color: $link;
+        }
+
+        .btn.modal-btn {
+          border-color: $authorize-button;
+          color: $authorize-button;
+        }
+
+        .btn.modal-btn.btn-done {
+          color: $neutral-20;
+          border-color: $neutral-20;
+        }
+
+        .auth-container {
+          border-color: $neutral-80;
+        }
+
+        .checkbox {
+          input[type="checkbox"] {
+            & + label > .item {
+              background: $neutral-80;
+              color: $neutral-10 !important;
+              box-shadow: none;
+            }
+
+            &:checked + label > .item {
+              background: $neutral-80
+                url('data:image/svg+xml, <svg width="10px" height="8px" viewBox="3 7 10 8" version="1.1" xmlns="http://www.w3.org/2000/svg"><polygon id="Rectangle-34" stroke="none" fill="#E4E6E6" fill-rule="evenodd" points="6.33333333 15 3 11.6666667 4.33333333 10.3333333 6.33333333 12.3333333 11.6666667 7 13 8.33333333"></polygon></svg>')
+                center center no-repeat;
+            }
+          }
+        }
+      }
+    }
+    
+    // ------ LOADING SPINNER ------ 
+
+    .loading-container .loading {
+      &::before {
+        border-color: $neutral-80;
+        border-top-color: $neutral-20;
+      }
+
+      &::after {
+        color: $neutral-20;
+      }
+    }
+
+    // ------ SCHEMES / SERVERS ------ 
+
+    .scheme-container {
+      background: $neutral-98;
+      box-shadow: 0 1px 2px 0 $neutral-80;
+
+      .schemes > .schemes-server-container > label {
+        color: $neutral-20;
+      }
+
+      .btn.authorize {
+        border-color: $authorize-button;
+        color: $authorize-button;
+
+        svg {
+          fill: $authorize-button;
+        }
+      }
+    }
+
+    // ------ INFO ------ 
+
+    .info {
+      h1, h2, h3, h4, h5, .title {
+        color: $neutral-30;
+      }
+
+      li, p, table, .base-url {
+        color: $neutral-20;
+      }
+
+      a {
+        color: $link;
+      }
+
+      .title small {
+        background: $neutral-85;
+
+        &.version-stamp {
+          background: $info-version-stamp;
+        }
+      }
+
+      .errors-wrapper {
+        background: $neutral-85;
+        border-color: $error-30;
+
+        h4, span {
+          color: $neutral-20;
+        }
+
+        .btn.errors__clear-btn {
+          color: $neutral-20;
+          border-color: $neutral-20;
+        }
+      }
+    }
+
+    // ------ COPY / DOWNLOAD BUTTONS ------
+
+    .copy-to-clipboard, .download-contents {
+      background: $neutral-80;
+      color: $neutral-20;
+
+      button {
+        background: url("data:image/svg+xml, <svg xmlns='http://www.w3.org/2000/svg' width='16' height='15' aria-hidden='true'><g transform='translate(2, -1)'><path fill='#E4E6E6' fill-rule='evenodd' d='M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z'></path></g></svg>")
+          center center no-repeat;
+      }
+    }
+
+    // ------ TAG ------
+
+    .opblock-tag {
+      border-bottom-color: $neutral-80;
+      color: $neutral-20;
+
+      small {
+        color: $neutral-20;
+      }
+
+      a.link {
+        color: $link;
+      }
+    }
+
+    // ------ OPERATION ------
+
+    .opblock {
+      @each $type, $colors in $opblock_colors {
+        &.opblock-#{$type} {
+          background: list.nth($colors, 1);
+          border-color: list.nth($colors, 2);
+
+          thead {
+            tr {
+              th,
+              td {
+                border-color: list.nth($colors, 2);
+                opacity: 1;
+              }
+            }
+          }
+
+          .opblock-section-header {
+            background: list.nth($colors, 3);
+            border-top: 1px solid list.nth($colors, 2);
+            border-bottom: 1px solid list.nth($colors, 2);
+
+            .tab-header .tab-item .opblock-title span::after {
+              background: list.nth($colors, 4);
+            }
+          }
+
+          .opblock-summary {
+            border-bottom: none;
+            border-color: list.nth($colors, 2);
+
+            &-control {
+              &:focus {
+                outline: none;
+              }
+            }
+
+            &-method {
+              background: list.nth($colors, 4);
+              color: $neutral-100;
+              text-shadow: none;
+            }
+          }
+
+          .opblock-body > .opblock-description-wrapper,
+          .opblock-body > .opblock-title_normal {
+            border-top: 1px solid list.nth($colors, 2);
+          }
+        }
+      }
+
+      .opblock-section-header {
+        box-shadow: none;
+
+        h4 {
+          color: $neutral-20;
+        }
+
+        label {
+          color: $neutral-20;
+        }
+
+        .try-out__btn {
+          color: $neutral-20;
+          border-color: $neutral-40;
+          box-shadow: none;
+
+          &.cancel {
+            color: $error-30;
+            border-color: $error-30;
+          }
+        }
+      }
+
+      .btn.json-schema-form-item-add,
+      .btn.json-schema-form-item-remove {
+        color: $neutral-20;
+        border-color: $neutral-20;
+      }
+
+      .validation-errors.errors-wrapper {
+        background: $neutral-85;
+        border-color: $error-30;
+        color: $neutral-20;
+      }
+
+      .body-param-options label span {
+        color: $neutral-20;
+      }
+
+      .opblock-summary-operation-id,
+      .opblock-summary-path,
+      .opblock-summary-path__deprecated,
+      .opblock-summary-description,
+      .opblock-description-wrapper p,
+      .opblock-description-wrapper i,
+      .opblock-external-docs-wrapper,
+      .opblock-title_normal,
+      .parameter__name,
+      .parameter__type,
+      .parameter__type .prop-format,
+      .parameter__in,
+      .response-col_status,
+      .response-col_undocumented,
+      .response-col_links {
+        color: $neutral-20;
+      }
+
+      .opblock-external-docs a.link {
+        color: $link;
+      }
+
+      .parameter__name.required {
+        span {
+          color: $error-30;
+        }
+
+        &:after {
+          color: $error-30;
+        }
+      }
+
+      .parameter__empty_value_toggle {
+        color: $neutral-20;
+      }
+
+      .btn.execute {
+        background: $link;
+        border-color: $link;
+        color: $neutral-100;
+      }
+
+      .btn.btn-clear {
+        color: $neutral-20;
+        border-color: $neutral-20;
+      }
+
+      .highlight-code pre.microlight {
+        background: $neutral-95 !important;
+        color: $neutral-10;
+      }
+
+      .curl-command .btn {
+        background: $curl-command-button !important;
+        border-color: $neutral-95 !important;
+        color: $curl-command-button-text !important;
+
+        &.active {
+          background: $neutral-95 !important;
+          color: $neutral-20 !important;
+        }
+      }
+
+      pre.microlight {
+        background: $neutral-95 !important;
+        color: $neutral-10;
+      }
+
+      .model-example {
+        .tab button {
+          color: $neutral-20;
+        }
+
+        .tabitem::after {
+          background: $neutral-60;
+        }
+      }
+
+      .responses-inner {
+        h4, h5 {
+          color: $neutral-20;
+        }
+      }
+
+      .response-control-media-type--accept-controller {
+        select.content-type {
+          border-color: $success-30;
+        }
+
+        .response-control-media-type__accept-message {
+          color: $success-30;
+        }
+      }
+    }
+
+    // ------ MODEL ------
+
+    .model {
+      &-toggle {
+        &:after {
+          background: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#e4e6e6" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>')
+            center no-repeat;
+          background-size: 100%;
+        }
+      }
+
+      .prop-type {
+        color: $markdown-code;
+      }
+
+      .property-row, .brace-open, .brace-close, .prop-format, .property, .description {
+        color: $neutral-20;
+      }
+
+      .property-row.required .star {
+        color: $error-30;
+      }
+    }
+
+    .model-box {
+      background: $neutral-95;
+
+      .model-title, .model {
+        color: $neutral-20;
+      }
+
+      &-control {
+        &:focus {
+          outline: none;
+        }
+        
+        &:not(.prop) {
+          color: $neutral-20;
+        }
+      }
+    }
+
+    // ------ JSON SCHEMA 2020-12 ------
+
+    .json-schema-2020-12 {
+      background: $neutral-95;
+
+      button {
+        background: $neutral-95;
+
+        svg {
+          fill: $neutral-20;
+        }
+      }
+
+      a {
+        color: $link;
+      }
+
+      &__title {
+        color: $neutral-20;
+      }
+
+      &-property--required > .json-schema-2020-12:first-of-type > .json-schema-2020-12-head .json-schema-2020-12__title::after {
+        color: $error-30;
+      }
+
+      &-expand-deep-button {
+        color: $neutral-40;
+      }
+
+      &-body {
+        border-color: $neutral-40;
+      }
+
+      &-keyword {
+        &__name {
+          &--primary {
+            color: $neutral-20;
+          }
+
+          &--secondary {
+            color: $neutral-40;
+          }
+        }
+
+        &__value {
+          &--secondary {
+            color: $neutral-40;
+          }
+
+          &--warning {
+            color: $error-30;
+            border-color: $error-30;
+          }
+        }
+
+        &--\$vocabulary {
+          ul {
+            border-color: $neutral-40;
+          }
+        }
+
+        &--patternProperties {
+          .json-schema-2020-12__title::before, 
+          .json-schema-2020-12__title::after {
+            color: $json-schema-2020-12__attribute--primary;
+          } 
+        }
+      }
+
+      &__attribute {
+        &--primary {
+          color: $json-schema-2020-12__attribute--primary;
+        }
+
+        &--muted {
+          color: $neutral-40;
+        }
+
+        &--warning {
+          color: $error-30;
+        }
+      }
+
+      &-json-viewer {
+        &__name--secondary, &__value--secondary {
+          color: $neutral-40;
+        }
+      }
+
+      &__constraint {
+        color: $neutral-100;
+        background: $json-schema-2020-12__attribute--primary;
+
+        &--string {
+          background: $json-schema-2020-12__constraint--string;
+        }
+      }
+    }
+
+    // ------ MODELS ------
+
+    section.models {
+      border-color: $neutral-80;
+
+      h4 {
+        border-color: $neutral-80;
+      }
+
+      h4 span {
+        color: $neutral-20;
+      }
+
+      .model-container {
+        background: $neutral-95;
+      }
+
+      .models-control {
+        &:focus {
+          outline: none;
+        }
+
+        svg {
+          fill: $neutral-40;
+        }
+      }
+    }
+  }
+}

@@ -42,6 +42,8 @@
     display: flex;
     flex: 3;
     justify-content: flex-end;
+    max-width: 600px;
+    margin-left: auto;
 
     input[type="text"] {
       width: 100%;
@@ -98,6 +100,27 @@
   @media (max-width: 550px) {
     .download-url-wrapper {
       width: 100%;
+    }
+  }
+
+  .dark-mode-toggle {
+    margin-left: 10px;
+    opacity: 0.8;
+    transition: all .2s;
+    cursor: pointer;
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+
+      svg {
+        fill: #E4E6E6;
+      }
+    }
+
+    &:hover {
+      opacity: 1;
     }
   }
 }

@@ -7,6 +7,9 @@ import { List } from "immutable"
 
 const Webhooks = ({ specSelectors, getComponent }) => {
   const operationDTOs = specSelectors.selectWebhooksOperations()
+  if (!operationDTOs) {
+    return null
+  }
   const pathItemNames = Object.keys(operationDTOs)
 
   const OperationContainer = getComponent("OperationContainer", true)

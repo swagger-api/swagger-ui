@@ -298,7 +298,7 @@ const RequestBody = ({
       expandDepth={1}
       isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
-      specPath={specPath.push("content", contentType)}
+      specPath={specPath.push("content", contentType, "schema")}
       example={example}
       includeWriteOnly={true}
     />

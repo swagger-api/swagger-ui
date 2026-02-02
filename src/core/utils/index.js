@@ -466,7 +466,6 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let stringCheck = type === "string" && value
   let arrayCheck = type === "array" && Array.isArray(value) && value.length
   let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
-  let arrayStringCheck = type === "array" && typeof value === "string" && value
   let fileCheck = type === "file" && value instanceof win.File
   let booleanCheck = type === "boolean" && (value || value === false)
   let numberCheck = type === "number" && (value || value === 0)
@@ -475,7 +474,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let objectStringCheck = type === "object" && typeof value === "string" && value
 
   const allChecks = [
-    stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck,
+    stringCheck, arrayCheck, arrayListCheck, fileCheck,
     booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
   ]
 
@@ -704,12 +703,16 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 // suitable for use in CSS classes and ids
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
-export const getExtensions = (defObj) => {
+export const isExtension = (key) => {
   const extensionRegExp = /^x-/
+  return extensionRegExp.test(key)
+}
+
+export const getExtensions = (defObj) => {
   if(Map.isMap(defObj)) {
-    return defObj.filter((v, k) => extensionRegExp.test(k))
+    return defObj.filter((v, k) => isExtension(k))
   }
-  return Object.keys(defObj).filter((key) => extensionRegExp.test(key))
+  return Object.keys(defObj).filter((key) => isExtension(key))
 }
 export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
 

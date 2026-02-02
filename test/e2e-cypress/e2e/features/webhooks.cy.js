@@ -16,10 +16,12 @@ describe("Render Webhooks Component", () => {
     })
   })
   describe("OpenAPI 3.0.x", () => {
-    const baseUrl = "/?url=/documents/features/webhooks-openAPI31.yaml"
+    const baseUrl = "/?url=/documents/features/webhooks-openAPI30.yaml"
     it("should render nothing", () => {
       cy.visit(baseUrl)
-        .get(".webhooks")
+      cy.get("#swagger-ui .information-container")
+        .should("exist")
+      cy.get(".webhooks", {timeout: 0})
         .should("not.exist")
     })
   })

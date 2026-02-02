@@ -54,7 +54,7 @@ function buildConfig(
   var plugins = [
     new webpack.DefinePlugin({
       buildInfo: JSON.stringify({
-        PACKAGE_VERSION: pkg.version,
+        PACKAGE_VERSION: process.env.REACT_APP_VERSION ?? pkg.version,
         GIT_COMMIT: gitInfo.hash,
         GIT_DIRTY: gitInfo.dirty,
         BUILD_TIME: new Date().toUTCString(),
