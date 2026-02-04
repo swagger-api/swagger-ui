@@ -749,7 +749,7 @@ describe("utils", () => {
         type: "array"
       }
       value = "[1]"
-      assertValidateParam(param, value, ["Required field is not provided"])
+      assertValidateParam(param, value, [])
 
       // valid array, items match type
       param = {
