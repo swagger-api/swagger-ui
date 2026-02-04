@@ -5,8 +5,6 @@
   margin: 20px;
   padding: 10px 20px;
 
-  animation: scaleUp 0.5s;
-
   border: 2px solid $color-delete;
   border-radius: 4px;
   background: rgba($color-delete, 0.1);
@@ -55,6 +53,10 @@
       flex: 1;
       @include type.text_headline();
     }
+  }
+
+  @media(prefers-reduced-motion: no-preference) {
+    animation: scaleUp 0.5s;
   }
 }
 
