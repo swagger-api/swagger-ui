@@ -410,7 +410,7 @@ export const validatePattern = (val, rxPattern) => {
   }
 }
 
-function validateValueBySchema(value, schema, requiredByParam, bypassRequiredCheck, parameterContentMediaType) {
+function validateValueBySchema(value, schema, requiredByParam, bypassRequiredCheck, parameterContentMediaType, isOAS3) {
   if(!schema) return []
   let errors = []
   let nullable = schema.get("nullable")
@@ -466,6 +466,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let stringCheck = type === "string" && value
   let arrayCheck = type === "array" && Array.isArray(value) && value.length
   let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
+  let arrayStringCheck = type === "array" && typeof value === "string" && value
   let fileCheck = type === "file" && value instanceof win.File
   let booleanCheck = type === "boolean" && (value || value === false)
   let numberCheck = type === "number" && (value || value === 0)
@@ -473,11 +474,9 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let objectCheck = type === "object" && typeof value === "object" && value !== null
   let objectStringCheck = type === "object" && typeof value === "string" && value
 
-  const allChecks = [
-    stringCheck, arrayCheck, arrayListCheck, fileCheck,
-    booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
-  ]
-
+  const oas3Checks = [stringCheck, arrayCheck, arrayListCheck, fileCheck,
+    booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck]
+  const allChecks = isOAS3 ? oas3Checks : [oas3Checks, arrayStringCheck]
   const passedAnyCheck = allChecks.some(v => !!v)
 
   if (schemaRequiresValue && !passedAnyCheck && !bypassRequiredCheck) {
@@ -507,7 +506,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
     }
     if(schema && schema.has("properties")) {
       schema.get("properties").forEach((val, key) => {
-        const errs = validateValueBySchema(objectVal[key], val, false, bypassRequiredCheck, parameterContentMediaType)
+        const errs = validateValueBySchema(objectVal[key], val, false, bypassRequiredCheck, parameterContentMediaType, isOAS3)
         errors.push(...errs
           .map((error) => ({ propKey: key, error })))
       })
@@ -589,7 +588,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
     }
     if(value) {
       value.forEach((item, i) => {
-        const errs = validateValueBySchema(item, schema.get("items"), false, bypassRequiredCheck, parameterContentMediaType)
+        const errs = validateValueBySchema(item, schema.get("items"), false, bypassRequiredCheck, parameterContentMediaType, isOAS3)
         errors.push(...errs
           .map((err) => ({ index: i, error: err })))
       })
@@ -613,7 +612,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     parameterContentMediaType
   } = getParameterSchema(param, { isOAS3 })
 
-  return validateValueBySchema(value, paramDetails, paramRequired, bypassRequiredCheck, parameterContentMediaType)
+  return validateValueBySchema(value, paramDetails, paramRequired, bypassRequiredCheck, parameterContentMediaType, isOAS3)
 }
 
 export const parseSearch = () => {
