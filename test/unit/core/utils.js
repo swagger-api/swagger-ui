@@ -350,13 +350,6 @@ describe("utils", () => {
     let value = null
     let result = null
 
-    const assertValidateParam = (param, value, expectedError) => {
-      // Swagger 2.0 version
-      assertValidateNotOas3Param(param, value, expectedError)
-      // OAS3 version, using `schema` sub-object
-      assertValidateOas3ParamWithSchema(param, value, expectedError)
-    }
-
     const assertValidateOas3Param = (param, value, expectedError) => {
       // for cases where you _only_ want to try OAS3
       result = validateParam(fromJS(param), value, {
@@ -381,6 +374,13 @@ describe("utils", () => {
         }
       }
       assertValidateOas3Param(oas3Param, value, expectedError)
+    }
+
+    const assertValidateParam = (param, value, expectedError) => {
+      // Swagger 2.0 version
+      assertValidateNotOas3Param(param, value, expectedError)
+      // OAS3 version, using `schema` sub-object
+      assertValidateOas3ParamWithSchema(param, value, expectedError)
     }
 
     it("should check the isOAS3 flag when validating parameters", () => {
