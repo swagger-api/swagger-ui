@@ -352,21 +352,9 @@ describe("utils", () => {
 
     const assertValidateParam = (param, value, expectedError) => {
       // Swagger 2.0 version
-      result = validateParam( fromJS(param), fromJS(value))
-      expect( result ).toEqual( expectedError )
-
+      assertValidateNotOas3Param(param, value, expectedError)
       // OAS3 version, using `schema` sub-object
-      let oas3Param = {
-        required: param.required,
-        schema: {
-          ...param,
-          required: undefined
-        }
-      }
-      result = validateParam( fromJS(oas3Param), fromJS(value), {
-        isOAS3: true
-      })
-      expect( result ).toEqual( expectedError )
+      assertValidateOas3ParamWithSchema(param, value, expectedError)
     }
 
     const assertValidateOas3Param = (param, value, expectedError) => {
@@ -375,6 +363,24 @@ describe("utils", () => {
         isOAS3: true
       })
       expect( result ).toEqual( expectedError )
+    }
+
+    const assertValidateNotOas3Param = (param, value, expectedError) => {
+      // Swagger 2.0 version
+      result = validateParam( fromJS(param), fromJS(value))
+      expect( result ).toEqual( expectedError )
+    }
+
+    const assertValidateOas3ParamWithSchema = (param, value, expectedError) => {
+      // OAS3 version, using `schema` sub-object
+      let oas3Param = {
+        required: param.required,
+        schema: {
+          ...param,
+          required: undefined
+        }
+      }
+      assertValidateOas3Param(oas3Param, value, expectedError)
     }
 
     it("should check the isOAS3 flag when validating parameters", () => {
@@ -749,7 +755,8 @@ describe("utils", () => {
         type: "array"
       }
       value = "[1]"
-      assertValidateParam(param, value, ["Required field is not provided"])
+      assertValidateOas3ParamWithSchema(param, value, ["Required field is not provided"])
+      assertValidateNotOas3Param(param, value, [])
 
       // valid array, items match type
       param = {
