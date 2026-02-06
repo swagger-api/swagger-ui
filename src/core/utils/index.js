@@ -410,7 +410,7 @@ export const validatePattern = (val, rxPattern) => {
   }
 }
 
-function validateValueBySchema(value, schema, requiredByParam, bypassRequiredCheck, parameterContentMediaType, bypassArrayStringCheck) {
+function validateValueBySchema(value, schema, requiredByParam, bypassRequiredCheck, parameterContentMediaType, disallowArrayString) {
   if(!schema) return []
   let errors = []
   let nullable = schema.get("nullable")
@@ -476,7 +476,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
 
   const checks = [stringCheck, arrayCheck, arrayListCheck, fileCheck,
     booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck]
-  const allChecks = bypassArrayStringCheck ? checks : checks.concat(arrayStringCheck)
+  const allChecks = disallowArrayString ? checks : checks.concat(arrayStringCheck)
   const passedAnyCheck = allChecks.some(v => !!v)
 
   if (schemaRequiresValue && !passedAnyCheck && !bypassRequiredCheck) {
@@ -506,7 +506,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
     }
     if(schema && schema.has("properties")) {
       schema.get("properties").forEach((val, key) => {
-        const errs = validateValueBySchema(objectVal[key], val, false, bypassRequiredCheck, parameterContentMediaType, bypassArrayStringCheck)
+        const errs = validateValueBySchema(objectVal[key], val, false, bypassRequiredCheck, parameterContentMediaType, disallowArrayString)
         errors.push(...errs
           .map((error) => ({ propKey: key, error })))
       })
@@ -588,7 +588,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
     }
     if(value) {
       value.forEach((item, i) => {
-        const errs = validateValueBySchema(item, schema.get("items"), false, bypassRequiredCheck, parameterContentMediaType, bypassArrayStringCheck)
+        const errs = validateValueBySchema(item, schema.get("items"), false, bypassRequiredCheck, parameterContentMediaType, disallowArrayString)
         errors.push(...errs
           .map((err) => ({ index: i, error: err })))
       })
