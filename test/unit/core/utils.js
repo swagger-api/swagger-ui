@@ -358,7 +358,7 @@ describe("utils", () => {
       expect( result ).toEqual( expectedError )
     }
 
-    const assertValidateNotOas3Param = (param, value, expectedError) => {
+    const assertValidateOas2Param = (param, value, expectedError) => {
       // Swagger 2.0 version
       result = validateParam( fromJS(param), fromJS(value))
       expect( result ).toEqual( expectedError )
@@ -378,7 +378,7 @@ describe("utils", () => {
 
     const assertValidateParam = (param, value, expectedError) => {
       // Swagger 2.0 version
-      assertValidateNotOas3Param(param, value, expectedError)
+      assertValidateOas2Param(param, value, expectedError)
       // OAS3 version, using `schema` sub-object
       assertValidateOas3ParamWithSchema(param, value, expectedError)
     }
@@ -756,7 +756,7 @@ describe("utils", () => {
       }
       value = "[1]"
       assertValidateOas3ParamWithSchema(param, value, ["Required field is not provided"])
-      assertValidateNotOas3Param(param, value, [])
+      assertValidateOas2Param(param, value, [])
 
       // valid array, items match type
       param = {
