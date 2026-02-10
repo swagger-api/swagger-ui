@@ -31,7 +31,8 @@ const VersionPragmaFilter = ({
             </p>
             <p>
               Supported version fields are <code>swagger: &quot;2.0&quot;</code>{" "}
-              and those that match <code>openapi: 3.x.y</code> (for example,{" "}
+              and <code>openapi: 3.0.x</code>, <code>openapi: 3.1.x</code>, or{" "}
+              <code>openapi: 3.2.x</code> (for example,{" "}
               <code>openapi: 3.2.0</code>).
             </p>
           </div>
@@ -53,7 +54,8 @@ const VersionPragmaFilter = ({
             <p>
               Please indicate a valid Swagger or OpenAPI version field.
               Supported version fields are <code>swagger: &quot;2.0&quot;</code>{" "}
-              and those that match <code>openapi: 3.x.y</code> (for example,{" "}
+              and <code>openapi: 3.0.x</code>, <code>openapi: 3.1.x</code>, or{" "}
+              <code>openapi: 3.2.x</code> (for example,{" "}
               <code>openapi: 3.2.0</code>).
             </p>
           </div>
