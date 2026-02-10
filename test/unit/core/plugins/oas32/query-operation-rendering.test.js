@@ -121,7 +121,10 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(
+        originalSelector,
+        system
+      )
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -164,7 +167,10 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(
+        originalSelector,
+        system
+      )
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -197,7 +203,10 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(
+        originalSelector,
+        system
+      )
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -239,7 +248,10 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(
+        originalSelector,
+        system
+      )
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -258,7 +270,10 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(
+        originalSelector,
+        system
+      )
       const state = Map()
       const result = wrappedSelector(state)
 
@@ -292,7 +307,10 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         },
       }
 
-      const wrappedSelector = operationsWithRootInheritedWrapper(originalSelector, system)
+      const wrappedSelector = operationsWithRootInheritedWrapper(
+        originalSelector,
+        system
+      )
       const state = Map()
       const result = wrappedSelector(state)
 

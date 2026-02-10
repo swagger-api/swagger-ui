@@ -12,10 +12,7 @@ import {
 } from "./fn"
 import {
   selectIsOAS32,
-  selectMediaTypes,
-  selectPathItems,
   selectHasQueryOperations,
-  selectHasAdditionalOperations,
 } from "./spec-extensions/selectors"
 import { validOperationMethods } from "./selectors"
 import {
@@ -101,16 +98,9 @@ const OAS32Plugin = ({ fn }) => {
           selectContactUrlField,
           selectContactUrl: createSystemSelector(selectContactUrl),
 
-          // Components Object fields
-          selectMediaTypes: createOnlyOAS32Selector(selectMediaTypes),
-          selectPathItems: createOnlyOAS32Selector(selectPathItems),
-
           // Path Item Object fields
           selectHasQueryOperations: createOnlyOAS32Selector(
             selectHasQueryOperations
-          ),
-          selectHasAdditionalOperations: createOnlyOAS32Selector(
-            selectHasAdditionalOperations
           ),
         },
         wrapSelectors: {
