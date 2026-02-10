@@ -3,12 +3,12 @@
  */
 import { fromJS, Map, List } from "immutable"
 import {
-  operations as operationsWrapper,
+  operationsWithRootInherited as operationsWrapper,
   validOperationMethods as validOperationMethodsWrapper,
 } from "core/plugins/oas32/spec-extensions/wrap-selectors"
 
 describe("OAS32 wrap-selectors", () => {
-  describe("operations", () => {
+  describe("operationsWithRootInherited", () => {
     it("should include query operations for OAS 3.2 specs", () => {
       // Mock original selector that returns standard operations
       const oriSelector = jest.fn(() =>
@@ -44,6 +44,7 @@ describe("OAS32 wrap-selectors", () => {
               },
             })
           ),
+          specJson: jest.fn(() => fromJS({ openapi: "3.2.0" })),
         },
       }
 
@@ -91,6 +92,7 @@ describe("OAS32 wrap-selectors", () => {
               },
             })
           ),
+          specJson: jest.fn(() => fromJS({ openapi: "3.0.0" })),
         },
       }
 
@@ -126,6 +128,7 @@ describe("OAS32 wrap-selectors", () => {
               },
             })
           ),
+          specJson: jest.fn(() => fromJS({ openapi: "3.2.0" })),
         },
       }
 
@@ -145,6 +148,7 @@ describe("OAS32 wrap-selectors", () => {
         specSelectors: {
           isOAS32: jest.fn(() => true),
           paths: jest.fn(() => Map()),
+          specJson: jest.fn(() => fromJS({ openapi: "3.2.0" })),
         },
       }
 
@@ -174,6 +178,7 @@ describe("OAS32 wrap-selectors", () => {
               },
             })
           ),
+          specJson: jest.fn(() => fromJS({ openapi: "3.2.0" })),
         },
       }
 
