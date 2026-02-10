@@ -14,18 +14,6 @@ export const selectIsOAS32 = (state, system) => () => {
 }
 
 /**
- * Selects the $self field from the OpenAPI Object
- * OAS 3.2 spec reference: https://spec.openapis.org/oas/v3.2.0.html#openapi-object
- *
- * The $self field provides the self-assigned URI of the document,
- * serving as its base URI for reference resolution.
- */
-export const selectSelfUriField = () => (system) => {
-  const spec = system.specSelectors.specJson()
-  return spec.get("$self")
-}
-
-/**
  * Selects the mediaTypes from Components Object
  * OAS 3.2 spec reference: https://spec.openapis.org/oas/v3.2.0.html#components-object
  *

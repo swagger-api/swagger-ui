@@ -2,7 +2,6 @@
  * @prettier
  */
 import Info from "./components/info"
-import SelfUri from "./components/self-uri"
 import VersionPragmaFilter from "./components/version-pragma-filter"
 import InfoWrapper from "./wrap-components/info"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
@@ -13,7 +12,6 @@ import {
 } from "./fn"
 import {
   selectIsOAS32,
-  selectSelfUriField,
   selectMediaTypes,
   selectPathItems,
   selectHasQueryOperations,
@@ -52,12 +50,18 @@ import afterLoad from "./after-load"
  *
  * It wraps and overrides components/selectors from previous versions.
  *
- * New features in OAS 3.2:
- * - $self: Self-referencing URI for base URI resolution
+ * New features in OAS 3.2 (basic implementation):
  * - query operation: QUERY HTTP method support
+ * - info.summary: Short summary field in Info Object
+ *
+ * Additional features (not yet implemented):
+ * - $self: Self-referencing URI for base URI resolution
  * - additionalOperations: Custom HTTP methods support
  * - mediaTypes in Components: Reusable Media Type Objects
  * - pathItems in Components: Reusable Path Item Objects
+ * - Tag enhancements (summary, kind, parent)
+ * - querystring parameter location
+ * - itemSchema for streaming responses
  */
 const OAS32Plugin = ({ fn }) => {
   const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
@@ -73,7 +77,6 @@ const OAS32Plugin = ({ fn }) => {
     },
     components: {
       OAS32Info: Info,
-      SelfUri,
       OAS32VersionPragmaFilter: VersionPragmaFilter,
     },
     wrapComponents: {
@@ -97,9 +100,6 @@ const OAS32Plugin = ({ fn }) => {
           selectContactEmailField,
           selectContactUrlField,
           selectContactUrl: createSystemSelector(selectContactUrl),
-
-          // $self field
-          selectSelfUriField: createOnlyOAS32Selector(selectSelfUriField),
 
           // Components Object fields
           selectMediaTypes: createOnlyOAS32Selector(selectMediaTypes),

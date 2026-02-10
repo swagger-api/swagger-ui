@@ -10,10 +10,25 @@
 ## Summary
 
 OpenAPI 3.2.0 is a **minor version** update that adds backward-compatible features to OAS 3.1.x. Key additions focus on:
-- Self-referencing URIs for base URI resolution
 - Custom HTTP method support (QUERY and custom methods)
+- Self-referencing URIs for base URI resolution
 - Enhanced component reusability (mediaTypes, pathItems)
 - Relaxed required fields constraint
+
+## Implementation Status
+
+**Basic Implementation (Completed):**
+- ✅ QUERY operation support
+- ✅ Info summary field
+- ✅ Version detection (isOAS32)
+
+**Enhancement Features (Planned):**
+- 🔜 `$self` field for base URI resolution
+- 🔜 `additionalOperations` for custom HTTP methods
+- 🔜 `querystring` parameter location
+- 🔜 Components `mediaTypes` section
+- 🔜 `itemSchema` for streaming responses
+- 🔜 Tag enhancements (summary, kind, parent)
 
 ## New Top-Level Fields
 
