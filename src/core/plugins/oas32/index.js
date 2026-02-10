@@ -21,7 +21,7 @@ import {
   operationsWithRootInherited as operationsWithRootInheritedWrapper,
   validOperationMethods as validOperationMethodsWrapper,
 } from "./spec-extensions/wrap-selectors"
-// Import license and contact selectors from OAS31 plugin (OAS32 uses the same)
+// Import license, contact, and info selectors from OAS31 plugin (OAS32 uses the same)
 import {
   license as selectLicense,
   contact as selectContact,
@@ -33,6 +33,7 @@ import {
   selectContactUrlField,
   selectContactUrl,
   selectLicenseUrl,
+  selectInfoSummaryField,
 } from "../oas31/spec-extensions/selectors"
 import afterLoad from "./after-load"
 
@@ -84,6 +85,9 @@ const OAS32Plugin = ({ fn }) => {
       spec: {
         selectors: {
           isOAS32: createSystemSelector(selectIsOAS32),
+
+          // Info selectors (inherited from OAS31)
+          selectInfoSummaryField,
 
           // License and contact selectors (inherited from OAS31)
           license: selectLicense,
