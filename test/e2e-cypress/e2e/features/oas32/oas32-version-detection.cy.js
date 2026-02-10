@@ -17,7 +17,7 @@ describe("OpenAPI 3.2.0 - Version Detection", () => {
 
     cy.get(".information-container .title")
       .should("exist")
-      .and("contain", "OAS 3.2.0 Feature Demonstration")
+      .and("contain", "OAS 3.2.0 Basic Features")
   })
 
   it("should display spec description from OAS 3.2.0 spec", () => {
@@ -25,6 +25,14 @@ describe("OpenAPI 3.2.0 - Version Detection", () => {
 
     cy.get(".information-container .description")
       .should("exist")
-      .and("contain", "new features introduced in OpenAPI 3.2.0")
+      .and("contain", "basic features implemented for OpenAPI 3.2.0")
+  })
+
+  it("should display info summary field from OAS 3.2.0 spec", () => {
+    cy.visit("/e2e-cypress/static/documents/oas32/oas32-features.yaml")
+
+    cy.get(".information-container .info__summary")
+      .should("exist")
+      .and("contain", "Demonstrates basic OpenAPI 3.2.0 implementation")
   })
 })
