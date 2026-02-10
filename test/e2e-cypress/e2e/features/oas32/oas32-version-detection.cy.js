@@ -3,8 +3,10 @@
  */
 
 describe("OpenAPI 3.2.0 - Version Detection", () => {
+  const baseUrl = "/?url=/documents/oas32/oas32-features.yaml"
+
   it("should correctly detect OAS 3.2.0 spec", () => {
-    cy.visit("/e2e-cypress/static/documents/oas32/oas32-features.yaml")
+    cy.visit(baseUrl)
 
     // Should render the spec (not show version error)
     cy.get(".information-container").should("exist")
@@ -13,7 +15,7 @@ describe("OpenAPI 3.2.0 - Version Detection", () => {
   })
 
   it("should display spec title from OAS 3.2.0 spec", () => {
-    cy.visit("/e2e-cypress/static/documents/oas32/oas32-features.yaml")
+    cy.visit(baseUrl)
 
     cy.get(".information-container .title")
       .should("exist")
@@ -21,7 +23,7 @@ describe("OpenAPI 3.2.0 - Version Detection", () => {
   })
 
   it("should display spec description from OAS 3.2.0 spec", () => {
-    cy.visit("/e2e-cypress/static/documents/oas32/oas32-features.yaml")
+    cy.visit(baseUrl)
 
     cy.get(".information-container .description")
       .should("exist")
@@ -29,7 +31,7 @@ describe("OpenAPI 3.2.0 - Version Detection", () => {
   })
 
   it("should display info summary field from OAS 3.2.0 spec", () => {
-    cy.visit("/e2e-cypress/static/documents/oas32/oas32-features.yaml")
+    cy.visit(baseUrl)
 
     cy.get(".information-container .info__summary")
       .should("exist")
