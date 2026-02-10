@@ -1,6 +1,6 @@
 # CLAUDE.md - Swagger UI Codebase Guide
 
-> **Last Updated:** 2026-01-21
+> **Last Updated:** 2026-02-10
 > **Version:** 5.31.0
 > **Purpose:** Comprehensive guide for AI assistants working with the Swagger UI codebase
 
@@ -141,8 +141,8 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 
 ### Prerequisites
 
-- **Node.js:** >=22.11.0 (Node 20.x recommended, as defined in `.nvmrc`)
-- **npm:** >=10.9.0
+- **Node.js:** >=22.11.0 (Node 24.x recommended, as defined in `.nvmrc`)
+- **npm:** >=11.8.0
 - **Git:** Any version
 - **JDK 7+:** Required for Nightwatch.js integration tests
 
@@ -212,7 +212,7 @@ Defined in `.browserslistrc`:
 - `[browser-development]` - Latest Chrome, Firefox, Safari
 - `[isomorphic-production]` - Browser + Node targets
 - `[node-production]` - Maintained Node versions
-- `[node-development]` - Node 22
+- `[node-development]` - Node 24
 
 ### Build Commands
 
@@ -613,7 +613,7 @@ src/
 ├── .prettierrc.yaml             # Prettier settings
 ├── stylelint.config.js          # Stylelint rules
 ├── .browserslistrc              # Browser targets
-├── .nvmrc                       # Node version (20.x)
+├── .nvmrc                       # Node version (24.x)
 ├── .lintstagedrc                # Pre-commit linting
 └── cypress.config.js            # Cypress E2E config
 ```
