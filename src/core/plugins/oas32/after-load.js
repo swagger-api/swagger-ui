@@ -16,7 +16,6 @@ function afterLoad() {
   // https://spec.openapis.org/oas/3.2/schema/2025-09-17.html
   // Currently using JSON Schema 2020-12 from OAS 3.1 for basic implementation.
   // This needs to be updated to properly support OAS 3.2 schema validation.
-
   // Future: If any function wrapping is needed for OAS 3.2 specific behavior,
   // it can be added here using wrapOAS32Fn
 }
