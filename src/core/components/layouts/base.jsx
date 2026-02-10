@@ -34,6 +34,7 @@ export default class BaseLayout extends React.Component {
     const isSwagger2 = specSelectors.isSwagger2()
     const isOAS3 = specSelectors.isOAS3()
     const isOAS31 = specSelectors.isOAS31()
+    const isOAS32 = specSelectors.isOAS32()
 
     const isSpecEmpty = !specSelectors.specStr()
 
