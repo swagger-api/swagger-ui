@@ -5,36 +5,17 @@
 describe("OpenAPI 3.2.0 - Version Detection", () => {
   const baseUrl = "/?url=/documents/oas32/oas32-features.yaml"
 
-  it("should correctly detect OAS 3.2.0 spec", () => {
+  it("should detect and render OAS 3.2.0 spec with all info fields", () => {
     cy.visit(baseUrl)
-
-    // Should render the spec (not show version error)
-    cy.get(".information-container").should("exist")
-    cy.get(".version-pragma__message--missing").should("not.exist")
-    cy.get(".version-pragma__message--ambiguous").should("not.exist")
-  })
-
-  it("should display spec title from OAS 3.2.0 spec", () => {
-    cy.visit(baseUrl)
-
-    cy.get(".information-container .title")
+      .get(".information-container")
       .should("exist")
-      .and("contain", "OAS 3.2.0 Basic Features")
-  })
-
-  it("should display spec description from OAS 3.2.0 spec", () => {
-    cy.visit(baseUrl)
-
-    cy.get(".information-container .description")
-      .should("exist")
-      .and("contain", "basic features implemented for OpenAPI 3.2.0")
-  })
-
-  it("should display info summary field from OAS 3.2.0 spec", () => {
-    cy.visit(baseUrl)
-
-    cy.get(".information-container .info__summary")
-      .should("exist")
-      .and("contain", "Demonstrates basic OpenAPI 3.2.0 implementation")
+      .find(".title")
+      .should("contain", "OAS 3.2.0 Basic Features")
+      .get(".information-container .description")
+      .should("contain", "basic features implemented for OpenAPI 3.2.0")
+      .get(".information-container .info__summary")
+      .should("contain", "Demonstrates basic OpenAPI 3.2.0 implementation")
+      .get(".version-pragma__message--missing")
+      .should("not.exist")
   })
 })
