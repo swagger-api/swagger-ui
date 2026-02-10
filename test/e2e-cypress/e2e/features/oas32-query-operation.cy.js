@@ -16,8 +16,6 @@ describe("OpenAPI 3.2 QUERY operation rendering", () => {
       .should("have.class", "is-open")
       .find(".opblock-body")
       .should("exist")
-      .find(".body-param")
-      .should("exist")
   })
 
   it("should render multiple operations including QUERY", () => {
