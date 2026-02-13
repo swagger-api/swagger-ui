@@ -51,8 +51,8 @@ This repository publishes **three different npm packages**:
 
 ### OpenAPI Specification Compatibility
 
-- **Current Support:** OpenAPI 2.0, 3.0.x, 3.1.x, 3.2.x
-- **Latest Version:** v5.31.0 (supports up to OpenAPI 3.2.0)
+- **Current Support:** OpenAPI 2.0, 3.0.x, 3.1.x
+- **Latest Version:** v5.31.0 (supports up to OpenAPI 3.1.2)
 
 ### License
 
