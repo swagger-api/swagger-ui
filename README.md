@@ -33,9 +33,9 @@ If you are looking for plain ol' HTML/JS/CSS, [download the latest release](http
 ## Compatibility
 The OpenAPI Specification has undergone 5 revisions since initial creation in 2010.  Compatibility between Swagger UI and the OpenAPI Specification is as follows:
 
-| Swagger UI Version | Release Date | OpenAPI Spec compatibility                           | Notes                                                                 |
-|--------------------|--------------|------------------------------------------------------|-----------------------------------------------------------------------|
-| 5.19.0             | 2025-02-17   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.0.4, 3.1.0, 3.1.1 | [tag v5.19.0](https://github.com/swagger-api/swagger-ui/tree/v5.19.0) |
+| Swagger UI Version | Release Date | OpenAPI Spec compatibility                                  | Notes                                                                 |
+|--------------------|--------------|-------------------------------------------------------------|-----------------------------------------------------------------------|
+| 5.19.0             | 2025-02-17   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.0.4, 3.1.0, 3.1.1, 3.1.2 | [tag v5.19.0](https://github.com/swagger-api/swagger-ui/tree/v5.19.0) |
 | 5.0.0              | 2023-06-12   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0               | [tag v5.0.0](https://github.com/swagger-api/swagger-ui/tree/v5.0.0)   |
 | 4.0.0              | 2021-11-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v4.0.0](https://github.com/swagger-api/swagger-ui/tree/v4.0.0)   |
 | 3.18.3             | 2018-08-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3) |
