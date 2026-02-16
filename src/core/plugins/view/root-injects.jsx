@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import ReactDOM from "react-dom"
+import ReactDOMClient from "react-dom/client"
 import { compose } from "redux"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
@@ -82,7 +82,7 @@ export const withMappedContainer = (getSystem, getStore, memGetComponent) => (co
 
 export const render = (getSystem, getStore, getComponent, getComponents) => (domNode) => {
   const App = getComponent(getSystem, getStore, getComponents)("App", "root")
-  const { createRoot } = ReactDOM
+  const { createRoot } = ReactDOMClient
   const root = createRoot(domNode)
 
   root.render(<App/>)
