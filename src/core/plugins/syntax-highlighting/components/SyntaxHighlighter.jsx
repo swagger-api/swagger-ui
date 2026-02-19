@@ -11,6 +11,8 @@ const SyntaxHighlighter = ({
   getConfigs,
   syntaxHighlighting = {},
   children = "",
+  renderPlainText,
+  ...rest
 }) => {
   const theme = getConfigs().syntaxHighlight.theme
   const { styles, defaultStyle } = syntaxHighlighting
@@ -21,6 +23,7 @@ const SyntaxHighlighter = ({
       language={language}
       className={className}
       style={style}
+      {...rest}
     >
       {children}
     </ReactSyntaxHighlighter>

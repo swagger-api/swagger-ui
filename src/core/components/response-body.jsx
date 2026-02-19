@@ -107,7 +107,7 @@ export default class ResponseBody extends React.PureComponent {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode language={language} downloadable fileName={`${downloadName}.json`} canCopy>{body}</HighlightCode>
+      bodyEl = <HighlightCode language={language} downloadable fileName={`${downloadName}.json`} canCopy ariaLabel="Response body">{body}</HighlightCode>
 
       // XML
     } else if (/xml/i.test(contentType)) {
@@ -115,15 +115,15 @@ export default class ResponseBody extends React.PureComponent {
         textNodesOnSameLine: true,
         indentor: "  "
       })
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} canCopy>{body}</HighlightCode>
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} canCopy ariaLabel="Response body">{body}</HighlightCode>
 
       // HTML or Plain Text
     } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} canCopy>{content}</HighlightCode>
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} canCopy ariaLabel="Response body">{content}</HighlightCode>
 
       // CSV
     } else if (toLower(contentType) === "text/csv" || /text\/csv/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.csv`} canCopy>{content}</HighlightCode>
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.csv`} canCopy ariaLabel="Response body">{content}</HighlightCode>
 
       // Image
     } else if (/^image\//i.test(contentType)) {
@@ -137,7 +137,7 @@ export default class ResponseBody extends React.PureComponent {
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre className="microlight"><audio controls key={ url }><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy>{content}</HighlightCode>
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy ariaLabel="Response body">{content}</HighlightCode>
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
       if(parsedContent) {
@@ -147,7 +147,7 @@ export default class ResponseBody extends React.PureComponent {
           <p className="i">
             Unrecognized response type; displaying content as text.
           </p>
-          <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy>{parsedContent}</HighlightCode>
+          <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy ariaLabel="Response body">{parsedContent}</HighlightCode>
         </div>
 
       } else {

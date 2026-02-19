@@ -140,8 +140,10 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
             <SyntaxHighlighter
               language={activeGenerator.get("syntax")}
               className="curl microlight"
+              aria-label={`${activeGenerator.get("title")} request snippet`}
+              role="region"
               renderPlainText={({ children, PlainTextViewer }) => (
-                <PlainTextViewer className="curl">{children}</PlainTextViewer>
+                <PlainTextViewer className="curl" aria-label={`${activeGenerator.get("title")} request snippet`} role="region">{children}</PlainTextViewer>
               )}
             >
               {snippet}

@@ -24,8 +24,10 @@ export default class Curl extends React.Component {
           <SyntaxHighlighter
             language="bash"
             className="curl microlight"
+            aria-label="Curl command"
+            role="region"
             renderPlainText={({ children, PlainTextViewer }) => (
-              <PlainTextViewer className="curl">{children}</PlainTextViewer>
+              <PlainTextViewer className="curl" aria-label="Curl command" role="region">{children}</PlainTextViewer>
             )}
           >
             {curl}

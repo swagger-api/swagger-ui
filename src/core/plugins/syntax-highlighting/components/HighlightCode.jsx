@@ -15,6 +15,7 @@ const HighlightCode = ({
   canCopy,
   language,
   children,
+  ariaLabel,
 }) => {
   const rootRef = useRef(null)
   const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
@@ -84,8 +85,9 @@ const HighlightCode = ({
       <SyntaxHighlighter
         language={language}
         className={classNames(className, "microlight")}
+        {...(ariaLabel ? { "aria-label": ariaLabel, role: "region" } : {})}
         renderPlainText={({ children, PlainTextViewer }) => (
-          <PlainTextViewer className={className}>{children}</PlainTextViewer>
+          <PlainTextViewer className={className} {...(ariaLabel ? { "aria-label": ariaLabel, role: "region" } : {})}>{children}</PlainTextViewer>
         )}
       >
         {children}
@@ -102,6 +104,7 @@ HighlightCode.propTypes = {
   language: PropTypes.string,
   canCopy: PropTypes.bool,
   children: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
 }
 
 export default HighlightCode
