@@ -175,10 +175,11 @@ export default class Parameters extends Component {
           {!groupedParametersArr.length ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
             <div className="table-container">
               <table className="parameters">
+                <caption className="sr-only">Parameters</caption>
                 <thead>
                 <tr>
-                  <th className="col_header parameters-col_name">Name</th>
-                  <th className="col_header parameters-col_description">Description</th>
+                  <th className="col_header parameters-col_name" scope="col">Name</th>
+                  <th className="col_header parameters-col_description" scope="col">Description</th>
                 </tr>
                 </thead>
                 <tbody>

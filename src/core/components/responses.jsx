@@ -123,11 +123,12 @@ export default class Responses extends React.Component {
           }
 
           <table aria-live="polite" className="responses-table" id={regionId} role="region">
+            <caption className="sr-only">Server responses</caption>
             <thead>
               <tr className="responses-header">
-                <td className="col_header response-col_status">Code</td>
-                <td className="col_header response-col_description">Description</td>
-                { specSelectors.isOAS3() ? <td className="col col_header response-col_links">Links</td> : null }
+                <th className="col_header response-col_status" scope="col">Code</th>
+                <th className="col_header response-col_description" scope="col">Description</th>
+                { specSelectors.isOAS3() ? <th className="col col_header response-col_links" scope="col">Links</th> : null }
               </tr>
             </thead>
             <tbody>
