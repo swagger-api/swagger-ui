@@ -93,12 +93,12 @@ export default class OperationContainer extends PureComponent {
   componentDidUpdate(prevProps) {
     const { response, isShown } = this.props
     const resolvedSubtree = this.getResolvedSubtree()
-  
+
     if (response !== prevProps.response) {
       this.setState({ executeInProgress: false })
     }
-  
-    if (isShown && resolvedSubtree === undefined && !prevProps.isShown) {
+
+    if (isShown && resolvedSubtree === undefined) {
       this.requestResolvedSubtree()
     }
   }
@@ -132,7 +132,7 @@ export default class OperationContainer extends PureComponent {
           jsonRequestBodyValue[key] = jsonRequestBodyValue[key].map((val) => {
             if (typeof val === "object") {
               return JSON.stringify(val, null, 2)
-            } 
+            }
             return val
           })
         } else if (typeof value === "object") {
