@@ -3,8 +3,7 @@
  */
 
 describe("OpenAPI 3.2 JSON Schema 2020-12 rendering", () => {
-  const baseUrl =
-    "/?url=/documents/features/oas32-json-schema-rendering.yaml"
+  const baseUrl = "/?url=/documents/features/oas32-json-schema-rendering.yaml"
 
   describe("Schemas section", () => {
     beforeEach(() => {
