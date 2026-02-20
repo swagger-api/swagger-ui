@@ -152,6 +152,12 @@ See [full mapping table with examples](#step-1d-map-specification-changes-to-swa
 5. ❌ **Single quotes** → ✅ Use double quotes
 6. ❌ **Skipping spec examples** → ✅ Use as test fixtures
 7. ❌ **Hardcoded assumptions** → ✅ Verify everything in spec
+8. ❌ **`props.Ori` in ComponentWrapper** → ✅ Use `props.originalComponent` (see Pattern 3)
+9. ❌ **Copying entire Info component for minor version** → ✅ Use OpenAPIVersion wrapper + `getComponent("OAS{PREV}Info")`
+10. ❌ **OAS{VERSION} logic in OAS{PREV} plugin** → ✅ Each version's logic lives in its own plugin
+11. ❌ **`isOAS{PREV}` wrapper on minor version** → ✅ Only add if regex overlaps; minor bumps don't need it
+12. ❌ **New HTTP method in core `validOperationMethods`** → ✅ Add to `OPERATION_METHODS` + wrap with `createOnlyOAS{VERSION}SelectorWrapper`
+13. ❌ **Assuming new OAS meta-schema = new JSON Schema dialect** → ✅ Verify — OAS 3.2 still uses JSON Schema 2020-12
 
 ### ✅ Pre-Submit Checklist
 
@@ -268,11 +274,26 @@ export const createOnlyOAS{VERSION}SelectorWrapper =
 ```
 
 ### Pattern 3: Component Wrappers
+
+**⚠️ IMPORTANT: `originalComponent` prop name, not `Ori`**
+
+`createOnlyOAS{VERSION}ComponentWrapper` passes the original component as `originalComponent` in props (NOT `Ori` — that's the OAS3/OAS30ComponentWrapFactory convention). Use `const { originalComponent: Ori } = props` to access it.
+
+**Pattern A — Reuse previous version's component via getComponent:**
 ```javascript
 const ComponentWrapper = createOnlyOAS{VERSION}ComponentWrapper(({ getSystem }) => {
   const system = getSystem()
-  const OAS{VERSION}Component = system.getComponent("OAS{VERSION}Component", true)
-  return <OAS{VERSION}Component />
+  const OAS{PREV_VERSION}Component = system.getComponent("OAS{PREV_VERSION}Component", true)
+  return <OAS{PREV_VERSION}Component />
+})
+```
+
+**Pattern B — Render original component with extra props (e.g. version badge):**
+```javascript
+// Use `originalComponent` (NOT `Ori`) — that's the prop name createOnlyOAS{VERSION}ComponentWrapper passes
+const OpenAPIVersionWrapper = createOnlyOAS{VERSION}ComponentWrapper((props) => {
+  const { originalComponent: Ori } = props
+  return <Ori oasVersion="{VERSION}" />
 })
 ```
 
@@ -839,15 +860,25 @@ export const createSystemSelector =
   }
 
 /**
- * Creates a component wrapper that only renders for OAS {VERSION}
+ * Creates a component wrapper that only renders for OAS {VERSION}.
+ * When active, passes `originalComponent` (the unwrapped original) and
+ * `getSystem` as extra props. Access the original via:
+ *   const { originalComponent: Ori } = props
+ * NOT via `props.Ori` — that's the OAS3/OAS30ComponentWrapFactory convention.
  */
 export const createOnlyOAS{VERSION}ComponentWrapper =
-  (Component) =>
-  ({ ...props }) => {
-    const { specSelectors } = props
-    const isOAS{VERSION} = specSelectors.isOAS{VERSION}()
+  (Component) => (Original, system) => (props) => {
+    if (system.specSelectors.isOAS{VERSION}()) {
+      return (
+        <Component
+          {...props}
+          originalComponent={Original}
+          getSystem={system.getSystem}
+        />
+      )
+    }
 
-    return isOAS{VERSION} ? <Component {...props} /> : props.Ori()
+    return <Original {...props} />
   }
 
 /**
@@ -1008,6 +1039,8 @@ export const selectIsOAS{VERSION} = (state, system) => () => {
 
 **File:** `src/core/plugins/oas{VERSION_NUMBER}/spec-extensions/wrap-selectors.js`
 
+**⚠️ Minor version: DON'T wrap `isOAS{PREV}` unless the regex actually matches both versions.** For example, OAS 3.1's `isOAS31` regex (`/^3\.1\./`) will never match `3.2.x`, so wrapping it to return `false` is dead code. Only add the `isOAS{PREV}` override if the previous version's detection regex would incorrectly match the new version.
+
 **Template:**
 ```javascript
 /**
@@ -1016,11 +1049,17 @@ export const selectIsOAS{VERSION} = (state, system) => () => {
 
 import { createOnlyOAS{VERSION}SelectorWrapper } from "../fn.js"
 
-// Wrap previous version selectors if behavior changes
-// Example:
-// export const isOAS{PREVIOUS_VERSION} = createOnlyOAS{VERSION}SelectorWrapper((state) => () => false)
+// Ensure OAS {VERSION} specs are recognized as OAS 3.x (needed when major version number didn't change)
+export const isOAS3 =
+  (oriSelector, system) =>
+  (state, ...args) => {
+    const isOAS{VERSION} = system.specSelectors.isOAS{VERSION}()
+    return isOAS{VERSION} || oriSelector(...args)
+  }
 
-// This makes isOAS{PREVIOUS_VERSION} return false when spec is OAS {VERSION}
+// ONLY add isOAS{PREV} wrapper if the previous version's regex could match this new version.
+// For a minor version bump (e.g. 3.1 → 3.2), the previous regex won't match, so DON'T add this.
+// export const isOAS{PREV} = createOnlyOAS{VERSION}SelectorWrapper((state) => () => false)
 ```
 
 ### Step 6: Create Version Pragma Filter Component
@@ -1135,21 +1174,49 @@ export default NewFeature
 
 **File:** `src/core/plugins/oas{VERSION_NUMBER}/wrap-components/info.jsx`
 
-**Template:**
+**⚠️ Minor version (e.g. 3.2): don't create a new Info component.** If the Info object is identical to the previous version, reuse `OAS{PREV_VERSION}Info` via `getComponent` instead of copying the whole component. Only create a new Info component for major versions with significant structural changes.
+
+**Template (minor version — reuse previous Info):**
 ```javascript
 /**
  * @prettier
  */
 
+import React from "react"
 import { createOnlyOAS{VERSION}ComponentWrapper } from "../fn.js"
 
 const InfoWrapper = createOnlyOAS{VERSION}ComponentWrapper(({ getSystem }) => {
   const system = getSystem()
-  const OAS{VERSION}Info = system.getComponent("OAS{VERSION}Info", true)
-  return <OAS{VERSION}Info />
+  const OAS{PREV_VERSION}Info = system.getComponent("OAS{PREV_VERSION}Info", true)
+  return <OAS{PREV_VERSION}Info />
 })
 
 export default InfoWrapper
+```
+
+**Also — OpenAPIVersion wrapper (minor version — change version badge only):**
+
+For minor versions where the only Info difference is the version badge, use the OpenAPIVersion wrapper pattern instead of wrapping InfoContainer at all:
+
+```javascript
+// wrap-components/openapi-version.jsx
+/**
+ * @prettier
+ */
+import React from "react"
+import { createOnlyOAS{VERSION}ComponentWrapper } from "../fn.js"
+
+export default createOnlyOAS{VERSION}ComponentWrapper((props) => {
+  const { originalComponent: Ori } = props  // NOT `Ori` from props directly — use `originalComponent`
+  return <Ori oasVersion="{MAJOR}.{MINOR}" />
+})
+```
+
+Then register it in index.js:
+```javascript
+wrapComponents: {
+  OpenAPIVersion: OpenAPIVersionWrapper,  // changes the version badge shown in the Info header
+}
 ```
 
 ### Step 9: Implement afterLoad Hook
@@ -1531,10 +1598,21 @@ Closes #{ISSUE_NUMBER}
 6. **Test with real specs** - Use actual OAS {VERSION} examples
 7. **Don't modify core unnecessarily** - Use plugin architecture
 8. **Version regex must be exact** - Follow pattern from OAS 3.1
-9. **Component wrappers return Ori()** - When not active version
+9. **Component wrappers render `<Original {...props} />`** - When not active version (handled by `createOnlyOAS{VERSION}ComponentWrapper` automatically)
 10. **afterLoad runs after all plugins** - Safe to modify system
+11. **`originalComponent` not `Ori`** - `createOnlyOAS{VERSION}ComponentWrapper` passes the original as `originalComponent` prop. Use `const { originalComponent: Ori } = props`. The `Ori` name comes from `OAS30ComponentWrapFactory` which uses a different signature.
+12. **Don't copy the entire Info component for minor versions** - Use the OpenAPIVersion wrapper to change the version badge, and reuse the previous version's Info via `getComponent("OAS{PREV}Info", true)` instead of copying.
+13. **Don't add version-specific logic to previous version's plugin** - OAS32 logic belongs in the OAS32 plugin, not in OAS31 plugin files (e.g. don't add `isOAS32` checks to `oas31/wrap-components/license.jsx`).
+14. **Don't add `isOAS{PREV}` wrap-selector unless the regex actually overlaps** - For minor versions, the previous version's regex already won't match (e.g. OAS31's `/^3\.1\./` won't match `3.2.x`). Adding the wrapper is dead code.
+15. **New HTTP methods: use `OPERATION_METHODS` in `spec/selectors.js`, not `operationsWithRootInherited` wrapper** - Adding the method to `OPERATION_METHODS` makes the core `operations` selector collect those ops. The `validOperationMethods` wrapper (guarded by `createOnlyOAS{VERSION}SelectorWrapper`) then controls whether the UI renders them. No need for an `operationsWithRootInherited` wrapper.
+16. **Don't add new HTTP methods to the core `validOperationMethods` constant** - Adding `"query"` to the base constant in `spec/selectors.js` affects ALL OAS versions. Instead, add it only via `createOnlyOAS{VERSION}SelectorWrapper` in your plugin's `spec-extensions/wrap-selectors.js`.
+17. **Don't create selectors only used in tests** - Selectors like `selectHasQueryOperations` that are never called from production code should not exist. Remove them.
+18. **OAS meta-schema URL ≠ new JSON Schema dialect** - The URL `https://spec.openapis.org/oas/3.2/schema/...` is the OAS 3.2 document structure schema, NOT a new JSON Schema version. OAS 3.2 uses JSON Schema 2020-12, the same as OAS 3.1. Don't list "new JSON Schema version" as a feature unless it actually changes.
+19. **Verify "not yet implemented" feature list against previous version** - Features like `pathItems in Components` were already in OAS 3.1, not new in 3.2. Check what's actually new before listing it.
 
 ## JSON Schema Version Changes
+
+**⚠️ First, verify whether the JSON Schema version actually changed.** The OAS meta-schema URL (e.g. `https://spec.openapis.org/oas/3.2/schema/...`) describes the OAS document structure — it is NOT a new JSON Schema dialect. OAS 3.2 uses JSON Schema 2020-12, the same as OAS 3.1. Only create a new `json-schema-{VERSION}` plugin if the actual JSON Schema dialect changed (as it did from OAS 3.0 Draft-07 → OAS 3.1 JSON Schema 2020-12).
 
 If the new OAS version uses a different JSON Schema version:
 
@@ -1574,15 +1652,23 @@ Example from OAS 3.1 using JSON Schema 2020-12:
 - Backward-compatible additions
 - New optional fields
 - Enhanced existing features
-- Same JSON Schema version
+- Same JSON Schema version (verify before assuming it changed)
 - Incremental improvements
 
 **Implementation approach:**
 - Lighter plugin with focused additions
 - Fewer component wrappers needed
 - Selective selector additions
-- Reuse most of previous version logic
+- Reuse most of previous version logic via `getComponent("OAS{PREV}...", true)`
 - Simpler afterLoad modifications
+
+**Key decisions for minor versions (lessons from OAS 3.2):**
+
+1. **Version badge only changed?** Use `OpenAPIVersion` wrapper + reuse `OAS{PREV}Info` — don't create a new Info component.
+2. **New HTTP method (e.g. QUERY)?** Add it to `OPERATION_METHODS` in `src/core/plugins/spec/selectors.js` AND add it to `validOperationMethods` via `createOnlyOAS{VERSION}SelectorWrapper`. Don't add it to the core `validOperationMethods` constant (affects all versions).
+3. **`isOAS{PREV}` wrapper needed?** Only if the previous regex also matches the new version string. Minor version bumps (3.1 → 3.2) don't need it.
+4. **JSON Schema version comment?** Verify it actually changed. OAS 3.2 uses JSON Schema 2020-12, the same as OAS 3.1. The new OAS meta-schema URL (`https://spec.openapis.org/oas/3.2/schema/...`) describes OAS document structure, not a new JSON Schema dialect.
+5. **"Not yet implemented" list?** Double-check each item against the *previous* version's changelog — some may already be implemented.
 
 ## Example: Adding OAS 4.0 (Major)
 
@@ -1632,16 +1718,56 @@ export const isOAS32 = (jsSpec) => {
 
 **Directory:** `src/core/plugins/oas32/`
 
-**Extend OAS 3.1:**
+**Lighter component wrapping — OAS 3.2 specific patterns:**
+
 ```javascript
-// oas31-extensions/fn.js
-// Import functions from oas31 and extend as needed
+// wrap-components/openapi-version.jsx — change the version badge only
+// Use `originalComponent` (NOT `Ori`) — that's what createOnlyOAS32ComponentWrapper passes
+export default createOnlyOAS32ComponentWrapper((props) => {
+  const { originalComponent: Ori } = props
+  return <Ori oasVersion="3.2" />
+})
+
+// wrap-components/info.jsx — reuse OAS31Info, don't create a new one
+export default createOnlyOAS32ComponentWrapper(({ getSystem }) => {
+  const system = getSystem()
+  const OAS31Info = system.getComponent("OAS31Info", true)
+  return <OAS31Info />
+})
+
+// wrap-components/contact.jsx and license.jsx — same pattern (OAS32 logic belongs HERE, not in OAS31)
+export default createOnlyOAS32ComponentWrapper((props) => {
+  const { getSystem } = props
+  const system = getSystem()
+  const OAS31Contact = system.getComponent("OAS31Contact", true)
+  return <OAS31Contact {...props} />
+})
 ```
 
-**Lighter component wrapping:**
-- Only wrap components that change
-- Reuse most OAS 3.1 logic
-- Minimal selector additions
+**New HTTP method (QUERY) — two-part approach:**
+
+Part 1: Add to `OPERATION_METHODS` in `src/core/plugins/spec/selectors.js` so the `operations` selector collects QUERY ops:
+```javascript
+// spec/selectors.js
+export const OPERATION_METHODS = [
+  "get", "put", "post", "delete", "options", "head", "patch", "trace", "query",
+]
+```
+
+Part 2: Add to `validOperationMethods` via `createOnlyOAS32SelectorWrapper` so the UI only renders them for OAS 3.2:
+```javascript
+// oas32/spec-extensions/wrap-selectors.js
+export const validOperationMethods = createOnlyOAS32SelectorWrapper(
+  () => (oriSelector, system) => system.oas32Selectors.validOperationMethods()
+)
+
+// oas32/selectors.js
+export const validOperationMethods = () => [
+  "get", "put", "post", "delete", "options", "head", "patch", "trace", "query",
+]
+```
+
+Do NOT add `"query"` to the core `validOperationMethods` constant — that would affect all versions.
 
 ## Final Checklist
 
