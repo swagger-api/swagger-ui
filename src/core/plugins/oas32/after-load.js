@@ -12,10 +12,10 @@
  * so minimal modifications are needed.
  */
 function afterLoad() {
-  // TODO: OAS 3.2 should use the new JSON Schema version from
-  // https://spec.openapis.org/oas/3.2/schema/2025-09-17.html
-  // Currently using JSON Schema 2020-12 from OAS 3.1 for basic implementation.
-  // This needs to be updated to properly support OAS 3.2 schema validation.
+  // OAS 3.2 uses JSON Schema 2020-12 (same as OAS 3.1), as indicated by the
+  // "$schema": "https://json-schema.org/draft/2020-12/schema" field.
+  // The OAS 3.2 meta-schema is at https://spec.openapis.org/oas/3.2/schema/2025-09-17.html
+  // but it describes the OAS 3.2 document structure, not a new JSON Schema dialect.
   // Future: If any function wrapping is needed for OAS 3.2 specific behavior,
   // it can be added here using wrapOAS32Fn
 }

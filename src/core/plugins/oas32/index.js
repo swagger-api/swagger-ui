@@ -1,24 +1,21 @@
 /**
  * @prettier
  */
-import Info from "./components/info"
 import VersionPragmaFilter from "./components/version-pragma-filter"
+import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
+import LicenseWrapper from "./wrap-components/license"
+import OpenAPIVersionWrapper from "./wrap-components/openapi-version"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
 import {
   isOAS32 as isOAS32Fn,
   createOnlyOAS32Selector as createOnlyOAS32SelectorFn,
   createSystemSelector as createSystemSelectorFn,
 } from "./fn"
-import {
-  selectIsOAS32,
-  selectHasQueryOperations,
-} from "./spec-extensions/selectors"
+import { selectIsOAS32 } from "./spec-extensions/selectors"
 import { validOperationMethods } from "./selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
-  isOAS31 as isOAS31SelectorWrapper,
-  operationsWithRootInherited as operationsWithRootInheritedWrapper,
   validOperationMethods as validOperationMethodsWrapper,
 } from "./spec-extensions/wrap-selectors"
 // Import license, contact, and info selectors from OAS31 plugin (OAS32 uses the same)
@@ -56,15 +53,12 @@ import afterLoad from "./after-load"
  * - $self: Self-referencing URI for base URI resolution
  * - additionalOperations: Custom HTTP methods support
  * - mediaTypes in Components: Reusable Media Type Objects
- * - pathItems in Components: Reusable Path Item Objects
  * - Tag enhancements (summary, kind, parent)
  * - querystring parameter location
  * - itemSchema for streaming responses
  */
 const OAS32Plugin = ({ fn }) => {
   const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
-  const createOnlyOAS32Selector =
-    fn.createOnlyOAS32Selector || createOnlyOAS32SelectorFn
 
   const plugin = {
     afterLoad,
@@ -74,11 +68,13 @@ const OAS32Plugin = ({ fn }) => {
       createOnlyOAS32Selector: createOnlyOAS32SelectorFn,
     },
     components: {
-      OAS32Info: Info,
       OAS32VersionPragmaFilter: VersionPragmaFilter,
     },
     wrapComponents: {
+      Contact: ContactWrapper,
       InfoContainer: InfoWrapper,
+      License: LicenseWrapper,
+      OpenAPIVersion: OpenAPIVersionWrapper,
       VersionPragmaFilter: VersionPragmaFilterWrapper,
     },
     statePlugins: {
@@ -101,19 +97,10 @@ const OAS32Plugin = ({ fn }) => {
           selectContactEmailField,
           selectContactUrlField,
           selectContactUrl: createSystemSelector(selectContactUrl),
-
-          // Path Item Object fields
-          selectHasQueryOperations: createOnlyOAS32Selector(
-            selectHasQueryOperations
-          ),
         },
         wrapSelectors: {
           // Ensure OAS 3.2 specs are recognized as OAS 3.x (for servers, etc.)
           isOAS3: isOAS3SelectorWrapper,
-          // Ensure OAS 3.2 specs are not detected as OAS 3.1
-          isOAS31: isOAS31SelectorWrapper,
-          // Add QUERY operations after base operations are collected (wraps operationsWithRootInherited)
-          operationsWithRootInherited: operationsWithRootInheritedWrapper,
           // Override validOperationMethods to include QUERY for OAS 3.2
           validOperationMethods: validOperationMethodsWrapper,
         },

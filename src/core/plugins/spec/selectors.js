@@ -119,7 +119,7 @@ export const paths = createSelector(
 	spec => spec.get("paths")
 )
 
-export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch", "query"])
+export const validOperationMethods = constant(["get", "put", "post", "delete", "options", "head", "patch"])
 
 export const operations = createSelector(
   paths,
