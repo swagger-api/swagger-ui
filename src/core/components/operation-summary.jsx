@@ -98,10 +98,9 @@ export default class OperationSummary extends PureComponent {
         }
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
         <button
-          aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
+          aria-label={`${isShown ? "Collapse" : "Expand"} ${method.toUpperCase()} ${path.replace(/\//g, "\u200b/")}`}
           className="opblock-control-arrow"
           aria-expanded={isShown}
-          tabIndex="-1"
           onClick={toggleShown}>
           {isShown ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
         </button>
