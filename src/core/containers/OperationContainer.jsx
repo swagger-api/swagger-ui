@@ -98,7 +98,7 @@ export default class OperationContainer extends PureComponent {
       this.setState({ executeInProgress: false })
     }
 
-    if (isShown && resolvedSubtree === undefined && !prevProps.isShown) {
+    if (isShown && resolvedSubtree === undefined) {
       this.requestResolvedSubtree()
     }
   }
