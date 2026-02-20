@@ -39,6 +39,7 @@ $opblock_colors: (
 );
 
 html.dark-mode {
+  color-scheme: dark;
   background: $neutral-98;
 
   .swagger-ui {
