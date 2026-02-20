@@ -5,8 +5,13 @@ import VersionPragmaFilter from "./components/version-pragma-filter"
 import ContactWrapper from "./wrap-components/contact"
 import InfoWrapper from "./wrap-components/info"
 import LicenseWrapper from "./wrap-components/license"
+import ModelWrapper from "./wrap-components/model"
+import ModelsWrapper from "./wrap-components/models"
 import OpenAPIVersionWrapper from "./wrap-components/openapi-version"
 import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
+import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
+import JSONSchema202012KeywordExamplesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Examples"
+import JSONSchema202012KeywordPropertiesWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Properties"
 import {
   isOAS32 as isOAS32Fn,
   createOnlyOAS32Selector as createOnlyOAS32SelectorFn,
@@ -74,8 +79,15 @@ const OAS32Plugin = ({ fn }) => {
       Contact: ContactWrapper,
       InfoContainer: InfoWrapper,
       License: LicenseWrapper,
+      Model: ModelWrapper,
+      Models: ModelsWrapper,
       OpenAPIVersion: OpenAPIVersionWrapper,
       VersionPragmaFilter: VersionPragmaFilterWrapper,
+      JSONSchema202012KeywordDescription:
+        JSONSchema202012KeywordDescriptionWrapper,
+      JSONSchema202012KeywordExamples: JSONSchema202012KeywordExamplesWrapper,
+      JSONSchema202012KeywordProperties:
+        JSONSchema202012KeywordPropertiesWrapper,
     },
     statePlugins: {
       spec: {
