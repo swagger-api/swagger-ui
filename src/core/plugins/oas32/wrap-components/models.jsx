@@ -4,7 +4,7 @@
 import React from "react"
 
 import { createOnlyOAS32ComponentWrapper } from "../fn"
-import { makeGetSchemaKeywords } from "../../oas31/json-schema-2020-12-extensions/fn"
+import { makeGetSchemaKeywords } from "../json-schema-2020-12-extensions/fn"
 
 const ModelsWrapper = createOnlyOAS32ComponentWrapper(({ getSystem }) => {
   const { getComponent, fn, getConfigs } = getSystem()
@@ -24,7 +24,7 @@ const ModelsWrapper = createOnlyOAS32ComponentWrapper(({ getSystem }) => {
     Models,
     {
       config: {
-        default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
+        default$schema: "https://spec.openapis.org/oas/3.2/schema/2025-09-17",
         defaultExpandedLevels: configs.defaultModelsExpandDepth - 1,
         includeReadOnly: true,
         includeWriteOnly: true,
