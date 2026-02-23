@@ -3,15 +3,13 @@
  */
 import React from "react"
 
-const LicenseWrapper = (Original, system) => (props) => {
-  const isOAS31 = system.specSelectors.isOAS31?.() || false
+import { createOnlyOAS31ComponentWrapper } from "../fn"
 
-  if (isOAS31) {
-    const OAS31License = system.getComponent("OAS31License", true)
-    return <OAS31License {...props} />
-  }
+const LicenseWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
+  const system = getSystem()
+  const OAS31License = system.getComponent("OAS31License", true)
 
-  return <Original {...props} />
-}
+  return <OAS31License />
+})
 
 export default LicenseWrapper
