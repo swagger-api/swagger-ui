@@ -22,7 +22,7 @@ const ModelWrapper = createOnlyOAS32ComponentWrapper(
       Model,
       {
         config: {
-          default$schema: "https://spec.openapis.org/oas/3.1/dialect/base",
+          default$schema: "https://spec.openapis.org/oas/3.2/schema/2025-09-17",
           defaultExpandedLevels: configs.defaultModelExpandDepth,
           includeReadOnly: props.includeReadOnly,
           includeWriteOnly: props.includeWriteOnly,
