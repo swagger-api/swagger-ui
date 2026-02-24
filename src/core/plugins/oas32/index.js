@@ -23,7 +23,6 @@ import {
   isOAS3 as isOAS3SelectorWrapper,
   validOperationMethods as validOperationMethodsWrapper,
 } from "./spec-extensions/wrap-selectors"
-// Import license, contact, and info selectors from OAS31 plugin (OAS32 uses the same)
 import {
   license as selectLicense,
   contact as selectContact,
@@ -36,7 +35,7 @@ import {
   selectContactUrl,
   selectLicenseUrl,
   selectInfoSummaryField,
-} from "../oas31/spec-extensions/selectors"
+} from "./spec-extensions/selectors"
 import afterLoad from "./after-load"
 
 /**

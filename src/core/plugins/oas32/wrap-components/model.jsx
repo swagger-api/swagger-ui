@@ -4,7 +4,7 @@
 import React from "react"
 
 import { createOnlyOAS32ComponentWrapper } from "../fn"
-import { makeGetSchemaKeywords } from "../../oas31/json-schema-2020-12-extensions/fn"
+import { makeGetSchemaKeywords } from "../json-schema-2020-12-extensions/fn"
 
 const ModelWrapper = createOnlyOAS32ComponentWrapper(
   ({ getSystem, ...props }) => {

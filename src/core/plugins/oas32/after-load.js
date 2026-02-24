@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { makeIsFileUploadIntended } from "../oas31/oas3-extensions/fn"
+import { makeIsFileUploadIntended } from "./oas3-extensions/fn"
 import { wrapOAS32Fn } from "./fn"
 import { immutableToJS } from "core/utils"
 
