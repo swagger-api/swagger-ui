@@ -17,7 +17,6 @@ import {
   createOnlyOAS32Selector as createOnlyOAS32SelectorFn,
   createSystemSelector as createSystemSelectorFn,
 } from "./fn"
-import { selectIsOAS32 } from "./spec-extensions/selectors"
 import { validOperationMethods } from "./selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
@@ -26,6 +25,7 @@ import {
 import {
   license as selectLicense,
   contact as selectContact,
+  selectIsOAS32,
   selectLicenseNameField,
   selectLicenseUrlField,
   selectLicenseIdentifierField,
