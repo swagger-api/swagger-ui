@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import React from "react"
 import PropTypes from "prop-types"
 
@@ -6,6 +9,7 @@ const VersionPragmaFilter = ({
   isSwagger2,
   isOAS3,
   isOAS31,
+  isOAS32,
   alsoShow,
   children,
 }) => {
@@ -13,7 +17,7 @@ const VersionPragmaFilter = ({
     return <div>{children}</div>
   }
 
-  if (isSwagger2 && (isOAS3 || isOAS31)) {
+  if (isSwagger2 && (isOAS3 || isOAS31 || isOAS32)) {
     return (
       <div className="version-pragma">
         {alsoShow}
@@ -26,9 +30,10 @@ const VersionPragmaFilter = ({
               one of the fields.
             </p>
             <p>
-              Supported version fields are <code>swagger: &quot;2.0&quot;</code>,{" "}
-              <code>openapi: 3.0.x</code>, or <code>openapi: 3.1.x</code> (for
-              example, <code>openapi: 3.1.0</code>).
+              Supported version fields are <code>swagger: &quot;2.0&quot;</code>{" "}
+              and <code>openapi: 3.0.x</code>, <code>openapi: 3.1.x</code>, or{" "}
+              <code>openapi: 3.2.x</code> (for example,{" "}
+              <code>openapi: 3.2.0</code>).
             </p>
           </div>
         </div>
@@ -36,7 +41,7 @@ const VersionPragmaFilter = ({
     )
   }
 
-  if (!isSwagger2 && !isOAS3 && !isOAS31) {
+  if (!isSwagger2 && !isOAS3 && !isOAS31 && !isOAS32) {
     return (
       <div className="version-pragma">
         {alsoShow}
@@ -48,9 +53,10 @@ const VersionPragmaFilter = ({
             </p>
             <p>
               Please indicate a valid Swagger or OpenAPI version field.
-              Supported version fields are <code>swagger: &quot;2.0&quot;</code>,{" "}
-              <code>openapi: 3.0.x</code>, or <code>openapi: 3.1.x</code> (for
-              example, <code>openapi: 3.1.0</code>).
+              Supported version fields are <code>swagger: &quot;2.0&quot;</code>{" "}
+              and <code>openapi: 3.0.x</code>, <code>openapi: 3.1.x</code>, or{" "}
+              <code>openapi: 3.2.x</code> (for example,{" "}
+              <code>openapi: 3.2.0</code>).
             </p>
           </div>
         </div>
@@ -65,6 +71,7 @@ VersionPragmaFilter.propTypes = {
   isSwagger2: PropTypes.bool.isRequired,
   isOAS3: PropTypes.bool.isRequired,
   isOAS31: PropTypes.bool.isRequired,
+  isOAS32: PropTypes.bool.isRequired,
   bypass: PropTypes.bool,
   alsoShow: PropTypes.element,
   children: PropTypes.any,
