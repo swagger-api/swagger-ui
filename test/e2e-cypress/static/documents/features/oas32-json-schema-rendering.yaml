@@ -1,0 +1,61 @@
+openapi: 3.2.0
+info:
+  title: Test
+  version: 1.0.0
+servers:
+  - url: http://example.com/v1
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPet'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      title: My Pet
+      description: A pet in the system
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        tag:
+          type: string
+          readOnly: true
+      discriminator:
+        propertyName: id
+      externalDocs:
+        description: Find more info
+        url: http://example.com
+      xml:
+        name: Pet
+        prefix: pet
+      examples:
+        - id: 1
+          name: Fluffy
+    NewPet:
+      type: object
+      properties:
+        objectTypeUnion:
+          type: [object, integer]
+          properties:
+            id:
+              type: string
+            name:
+              type: string

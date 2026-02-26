@@ -1,7 +1,7 @@
 # CLAUDE.md - Swagger UI Codebase Guide
 
-> **Last Updated:** 2026-01-21
-> **Version:** 5.31.0
+> **Last Updated:** 2026-02-24
+> **Version:** 5.32.0 (in development)
 > **Purpose:** Comprehensive guide for AI assistants working with the Swagger UI codebase
 
 ---
@@ -124,6 +124,7 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 - `logs` - Logging
 - `oas3` - OpenAPI 3.0.x support
 - `oas31` - OpenAPI 3.1.x support
+- `oas32` - OpenAPI 3.2.x support
 - `on-complete` - Completion callbacks
 - `request-snippets` - Code snippet generation
 - `safe-render` - Safe component rendering
@@ -571,6 +572,42 @@ Each plugin has:
 
 See documentation: `docs/customization/plugin-api.md`
 
+### Cross-Plugin Import Guidelines
+
+**IMPORTANT:** Avoid cross-plugin imports to maintain plugin independence and modularity.
+
+**Pattern to Follow:**
+- Each plugin should be self-contained with its own components, utilities, and functions
+- When OAS version plugins (oas3, oas31, oas32) need similar functionality, create self-contained copies within each plugin
+- Wrap components should import from their own plugin's components, not from other plugins
+
+**Example Structure:**
+```
+src/core/plugins/oas32/
+├── json-schema-2020-12-extensions/
+│   ├── components/              # Self-contained components
+│   │   └── keywords/
+│   │       ├── Description.jsx
+│   │       └── Properties.jsx
+│   ├── wrap-components/         # Wrappers for components
+│   │   └── keywords/
+│   │       ├── Description.jsx  # Imports from ../../components/
+│   │       └── Properties.jsx   # Not from ../../../../oas31/
+│   └── fn.js                    # Self-contained utilities
+```
+
+**Why This Matters:**
+- Prevents tight coupling between plugins
+- Makes plugins easier to test in isolation
+- Allows independent versioning and updates
+- Reduces risk of breaking changes across plugins
+- Improves code maintainability
+
+**Exceptions:**
+- Shared core utilities in `src/core/utils/` are acceptable
+- System-level functions in `src/core/system.js` are acceptable
+- Base components in `src/core/components/` are acceptable
+
 ### Preset System
 
 **Base Preset:** `src/core/presets/base.js`
@@ -813,6 +850,7 @@ dist/                            # Build output (generated)
 - OAS 2.0: Use `src/core/plugins/swagger-client/`
 - OAS 3.0.x: Use `src/core/plugins/oas3/`
 - OAS 3.1.x: Use `src/core/plugins/oas31/`
+- OAS 3.2.x: Use `src/core/plugins/oas32/`
 
 **Adding Test Specs:**
 - Add to `test/e2e-cypress/static/documents/`
@@ -839,6 +877,7 @@ dist/                            # Build output (generated)
 13. **Use the plugin architecture** - don't modify core unnecessarily
 14. **Preserve backward compatibility** unless explicitly breaking
 15. **Run full test suite before submitting PR**
+16. **Keep plugins self-contained** - avoid cross-plugin imports (see [Cross-Plugin Import Guidelines](#cross-plugin-import-guidelines))
 
 ### DON'Ts ❌
 
@@ -857,6 +896,7 @@ dist/                            # Build output (generated)
 13. **Don't ignore Cypress test failures**
 14. **Don't add dependencies without justification**
 15. **Don't break the build** - verify with `npm run build`
+16. **Don't import from other plugins** - create self-contained copies instead (e.g., don't import from `oas31` in `oas32`)
 
 ### When Working with AI Assistants
 
