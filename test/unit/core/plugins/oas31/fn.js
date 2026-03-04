@@ -10,6 +10,7 @@ describe("isOAS30", function () {
   it("should recognize valid OAS3 version values", function () {
     expect(isOAS31Shorthand("3.1.0")).toEqual(true)
     expect(isOAS31Shorthand("3.1.1")).toEqual(true)
+    expect(isOAS31Shorthand("3.1.2")).toEqual(true)
     expect(isOAS31Shorthand("3.1.25")).toEqual(true)
   })
 

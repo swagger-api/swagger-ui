@@ -7,7 +7,7 @@ import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
-  const schema = mediaTypeValue.get("schema", OrderedMap()).toJS()
+  const schema = mediaTypeValue.get("schema", OrderedMap())
 
   const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
   const exampleSchema = mediaTypeValue.get("example")
@@ -298,7 +298,7 @@ const RequestBody = ({
       expandDepth={1}
       isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
-      specPath={specPath.push("content", contentType)}
+      specPath={specPath.push("content", contentType, "schema")}
       example={example}
       includeWriteOnly={true}
     />

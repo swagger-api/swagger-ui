@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable"
+import { Map, fromJS, OrderedMap } from "immutable"
 import {
   mapToList,
   parseSearch,
@@ -23,6 +23,7 @@ import {
   requiresValidationURL,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
+  stringify,
   paramToIdentifier,
   paramToValue,
   generateCodeVerifier,
@@ -349,11 +350,21 @@ describe("utils", () => {
     let value = null
     let result = null
 
-    const assertValidateParam = (param, value, expectedError) => {
+    const assertValidateOas3Param = (param, value, expectedError) => {
+      // for cases where you _only_ want to try OAS3
+      result = validateParam(fromJS(param), value, {
+        isOAS3: true
+      })
+      expect( result ).toEqual( expectedError )
+    }
+
+    const assertValidateOas2Param = (param, value, expectedError) => {
       // Swagger 2.0 version
       result = validateParam( fromJS(param), fromJS(value))
       expect( result ).toEqual( expectedError )
+    }
 
+    const assertValidateOas3ParamWithSchema = (param, value, expectedError) => {
       // OAS3 version, using `schema` sub-object
       let oas3Param = {
         required: param.required,
@@ -362,18 +373,14 @@ describe("utils", () => {
           required: undefined
         }
       }
-      result = validateParam( fromJS(oas3Param), fromJS(value), {
-        isOAS3: true
-      })
-      expect( result ).toEqual( expectedError )
+      assertValidateOas3Param(oas3Param, value, expectedError)
     }
 
-    const assertValidateOas3Param = (param, value, expectedError) => {
-      // for cases where you _only_ want to try OAS3
-      result = validateParam(fromJS(param), value, {
-        isOAS3: true
-      })
-      expect( result ).toEqual( expectedError )
+    const assertValidateParam = (param, value, expectedError) => {
+      // Swagger 2.0 version
+      assertValidateOas2Param(param, value, expectedError)
+      // OAS3 version, using `schema` sub-object
+      assertValidateOas3ParamWithSchema(param, value, expectedError)
     }
 
     it("should check the isOAS3 flag when validating parameters", () => {
@@ -748,7 +755,8 @@ describe("utils", () => {
         type: "array"
       }
       value = "[1]"
-      assertValidateParam(param, value, [])
+      assertValidateOas3ParamWithSchema(param, value, ["Required field is not provided"])
+      assertValidateOas2Param(param, value, [])
 
       // valid array, items match type
       param = {
@@ -1310,6 +1318,37 @@ describe("utils", () => {
     })
   })
 
+  describe("stringify", () => {
+    it("returns the string as-is", () => {
+      expect(stringify("hello")).toBe("hello")
+    })
+
+    it("converts Immutable objects to plain JS and stringifies", () => {
+      const immutableMap = OrderedMap({ key: "value" })
+      expect(stringify(immutableMap)).toBe('{\n  "key": "value"\n}')
+    })
+
+    it("stringifies plain JS objects", () => {
+      const obj = { key: "value" }
+      expect(stringify(obj)).toBe('{\n  "key": "value"\n}')
+    })
+
+    it("returns empty string for null or undefined", () => {
+      expect(stringify(null)).toBe("")
+      expect(stringify(undefined)).toBe("")
+    })
+
+    it("calls toString for numbers", () => {
+      expect(stringify(42)).toBe("42")
+    })
+
+    it("falls back to String() on JSON.stringify error", () => {
+      const circularObj = {}
+      circularObj.self = circularObj
+      expect(stringify(circularObj)).toBe("[object Object]")
+    })
+  })
+
   describe("parse and serialize search", () => {
     beforeEach(() => {
       // jsdom in Jest 25+ prevents modifying window.location,
@@ -1454,6 +1493,10 @@ describe("utils", () => {
       expect(sanitizeUrl("./openapi.json")).toEqual("./openapi.json")
       expect(sanitizeUrl("..openapi.json")).toEqual("..openapi.json")
       expect(sanitizeUrl("../openapi.json")).toEqual("../openapi.json")
+      expect(sanitizeUrl("../../openapi.json")).toEqual("../../openapi.json")
+      expect(sanitizeUrl("../../../openapi.json")).toEqual("../../../openapi.json")
+      expect(sanitizeUrl("../../../../openapi.json")).toEqual("../../../../openapi.json")
+      expect(sanitizeUrl("./../../../openapi.json")).toEqual("./../../../openapi.json")
     })
 
     it("should gracefully handle empty strings", () => {

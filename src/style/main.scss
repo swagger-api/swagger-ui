@@ -23,3 +23,6 @@
   @include meta.load-css("../core/plugins/json-schema-2020-12/components/all");
   @include meta.load-css("../core/plugins/oas31/components/all");
 }
+
+// Themes must live outside of the '.swagger-ui' class to target HTML parent.
+@include meta.load-css("dark-mode");
