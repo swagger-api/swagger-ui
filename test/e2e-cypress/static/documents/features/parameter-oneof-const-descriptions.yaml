@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: Enum with Descriptions Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      summary: Test endpoint for oneOf with const enum pattern
+      parameters:
+        - name: cvv_check
+          in: query
+          description: When processed, result from checking the CVV/CVC value on the transaction.
+          schema:
+            type: string
+            title: CVV check
+            oneOf:
+              - const: D
+                description: Suspicious transaction
+              - const: I
+                description: Failed data validation check
+              - const: M
+                description: Match
+              - const: N
+                description: No Match
+              - const: P
+                description: Not Processed
+              - const: S
+                description: Should have been present
+              - const: U
+                description: Issuer unable to process request
+              - const: X
+                description: Card does not support verification
+        - name: status
+          in: query
+          description: Status of the order
+          schema:
+            type: string
+            oneOf:
+              - const: pending
+                title: Pending
+                description: Order is awaiting processing
+              - const: processing
+                title: Processing
+                description: Order is being processed
+              - const: completed
+                title: Completed
+                description: Order has been completed
+              - const: cancelled
+                title: Cancelled
+                description: Order has been cancelled
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
