@@ -17,10 +17,10 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Use Node.js 24
+      - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
 
