@@ -138,6 +138,7 @@ export class Select extends React.Component {
     allowEmptyValue: PropTypes.bool,
     className: PropTypes.string,
     disabled: PropTypes.bool,
+    title: PropTypes.string,
   }
 
   static defaultProps = {
@@ -194,13 +195,20 @@ export class Select extends React.Component {
     let { allowedValues, multiple, allowEmptyValue, disabled } = this.props
     let value = this.state.value?.toJS?.() || this.state.value
 
+    // Support for rich options with labels and descriptions
+    const hasRichOptions = allowedValues && allowedValues.length > 0 && typeof allowedValues[0] === "object"
+
     return (
-      <select className={this.props.className} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} >
+      <select className={this.props.className} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} title={this.props.title} >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
-          allowedValues.map(function (item, key) {
-            return <option key={ key } value={ String(item) }>{ String(item) }</option>
-          })
+          hasRichOptions
+            ? allowedValues.map(function (item, key) {
+                return <option key={ key } value={ String(item.value) } title={ item.description }>{ item.label || String(item.value) }</option>
+              })
+            : allowedValues.map(function (item, key) {
+                return <option key={ key } value={ String(item) }>{ String(item) }</option>
+              })
         }
       </select>
     )

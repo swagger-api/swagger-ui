@@ -7,6 +7,39 @@ import DebounceInput from "react-debounce-input"
 import { stringify, isImmutable } from "core/utils"
 
 const noop = ()=> {}
+
+/**
+ * Detects if a schema uses oneOf with const values (OpenAPI 3.1 pattern for enums with descriptions)
+ * @param {Immutable.Map} schema - the schema
+ * @returns {boolean} - true if schema uses oneOf with const values
+ */
+const hasOneOfConst = (schema) => {
+  const oneOf = schema && schema.get ? schema.get("oneOf") : null
+  if (!oneOf || !oneOf.size) return false
+
+  return oneOf.every((subSchema) => subSchema && subSchema.get && subSchema.get("const") !== undefined)
+}
+
+/**
+ * Extracts const values and their descriptions from a oneOf array
+ * @param {Immutable.List} oneOf - the oneOf array
+ * @returns {Array<{value: *, label: string, description: string}>} - array of options with descriptions
+ */
+const getOneOfConstOptions = (oneOf) => {
+  if (!oneOf || !oneOf.size) return []
+
+  return oneOf.map((subSchema) => {
+    const value = subSchema.get("const")
+    const title = subSchema.get("title")
+    const description = subSchema.get("description")
+
+    return {
+      value,
+      label: title || String(value),
+      description: description || ""
+    }
+  }).toJS()
+}
 const JsonSchemaPropShape = {
   getComponent: PropTypes.func.isRequired,
   value: PropTypes.any,
@@ -80,6 +113,8 @@ export class JsonSchema_string extends Component {
   render() {
     let { getComponent, value, schema, errors, required, description, disabled } = this.props
     const enumValue = schema && schema.get ? schema.get("enum") : null
+    const oneOf = schema && schema.get ? schema.get("oneOf") : null
+    const isOneOfConst = hasOneOfConst(schema)
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
     const schemaIn = schema && schema.get ? schema.get("in") : null
@@ -96,6 +131,18 @@ export class JsonSchema_string extends Component {
       return (<Select className={ errors.length ? "invalid" : ""}
                       title={ errors.length ? errors : ""}
                       allowedValues={ [...enumValue] }
+                      value={ value }
+                      allowEmptyValue={ !required }
+                      disabled={disabled}
+                      onChange={ this.onEnumChange }/>)
+    }
+
+    if (isOneOfConst) {
+      const Select = getComponent("Select")
+      const options = getOneOfConstOptions(oneOf)
+      return (<Select className={ errors.length ? "invalid" : ""}
+                      title={ errors.length ? errors : ""}
+                      allowedValues={ options }
                       value={ value }
                       allowEmptyValue={ !required }
                       disabled={disabled}

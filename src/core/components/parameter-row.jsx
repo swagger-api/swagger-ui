@@ -273,9 +273,11 @@ export default class ParameterRow extends Component {
 
     let paramItems // undefined
     let paramEnum // undefined
+    let paramOneOfConst // undefined
     let paramDefaultValue // undefined
     let paramExample // undefined
     let isDisplayParamEnum = false
+    let isDisplayOneOfConst = false
 
     if ( param !== undefined && schema ) {
       paramItems = schema.get("items")
@@ -286,6 +288,12 @@ export default class ParameterRow extends Component {
       paramDefaultValue = paramItems.get("default")
     } else if (schema) {
       paramEnum = schema.get("enum")
+      // Check for oneOf with const values (OpenAPI 3.1 pattern)
+      const oneOf = schema.get("oneOf")
+      if (oneOf && oneOf.size && oneOf.every(subSchema => subSchema && subSchema.get && subSchema.get("const") !== undefined)) {
+        paramOneOfConst = oneOf
+        isDisplayOneOfConst = true
+      }
     }
 
     if ( paramEnum && paramEnum.size && paramEnum.size > 0) {
@@ -343,6 +351,27 @@ export default class ParameterRow extends Component {
                 "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
                   }).toArray().map(String).join(", ")}/>
+            : null
+          }
+
+          { (bodyParam || !isExecute) && isDisplayOneOfConst ?
+            <div className="parameter__enum">
+              <i>Available values</i> :
+              <ul>
+                {paramOneOfConst.map((subSchema, index) => {
+                  const constValue = subSchema.get("const")
+                  const title = subSchema.get("title")
+                  const description = subSchema.get("description")
+                  return (
+                    <li key={index}>
+                      <code>{String(constValue)}</code>
+                      {title ? <span> - {title}</span> : null}
+                      {description ? <span>: {description}</span> : null}
+                    </li>
+                  )
+                }).toArray()}
+              </ul>
+            </div>
             : null
           }
 
