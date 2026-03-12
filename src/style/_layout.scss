@@ -388,6 +388,10 @@
     @include mixins.method($color-options);
   }
 
+  &.opblock-query {
+    @include mixins.method($color-query);
+  }
+
   &.opblock-deprecated {
     opacity: 0.6;
 

@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: test
+  version: 1.0.0
+paths:
+  /:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: true
+          schema:
+            type: array
+            example: 'test1'
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+      responses:
+        default:
+          description: ok
