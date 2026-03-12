@@ -31,6 +31,7 @@ const escapeShell = (str) => {
 const escapeCMD = (str) => {
   str = str
     .replace(/\^/g, "^^")
+    .replace(/\|/g, "^|")
     .replace(/\\"/g, "\\\\\"")
     .replace(/"/g, "\"\"")
     .replace(/\n/g, "^\n")
