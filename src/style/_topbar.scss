@@ -11,7 +11,7 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  @media (max-width: 550px) {
+  @container swagger-ui (max-width: 550px) {
     .topbar-wrapper {
       flex-direction: column;
       align-items: start;
@@ -97,7 +97,7 @@
       @include type.text_headline($topbar-download-url-button-font-color);
     }
   }
-  @media (max-width: 550px) {
+  @container swagger-ui (max-width: 550px) {
     .download-url-wrapper {
       width: 100%;
     }
