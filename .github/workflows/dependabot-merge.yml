@@ -30,7 +30,7 @@ jobs:
       # Finally, tell dependabot to merge the PR if all checks are successful
       - name: Instruct dependabot to squash & merge
         if: ${{ steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major' }}
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v3
         with:
           repo-token: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
           allow-repeats: true
