@@ -16,10 +16,10 @@ jobs:
           persist-credentials: false
           ref: master
 
-      - name: Setup Node.js
+      - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
 

@@ -12,13 +12,22 @@ const ModelWrapper = createOnlyOAS32ComponentWrapper(
     const { getComponent, fn, getConfigs } = system
     const configs = getConfigs()
 
+    const pathname = window?.location?.pathname ?? "/"
+
+    if (
+      ModelWrapper.ModelWithJSONSchemaContext &&
+      ModelWrapper.pathname === pathname
+    ) {
+      return <ModelWrapper.ModelWithJSONSchemaContext {...props} />
+    }
+
     const Model = getComponent("OAS31Model")
     const withJSONSchemaSystemContext = getComponent(
       "withJSONSchema202012SystemContext"
     )
 
     // we cache the HOC as recreating it with every re-render is quite expensive
-    ModelWrapper.ModelWithJSONSchemaContext ??= withJSONSchemaSystemContext(
+    ModelWrapper.ModelWithJSONSchemaContext = withJSONSchemaSystemContext(
       Model,
       {
         config: {
@@ -36,9 +45,13 @@ const ModelWrapper = createOnlyOAS32ComponentWrapper(
         },
       }
     )
+    ModelWrapper.pathname = pathname
 
     return <ModelWrapper.ModelWithJSONSchemaContext {...props} />
   }
 )
+
+ModelWrapper.ModelWithJSONSchemaContext = null
+ModelWrapper.pathname = null
 
 export default ModelWrapper
