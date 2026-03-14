@@ -11,7 +11,7 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  @media (max-width: 550px) {
+  @container swagger-ui (max-width: 550px) {
     .topbar-wrapper {
       flex-direction: column;
       align-items: start;
@@ -42,6 +42,8 @@
     display: flex;
     flex: 3;
     justify-content: flex-end;
+    max-width: 600px;
+    margin-left: auto;
 
     input[type="text"] {
       width: 100%;
@@ -95,9 +97,30 @@
       @include type.text_headline($topbar-download-url-button-font-color);
     }
   }
-  @media (max-width: 550px) {
+  @container swagger-ui (max-width: 550px) {
     .download-url-wrapper {
       width: 100%;
+    }
+  }
+
+  .dark-mode-toggle {
+    margin-left: 10px;
+    opacity: 0.8;
+    transition: all 0.2s;
+    cursor: pointer;
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+
+      svg {
+        fill: #e4e6e6;
+      }
+    }
+
+    &:hover {
+      opacity: 1;
     }
   }
 }

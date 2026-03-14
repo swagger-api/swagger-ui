@@ -26,7 +26,7 @@ export default class OperationSummaryPath extends PureComponent{
       tag,
       operationId,
       isDeepLinkingEnabled,
-    } = operationProps.toJS()
+    } = operationProps.toObject()
 
     /**
      * Add <wbr> word-break elements between each segment, before the slash
