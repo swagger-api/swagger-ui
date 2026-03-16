@@ -256,7 +256,8 @@ export default class ParameterRow extends Component {
       schema = this.composeJsonSchema(schema)
     }
 
-    let format = schema ? schema.get("format") : null
+    const hasCombiningKeywords = schema && (schema.get("anyOf") || schema.get("oneOf"))
+    let format = !hasCombiningKeywords && schema ? schema.get("format") : null
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
