@@ -107,6 +107,43 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
 
+## Building a local WebJar (Spring Boot / Maven)
+
+This fork includes a `pom.xml` that packages the custom Swagger UI build as a [WebJar](https://www.webjars.org/), making it easy to consume from a Spring Boot project via springdoc-openapi.
+
+### Prerequisites
+
+- JDK 11+
+- Maven 3.6+
+- Node.js >=24 and npm >=11 (must be available on `PATH`)
+
+### Build and install
+
+```bash
+mvn clean install
+```
+
+This will:
+1. Run `npm run build` to produce the `dist/` artifacts
+2. Package `dist/` into `META-INF/resources/webjars/swagger-ui/5.32.0/` inside the JAR
+3. Install `org.webjars:swagger-ui:5.32.0-adrianodpdiaz` to your local `.m2` repository
+
+### Using in Spring Boot
+
+Add the dependency to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>swagger-ui</artifactId>
+    <version>5.32.0-adrianodpdiaz</version>
+</dependency>
+```
+
+springdoc-openapi and webjars-locator resolve the WebJar by the internal resource path (`5.32.0`), so no additional configuration is needed beyond what you would use with the official WebJar.
+
+> **Note:** The artifact version (`5.32.0-adrianodpdiaz`) is intentionally different from the internal resource path (`5.32.0`) to avoid conflicts with the official `org.webjars:swagger-ui:5.32.0` artifact in your local repository.
+
 ## Security contact
 
 Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
