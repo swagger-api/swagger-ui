@@ -1,6 +1,28 @@
 /**
  * @prettier
  */
+export const makeGetTitle = (original) => {
+  if (typeof original !== "function") {
+    return null
+  }
+
+  return (schema, options) => {
+    const title = original(schema, options)
+    if (title) return title
+    if (typeof schema?.$$ref === "string") {
+      const match = schema.$$ref.match(/#\/components\/schemas\/([^/]+)$/)
+      if (match) {
+        try {
+          return decodeURIComponent(match[1].replace(/~1/g, "/").replace(/~0/g, "~"))
+        } catch {
+          return match[1]
+        }
+      }
+    }
+    return ""
+  }
+}
+
 export const makeIsExpandable = (original, getSystem) => {
   const { fn } = getSystem()
 
