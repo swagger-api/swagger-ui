@@ -1090,7 +1090,7 @@ describe("taggedOperations", function () {
           method: "get",
           path: "/",
           operation: op,
-          specPath: ['paths', '/', 'get']
+          specPath: ["paths", "/", "get"]
         }]
       }
     })
@@ -1136,7 +1136,7 @@ describe("taggedOperations", function () {
           method: "get",
           path: "/",
           operation: op,
-          specPath: ['paths', '/', 'get']
+          specPath: ["paths", "/", "get"]
         }]
       }
     })
@@ -1176,7 +1176,7 @@ describe("taggedOperations", function () {
           method: "get",
           path: "/",
           operation: op,
-          specPath: ['paths', '/', 'get']
+          specPath: ["paths", "/", "get"]
         }]
       }
     })
@@ -1216,7 +1216,7 @@ describe("taggedOperations", function () {
           method: "get",
           path: "/",
           operation: op,
-          specPath: ['paths', '/', 'get']
+          specPath: ["paths", "/", "get"]
         }]
       }
     })
