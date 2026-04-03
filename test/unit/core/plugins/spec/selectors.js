@@ -1089,7 +1089,8 @@ describe("taggedOperations", function () {
           id: "get-/",
           method: "get",
           path: "/",
-          operation: op
+          operation: op,
+          specPath: ['paths', '/', 'get']
         }]
       }
     })
@@ -1134,7 +1135,8 @@ describe("taggedOperations", function () {
           id: "get-/",
           method: "get",
           path: "/",
-          operation: op
+          operation: op,
+          specPath: ['paths', '/', 'get']
         }]
       }
     })
@@ -1173,7 +1175,8 @@ describe("taggedOperations", function () {
           id: "get-/",
           method: "get",
           path: "/",
-          operation: op
+          operation: op,
+          specPath: ['paths', '/', 'get']
         }]
       }
     })
@@ -1212,7 +1215,8 @@ describe("taggedOperations", function () {
           id: "get-/",
           method: "get",
           path: "/",
-          operation: op
+          operation: op,
+          specPath: ['paths', '/', 'get']
         }]
       }
     })

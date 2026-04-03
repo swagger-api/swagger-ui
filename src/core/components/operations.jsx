@@ -66,7 +66,7 @@ export default class Operations extends React.Component {
             operations.map(op => {
               const path = op.get("path")
               const method = op.get("method")
-              const specPath = Im.List(["paths", path, method])
+              const specPath = op.get("specPath")
 
               if (validOperationMethods.indexOf(method) === -1) {
                 return null
