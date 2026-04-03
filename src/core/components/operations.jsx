@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Im from "immutable"
 
 export default class Operations extends React.Component {
 
