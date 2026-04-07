@@ -2,16 +2,22 @@
  * @prettier
  */
 import en from "core/plugins/i18n/locales/en"
+import ca from "core/plugins/i18n/locales/ca"
 import de from "core/plugins/i18n/locales/de"
 import es from "core/plugins/i18n/locales/es"
 import fr from "core/plugins/i18n/locales/fr"
 import is from "core/plugins/i18n/locales/is"
+import it_locale from "core/plugins/i18n/locales/it"
+import ja from "core/plugins/i18n/locales/ja"
+import ka from "core/plugins/i18n/locales/ka"
 import ko from "core/plugins/i18n/locales/ko"
+import pl from "core/plugins/i18n/locales/pl"
 import pt from "core/plugins/i18n/locales/pt"
 import ru from "core/plugins/i18n/locales/ru"
+import tr from "core/plugins/i18n/locales/tr"
 import zh from "core/plugins/i18n/locales/zh"
 
-const NON_ENGLISH_LOCALES = { de, es, fr, is, ko, pt, ru, zh }
+const NON_ENGLISH_LOCALES = { ca, de, es, fr, is, it: it_locale, ja, ka, ko, pl, pt, ru, tr, zh }
 const EN_KEYS = Object.keys(en)
 
 describe("i18n locale catalogs", () => {
