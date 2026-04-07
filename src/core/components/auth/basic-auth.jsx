@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 export default class BasicAuth extends React.Component {
   static propTypes = {
@@ -10,7 +11,12 @@ export default class BasicAuth extends React.Component {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     errSelectors: PropTypes.object.isRequired,
-    authSelectors: PropTypes.object.isRequired
+    authSelectors: PropTypes.object.isRequired,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   constructor(props, context) {
@@ -48,7 +54,7 @@ export default class BasicAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, name, errSelectors, authSelectors } = this.props
+    let { schema, getComponent, name, errSelectors, authSelectors, t } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
@@ -61,13 +67,13 @@ export default class BasicAuth extends React.Component {
 
     return (
       <div>
-        <h4>Basic authorization<JumpToPath path={path} /></h4>
-        { username && <h6>Authorized</h6> }
+        <h4>{t("auth.basic_authorization_title")}<JumpToPath path={path} /></h4>
+        { username && <h6>{t("auth.authorized")}</h6> }
         <Row>
           <Markdown source={ schema.get("description") } />
         </Row>
         <Row>
-          <label htmlFor="auth_username">Username:</label>
+          <label htmlFor="auth_username">{t("auth.username_cap")}</label>
           {
             username ? <code> { username } </code>
                      : <Col>
@@ -83,7 +89,7 @@ export default class BasicAuth extends React.Component {
           }
         </Row>
         <Row>
-          <label htmlFor="auth_password">Password:</label>
+          <label htmlFor="auth_password">{t("auth.password_cap")}</label>
             {
               username ? <code> ****** </code>
                        : <Col>
