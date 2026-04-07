@@ -1499,6 +1499,17 @@ describe("utils", () => {
       expect(sanitizeUrl("./../../../openapi.json")).toEqual("./../../../openapi.json")
     })
 
+    it("should preserve relative OAuth2 authorization URLs", () => {
+      // Regression test for https://github.com/swagger-api/swagger-ui/issues/10340
+      expect(sanitizeUrl("./../identity/connect/authorize")).toEqual("./../identity/connect/authorize")
+      expect(sanitizeUrl("../identity/connect/authorize")).toEqual("../identity/connect/authorize")
+      expect(sanitizeUrl("../../identity/connect/authorize")).toEqual("../../identity/connect/authorize")
+      expect(sanitizeUrl("./oauth2/authorize")).toEqual("./oauth2/authorize")
+      expect(sanitizeUrl("../oauth2/token")).toEqual("../oauth2/token")
+      expect(sanitizeUrl("/oauth2/authorize")).toEqual("/oauth2/authorize")
+      expect(sanitizeUrl("./../oauth2/authorize?response_type=code")).toEqual("./../oauth2/authorize?response_type=code")
+    })
+
     it("should gracefully handle empty strings", () => {
       expect(sanitizeUrl("")).toEqual("")
     })
