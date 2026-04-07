@@ -1,5 +1,6 @@
 import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 import {parseSearch, serializeSearch} from "core/utils"
 
@@ -7,7 +8,16 @@ class TopBar extends React.Component {
 
   static propTypes = {
     layoutActions: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired
+    authActions: PropTypes.object.isRequired,
+    specSelectors: PropTypes.object.isRequired,
+    specActions: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   constructor(props, context) {
@@ -133,7 +143,7 @@ class TopBar extends React.Component {
       })
 
       control.push(
-        <label className="select-label" htmlFor="select"><span>Select a definition</span>
+        <label className="select-label" htmlFor="select"><span>{this.props.t("topbar.select_definition")}</span>
           <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
@@ -152,7 +162,7 @@ class TopBar extends React.Component {
           id="download-url-input"
         />
       )
-      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
+      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>{this.props.t("button.explore")}</Button>)
     }
 
     return (
@@ -171,13 +181,6 @@ class TopBar extends React.Component {
       </div>
     )
   }
-}
-
-TopBar.propTypes = {
-  specSelectors: PropTypes.object.isRequired,
-  specActions: PropTypes.object.isRequired,
-  getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.isRequired
 }
 
 export default TopBar

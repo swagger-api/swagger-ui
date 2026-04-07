@@ -6,6 +6,7 @@ import ConfigsPlugin from "core/plugins/configs"
 import DeepLinkingPlugin from "core/plugins/deep-linking"
 import ErrPlugin from "core/plugins/err"
 import FilterPlugin from "core/plugins/filter"
+import I18nPlugin from "core/plugins/i18n"
 import IconsPlugin from "core/plugins/icons"
 import LayoutPlugin from "core/plugins/layout"
 import LogsPlugin from "core/plugins/logs"
@@ -29,6 +30,7 @@ import FormComponentsPlugin from "core/presets/base/plugins/form-components"
 const BasePreset = () => [
   ConfigsPlugin,
   UtilPlugin,
+  I18nPlugin,
   LogsPlugin,
   ViewPlugin,
   ViewLegacyPlugin,

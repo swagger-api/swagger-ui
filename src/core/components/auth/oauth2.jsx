@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import oauth2Authorize from "core/oauth2-authorize"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 export default class Oauth2 extends React.Component {
   static propTypes = {
@@ -14,7 +15,12 @@ export default class Oauth2 extends React.Component {
     oas3Selectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
-    getConfigs: PropTypes.any
+    getConfigs: PropTypes.any,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   constructor(props, context) {
@@ -109,7 +115,7 @@ export default class Oauth2 extends React.Component {
 
   render() {
     let {
-      schema, getComponent, authSelectors, errSelectors, name, specSelectors
+      schema, getComponent, authSelectors, errSelectors, name, specSelectors, t
     } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
@@ -147,21 +153,21 @@ export default class Oauth2 extends React.Component {
     return (
       <div>
         <h4>{name} (OAuth2, { flowToDisplay }) <JumpToPath path={path} /></h4>
-        { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
+        { !this.state.appName ? null : <h5>{t("auth.application")} { this.state.appName } </h5> }
         { description && <Markdown source={ schema.get("description") } /> }
 
-        { isAuthorized && <h6>Authorized</h6> }
+        { isAuthorized && <h6>{t("auth.authorized")}</h6> }
 
-        { oidcUrl && <p>OpenID Connect URL: <code>{ oidcUrl }</code></p> }
-        { ( flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE ) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
-        { ( flow === AUTH_FLOW_PASSWORD || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_APPLICATION ) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
-        <p className="flow">Flow: <code>{ flowToDisplay }</code></p>
+        { oidcUrl && <p>{t("auth.openid_connect_url")} <code>{ oidcUrl }</code></p> }
+        { ( flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE ) && <p>{t("auth.authorization_url")} <code>{ schema.get("authorizationUrl") }</code></p> }
+        { ( flow === AUTH_FLOW_PASSWORD || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_APPLICATION ) && <p>{t("auth.token_url")}<code> { schema.get("tokenUrl") }</code></p> }
+        <p className="flow">{t("auth.flow")} <code>{ flowToDisplay }</code></p>
 
         {
           flow !== AUTH_FLOW_PASSWORD ? null
             : <Row>
               <Row>
-                <label htmlFor="oauth_username">username:</label>
+                <label htmlFor="oauth_username">{t("auth.username")}</label>
                 {
                   isAuthorized ? <code> { this.state.username } </code>
                     : <Col tablet={10} desktop={10}>
@@ -173,7 +179,7 @@ export default class Oauth2 extends React.Component {
 
               }
               <Row>
-                <label htmlFor="oauth_password">password:</label>
+                <label htmlFor="oauth_password">{t("auth.password")}</label>
                 {
                   isAuthorized ? <code> ****** </code>
                     : <Col tablet={10} desktop={10}>
@@ -182,13 +188,13 @@ export default class Oauth2 extends React.Component {
                 }
               </Row>
               <Row>
-                <label htmlFor="password_type">Client credentials location:</label>
+                <label htmlFor="password_type">{t("auth.client_credentials_location")}</label>
                 {
                   isAuthorized ? <code> { this.state.passwordType } </code>
                     : <Col tablet={10} desktop={10}>
                       <select id="password_type" data-name="passwordType" onChange={ this.onInputChange }>
-                        <option value="basic">Authorization header</option>
-                        <option value="request-body">Request body</option>
+                        <option value="basic">{t("auth.authorization_header")}</option>
+                        <option value="request-body">{t("auth.request_body_option")}</option>
                       </select>
                     </Col>
                 }
@@ -198,7 +204,7 @@ export default class Oauth2 extends React.Component {
         {
           ( flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
-            <label htmlFor={ `client_id_${flow}` }>client_id:</label>
+            <label htmlFor={ `client_id_${flow}` }>{t("auth.client_id")}</label>
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
@@ -215,7 +221,7 @@ export default class Oauth2 extends React.Component {
 
         {
           ( (flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD) && <Row>
-            <label htmlFor={ `client_secret_${flow}` }>client_secret:</label>
+            <label htmlFor={ `client_secret_${flow}` }>{t("auth.client_secret")}</label>
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
@@ -233,9 +239,9 @@ export default class Oauth2 extends React.Component {
         {
           !isAuthorized && scopes && scopes.size ? <div className="scopes">
             <h2>
-              Scopes:
-              <a onClick={this.selectScopes} data-all={true}>select all</a>
-              <a onClick={this.selectScopes}>select none</a>
+              {t("auth.scopes_title")}
+              <a onClick={this.selectScopes} data-all={true}>{t("auth.select_all")}</a>
+              <a onClick={this.selectScopes}>{t("auth.select_none")}</a>
             </h2>
             { scopes.map((description, name) => {
               return (
@@ -270,11 +276,11 @@ export default class Oauth2 extends React.Component {
         }
         <div className="auth-btn-wrapper">
         { isValid &&
-          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout } aria-label="Remove authorization">Logout</Button>
-        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize } aria-label="Apply given OAuth2 credentials">Authorize</Button>
+          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout } aria-label={t("aria.remove_authorization")}>{t("button.logout")}</Button>
+        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize } aria-label={t("aria.apply_oauth2_credentials")}>{t("button.authorize")}</Button>
           )
         }
-          <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+          <Button className="btn modal-btn auth btn-done" onClick={ this.close }>{t("button.close")}</Button>
         </div>
 
       </div>

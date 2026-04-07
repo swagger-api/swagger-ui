@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 export default class FilterContainer extends React.Component {
 
@@ -8,6 +9,11 @@ export default class FilterContainer extends React.Component {
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   onFilterChange = (e) => {
@@ -16,7 +22,7 @@ export default class FilterContainer extends React.Component {
   }
 
   render () {
-    const {specSelectors, layoutSelectors, getComponent} = this.props
+    const {specSelectors, layoutSelectors, getComponent, t} = this.props
     const Col = getComponent("Col")
 
     const isLoading = specSelectors.loadingStatus() === "loading"
@@ -32,7 +38,7 @@ export default class FilterContainer extends React.Component {
         {filter === false ? null :
           <div className="filter-container">
             <Col className="filter wrapper" mobile={12}>
-              <input className={classNames.join(" ")} placeholder="Filter by tag" type="text"
+              <input className={classNames.join(" ")} placeholder={t("placeholder.filter_by_tag")} type="text"
                      onChange={this.onFilterChange} value={typeof filter === "string" ? filter : ""}
                      disabled={isLoading}/>
             </Col>

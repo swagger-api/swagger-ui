@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react"
 import classNames from "classnames"
 import PropTypes from "prop-types"
 import { CopyToClipboard } from "react-copy-to-clipboard"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 const style = {
   cursor: "pointer",
@@ -33,7 +34,7 @@ const activeStyle = {
   borderBottom: "none"
 }
 
-const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) => {
+const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent, t }) => {
   const rootRef = useRef(null)
 
   const ArrowIcon = getComponent("ArrowUpIcon")
@@ -104,11 +105,11 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
         <h4
           onClick={() => handleSetIsExpanded()}
           style={{ cursor: "pointer" }}
-        >Snippets</h4>
+        >{t("label.snippets")}</h4>
         <button
           onClick={() => handleSetIsExpanded()}
           style={{ border: "none", background: "none" }}
-          title={isExpanded ? "Collapse operation" : "Expand operation"}
+          title={isExpanded ? t("aria.collapse_operation") : t("aria.expand_operation")}
         >
           {isExpanded ? <ArrowDownIcon className="arrow" width="10" height="10" /> : <ArrowIcon className="arrow" width="10" height="10" />}
         </button>
@@ -158,6 +159,11 @@ RequestSnippets.propTypes = {
   requestSnippetsSelectors: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
   requestSnippetsActions: PropTypes.object,
+  t: PropTypes.func,
+}
+
+RequestSnippets.defaultProps = {
+  t: fallbackT,
 }
 
 export default RequestSnippets
