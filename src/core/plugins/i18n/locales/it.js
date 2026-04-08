@@ -61,8 +61,6 @@ const it = {
   "auth.basic_authorization_title": "Autorizzazione di base",
   "auth.client_credentials_location":
     "Posizione delle credenziali del client:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Flusso:",
   "auth.openid_connect_url": "URL OpenID Connect:",
   "auth.password": "password:",

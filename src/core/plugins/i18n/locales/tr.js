@@ -60,8 +60,6 @@ const tr = {
   "auth.authorized": "Yetkilendirildi",
   "auth.basic_authorization_title": "Temel yetkilendirme",
   "auth.client_credentials_location": "İstemci kimlik bilgilerinin konumu:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Akış:",
   "auth.openid_connect_url": "OpenID Connect URL'i:",
   "auth.password": "şifre:",

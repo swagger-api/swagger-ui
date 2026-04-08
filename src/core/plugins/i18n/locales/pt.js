@@ -60,8 +60,6 @@ const pt = {
   "auth.authorized": "Autorizado",
   "auth.basic_authorization_title": "Autorização básica",
   "auth.client_credentials_location": "Localização das credenciais do cliente:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Fluxo:",
   "auth.openid_connect_url": "URL do OpenID Connect:",
   "auth.password": "senha:",

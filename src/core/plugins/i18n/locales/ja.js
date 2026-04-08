@@ -60,8 +60,6 @@ const ja = {
   "auth.authorized": "認証済み",
   "auth.basic_authorization_title": "基本認証",
   "auth.client_credentials_location": "クライアント認証情報の場所:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "フロー:",
   "auth.openid_connect_url": "OpenID Connect URL:",
   "auth.password": "パスワード:",

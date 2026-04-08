@@ -61,8 +61,6 @@ const pl = {
   "auth.basic_authorization_title": "Autoryzacja podstawowa",
   "auth.client_credentials_location":
     "Lokalizacja danych uwierzytelniających klienta:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Przepływ:",
   "auth.openid_connect_url": "URL OpenID Connect:",
   "auth.password": "hasło:",

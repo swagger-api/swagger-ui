@@ -204,7 +204,7 @@ export default class Oauth2 extends React.Component {
         {
           ( flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
-            <label htmlFor={ `client_id_${flow}` }>{t("auth.client_id")}</label>
+            <label htmlFor={ `client_id_${flow}` }>client_id:</label>
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
@@ -221,7 +221,7 @@ export default class Oauth2 extends React.Component {
 
         {
           ( (flow === AUTH_FLOW_APPLICATION || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_PASSWORD) && <Row>
-            <label htmlFor={ `client_secret_${flow}` }>{t("auth.client_secret")}</label>
+            <label htmlFor={ `client_secret_${flow}` }>client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>

@@ -60,8 +60,6 @@ const zh = {
   "auth.authorized": "已授权",
   "auth.basic_authorization_title": "基本授权",
   "auth.client_credentials_location": "客户端凭据位置：",
-  "auth.client_id": "client_id：",
-  "auth.client_secret": "client_secret：",
   "auth.flow": "流程：",
   "auth.openid_connect_url": "OpenID Connect URL：",
   "auth.password": "密码：",

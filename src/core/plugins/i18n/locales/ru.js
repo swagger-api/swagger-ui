@@ -60,8 +60,6 @@ const ru = {
   "auth.authorized": "Авторизован",
   "auth.basic_authorization_title": "Базовая авторизация",
   "auth.client_credentials_location": "Местонахождение учётных данных клиента:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Поток:",
   "auth.openid_connect_url": "URL OpenID Connect:",
   "auth.password": "пароль:",

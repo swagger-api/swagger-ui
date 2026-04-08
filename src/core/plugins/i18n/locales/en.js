@@ -61,8 +61,6 @@ const en = {
   "auth.authorized": "Authorized",
   "auth.basic_authorization_title": "Basic authorization",
   "auth.client_credentials_location": "Client credentials location:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Flow:",
   "auth.openid_connect_url": "OpenID Connect URL:",
   "auth.password": "password:",

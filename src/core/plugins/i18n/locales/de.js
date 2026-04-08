@@ -60,8 +60,6 @@ const de = {
   "auth.authorized": "Autorisiert",
   "auth.basic_authorization_title": "Basisautorisierung",
   "auth.client_credentials_location": "Speicherort der Client-Anmeldedaten:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Flow:",
   "auth.openid_connect_url": "OpenID Connect-URL:",
   "auth.password": "Passwort:",
