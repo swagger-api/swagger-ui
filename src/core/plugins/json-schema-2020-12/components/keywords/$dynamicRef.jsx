@@ -5,7 +5,7 @@ import React from "react"
 
 import { schema } from "../../prop-types"
 
-const $dynamicRef = ({ schema }) => {
+const DynamicRef = ({ schema }) => {
   if (!schema?.$dynamicRef) return null
 
   return (
@@ -20,8 +20,8 @@ const $dynamicRef = ({ schema }) => {
   )
 }
 
-$dynamicRef.propTypes = {
+DynamicRef.propTypes = {
   schema: schema.isRequired,
 }
 
-export default $dynamicRef
+export default DynamicRef

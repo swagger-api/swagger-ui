@@ -8,7 +8,7 @@ import { schema } from "../../prop-types"
 import { useComponent, useIsExpanded, usePath, useLevel } from "../../hooks"
 import { JSONSchemaLevelContext, JSONSchemaPathContext } from "../../context"
 
-const $defs = ({ schema }) => {
+const Defs = ({ schema }) => {
   const $defs = schema?.$defs || {}
   const pathToken = "$defs"
   const { path } = usePath(pathToken)
@@ -86,8 +86,8 @@ const $defs = ({ schema }) => {
   )
 }
 
-$defs.propTypes = {
+Defs.propTypes = {
   schema: schema.isRequired,
 }
 
-export default $defs
+export default Defs
