@@ -90,7 +90,7 @@ export default class Operation extends PureComponent {
     let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
 
-    const Responses = getComponent("responses")
+    const Responses = getComponent("responses", true)
     const Parameters = getComponent( "parameters", true )
     const Execute = getComponent( "execute" )
     const Clear = getComponent( "clear" )
