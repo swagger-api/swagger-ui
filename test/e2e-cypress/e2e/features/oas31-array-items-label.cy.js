@@ -6,9 +6,7 @@ describe("OpenAPI 3.1 array items label", () => {
     cy.visit("/?url=/documents/features/oas31-array-items-label.yaml")
     cy.get(".models").click()
     cy.get(".json-schema-2020-12").contains("UserList").click()
-    cy.get(".json-schema-2020-12-accordion")
-      .contains("users")
-      .click()
+    cy.get(".json-schema-2020-12-accordion").contains("users").click()
   })
 
   it("should display the referenced schema name instead of 'Items' for array items", () => {

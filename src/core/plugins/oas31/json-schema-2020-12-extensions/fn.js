@@ -13,7 +13,9 @@ export const makeGetTitle = (original) => {
       const match = schema.$$ref.match(/#\/components\/schemas\/([^/]+)$/)
       if (match) {
         try {
-          return decodeURIComponent(match[1].replace(/~1/g, "/").replace(/~0/g, "~"))
+          return decodeURIComponent(
+            match[1].replace(/~1/g, "/").replace(/~0/g, "~")
+          )
         } catch {
           return match[1]
         }

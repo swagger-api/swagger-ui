@@ -39,7 +39,9 @@ describe("OAS31 - json-schema-2020-12-extensions - makeGetTitle", () => {
     })
 
     it("should extract the schema name from a relative $$ref", () => {
-      expect(getTitle({ $$ref: "swagger.json#/components/schemas/Bar" })).toBe("Bar")
+      expect(getTitle({ $$ref: "swagger.json#/components/schemas/Bar" })).toBe(
+        "Bar"
+      )
     })
 
     it("should extract the schema name from a fragment-only $$ref", () => {
