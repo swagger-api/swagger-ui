@@ -210,12 +210,13 @@ export class Select extends React.Component {
 export class Link extends React.Component {
 
   render() {
-    return <a {...this.props} rel="noopener noreferrer" className={xclass(this.props.className, "link")}/>
+    return <a {...this.props} rel="noopener noreferrer" className={xclass(this.props.className, "link")}>{this.props.children}</a>
   }
 
 }
 
 Link.propTypes = {
+  children: PropTypes.node,
   className: PropTypes.string
 }
 

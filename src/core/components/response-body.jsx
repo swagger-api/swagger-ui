@@ -130,11 +130,12 @@ export default class ResponseBody extends React.PureComponent {
       if(contentType.includes("svg")) {
         bodyEl = <div> { content } </div>
       } else {
-        bodyEl = <img src={ window.URL.createObjectURL(content) } />
+        bodyEl = <img alt="" src={ window.URL.createObjectURL(content) } />
       }
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
+      // eslint-disable-next-line jsx-a11y/media-has-caption
       bodyEl = <pre className="microlight"><audio controls key={ url }><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy>{content}</HighlightCode>

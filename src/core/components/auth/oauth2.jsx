@@ -234,8 +234,8 @@ export default class Oauth2 extends React.Component {
           !isAuthorized && scopes && scopes.size ? <div className="scopes">
             <h2>
               Scopes:
-              <a onClick={this.selectScopes} data-all={true}>select all</a>
-              <a onClick={this.selectScopes}>select none</a>
+              <button type="button" className="link" onClick={this.selectScopes} data-all={true}>select all</button>
+              <button type="button" className="link" onClick={this.selectScopes}>select none</button>
             </h2>
             { scopes.map((description, name) => {
               return (

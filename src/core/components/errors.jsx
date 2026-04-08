@@ -76,7 +76,7 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
             { error.get("message") }
           </span>
           <div className="error-line">
-            { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
+            { errorLine && jumpToLine ? <button type="button" className="link" onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</button> : null }
           </div>
         </div>
       }
@@ -105,7 +105,7 @@ const SpecErrorItem = ( { error, jumpToLine = null } ) => {
           <span className="message">{ error.get("message") }</span>
           <div className="error-line">
             { jumpToLine ? (
-              <a onClick={jumpToLine.bind(null, error.get("line"))}>Jump to line { error.get("line") }</a>
+              <button type="button" className="link" onClick={jumpToLine.bind(null, error.get("line"))}>Jump to line { error.get("line") }</button>
             ) : null }
           </div>
         </div>

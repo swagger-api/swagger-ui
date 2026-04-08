@@ -19,9 +19,10 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
   ],
-  plugins: ["react", "import", "jest", "prettier"],
+  plugins: ["react", "import", "jest", "prettier", "jsx-a11y"],
   settings: {
     react: {
       pragma: "React",
@@ -74,5 +75,13 @@ module.exports = {
     "react/display-name": 0,
     "import/no-extraneous-dependencies": 2,
     "react/jsx-filename-extension": 2,
+    // autoFocus on the first field of a modal is an accepted a11y pattern
+    "jsx-a11y/no-autofocus": 0,
+    // Non-interactive elements with onClick need design-level refactoring; warn for now
+    "jsx-a11y/click-events-have-key-events": 1,
+    "jsx-a11y/no-static-element-interactions": 1,
+    "jsx-a11y/no-noninteractive-element-interactions": 1,
+    // Scope checkbox labels have accessible text nested at depth 3
+    "jsx-a11y/label-has-associated-control": ["error", { depth: 3 }],
   },
 }

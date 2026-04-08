@@ -177,8 +177,8 @@ export default class Parameters extends Component {
               <table className="parameters">
                 <thead>
                 <tr>
-                  <th className="col_header parameters-col_name">Name</th>
-                  <th className="col_header parameters-col_description">Description</th>
+                  <th className="col_header parameters-col_name" scope="col">Name</th>
+                  <th className="col_header parameters-col_description" scope="col">Description</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -220,7 +220,7 @@ export default class Parameters extends Component {
             <div className="opblock-section-header">
               <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request
                 body</h4>
-              <label id={controlId}>
+              <div id={controlId}>
                 <ContentType
                   value={oas3Selectors.requestContentType(...pathMethod)}
                   contentTypes={requestBody.get("content", List()).keySeq()}
@@ -231,7 +231,7 @@ export default class Parameters extends Component {
                   ariaLabel="Request content type" 
                   controlId={controlId}
                 />
-              </label>
+              </div>
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
