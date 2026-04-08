@@ -61,8 +61,6 @@ const ka = {
   "auth.authorized": "ავტორიზებულია",
   "auth.basic_authorization_title": "საბაზო ავტორიზაცია",
   "auth.client_credentials_location": "კლიენტის სერთიფიკატების მდებარეობა:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "ნაკადი:",
   "auth.openid_connect_url": "OpenID Connect URL:",
   "auth.password": "პაროლი:",

@@ -60,8 +60,6 @@ const ca = {
   "auth.authorized": "Autoritzat",
   "auth.basic_authorization_title": "Autorització bàsica",
   "auth.client_credentials_location": "Ubicació de les credencials del client:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Flux:",
   "auth.openid_connect_url": "URL de connexió OpenID:",
   "auth.password": "contrasenya:",

@@ -60,8 +60,6 @@ const is = {
   "auth.authorized": "Heimilt",
   "auth.basic_authorization_title": "Grunnheimild",
   "auth.client_credentials_location": "Staðsetning skilríkja biðlara:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "Flæði:",
   "auth.openid_connect_url": "OpenID Connect vefslóð:",
   "auth.password": "lykilorð:",

@@ -60,8 +60,6 @@ const ko = {
   "auth.authorized": "인증됨",
   "auth.basic_authorization_title": "기본 인증",
   "auth.client_credentials_location": "클라이언트 자격증명 위치:",
-  "auth.client_id": "client_id:",
-  "auth.client_secret": "client_secret:",
   "auth.flow": "흐름:",
   "auth.openid_connect_url": "OpenID Connect URL:",
   "auth.password": "비밀번호:",

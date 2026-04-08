@@ -60,8 +60,6 @@ const fr = {
   "auth.authorized": "Autorisé",
   "auth.basic_authorization_title": "Autorisation de base",
   "auth.client_credentials_location": "Emplacement des identifiants client :",
-  "auth.client_id": "client_id :",
-  "auth.client_secret": "client_secret :",
   "auth.flow": "Flux :",
   "auth.openid_connect_url": "URL OpenID Connect :",
   "auth.password": "mot de passe :",
