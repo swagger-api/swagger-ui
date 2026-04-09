@@ -209,7 +209,7 @@ describe("oauth2", () => {
       expect(authConfig.auth.code).toBe("mock_authorization_code")
 
       oauth2Authorize(authConfig)
-      expect(authConfig.auth.code).toBeUndefined()
+      expect(authConfig.authActions.authPopup.mock.calls[0][1].auth.code).toBeUndefined()
 
       authConfig.authActions.authPopup.mockReset()
     })
