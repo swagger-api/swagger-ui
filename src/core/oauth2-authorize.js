@@ -8,11 +8,6 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let flow = schema.get("flow")
   let query = []
 
-  // deleting old authorization code before new attempt if defined. 
-  // At this stage we don't care about flow type. 
-  // It fails silently if not defined yet
-  delete auth.code
-
   switch (flow) {
     case "password":
       authActions.authorizePassword(auth)
@@ -132,8 +127,12 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     callback = authActions.authorizeAccessCodeWithFormParams
   }
 
+  // remove stale `code` without mutating original auth
+  let updatedAuth = { ...auth }
+  delete updatedAuth.code
+
   authActions.authPopup(url, {
-    auth: auth,
+    auth: updatedAuth,
     state: state,
     redirectUrl: redirectUrl,
     callback: callback,
