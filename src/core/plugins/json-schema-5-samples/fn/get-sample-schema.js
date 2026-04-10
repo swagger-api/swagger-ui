@@ -6,14 +6,15 @@ const makeGetSampleSchema =
   (schema, contentType = "", config = {}, exampleOverride = undefined) => {
     const { fn } = getSystem()
 
-    if (typeof schema?.toJS === "function") {
-      schema = schema.toJS()
-    }
     if (typeof exampleOverride?.toJS === "function") {
       exampleOverride = exampleOverride.toJS()
     }
 
     if (/xml/.test(contentType)) {
+      if (typeof schema?.toJS === "function") {
+        schema = schema.toJS()
+      }
+
       return fn.getXmlSampleSchema(schema, config, exampleOverride)
     }
     if (/(yaml|yml)/.test(contentType)) {
