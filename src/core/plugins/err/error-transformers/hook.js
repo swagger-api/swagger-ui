@@ -1,10 +1,12 @@
 import reduce from "lodash/reduce"
 import * as NotOfType from "./transformers/not-of-type"
 import * as ParameterOneOf from "./transformers/parameter-oneof"
+import * as ExampleMutuallyExclusive from "./transformers/example-mutually-exclusive"
 
 const errorTransformers = [
   NotOfType,
-  ParameterOneOf
+  ParameterOneOf,
+  ExampleMutuallyExclusive
 ]
 
 export default function transformErrors (errors) {
