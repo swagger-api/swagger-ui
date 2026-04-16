@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { fromJS } from "immutable"
+import { fromJS, Map } from "immutable"
 
 /**
  * `authorize` and `logout` wrapped actions provide capacity
@@ -44,7 +44,7 @@ export const logout = (oriAction, system) => (payload) => {
   try {
     if (configs.persistAuthorization && Array.isArray(payload)) {
       payload.forEach((authorizedName) => {
-        const auth = authorized.get(authorizedName, {})
+        const auth = authorized.get(authorizedName, Map())
         const isApiKeyAuth = auth.getIn(["schema", "type"]) === "apiKey"
         const isInCookie = auth.getIn(["schema", "in"]) === "cookie"
         const isApiKeyInCookie = isApiKeyAuth && isInCookie
