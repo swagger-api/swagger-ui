@@ -1,6 +1,8 @@
 /**
  * @prettier
  */
+import { getModelName } from "../../../utils/get-model-name"
+
 export const makeGetTitle = (original) => {
   if (typeof original !== "function") {
     return null
@@ -9,19 +11,7 @@ export const makeGetTitle = (original) => {
   return (schema, options) => {
     const title = original(schema, options)
     if (title) return title
-    if (typeof schema?.$$ref === "string") {
-      const match = schema.$$ref.match(/#\/components\/schemas\/([^/]+)$/)
-      if (match) {
-        try {
-          return decodeURIComponent(
-            match[1].replace(/~1/g, "/").replace(/~0/g, "~")
-          )
-        } catch {
-          return match[1]
-        }
-      }
-    }
-    return ""
+    return getModelName(schema?.$$ref) || ""
   }
 }
 

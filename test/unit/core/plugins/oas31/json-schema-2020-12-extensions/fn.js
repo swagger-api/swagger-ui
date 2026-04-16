@@ -49,9 +49,15 @@ describe("OAS31 - json-schema-2020-12-extensions - makeGetTitle", () => {
     })
   })
 
-  describe("when schema has no title and $$ref does not point to components/schemas", () => {
-    it("should return empty string for a non-schema $$ref", () => {
-      expect(getTitle({ $$ref: "#/definitions/Bar" })).toBe("")
+  describe("when schema has no title but has $$ref pointing to #/definitions/", () => {
+    it("should extract the schema name from a definitions $$ref", () => {
+      expect(getTitle({ $$ref: "#/definitions/Bar" })).toBe("Bar")
+    })
+  })
+
+  describe("when schema has no title and $$ref does not match known paths", () => {
+    it("should return empty string for an unrecognized $$ref", () => {
+      expect(getTitle({ $$ref: "#/other/path/Baz" })).toBe("")
     })
 
     it("should return empty string for null schema", () => {
