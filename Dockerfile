@@ -2,7 +2,7 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1.29.7-alpine
+FROM nginx:1.30.0-alpine
 
 LABEL maintainer="vladimir.gorej@gmail.com" \
       org.opencontainers.image.authors="vladimir.gorej@gmail.com" \
@@ -11,7 +11,19 @@ LABEL maintainer="vladimir.gorej@gmail.com" \
       org.opencontainers.image.description="SwaggerUI Docker image" \
       org.opencontainers.image.licenses="Apache-2.0"
 
-RUN apk add --update-cache --no-cache "nodejs" "libxml2>=2.13.9-r0" "libexpat>=2.7.2-r0" "libxslt>=1.1.42-r2" "xz-libs>=5.6.3-r1" "c-ares>=1.34.5-r0" "libpng>=1.6.56-r0" "zlib>=1.3.2-r0"
+RUN apk add --update-cache --no-cache \
+    "nodejs" \
+    "libxml2>=2.13.9-r0" \
+    "libexpat>=2.7.2-r0" \
+    "libxslt>=1.1.42-r2" \
+    "xz-libs>=5.6.3-r1" \
+    "c-ares>=1.34.5-r0" \
+    "libpng>=1.6.56-r0" \
+    "zlib>=1.3.2-r0" \
+    "libcrypto3>=3.5.6-r0" \
+    "libssl3>=3.5.6-r0" \
+    "musl>=1.2.5-r23" \
+    "musl-utils>=1.2.5-r23"
 
 LABEL maintainer="char0n"
 
