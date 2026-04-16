@@ -112,7 +112,8 @@ html.dark-mode {
     .markdown,
     .renderedMarkdown {
       p,
-      pre {
+      pre,
+      li {
         color: $neutral-20;
       }
 
