@@ -54,7 +54,7 @@
     }
 
     svg {
-      fill: $btn-authorize-svg-fill-color;
+      color: $btn-authorize-svg-fill-color;
     }
   }
 
@@ -88,6 +88,7 @@
 
   border: none;
   background: none;
+  color: $black;
 
   .locked {
     opacity: 1;
@@ -116,6 +117,7 @@
 .expand-operation {
   border: none;
   background: none;
+  color: $black;
 
   svg {
     width: 20px;
@@ -128,14 +130,14 @@
 
   &:hover {
     svg {
-      fill: $expand-methods-svg-fill-color-hover;
+      color: $expand-methods-svg-fill-color-hover;
     }
   }
 
   svg {
     transition: all 0.3s;
 
-    fill: $expand-methods-svg-fill-color;
+    color: $expand-methods-svg-fill-color;
   }
 }
 
@@ -178,6 +180,7 @@ button {
   border: none;
   text-align: center;
   background: none;
+  color: $black;
 }
 
 // overrides for smaller copy button for curl command
@@ -196,4 +199,23 @@ button {
 .opblock .opblock-summary .view-line-link.copy-to-clipboard {
   height: 26px;
   position: unset;
+}
+
+// Render icon buttons in HCM system colors regardless of author fill cascade.
+@media (forced-colors: active) {
+  .authorization__btn svg path,
+  .expand-operation svg path,
+  .opblock-control-arrow svg path,
+  .models-control svg path,
+  .close-modal svg path,
+  .btn.authorize svg path,
+  .json-schema-2020-12-accordion svg path {
+    forced-color-adjust: none;
+    fill: ButtonText;
+  }
+
+  // Reset opacity dimming so HCM system-color contrast isn't composited away.
+  .authorization__btn .unlocked {
+    opacity: 1;
+  }
 }

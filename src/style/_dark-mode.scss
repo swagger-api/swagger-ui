@@ -94,7 +94,7 @@ html.dark-mode {
     .authorization__btn svg,
     .expand-operation svg,
     .opblock-control-arrow svg {
-      fill: $neutral-40;
+      color: $neutral-40;
       opacity: 1;
     }
 
@@ -217,7 +217,7 @@ html.dark-mode {
           border-color: $neutral-80;
 
           .close-modal svg {
-            fill: $neutral-20;
+            color: $neutral-20;
           }
         }
 
@@ -294,7 +294,7 @@ html.dark-mode {
         color: $authorize-button;
 
         svg {
-          fill: $authorize-button;
+          color: $authorize-button;
         }
       }
     }
@@ -618,7 +618,7 @@ html.dark-mode {
         background: $neutral-95;
 
         svg {
-          fill: $neutral-20;
+          color: $neutral-20;
         }
       }
 
@@ -735,7 +735,7 @@ html.dark-mode {
         }
 
         svg {
-          fill: $neutral-40;
+          color: $neutral-40;
         }
       }
     }
