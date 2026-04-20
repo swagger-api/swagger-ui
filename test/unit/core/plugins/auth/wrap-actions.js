@@ -90,6 +90,58 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
 
       expect(document.cookie).toEqual("apiKeyCookie=; Max-Age=-99999999")
     })
+
+    it("should delete cookie even when payload contains names missing from the authorized store", () => {
+      // The Authorize popup's Logout button sends every security
+      // definition name in the displayed group, including ones the user
+      // never authorized. Those names are absent from the `authorized`
+      // store, so `authorized.get(name)` falls back to a default value.
+      // This test guards the fix for
+      // https://github.com/swagger-api/swagger-ui/issues/10761 where the
+      // previous plain-object fallback caused a crash on `.getIn(...)`.
+      const authorized = fromJS({
+        api_key: {
+          schema: {
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          },
+          value: "test",
+        },
+      })
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+        }),
+        authSelectors: {
+          authorized: () => authorized,
+        },
+      }
+      const oriAction = jest.fn()
+
+      const logoutAction = () =>
+        logout(oriAction, system)(["missing_auth", "api_key"])
+
+      expect(logoutAction).not.toThrow()
+      expect(document.cookie).toEqual("apiKeyCookie=; Max-Age=-99999999")
+      expect(oriAction).toHaveBeenCalledWith(["missing_auth", "api_key"])
+    })
+
+    it("should not throw when every name in payload is missing from the authorized store", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+        }),
+        authSelectors: {
+          authorized: () => fromJS({}),
+        },
+      }
+
+      const logoutAction = () => logout(jest.fn(), system)(["missing_auth"])
+
+      expect(logoutAction).not.toThrow()
+      expect(document.cookie).toEqual("")
+    })
   })
 
   describe("given persistAuthorization=false", () => {
