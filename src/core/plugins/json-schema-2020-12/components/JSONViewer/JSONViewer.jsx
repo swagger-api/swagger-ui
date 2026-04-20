@@ -15,7 +15,7 @@ import {
 import { JSONSchemaLevelContext, JSONSchemaPathContext } from "../../context"
 import { isEmptyObject, isEmptyArray } from "../../fn"
 
-const JSONViewer = ({ name, value, className }) => {
+const JSONViewer = ({ name, value, className, hideArrayIndices = false }) => {
   const fn = useFn()
   const { path } = usePath(name)
   const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(name)
@@ -55,13 +55,25 @@ const JSONViewer = ({ name, value, className }) => {
   /**
    * Rendering.
    */
+  const isArrayIndex = typeof name === "string" && name.startsWith("#")
+  const shouldHideName = hideArrayIndices && isArrayIndex
+
   if (isPrimitive) {
     return (
       <div className={classNames("json-schema-2020-12-json-viewer", className)}>
-        <span className="json-schema-2020-12-json-viewer__name json-schema-2020-12-json-viewer__name--secondary">
-          {name}
-        </span>
-        <span className="json-schema-2020-12-json-viewer__value json-schema-2020-12-json-viewer__value--secondary">
+        {!shouldHideName && (
+          <span className="json-schema-2020-12-json-viewer__name json-schema-2020-12-json-viewer__name--secondary">
+            {name}
+          </span>
+        )}
+        <span
+          className={classNames(
+            "json-schema-2020-12-json-viewer__value json-schema-2020-12-json-viewer__value--secondary",
+            {
+              "json-schema-2020-12-json-viewer__value--no-name": shouldHideName,
+            }
+          )}
+        >
           {fn.stringify(value)}
         </span>
       </div>
@@ -71,9 +83,11 @@ const JSONViewer = ({ name, value, className }) => {
   if (isEmpty) {
     return (
       <div className={classNames("json-schema-2020-12-json-viewer", className)}>
-        <span className="json-schema-2020-12-json-viewer__name json-schema-2020-12-json-viewer__name--secondary">
-          {name}
-        </span>
+        {!shouldHideName && (
+          <span className="json-schema-2020-12-json-viewer__name json-schema-2020-12-json-viewer__name--secondary">
+            {name}
+          </span>
+        )}
         <strong className="json-schema-2020-12__attribute json-schema-2020-12__attribute--primary">
           {Array.isArray(value) ? "empty array" : "empty object"}
         </strong>
@@ -89,9 +103,11 @@ const JSONViewer = ({ name, value, className }) => {
           data-json-schema-level={level}
         >
           <Accordion expanded={isExpanded} onChange={handleExpansion}>
-            <span className="json-schema-2020-12-json-viewer__name json-schema-2020-12-json-viewer__name--secondary">
-              {name}
-            </span>
+            {!shouldHideName && (
+              <span className="json-schema-2020-12-json-viewer__name json-schema-2020-12-json-viewer__name--secondary">
+                {name}
+              </span>
+            )}
           </Accordion>
           <ExpandDeepButton
             expanded={isExpanded}
@@ -118,6 +134,7 @@ const JSONViewer = ({ name, value, className }) => {
                           name={`#${index}`}
                           value={item}
                           className={className}
+                          hideArrayIndices={hideArrayIndices}
                         />
                       </li>
                     ))
@@ -131,6 +148,7 @@ const JSONViewer = ({ name, value, className }) => {
                             name={propertyName}
                             value={propertyValue}
                             className={className}
+                            hideArrayIndices={false}
                           />
                         </li>
                       )
@@ -148,6 +166,7 @@ JSONViewer.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.any.isRequired,
   className: PropTypes.string,
+  hideArrayIndices: PropTypes.bool,
 }
 
 export default JSONViewer
