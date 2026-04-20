@@ -68,7 +68,9 @@ export default class Response extends React.Component {
     const activeMediaType = response.getIn(["content", activeContentType], Map({}))
     const examplesForMediaType = activeMediaType.get("examples", null)
 
-    const firstExamplesKey = examplesForMediaType.keySeq().first()
+    const firstExamplesKey = Map.isMap(examplesForMediaType) && !examplesForMediaType.isEmpty()
+      ? examplesForMediaType.keySeq().first()
+      : undefined
     return activeExamplesKey || firstExamplesKey
   }
 
@@ -246,7 +248,7 @@ export default class Response extends React.Component {
               includeReadOnly={ true }/>
           ) : null }
 
-          { isOAS3 && examplesForMediaType ? (
+          { isOAS3 && Map.isMap(examplesForMediaType) && !examplesForMediaType.isEmpty() ? (
               <Example
                 example={examplesForMediaType.get(this.getTargetExamplesKey(), Map({}))}
                 getComponent={getComponent}
