@@ -142,6 +142,55 @@ describe("spec plugin - actions", function(){
       expect(system.specActions.setMutatedRequest.mock.calls.length).toEqual(1)
       expect(system.specActions.setRequest.mock.calls.length).toEqual(1)
     })
+
+    it("should include duration in the response on error", async () => {
+      let configs = {
+        requestInterceptor: jest.fn(),
+        responseInterceptor: jest.fn()
+      }
+
+      const fakeDelay = 100
+      const system = {
+        fn: {
+          buildRequest: jest.fn(),
+          execute: jest.fn().mockImplementation(() => new Promise((_, reject) => {
+            setTimeout(() => {
+              reject(new Error("Error message"))
+            }, fakeDelay)
+          }))
+        },
+        specActions: {
+          executeRequest: jest.fn(),
+          setMutatedRequest: jest.fn(),
+          setRequest: jest.fn(),
+          setResponse: jest.fn()
+        },
+        specSelectors: {
+          spec: () => fromJS({}),
+          parameterValues: () => fromJS({}),
+          contentTypeValues: () => fromJS({}),
+          url: () => fromJS({}),
+          isOAS3: () => false
+        },
+        getConfigs: () => configs
+      }
+
+      const executeFn = executeRequest({ 
+        pathName: "/error", 
+        method: "GET",
+        operation: fromJS({operationId: "getError"})
+      })
+
+      await executeFn(system) 
+
+      expect(system.fn.execute.mock.calls.length).toEqual(1)
+      expect(system.specActions.setResponse).toHaveBeenCalled()
+
+      // Check if duration was set and is at least 100ms
+      const callArgs = system.specActions.setResponse.mock.calls[0][2]
+      expect(callArgs).toHaveProperty("duration")
+      expect(callArgs.duration).toBeGreaterThanOrEqual(fakeDelay)
+    })
   })
 
   xit("should call specActions.setResponse, when fn.execute resolves", function(){
