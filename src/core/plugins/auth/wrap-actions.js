@@ -44,13 +44,11 @@ export const logout = (oriAction, system) => (payload) => {
   try {
     if (configs.persistAuthorization && Array.isArray(payload)) {
       payload.forEach((authorizedName) => {
-        // The Authorize popup's Logout button submits every security
-        // definition in the displayed group, regardless of whether the
-        // user actually authorized it. Entries the user never filled in
-        // are not present in the `authorized` store, so we fall back to
-        // an empty Immutable Map() to keep the subsequent getIn() calls
-        // safe. Such entries have nothing stored in document.cookie, so
-        // skipping them is the correct behavior.
+        // Defend against missing entries in the `authorized` store — e.g.
+        // when a name was never authorized, or when an upstream caller
+        // passes an unexpected key shape. Use an empty Immutable Map() so
+        // the following getIn() calls are always safe; plain-object
+        // fallbacks crash here because getIn is Immutable-specific.
         const auth = authorized.get(authorizedName, Map())
         const isApiKeyAuth = auth.getIn(["schema", "type"]) === "apiKey"
         const isInCookie = auth.getIn(["schema", "in"]) === "cookie"

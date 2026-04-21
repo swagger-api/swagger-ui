@@ -92,13 +92,12 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
     })
 
     it("should delete cookie even when payload contains names missing from the authorized store", () => {
-      // The Authorize popup's Logout button sends every security
-      // definition name in the displayed group, including ones the user
-      // never authorized. Those names are absent from the `authorized`
-      // store, so `authorized.get(name)` falls back to a default value.
-      // This test guards the fix for
-      // https://github.com/swagger-api/swagger-ui/issues/10761 where the
-      // previous plain-object fallback caused a crash on `.getIn(...)`.
+      // Defensive: if `authorized.get(name)` can't find an entry, the
+      // fallback must expose `.getIn(...)` safely. A plain-object
+      // fallback crashes here; an empty Immutable Map() keeps the
+      // iteration going and still clears cookies for names that are
+      // present. Guards the fix for
+      // https://github.com/swagger-api/swagger-ui/issues/10761.
       const authorized = fromJS({
         api_key: {
           schema: {
