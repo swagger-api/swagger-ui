@@ -197,3 +197,10 @@ button {
   height: 26px;
   position: unset;
 }
+
+.copy-to-clipboard__copied {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  user-select: none;
+}
