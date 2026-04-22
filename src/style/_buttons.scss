@@ -174,6 +174,34 @@ button {
   background: #5e626f;
 }
 
+.copy-to-clipboard__toast {
+  position: absolute;
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #333;
+  color: #fff;
+  font-size: 11px;
+  font-family: sans-serif;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: copy-toast-fade-in 0.15s ease-out;
+}
+
+@keyframes copy-toast-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
 .opblock-control-arrow {
   border: none;
   text-align: center;
