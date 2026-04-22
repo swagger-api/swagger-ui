@@ -16,12 +16,12 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
 
     it("renders the Markdown description before Try it out is enabled", () => {
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "Upload a binary blob")
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown strong"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown strong"
       ).should("have.text", "Upload a binary blob")
       cy.get(
         ".opblock-section-request-body .opblock-description-wrapper i"
@@ -34,7 +34,7 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
     it("renders the Markdown description after Try it out is enabled", () => {
       cy.get(".try-out__btn").click()
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "Upload a binary blob")
@@ -51,19 +51,19 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
 
     it("renders the Markdown description before Try it out is enabled", () => {
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "Upload a PNG image")
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown em"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown em"
       ).should("have.text", "Upload a PNG image")
     })
 
     it("renders the Markdown description after Try it out is enabled", () => {
       cy.get(".try-out__btn").click()
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "Upload a PNG image")
@@ -80,7 +80,7 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
 
     it("renders the Markdown description before Try it out is enabled", () => {
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "Empty media type object")
@@ -89,7 +89,7 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
     it("renders the Markdown description after Try it out is enabled", () => {
       cy.get(".try-out__btn").click()
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "Empty media type object")
@@ -106,7 +106,7 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
 
     it("renders the Markdown description before Try it out is enabled", () => {
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "application/x-custom")
@@ -115,7 +115,7 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
     it("renders the Markdown description after Try it out is enabled", () => {
       cy.get(".try-out__btn").click()
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       )
         .should("exist")
         .and("contain.text", "application/x-custom")
@@ -132,7 +132,7 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
 
     it("does not render a Markdown block when description is absent (before Try it out)", () => {
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       ).should("not.exist")
       cy.get(
         ".opblock-section-request-body .opblock-description-wrapper i"
@@ -145,7 +145,7 @@ describe("OpenAPI 3.0 Request Body description on file upload content types", ()
     it("does not render a Markdown block when description is absent (after Try it out)", () => {
       cy.get(".try-out__btn").click()
       cy.get(
-        ".opblock-section-request-body .opblock-description-wrapper .markdown"
+        ".opblock-section-request-body .opblock-description-wrapper .renderedMarkdown"
       ).should("not.exist")
       cy.get(
         ".opblock-section-request-body .opblock-description-wrapper input"
