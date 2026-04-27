@@ -612,6 +612,17 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     parameterContentMediaType
   } = getParameterSchema(param, { isOAS3 })
 
+  // Compose anyOf/oneOf schemas: if the schema lacks a direct type but has
+  // anyOf or oneOf, derive the type from the first sub-schema so that
+  // type-specific validation applies correctly.
+  if (paramDetails && !paramDetails.get("type")) {
+    const firstCompositeType =
+      paramDetails.getIn(["anyOf", 0, "type"]) || paramDetails.getIn(["oneOf", 0, "type"])
+    if (firstCompositeType) {
+      paramDetails = paramDetails.set("type", firstCompositeType)
+    }
+  }
+
   return validateValueBySchema(value, paramDetails, paramRequired, bypassRequiredCheck, parameterContentMediaType, isOAS3)
 }
 
