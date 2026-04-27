@@ -5,20 +5,7 @@ import React, { forwardRef, useCallback } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
-const decodeRefName = (uri) => {
-  const unescaped = uri.replace(/~1/g, "/").replace(/~0/g, "~")
-  try {
-    return decodeURIComponent(unescaped)
-  } catch {
-    return unescaped
-  }
-}
-const getModelName = (uri) => {
-  if (typeof uri === "string" && uri.includes("#/components/schemas/")) {
-    return decodeRefName(uri.replace(/^.*#\/components\/schemas\//, ""))
-  }
-  return null
-}
+import { getModelName } from "../../../../utils/get-model-name"
 
 const Model = forwardRef(
   ({ schema, getComponent, onToggle = () => {}, specPath }, ref) => {
