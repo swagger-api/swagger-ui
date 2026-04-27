@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Im from "immutable"
+import { getParameterExampleValue } from "core/utils/get-parameter-examples"
 
 const propClass = "header-example"
 
@@ -19,7 +20,7 @@ export default class Headers extends React.Component {
     if ( !headers || !headers.size )
       return null
 
-      return (
+    return (
       <div className="headers-wrapper">
         <h4 className="headers__title">Headers:</h4>
         <table className="headers">
@@ -31,25 +32,25 @@ export default class Headers extends React.Component {
             </tr>
           </thead>
           <tbody>
-          {
-            headers.entrySeq().map( ([ key, header ]) => {
-              if(!Im.Map.isMap(header)) {
-                return null
-              }
+            {
+              headers.entrySeq().map( ([ key, header ]) => {
+                if(!Im.Map.isMap(header)) {
+                  return null
+                }
 
-              const description = header.get("description")
-              const type = header.getIn(["schema"]) ? header.getIn(["schema", "type"]) : header.getIn(["type"])
-              const schemaExample = header.getIn(["schema", "example"])
+                const description = header.get("description")
+                const type = header.getIn(["schema"]) ? header.getIn(["schema", "type"]) : header.getIn(["type"])
+                const headerExample = getParameterExampleValue(header)
 
-              return (<tr key={ key }>
-                <td className="header-col">{ key }</td>
-                <td className="header-col">{
-                  !description ? null : <Markdown source={ description } />
-                }</td>
-                <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" } propVal={ schemaExample } propClass={ propClass } /> : null }</td>
-              </tr>)
-            }).toArray()
-          }
+                return (<tr key={ key }>
+                  <td className="header-col">{ key }</td>
+                  <td className="header-col">{
+                    !description ? null : <Markdown source={ description } />
+                  }</td>
+                  <td className="header-col">{ type } { headerExample !== undefined ? <Property propKey={ "Example" } propVal={ headerExample } propClass={ propClass } /> : null }</td>
+                </tr>)
+              }).toArray()
+            }
           </tbody>
         </table>
       </div>
