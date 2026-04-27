@@ -96,6 +96,11 @@ const defaultOptions = Object.freeze({
   ],
 
   uncaughtExceptionHandler: null,
+
+  // ── Internationalization ─────────────────────────────────────────────────
+  // BCP 47 locale tag (e.g. "en", "fr", "de").  null = auto-detect from
+  // navigator.languages / navigator.language, falling back to "en".
+  locale: null,
 })
 
 export default defaultOptions

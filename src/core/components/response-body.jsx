@@ -5,6 +5,7 @@ import toLower from "lodash/toLower"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 import win from "core/window"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 export default class ResponseBody extends React.PureComponent {
   state = {
@@ -16,7 +17,12 @@ export default class ResponseBody extends React.PureComponent {
     contentType: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     headers: PropTypes.object,
-    url: PropTypes.string
+    url: PropTypes.string,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   updateParsedContent = (prevContent) => {
@@ -50,7 +56,7 @@ export default class ResponseBody extends React.PureComponent {
   }
 
   render() {
-    let { content, contentType, url, headers={}, getComponent } = this.props
+    let { content, contentType, url, headers={}, getComponent, t } = this.props
     const { parsedContent } = this.state
     const HighlightCode = getComponent("HighlightCode", true)
     const downloadName = "response_" + new Date().getTime()
@@ -85,12 +91,12 @@ export default class ResponseBody extends React.PureComponent {
         }
 
         if(win.navigator && win.navigator.msSaveOrOpenBlob) {
-            bodyEl = <div><a href={ href } onClick={() => win.navigator.msSaveOrOpenBlob(blob, download)}>{ "Download file" }</a></div>
+            bodyEl = <div><a href={ href } onClick={() => win.navigator.msSaveOrOpenBlob(blob, download)}>{ t("button.download_file") }</a></div>
         } else {
-            bodyEl = <div><a href={ href } download={ download }>{ "Download file" }</a></div>
+            bodyEl = <div><a href={ href } download={ download }>{ t("button.download_file") }</a></div>
         }
       } else {
-        bodyEl = <pre className="microlight">Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
+        bodyEl = <pre className="microlight">{ t("response.no_blob_support") }</pre>
       }
 
       // Anything else (CORS)
@@ -104,7 +110,7 @@ export default class ResponseBody extends React.PureComponent {
       try {
         body = JSON.stringify(JSON.parse(content), null, "  ")
       } catch (error) {
-        body = "can't parse JSON.  Raw result:\n\n" + content
+        body = t("response.json_parse_error") + content
       }
 
       bodyEl = <HighlightCode language={language} downloadable fileName={`${downloadName}.json`} canCopy>{body}</HighlightCode>
@@ -145,7 +151,7 @@ export default class ResponseBody extends React.PureComponent {
         // in `updateParsedContent`, so let's display it
         bodyEl = <div>
           <p className="i">
-            Unrecognized response type; displaying content as text.
+            { t("response.unrecognized_type_display_as_text") }
           </p>
           <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy>{parsedContent}</HighlightCode>
         </div>
@@ -153,7 +159,7 @@ export default class ResponseBody extends React.PureComponent {
       } else {
         // Give up
         bodyEl = <p className="i">
-          Unrecognized response type; unable to display.
+          { t("response.unrecognized_type_unable_to_display") }
         </p>
       }
     } else {
@@ -162,7 +168,7 @@ export default class ResponseBody extends React.PureComponent {
     }
 
     return ( !bodyEl ? null : <div>
-        <h5>Response body</h5>
+        <h5>{t("label.response_body")}</h5>
         { bodyEl }
       </div>
     )
