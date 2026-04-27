@@ -1,0 +1,54 @@
+openapi: 3.0.4
+info:
+  title: "Request body description on file upload content types"
+  description: |-
+    This document exercises rendering of `requestBody.description` (Markdown)
+    on file-upload-intended content types. The description should render both
+    before and after "Try it out" is enabled.
+  version: "1.0.0"
+paths:
+  /upload-application-octet-stream:
+    post:
+      operationId: uploadApplicationOctetStream
+      requestBody:
+        description: |-
+          **Upload a binary blob** as `application/octet-stream`.
+          See [the docs](https://example.com) for details.
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+  /upload-image-png:
+    post:
+      operationId: uploadImagePng
+      requestBody:
+        description: "*Upload a PNG image* of the user avatar."
+        content:
+          image/png:
+            schema:
+              type: string
+  /upload-application-octet-stream-empty:
+    post:
+      operationId: uploadApplicationOctetStreamEmpty
+      requestBody:
+        description: "Empty media type object with **octet-stream** description."
+        content:
+          application/octet-stream: {}
+  /upload-schema-format-binary:
+    post:
+      operationId: uploadSchemaFormatBinary
+      requestBody:
+        description: "`application/x-custom` with **binary** format."
+        content:
+          application/x-custom:
+            schema:
+              type: string
+              format: binary
+  /upload-without-description:
+    post:
+      operationId: uploadWithoutDescription
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
