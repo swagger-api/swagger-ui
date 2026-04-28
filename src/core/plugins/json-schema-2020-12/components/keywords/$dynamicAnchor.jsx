@@ -5,7 +5,7 @@ import React from "react"
 
 import { schema } from "../../prop-types"
 
-const $dynamicAnchor = ({ schema }) => {
+const DynamicAnchor = ({ schema }) => {
   if (!schema?.$dynamicAnchor) return null
 
   return (
@@ -20,8 +20,8 @@ const $dynamicAnchor = ({ schema }) => {
   )
 }
 
-$dynamicAnchor.propTypes = {
+DynamicAnchor.propTypes = {
   schema: schema.isRequired,
 }
 
-export default $dynamicAnchor
+export default DynamicAnchor

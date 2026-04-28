@@ -21,7 +21,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:prettier/recommended",
   ],
-  plugins: ["react", "import", "jest", "prettier"],
+  plugins: ["react", "react-hooks", "import", "jest", "prettier"],
   settings: {
     react: {
       pragma: "React",
@@ -74,5 +74,7 @@ module.exports = {
     "react/display-name": 0,
     "import/no-extraneous-dependencies": 2,
     "react/jsx-filename-extension": 2,
+    "react-hooks/rules-of-hooks": 2,
+    "react-hooks/exhaustive-deps": 2,
   },
 }

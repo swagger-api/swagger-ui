@@ -32,7 +32,7 @@ const useTabs = ({ initialTab, isExecute, schema, example }) => {
     if (prevIsExecute && !isExecute && example) {
       setActiveTab(tabs.example)
     }
-  }, [prevIsExecute, isExecute, example])
+  }, [prevIsExecute, isExecute, example, tabs.example])
 
   return { activeTab, onTabChange: handleTabChange, tabs }
 }

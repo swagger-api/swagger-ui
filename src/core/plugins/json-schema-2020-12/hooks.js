@@ -113,29 +113,34 @@ export const useIsExpanded = (name) => {
         ? JSONSchemaIsExpandedState.DeeplyExpanded
         : isExpandedState
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally only re-runs when parentState changes; isExpandedState/pathMutator excluded to avoid infinite update loops
   }, [parentState])
 
+  // Note: pathMutator is excluded from both callbacks below because it is recreated on
+  // every render; including it would cause these callbacks to be recreated on every render,
+  // defeating the purpose of useCallback.
   const setExpanded = useCallback((options = { deep: false }) => {
     pathMutator(
       options.deep
         ? JSONSchemaIsExpandedState.DeeplyExpanded
         : JSONSchemaIsExpandedState.Expanded
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- pathMutator excluded to prevent callback recreation on every render
   }, [])
 
   const setCollapsed = useCallback((options = { deep: false }) => {
     pathMutator(JSONSchemaIsExpandedState.Collapsed, options)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- pathMutator excluded to prevent callback recreation on every render
   }, [])
 
   return { isExpanded, setExpanded, setCollapsed }
 }
 
 export const useRenderedSchemas = (schema = undefined) => {
-  if (typeof schema === "undefined") {
-    return useContext(JSONSchemaCyclesContext)
-  }
-
   const renderedSchemas = useContext(JSONSchemaCyclesContext)
+  if (typeof schema === "undefined") {
+    return renderedSchemas
+  }
   return new Set([...renderedSchemas, schema])
 }
 export const useIsCircular = (schema) => {

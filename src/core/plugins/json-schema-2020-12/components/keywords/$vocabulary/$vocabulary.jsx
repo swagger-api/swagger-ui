@@ -8,7 +8,7 @@ import { schema } from "../../../prop-types"
 import { useComponent, useIsExpanded, usePath } from "../../../hooks"
 import { JSONSchemaPathContext } from "../../../context"
 
-const $vocabulary = ({ schema }) => {
+const Vocabulary = ({ schema }) => {
   const pathToken = "$vocabulary"
   const { path } = usePath(pathToken)
   const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(pathToken)
@@ -59,8 +59,8 @@ const $vocabulary = ({ schema }) => {
   )
 }
 
-$vocabulary.propTypes = {
+Vocabulary.propTypes = {
   schema: schema.isRequired,
 }
 
-export default $vocabulary
+export default Vocabulary

@@ -2,15 +2,15 @@
  * @prettier
  */
 import JSONSchema from "./components/JSONSchema/JSONSchema"
-import Keyword$schema from "./components/keywords/$schema"
-import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
-import Keyword$id from "./components/keywords/$id"
-import Keyword$anchor from "./components/keywords/$anchor"
-import Keyword$dynamicAnchor from "./components/keywords/$dynamicAnchor"
-import Keyword$ref from "./components/keywords/$ref"
-import Keyword$dynamicRef from "./components/keywords/$dynamicRef"
-import Keyword$defs from "./components/keywords/$defs"
-import Keyword$comment from "./components/keywords/$comment"
+import KeywordSchema from "./components/keywords/$schema"
+import KeywordVocabulary from "./components/keywords/$vocabulary/$vocabulary"
+import KeywordId from "./components/keywords/$id"
+import KeywordAnchor from "./components/keywords/$anchor"
+import KeywordDynamicAnchor from "./components/keywords/$dynamicAnchor"
+import KeywordRef from "./components/keywords/$ref"
+import KeywordDynamicRef from "./components/keywords/$dynamicRef"
+import KeywordDefs from "./components/keywords/$defs"
+import KeywordComment from "./components/keywords/$comment"
 import KeywordAllOf from "./components/keywords/AllOf"
 import KeywordAnyOf from "./components/keywords/AnyOf"
 import KeywordOneOf from "./components/keywords/OneOf"
@@ -77,15 +77,15 @@ const JSONSchema202012Plugin = ({ getSystem, fn }) => {
   return {
     components: {
       JSONSchema202012: JSONSchema,
-      JSONSchema202012Keyword$schema: Keyword$schema,
-      JSONSchema202012Keyword$vocabulary: Keyword$vocabulary,
-      JSONSchema202012Keyword$id: Keyword$id,
-      JSONSchema202012Keyword$anchor: Keyword$anchor,
-      JSONSchema202012Keyword$dynamicAnchor: Keyword$dynamicAnchor,
-      JSONSchema202012Keyword$ref: Keyword$ref,
-      JSONSchema202012Keyword$dynamicRef: Keyword$dynamicRef,
-      JSONSchema202012Keyword$defs: Keyword$defs,
-      JSONSchema202012Keyword$comment: Keyword$comment,
+      JSONSchema202012Keyword$schema: KeywordSchema,
+      JSONSchema202012Keyword$vocabulary: KeywordVocabulary,
+      JSONSchema202012Keyword$id: KeywordId,
+      JSONSchema202012Keyword$anchor: KeywordAnchor,
+      JSONSchema202012Keyword$dynamicAnchor: KeywordDynamicAnchor,
+      JSONSchema202012Keyword$ref: KeywordRef,
+      JSONSchema202012Keyword$dynamicRef: KeywordDynamicRef,
+      JSONSchema202012Keyword$defs: KeywordDefs,
+      JSONSchema202012Keyword$comment: KeywordComment,
       JSONSchema202012KeywordAllOf: KeywordAllOf,
       JSONSchema202012KeywordAnyOf: KeywordAnyOf,
       JSONSchema202012KeywordOneOf: KeywordOneOf,

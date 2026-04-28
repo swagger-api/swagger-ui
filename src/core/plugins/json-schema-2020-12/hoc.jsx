@@ -4,15 +4,15 @@
 import React from "react"
 
 import JSONSchema from "./components/JSONSchema/JSONSchema"
-import Keyword$schema from "./components/keywords/$schema"
-import Keyword$vocabulary from "./components/keywords/$vocabulary/$vocabulary"
-import Keyword$id from "./components/keywords/$id"
-import Keyword$anchor from "./components/keywords/$anchor"
-import Keyword$dynamicAnchor from "./components/keywords/$dynamicAnchor"
-import Keyword$ref from "./components/keywords/$ref"
-import Keyword$dynamicRef from "./components/keywords/$dynamicRef"
-import Keyword$defs from "./components/keywords/$defs"
-import Keyword$comment from "./components/keywords/$comment"
+import KeywordSchema from "./components/keywords/$schema"
+import KeywordVocabulary from "./components/keywords/$vocabulary/$vocabulary"
+import KeywordId from "./components/keywords/$id"
+import KeywordAnchor from "./components/keywords/$anchor"
+import KeywordDynamicAnchor from "./components/keywords/$dynamicAnchor"
+import KeywordRef from "./components/keywords/$ref"
+import KeywordDynamicRef from "./components/keywords/$dynamicRef"
+import KeywordDefs from "./components/keywords/$defs"
+import KeywordComment from "./components/keywords/$comment"
 import KeywordAllOf from "./components/keywords/AllOf"
 import KeywordAnyOf from "./components/keywords/AnyOf"
 import KeywordOneOf from "./components/keywords/OneOf"
@@ -68,15 +68,15 @@ export const withJSONSchemaContext = (Component, overrides = {}) => {
   const value = {
     components: {
       JSONSchema,
-      Keyword$schema,
-      Keyword$vocabulary,
-      Keyword$id,
-      Keyword$anchor,
-      Keyword$dynamicAnchor,
-      Keyword$ref,
-      Keyword$dynamicRef,
-      Keyword$defs,
-      Keyword$comment,
+      Keyword$schema: KeywordSchema,
+      Keyword$vocabulary: KeywordVocabulary,
+      Keyword$id: KeywordId,
+      Keyword$anchor: KeywordAnchor,
+      Keyword$dynamicAnchor: KeywordDynamicAnchor,
+      Keyword$ref: KeywordRef,
+      Keyword$dynamicRef: KeywordDynamicRef,
+      Keyword$defs: KeywordDefs,
+      Keyword$comment: KeywordComment,
       KeywordAllOf,
       KeywordAnyOf,
       KeywordOneOf,
@@ -165,21 +165,17 @@ export const makeWithJSONSchemaSystemContext =
     const configs = getConfigs()
 
     const JSONSchema = getComponent("JSONSchema202012")
-    const Keyword$schema = getComponent("JSONSchema202012Keyword$schema")
-    const Keyword$vocabulary = getComponent(
-      "JSONSchema202012Keyword$vocabulary"
-    )
-    const Keyword$id = getComponent("JSONSchema202012Keyword$id")
-    const Keyword$anchor = getComponent("JSONSchema202012Keyword$anchor")
-    const Keyword$dynamicAnchor = getComponent(
+    const KeywordSchema = getComponent("JSONSchema202012Keyword$schema")
+    const KeywordVocabulary = getComponent("JSONSchema202012Keyword$vocabulary")
+    const KeywordId = getComponent("JSONSchema202012Keyword$id")
+    const KeywordAnchor = getComponent("JSONSchema202012Keyword$anchor")
+    const KeywordDynamicAnchor = getComponent(
       "JSONSchema202012Keyword$dynamicAnchor"
     )
-    const Keyword$ref = getComponent("JSONSchema202012Keyword$ref")
-    const Keyword$dynamicRef = getComponent(
-      "JSONSchema202012Keyword$dynamicRef"
-    )
-    const Keyword$defs = getComponent("JSONSchema202012Keyword$defs")
-    const Keyword$comment = getComponent("JSONSchema202012Keyword$comment")
+    const KeywordRef = getComponent("JSONSchema202012Keyword$ref")
+    const KeywordDynamicRef = getComponent("JSONSchema202012Keyword$dynamicRef")
+    const KeywordDefs = getComponent("JSONSchema202012Keyword$defs")
+    const KeywordComment = getComponent("JSONSchema202012Keyword$comment")
     const KeywordAllOf = getComponent("JSONSchema202012KeywordAllOf")
     const KeywordAnyOf = getComponent("JSONSchema202012KeywordAnyOf")
     const KeywordOneOf = getComponent("JSONSchema202012KeywordOneOf")
@@ -239,15 +235,15 @@ export const makeWithJSONSchemaSystemContext =
     return withJSONSchemaContext(Component, {
       components: {
         JSONSchema,
-        Keyword$schema,
-        Keyword$vocabulary,
-        Keyword$id,
-        Keyword$anchor,
-        Keyword$dynamicAnchor,
-        Keyword$ref,
-        Keyword$dynamicRef,
-        Keyword$defs,
-        Keyword$comment,
+        Keyword$schema: KeywordSchema,
+        Keyword$vocabulary: KeywordVocabulary,
+        Keyword$id: KeywordId,
+        Keyword$anchor: KeywordAnchor,
+        Keyword$dynamicAnchor: KeywordDynamicAnchor,
+        Keyword$ref: KeywordRef,
+        Keyword$dynamicRef: KeywordDynamicRef,
+        Keyword$defs: KeywordDefs,
+        Keyword$comment: KeywordComment,
         KeywordAllOf,
         KeywordAnyOf,
         KeywordOneOf,
