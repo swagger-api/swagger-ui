@@ -29,7 +29,7 @@ export default class Debug extends React.Component {
 
     return (
       <div className="info">
-        <h3><a onClick={this.toggleJsonDump}> {this.plusOrMinus(this.state.jsonDumpOpen)} App </a></h3>
+        <h3><button type="button" className="link" onClick={this.toggleJsonDump}> {this.plusOrMinus(this.state.jsonDumpOpen)} App </button></h3>
 
         <Collapse isOpened={this.state.jsonDumpOpen} springConfig={{ stiffness: 170, damping: 26 }}>
 
