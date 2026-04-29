@@ -76,7 +76,11 @@ const HighlightCode = ({
       )}
 
       {!downloadable ? null : (
-        <button className="download-contents" onClick={handleDownload}>
+        <button
+          type="button"
+          className="download-contents"
+          onClick={handleDownload}
+        >
           Download
         </button>
       )}

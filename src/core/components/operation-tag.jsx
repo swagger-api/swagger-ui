@@ -102,7 +102,7 @@ export default class OperationTag extends React.Component {
           }
 
 
-          <button
+          <button type="button"
             aria-expanded={showTag}
             className="expand-operation"
             title={showTag ? "Collapse operation" : "Expand operation"}
