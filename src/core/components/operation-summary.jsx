@@ -64,7 +64,7 @@ export default class OperationSummary extends PureComponent {
     const allowAnonymous = !hasSecurity || securityIsOptional
     return (
       <div className={`opblock-summary opblock-summary-${method}`} >
-        <button
+        <button type="button"
           aria-expanded={isShown}
           className="opblock-summary-control"
           onClick={toggleShown}
@@ -94,7 +94,7 @@ export default class OperationSummary extends PureComponent {
             />
         }
         <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
-        <button
+        <button type="button"
           aria-label={`${method} ${path.replace(/\//g, "\u200b/")}`}
           className="opblock-control-arrow"
           aria-expanded={isShown}

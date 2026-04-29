@@ -87,6 +87,7 @@ const Models = ({
     >
       <h4>
         <button
+          type="button"
           aria-expanded={isOpen}
           className="models-control"
           onClick={handleModelsExpand}
