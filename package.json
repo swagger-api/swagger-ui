@@ -172,7 +172,7 @@
     "oauth2-server": "^2.4.1",
     "open": "^10.1.0",
     "open-cli": "=8.0.0",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.12",
     "postcss-loader": "^8.1.1",
     "postcss-preset-env": "^10.1.6",
     "postcss-scss": "^4.0.9",
