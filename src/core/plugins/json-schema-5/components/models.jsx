@@ -109,9 +109,9 @@ export default class Models extends Component {
               includeWriteOnly = {true}/>
 
             const title = <span className="model-box">
-              <span className="model model-title">
+              <strong className="model model-title">
                 {displayName}
-              </span>
+              </strong>
             </span>
 
             return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }

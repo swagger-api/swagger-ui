@@ -86,10 +86,10 @@ export default class Model extends ImmutablePureComponent {
     }
 
     if(!schema) {
-      return <span className="model model-title">
+      return <strong className="model model-title">
               <span className="model-title__text">{ displayName || name }</span>
               {!$ref && <RollingLoadSVG height="20px" width="20px" />}
-            </span>
+            </strong>
     }
 
     const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
