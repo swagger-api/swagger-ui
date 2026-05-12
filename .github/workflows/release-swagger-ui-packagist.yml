@@ -1,0 +1,21 @@
+name: Release SwaggerUI to Packagist
+
+on:
+  workflow_run:
+    workflows: ["Release SwaggerUI"]
+    types:
+      - completed
+    branches: [ master ]
+
+jobs:
+  release-swagger-ui-packagist:
+    if: github.event.workflow_run.conclusion == 'success'
+    name: Release swagger-ui to packagist
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update SwaggerUI packagist package
+        run: |
+          curl --fail -X POST \
+            -H "Content-Type: application/json" \
+            "https://packagist.org/api/update-package?username=${{ secrets.PACKAGIST_USER }}&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
+            -d "{\"repository\":{\"url\":\"https://packagist.org/packages/swagger-api/swagger-ui\"}}"

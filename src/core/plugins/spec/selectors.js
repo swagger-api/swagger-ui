@@ -6,7 +6,7 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 const DEFAULT_TAG = "default"
 
 const OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch", "trace"
+  "get", "put", "post", "delete", "options", "head", "patch", "trace", "query"
 ]
 
 const state = state => {
@@ -142,7 +142,8 @@ export const operations = createSelector(
           path: pathName,
           method,
           operation,
-          id: `${method}-${pathName}`
+          id: `${method}-${pathName}`,
+          specPath: ["paths", pathName, method],
         }))
       })
     })
@@ -209,8 +210,7 @@ export const operationsWithRootInherited = createSelector(
   ],
   (operations, consumes, produces) => {
     return operations.map( ops => ops.update("operation", op => {
-      if(op) {
-        if(!Map.isMap(op)) { return }
+      if (Map.isMap(op)) {
         return op.withMutations( op => {
           if ( !op.get("consumes") ) {
             op.update("consumes", a => Set(a).merge(consumes))

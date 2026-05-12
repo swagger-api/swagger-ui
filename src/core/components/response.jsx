@@ -2,11 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
-import { fromJS, Seq, Iterable, List, Map } from "immutable"
+import { fromJS, Seq, Iterable, Map } from "immutable"
 import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
-/* eslint-disable  react/jsx-no-bind */
 
 const getExampleComponent = ( sampleResponse, HighlightCode ) => {
   if (sampleResponse == null) return null
@@ -119,7 +118,9 @@ export default class Response extends React.Component {
       const oas3SchemaForContentType = activeMediaType.get("schema")
 
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
-      specPathWithPossibleSchema = oas3SchemaForContentType ? List(["content", this.state.responseContentType, "schema"]) : specPath
+      specPathWithPossibleSchema = oas3SchemaForContentType
+        ? specPath.push("content", this.state.responseContentType, "schema")
+        : specPath
     } else {
       schema = response.get("schema")
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
@@ -140,8 +141,8 @@ export default class Response extends React.Component {
         const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
         const getMediaTypeExample = (targetExample) =>
-          Map.isMap(targetExample)
-          ? targetExample.get("value")
+          Map.isMap(targetExample) 
+          ? targetExample.get("value") 
           : undefined
         mediaTypeExample = getMediaTypeExample(targetExample)
         if(mediaTypeExample === undefined) {

@@ -42,6 +42,30 @@ describe("Cookie based apiKey persistence in document.cookie", () => {
       )
     })
 
+    it("should persist cookie in document.cookie if schema is a plain object", () => {
+      const system = {
+        getConfigs: () => ({
+          persistAuthorization: true,
+        }),
+      }
+      const payload = {
+        api_key: {
+          schema: {
+            type: "apiKey",
+            name: "apiKeyCookie",
+            in: "cookie",
+          },
+          value: "test",
+        },
+      }
+
+      authorize(jest.fn(), system)(payload)
+
+      expect(document.cookie).toEqual(
+        "apiKeyCookie=test; SameSite=None; Secure"
+      )
+    })
+
     it("should delete cookie from document.cookie", () => {
       const payload = fromJS({
         api_key: {

@@ -200,6 +200,15 @@ Passes initial values to the Swagger UI state.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+
+#### `uncaughtExceptionHandler`: PropTypes.func
+
+Allows to define a custom uncaught exception handler. The default is `null`, which means that the default handler will be used. 
+The default handler will log the error to the console.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+
 ## Limitations
 
 * Not all configuration bindings are available.

@@ -1,4 +1,5 @@
 import get from "lodash/get"
+import isPlainObject from "lodash/isPlainObject"
 
 export const updateSpec = (ori, {specActions}) => (...args) => {
   ori(...args)
@@ -18,7 +19,7 @@ export const updateJsonSpec = (ori, {specActions}) => (...args) => {
   pathItemKeys.forEach(k => {
     const val = get(pathItems, [k])
 
-    if(val.$ref) {
+    if (isPlainObject(val) && val.$ref) {
       specActions.requestResolvedSubtree(["paths", k])
     }
   })
