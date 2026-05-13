@@ -26,8 +26,9 @@ app.all("/oauth/token", function (req, res) {
   let response = new OAuth2Server.Response(res)
 
   oauth.token(request, response)
-    .then(function (token) {
-      res.json(token)
+    .then(function () {
+      res.set(response.headers)
+      res.status(response.status).json(response.body)
     })
     .catch(function (err) {
       res.status(err.code || 500).json(err)
