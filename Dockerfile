@@ -23,7 +23,8 @@ RUN apk add --update-cache --no-cache \
     "libcrypto3>=3.5.6-r0" \
     "libssl3>=3.5.6-r0" \
     "musl>=1.2.5-r23" \
-    "musl-utils>=1.2.5-r23"
+    "musl-utils>=1.2.5-r23" \
+    "nghttp2-libs>=1.68.1-r0"
 
 LABEL maintainer="char0n"
 

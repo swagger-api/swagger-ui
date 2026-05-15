@@ -2,12 +2,18 @@
 
 let config = {
   clients: [{
+    id: "application",
     clientId: "application",
-    clientSecret: "secret"
+    clientSecret: "secret",
+    grants: ["password", "implicit"],
+    redirectUris: []
   }],
   confidentialClients: [{
+    id: "confidentialApplication",
     clientId: "confidentialApplication",
-    clientSecret: "topSecret"
+    clientSecret: "topSecret",
+    grants: ["client_credentials"],
+    redirectUris: []
   }],
   tokens: [],
   users: [{
@@ -21,98 +27,54 @@ let config = {
  * Methods used by all grant types.
  */
 
-let getAccessToken = function (bearerToken, callback) {
-
+let getAccessToken = function (bearerToken) {
   let tokens = config.tokens.filter(function (token) {
-
     return token.accessToken === bearerToken
   })
 
-  return callback(false, tokens[0])
+  return tokens[0] || false
 }
 
-let getClient = function (clientId, clientSecret, callback) {
-
-  let clients = config.clients.filter(function (client) {
-
-    return client.clientId === clientId && client.clientSecret === clientSecret
+let getClient = function (clientId, clientSecret) {
+  let clients = [...config.clients, ...config.confidentialClients].filter(function (client) {
+    return client.clientId === clientId && (!clientSecret || client.clientSecret === clientSecret)
   })
 
-  let confidentialClients = config.confidentialClients.filter(function (client) {
-
-    return client.clientId === clientId && client.clientSecret === clientSecret
-  })
-
-  callback(false, clients[0] || confidentialClients[0])
+  return clients[0] || false
 }
 
-let grantTypeAllowed = function (clientId, grantType, callback) {
-
-  let clientsSource,
-    clients = []
-
-  if (grantType === "password") {
-    clientsSource = config.clients
-  } else if (grantType === "client_credentials") {
-    clientsSource = config.confidentialClients
-  }
-
-  if (clientsSource) {
-    clients = clientsSource.filter(function (client) {
-
-      return client.clientId === clientId
-    })
-  }
-
-  callback(false, clients.length)
-}
-
-let saveAccessToken = function (accessToken, clientId, expires, user, callback) {
-
-  config.tokens.push({
-    accessToken: accessToken,
-    expires: expires,
-    clientId: clientId,
-    user: user
-  })
-
-  callback(false)
+let saveToken = function (token, client, user) {
+  let savedToken = Object.assign({}, token, { client: client, user: user })
+  config.tokens.push(savedToken)
+  return savedToken
 }
 
 /*
  * Method used only by password grant type.
  */
 
-let getUser = function (username, password, callback) {
-
+let getUser = function (username, password) {
   let users = config.users.filter(function (user) {
-
     return user.username === username && user.password === password
   })
 
-  callback(false, users[0])
+  return users[0] || false
 }
 
 /*
  * Method used only by client_credentials grant type.
  */
 
-let getUserFromClient = function (clientId, clientSecret, callback) {
-
-  let clients = config.confidentialClients.filter(function (client) {
-
-    return client.clientId === clientId && client.clientSecret === clientSecret
+let getUserFromClient = function (client) {
+  let clients = config.confidentialClients.filter(function (c) {
+    return c.clientId === client.clientId
   })
 
-  let user
-
   if (clients.length) {
-    user = {
-      username: clientId
-    }
+    return { id: client.clientId, username: client.clientId }
   }
 
-  callback(false, user)
+  return false
 }
 
 /**
@@ -122,8 +84,7 @@ let getUserFromClient = function (clientId, clientSecret, callback) {
 module.exports = {
   getAccessToken: getAccessToken,
   getClient: getClient,
-  grantTypeAllowed: grantTypeAllowed,
-  saveAccessToken: saveAccessToken,
+  saveToken: saveToken,
   getUser: getUser,
   getUserFromClient: getUserFromClient
 }
