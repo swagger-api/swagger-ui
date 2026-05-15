@@ -1351,35 +1351,30 @@ describe("utils", () => {
 
   describe("parse and serialize search", () => {
     beforeEach(() => {
-      // jsdom in Jest 25+ prevents modifying window.location,
-      // so we replace with a stubbed version
-      delete win.location
-      win.location = {
-        search: ""
-      }
+      win.history.pushState({}, "", "/")
     })
     afterEach(() => {
-      win.location.search = ""
+      win.history.pushState({}, "", "/")
     })
 
     describe("parsing", () => {
       it("works with empty search", () => {
-        win.location.search = ""
+        win.history.pushState({}, "", "/")
         expect(parseSearch()).toEqual({})
       })
 
       it("works with only one key", () => {
-        win.location.search = "?foo"
+        win.history.pushState({}, "", "?foo")
         expect(parseSearch()).toEqual({foo: ""})
       })
 
       it("works with keys and values", () => {
-        win.location.search = "?foo=fooval&bar&baz=bazval"
+        win.history.pushState({}, "", "?foo=fooval&bar&baz=bazval")
         expect(parseSearch()).toEqual({foo: "fooval", bar: "", baz: "bazval"})
       })
 
       it("decode url encoded components", () => {
-        win.location.search = "?foo=foo%20bar"
+        win.history.pushState({}, "", "?foo=foo%20bar")
         expect(parseSearch()).toEqual({foo: "foo bar"})
       })
     })
