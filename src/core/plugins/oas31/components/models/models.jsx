@@ -5,6 +5,8 @@ import React, { useCallback, useEffect } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 
+const SCHEMAS_PATH = Object.freeze(["components", "schemas"])
+
 const Models = ({
   specActions,
   specSelectors,
@@ -16,7 +18,7 @@ const Models = ({
 }) => {
   const schemas = specSelectors.selectSchemas()
   const hasSchemas = Object.keys(schemas).length > 0
-  const schemasPath = ["components", "schemas"]
+  const schemasPath = SCHEMAS_PATH
   const { docExpansion, defaultModelsExpandDepth } = getConfigs()
   const isOpenDefault = defaultModelsExpandDepth > 0 && docExpansion !== "none"
   const isOpen = layoutSelectors.isShown(schemasPath, isOpenDefault)
@@ -40,6 +42,7 @@ const Models = ({
     if (isOpenAndExpanded && !isResolved) {
       specActions.requestResolvedSubtree(schemasPath)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally watches only isOpen/defaultModelsExpandDepth; plugin objects have unstable identity but stable behavior
   }, [isOpen, defaultModelsExpandDepth])
 
   /**
@@ -48,12 +51,15 @@ const Models = ({
 
   const handleModelsExpand = useCallback(() => {
     layoutActions.show(schemasPath, !isOpen)
-  }, [isOpen])
-  const handleModelsRef = useCallback((node) => {
-    if (node !== null) {
-      layoutActions.readyToScroll(schemasPath, node)
-    }
-  }, [])
+  }, [isOpen, layoutActions, schemasPath])
+  const handleModelsRef = useCallback(
+    (node) => {
+      if (node !== null) {
+        layoutActions.readyToScroll(schemasPath, node)
+      }
+    },
+    [layoutActions, schemasPath]
+  )
   const handleJSONSchema202012Ref = (schemaName) => (node) => {
     if (node !== null) {
       layoutActions.readyToScroll([...schemasPath, schemaName], node)

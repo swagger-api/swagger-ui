@@ -5,7 +5,7 @@ import React from "react"
 
 import { schema } from "../../prop-types"
 
-const $comment = ({ schema }) => {
+const Comment = ({ schema }) => {
   if (!schema?.$comment) return null
 
   return (
@@ -20,8 +20,8 @@ const $comment = ({ schema }) => {
   )
 }
 
-$comment.propTypes = {
+Comment.propTypes = {
   schema: schema.isRequired,
 }
 
-export default $comment
+export default Comment
