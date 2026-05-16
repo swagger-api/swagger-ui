@@ -97,13 +97,13 @@ class Info extends React.Component {
     return (
       <div className="info">
         <hgroup className="main">
-          <h1 className="title">
+          <h2 className="title">
             {title}
             <span>
               {version && <VersionStamp version={version} />}
               <OpenAPIVersion oasVersion="2.0" />
             </span>
-          </h1>
+          </h2>
           {host || basePath ? (
             <InfoBasePath host={host} basePath={basePath} />
           ) : null}
