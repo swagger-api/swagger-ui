@@ -3,6 +3,8 @@
     text/plain yml;
   }
 
+  charset utf-8;
+
   gzip on;
   gzip_static on;
   gzip_disable "msie6";
