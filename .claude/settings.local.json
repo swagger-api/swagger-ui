@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh issue *)",
+      "WebFetch(domain:github.com)",
+      "Bash(cd /d \"d:\\\\Dropbox\\\\Projects\\\\opensource\\\\projects\\\\swagger-ui\")",
+      "Bash(npm run *)",
+      "PowerShell(cd \"d:\\\\Dropbox\\\\Projects\\\\opensource\\\\projects\\\\swagger-ui\"; $env:NODE_ENV=\"test\"; $env:BABEL_ENV=\"commonjs\"; $env:BROWSERSLIST_ENV=\"node-development\"; npx jest --config ./config/jest/jest.unit.config.js --testPathPattern=\"markdown\" 2>&1)",
+      "PowerShell(cd \"d:\\\\Dropbox\\\\Projects\\\\opensource\\\\projects\\\\swagger-ui\"; $env:NODE_ENV=\"test\"; $env:BABEL_ENV=\"commonjs\"; $env:BROWSERSLIST_ENV=\"node-development\"; node_modules/.bin/jest --config ./config/jest/jest.unit.config.js --testPathPatterns=\"markdown\" 2>&1)",
+      "PowerShell(cd \"d:\\\\Dropbox\\\\Projects\\\\opensource\\\\projects\\\\swagger-ui\"; $env:NODE_ENV=\"test\"; $env:BABEL_ENV=\"commonjs\"; $env:BROWSERSLIST_ENV=\"node-development\"; & \"node_modules\\\\.bin\\\\jest.cmd\" --config ./config/jest/jest.unit.config.js --testPathPattern=\"markdown\" 2>&1)",
+      "PowerShell(Set-Location \"d:\\\\Dropbox\\\\Projects\\\\opensource\\\\projects\\\\swagger-ui\"; $env:NODE_ENV=\"test\"; $env:BABEL_ENV=\"commonjs\"; $env:BROWSERSLIST_ENV=\"node-development\"; & \".\\\\node_modules\\\\.bin\\\\jest.cmd\" --config ./config/jest/jest.unit.config.js --testPathPattern=\"markdown\" 2>&1)",
+      "Bash(NODE_ENV=test BABEL_ENV=commonjs BROWSERSLIST_ENV=node-development node \"d:/Dropbox/Projects/opensource/projects/swagger-ui/node_modules/jest/bin/jest.js\" --config \"d:/Dropbox/Projects/opensource/projects/swagger-ui/config/jest/jest.unit.config.js\" --testPathPattern=\"markdown\")"
+    ]
+  }
+}
