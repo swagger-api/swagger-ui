@@ -38,9 +38,9 @@ export default class ArrayModel extends Component {
     const Link = getComponent("Link")
 
     const titleEl = title &&
-      <span className="model-title">
+      <strong className="model-title">
         <span className="model-title__text">{ title }</span>
-      </span>
+      </strong>
 
     /*
     Note: we set `name={null}` in <Model> below because we don't want
