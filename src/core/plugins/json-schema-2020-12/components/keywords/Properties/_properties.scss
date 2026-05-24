@@ -11,8 +11,11 @@
     list-style-type: none;
 
     &--required {
-      & > .json-schema-2020-12:first-of-type > .json-schema-2020-12-head .json-schema-2020-12__title:after {
-        content: '*';
+      &
+        > .json-schema-2020-12:first-of-type
+        > .json-schema-2020-12-head
+        .json-schema-2020-12__title:after {
+        content: "*";
         color: red;
         font-weight: bold;
       }

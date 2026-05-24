@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.4
 servers:
 - url: http://petstore.swagger.io/v2
 info:

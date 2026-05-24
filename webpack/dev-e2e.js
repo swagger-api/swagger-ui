@@ -56,7 +56,11 @@ const devE2eConfig = configBuilder(
       client: {
         logging: "info",
         progress: true,
-        overlay: false,
+        overlay: {
+          errors: true,
+          warnings: false,
+          runtimeErrors: true,
+        },
       },
       devMiddleware: {},
     },

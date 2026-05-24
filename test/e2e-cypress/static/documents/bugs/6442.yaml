@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.4
 info:
   title: Example Swagger
   version: '1.0'
@@ -22,7 +22,7 @@ paths:
                 properties:
                   x:
                     type: string
-                example: 
+                example:
                   x: what the f
               examples:
                 x2:
@@ -46,7 +46,7 @@ paths:
                 properties:
                   x:
                     type: string
-                example: 
+                example:
                   x: what the f
               example:
                 x: should be xml

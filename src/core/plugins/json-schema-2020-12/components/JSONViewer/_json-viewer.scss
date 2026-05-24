@@ -1,0 +1,11 @@
+@use "./../mixins";
+@use "./../keywords/all";
+
+.json-schema-2020-12-json-viewer {
+  @include mixins.json-schema-2020-12-keyword;
+}
+
+.json-schema-2020-12-json-viewer__name--secondary
+  + .json-schema-2020-12-json-viewer__value--secondary::before {
+  content: "=";
+}

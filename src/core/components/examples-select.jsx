@@ -3,7 +3,7 @@
  */
 
 import React from "react"
-import Im from "immutable"
+import { Map } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
@@ -18,9 +18,10 @@ export default class ExamplesSelect extends React.PureComponent {
   }
 
   static defaultProps = {
-    examples: Im.Map({}),
+    examples: Map({}),
     onSelect: (...args) =>
-      console.log( // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      console.log(
         // FIXME: remove before merging to master...
         `DEBUG: ExamplesSelect was not given an onSelect callback`,
         ...args
@@ -37,7 +38,7 @@ export default class ExamplesSelect extends React.PureComponent {
     }
   }
 
-  _onDomSelect = e => {
+  _onDomSelect = (e) => {
     if (typeof this.props.onSelect === "function") {
       const element = e.target.selectedOptions[0]
       const key = element.getAttribute("value")
@@ -103,18 +104,16 @@ export default class ExamplesSelect extends React.PureComponent {
 
     return (
       <div className="examples-select">
-        {
-          showLabels ? (
-            <span className="examples-select__section-label">Examples: </span>
-          ) : null
-        }
+        {showLabels ? (
+          <span className="examples-select__section-label">Examples: </span>
+        ) : null}
         <select
           className="examples-select-element"
           onChange={this._onDomSelect}
           value={
             isModifiedValueAvailable && isValueModified
               ? "__MODIFIED__VALUE__"
-              : (currentExampleKey || "")
+              : currentExampleKey || ""
           }
         >
           {isModifiedValueAvailable ? (
@@ -127,7 +126,8 @@ export default class ExamplesSelect extends React.PureComponent {
                   key={exampleName} // for React
                   value={exampleName} // for matching to select's `value`
                 >
-                  {example.get("summary") || exampleName}
+                  {(Map.isMap(example) && example.get("summary")) ||
+                    exampleName}
                 </option>
               )
             })

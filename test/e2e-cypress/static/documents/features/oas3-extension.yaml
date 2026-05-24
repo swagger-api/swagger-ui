@@ -1,0 +1,30 @@
+openapi: 3.0.4
+info:
+  title: "Swagger Test"
+  version: "1.0.0"
+servers:
+  - url: https://api.example.com/v1
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          x-primitive-extension: test
+          x-primitive-objectExtension:
+            prop:
+              test: test,
+              nested:
+                test: test,
+                nested:
+                  test: test
+      x-object-extension: 1
+      x-object-objectExtension:
+        prop:
+          test: test,
+          nested:
+            test: test,
+            nested:
+              test: test

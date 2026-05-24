@@ -14,13 +14,13 @@
     vertical-align: bottom;
 
     &--expanded {
-      transition: transform .15s ease-in;
+      transition: transform 0.15s ease-in;
       transform: rotate(-90deg);
       transform-origin: 50% 50%;
     }
 
     &--collapsed {
-      transition: transform .15s ease-in;
+      transition: transform 0.15s ease-in;
       transform: rotate(0deg);
       transform-origin: 50% 50%;
     }
@@ -31,4 +31,3 @@
     }
   }
 }
-

@@ -1,9 +1,9 @@
-openapi: "3.0.0"
+openapi: "3.0.4"
 
 paths:
   /aev:
     get:
-      parameters: 
+      parameters:
       - name: param
         in: query
         allowEmptyValue: true

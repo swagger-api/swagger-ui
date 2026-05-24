@@ -32,7 +32,7 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
       }
 
       definitions.entrySeq().forEach( ([ defName, definition ]) => {
-        const type = definition.get("type")
+        const type = definition?.get("type")
 
         if(type === "oauth2") {
           definition.get("flows").entrySeq().forEach(([flowKey, flowVal]) => {

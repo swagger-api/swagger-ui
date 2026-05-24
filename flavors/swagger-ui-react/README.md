@@ -33,7 +33,7 @@ Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false`
 Install `swagger-ui-react`:
 
 ```
-$ npm i --save swagger-ui-react
+$ npm install swagger-ui-react
 ```
 
 Use it in your React application:
@@ -191,6 +191,20 @@ If set to `true`, enables passing credentials, [as defined in the Fetch standard
 #### `oauth2RedirectUrl`: PropTypes.string
 
 Redirect url given as parameter to the oauth2 provider. Default the url refers to oauth2-redirect.html at the same path as the Swagger UI is available.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `initialState`: PropTypes.object
+
+Passes initial values to the Swagger UI state.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+
+#### `uncaughtExceptionHandler`: PropTypes.func
+
+Allows to define a custom uncaught exception handler. The default is `null`, which means that the default handler will be used. 
+The default handler will log the error to the console.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 

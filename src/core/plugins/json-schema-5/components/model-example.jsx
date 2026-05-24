@@ -120,6 +120,7 @@ const ModelExample = ({
 
       {activeTab === tabs.model && (
         <div
+          className="model-container"
           aria-hidden={activeTab === tabs.example}
           aria-labelledby={modelTabId}
           data-name="modelPanel"

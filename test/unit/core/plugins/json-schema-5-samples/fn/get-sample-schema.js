@@ -24,6 +24,7 @@ describe("getSampleSchema", () => {
   const getSampleSchema = makeGetSampleSchema(getSystem)
 
   beforeEach(() => {
+    // eslint-disable-next-line no-global-assign
     Date = function () {
       this.toISOString = function () {
         return "2018-07-07T07:07:05.189Z"
@@ -32,6 +33,7 @@ describe("getSampleSchema", () => {
   })
 
   afterEach(() => {
+    // eslint-disable-next-line no-global-assign
     Date = oriDate
   })
 

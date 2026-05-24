@@ -45,6 +45,8 @@ const SwaggerUI = ({
   persistAuthorization = config.defaults.persistAuthorization,
   oauth2RedirectUrl = config.defaults.oauth2RedirectUrl,
   onComplete = null,
+  initialState = config.defaults.initialState,
+  uncaughtExceptionHandler = config.defaults.uncaughtExceptionHandler,
 }) => {
   const [system, setSystem] = useState(null)
   const SwaggerUIComponent = system?.getComponent("App", "root")
@@ -83,6 +85,8 @@ const SwaggerUI = ({
       filter,
       persistAuthorization,
       withCredentials,
+      initialState,
+      uncaughtExceptionHandler,
       ...(typeof oauth2RedirectUrl === "string"
         ? { oauth2RedirectUrl: oauth2RedirectUrl }
         : {}),
@@ -165,6 +169,8 @@ SwaggerUI.propTypes = {
   persistAuthorization: PropTypes.bool,
   withCredentials: PropTypes.bool,
   oauth2RedirectUrl: PropTypes.string,
+  initialState: PropTypes.object,
+  uncaughtExceptionHandler: PropTypes.func,
 }
 SwaggerUI.System = SwaggerUIConstructor.System
 SwaggerUI.presets = SwaggerUIConstructor.presets

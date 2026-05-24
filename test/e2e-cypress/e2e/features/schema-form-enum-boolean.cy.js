@@ -4,9 +4,7 @@
 
 describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
   beforeEach(() => {
-    cy.visit(
-      "/?url=/documents/features/schema-form-enum-boolean.yaml"
-    )
+    cy.visit("/?url=/documents/features/schema-form-enum-boolean.yaml")
       .get("#operations-pet-findPetsByStatus")
       .click()
       // Expand Try It Out
@@ -47,56 +45,37 @@ describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
   })
   it("should NOT be able to execute with empty @enumIsRequired and @booleanIsRequired values", () => {
     // Execute
-    cy.get("@executeBtn")
-      .click()
-    cy.get("@enumIsRequired")
-      .should("have.class", "invalid")
-    cy.get("@booleanIsRequired")
-      .should("have.class", "invalid")
+    cy.get("@executeBtn").click()
+    cy.get("@enumIsRequired").should("have.class", "invalid")
+    cy.get("@booleanIsRequired").should("have.class", "invalid")
     // cURL component
-    cy.get(".responses-wrapper .curl-command")
-      .should("not.exist")
+    cy.get(".responses-wrapper .curl-command").should("not.exist")
   })
   it("should NOT be able to execute with empty @booleanIsRequired value, but valid @enumIsRequired", () => {
-    cy.get("@enumIsRequired")
-      .select("pending")
+    cy.get("@enumIsRequired").select("pending")
     // Execute
-    cy.get("@executeBtn")
-      .click()
-    cy.get("@enumIsRequired")
-      .should("not.have.class", "invalid")
-    cy.get("@booleanIsRequired")
-      .should("have.class", "invalid")
+    cy.get("@executeBtn").click()
+    cy.get("@enumIsRequired").should("not.have.class", "invalid")
+    cy.get("@booleanIsRequired").should("have.class", "invalid")
     // cURL component
-    cy.get(".responses-wrapper .curl-command")
-      .should("not.exist")
+    cy.get(".responses-wrapper .curl-command").should("not.exist")
   })
   it("should NOT be able to execute with empty @enumIsRequired value, but valid @booleanIsRequired", () => {
-    cy.get("@booleanIsRequired")
-      .select("false")
+    cy.get("@booleanIsRequired").select("false")
     // Execute
-    cy.get("@executeBtn")
-      .click()
-    cy.get("@enumIsRequired")
-      .should("have.class", "invalid")
-    cy.get("@booleanIsRequired")
-      .should("not.have.class", "invalid")
+    cy.get("@executeBtn").click()
+    cy.get("@enumIsRequired").should("have.class", "invalid")
+    cy.get("@booleanIsRequired").should("not.have.class", "invalid")
     // cURL component
-    cy.get(".responses-wrapper .curl-command")
-      .should("not.exist")
+    cy.get(".responses-wrapper .curl-command").should("not.exist")
   })
   it("should execute, if @booleanIsOptional value is 'false'", () => {
-    cy.get("@enumIsRequired")
-      .select("pending")
-    cy.get("@booleanIsRequired")
-      .select("false")
-    cy.get("@booleanIsOptional")
-      .select("false")
+    cy.get("@enumIsRequired").select("pending")
+    cy.get("@booleanIsRequired").select("false")
+    cy.get("@booleanIsOptional").select("false")
     // Execute
-    cy.get("@executeBtn")
-      .click()
-    cy.get("@enumIsRequired")
-      .should("not.have.class", "invalid")
+    cy.get("@executeBtn").click()
+    cy.get("@enumIsRequired").should("not.have.class", "invalid")
     cy.get("@booleanIsRequired")
       .should("not.have.class", "invalid")
       .should("not.contains.text", "expectIsOptional")
@@ -107,15 +86,11 @@ describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
       .should("contains.text", "expectIsOptional=false")
   })
   it("should execute, but NOT send @booleanIsOptional value if not provided", () => {
-    cy.get("@enumIsRequired")
-      .select("pending")
-    cy.get("@booleanIsRequired")
-      .select("false")
+    cy.get("@enumIsRequired").select("pending")
+    cy.get("@booleanIsRequired").select("false")
     // Execute
-    cy.get("@executeBtn")
-      .click()
-    cy.get("@enumIsRequired")
-      .should("not.have.class", "invalid")
+    cy.get("@executeBtn").click()
+    cy.get("@enumIsRequired").should("not.have.class", "invalid")
     cy.get("@booleanIsRequired")
       .should("not.have.class", "invalid")
       .should("not.contains.text", "expectIsOptional")
@@ -125,5 +100,4 @@ describe("JSON Schema Form: Enum & Boolean in a Parameter", () => {
       .get(".responses-wrapper .curl-command span")
       .should("not.contains.text", "expectIsOptional")
   })
-
 })

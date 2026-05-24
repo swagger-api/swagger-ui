@@ -130,6 +130,8 @@ export default class Oauth2 extends React.Component {
     const AUTH_FLOW_ACCESS_CODE = isOAS3() ? (oidcUrl ? "authorization_code" : "authorizationCode") : "accessCode"
     const AUTH_FLOW_APPLICATION = isOAS3() ? (oidcUrl ? "client_credentials" : "clientCredentials") : "application"
 
+    const path = authSelectors.selectAuthPath(name)
+
     let authConfigs = authSelectors.getConfigs() || {}
     let isPkceCodeGrant = !!authConfigs.usePkceWithAuthorizationCodeGrant
 
@@ -144,7 +146,7 @@ export default class Oauth2 extends React.Component {
 
     return (
       <div>
-        <h4>{name} (OAuth2, { flowToDisplay }) <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        <h4>{name} (OAuth2, { flowToDisplay }) <JumpToPath path={path} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
         { description && <Markdown source={ schema.get("description") } /> }
 

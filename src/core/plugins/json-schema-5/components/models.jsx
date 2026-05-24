@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import Im, { Map } from "immutable"
 import PropTypes from "prop-types"
 
+/* eslint-disable  react/jsx-no-bind */
+
 export default class Models extends Component {
   static propTypes = {
     getComponent: PropTypes.func,
@@ -114,7 +116,7 @@ export default class Models extends Component {
 
             return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }
                     data-name={name} ref={this.onLoadModel} >
-              <span className="models-jump-to-path"><JumpToPath specPath={specPath} /></span>
+              <span className="models-jump-to-path"><JumpToPath path={specPath} /></span>
               <ModelCollapse
                 classes="model-box"
                 collapsedContent={this.getCollapsedContent(name)}

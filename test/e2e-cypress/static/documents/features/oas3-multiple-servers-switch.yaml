@@ -1,4 +1,4 @@
-openapi: 3.0.2
+openapi: 3.0.4
 servers:
   - url: /test-url-switch-1
   - url: /test-url-switch-2

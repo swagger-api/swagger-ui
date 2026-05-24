@@ -52,7 +52,10 @@ export const findSchema = (state, schemaName) => {
     ["resolvedSubtrees", "components", "schemas", schemaName],
     null
   )
-  const unresolvedSchema = state.getIn(["json", "components", "schemas", schemaName], null)
+  const unresolvedSchema = state.getIn(
+    ["json", "components", "schemas", schemaName],
+    null
+  )
 
   return resolvedSchema || unresolvedSchema || null
 }

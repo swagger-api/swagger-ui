@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { sanitizeUrl } from "core/utils"
+import { sanitizeUrl } from "core/utils/url"
 
 const propClass = "property"
 

@@ -1,12 +1,11 @@
-.json-schema-2020-12-keyword--enum {
-  & > ul {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
+@use "./../../mixins";
 
-    li {
-      display: inline;
-      list-style-type: none;
-    }
+.json-schema-2020-12-keyword--enum {
+  .json-schema-2020-12-json-viewer__name {
+    @include mixins.json-schema-2020-12-keyword--primary;
+  }
+
+  .json-schema-2020-12-json-viewer__value {
+    @include mixins.json-schema-2020-12-keyword--primary;
   }
 }

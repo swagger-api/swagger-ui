@@ -16,8 +16,9 @@ module.exports = {
     '<rootDir>/test/unit/setup.js',
   ],
   moduleNameMapper: {
-    '^.+\\.svg$': 'jest-transform-stub'
+    '^.+\\.svg$': 'jest-transform-stub',
+    '^standalone/(.*)$': '<rootDir>/src/standalone/$1',
   },
-  transformIgnorePatterns: ['/node_modules/(?!(sinon|react-syntax-highlighter)/)'],
+  transformIgnorePatterns: ['/node_modules/(?!(sinon|react-syntax-highlighter|@asamuzakjp/css-color)/)'],
   silent: true, // set to `false` to allow console.* calls to be printed
 };

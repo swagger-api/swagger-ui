@@ -6,7 +6,7 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 const DEFAULT_TAG = "default"
 
 const OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch", "trace"
+  "get", "put", "post", "delete", "options", "head", "patch", "trace", "query"
 ]
 
 const state = state => {
@@ -124,13 +124,10 @@ export const validOperationMethods = constant(["get", "put", "post", "delete", "
 export const operations = createSelector(
   paths,
   paths => {
-    if(!paths || paths.size < 1)
-      return List()
-
     let list = List()
 
-    if(!paths || !paths.forEach) {
-      return List()
+    if (!Map.isMap(paths) || paths.isEmpty()) {
+      return list
     }
 
     paths.forEach((path, pathName) => {
@@ -145,7 +142,8 @@ export const operations = createSelector(
           path: pathName,
           method,
           operation,
-          id: `${method}-${pathName}`
+          id: `${method}-${pathName}`,
+          specPath: ["paths", pathName, method],
         }))
       })
     })
@@ -212,8 +210,7 @@ export const operationsWithRootInherited = createSelector(
   ],
   (operations, consumes, produces) => {
     return operations.map( ops => ops.update("operation", op => {
-      if(op) {
-        if(!Map.isMap(op)) { return }
+      if (Map.isMap(op)) {
         return op.withMutations( op => {
           if ( !op.get("consumes") ) {
             op.update("consumes", a => Set(a).merge(consumes))
@@ -499,8 +496,8 @@ export const validationErrors = (state, pathMethod) => {
   const getErrorsWithPaths = (errors, path = []) => {
     const getNestedErrorsWithPaths = (e, path) => {
       const currPath = [...path, e.get("propKey") || e.get("index")]
-      return Map.isMap(e.get("error")) 
-        ? getErrorsWithPaths(e.get("error"), currPath) 
+      return Map.isMap(e.get("error"))
+        ? getErrorsWithPaths(e.get("error"), currPath)
         : { error: e.get("error"), path: currPath }
     }
 
@@ -511,10 +508,10 @@ export const validationErrors = (state, pathMethod) => {
 
   const formatError = (error, path, paramName) => {
     path = path.reduce((acc, curr) => {
-      return typeof curr === "number" 
-        ? `${acc}[${curr}]` 
-        : acc 
-        ? `${acc}.${curr}` 
+      return typeof curr === "number"
+        ? `${acc}[${curr}]`
+        : acc
+        ? `${acc}.${curr}`
         : curr
     }, "")
     return `For '${paramName}'${path ? ` at path '${path}'` : ""}: ${error}.`

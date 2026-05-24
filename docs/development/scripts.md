@@ -10,6 +10,8 @@ Script name | Description
 `lint` | Report ESLint style errors and warnings.
 `lint-errors` | Report ESLint style errors, without warnings.
 `lint-fix` | Attempt to fix style errors automatically.
+`lint-styles` | Report Stylelint style errors and warnings.
+`lint-styles-fix` | Attempt to fix Stylelint errors and warnings automatically.
 `watch` | Rebuild the core files in `/dist` when the source code changes. Useful for `npm link` with Swagger Editor.
 
 ### Building

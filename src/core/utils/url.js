@@ -37,3 +37,43 @@ export function safeBuildUrl(url, specUrl, { selectedServer="" } = {}) {
     return undefined
   }
 }
+
+export function sanitizeUrl(url) {
+  if (typeof url !== "string" || url.trim() === "") {
+    return ""
+  }
+
+  const urlTrimmed = url.trim()
+  const blankURL = "about:blank"
+
+  try {
+    const base = `https://base${String(Math.random()).slice(2)}`
+    const urlObject = new URL(urlTrimmed, base)
+    const scheme = urlObject.protocol.slice(0, -1)
+
+    // check for invalid schemes
+    if (["javascript", "data", "vbscript"].includes(scheme.toLowerCase())) {
+      return blankURL
+    }
+
+    // return sanitized URI reference
+    if (urlObject.origin === base) {
+      if (urlTrimmed.startsWith("/")) {
+        return `${urlObject.pathname}${urlObject.search}${urlObject.hash}`
+      }
+
+      // Handle relative paths (./path, ../path, ./../../path, etc.)
+      if (urlTrimmed.startsWith("./") || urlTrimmed.startsWith("../")) {
+        const relativePath = urlTrimmed.match(/^(\.\.?\/)+/)[0]
+        const remainingPath = urlObject.pathname.substring(1)
+        return `${relativePath}${remainingPath}${urlObject.search}${urlObject.hash}`
+      }
+
+      return `${urlObject.pathname.substring(1)}${urlObject.search}${urlObject.hash}`
+    }
+
+    return String(urlObject)
+  } catch {
+    return blankURL
+  }
+}

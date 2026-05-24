@@ -8,7 +8,7 @@ describe("oas3 plugin - spec extensions - wrapSelectors", function(){
 
       // Given
       const spec = fromJS({
-        openapi: "3.0.0",
+        openapi: "3.0.4",
         components: {
           schemas: {
             a: {
@@ -48,7 +48,7 @@ describe("oas3 plugin - spec extensions - wrapSelectors", function(){
 
       // Given
       const spec = fromJS({
-        openapi: "3.0.0"
+        openapi: "3.0.4"
       })
 
       const system = {
@@ -71,7 +71,7 @@ describe("oas3 plugin - spec extensions - wrapSelectors", function(){
 
       // Given
       const spec = fromJS({
-        openapi: "3.0.0",
+        openapi: "3.0.4",
         components: {
           schemas: "..."
         }

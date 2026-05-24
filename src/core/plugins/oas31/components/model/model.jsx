@@ -21,7 +21,7 @@ const getModelName = (uri) => {
 }
 
 const Model = forwardRef(
-  ({ schema, getComponent, onToggle = () => {} }, ref) => {
+  ({ schema, getComponent, onToggle = () => {}, specPath }, ref) => {
     const JSONSchema202012 = getComponent("JSONSchema202012")
     const name = getModelName(schema.get("$$ref"))
 
@@ -38,6 +38,7 @@ const Model = forwardRef(
         schema={schema.toJS()}
         ref={ref}
         onExpand={handleExpand}
+        identifier={specPath.toJS().join("_")}
       />
     )
   }
@@ -47,6 +48,7 @@ Model.propTypes = {
   schema: ImPropTypes.map.isRequired,
   getComponent: PropTypes.func.isRequired,
   onToggle: PropTypes.func,
+  specPath: ImPropTypes.list.isRequired,
 }
 
 export default Model

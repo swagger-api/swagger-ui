@@ -4,7 +4,7 @@ import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
-import { stringify } from "core/utils"
+import { stringify, isImmutable } from "core/utils"
 
 const noop = ()=> {}
 const JsonSchemaPropShape = {
@@ -48,15 +48,23 @@ export class JsonSchemaForm extends Component {
     let { schema, errors, value, onChange, getComponent, fn, disabled } = this.props
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
+    const objectType = fn.getSchemaObjectType(schema)
+    const isFileUploadIntended = fn.isFileUploadIntended(schema)
 
     let getComponentSilently = (name) => getComponent(name, false, { failSilently: true })
     let Comp = type ? format ?
       getComponentSilently(`JsonSchema_${type}_${format}`) :
       getComponentSilently(`JsonSchema_${type}`) :
       getComponent("JsonSchema_string")
+
+    if (!isFileUploadIntended && List.isList(type) && (objectType === "array" || objectType === "object")) {
+      Comp = getComponent("JsonSchema_object")
+    }
+
     if (!Comp) {
       Comp = getComponent("JsonSchema_string")
     }
+
     return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema} disabled={disabled}/>
   }
 }
@@ -77,7 +85,10 @@ export class JsonSchema_string extends Component {
     const schemaIn = schema && schema.get ? schema.get("in") : null
     if (!value) {
       value = "" // value should not be null; this fixes a Debounce error
+    } else if (isImmutable(value) || typeof value === "object") {
+      value = stringify(value)
     }
+
     errors = errors.toJS ? errors.toJS() : []
 
     if ( enumValue ) {
@@ -179,19 +190,26 @@ export class JsonSchema_array extends PureComponent {
       .map(e => e.error)
     const value = this.state.value // expect Im List
     const shouldRenderValue =
-      value && value.count && value.count() > 0 ? true : false
+      !!(value && value.count && value.count() > 0)
     const schemaItemsEnum = schema.getIn(["items", "enum"])
-    const schemaItemsType = schema.getIn(["items", "type"])
+    const schemaItems = schema.get("items")
+    const schemaItemsType = fn.getSchemaObjectType(schemaItems)
+    const schemaItemsTypeLabel = fn.getSchemaObjectTypeLabel(schemaItems)
     const schemaItemsFormat = schema.getIn(["items", "format"])
     const schemaItemsSchema = schema.get("items")
     let ArrayItemsComponent
     let isArrayItemText = false
-    let isArrayItemFile = (schemaItemsType === "file" || (schemaItemsType === "string" && schemaItemsFormat === "binary")) ? true : false
+    let isArrayItemFile = (schemaItemsType === "file" || (schemaItemsType === "string" && schemaItemsFormat === "binary"))
     if (schemaItemsType && schemaItemsFormat) {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}_${schemaItemsFormat}`)
     } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}`)
     }
+
+    if (List.isList(schemaItems?.get("type")) && (schemaItemsType === "array" || schemaItemsType === "object")) {
+      ArrayItemsComponent = getComponent(`JsonSchema_object`)
+    }
+
     // if ArrayItemsComponent not assigned or does not exist,
     // use default schemaItemsType === "string" & JsonSchemaArrayItemText component
     if (!ArrayItemsComponent && !isArrayItemFile) {
@@ -266,7 +284,7 @@ export class JsonSchema_array extends PureComponent {
             title={arrayErrors.length ? arrayErrors : ""}
             onClick={this.addItem}
           >
-            Add {schemaItemsType ? `${schemaItemsType} ` : ""}item
+            Add {schemaItemsTypeLabel} item
           </Button>
         ) : null}
       </div>
@@ -287,7 +305,10 @@ export class JsonSchemaArrayItemText extends Component {
     let { value, errors, description, disabled } = this.props
     if (!value) {
       value = "" // value should not be null
+    } else if (isImmutable(value) || typeof value === "object") {
+      value = stringify(value)
     }
+
     errors = errors.toJS ? errors.toJS() : []
 
     return (<DebounceInput

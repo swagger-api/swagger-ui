@@ -4,7 +4,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { sanitizeUrl } from "core/utils"
+import { sanitizeUrl } from "core/utils/url"
 
 const Info = ({ getComponent, specSelectors }) => {
   const version = specSelectors.version()
@@ -33,13 +33,13 @@ const Info = ({ getComponent, specSelectors }) => {
   return (
     <div className="info">
       <hgroup className="main">
-        <h2 className="title">
+        <h1 className="title">
           {title}
           <span>
             {version && <VersionStamp version={version} />}
             <OpenAPIVersion oasVersion="3.1" />
           </span>
-        </h2>
+        </h1>
 
         {(host || basePath) && <InfoBasePath host={host} basePath={basePath} />}
         {url && <InfoUrl getComponent={getComponent} url={url} />}

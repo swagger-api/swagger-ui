@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: "3.0.4"
 info:
   description: "A sample API for "
   version: "1.0.0"

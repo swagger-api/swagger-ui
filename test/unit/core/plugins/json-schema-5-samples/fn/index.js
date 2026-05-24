@@ -8,6 +8,22 @@ import {
 } from "core/plugins/json-schema-5-samples/fn/index"
 
 describe("sampleFromSchema", () => {
+  const oriDate = Date
+
+  beforeEach(() => {
+    // eslint-disable-next-line no-global-assign
+    Date = function () {
+      this.toISOString = function () {
+        return "2025-04-18T09:13:28.927Z"
+      }
+    }
+  })
+
+  afterEach(() => {
+    // eslint-disable-next-line no-global-assign
+    Date = oriDate
+  })
+
   it("handles Immutable.js objects for nested schemas", function () {
     let definition = fromJS({
       "type": "object",
@@ -341,12 +357,9 @@ describe("sampleFromSchema", () => {
       format: "date-time"
     }
 
-    // 0-20 chops off milliseconds
-    // necessary because test latency can cause failures
-    // it would be better to mock Date globally and expect a string - KS 11/18
-    let expected = new Date().toISOString().substring(0, 20)
+    let expected = "2025-04-18T09:13:28.927Z"
 
-    expect(sampleFromSchema(definition)).toContain(expected)
+    expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns example value for date property", () => {
@@ -355,7 +368,18 @@ describe("sampleFromSchema", () => {
       format: "date"
     }
 
-    let expected = new Date().toISOString().substring(0, 10)
+    let expected = "2025-04-18"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns example value for time property", () => {
+    let definition = {
+      type: "string",
+      format: "time"
+    }
+
+    let expected = "09:13:28.927Z"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
@@ -940,6 +964,30 @@ describe("sampleFromSchema", () => {
       additionalProp1: "string",
       additionalProp2: "string",
       additionalProp3: "string",
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should handle additionalProperties with x-additionalPropertiesName", () => {
+    const definition = {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+        "x-additionalPropertiesName": "bar",
+      },
+      properties: {
+        foo: {
+          type: "string",
+        },
+      },
+    }
+
+    const expected = {
+      foo: "string",
+      bar1: "string",
+      bar2: "string",
+      bar3: "string",
     }
 
     expect(sampleFromSchema(definition)).toEqual(expected)
@@ -2190,6 +2238,27 @@ describe("createXMLExample", function () {
         },
         additionalProperties: {
           type: "string"
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with additional props with x-additionalPropertiesName", function () {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<animal1>string</animal1>\n\t<animal2>string</animal2>\n\t<animal3>string</animal3>\n</animals>"
+      let definition = {
+        type: "object",
+        properties: {
+          dog: {
+            type: "string"
+          }
+        },
+        additionalProperties: {
+          type: "string",
+          "x-additionalPropertiesName": "animal"
         },
         xml: {
           name: "animals"

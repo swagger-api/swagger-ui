@@ -25,7 +25,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }
@@ -55,7 +55,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }
@@ -89,7 +89,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }
@@ -126,7 +126,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }
@@ -170,7 +170,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }
@@ -211,7 +211,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }
@@ -266,7 +266,7 @@ describe("OAS3 plugin - state", function() {
               return {
                 specSelectors: {
                   specJson: () => {
-                    return fromJS({ openapi: "3.0.0" })
+                    return fromJS({ openapi: "3.0.4" })
                   },
                   isOAS3: () => true,
                 }
@@ -320,7 +320,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }
@@ -349,7 +349,7 @@ describe("OAS3 plugin - state", function() {
             return {
               specSelectors: {
                 specJson: () => {
-                  return fromJS({ openapi: "3.0.0" })
+                  return fromJS({ openapi: "3.0.4" })
                 },
                 isOAS3: () => true,
               }

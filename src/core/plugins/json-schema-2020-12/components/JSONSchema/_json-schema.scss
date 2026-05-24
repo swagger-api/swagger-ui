@@ -1,8 +1,14 @@
+@use "./../../../../../style/variables" as *;
+@use "./../../components/mixins";
+
 .json-schema-2020-12 {
   margin: 0 20px 15px 20px;
   border-radius: 4px;
   padding: 12px 0 12px 20px;
-  background-color: rgba($section-models-model-container-background-color, .05);
+  background-color: rgba(
+    $section-models-model-container-background-color,
+    0.05
+  );
 
   &:first-of-type {
     margin: 20px;
@@ -18,7 +24,7 @@
   }
 
   &-body {
-    @include expansion-border;
+    @include mixins.expansion-border;
     margin: 2px 0;
 
     &--collapsed {
@@ -26,5 +32,3 @@
     }
   }
 }
-
-

@@ -1,10 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { stringify } from "core/utils"
 
 export const Property = ({ propKey, propVal, propClass }) => {
     return (
         <span className={ propClass }>
-          <br />{ propKey }: { String(propVal) }</span>
+          <br />{ propKey }: { stringify(propVal) }</span>
     )
 }
 Property.propTypes = {

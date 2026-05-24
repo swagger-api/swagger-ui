@@ -1,8 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
-import { getList } from "core/utils"
-import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
-import { safeBuildUrl } from "core/utils/url"
+import { getExtensions, escapeDeepLinkPath, getList } from "core/utils"
+import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
@@ -77,13 +76,11 @@ export default class Operation extends PureComponent {
       displayRequestDuration,
       tryItOutEnabled,
       executeInProgress
-    } = operationProps.toJS()
+    } = operationProps.toObject()
 
-    let {
-      description,
-      externalDocs,
-      schemes
-    } = op
+    const description = op.get("description")
+    const externalDocs = op.get("externalDocs")?.toJS()
+    const schemes = op.get("schemes")?.toJS()
 
     const externalDocsUrl = externalDocs ? safeBuildUrl(externalDocs.url, specSelectors.url(), { selectedServer: oas3Selectors.selectedServer() }) : ""
     let operation = operationProps.getIn(["op"])
@@ -93,8 +90,8 @@ export default class Operation extends PureComponent {
     let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
 
-    const Responses = getComponent("responses")
-    const Parameters = getComponent( "parameters" )
+    const Responses = getComponent("responses", true)
+    const Parameters = getComponent( "parameters", true )
     const Execute = getComponent( "execute" )
     const Clear = getComponent( "clear" )
     const Collapse = getComponent( "Collapse" )

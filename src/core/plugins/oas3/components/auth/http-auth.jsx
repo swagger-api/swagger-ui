@@ -8,7 +8,8 @@ export default class HttpAuth extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    authSelectors: PropTypes.object.isRequired
   }
 
   constructor(props, context) {
@@ -46,7 +47,7 @@ export default class HttpAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
+    let { schema, getComponent, errSelectors, name, authSelectors } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
@@ -55,6 +56,7 @@ export default class HttpAuth extends React.Component {
     const JumpToPath = getComponent("JumpToPath", true)
 
     const scheme = (schema.get("scheme") || "").toLowerCase()
+    const path = authSelectors.selectAuthPath(name)
     let value = this.getValue()
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
@@ -62,9 +64,9 @@ export default class HttpAuth extends React.Component {
       let username = value ? value.get("username") : null
       return <div>
         <h4>
-          <code>{ name || schema.get("name") }</code>&nbsp;
+          <code>{name}</code>&nbsp;
             (http, Basic)
-            <JumpToPath path={[ "securityDefinitions", name ]} />
+            <JumpToPath path={path} />
           </h4>
         { username && <h6>Authorized</h6> }
         <Row>
@@ -116,9 +118,9 @@ export default class HttpAuth extends React.Component {
       return (
         <div>
           <h4>
-            <code>{ name || schema.get("name") }</code>&nbsp;
+            <code>{name}</code>&nbsp;
               (http, Bearer)
-              <JumpToPath path={[ "securityDefinitions", name ]} />
+              <JumpToPath path={path} />
             </h4>
             { value && <h6>Authorized</h6>}
             <Row>

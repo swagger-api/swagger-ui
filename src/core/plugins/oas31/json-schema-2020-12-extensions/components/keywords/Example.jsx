@@ -5,20 +5,18 @@ import React from "react"
 import PropTypes from "prop-types"
 
 const Example = ({ schema, getSystem }) => {
-  const { fn } = getSystem()
-  const { hasKeyword, stringify } = fn.jsonSchema202012.useFn()
+  const { fn, getComponent } = getSystem()
+  const { hasKeyword } = fn.jsonSchema202012.useFn()
+  const JSONViewer = getComponent("JSONSchema202012JSONViewer")
 
   if (!hasKeyword(schema, "example")) return null
 
   return (
-    <div className="json-schema-2020-12-keyword json-schema-2020-12-keyword--example">
-      <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--secondary">
-        Example
-      </span>
-      <span className="json-schema-2020-12-keyword__value json-schema-2020-12-keyword__value--const">
-        {stringify(schema.example)}
-      </span>
-    </div>
+    <JSONViewer
+      name="Example"
+      value={schema.example}
+      className="json-schema-2020-12-keyword json-schema-2020-12-keyword--example"
+    />
   )
 }
 

@@ -7,8 +7,7 @@ export function isOAS30(jsSpec) {
   const oasVersion = jsSpec.get("openapi")
 
   return (
-    typeof oasVersion === "string" &&
-    /^3\.0\.([0123])(?:-rc[012])?$/.test(oasVersion)
+    typeof oasVersion === "string" && /^3\.0\.(?:[1-9]\d*|0)$/.test(oasVersion)
   )
 }
 

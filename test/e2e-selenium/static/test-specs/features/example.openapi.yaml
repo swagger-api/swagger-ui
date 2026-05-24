@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.4
 servers:
   - url: http://example.com/v1
     description: Production server version 1

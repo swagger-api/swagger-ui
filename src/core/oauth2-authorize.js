@@ -1,6 +1,7 @@
 import parseUrl from "url-parse"
 import Im from "immutable"
-import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
+import { btoa, generateCodeVerifier, createCodeChallenge } from "core/utils"
+import { sanitizeUrl } from "core/utils/url"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={}, currentServer } ) {
   let { schema, scopes, name, clientId } = auth
@@ -108,7 +109,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   } else {
     sanitizedAuthorizationUrl = sanitizeUrl(authorizationUrl)
   }
-  let url = [sanitizedAuthorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
+  let url = [sanitizedAuthorizationUrl, query.join("&")].join(
+    typeof authorizationUrl === "string" && !authorizationUrl.includes("?")
+      ? "?"
+      : "&"
+  )
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2

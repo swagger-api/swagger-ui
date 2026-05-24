@@ -1,0 +1,8 @@
+openapi: 3.1.0
+components:
+  schemas:
+    Test:
+      examples:
+        - 1
+        - - 2
+        - prop: 3

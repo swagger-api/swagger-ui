@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.4
 servers:
   - url: '{scheme}://developer.uspto.gov/ds-api'
     variables:

@@ -1,62 +1,62 @@
-.servers
-{
-     > label
-    {
-        font-size: 12px;
+@use "variables" as *;
+@use "type";
 
-        margin: -20px 15px 0 0;
+.servers {
+  > label {
+    font-size: 12px;
 
-        @include text_headline();
+    margin: -20px 15px 0 0;
 
-        select
-        {
-            min-width: 130px;
-            max-width: 100%;
-            width: 100%;
-        }
+    @include type.text_headline();
+
+    select {
+      min-width: 130px;
+      max-width: 100%;
+      width: 100%;
     }
+  }
 
-    h4.message {
-      padding-bottom: 2em;
+  h4.message {
+    padding-bottom: 2em;
+  }
+
+  table {
+    tr {
+      width: 30em;
     }
+    td {
+      display: inline-block;
+      max-width: 15em;
+      vertical-align: middle;
+      padding-top: 10px;
+      padding-bottom: 10px;
 
-    table {
-        tr {
-            width: 30em;
-        }
-        td {
-            display: inline-block;
-            max-width: 15em;
-            vertical-align: middle;
-            padding-top: 10px;
-            padding-bottom: 10px;
+      &:first-of-type {
+        padding-right: 1em;
+      }
 
-            &:first-of-type {
-              padding-right: 1em;
-            }
-
-            input {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    }
-
-    .computed-url {
-      margin: 2em 0;
-
-      code {
-        display: inline-block;
-        padding: 4px;
-        font-size: 16px;
-        margin: 0 1em;
+      input {
+        width: 100%;
+        height: 100%;
       }
     }
+  }
+
+  .computed-url {
+    margin: 2em 0;
+
+    code {
+      display: inline-block;
+      padding: 4px;
+      font-size: 16px;
+      margin: 0 1em;
+    }
+  }
 }
 
 .servers-title {
-    font-size: 12px;
-    font-weight: bold;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .operation-servers {
