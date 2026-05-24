@@ -32,7 +32,7 @@ class DarkModeToggle extends Component {
 
     return (
       <div className="dark-mode-toggle">
-        <button onClick={this.toggleIsDarkMode}>
+        <button type="button" onClick={this.toggleIsDarkMode}>
           {!isDarkMode ? (
             <LightBulbOff height="24" />
           ) : (
