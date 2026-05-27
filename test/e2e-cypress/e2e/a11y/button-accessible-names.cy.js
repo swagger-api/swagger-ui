@@ -32,7 +32,7 @@ describe("Button accessible names", () => {
     checkAllButtonsHaveNames()
   })
 
-  it("gives the cURL command copy button a programmatic name", () => {
+  it("gives response action buttons programmatic names", () => {
     visitTestOperation()
 
     cy.get(".btn.execute")
@@ -45,6 +45,11 @@ describe("Button accessible names", () => {
     )
       .should("have.attr", "aria-label", "Copy cURL command to clipboard")
       .and("have.attr", "title", "Copy cURL command to clipboard")
+
+    cy.get(".responses-wrapper .download-contents").should(
+      "have.text",
+      "Download"
+    )
 
     checkAllButtonsHaveNames()
   })
