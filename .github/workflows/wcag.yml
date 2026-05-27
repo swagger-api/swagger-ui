@@ -1,0 +1,42 @@
+name: WCAG checks
+
+on:
+  push:
+    branches: [ master, next ]
+  pull_request:
+    branches: [ master, next ]
+
+env:
+  CYPRESS_CACHE_FOLDER: cypress/cache
+
+permissions:
+  contents: read
+
+jobs:
+  copy-to-clipboard-buttons:
+    name: Copy-to-clipboard button names
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Cache Node Modules and Cypress binary
+        uses: actions/cache@v5
+        id: cache-primes
+        with:
+          path: |
+            node_modules
+            ${{ env.CYPRESS_CACHE_FOLDER }}
+          key: ${{ runner.os }}-node-and-cypress-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-primes.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Run WCAG copy-button checks
+        run: npm run cy:wcag
