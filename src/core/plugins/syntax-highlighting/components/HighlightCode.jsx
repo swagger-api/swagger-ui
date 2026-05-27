@@ -7,6 +7,8 @@ import classNames from "classnames"
 import saveAs from "js-file-download"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
+const COPY_CODE_LABEL = "Copy code to clipboard"
+
 const HighlightCode = ({
   fileName = "response.txt",
   className,
@@ -70,13 +72,13 @@ const HighlightCode = ({
       {canCopy && (
         <div
           className="copy-to-clipboard"
-          title="Copy code to clipboard"
-          aria-label="Copy code to clipboard"
+          title={COPY_CODE_LABEL}
+          aria-label={COPY_CODE_LABEL}
         >
           <CopyToClipboard text={children}>
             <button
-              aria-label="Copy code to clipboard"
-              title="Copy code to clipboard"
+              aria-label={COPY_CODE_LABEL}
+              title={COPY_CODE_LABEL}
               type="button"
             />
           </CopyToClipboard>
