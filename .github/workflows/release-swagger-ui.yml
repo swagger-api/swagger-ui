@@ -4,6 +4,9 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Release swagger-ui npm package
