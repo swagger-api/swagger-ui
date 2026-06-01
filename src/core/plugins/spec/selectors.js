@@ -142,7 +142,8 @@ export const operations = createSelector(
           path: pathName,
           method,
           operation,
-          id: `${method}-${pathName}`
+          id: `${method}-${pathName}`,
+          specPath: ["paths", pathName, method],
         }))
       })
     })
