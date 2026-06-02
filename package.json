@@ -131,7 +131,7 @@
     "babel-plugin-lodash": "=3.3.4",
     "babel-plugin-module-resolver": "=5.0.2",
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
-    "body-parser": "^1.20.4",
+    "body-parser": "^1.20.5",
     "cheerio": "=1.0.0",
     "copy-webpack-plugin": "14.0.0",
     "cors": "^2.8.5",
@@ -150,7 +150,7 @@
     "eslint-plugin-react": "^7.37.4",
     "esm": "=3.2.25",
     "expect": "=30.4.1",
-    "express": "^4.22.1",
+    "express": "^4.22.2",
     "git-describe": "^4.1.0",
     "html-webpack-plugin": "^5.6.3",
     "husky": "=9.1.7",
@@ -202,6 +202,9 @@
   "overrides": {
     "@pmmmwh/react-refresh-webpack-plugin": {
       "webpack-dev-server": "$webpack-dev-server"
+    },
+    "cypress": {
+      "@cypress/request": "^4.0.1"
     },
     "enzyme": {
       "cheerio": "=1.0.0-rc.12"
