@@ -34,6 +34,14 @@ const mappings = {
     typeCaster: numberTypeCaster,
     defaultValue: defaultOptions.defaultModelsExpandDepth,
   },
+  theme: {
+    typeCaster: objectTypeCaster,
+    defaultValue: defaultOptions.theme,
+  },
+  "theme.defaultMode": {
+    typeCaster: stringTypeCaster,
+    defaultValue: defaultOptions.theme.defaultMode,
+  },
   displayOperationId: {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.displayOperationId,

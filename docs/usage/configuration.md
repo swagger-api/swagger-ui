@@ -115,6 +115,24 @@ Parameter name | Docker variable | Description
         </td>
     </tr>
     <tr>
+        <td><a name="user-content-theme"></a><code>theme</code>
+        </td>
+        <td><em>Unavailable</em></td>
+        <td><code>Object={ defaultMode: "light" }</code>. Theme configuration object.
+        </td>
+    </tr>
+    <tr>
+        <td><a name="user-content-theme.defaultmode"></a><code>theme.defaultMode</code>
+        </td>
+        <td><code>THEME_DEFAULT_MODE</code></td>
+        <td><code>String=["light"*, "dark"]</code>. Sets the default color mode
+            when Swagger UI loads. Can be <code>"light"</code> or <code>"dark"</code>.
+            This works across all layouts and deployment scenarios, including
+            embedded usage and swagger-ui-react. The mode can still be toggled
+            via the UI if a dark mode toggle is available in your layout.
+        </td>
+    </tr>
+    <tr>
         <td><a name="user-content-filter"></a><code>filter</code></td>
         <td><code>FILTER</code></td>
         <td><code>Boolean=false OR String</code>. If set, enables filtering. The
