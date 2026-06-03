@@ -120,6 +120,7 @@ export default class Parameters extends Component {
 
     const isExecute = tryItOutEnabled && allowTryItOut
     const isOAS3 = specSelectors.isOAS3()
+    const isCallbackBody = specPath.some((val) => val === "callbacks")
 
     const regionId = createHtmlReadyId(`${pathMethod[1]}${pathMethod[0]}_requests`)
     const controlId = `${regionId}_select`
@@ -243,6 +244,7 @@ export default class Parameters extends Component {
                 requestBodyInclusionSetting={oas3Selectors.requestBodyInclusionSetting(...pathMethod)}
                 requestBodyErrors={oas3Selectors.requestBodyErrors(...pathMethod)}
                 isExecute={isExecute}
+                isCallback={isCallbackBody}
                 getConfigs={getConfigs}
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
