@@ -1,28 +1,39 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { fallbackT } from "core/plugins/i18n/fn"
 
-const Headers = ( { headers } )=>{
+const Headers = ( { headers, t } )=>{
   return (
     <div>
-      <h5>Response headers</h5>
+      <h5>{t("label.response_headers")}</h5>
       <pre className="microlight">{headers}</pre>
     </div>)
 }
 Headers.propTypes = {
-  headers: PropTypes.array.isRequired
+  headers: PropTypes.array.isRequired,
+  t: PropTypes.func,
 }
 
-const Duration = ( { duration } ) => {
+Headers.defaultProps = {
+  t: fallbackT,
+}
+
+const Duration = ( { duration, t } ) => {
   return (
     <div>
-      <h5>Request duration</h5>
+      <h5>{t("label.request_duration")}</h5>
       <pre className="microlight">{duration} ms</pre>
     </div>
   )
 }
 Duration.propTypes = {
-  duration: PropTypes.number.isRequired
+  duration: PropTypes.number.isRequired,
+  t: PropTypes.func,
+}
+
+Duration.defaultProps = {
+  t: fallbackT,
 }
 
 
@@ -34,7 +45,12 @@ export default class LiveResponse extends React.Component {
     displayRequestDuration: PropTypes.bool.isRequired,
     specSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -47,7 +63,7 @@ export default class LiveResponse extends React.Component {
   }
 
   render() {
-    const { response, getComponent, getConfigs, displayRequestDuration, specSelectors, path, method } = this.props
+    const { response, getComponent, getConfigs, displayRequestDuration, specSelectors, path, method, t } = this.props
     const { showMutatedRequest, requestSnippetsEnabled } = getConfigs()
 
     const curlRequest = showMutatedRequest ? specSelectors.mutatedRequestFor(path, method) : specSelectors.requestFor(path, method)
@@ -79,17 +95,17 @@ export default class LiveResponse extends React.Component {
         }
         { url && <div>
             <div className="request-url">
-              <h4>Request URL</h4>
+              <h4>{t("label.request_url")}</h4>
               <pre className="microlight">{url}</pre>
             </div>
           </div>
         }
-        <h4>Server response</h4>
+        <h4>{t("label.server_response")}</h4>
         <table className="responses-table live-responses-table">
           <thead>
           <tr className="responses-header">
-            <td className="col_header response-col_status">Code</td>
-            <td className="col_header response-col_description">Details</td>
+            <td className="col_header response-col_status">{t("label.code")}</td>
+            <td className="col_header response-col_description">{t("label.details")}</td>
           </tr>
           </thead>
           <tbody>
@@ -98,7 +114,7 @@ export default class LiveResponse extends React.Component {
                 { status }
                 {
                   notDocumented ? <div className="response-undocumented">
-                                    <i> Undocumented </i>
+                                    <i> {t("label.undocumented")} </i>
                                   </div>
                                 : null
                 }
@@ -118,10 +134,10 @@ export default class LiveResponse extends React.Component {
                        : null
                 }
                 {
-                  hasHeaders ? <Headers headers={ returnObject }/> : null
+                  hasHeaders ? <Headers headers={ returnObject } t={t}/> : null
                 }
                 {
-                  displayRequestDuration && duration ? <Duration duration={ duration } /> : null
+                  displayRequestDuration && duration ? <Duration duration={ duration } t={t}/> : null
                 }
               </td>
             </tr>

@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, Map } from "immutable"
+import { fallbackT } from "core/plugins/i18n/fn"
 import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
@@ -44,12 +45,14 @@ export default class Response extends React.Component {
     contentType: PropTypes.string,
     activeExamplesKey: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
-    onContentTypeChange: PropTypes.func
+    onContentTypeChange: PropTypes.func,
+    t: PropTypes.func,
   }
 
   static defaultProps = {
     response: fromJS({}),
-    onContentTypeChange: () => {}
+    onContentTypeChange: () => {},
+    t: fallbackT,
   }
 
   _onContentTypeChange = (value) => {
@@ -87,6 +90,7 @@ export default class Response extends React.Component {
       contentType,
       controlsAcceptHeader,
       oas3Actions,
+      t,
     } = this.props
 
     let { inferSchema, getSampleSchema } = fn
@@ -194,7 +198,7 @@ export default class Response extends React.Component {
                 })}
               >
                 <small className="response-control-media-type__title">
-                  Media type
+                  {t("label.media_type")}
                 </small>
                 <ContentType
                   value={this.state.responseContentType}
@@ -208,14 +212,16 @@ export default class Response extends React.Component {
                 />
                 {controlsAcceptHeader ? (
                   <small className="response-control-media-type__accept-message">
-                    Controls <code>Accept</code> header.
+                    {t("response.controls_accept_header_prefix")}
+                    <code>Accept</code>
+                    {t("response.controls_accept_header_suffix")}
                   </small>
                 ) : null}
               </div>
               {Map.isMap(examplesForMediaType) && !examplesForMediaType.isEmpty() ? (
                 <div className="response-control-examples">
                   <small className="response-control-examples__title">
-                    Examples
+                    {t("label.examples")}
                   </small>
                   <ExamplesSelect
                     examples={examplesForMediaType}
@@ -268,7 +274,7 @@ export default class Response extends React.Component {
             links.toSeq().entrySeq().map(([key, link]) => {
               return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
             })
-          : <i>No links</i>}
+          : <i>{t("label.no_links")}</i>}
         </td> : null}
       </tr>
     )
