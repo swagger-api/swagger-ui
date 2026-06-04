@@ -90,7 +90,7 @@
     "randexp": "^0.5.3",
     "randombytes": "^2.1.0",
     "react": ">=16.8.0 <20",
-    "react-copy-to-clipboard": "5.1.0",
+    "react-copy-to-clipboard": "5.1.1",
     "react-debounce-input": "=3.3.0",
     "react-dom": ">=16.8.0 <20",
     "react-immutable-proptypes": "2.2.0",
