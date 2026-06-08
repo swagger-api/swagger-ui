@@ -62,6 +62,9 @@ export default class Model extends ImmutablePureComponent {
     if (!name && $$ref) {
       name = this.getModelName($$ref)
     }
+    if (!name && $ref) {
+      name = this.getModelName($ref)
+    }
 
     /*
      * If we have an unresolved ref, get the schema and name from the ref.
