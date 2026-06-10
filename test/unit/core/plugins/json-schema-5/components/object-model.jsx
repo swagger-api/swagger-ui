@@ -61,6 +61,25 @@ describe("<ObjectModel />", function() {
       ...props,
       schema: props.schema.set("minProperties", 1).set("maxProperties", 5)
     }
+    const propsOneOfRefs = {
+      ...props,
+      schema: Immutable.fromJS({
+        oneOf: [
+          {
+            allOf: [
+              {
+                $ref: "#/components/schemas/Application"
+              }
+            ]
+          }
+        ]
+      }),
+      specSelectors: {
+        isOAS3(){
+          return true
+        }
+      }
+    }
 
     it("renders a collapsible header", function(){
       const wrapper = shallow(<ObjectModel {...props}/>)
@@ -105,5 +124,16 @@ describe("<ObjectModel />", function() {
       expect(renderProperties.get(0).props.propVal).toEqual(1)
       expect(renderProperties.get(1).props.propKey).toEqual("maxProperties")
       expect(renderProperties.get(1).props.propVal).toEqual(5)
+    })
+
+    it("infers display names for composed refs in oneOf entries", function() {
+      const wrapper = shallow(<ObjectModel {...propsOneOfRefs}/>)
+      const oneOfModel = wrapper.find(Model).findWhere((node) => {
+        const specPath = node.prop("specPath")
+        return specPath && specPath.equals(List(["oneOf", 0]))
+      })
+
+      expect(oneOfModel.length).toEqual(1)
+      expect(oneOfModel.first().prop("displayName")).toEqual("Application")
     })
 })
