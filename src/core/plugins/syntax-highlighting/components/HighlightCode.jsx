@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useState, useCallback } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 import saveAs from "js-file-download"
@@ -17,6 +17,14 @@ const HighlightCode = ({
   children,
 }) => {
   const rootRef = useRef(null)
+  const [copied, setCopied] = useState(false)
+  const copyTimerRef = useRef(null)
+
+  const handleCopy = useCallback(() => {
+    setCopied(true)
+    if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+    copyTimerRef.current = setTimeout(() => setCopied(false), 1500)
+  }, [])
   const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
   const handleDownload = () => {
@@ -69,9 +77,10 @@ const HighlightCode = ({
     <div className="highlight-code" ref={rootRef}>
       {canCopy && (
         <div className="copy-to-clipboard">
-          <CopyToClipboard text={children}>
+          <CopyToClipboard text={children} onCopy={handleCopy}>
             <button />
           </CopyToClipboard>
+          {copied && <span className="copy-to-clipboard__toast">Copied!</span>}
         </div>
       )}
 

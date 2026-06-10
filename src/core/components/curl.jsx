@@ -9,8 +9,25 @@ export default class Curl extends React.Component {
     request: PropTypes.object.isRequired
   }
 
+  constructor(props) {
+    super(props)
+    this.state = { copied: false }
+    this.timerRef = null
+  }
+
+  handleCopy = () => {
+    this.setState({ copied: true })
+    if (this.timerRef) clearTimeout(this.timerRef)
+    this.timerRef = setTimeout(() => this.setState({ copied: false }), 1500)
+  }
+
+  componentWillUnmount() {
+    if (this.timerRef) clearTimeout(this.timerRef)
+  }
+
   render() {
     const { request, getComponent } = this.props
+    const { copied } = this.state
     const curl = requestSnippetGenerator_curl_bash(request)
     const SyntaxHighlighter = getComponent("SyntaxHighlighter", true)
 
@@ -18,7 +35,8 @@ export default class Curl extends React.Component {
       <div className="curl-command">
         <h4>Curl</h4>
         <div className="copy-to-clipboard">
-            <CopyToClipboard text={curl}><button/></CopyToClipboard>
+            <CopyToClipboard text={curl} onCopy={this.handleCopy}><button/></CopyToClipboard>
+            {copied && <span className="copy-to-clipboard__toast">Copied!</span>}
         </div>
         <div>
           <SyntaxHighlighter
