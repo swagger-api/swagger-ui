@@ -1,0 +1,30 @@
+openapi: 3.1.0
+info:
+  title: prefixItems sample
+  version: 1.0.0
+paths:
+  /tuple:
+    post:
+      operationId: postTuple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tuple"
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Tuple:
+      type: object
+      required:
+        - tupleField
+      properties:
+        tupleField:
+          type: array
+          minItems: 2
+          maxItems: 2
+          prefixItems:
+            - type: integer
+            - type: string
