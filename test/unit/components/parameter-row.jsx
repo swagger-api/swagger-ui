@@ -363,4 +363,128 @@ describe("bug #5573: zero default and example values", function () {
     expect(props.onChange).toHaveBeenCalled()
     expect(props.onChange).toHaveBeenCalledWith(paramValue, "0", false)
   })
+
+  it("should apply the first OpenAPI 3.1 schema.examples value", function () {
+    const paramValue = fromJS({
+      name: "traceId",
+      in: "header",
+      schema: {
+        type: "string",
+        examples: ["abc123", "def456"],
+      },
+    })
+    const getSystem = () => ({
+      getComponent: () => "div",
+      specSelectors: {
+        security() {},
+        parameterWithMetaByIdentity() {
+          return paramValue
+        },
+        isOAS3() {
+          return true
+        },
+        isSwagger2() {
+          return false
+        },
+      },
+      oas3Selectors: {
+        activeExamplesMember: () => null,
+      },
+      getConfigs: () => {
+        return {}
+      },
+      fn: {
+        memoizedSampleFromSchema,
+        memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
+        getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
+        getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
+        getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
+        getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
+      },
+    })
+    const props = {
+      ...getSystem(),
+      operation: { get: () => {} },
+      onChange: jest.fn(),
+      param: paramValue,
+      rawParam: paramValue,
+      onChangeConsumes: () => {},
+      pathMethod: [],
+      specPath: List([]),
+    }
+
+    render(<ParameterRow {...props} />)
+
+    expect(props.onChange).toHaveBeenCalled()
+    expect(props.onChange).toHaveBeenCalledWith(paramValue, "abc123", false)
+  })
+
+  it("should apply the first OpenAPI 3 content.examples value", function () {
+    const paramValue = fromJS({
+      name: "traceId",
+      in: "header",
+      content: {
+        "text/plain": {
+          schema: {
+            type: "string",
+          },
+          examples: {
+            primary: {
+              value: "trace-123",
+            },
+          },
+        },
+      },
+    })
+    const getSystem = () => ({
+      getComponent: () => "div",
+      specSelectors: {
+        security() {},
+        parameterWithMetaByIdentity() {
+          return paramValue
+        },
+        isOAS3() {
+          return true
+        },
+        isSwagger2() {
+          return false
+        },
+      },
+      oas3Selectors: {
+        activeExamplesMember: () => null,
+      },
+      getConfigs: () => {
+        return {}
+      },
+      fn: {
+        memoizedSampleFromSchema,
+        memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
+        getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
+        getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
+        getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
+        getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
+      },
+    })
+    const props = {
+      ...getSystem(),
+      operation: { get: () => {} },
+      onChange: jest.fn(),
+      param: paramValue,
+      rawParam: paramValue,
+      onChangeConsumes: () => {},
+      pathMethod: [],
+      specPath: List([]),
+    }
+
+    render(<ParameterRow {...props} />)
+
+    expect(props.onChange).toHaveBeenCalled()
+    expect(props.onChange).toHaveBeenCalledWith(paramValue, "trace-123", false)
+  })
 })
