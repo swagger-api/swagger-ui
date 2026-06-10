@@ -356,6 +356,26 @@ export default class ParameterRow extends Component {
             : null
           }
 
+          {(() => {
+            // Use the appropriate constraint function based on OpenAPI version
+            const isOAS31 = specSelectors.isOAS31 && specSelectors.isOAS31()
+            let numericConstraint = null
+            
+            if (isOAS31 && fn.jsonSchema202012?.stringifyConstraintNumberRange) {
+              // For OpenAPI 3.1 (JSON Schema 2020-12)
+              // Transform Immutable schema to plain object for the function
+              const plainSchema = schema?.toJS ? schema.toJS() : schema
+              numericConstraint = fn.jsonSchema202012.stringifyConstraintNumberRange(plainSchema)
+            } else if (fn.stringifyConstraintNumberRange) {
+              // For OpenAPI 2.0/3.0 (JSON Schema Draft 5)
+              numericConstraint = fn.stringifyConstraintNumberRange(schema)
+            }
+            
+            return numericConstraint ? (
+              <Markdown className="parameter__constraint" source={`<i>Constraints</i> : ${numericConstraint}`}/>
+            ) : null
+          })()}
+
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
           {
