@@ -5,8 +5,12 @@ import { linkify } from "remarkable/linkify"
 import DomPurify from "dompurify"
 import cx from "classnames"
 
-if (DomPurify.addHook) {
-  DomPurify.addHook("beforeSanitizeElements", function (current, ) {
+// Create an isolated instance to avoid mutating the global DOMPurify,
+// which would affect all other code sharing the library in the same page.
+const purify = typeof window !== "undefined" ? DomPurify(window) : DomPurify
+
+if (purify.addHook) {
+  purify.addHook("beforeSanitizeElements", function (current) {
     // Attach safe `rel` values to all elements that contain an `href`,
     // i.e. all anchors that are links.
     // We _could_ just look for elements that have a non-self target,
@@ -62,7 +66,7 @@ export function sanitizer(str, { useUnsafeMarkdown = false } = {}) {
     sanitizer.hasWarnedAboutDeprecation = true
   }
 
-  return DomPurify.sanitize(str, {
+  return purify.sanitize(str, {
     ADD_ATTR: ["target"],
     FORBID_TAGS: ["style", "form"],
     ALLOW_DATA_ATTR,
