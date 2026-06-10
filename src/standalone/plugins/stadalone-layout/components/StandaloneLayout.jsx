@@ -24,7 +24,25 @@ class StandaloneLayout extends React.Component {
 
     return (
       <Container className='swagger-ui'>
-        {Topbar ? <Topbar /> : null}
+        <a
+          href="#operations"
+          className="swagger-ui__skip-link"
+          onClick={(e) => {
+            e.preventDefault()
+            // Scope the lookup to this swagger-ui instance so the link
+            // works correctly when multiple instances are mounted.
+            const target = e.currentTarget
+              .closest(".swagger-ui")
+              ?.querySelector("#operations")
+            if (target) {
+              target.focus()
+              target.scrollIntoView()
+            }
+          }}
+        >
+          Skip to operations
+        </a>
+        {Topbar ? <header role="banner"><Topbar /></header> : null}
         <BaseLayout />
         <Row>
           <Col>

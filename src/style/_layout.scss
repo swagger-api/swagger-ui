@@ -3,6 +3,37 @@
 @use "type";
 @use "mixins";
 
+.swagger-ui__skip-link {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+
+  &:focus {
+    clip: auto;
+    clip-path: none;
+    height: auto;
+    width: auto;
+    overflow: visible;
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 10000;
+    padding: 8px 16px;
+    background: $white;
+    color: $bright-gray;
+    border: 1px solid $geyser-blue;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+}
+
 .wrapper {
   width: 100%;
   max-width: 1460px;
