@@ -196,10 +196,15 @@ export class JsonSchema_array extends PureComponent {
     const schemaItemsType = fn.getSchemaObjectType(schemaItems)
     const schemaItemsTypeLabel = fn.getSchemaObjectTypeLabel(schemaItems)
     const schemaItemsFormat = schema.getIn(["items", "format"])
+    const schemaItemsContentMediaType = schema.getIn(["items", "contentMediaType"])
     const schemaItemsSchema = schema.get("items")
     let ArrayItemsComponent
     let isArrayItemText = false
-    let isArrayItemFile = (schemaItemsType === "file" || (schemaItemsType === "string" && schemaItemsFormat === "binary"))
+    let isArrayItemFile = (
+      schemaItemsType === "file" ||
+      (schemaItemsType === "string" && schemaItemsFormat === "binary") ||
+      (schemaItemsType === "string" && typeof schemaItemsContentMediaType === "string" && schemaItemsContentMediaType !== "")
+    )
     if (schemaItemsType && schemaItemsFormat) {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}_${schemaItemsFormat}`)
     } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {
