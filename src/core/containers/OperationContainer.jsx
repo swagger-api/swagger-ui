@@ -127,6 +127,29 @@ export default class OperationContainer extends PureComponent {
 
     if (contentType === "application/x-www-form-urlencoded" || contentType === "multipart/form-data") {
       const jsonRequestBodyValue = JSON.parse(defaultRequestBodyValue)
+      
+      try {
+        const [pathName, method] = pathMethod
+        const requestBodyDef = this.props.specSelectors.specResolvedSubtree([
+          "paths",
+          pathName,
+          method,
+          "requestBody",
+        ])
+        const schemaForMediaType = requestBodyDef?.getIn(["content", contentType, "schema"]) || Map()
+        const properties = schemaForMediaType.get("properties") || Map()
+        if (properties && typeof jsonRequestBodyValue === "object" && jsonRequestBodyValue !== null) {
+          properties.keySeq().toArray().forEach((key) => {
+            const propSchema = properties.get(key) || Map()
+            const schemaType = propSchema.get("type")
+            if (schemaType === "string" && key in jsonRequestBodyValue && typeof jsonRequestBodyValue[key] !== "string") {
+              jsonRequestBodyValue[key] = String(jsonRequestBodyValue[key])
+            }
+          })
+        }
+      } catch (e) {
+        // noop: fallback to parsed defaults without coercion
+      }
       Object.entries(jsonRequestBodyValue).forEach(([key, value]) => {
         if (Array.isArray(value)) {
           jsonRequestBodyValue[key] = jsonRequestBodyValue[key].map((val) => {
