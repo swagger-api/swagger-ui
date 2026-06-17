@@ -21,3 +21,21 @@ paths:
       responses:
         default:
           description: ok
+  /notRequired:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: false
+          schema:
+            type: array
+            example: 'test1'
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+      responses:
+        default:
+          description: ok

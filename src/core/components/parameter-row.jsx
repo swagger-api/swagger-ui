@@ -95,9 +95,10 @@ export default class ParameterRow extends Component {
 
   setDefaultValue = () => {
     let { specSelectors, pathMethod, rawParam, oas3Selectors, fn } = this.props
+    const isOAS3 = specSelectors.isOAS3()
 
     const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
-    let { schema } = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
+    let { schema } = getParameterSchema(paramWithMeta, { isOAS3 })
     const parameterMediaType = paramWithMeta
       .get("content", Map())
       .keySeq()
@@ -125,7 +126,7 @@ export default class ParameterRow extends Component {
           : paramWithMeta.getIn(["schema", "example"]) !== undefined
           ? paramWithMeta.getIn(["schema", "example"])
           : (schema && schema.getIn(["default"]))
-      } else if (specSelectors.isOAS3()) {
+      } else if (isOAS3) {
         schema = this.composeJsonSchema(schema)
 
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
@@ -154,6 +155,25 @@ export default class ParameterRow extends Component {
 
       const schemaObjectType = fn.getSchemaObjectType(schema)
       const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+
+      // Discard invalid array initial values (non-array, non-stringified-array)
+      if (isOAS3 && schemaObjectType === "array" && initialValue !== undefined) {
+        if (List.isList(initialValue) || typeof initialValue !== "string") {
+          this.onChangeWrapper(initialValue)
+        }
+
+        try {
+          const parsedInitialValue = JSON.parse(initialValue)
+          
+          if (Array.isArray(parsedInitialValue)) {
+            this.onChangeWrapper(List(parsedInitialValue))
+          }
+        } catch {
+          return
+        }
+
+        return
+      }
 
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
