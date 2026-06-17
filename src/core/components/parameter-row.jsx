@@ -155,9 +155,10 @@ export default class ParameterRow extends Component {
 
       const schemaObjectType = fn.getSchemaObjectType(schema)
       const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+      const hasMultipleTypes = List.isList(schema?.get("type"))
 
       // Discard invalid array initial values (non-array, non-stringified-array)
-      if (isOAS3 && schemaObjectType === "array" && initialValue !== undefined) {
+      if (isOAS3 && schemaObjectType === "array" && !hasMultipleTypes && initialValue !== undefined) {
         if (List.isList(initialValue) || typeof initialValue !== "string") {
           this.onChangeWrapper(initialValue)
         }
