@@ -557,13 +557,28 @@
 .responses-inner {
   padding: 20px;
 
-  h5,
-  h4 {
+  h5 {
     font-size: 12px;
 
     margin: 10px 0 5px 0;
 
     @include type.text_body();
+  }
+
+  h4 {
+    font-size: 14px;
+
+    margin: 10px 0 5px 0;
+
+    @include type.text_body();
+  }
+
+  .server-response-panel,
+  .possible-responses-wrapper {
+    background: $alabaster;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
   }
 
   .curl {

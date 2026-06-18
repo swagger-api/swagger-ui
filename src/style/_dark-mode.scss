@@ -548,6 +548,11 @@ html.dark-mode {
         h5 {
           color: $neutral-20;
         }
+
+        .server-response-panel,
+        .possible-responses-wrapper {
+          background: rgba($neutral-20, 0.05);
+        }
       }
 
       .response-control-media-type--accept-controller {
