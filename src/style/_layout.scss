@@ -565,6 +565,7 @@
     @include type.text_body();
   }
 
+  // Applies to "Server response", "Request URL", and "Possible responses" headings
   h4 {
     font-size: 14px;
 

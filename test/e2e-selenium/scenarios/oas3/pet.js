@@ -43,7 +43,8 @@ describe("render pet api container", function () {
       .setValue("#operations-pet-updatePetWithForm td.parameters-col_description > input", "12345")
       .click("#operations-pet-updatePetWithForm > div:nth-child(2) > div > div.execute-wrapper > button")
       .pause(800) // for swagger-api/swagger-ui#4269, which happens above 350ms
-      .assert.containsText("#operations-pet-updatePetWithForm div.responses-inner > div > div > div:nth-child(2) > div > pre", "http://localhost:3204/pet/12345")
+      // The LiveResponse component is a direct child of responses-inner (no extra wrapper div)
+      .assert.containsText("#operations-pet-updatePetWithForm div.responses-inner > div > div:nth-child(2) > div > pre", "http://localhost:3204/pet/12345")
       .assert.value("#operations-pet-updatePetWithForm td.parameters-col_description > input", "12345")
 
       client.end()

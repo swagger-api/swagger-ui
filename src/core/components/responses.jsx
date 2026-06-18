@@ -118,7 +118,7 @@ export default class Responses extends React.Component {
                               displayRequestDuration={ displayRequestDuration } />
               : null
           }
-          { tryItOutResponse ? <h4>Possible Responses</h4> : null }
+          { tryItOutResponse ? <h4>Possible responses</h4> : null }
           <div className="possible-responses-wrapper">
             <table aria-live="polite" className="responses-table" id={regionId} role="region">
               <thead>
