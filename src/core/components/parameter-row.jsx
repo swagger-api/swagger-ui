@@ -162,10 +162,7 @@ export default class ParameterRow extends Component {
       if (isOAS3 && schemaObjectType === "array" && !hasMultipleTypes && initialValue !== undefined) {
         const parsedValue = parseParameterArrayValue(initialValue)
 
-        if (parsedValue !== null) {
-          this.onChangeWrapper(parsedValue)
-        }
-
+        this.onChangeWrapper(parsedValue)
         return
       }
 
@@ -197,9 +194,7 @@ export default class ParameterRow extends Component {
       ) {
         const parsedValue = parseParameterArrayValue(generatedSampleValue)
         
-        if (parsedValue !== null) {
-          this.onChangeWrapper(parsedValue)
-        }
+        this.onChangeWrapper(parsedValue)
       }
     }
   }
