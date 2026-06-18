@@ -223,10 +223,9 @@ export default class ParameterRow extends Component {
       const parsedValue = parseParameterArrayValue(value)
 
       this.onChangeWrapper(parsedValue)
-      return
+    } else {
+      this.onChangeWrapper(value)
     }
-
-    this.onChangeWrapper(value)
   }
 
   getParamKey() {
