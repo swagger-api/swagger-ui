@@ -108,7 +108,6 @@ export default class Store {
       React
     }, this.system.rootInjects || {})
   }
-
   _getConfigs(){
     return this.system.configs
   }
