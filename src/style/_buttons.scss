@@ -180,15 +180,20 @@ button {
   background: none;
 }
 
-// overrides for smaller copy button for curl command
+// overrides for copy button with visible label for curl command
 .curl-command .copy-to-clipboard {
   bottom: 5px;
   right: 10px;
-  width: 20px;
+  width: auto;
   height: 20px;
 
   button {
     height: 18px;
+    padding: 0 8px 0 22px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 18px;
+    background-position: 5px center;
   }
 }
 

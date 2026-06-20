@@ -359,6 +359,11 @@ html.dark-mode {
       }
     }
 
+    .curl-command .copy-to-clipboard button {
+      color: $neutral-20;
+      background-position: 5px center;
+    }
+
     // ------ TAG ------
 
     .opblock-tag {
