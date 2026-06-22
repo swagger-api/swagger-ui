@@ -4,6 +4,11 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
+import {
+  getParameterExample,
+  getParameterExampleValue,
+  getParameterExamples,
+} from "core/utils/get-parameter-examples"
 import getParameterSchema from "core/utils/get-parameter-schema.js"
 
 export default class ParameterRow extends Component {
@@ -102,6 +107,14 @@ export default class ParameterRow extends Component {
       .get("content", Map())
       .keySeq()
       .first()
+    const currentExampleKey = oas3Selectors.activeExamplesMember(
+      ...pathMethod,
+      "parameters",
+      this.getParamKey()
+    )
+    const parameterExamples = getParameterExamples(paramWithMeta, {
+      parameterMediaType,
+    })
 
     // getSampleSchema could return null
     const generatedSampleValue = schema ? fn.getSampleSchema(schema.toJS(), parameterMediaType, {
@@ -121,26 +134,25 @@ export default class ParameterRow extends Component {
       if (specSelectors.isSwagger2()) {
         initialValue =
           paramWithMeta.get("x-example") !== undefined
-          ? paramWithMeta.get("x-example")
-          : paramWithMeta.getIn(["schema", "example"]) !== undefined
-          ? paramWithMeta.getIn(["schema", "example"])
-          : (schema && schema.getIn(["default"]))
+            ? paramWithMeta.get("x-example")
+            : paramWithMeta.getIn(["schema", "example"]) !== undefined
+              ? paramWithMeta.getIn(["schema", "example"])
+              : (schema && schema.getIn(["default"]))
       } else if (specSelectors.isOAS3()) {
         schema = this.composeJsonSchema(schema)
 
-        const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
         initialValue =
-          paramWithMeta.getIn(["examples", currentExampleKey, "value"]) !== undefined
-          ? paramWithMeta.getIn(["examples", currentExampleKey, "value"])
-          : paramWithMeta.getIn(["content", parameterMediaType, "example"]) !== undefined
-          ? paramWithMeta.getIn(["content", parameterMediaType, "example"])
-          : paramWithMeta.get("example") !== undefined
-          ? paramWithMeta.get("example")
-          : (schema && schema.get("example")) !== undefined
-          ? (schema && schema.get("example"))
-          : (schema && schema.get("default")) !== undefined
-          ? (schema && schema.get("default"))
-          : paramWithMeta.get("default") // ensures support for `parameterMacro`
+          getParameterExampleValue(paramWithMeta, {
+            parameterMediaType,
+            activeExampleKey: currentExampleKey,
+          }) !== undefined
+            ? getParameterExampleValue(paramWithMeta, {
+              parameterMediaType,
+              activeExampleKey: currentExampleKey,
+            })
+            : (schema && schema.get("default")) !== undefined
+              ? (schema && schema.get("default"))
+              : paramWithMeta.get("default") // ensures support for `parameterMacro`
       }
 
       //// Process the initial value
@@ -160,7 +172,7 @@ export default class ParameterRow extends Component {
       } else if(
         schemaObjectType === "object"
         && generatedSampleValue
-        && !paramWithMeta.get("examples")
+        && !parameterExamples
       ) {
         // Object parameters get special treatment.. if the user doesn't set any
         // default or example values, we'll provide initial values generated from
@@ -179,7 +191,7 @@ export default class ParameterRow extends Component {
         schemaObjectType === "array"
         && schemaItemsType === "object"
         && generatedSampleValue
-        && !paramWithMeta.get("examples")
+        && !parameterExamples
       ) {
         this.onChangeWrapper(
           List.isList(generatedSampleValue) ? (
@@ -226,16 +238,16 @@ export default class ParameterRow extends Component {
     let inType = param.get("in")
     let bodyParam = inType !== "body" ? null
       : <ParamBody getComponent={getComponent}
-                   getConfigs={ getConfigs }
-                   fn={fn}
-                   param={param}
-                   consumes={ specSelectors.consumesOptionsFor(pathMethod) }
-                   consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   onChange={this.onChangeWrapper}
-                   onChangeConsumes={onChangeConsumes}
-                   isExecute={ isExecute }
-                   specSelectors={ specSelectors }
-                   pathMethod={ pathMethod }
+        getConfigs={ getConfigs }
+        fn={fn}
+        param={param}
+        consumes={ specSelectors.consumesOptionsFor(pathMethod) }
+        consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
+        onChange={this.onChangeWrapper}
+        onChangeConsumes={onChangeConsumes}
+        isExecute={ isExecute }
+        specSelectors={ specSelectors }
+        pathMethod={ pathMethod }
       />
 
     const ModelExample = getComponent("modelExample")
@@ -251,6 +263,12 @@ export default class ParameterRow extends Component {
       .get("content", Map())
       .keySeq()
       .first()
+    const currentExampleKey = isOAS3
+      ? oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
+      : undefined
+    const parameterExamples = isOAS3
+      ? getParameterExamples(param, { parameterMediaType })
+      : undefined
 
     if (isOAS3) {
       schema = this.composeJsonSchema(schema)
@@ -300,7 +318,12 @@ export default class ParameterRow extends Component {
       if (paramDefaultValue === undefined) {
         paramDefaultValue = param.get("default")
       }
-      paramExample = param.get("example")
+      paramExample = isOAS3
+        ? getParameterExampleValue(param, {
+          parameterMediaType,
+          activeExampleKey: currentExampleKey,
+        })
+        : param.get("example")
       if (paramExample === undefined) {
         paramExample = param.get("x-example")
       }
@@ -340,9 +363,9 @@ export default class ParameterRow extends Component {
 
           { (bodyParam || !isExecute) && isDisplayParamEnum ?
             <Markdown className="parameter__enum" source={
-                "<i>Available values</i> : " + paramEnum.map(function(item) {
-                    return item
-                  }).toArray().map(String).join(", ")}/>
+              "<i>Available values</i> : " + paramEnum.map(function(item) {
+                return item
+              }).toArray().map(String).join(", ")}/>
             : null
           }
 
@@ -359,15 +382,15 @@ export default class ParameterRow extends Component {
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
           {
-            isOAS3 && param.get("examples") ? (
+            isOAS3 && parameterExamples ? (
               <section className="parameter-controls">
                 <ExamplesSelectValueRetainer
-                  examples={param.get("examples")}
+                  examples={parameterExamples}
                   onSelect={this._onExampleSelect}
                   updateValue={this.onChangeWrapper}
                   getComponent={getComponent}
                   defaultToFirstExample={true}
-                  currentKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())}
+                  currentKey={currentExampleKey}
                   currentUserInputValue={value}
                 />
               </section>
@@ -388,37 +411,37 @@ export default class ParameterRow extends Component {
               schema={schema}
               example={jsonSchemaForm}
             />
-            ) : jsonSchemaForm
+          ) : jsonSchemaForm
           }
 
           {
             bodyParam && schema ? <ModelExample getComponent={ getComponent }
-                                                specPath={specPath.push("schema")}
-                                                getConfigs={ getConfigs }
-                                                isExecute={ isExecute }
-                                                specSelectors={ specSelectors }
-                                                schema={ schema }
-                                                example={ bodyParam }
-                                                includeWriteOnly={ true }/>
+              specPath={specPath.push("schema")}
+              getConfigs={ getConfigs }
+              isExecute={ isExecute }
+              specSelectors={ specSelectors }
+              schema={ schema }
+              example={ bodyParam }
+              includeWriteOnly={ true }/>
               : null
           }
 
           {
             !bodyParam && isExecute && param.get("allowEmptyValue") ?
-            <ParameterIncludeEmpty
-              onChange={this.onChangeIncludeEmpty}
-              isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
-              isDisabled={!isEmptyValue(value)} />
-            : null
+              <ParameterIncludeEmpty
+                onChange={this.onChangeIncludeEmpty}
+                isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
+                isDisabled={!isEmptyValue(value)} />
+              : null
           }
 
           {
-            isOAS3 && param.get("examples") ? (
+            isOAS3 && parameterExamples ? (
               <Example
-                example={param.getIn([
-                  "examples",
-                  oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-                ])}
+                example={getParameterExample(param, {
+                  parameterMediaType,
+                  activeExampleKey: currentExampleKey,
+                })}
                 getComponent={getComponent}
                 getConfigs={getConfigs}
               />
