@@ -152,7 +152,7 @@ describe("docker: env translator", function() {
         OPERATIONS_SORTER: "alpha"
       }
 
-      expect(translator(input)).toEqual(dedent(`operationsSorter: true,`))
+      expect(translator(input)).toEqual(dedent(`operationsSorter: alpha,`))
 
     })
 
