@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "5.32.6",
+  "version": "5.32.7",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -80,11 +80,11 @@
     "classnames": "^2.5.1",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
-    "dompurify": "^3.4.0",
+    "dompurify": "^3.4.11",
     "ieee754": "^1.2.1",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.12",
-    "js-yaml": "=4.1.1",
+    "js-yaml": "=4.2.0",
     "lodash": "^4.18.1",
     "prop-types": "^15.8.1",
     "randexp": "^0.5.3",
@@ -112,7 +112,7 @@
   },
   "devDependencies": {
     "@babel/cli": "=7.26.4",
-    "@babel/core": "=7.26.10",
+    "@babel/core": "=7.29.6",
     "@babel/eslint-parser": "=7.26.10",
     "@babel/plugin-transform-runtime": "=7.26.10",
     "@babel/preset-env": "=7.27.2",
@@ -195,7 +195,7 @@
     "webpack": "^5.97.1",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.4",
+    "webpack-dev-server": "^5.2.5",
     "webpack-node-externals": "=3.0.0",
     "webpack-stats-plugin": "=1.1.3"
   },
