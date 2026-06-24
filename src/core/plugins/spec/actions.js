@@ -390,8 +390,12 @@ export const executeRequest = (req) =>
             req.parameters = req.parameters || {}
             const paramValue = paramToValue(param, req.parameters)
 
-            // if the value is falsy or an empty Immutable iterable...
-            if(!paramValue || (paramValue && paramValue.size === 0)) {
+            // if the value is falsy, an empty Immutable iterable, or an empty array...
+            if(
+              !paramValue ||
+              (paramValue && paramValue.size === 0) ||
+              (Array.isArray(paramValue) && paramValue.length === 0)
+            ) {
               // set it to empty string, so Swagger Client will treat it as
               // present but empty.
               req.parameters[param.get("name")] = ""
