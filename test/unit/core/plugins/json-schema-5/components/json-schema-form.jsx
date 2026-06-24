@@ -3,6 +3,7 @@ import Immutable, { List } from "immutable"
 import { Select, Input, TextArea } from "core/components/layout-utils"
 import { mount, render } from "enzyme"
 import { getSchemaObjectType } from "core/plugins/json-schema-5-samples/fn/index"
+import { foldType } from "core/plugins/json-schema-2020-12-samples/fn/core/type"
 import * as JsonSchemaComponents from "core/plugins/json-schema-5/components/json-schema-components"
 import { makeIsFileUploadIntended } from "core/plugins/oas3/fn"
 
@@ -243,6 +244,94 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
       expect(wrapper.find("textarea").text()).toEqual(`{\n  "id": "abc123"\n}`)
     })
   })
+  describe("nullable arrays (OpenAPI 3.1 type lists)", function() {
+    // In OAS 3.1/3.2, `getSchemaObjectType` is `foldType`, which folds a type
+    // list such as ["array", "null"] down to "array".
+    const oas31Fn = {
+      getSchemaObjectType: (schema) => foldType(schema?.toJS?.()?.type),
+      getSchemaObjectTypeLabel: (schema) => foldType(schema?.toJS?.()?.type),
+      isFileUploadIntended: makeIsFileUploadIntended(getSystemStub),
+    }
+
+    it("renders the array enum picker (Select) for a single 'array' type", function(){
+      let props = {
+        getComponent: getComponentStub,
+        value: List(),
+        onChange: () => {},
+        keyName: "",
+        fn: oas31Fn,
+        errors: List(),
+        schema: Immutable.fromJS({
+          type: "array",
+          items: {
+            type: "string",
+            enum: ["ACTIVE", "INACTIVE", "DELETED"]
+          }
+        })
+      }
+
+      let wrapper = mount(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
+
+      // The "array picker" widget is a multi-select dropdown of the enum values.
+      expect(wrapper.find("select").length).toEqual(1)
+      expect(wrapper.find("select").props().multiple).toEqual(true)
+      const optionLabels = wrapper.find("select option").map((o) => o.text())
+      expect(optionLabels).toEqual(expect.arrayContaining(["ACTIVE", "INACTIVE", "DELETED"]))
+      expect(wrapper.find("textarea").length).toEqual(0)
+    })
+
+    it("renders the array enum picker for a nullable array type [\"array\", \"null\"] (#9056)", function(){
+      let props = {
+        getComponent: getComponentStub,
+        value: List(),
+        onChange: () => {},
+        keyName: "",
+        fn: oas31Fn,
+        errors: List(),
+        schema: Immutable.fromJS({
+          // Idiomatic OpenAPI 3.1 way to express a nullable array.
+          type: ["array", "null"],
+          items: {
+            type: "string",
+            enum: ["ACTIVE", "INACTIVE", "DELETED"]
+          }
+        })
+      }
+
+      let wrapper = mount(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
+
+      // Regression for swagger-api/swagger-ui#9056: a nullable array must still
+      // render the array enum picker, not the generic object/JSON textarea.
+      expect(wrapper.find("select").length).toEqual(1)
+      expect(wrapper.find("select").props().multiple).toEqual(true)
+      const optionLabels = wrapper.find("select option").map((o) => o.text())
+      expect(optionLabels).toEqual(expect.arrayContaining(["ACTIVE", "INACTIVE", "DELETED"]))
+      expect(wrapper.find("textarea").length).toEqual(0)
+    })
+
+    it("renders the JSON editor for a nullable object type [\"object\", \"null\"]", function(){
+      let props = {
+        getComponent: getComponentStub,
+        value: `{\n  "id": "abc123"\n}`,
+        onChange: () => {},
+        keyName: "",
+        fn: oas31Fn,
+        errors: List(),
+        schema: Immutable.fromJS({
+          type: ["object", "null"],
+          properties: {
+            id: { type: "string", example: "abc123" }
+          }
+        })
+      }
+
+      let wrapper = mount(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
+
+      // Nullable objects keep the existing JSON editor behavior.
+      expect(wrapper.find("textarea").length).toEqual(1)
+    })
+  })
+
   describe("unknown types", function() {
     it("should render unknown types as strings", function(){
 
