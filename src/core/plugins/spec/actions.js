@@ -438,10 +438,15 @@ export const executeRequest = (req) =>
             }
           )
           .filter(
-            (value, key) => (Array.isArray(value)
-                ? value.length !== 0
-                : !isEmptyValue(value)
-            ) || requestBodyInclusionSetting.get(key)
+            (value, key) => {
+              if (Array.isArray(value)) {
+                return value.length !== 0
+              }
+              if (!isEmptyValue(value)) {
+                return true
+              }
+              return requestBodyInclusionSetting.get(key) && value != null
+            }
           )
           .toJS()
       } else {
