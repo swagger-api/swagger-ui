@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "5.32.6",
+  "version": "5.32.8",
   "main": "./dist/swagger-ui.js",
   "module": "./dist/swagger-ui-es-bundle-core.js",
   "exports": {
@@ -80,7 +80,7 @@
     "classnames": "^2.5.1",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
-    "dompurify": "^3.4.9",
+    "dompurify": "^3.4.11",
     "ieee754": "^1.2.1",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.12",
@@ -195,7 +195,7 @@
     "webpack": "^5.97.1",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.4",
+    "webpack-dev-server": "^5.2.5",
     "webpack-node-externals": "=3.0.0",
     "webpack-stats-plugin": "=1.1.3"
   },
