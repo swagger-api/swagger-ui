@@ -52,18 +52,8 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     setRetainRequestBodyValueFlag: () => {
       // NOOP
     },
-    onSelect: (...args) =>
-      // eslint-disable-next-line no-console
-      console.log(
-        "ExamplesSelectValueRetainer: no `onSelect` function was provided",
-        ...args
-      ),
-    updateValue: (...args) =>
-      // eslint-disable-next-line no-console
-      console.log(
-        "ExamplesSelectValueRetainer: no `updateValue` function was provided",
-        ...args
-      ),
+    onSelect: () => {},
+    updateValue: () => {},
   }
 
   constructor(props) {
