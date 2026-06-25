@@ -2,6 +2,20 @@ import React from "react"
 import PropTypes from "prop-types"
 
 export default class AuthorizationPopup extends React.Component {
+  handleEvent(event) {
+    if (event.type === "keydown" && event.key === "Escape") {
+      this.close()
+    }
+  }
+
+  componentDidMount(){
+    document.addEventListener("keydown", this)
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this)
+  }
+  
   close =() => {
     let { authActions } = this.props
 
@@ -16,7 +30,7 @@ export default class AuthorizationPopup extends React.Component {
 
     return (
       <div className="dialog-ux">
-        <div className="backdrop-ux"></div>
+        <div className="backdrop-ux" onClick={ this.close }></div>
         <div className="modal-ux">
           <div className="modal-dialog-ux">
             <div className="modal-ux-inner">
