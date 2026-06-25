@@ -63,7 +63,7 @@ const mappings = {
   operationsSorter: {
     typeCaster: sorterTypeCaster,
   },
-  paramaterMacro: { typeCaster: nullableFunctionTypeCaster },
+  parameterMacro: { typeCaster: nullableFunctionTypeCaster },
   persistAuthorization: {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.persistAuthorization,
