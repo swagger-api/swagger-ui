@@ -3,6 +3,7 @@
 
 .json-schema-2020-12-expand-deep-button {
   @include type.text_headline($section-models-model-title-font-color);
+  background-color: transparent;
   font-size: 12px;
   color: rgb(175, 174, 174);
   border: none;
