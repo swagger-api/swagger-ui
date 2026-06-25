@@ -285,6 +285,7 @@ section.models {
 
 .model-title {
   font-size: 16px;
+  font-weight: inherit;
 
   @include type.text_headline($section-models-model-title-font-color);
 
