@@ -25,6 +25,7 @@ const Servers = ({
 
     // fire 'change' event to set default 'value' of select
     setSelectedServer(servers.first()?.get("url"))
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally mount-only: fires once to set the initial default server on first render
   }, [])
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const Servers = ({
         val: val.get("default") || "",
       })
     })
-  }, [currentServer, servers])
+  }, [currentServer, servers, setSelectedServer, setServerVariableValue])
 
   const handleServerChange = useCallback(
     (e) => {

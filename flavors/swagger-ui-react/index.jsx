@@ -93,6 +93,7 @@ const SwaggerUI = ({
     })
 
     setSystem(systemInstance)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally mount-only: creates the initial SwaggerUI system instance once; prop changes after mount are handled by the dedicated effects below
   }, [])
 
   useEffect(() => {
@@ -106,6 +107,7 @@ const SwaggerUI = ({
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- prevUrl is intentionally excluded: it is a usePrevious ref value and adding it would cause the effect to double-fire when the URL changes
   }, [system, url])
 
   useEffect(() => {
@@ -121,6 +123,7 @@ const SwaggerUI = ({
         system.specActions.updateSpec(updatedSpec)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- prevSpec is intentionally excluded: it is a usePrevious ref value and adding it would cause the effect to double-fire when the spec changes
   }, [system, spec])
 
   return SwaggerUIComponent ? <SwaggerUIComponent /> : null
