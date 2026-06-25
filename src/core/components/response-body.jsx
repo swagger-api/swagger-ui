@@ -12,6 +12,7 @@ export default class ResponseBody extends React.PureComponent {
   }
 
   static propTypes = {
+    method: PropTypes.string,
     content: PropTypes.any.isRequired,
     contentType: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
@@ -50,7 +51,7 @@ export default class ResponseBody extends React.PureComponent {
   }
 
   render() {
-    let { content, contentType, url, headers={}, getComponent } = this.props
+    let { method, content, contentType, url, headers={}, getComponent } = this.props
     const { parsedContent } = this.state
     const HighlightCode = getComponent("HighlightCode", true)
     const downloadName = "response_" + new Date().getTime()
@@ -135,6 +136,9 @@ export default class ResponseBody extends React.PureComponent {
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
+      if (method !== "get") {
+        url = window.URL.createObjectURL(content)
+      }
       bodyEl = <pre className="microlight"><audio controls key={ url }><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy>{content}</HighlightCode>
