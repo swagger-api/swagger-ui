@@ -15,9 +15,10 @@ const Items = ({ schema }) => {
    */
   if (!fn.hasKeyword(schema, "items")) return null
 
+  const itemsTitle = fn.getTitle(schema.items)
   const name = (
     <span className="json-schema-2020-12-keyword__name json-schema-2020-12-keyword__name--primary">
-      Items
+      {itemsTitle || "Items"}
     </span>
   )
 

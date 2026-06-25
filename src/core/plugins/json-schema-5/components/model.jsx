@@ -5,16 +5,7 @@ import PropTypes from "prop-types"
 import { Map } from "immutable"
 
 import RollingLoadSVG from "core/assets/rolling-load.svg"
-
-const decodeRefName = uri => {
-  const unescaped = uri.replace(/~1/g, "/").replace(/~0/g, "~")
-
-  try {
-    return decodeURIComponent(unescaped)
-  } catch {
-    return unescaped
-  }
-}
+import { getModelName } from "core/utils/get-model-name"
 
 export default class Model extends ImmutablePureComponent {
   static propTypes = {
@@ -31,15 +22,6 @@ export default class Model extends ImmutablePureComponent {
     specPath: ImPropTypes.list.isRequired,
     includeReadOnly: PropTypes.bool,
     includeWriteOnly: PropTypes.bool,
-  }
-
-  getModelName =( ref )=> {
-    if ( ref.indexOf("#/definitions/") !== -1 ) {
-      return decodeRefName(ref.replace(/^.*#\/definitions\//, ""))
-    }
-    if ( ref.indexOf("#/components/schemas/") !== -1 ) {
-      return decodeRefName(ref.replace(/^.*#\/components\/schemas\//, ""))
-    }
   }
 
   getRefSchema =( model )=> {
@@ -60,7 +42,7 @@ export default class Model extends ImmutablePureComponent {
 
     // If we weren't passed a `name` but have a resolved ref, grab the name from the ref
     if (!name && $$ref) {
-      name = this.getModelName($$ref)
+      name = getModelName($$ref)
     }
 
     /*
@@ -71,7 +53,7 @@ export default class Model extends ImmutablePureComponent {
      *  - we had a circular ref inside the allOf keyword
      */
     if ($ref) {
-      const refName = this.getModelName($ref)
+      const refName = getModelName($ref)
       const refSchema = this.getRefSchema(refName)
       if (Map.isMap(refSchema)) {
         schema = refSchema.mergeDeep(schema)
