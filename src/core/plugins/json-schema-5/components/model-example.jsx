@@ -71,6 +71,7 @@ const ModelExample = ({
           role="presentation"
         >
           <button
+            type="button"
             aria-controls={examplePanelId}
             aria-selected={activeTab === tabs.example}
             className="tablinks"
@@ -88,6 +89,7 @@ const ModelExample = ({
             role="presentation"
           >
             <button
+              type="button"
               aria-controls={modelPanelId}
               aria-selected={activeTab === tabs.model}
               className={cx("tablinks", { inactive: isExecute })}

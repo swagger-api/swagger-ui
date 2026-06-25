@@ -95,7 +95,7 @@ export default class Execute extends Component {
   render(){
     const { disabled } = this.props
     return (
-        <button className="btn execute opblock-control__btn" onClick={ this.onClick } disabled={disabled}>
+        <button type="button" className="btn execute opblock-control__btn" onClick={ this.onClick } disabled={disabled}>
           Execute
         </button>
     )

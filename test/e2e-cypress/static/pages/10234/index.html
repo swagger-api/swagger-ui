@@ -1,0 +1,48 @@
+<!-- Regression scenario for https://github.com/swagger-api/swagger-ui/issues/10234 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swagger UI - issue 10234</title>
+  <link rel="stylesheet" type="text/css" href="/swagger-ui.css" >
+  <style>
+    html { box-sizing: border-box; overflow-y: scroll; }
+    *, *:before, *:after { box-sizing: inherit; }
+    body { margin: 0; background: #fafafa; }
+  </style>
+</head>
+
+<body>
+<!--
+  Swagger UI is mounted INSIDE a host <form>. Without type="button" on every
+  native <button>, clicking any of them defaults to type="submit" and triggers
+  navigation to /should-not-submit?... which the test asserts must not happen.
+-->
+<form id="host-form" action="/should-not-submit" method="get" onsubmit="window.__swaggerUiHostFormSubmitted = true; return false;">
+  <div id="swagger-ui"></div>
+  <input type="hidden" name="sentinel" value="please-do-not-submit" />
+</form>
+
+<script src="/swagger-ui-bundle.js" charset="UTF-8"></script>
+<script src="/swagger-ui-standalone-preset.js" charset="UTF-8"></script>
+<script>
+  window.__swaggerUiHostFormSubmitted = false
+  window.onload = function () {
+    window["SwaggerUIBundle"] = window["swagger-ui-bundle"]
+    window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
+    const ui = SwaggerUIBundle({
+      url: "/documents/petstore-expanded.openapi.yaml",
+      dom_id: "#swagger-ui",
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+      layout: SwaggerUIStandalonePreset ? "StandaloneLayout" : "BaseLayout",
+      onComplete: function () {
+        window.completeCount = (window.completeCount || 0) + 1
+      }
+    })
+    window.ui = ui
+  }
+</script>
+</body>
+</html>
