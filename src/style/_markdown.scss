@@ -10,6 +10,7 @@
     word-break: break-all; /* Fallback trick */
     word-break: break-word;
   }
+
   pre {
     color: black;
     font-weight: normal;
@@ -20,7 +21,7 @@
 
   code {
     font-size: 14px;
-    padding: 5px 7px;
+    padding: 0 5px;
 
     border-radius: 4px;
     background: rgba($info-code-background-color, 0.05);
