@@ -54,6 +54,13 @@ export default {
   },
   [UPDATE_REQUEST_CONTENT_TYPE]: (state, { payload: { value, pathMethod } } ) =>{
     let [path, method] = pathMethod
+    let currentBodyValue = state.getIn([ "requestData", path, method, "bodyValue" ])
+    let isPrevForm = Map.isMap(currentBodyValue)
+    let isNewForm = value === "application/x-www-form-urlencoded" || value.indexOf("multipart/") === 0
+    if (isPrevForm !== isNewForm) {
+      state = state.deleteIn([ "requestData", path, method, "bodyValue" ])
+      state = state.deleteIn([ "requestData", path, method, "errors" ])
+    }
     return state.setIn( [ "requestData", path, method, "requestContentType" ], value)
   },
   [UPDATE_RESPONSE_CONTENT_TYPE]: (state, { payload: { value, path, method } } ) =>{
