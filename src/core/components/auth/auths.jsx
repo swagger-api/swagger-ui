@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 export default class Auths extends React.Component {
   static propTypes = {
@@ -9,7 +10,12 @@ export default class Auths extends React.Component {
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired
+    specSelectors: PropTypes.object.isRequired,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   constructor(props, context) {
@@ -55,7 +61,7 @@ export default class Auths extends React.Component {
   }
 
   render() {
-    let { definitions, getComponent, authSelectors, errSelectors } = this.props
+    let { definitions, getComponent, authSelectors, errSelectors, t } = this.props
     const AuthItem = getComponent("AuthItem")
     const Oauth2 = getComponent("oauth2", true)
     const Button = getComponent("Button")
@@ -89,10 +95,10 @@ export default class Auths extends React.Component {
             }
             <div className="auth-btn-wrapper">
               {
-                nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick } aria-label="Remove authorization">Logout</Button>
-              : <Button type="submit" className="btn modal-btn auth authorize" aria-label="Apply credentials">Authorize</Button>
+                nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick } aria-label={t("aria.remove_authorization")}>{t("button.logout")}</Button>
+              : <Button type="submit" className="btn modal-btn auth authorize" aria-label={t("aria.apply_credentials")}>{t("button.authorize")}</Button>
               }
-              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>{t("button.close")}</Button>
             </div>
           </form>
         }
@@ -100,8 +106,8 @@ export default class Auths extends React.Component {
         {
           oauthDefinitions && oauthDefinitions.size ? <div>
           <div className="scope-def">
-            <p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.</p>
-            <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
+            <p>{t("auth.scopes_description")}</p>
+            <p>{t("auth.scopes_required")}</p>
           </div>
             {
               definitions.filter( schema => schema.get("type") === "oauth2")
