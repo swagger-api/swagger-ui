@@ -951,6 +951,57 @@ describe("sampleFromSchema", () => {
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
+    it("generates samples for prefixItems without items", () => {
+      const definition = {
+        type: "array",
+        prefixItems: [{ type: "integer" }, { type: "string" }],
+        minItems: 2,
+        maxItems: 2,
+      }
+
+      const expected = [0, "string"]
+
+      expect(sampleFromSchema(definition)).toStrictEqual(expected)
+    })
+
+    it("generates samples for prefixItems with object schemas", () => {
+      const definition = {
+        type: "array",
+        prefixItems: [
+          {
+            type: "object",
+            properties: {
+              c1: { type: "string" },
+            },
+          },
+          {
+            type: "object",
+            properties: {
+              c3: { type: "string" },
+            },
+          },
+        ],
+        minItems: 2,
+        maxItems: 2,
+      }
+
+      const expected = [{ c1: "string" }, { c3: "string" }]
+
+      expect(sampleFromSchema(definition)).toStrictEqual(expected)
+    })
+
+    it("appends items sample after prefixItems samples", () => {
+      const definition = {
+        type: "array",
+        prefixItems: [{ type: "integer" }],
+        items: { type: "string" },
+        minItems: 2,
+      }
+
+      const expected = [0, "string"]
+
+      expect(sampleFromSchema(definition)).toStrictEqual(expected)
+    })
   })
 
   describe("discriminator mapping example", () => {
