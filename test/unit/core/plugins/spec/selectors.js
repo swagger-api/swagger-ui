@@ -15,6 +15,7 @@ import {
   consumesOptionsFor,
   taggedOperations,
   isMediaTypeSchemaPropertiesEqual,
+  getOAS3RequiredRequestBodyContentType,
   validationErrors
 } from "core/plugins/spec/selectors"
 
@@ -1237,6 +1238,83 @@ describe("taggedOperations", function () {
     const result = operations(state)
 
     expect(result.toJS()).toEqual([])
+  })
+})
+describe("getOAS3RequiredRequestBodyContentType", () => {
+  const pathMethod = ["/test", "post"]
+
+  it("should return default requiredObj when requestBody is missing", () => {
+    const state = fromJS({
+      resolvedSubtrees: {
+        paths: {
+          "/test": {
+            post: {}
+          }
+        }
+      }
+    })
+
+    const result = getOAS3RequiredRequestBodyContentType(state, pathMethod)
+
+    expect(result).toEqual({
+      requestBody: false,
+      requestContentType: {}
+    })
+  })
+
+  it("should not crash and return requiredObj when requestBody has no content", () => {
+    const state = fromJS({
+      resolvedSubtrees: {
+        paths: {
+          "/test": {
+            post: {
+              requestBody: {
+                required: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    const result = getOAS3RequiredRequestBodyContentType(state, pathMethod)
+
+    expect(result).toEqual({
+      requestBody: true,
+      requestContentType: {}
+    })
+  })
+
+  it("should collect required schema fields per content type when content is present", () => {
+    const state = fromJS({
+      resolvedSubtrees: {
+        paths: {
+          "/test": {
+            post: {
+              requestBody: {
+                required: true,
+                content: {
+                  "application/json": {
+                    schema: {
+                      required: ["name", "email"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    const result = getOAS3RequiredRequestBodyContentType(state, pathMethod)
+
+    expect(result).toEqual({
+      requestBody: true,
+      requestContentType: {
+        "application/json": ["name", "email"]
+      }
+    })
   })
 })
 describe("isMediaTypeSchemaPropertiesEqual", () => {
