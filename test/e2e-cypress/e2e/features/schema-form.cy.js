@@ -814,6 +814,7 @@ describe("OpenAPI 3.0 Additional JsonSchemaForm in a Parameter", () => {
               }
             ]`
           )
+          .blur()
           .should("contain.text", "Jane")
           .should("contain.text", "201")
           // Execute
