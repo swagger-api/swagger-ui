@@ -3,7 +3,7 @@ function run () {
     var oauth2 = window.opener.swaggerUIRedirectOauth2
     var sentState = oauth2.state
     var redirectUrl = oauth2.redirectUrl
-    var isValid, qp, arr
+    var isValid, qp
 
     if (/code|token|error/.test(window.location.hash)) {
         qp = window.location.hash.substring(1).replace("?", "&")
@@ -11,13 +11,7 @@ function run () {
         qp = location.search.substring(1)
     }
 
-    arr = qp.split("&")
-    arr.forEach(function (v,i,_arr) { _arr[i] = '"' + v.replace("=", '":"') + '"' })
-    qp = qp ? JSON.parse("{" + arr.join() + "}",
-            function (key, value) {
-                return key === "" ? value : decodeURIComponent(value)
-            }
-    ) : {}
+    qp = Object.fromEntries(new URLSearchParams(qp))
 
     isValid = qp.state === sentState
 
