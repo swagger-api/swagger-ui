@@ -1,8 +1,8 @@
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
-[![Build Status](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/badge/icon?subject=jenkins%20build)](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/)
-[![npm audit](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-ui-security-audit&subject=npm%20audit)](https://jenkins.swagger.io/job/oss-swagger-ui-security-audit/lastBuild/console)
+[![Build Status](https://github.com/swagger-api/swagger-ui/actions/workflows/nodejs.yml/badge.svg)](https://github.com/swagger-api/swagger-ui/actions/workflows/nodejs.yml)
+[![npm audit](https://github.com/swagger-api/swagger-ui/actions/workflows/codeql.yml/badge.svg)](https://github.com/swagger-api/swagger-ui/actions/workflows/codeql.yml)
 [![total GitHub contributors](https://img.shields.io/github/contributors-anon/swagger-api/swagger-ui.svg)](https://github.com/swagger-api/swagger-ui/graphs/contributors)
 
 [![monthly npm installs](https://img.shields.io/npm/dm/swagger-ui.svg?label=npm%20downloads)](https://www.npmjs.com/package/swagger-ui)
