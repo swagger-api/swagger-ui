@@ -29,10 +29,16 @@ class DarkModeToggle extends Component {
 
   render() {
     const { isDarkMode } = this.state
+    const label = isDarkMode ? "Switch to light mode" : "Switch to dark mode"
 
     return (
       <div className="dark-mode-toggle">
-        <button onClick={this.toggleIsDarkMode}>
+        <button
+          aria-label={label}
+          title={label}
+          type="button"
+          onClick={this.toggleIsDarkMode}
+        >
           {!isDarkMode ? (
             <LightBulbOff height="24" />
           ) : (
