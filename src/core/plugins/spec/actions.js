@@ -8,6 +8,7 @@ import assocPath from "lodash/fp/assocPath"
 import constant from "lodash/constant"
 
 import { paramToValue, isEmptyValue } from "core/utils"
+import wrapParameterMacro from "core/utils/wrap-parameter-macro"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -112,7 +113,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     spec: json,
     baseDoc: String(new URL(url, document.baseURI)),
     modelPropertyMacro,
-    parameterMacro,
+    parameterMacro: wrapParameterMacro(parameterMacro),
     requestInterceptor,
     responseInterceptor
   }).then( ({spec, errors}) => {
@@ -184,7 +185,7 @@ const debResolveSubtrees = debounce(() => {
         const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
           baseDoc: String(new URL(specSelectors.url(), document.baseURI)),
           modelPropertyMacro,
-          parameterMacro,
+          parameterMacro: wrapParameterMacro(parameterMacro),
           requestInterceptor,
           responseInterceptor
         })
