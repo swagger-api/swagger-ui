@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: test
+  version: 1.0.0
+paths:
+  /requiredStringExample:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: true
+          schema:
+            type: array
+            example: 'test1'
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+      responses:
+        default:
+          description: ok
+  /arrayExample:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+            example:
+              - 'test1'
+              - 'test2'
+      responses:
+        default:
+          description: ok
+  /stringifiedArrayExample:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+            example: '["test1","test2"]'
+      responses:
+        default:
+          description: ok
+  /stringExample:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+            example: test1
+      responses:
+        default:
+          description: ok
+  /parameterArrayExamples:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+          examples:
+            example1:
+              value:
+                - test1
+                - test2
+            example2:
+              value:
+                - test2
+                - test3
+      responses:
+        default:
+          description: ok
+  /parameterStringifiedArrayExamples:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+          examples:
+            example1:
+              value: '["test1","test2"]'
+            example2: 
+              value: '["test2","test3"]'
+      responses:
+        default:
+          description: ok
+  /parameterStringExamples:
+    get:
+      parameters:
+        - in: query
+          name: test
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - 'test1'
+                - 'test2'
+                - 'test3'
+          examples:
+            example1:
+              value: test1
+            example2: 
+              value: test2
+      responses:
+        default:
+          description: ok
+
+
+# TEST CASES:
+# - param.examples - valid array
+# - Param.examples - stringified array
+# - param.examples - invalid string
+# - Swapping between the examples 
