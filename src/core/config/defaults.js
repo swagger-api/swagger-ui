@@ -17,6 +17,8 @@ const defaultOptions = Object.freeze({
   validatorUrl: "https://validator.swagger.io/validator",
   oauth2RedirectUrl: undefined,
   persistAuthorization: false,
+  changeHistory: true,
+  changeHistoryMaxEntries: 20,
   configs: {},
   displayOperationId: false,
   displayRequestDuration: false,

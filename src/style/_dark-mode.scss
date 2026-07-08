@@ -203,6 +203,43 @@ html.dark-mode {
           }
         }
       }
+
+      .change-history-toggle {
+        button svg {
+          stroke: $neutral-20;
+        }
+
+        .change-history-badge {
+          border-color: $neutral-95;
+        }
+      }
+    }
+
+    .change-history-sidebar {
+      background: $neutral-95;
+      border-left-color: $neutral-80;
+      color: $neutral-20;
+    }
+
+    .change-history-sidebar-header {
+      border-bottom-color: $neutral-80;
+    }
+
+    .change-history-clear-btn,
+    .change-history-close-btn {
+      color: #fff;
+    }
+
+    .change-history-entry {
+      background: $neutral-98;
+      border-color: $neutral-80;
+    }
+
+    .change-history-empty,
+    .change-history-baseline,
+    .change-history-no-changes,
+    .change-history-entry-title {
+      color: $neutral-40;
     }
 
     // ------ MODAL ------

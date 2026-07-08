@@ -114,6 +114,7 @@ class TopBar extends React.Component {
     const Link = getComponent("Link")
     const Logo = getComponent("Logo")
     const DarkModeToggle = getComponent("DarkModeToggle")
+    const ChangeHistoryToggle = getComponent("ChangeHistoryToggle", true)
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
@@ -165,7 +166,10 @@ class TopBar extends React.Component {
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}
             </form>
-            <DarkModeToggle />
+            <div>
+              <ChangeHistoryToggle />
+              <DarkModeToggle />
+            </div>
           </div>
         </div>
       </div>

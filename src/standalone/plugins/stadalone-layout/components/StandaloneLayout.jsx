@@ -21,6 +21,7 @@ class StandaloneLayout extends React.Component {
     const Topbar = getComponent("Topbar", true)
     const BaseLayout = getComponent("BaseLayout", true)
     const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
+    const ChangeHistoryContainer = getComponent("ChangeHistoryContainer", true)
 
     return (
       <Container className='swagger-ui'>
@@ -31,6 +32,7 @@ class StandaloneLayout extends React.Component {
             <OnlineValidatorBadge />
           </Col>
         </Row>
+        {ChangeHistoryContainer ? <ChangeHistoryContainer /> : null}
       </Container>
     )
   }

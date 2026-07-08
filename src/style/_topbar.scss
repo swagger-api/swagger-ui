@@ -1,16 +1,27 @@
-@use "variables" as *;
+@use "variables"as *;
 @use "type";
 
 .topbar {
   padding: 10px 0;
 
   background-color: $topbar-background-color;
+
   .topbar-wrapper {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
+
+
+    div {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
   }
+
   @container swagger-ui (max-width: 550px) {
     .topbar-wrapper {
       flex-direction: column;
@@ -63,6 +74,7 @@
       max-width: 600px;
       margin: 0;
       color: #f0f0f0;
+
       span {
         font-size: 16px;
 
@@ -97,6 +109,7 @@
       @include type.text_headline($topbar-download-url-button-font-color);
     }
   }
+
   @container swagger-ui (max-width: 550px) {
     .download-url-wrapper {
       width: 100%;
@@ -117,6 +130,41 @@
       svg {
         fill: #e4e6e6;
       }
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .change-history-toggle {
+    margin-left: 10px;
+    opacity: 0.8;
+    position: relative;
+    transition: all 0.2s;
+    cursor: pointer;
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+      position: relative;
+
+      svg {
+        stroke: #e4e6e6;
+        fill: none;
+      }
+    }
+
+    .change-history-badge {
+      background: $color-delete;
+      border: 2px solid $topbar-background-color;
+      border-radius: 50%;
+      height: 10px;
+      position: absolute;
+      right: -2px;
+      top: -2px;
+      width: 10px;
     }
 
     &:hover {

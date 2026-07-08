@@ -1,0 +1,128 @@
+@use "variables" as *;
+
+.change-history-backdrop {
+  background: rgba(0, 0, 0, 0.35);
+  inset: 0;
+  position: fixed;
+  z-index: 9998;
+}
+
+.change-history-sidebar {
+  background: #fff;
+  border-left: 1px solid #e8e8e8;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 420px;
+  z-index: 9999;
+}
+
+.change-history-sidebar-header {
+  align-items: center;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  padding: 20px;
+
+  h4 {
+    font-size: 18px;
+    margin: 0;
+  }
+}
+
+.change-history-sidebar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.change-history-clear-btn,
+.change-history-close-btn {
+  color: #000;
+  font-size: 13px;
+  padding: 4px 12px;
+}
+
+.change-history-empty {
+  color: #888;
+  font-size: 14px;
+  margin: 0;
+  padding: 20px;
+}
+
+.change-history-entries {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.change-history-entry {
+  background: #fafafa;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding: 12px 16px;
+}
+
+.change-history-entry-header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 13px;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.change-history-entry-time {
+  font-weight: 600;
+}
+
+.change-history-entry-version {
+  background: #eef6ff;
+  border-radius: 3px;
+  color: $color-get;
+  padding: 2px 6px;
+}
+
+.change-history-entry-title {
+  color: #666;
+}
+
+.change-history-baseline,
+.change-history-no-changes {
+  color: #888;
+  font-size: 13px;
+  margin: 0;
+}
+
+.change-history-changes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.change-history-item {
+  border-left: 3px solid #ccc;
+  font-size: 13px;
+  margin-bottom: 6px;
+  padding: 4px 0 4px 10px;
+
+  &.change-added {
+    border-left-color: $color-post;
+  }
+
+  &.change-removed {
+    border-left-color: $color-delete;
+  }
+
+  &.change-modified {
+    border-left-color: $color-put;
+  }
+}

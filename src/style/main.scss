@@ -20,6 +20,7 @@
   @include meta.load-css("topbar");
   @include meta.load-css("information");
   @include meta.load-css("authorize");
+  @include meta.load-css("change-history");
   @include meta.load-css("errors");
   @include meta.load-css("split-pane-mode");
   @include meta.load-css("markdown");

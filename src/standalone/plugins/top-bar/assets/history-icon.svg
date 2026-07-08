@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo
+Mixer Tools -->
+<svg width="30px" height="90px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"
+  aria-labelledby="historyIconTitle" stroke="#000000" stroke-width="1" stroke-linecap="square"
+  stroke-linejoin="miter" fill="none" color="#000000">
+  <title id="historyIconTitle">History</title>
+  <polyline points="1 12 3 14 5 12" />
+  <polyline points="12 7 12 12 15 15" />
+  <path
+    d="M12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,11.975305 3,12.3086383 3,13" />
+</svg>
