@@ -2,7 +2,7 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1.30.0-alpine
+FROM nginx:1.31.2-alpine
 
 LABEL maintainer="vladimir.gorej@gmail.com" \
       org.opencontainers.image.authors="vladimir.gorej@gmail.com" \
@@ -23,7 +23,8 @@ RUN apk add --update-cache --no-cache \
     "libcrypto3>=3.5.6-r0" \
     "libssl3>=3.5.6-r0" \
     "musl>=1.2.5-r23" \
-    "musl-utils>=1.2.5-r23"
+    "musl-utils>=1.2.5-r23" \
+    "nghttp2-libs>=1.68.1-r0"
 
 LABEL maintainer="char0n"
 
