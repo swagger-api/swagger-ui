@@ -23,5 +23,28 @@ export const isOAS3 =
  * Reference: https://spec.openapis.org/oas/v3.2.0.html#path-item-object
  */
 export const validOperationMethods = createOnlyOAS32SelectorWrapper(
-  () => (oriSelector, system) => system.oas32Selectors.validOperationMethods()
+  () => (oriSelector, system) => {
+    const validMethods = system.oas32Selectors.validOperationMethods()
+    const customMethods = []
+    const paths = system.specSelectors.specJson().get("paths")
+
+    if (paths?.forEach) {
+      paths.forEach((pathItem) => {
+        const additionalOperations = pathItem?.get?.("additionalOperations")
+
+        if (additionalOperations?.forEach) {
+          additionalOperations.forEach((operation, method) => {
+            if (
+              validMethods.indexOf(method) === -1 &&
+              customMethods.indexOf(method) === -1
+            ) {
+              customMethods.push(method)
+            }
+          })
+        }
+      })
+    }
+
+    return validMethods.concat(customMethods)
+  }
 )

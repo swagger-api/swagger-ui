@@ -7,6 +7,18 @@ import ImPropTypes from "react-immutable-proptypes"
 
 import RollingLoadSVG from "core/assets/rolling-load.svg"
 
+const BUILT_IN_METHODS = [
+  "get",
+  "put",
+  "post",
+  "delete",
+  "options",
+  "head",
+  "patch",
+  "trace",
+  "query",
+]
+
 export default class Operation extends PureComponent {
   static propTypes = {
     specPath: ImPropTypes.list.isRequired,
@@ -87,6 +99,10 @@ export default class Operation extends PureComponent {
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
+    const methodClassName = String(method).toLowerCase()
+    const customMethodClassName = BUILT_IN_METHODS.indexOf(methodClassName) < 0
+      ? " opblock-custom-method"
+      : ""
     let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
 
@@ -115,7 +131,7 @@ export default class Operation extends PureComponent {
     const validationErrors = specSelectors.validationErrors([path, method])
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
+        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${methodClassName}${customMethodClassName} is-open` : `opblock opblock-${methodClassName}${customMethodClassName}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
           <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">

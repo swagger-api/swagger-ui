@@ -51,11 +51,11 @@ import afterLoad from "./after-load"
  *
  * New features in OAS 3.2 (basic implementation):
  * - query operation: QUERY HTTP method support
+ * - additionalOperations: Custom HTTP methods support
  * - info.summary: Short summary field in Info Object
  *
  * Additional features (not yet implemented):
  * - $self: Self-referencing URI for base URI resolution
- * - additionalOperations: Custom HTTP methods support
  * - mediaTypes in Components: Reusable Media Type Objects
  * - Tag enhancements (summary, kind, parent)
  * - querystring parameter location
