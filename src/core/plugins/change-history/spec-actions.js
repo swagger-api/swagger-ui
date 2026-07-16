@@ -1,10 +1,18 @@
 import {
+  canPersistSnapshot,
   compareSpecs,
+  DEFAULT_MAX_SNAPSHOT_BYTES,
+  DEFAULT_TTL_MS,
+  filterHistoryByTtl,
   getStorageKey,
   hashSpec,
+  isOversizedSnapshotMarker,
   SNAPSHOT_PREFIX,
   STORAGE_PREFIX,
+  unwrapSnapshot,
   VIEWED_PREFIX,
+  wrapOversizedSnapshotMarker,
+  wrapSnapshot,
 } from "./fn"
 
 function readJson(key, fallback) {
@@ -17,7 +25,27 @@ function readJson(key, fallback) {
 }
 
 function writeJson(key, value) {
-  localStorage.setItem(key, JSON.stringify(value))
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+    return true
+  } catch (err) {
+    console.warn(
+      "Swagger UI: unable to persist change history to localStorage",
+      err
+    )
+    return false
+  }
+}
+
+function removeKey(key) {
+  try {
+    localStorage.removeItem(key)
+  } catch (err) {
+    console.warn(
+      "Swagger UI: unable to remove change history from localStorage",
+      err
+    )
+  }
 }
 
 function getHistoryStorageKey(storageKey) {
@@ -30,6 +58,12 @@ function getSnapshotStorageKey(storageKey) {
 
 function getViewedStorageKey(storageKey) {
   return `${VIEWED_PREFIX}:${storageKey}`
+}
+
+function clearPersistedHistory(storageKey) {
+  removeKey(getHistoryStorageKey(storageKey))
+  removeKey(getSnapshotStorageKey(storageKey))
+  removeKey(getViewedStorageKey(storageKey))
 }
 
 export const recordSpecLoad = () => (system) => {
@@ -54,6 +88,10 @@ export const recordSpecLoad = () => (system) => {
   const storageKey = getStorageKey(url, spec)
   const specHash = hashSpec(spec)
   const maxEntries = configs.changeHistoryMaxEntries || 20
+  const maxSnapshotBytes =
+    configs.changeHistoryMaxSnapshotBytes ?? DEFAULT_MAX_SNAPSHOT_BYTES
+  const ttlMs = configs.changeHistoryTtlMs ?? DEFAULT_TTL_MS
+  const now = Date.now()
 
   changeHistoryActions.setStorageKey(storageKey)
 
@@ -61,15 +99,40 @@ export const recordSpecLoad = () => (system) => {
   const snapshotKey = getSnapshotStorageKey(storageKey)
   const viewedKey = getViewedStorageKey(storageKey)
 
-  const existingHistory = readJson(historyKey, [])
-  const previousSnapshot = readJson(snapshotKey, null)
+  const existingHistory = filterHistoryByTtl(
+    readJson(historyKey, []),
+    ttlMs,
+    now
+  )
+  const rawSnapshot = readJson(snapshotKey, null)
+  const previousSnapshotPayload = unwrapSnapshot(rawSnapshot, {
+    ttlMs,
+    now,
+  })
+  const previousSnapshot = previousSnapshotPayload
+    ? previousSnapshotPayload.spec
+    : null
   const lastViewedAt = readJson(viewedKey, 0)
+  const oversizedMarker = isOversizedSnapshotMarker(rawSnapshot, {
+    ttlMs,
+    now,
+  })
 
-  if (previousSnapshot && hashSpec(previousSnapshot) === specHash) {
+  // Drop expired / invalid snapshot payloads from disk
+  if (rawSnapshot && !previousSnapshotPayload && !oversizedMarker) {
+    removeKey(snapshotKey)
+  }
+
+  if (
+    (previousSnapshot && hashSpec(previousSnapshot) === specHash) ||
+    (oversizedMarker && rawSnapshot.specHash === specHash)
+  ) {
     changeHistoryActions.setHistory(existingHistory)
     changeHistoryActions.setUnseenChanges(
       existingHistory.some((entry) => entry.timestamp > lastViewedAt)
     )
+    // Keep history pruned on disk even when the snapshot is unchanged
+    writeJson(historyKey, existingHistory)
     return
   }
 
@@ -81,8 +144,8 @@ export const recordSpecLoad = () => (system) => {
 
   if (!previousSnapshot || changes.length) {
     const entry = {
-      id: `${Date.now()}`,
-      timestamp: Date.now(),
+      id: `${now}`,
+      timestamp: now,
       version: spec?.info?.version || null,
       title: spec?.info?.title || null,
       specHash,
@@ -92,7 +155,16 @@ export const recordSpecLoad = () => (system) => {
 
     const nextHistory = [entry, ...existingHistory].slice(0, maxEntries)
     writeJson(historyKey, nextHistory)
-    writeJson(snapshotKey, spec)
+
+    if (canPersistSnapshot(spec, maxSnapshotBytes, now)) {
+      writeJson(snapshotKey, wrapSnapshot(spec, now))
+    } else {
+      console.warn(
+        "Swagger UI: change-history snapshot exceeds size limit; skipping localStorage snapshot persistence"
+      )
+      // Keep a tiny marker so we do not re-baseline on every reload
+      writeJson(snapshotKey, wrapOversizedSnapshotMarker(specHash, now))
+    }
 
     changeHistoryActions.setHistory(nextHistory)
 
@@ -102,6 +174,7 @@ export const recordSpecLoad = () => (system) => {
     }
   } else {
     changeHistoryActions.setHistory(existingHistory)
+    writeJson(historyKey, existingHistory)
   }
 }
 
@@ -118,10 +191,29 @@ export const restoreHistory = () => (system) => {
     return
   }
 
+  const ttlMs = configs.changeHistoryTtlMs ?? DEFAULT_TTL_MS
+  const now = Date.now()
   const historyKey = getHistoryStorageKey(storageKey)
+  const snapshotKey = getSnapshotStorageKey(storageKey)
   const viewedKey = getViewedStorageKey(storageKey)
-  const existingHistory = readJson(historyKey, [])
+  const existingHistory = filterHistoryByTtl(
+    readJson(historyKey, []),
+    ttlMs,
+    now
+  )
   const lastViewedAt = readJson(viewedKey, 0)
+  const rawSnapshot = readJson(snapshotKey, null)
+
+  if (
+    rawSnapshot &&
+    !unwrapSnapshot(rawSnapshot, { ttlMs, now }) &&
+    !isOversizedSnapshotMarker(rawSnapshot, { ttlMs, now })
+  ) {
+    removeKey(snapshotKey)
+  }
+
+  // Persist pruned history so expired entries don't linger
+  writeJson(historyKey, existingHistory)
 
   changeHistoryActions.setHistory(existingHistory)
   changeHistoryActions.setUnseenChanges(
@@ -163,9 +255,7 @@ export const clearHistory = () => (system) => {
     return
   }
 
-  localStorage.removeItem(getHistoryStorageKey(storageKey))
-  localStorage.removeItem(getSnapshotStorageKey(storageKey))
-  localStorage.removeItem(getViewedStorageKey(storageKey))
+  clearPersistedHistory(storageKey)
 
   changeHistoryActions.setHistory([])
   changeHistoryActions.setUnseenChanges(false)

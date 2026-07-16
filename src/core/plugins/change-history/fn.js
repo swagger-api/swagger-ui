@@ -603,3 +603,102 @@ export function formatChangeSummary(change) {
 export const STORAGE_PREFIX = "swagger-ui-change-history"
 export const SNAPSHOT_PREFIX = "swagger-ui-change-snapshot"
 export const VIEWED_PREFIX = "swagger-ui-change-history-viewed"
+
+/** Soft cap for a single persisted snapshot (UTF-8 bytes). */
+export const DEFAULT_MAX_SNAPSHOT_BYTES = 512 * 1024
+
+/** Drop history/snapshots older than this (30 days). */
+export const DEFAULT_TTL_MS = 30 * 24 * 60 * 60 * 1000
+
+export function getSerializedByteLength(value) {
+  const text = typeof value === "string" ? value : JSON.stringify(value)
+  if (typeof TextEncoder !== "undefined") {
+    return new TextEncoder().encode(text).length
+  }
+  return text.length
+}
+
+export function wrapSnapshot(spec, savedAt = Date.now()) {
+  return { savedAt, spec }
+}
+
+export function wrapOversizedSnapshotMarker(specHash, savedAt = Date.now()) {
+  return { savedAt, oversized: true, specHash }
+}
+
+export function unwrapSnapshot(value, { ttlMs, now = Date.now() } = {}) {
+  if (!value || typeof value !== "object") {
+    return null
+  }
+
+  // Oversized markers intentionally omit the full spec
+  if (value.oversized) {
+    return null
+  }
+
+  const isWrapped =
+    Object.prototype.hasOwnProperty.call(value, "spec") &&
+    Object.prototype.hasOwnProperty.call(value, "savedAt")
+
+  const spec = isWrapped ? value.spec : value
+  const savedAt = isWrapped ? value.savedAt : null
+
+  if (!spec || typeof spec !== "object") {
+    return null
+  }
+
+  if (
+    savedAt != null &&
+    ttlMs != null &&
+    ttlMs > 0 &&
+    now - savedAt > ttlMs
+  ) {
+    return null
+  }
+
+  return { spec, savedAt }
+}
+
+export function isOversizedSnapshotMarker(value, { ttlMs, now = Date.now() } = {}) {
+  if (!value || typeof value !== "object" || !value.oversized) {
+    return false
+  }
+
+  if (
+    value.savedAt != null &&
+    ttlMs != null &&
+    ttlMs > 0 &&
+    now - value.savedAt > ttlMs
+  ) {
+    return false
+  }
+
+  return true
+}
+
+export function filterHistoryByTtl(history, ttlMs, now = Date.now()) {
+  if (!Array.isArray(history)) {
+    return []
+  }
+
+  if (!ttlMs || ttlMs <= 0) {
+    return history
+  }
+
+  return history.filter(
+    (entry) =>
+      entry &&
+      typeof entry.timestamp === "number" &&
+      now - entry.timestamp <= ttlMs
+  )
+}
+
+export function canPersistSnapshot(spec, maxBytes, savedAt = Date.now()) {
+  if (!maxBytes || maxBytes <= 0) {
+    return true
+  }
+
+  return (
+    getSerializedByteLength(wrapSnapshot(spec, savedAt)) <= maxBytes
+  )
+}

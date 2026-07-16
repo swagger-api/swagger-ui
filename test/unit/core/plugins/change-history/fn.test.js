@@ -1,10 +1,16 @@
 import {
+  canPersistSnapshot,
   compareSpecs,
+  filterHistoryByTtl,
   formatChangeSummary,
   getStorageKey,
   hashSpec,
+  isOversizedSnapshotMarker,
   resolveRefs,
   stableStringify,
+  unwrapSnapshot,
+  wrapOversizedSnapshotMarker,
+  wrapSnapshot,
 } from "core/plugins/change-history/fn"
 
 describe("change-history fn", () => {
@@ -447,6 +453,58 @@ describe("change-history fn", () => {
           newValue: "array",
         })
       ).toEqual('Schema "Pet": type changed (object → array)')
+    })
+  })
+
+  describe("snapshot retention helpers", () => {
+    it("wraps and unwraps snapshots with savedAt", () => {
+      const wrapped = wrapSnapshot(baseSpec, 1000)
+      expect(wrapped).toEqual({ savedAt: 1000, spec: baseSpec })
+      expect(unwrapSnapshot(wrapped, { ttlMs: 5000, now: 2000 })).toEqual({
+        savedAt: 1000,
+        spec: baseSpec,
+      })
+    })
+
+    it("supports legacy plain-spec snapshots", () => {
+      expect(unwrapSnapshot(baseSpec, { ttlMs: 1, now: Date.now() })).toEqual({
+        savedAt: null,
+        spec: baseSpec,
+      })
+    })
+
+    it("expires wrapped snapshots past TTL", () => {
+      const wrapped = wrapSnapshot(baseSpec, 1000)
+      expect(unwrapSnapshot(wrapped, { ttlMs: 100, now: 2000 })).toBeNull()
+    })
+
+    it("filters history entries older than TTL", () => {
+      const history = [
+        { id: "1", timestamp: 1000 },
+        { id: "2", timestamp: 5000 },
+      ]
+      expect(filterHistoryByTtl(history, 2000, 6000)).toEqual([
+        { id: "2", timestamp: 5000 },
+      ])
+    })
+
+    it("rejects oversized snapshots and keeps a hash marker", () => {
+      expect(canPersistSnapshot(baseSpec, 10, 1000)).toBe(false)
+      expect(canPersistSnapshot(baseSpec, 1024 * 1024, 1000)).toBe(true)
+
+      const marker = wrapOversizedSnapshotMarker("abc", 1000)
+      expect(marker).toEqual({
+        savedAt: 1000,
+        oversized: true,
+        specHash: "abc",
+      })
+      expect(unwrapSnapshot(marker, { ttlMs: 5000, now: 2000 })).toBeNull()
+      expect(isOversizedSnapshotMarker(marker, { ttlMs: 5000, now: 2000 })).toBe(
+        true
+      )
+      expect(isOversizedSnapshotMarker(marker, { ttlMs: 100, now: 2000 })).toBe(
+        false
+      )
     })
   })
 })

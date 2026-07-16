@@ -19,6 +19,10 @@ const defaultOptions = Object.freeze({
   persistAuthorization: false,
   changeHistory: true,
   changeHistoryMaxEntries: 20,
+  // --- soft cap for the full-spec snapshot persisted to localStorage (UTF-8 bytes)
+  changeHistoryMaxSnapshotBytes: 512 * 1024,
+  // --- drop change-history data older than this (30 days)
+  changeHistoryTtlMs: 30 * 24 * 60 * 60 * 1000,
   configs: {},
   displayOperationId: false,
   displayRequestDuration: false,
