@@ -1297,6 +1297,54 @@ describe("taggedOperations", function () {
 describe("getOAS3RequiredRequestBodyContentType", () => {
   const pathMethod = ["/test", "post"]
 
+  it("should use resolved subtree data for standard operations", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/test": {
+            post: {
+              requestBody: {
+                required: false,
+                content: {
+                  "application/json": {
+                    schema: {
+                      required: ["fromJson"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      resolvedSubtrees: {
+        paths: {
+          "/test": {
+            post: {
+              requestBody: {
+                required: true,
+                content: {
+                  "application/json": {
+                    schema: {
+                      required: ["fromResolvedSubtree"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    expect(getOAS3RequiredRequestBodyContentType(state, pathMethod)).toEqual({
+      requestBody: true,
+      requestContentType: {
+        "application/json": ["fromResolvedSubtree"]
+      }
+    })
+  })
+
   it("should read request body content from additionalOperations", () => {
     const state = fromJS({
       json: {
