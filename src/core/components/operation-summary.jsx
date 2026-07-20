@@ -46,13 +46,10 @@ export default class OperationSummary extends PureComponent {
       operationId,
       originalOperationId,
       displayOperationId,
-    } = operationProps.toJS()
+    } = operationProps.toObject()
 
-    let {
-      summary: resolvedSummary,
-    } = op
-
-    let security = operationProps.get("security")
+    const resolvedSummary = op.get("summary")
+    const security = operationProps.get("security")
 
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")

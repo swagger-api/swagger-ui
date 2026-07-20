@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
           ref: master
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
 
@@ -36,7 +36,7 @@ jobs:
 
       - name: Nothing to release
         if: ${{ env.NEXT_RELEASE_VERSION == '' }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('Nothing to release')
@@ -64,7 +64,7 @@ jobs:
 
       - name: Release failed
         if: steps.semantic.outputs.new_release_published == 'false'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('Release failed')
@@ -77,7 +77,7 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_patch_version }}
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: ./dist
@@ -88,7 +88,7 @@ jobs:
         run: |
           echo ${{ steps.semantic.outputs.new_release_version }} > released-version.txt
       - name: Upload released version
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: released-version
           path: ./released-version.txt

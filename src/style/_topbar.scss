@@ -11,7 +11,7 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  @media (max-width: 550px) {
+  @container swagger-ui (max-width: 550px) {
     .topbar-wrapper {
       flex-direction: column;
       align-items: start;
@@ -97,7 +97,7 @@
       @include type.text_headline($topbar-download-url-button-font-color);
     }
   }
-  @media (max-width: 550px) {
+  @container swagger-ui (max-width: 550px) {
     .download-url-wrapper {
       width: 100%;
     }
@@ -106,7 +106,7 @@
   .dark-mode-toggle {
     margin-left: 10px;
     opacity: 0.8;
-    transition: all .2s;
+    transition: all 0.2s;
     cursor: pointer;
 
     button {
@@ -115,7 +115,7 @@
       padding: 0;
 
       svg {
-        fill: #E4E6E6;
+        fill: #e4e6e6;
       }
     }
 

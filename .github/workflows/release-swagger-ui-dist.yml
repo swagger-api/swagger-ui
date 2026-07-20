@@ -14,16 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
           ref: master
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
 
@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Download build artifact
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({

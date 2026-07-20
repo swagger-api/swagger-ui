@@ -1,0 +1,221 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2 QUERY Operation Test
+  version: 1.0.0
+  description: Test API demonstrating the QUERY HTTP method introduced in OAS 3.2
+
+paths:
+  /search:
+    query:
+      operationId: searchWithQuery
+      summary: Search with complex query payload
+      description: >
+        This endpoint demonstrates the QUERY HTTP method introduced in OAS 3.2.
+        The QUERY method is a new HTTP method in OAS 3.2 that allows sending
+        a request body with search parameters, providing more flexibility than GET.
+      tags:
+        - Search
+      requestBody:
+        description: Search payload with query, filters, and pagination
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Search query string
+                filters:
+                  type: object
+                  description: Additional filters to apply
+                  properties:
+                    category:
+                      type: string
+                    status:
+                      type: string
+                pagination:
+                  type: object
+                  description: Pagination settings
+                  properties:
+                    page:
+                      type: integer
+                      minimum: 1
+                      default: 1
+                    pageSize:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                      default: 20
+            example:
+              query: "example search"
+              filters:
+                category: "electronics"
+                status: "active"
+              pagination:
+                page: 1
+                pageSize: 20
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+        '400':
+          description: Invalid search criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '413':
+          description: Payload too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /products/search:
+    get:
+      operationId: searchProducts
+      summary: Simple product search
+      description: Search products using query parameters (traditional GET)
+      tags:
+        - Search
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Product category filter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    query:
+      operationId: advancedSearchProducts
+      summary: Advanced product search
+      description: >
+        Advanced product search using complex criteria in request body.
+        Demonstrates QUERY method alongside GET on the same path.
+      tags:
+        - Search
+      requestBody:
+        description: Advanced search criteria
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priceRange:
+                  type: object
+                  properties:
+                    min:
+                      type: number
+                      format: float
+                    max:
+                      type: number
+                      format: float
+                specifications:
+                  type: object
+                  description: Product specifications to match
+                  additionalProperties:
+                    type: string
+                categories:
+                  type: array
+                  items:
+                    type: string
+                sortBy:
+                  type: string
+                  enum: [price, rating, name, date]
+            example:
+              priceRange:
+                min: 10.0
+                max: 100.0
+              specifications:
+                brand: "Example Brand"
+                color: "blue"
+              categories: ["electronics", "computers"]
+              sortBy: "price"
+      responses:
+        '200':
+          description: Advanced search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  total:
+                    type: integer
+                  facets:
+                    type: object
+        '400':
+          description: Invalid search criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - price
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          format: float
+        category:
+          type: string
+        specifications:
+          type: object
+          additionalProperties:
+            type: string
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string

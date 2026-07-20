@@ -7,7 +7,7 @@ import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
-  const schema = mediaTypeValue.get("schema", OrderedMap()).toJS()
+  const schema = mediaTypeValue.get("schema", OrderedMap())
 
   const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
   const exampleSchema = mediaTypeValue.get("example")

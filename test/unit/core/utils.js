@@ -350,11 +350,21 @@ describe("utils", () => {
     let value = null
     let result = null
 
-    const assertValidateParam = (param, value, expectedError) => {
+    const assertValidateOas3Param = (param, value, expectedError) => {
+      // for cases where you _only_ want to try OAS3
+      result = validateParam(fromJS(param), value, {
+        isOAS3: true
+      })
+      expect( result ).toEqual( expectedError )
+    }
+
+    const assertValidateOas2Param = (param, value, expectedError) => {
       // Swagger 2.0 version
       result = validateParam( fromJS(param), fromJS(value))
       expect( result ).toEqual( expectedError )
+    }
 
+    const assertValidateOas3ParamWithSchema = (param, value, expectedError) => {
       // OAS3 version, using `schema` sub-object
       let oas3Param = {
         required: param.required,
@@ -363,18 +373,14 @@ describe("utils", () => {
           required: undefined
         }
       }
-      result = validateParam( fromJS(oas3Param), fromJS(value), {
-        isOAS3: true
-      })
-      expect( result ).toEqual( expectedError )
+      assertValidateOas3Param(oas3Param, value, expectedError)
     }
 
-    const assertValidateOas3Param = (param, value, expectedError) => {
-      // for cases where you _only_ want to try OAS3
-      result = validateParam(fromJS(param), value, {
-        isOAS3: true
-      })
-      expect( result ).toEqual( expectedError )
+    const assertValidateParam = (param, value, expectedError) => {
+      // Swagger 2.0 version
+      assertValidateOas2Param(param, value, expectedError)
+      // OAS3 version, using `schema` sub-object
+      assertValidateOas3ParamWithSchema(param, value, expectedError)
     }
 
     it("should check the isOAS3 flag when validating parameters", () => {
@@ -749,7 +755,8 @@ describe("utils", () => {
         type: "array"
       }
       value = "[1]"
-      assertValidateParam(param, value, [])
+      assertValidateOas3ParamWithSchema(param, value, ["Required field is not provided"])
+      assertValidateOas2Param(param, value, [])
 
       // valid array, items match type
       param = {
@@ -1344,35 +1351,30 @@ describe("utils", () => {
 
   describe("parse and serialize search", () => {
     beforeEach(() => {
-      // jsdom in Jest 25+ prevents modifying window.location,
-      // so we replace with a stubbed version
-      delete win.location
-      win.location = {
-        search: ""
-      }
+      win.history.pushState({}, "", "/")
     })
     afterEach(() => {
-      win.location.search = ""
+      win.history.pushState({}, "", "/")
     })
 
     describe("parsing", () => {
       it("works with empty search", () => {
-        win.location.search = ""
+        win.history.pushState({}, "", "/")
         expect(parseSearch()).toEqual({})
       })
 
       it("works with only one key", () => {
-        win.location.search = "?foo"
+        win.history.pushState({}, "", "?foo")
         expect(parseSearch()).toEqual({foo: ""})
       })
 
       it("works with keys and values", () => {
-        win.location.search = "?foo=fooval&bar&baz=bazval"
+        win.history.pushState({}, "", "?foo=fooval&bar&baz=bazval")
         expect(parseSearch()).toEqual({foo: "fooval", bar: "", baz: "bazval"})
       })
 
       it("decode url encoded components", () => {
-        win.location.search = "?foo=foo%20bar"
+        win.history.pushState({}, "", "?foo=foo%20bar")
         expect(parseSearch()).toEqual({foo: "foo bar"})
       })
     })
