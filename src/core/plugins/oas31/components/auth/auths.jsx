@@ -38,11 +38,13 @@ class Auths extends React.Component {
     e.preventDefault()
 
     let { authActions, definitions } = this.props
-    let auths = definitions
-      .map((val, key) => {
-        return key
-      })
-      .toArray()
+    // `definitions` is an Immutable.Map whose keys are the security scheme
+    // names we want to log out of. Use `keySeq().toArray()` rather than
+    // `.map((val, key) => key).toArray()` because `Map#toArray()` returns
+    // `[key, value]` pairs under Immutable v4+ and values-only under v3,
+    // so the latter pattern silently produces `[[name, schema]]` instead
+    // of `[name]` when the host bundles a newer Immutable (see #10761).
+    let auths = definitions.keySeq().toArray()
 
     this.setState(
       auths.reduce((prev, auth) => {

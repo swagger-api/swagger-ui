@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { fromJS } from "immutable"
+import { fromJS, Map } from "immutable"
 
 /**
  * `authorize` and `logout` wrapped actions provide capacity
@@ -44,7 +44,12 @@ export const logout = (oriAction, system) => (payload) => {
   try {
     if (configs.persistAuthorization && Array.isArray(payload)) {
       payload.forEach((authorizedName) => {
-        const auth = authorized.get(authorizedName, {})
+        // Defend against missing entries in the `authorized` store — e.g.
+        // when a name was never authorized, or when an upstream caller
+        // passes an unexpected key shape. Use an empty Immutable Map() so
+        // the following getIn() calls are always safe; plain-object
+        // fallbacks crash here because getIn is Immutable-specific.
+        const auth = authorized.get(authorizedName, Map())
         const isApiKeyAuth = auth.getIn(["schema", "type"]) === "apiKey"
         const isInCookie = auth.getIn(["schema", "in"]) === "cookie"
         const isApiKeyInCookie = isApiKeyAuth && isInCookie
