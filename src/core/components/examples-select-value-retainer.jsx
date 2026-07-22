@@ -104,9 +104,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
   _setStateForNamespace = (namespace, obj) => {
     const oldStateForNamespace = this.state[namespace] || Map()
-    // NOTE(immutable-v4): mergeDeep now concatenates Lists instead of replacing them.
-    // Verify state merging behavior is correct after the immutable v3→v4 upgrade.
-    const newStateForNamespace = oldStateForNamespace.mergeDeep(obj)
+    const newStateForNamespace = oldStateForNamespace.merge(obj)
     return this.setState({
       [namespace]: newStateForNamespace,
     })
