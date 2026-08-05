@@ -69,4 +69,24 @@ describe("<AuthorizationPopup/>", function () {
 
     expect(mockedProps.authActions.showDefinitions).not.toHaveBeenCalled()
   })
+
+  it("closes the dialog when the backdrop is clicked", function () {
+    const wrapper = mount(<AuthorizationPopup {...mockedProps} />)
+
+    wrapper.find(".backdrop-ux").simulate("click")
+
+    expect(mockedProps.authActions.showDefinitions).toHaveBeenCalledWith(false)
+
+    wrapper.unmount()
+  })
+
+  it("does not close the dialog when the modal content is clicked", function () {
+    const wrapper = mount(<AuthorizationPopup {...mockedProps} />)
+
+    wrapper.find(".modal-ux").simulate("click")
+
+    expect(mockedProps.authActions.showDefinitions).not.toHaveBeenCalled()
+
+    wrapper.unmount()
+  })
 })

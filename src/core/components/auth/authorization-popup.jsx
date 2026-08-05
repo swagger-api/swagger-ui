@@ -30,7 +30,7 @@ export default class AuthorizationPopup extends React.Component {
 
     return (
       <div className="dialog-ux">
-        <div className="backdrop-ux"></div>
+        <div className="backdrop-ux" onClick={ this.close }></div>
         <div className="modal-ux">
           <div className="modal-dialog-ux">
             <div className="modal-ux-inner">

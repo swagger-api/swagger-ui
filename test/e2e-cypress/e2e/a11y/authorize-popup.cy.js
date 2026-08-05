@@ -10,4 +10,16 @@ describe("Authorization popup", () => {
       .get(".dialog-ux")
       .should("not.exist")
   })
+
+  it("closes the Available authorizations dialog when the backdrop is clicked", () => {
+    cy.visit("/?url=/documents/petstore.swagger.yaml")
+      .get("button.btn.authorize")
+      .click()
+      .get(".dialog-ux")
+      .should("exist")
+      .get(".backdrop-ux")
+      .click({ force: true })
+      .get(".dialog-ux")
+      .should("not.exist")
+  })
 })
