@@ -2,7 +2,7 @@ name: Merge me!
 
 on:
   pull_request_target:
-    branches: [ master, next ]
+    branches: [ main, next ]
 
 permissions:
   contents: read
