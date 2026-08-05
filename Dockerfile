@@ -1,6 +1,6 @@
 # Looking for information on environment variables?
 # We don't declare them here — take a look at our docs.
-# https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
+# https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/configuration.md
 
 FROM nginx:1.31.3-alpine
 

@@ -5,7 +5,7 @@ on:
     workflows: ["Release SwaggerUI"]
     types:
       - completed
-    branches: [master]
+    branches: [main]
 
 jobs:
 
