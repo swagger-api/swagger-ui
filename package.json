@@ -213,5 +213,16 @@
   },
   "config": {
     "deps_check_dir": ".deps_check"
+  },
+  "allowScripts": {
+    "tree-sitter@0.22.4": true,
+    "tree-sitter@0.21.1": true,
+    "@tree-sitter-grammars/tree-sitter-yaml@0.7.1": true,
+    "tree-sitter-json@0.24.8": true,
+    "fsevents@2.3.3": true,
+    "cypress@14.2.0": true,
+    "unrs-resolver@1.11.1": true,
+    "@scarf/scarf": false,
+    "core-js-pure": false
   }
 }
