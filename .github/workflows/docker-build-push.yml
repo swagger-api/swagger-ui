@@ -56,19 +56,19 @@ jobs:
           echo "RELEASED_VERSION=$RELEASED_VERSION" >> $GITHUB_ENV
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+        uses: docker/setup-qemu-action@288220e341e5c445ddb6d73e19a57a9012ceca88
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+        uses: docker/setup-buildx-action@5b9cf3909b54a280b6df6eee035755eb1f2fd611
 
       - name: Log in to DockerHub
-        uses: docker/login-action@v4
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
         with:
           username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
       - name: Build docker image and push
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@11aabf2b92e5c881c944bb441f1201dd668aeefb
         with:
           context: .
           push: true
