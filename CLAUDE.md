@@ -142,8 +142,8 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 
 ### Prerequisites
 
-- **Node.js:** >=24.14.0 (Node 24.x recommended, as defined in `.nvmrc`)
-- **npm:** >=11.9.0
+- **Node.js:** >=24.18.0 (Node 24.x recommended, as defined in `.nvmrc`)
+- **npm:** >=11.16.0
 - **Git:** Any version
 - **JDK 7+:** Required for Nightwatch.js integration tests
 
@@ -350,7 +350,7 @@ npm test  # Runs: lint-errors + test:unit + cy:ci
 1. **build** - Lint, unit tests, build, artifact tests
 2. **e2e-tests** - Cypress tests (matrix strategy with 3 containers)
 
-**Branches:** `master`, `next`
+**Branches:** `main`, `next`
 
 ---
 
@@ -446,11 +446,11 @@ insertPragma: true       # Insert @prettier pragma
 ### Branch Strategy
 
 **Main Branches:**
-- `master` - Production releases
+- `main` - Production releases
 - `next` - Next version development
 
 **Feature Branches:**
-- Should branch from `master` or `next`
+- Should branch from `main` or `next`
 - Use descriptive names
 
 ### Commit Conventions
@@ -892,7 +892,7 @@ dist/                            # Build output (generated)
 9. **Don't use `console.log`** - only `console.warn` and `console.error`
 10. **Don't render unsanitized HTML** - XSS vulnerability
 11. **Don't modify `package-lock.json` manually**
-12. **Don't push directly to `master` or `next`**
+12. **Don't push directly to `main` or `next`**
 13. **Don't ignore Cypress test failures**
 14. **Don't add dependencies without justification**
 15. **Don't break the build** - verify with `npm run build`

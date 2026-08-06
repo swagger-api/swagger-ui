@@ -546,7 +546,11 @@ export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {
   if (requestBody.getIn(["required"])) {
     requiredObj.requestBody = requestBody.getIn(["required"])
   }
-  requestBody.getIn(["content"]).entrySeq().forEach((contentType) => { // e.g application/json
+  const requestBodyContent = requestBody.getIn(["content"])
+  if (!requestBodyContent) {
+    return requiredObj
+  }
+  requestBodyContent.entrySeq().forEach((contentType) => { // e.g application/json
     const key = contentType[0]
     if (contentType[1].getIn(["schema", "required"])) {
       const val = contentType[1].getIn(["schema", "required"]).toJS()

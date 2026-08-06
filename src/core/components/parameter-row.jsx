@@ -5,6 +5,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
 import getParameterSchema from "core/utils/get-parameter-schema.js"
+import { parseParameterArrayValue } from "core/utils/parse-parameter-array-value"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -95,9 +96,10 @@ export default class ParameterRow extends Component {
 
   setDefaultValue = () => {
     let { specSelectors, pathMethod, rawParam, oas3Selectors, fn } = this.props
+    const isOAS3 = specSelectors.isOAS3()
 
     const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
-    let { schema } = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
+    let { schema } = getParameterSchema(paramWithMeta, { isOAS3 })
     const parameterMediaType = paramWithMeta
       .get("content", Map())
       .keySeq()
@@ -125,7 +127,7 @@ export default class ParameterRow extends Component {
           : paramWithMeta.getIn(["schema", "example"]) !== undefined
           ? paramWithMeta.getIn(["schema", "example"])
           : (schema && schema.getIn(["default"]))
-      } else if (specSelectors.isOAS3()) {
+      } else if (isOAS3) {
         schema = this.composeJsonSchema(schema)
 
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
@@ -154,6 +156,15 @@ export default class ParameterRow extends Component {
 
       const schemaObjectType = fn.getSchemaObjectType(schema)
       const schemaItemsType = fn.getSchemaObjectType(schema?.get("items"))
+      const hasMultipleTypes = List.isList(schema?.get("type"))
+
+      // Discard invalid array initial values (non-array, non-stringified-array)
+      if (isOAS3 && schemaObjectType === "array" && !hasMultipleTypes && initialValue !== undefined) {
+        const parsedValue = parseParameterArrayValue(initialValue)
+
+        this.onChangeWrapper(parsedValue)
+        return
+      }
 
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
@@ -181,14 +192,34 @@ export default class ParameterRow extends Component {
         && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
-        this.onChangeWrapper(
-          List.isList(generatedSampleValue) ? (
-            generatedSampleValue
-          ) : (
-            List(JSON.parse(generatedSampleValue))
-          )
-        )
+        const parsedValue = parseParameterArrayValue(generatedSampleValue)
+        
+        this.onChangeWrapper(parsedValue)
       }
+    }
+  }
+
+
+
+  onExampleValueUpdate = (value) => {
+    const { specSelectors, pathMethod, rawParam, fn } = this.props
+
+    const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
+    let { schema } = getParameterSchema(paramWithMeta, { isOAS3: true })
+    
+    if (schema) {
+      schema = this.composeJsonSchema(schema)
+    }
+
+    const schemaObjectType = fn.getSchemaObjectType(schema)
+    const hasMultipleTypes = List.isList(schema?.get("type"))
+
+    if (schemaObjectType === "array" && !hasMultipleTypes) {
+      const parsedValue = parseParameterArrayValue(value)
+
+      this.onChangeWrapper(parsedValue)
+    } else {
+      this.onChangeWrapper(value)
     }
   }
 
@@ -364,7 +395,7 @@ export default class ParameterRow extends Component {
                 <ExamplesSelectValueRetainer
                   examples={param.get("examples")}
                   onSelect={this._onExampleSelect}
-                  updateValue={this.onChangeWrapper}
+                  updateValue={this.onExampleValueUpdate}
                   getComponent={getComponent}
                   defaultToFirstExample={true}
                   currentKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())}
