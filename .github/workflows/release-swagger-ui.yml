@@ -8,6 +8,9 @@ jobs:
   release:
     name: Release swagger-ui npm package
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -61,6 +64,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Release failed
         if: steps.semantic.outputs.new_release_published == 'false'
