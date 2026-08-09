@@ -2,29 +2,32 @@ name: Release SwaggerUI
 on:
   workflow_dispatch:
     branches:
-      - master
+      - main
 
 jobs:
   release:
     name: Release swagger-ui npm package
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: master
+          ref: main
 
       - name: Use Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Determine the next release version
-        uses: cycjimmy/semantic-release-action@v6
+        uses: cycjimmy/semantic-release-action@71b2ac36ece276d61489147b9d5de3cf0d13fad8
         with:
           dry_run: true
           extra_plugins: |
@@ -53,7 +56,7 @@ jobs:
 
       - name: Semantic Release
         id: semantic
-        uses: cycjimmy/semantic-release-action@v6
+        uses: cycjimmy/semantic-release-action@71b2ac36ece276d61489147b9d5de3cf0d13fad8
         with:
           dry_run: false
           extra_plugins: |
@@ -61,6 +64,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Release failed
         if: steps.semantic.outputs.new_release_published == 'false'

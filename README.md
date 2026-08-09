@@ -113,6 +113,6 @@ Please disclose any security-related issues or vulnerabilities by emailing [secu
 
 ## License
 
-SwaggerUI is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ui/blob/master/LICENSE).
-SwaggerUI comes with an explicit [NOTICE](https://github.com/swagger-api/swagger-ui/blob/master/NOTICE) file
+SwaggerUI is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ui/blob/main/LICENSE).
+SwaggerUI comes with an explicit [NOTICE](https://github.com/swagger-api/swagger-ui/blob/main/NOTICE) file
 containing additional legal notices and information.

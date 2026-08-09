@@ -257,7 +257,7 @@ export default class Oauth2 extends React.Component {
                   </div>
                 </Row>
               )
-              }).toArray()
+              }).valueSeq().toArray()
             }
           </div> : null
         }
