@@ -30,7 +30,7 @@ export default class Operations extends React.Component {
 
     return (
       <div>
-        { taggedOps.map(this.renderOperationTag).toArray() }
+        { taggedOps.map(this.renderOperationTag).valueSeq().toArray() }
         { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
       </div>
     )
