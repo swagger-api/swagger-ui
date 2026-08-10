@@ -63,7 +63,7 @@ export default class Models extends Component {
 
     return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
       <h4>
-        <button
+        <button type="button"
           aria-expanded={showModels}
           className="models-control"
           onClick={() => layoutActions.show(specPathBase, !showModels)}

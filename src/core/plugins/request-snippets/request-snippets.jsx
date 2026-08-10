@@ -105,7 +105,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
           onClick={() => handleSetIsExpanded()}
           style={{ cursor: "pointer" }}
         >Snippets</h4>
-        <button
+        <button type="button"
           onClick={() => handleSetIsExpanded()}
           style={{ border: "none", background: "none" }}
           title={isExpanded ? "Collapse operation" : "Expand operation"}
