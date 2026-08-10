@@ -5,10 +5,12 @@ describe("Authorization popup", () => {
       .click()
       .get(".dialog-ux")
       .should("exist")
-      .get("body")
-      .trigger("keydown", { key: "Escape", eventConstructor: "KeyboardEvent" })
-      .get(".dialog-ux")
-      .should("not.exist")
+
+    // Trigger on document (what the popup actually listens on) instead of body,
+    // which skips Cypress's actionability checks against the full-page dialog overlay
+    cy.document().trigger("keydown", { key: "Escape", eventConstructor: "KeyboardEvent" })
+
+    cy.get(".dialog-ux").should("not.exist")
   })
 
   it("closes the Available authorizations dialog when the backdrop is clicked", () => {
