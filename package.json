@@ -80,11 +80,11 @@
     "classnames": "^2.5.1",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
-    "dompurify": "^3.4.12",
+    "dompurify": "^3.4.13",
     "ieee754": "^1.2.1",
     "immutable": "^4.3.9",
     "js-file-download": "^0.4.12",
-    "js-yaml": "=4.3.0",
+    "js-yaml": "=4.3.1",
     "lodash": "^4.18.1",
     "prop-types": "^15.8.1",
     "randexp": "^0.5.3",
@@ -213,5 +213,16 @@
   },
   "config": {
     "deps_check_dir": ".deps_check"
+  },
+  "allowScripts": {
+    "tree-sitter@0.22.4": true,
+    "tree-sitter@0.21.1": true,
+    "@tree-sitter-grammars/tree-sitter-yaml@0.7.1": true,
+    "tree-sitter-json@0.24.8": true,
+    "fsevents@2.3.3": true,
+    "cypress@14.2.0": true,
+    "unrs-resolver@1.11.1": true,
+    "@scarf/scarf": false,
+    "core-js-pure": false
   }
 }
