@@ -12,6 +12,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Log in to DockerHub
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
+        with:
+          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@2736533278103862a861f4a35ebac3e97854d956
         with:
