@@ -1,7 +1,8 @@
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
-[![npm audit](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-ui-security-audit&subject=npm%20audit)](https://jenkins.swagger.io/job/oss-swagger-ui-security-audit/lastBuild/console)
+[![Build Status](https://github.com/swagger-api/swagger-ui/actions/workflows/nodejs.yml/badge.svg)](https://github.com/swagger-api/swagger-ui/actions/workflows/nodejs.yml)
+[![security scan](https://img.shields.io/github/actions/workflow/status/swagger-api/swagger-ui/security-scan.yml?label=Security%20Scan)](https://github.com/swagger-api/swagger-ui/actions/workflows/security-scan.yml)
 [![total GitHub contributors](https://img.shields.io/github/contributors-anon/swagger-api/swagger-ui.svg)](https://github.com/swagger-api/swagger-ui/graphs/contributors)
 
 [![monthly npm installs](https://img.shields.io/npm/dm/swagger-ui.svg?label=npm%20downloads)](https://www.npmjs.com/package/swagger-ui)
