@@ -1,4 +1,4 @@
-name: Security scan for docker image
+name: Security scan for docker image and dependencies
 
 on:
   workflow_dispatch:
@@ -9,16 +9,18 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  security-scan:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v7
+
       - name: Log in to DockerHub
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
         with:
           username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner on docker image
         uses: aquasecurity/trivy-action@2736533278103862a861f4a35ebac3e97854d956
         with:
           image-ref: 'swaggerapi/swagger-ui:unstable'
@@ -27,3 +29,14 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
+
+      - name: Run Trivy vulnerability scanner on dependencies
+        uses: aquasecurity/trivy-action@2736533278103862a861f4a35ebac3e97854d956
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'library'
+          severity: 'CRITICAL,HIGH,MEDIUM'
