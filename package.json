@@ -131,7 +131,7 @@
     "babel-plugin-lodash": "=3.3.4",
     "babel-plugin-module-resolver": "=5.0.2",
     "babel-plugin-transform-react-remove-prop-types": "=0.4.24",
-    "body-parser": "^1.20.5",
+    "body-parser": "^2.3.0",
     "cheerio": "=1.2.0",
     "copy-webpack-plugin": "14.0.0",
     "cors": "^2.8.5",

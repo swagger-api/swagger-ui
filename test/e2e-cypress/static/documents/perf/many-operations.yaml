@@ -1,0 +1,7463 @@
+# GENERATED FIXTURE — perf/virtualization epic (Phase 3: operations list)
+# 528 operations across 24 tags => flatItems ~552, above VIRTUALIZE_OPERATIONS_THRESHOLD (150).
+# Includes `multiTagged` declaring TWO tags: that is the duplicate-key case for getItemKey.
+# Regenerate rather than hand-edit. See .claude/implementation/perf-virtualization/phase-3-operations-virtualization.md
+openapi: 3.0.0
+info:
+  title: Many Operations (perf fixture)
+  version: 1.0.0
+  description: Generated fixture for operations-list virtualization tests.
+servers:
+  - url: https://petstore.swagger.io/v2
+tags:
+  - name: perfTag01
+    description: Generated perf tag 1
+  - name: perfTag02
+    description: Generated perf tag 2
+  - name: perfTag03
+    description: Generated perf tag 3
+  - name: perfTag04
+    description: Generated perf tag 4
+  - name: perfTag05
+    description: Generated perf tag 5
+  - name: perfTag06
+    description: Generated perf tag 6
+  - name: perfTag07
+    description: Generated perf tag 7
+  - name: perfTag08
+    description: Generated perf tag 8
+  - name: perfTag09
+    description: Generated perf tag 9
+  - name: perfTag10
+    description: Generated perf tag 10
+  - name: perfTag11
+    description: Generated perf tag 11
+  - name: perfTag12
+    description: Generated perf tag 12
+  - name: perfTag13
+    description: Generated perf tag 13
+  - name: perfTag14
+    description: Generated perf tag 14
+  - name: perfTag15
+    description: Generated perf tag 15
+  - name: perfTag16
+    description: Generated perf tag 16
+  - name: perfTag17
+    description: Generated perf tag 17
+  - name: perfTag18
+    description: Generated perf tag 18
+  - name: perfTag19
+    description: Generated perf tag 19
+  - name: perfTag20
+    description: Generated perf tag 20
+  - name: perfTag21
+    description: Generated perf tag 21
+  - name: perfTag22
+    description: Generated perf tag 22
+  - name: perfTag23
+    description: Generated perf tag 23
+  - name: perfTag24
+    description: Generated perf tag 24
+paths:
+  /perf/tag01/resource01:
+    post:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-01
+      operationId: perfOp01_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource02:
+    put:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-02
+      operationId: perfOp01_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource03:
+    delete:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-03
+      operationId: perfOp01_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource04:
+    patch:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-04
+      operationId: perfOp01_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource05:
+    get:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-05
+      operationId: perfOp01_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource06:
+    post:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-06
+      operationId: perfOp01_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource07:
+    put:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-07
+      operationId: perfOp01_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource08:
+    delete:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-08
+      operationId: perfOp01_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource09:
+    patch:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-09
+      operationId: perfOp01_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource10:
+    get:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-10
+      operationId: perfOp01_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource11:
+    post:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-11
+      operationId: perfOp01_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource12:
+    put:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-12
+      operationId: perfOp01_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource13:
+    delete:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-13
+      operationId: perfOp01_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource14:
+    patch:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-14
+      operationId: perfOp01_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource15:
+    get:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-15
+      operationId: perfOp01_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource16:
+    post:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-16
+      operationId: perfOp01_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource17:
+    put:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-17
+      operationId: perfOp01_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource18:
+    delete:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-18
+      operationId: perfOp01_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource19:
+    patch:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-19
+      operationId: perfOp01_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource20:
+    get:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-20
+      operationId: perfOp01_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource21:
+    post:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-21
+      operationId: perfOp01_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag01/resource22:
+    put:
+      tags:
+        - perfTag01
+      summary: Perf operation 01-22
+      operationId: perfOp01_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource01:
+    post:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-01
+      operationId: perfOp02_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource02:
+    put:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-02
+      operationId: perfOp02_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource03:
+    delete:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-03
+      operationId: perfOp02_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource04:
+    patch:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-04
+      operationId: perfOp02_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource05:
+    get:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-05
+      operationId: perfOp02_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource06:
+    post:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-06
+      operationId: perfOp02_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource07:
+    put:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-07
+      operationId: perfOp02_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource08:
+    delete:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-08
+      operationId: perfOp02_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource09:
+    patch:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-09
+      operationId: perfOp02_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource10:
+    get:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-10
+      operationId: perfOp02_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource11:
+    post:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-11
+      operationId: perfOp02_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource12:
+    put:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-12
+      operationId: perfOp02_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource13:
+    delete:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-13
+      operationId: perfOp02_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource14:
+    patch:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-14
+      operationId: perfOp02_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource15:
+    get:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-15
+      operationId: perfOp02_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource16:
+    post:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-16
+      operationId: perfOp02_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource17:
+    put:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-17
+      operationId: perfOp02_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource18:
+    delete:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-18
+      operationId: perfOp02_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource19:
+    patch:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-19
+      operationId: perfOp02_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource20:
+    get:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-20
+      operationId: perfOp02_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource21:
+    post:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-21
+      operationId: perfOp02_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag02/resource22:
+    put:
+      tags:
+        - perfTag02
+      summary: Perf operation 02-22
+      operationId: perfOp02_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource01:
+    post:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-01
+      operationId: perfOp03_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource02:
+    put:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-02
+      operationId: perfOp03_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource03:
+    delete:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-03
+      operationId: perfOp03_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource04:
+    patch:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-04
+      operationId: perfOp03_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource05:
+    get:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-05
+      operationId: perfOp03_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource06:
+    post:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-06
+      operationId: perfOp03_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource07:
+    put:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-07
+      operationId: perfOp03_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource08:
+    delete:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-08
+      operationId: perfOp03_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource09:
+    patch:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-09
+      operationId: perfOp03_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource10:
+    get:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-10
+      operationId: perfOp03_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource11:
+    post:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-11
+      operationId: perfOp03_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource12:
+    put:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-12
+      operationId: perfOp03_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource13:
+    delete:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-13
+      operationId: perfOp03_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource14:
+    patch:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-14
+      operationId: perfOp03_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource15:
+    get:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-15
+      operationId: perfOp03_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource16:
+    post:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-16
+      operationId: perfOp03_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource17:
+    put:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-17
+      operationId: perfOp03_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource18:
+    delete:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-18
+      operationId: perfOp03_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource19:
+    patch:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-19
+      operationId: perfOp03_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource20:
+    get:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-20
+      operationId: perfOp03_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource21:
+    post:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-21
+      operationId: perfOp03_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag03/resource22:
+    put:
+      tags:
+        - perfTag03
+      summary: Perf operation 03-22
+      operationId: perfOp03_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource01:
+    post:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-01
+      operationId: perfOp04_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource02:
+    put:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-02
+      operationId: perfOp04_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource03:
+    delete:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-03
+      operationId: perfOp04_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource04:
+    patch:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-04
+      operationId: perfOp04_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource05:
+    get:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-05
+      operationId: perfOp04_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource06:
+    post:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-06
+      operationId: perfOp04_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource07:
+    put:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-07
+      operationId: perfOp04_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource08:
+    delete:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-08
+      operationId: perfOp04_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource09:
+    patch:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-09
+      operationId: perfOp04_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource10:
+    get:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-10
+      operationId: perfOp04_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource11:
+    post:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-11
+      operationId: perfOp04_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource12:
+    put:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-12
+      operationId: perfOp04_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource13:
+    delete:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-13
+      operationId: perfOp04_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource14:
+    patch:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-14
+      operationId: perfOp04_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource15:
+    get:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-15
+      operationId: perfOp04_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource16:
+    post:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-16
+      operationId: perfOp04_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource17:
+    put:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-17
+      operationId: perfOp04_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource18:
+    delete:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-18
+      operationId: perfOp04_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource19:
+    patch:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-19
+      operationId: perfOp04_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource20:
+    get:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-20
+      operationId: perfOp04_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource21:
+    post:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-21
+      operationId: perfOp04_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag04/resource22:
+    put:
+      tags:
+        - perfTag04
+      summary: Perf operation 04-22
+      operationId: perfOp04_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource01:
+    post:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-01
+      operationId: perfOp05_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource02:
+    put:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-02
+      operationId: perfOp05_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource03:
+    delete:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-03
+      operationId: perfOp05_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource04:
+    patch:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-04
+      operationId: perfOp05_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource05:
+    get:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-05
+      operationId: perfOp05_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource06:
+    post:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-06
+      operationId: perfOp05_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource07:
+    put:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-07
+      operationId: perfOp05_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource08:
+    delete:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-08
+      operationId: perfOp05_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource09:
+    patch:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-09
+      operationId: perfOp05_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource10:
+    get:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-10
+      operationId: perfOp05_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource11:
+    post:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-11
+      operationId: perfOp05_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource12:
+    put:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-12
+      operationId: perfOp05_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource13:
+    delete:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-13
+      operationId: perfOp05_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource14:
+    patch:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-14
+      operationId: perfOp05_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource15:
+    get:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-15
+      operationId: perfOp05_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource16:
+    post:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-16
+      operationId: perfOp05_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource17:
+    put:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-17
+      operationId: perfOp05_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource18:
+    delete:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-18
+      operationId: perfOp05_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource19:
+    patch:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-19
+      operationId: perfOp05_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource20:
+    get:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-20
+      operationId: perfOp05_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource21:
+    post:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-21
+      operationId: perfOp05_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag05/resource22:
+    put:
+      tags:
+        - perfTag05
+      summary: Perf operation 05-22
+      operationId: perfOp05_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource01:
+    post:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-01
+      operationId: perfOp06_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource02:
+    put:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-02
+      operationId: perfOp06_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource03:
+    delete:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-03
+      operationId: perfOp06_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource04:
+    patch:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-04
+      operationId: perfOp06_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource05:
+    get:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-05
+      operationId: perfOp06_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource06:
+    post:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-06
+      operationId: perfOp06_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource07:
+    put:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-07
+      operationId: perfOp06_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource08:
+    delete:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-08
+      operationId: perfOp06_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource09:
+    patch:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-09
+      operationId: perfOp06_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource10:
+    get:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-10
+      operationId: perfOp06_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource11:
+    post:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-11
+      operationId: perfOp06_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource12:
+    put:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-12
+      operationId: perfOp06_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource13:
+    delete:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-13
+      operationId: perfOp06_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource14:
+    patch:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-14
+      operationId: perfOp06_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource15:
+    get:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-15
+      operationId: perfOp06_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource16:
+    post:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-16
+      operationId: perfOp06_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource17:
+    put:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-17
+      operationId: perfOp06_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource18:
+    delete:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-18
+      operationId: perfOp06_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource19:
+    patch:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-19
+      operationId: perfOp06_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource20:
+    get:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-20
+      operationId: perfOp06_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource21:
+    post:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-21
+      operationId: perfOp06_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag06/resource22:
+    put:
+      tags:
+        - perfTag06
+      summary: Perf operation 06-22
+      operationId: perfOp06_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource01:
+    post:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-01
+      operationId: perfOp07_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource02:
+    put:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-02
+      operationId: perfOp07_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource03:
+    delete:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-03
+      operationId: perfOp07_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource04:
+    patch:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-04
+      operationId: perfOp07_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource05:
+    get:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-05
+      operationId: perfOp07_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource06:
+    post:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-06
+      operationId: perfOp07_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource07:
+    put:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-07
+      operationId: perfOp07_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource08:
+    delete:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-08
+      operationId: perfOp07_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource09:
+    patch:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-09
+      operationId: perfOp07_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource10:
+    get:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-10
+      operationId: perfOp07_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource11:
+    post:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-11
+      operationId: perfOp07_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource12:
+    put:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-12
+      operationId: perfOp07_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource13:
+    delete:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-13
+      operationId: perfOp07_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource14:
+    patch:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-14
+      operationId: perfOp07_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource15:
+    get:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-15
+      operationId: perfOp07_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource16:
+    post:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-16
+      operationId: perfOp07_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource17:
+    put:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-17
+      operationId: perfOp07_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource18:
+    delete:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-18
+      operationId: perfOp07_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource19:
+    patch:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-19
+      operationId: perfOp07_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource20:
+    get:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-20
+      operationId: perfOp07_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource21:
+    post:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-21
+      operationId: perfOp07_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag07/resource22:
+    put:
+      tags:
+        - perfTag07
+      summary: Perf operation 07-22
+      operationId: perfOp07_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource01:
+    post:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-01
+      operationId: perfOp08_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource02:
+    put:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-02
+      operationId: perfOp08_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource03:
+    delete:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-03
+      operationId: perfOp08_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource04:
+    patch:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-04
+      operationId: perfOp08_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource05:
+    get:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-05
+      operationId: perfOp08_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource06:
+    post:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-06
+      operationId: perfOp08_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource07:
+    put:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-07
+      operationId: perfOp08_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource08:
+    delete:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-08
+      operationId: perfOp08_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource09:
+    patch:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-09
+      operationId: perfOp08_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource10:
+    get:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-10
+      operationId: perfOp08_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource11:
+    post:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-11
+      operationId: perfOp08_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource12:
+    put:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-12
+      operationId: perfOp08_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource13:
+    delete:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-13
+      operationId: perfOp08_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource14:
+    patch:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-14
+      operationId: perfOp08_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource15:
+    get:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-15
+      operationId: perfOp08_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource16:
+    post:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-16
+      operationId: perfOp08_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource17:
+    put:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-17
+      operationId: perfOp08_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource18:
+    delete:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-18
+      operationId: perfOp08_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource19:
+    patch:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-19
+      operationId: perfOp08_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource20:
+    get:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-20
+      operationId: perfOp08_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource21:
+    post:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-21
+      operationId: perfOp08_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag08/resource22:
+    put:
+      tags:
+        - perfTag08
+      summary: Perf operation 08-22
+      operationId: perfOp08_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource01:
+    post:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-01
+      operationId: perfOp09_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource02:
+    put:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-02
+      operationId: perfOp09_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource03:
+    delete:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-03
+      operationId: perfOp09_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource04:
+    patch:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-04
+      operationId: perfOp09_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource05:
+    get:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-05
+      operationId: perfOp09_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource06:
+    post:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-06
+      operationId: perfOp09_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource07:
+    put:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-07
+      operationId: perfOp09_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource08:
+    delete:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-08
+      operationId: perfOp09_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource09:
+    patch:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-09
+      operationId: perfOp09_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource10:
+    get:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-10
+      operationId: perfOp09_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource11:
+    post:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-11
+      operationId: perfOp09_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource12:
+    put:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-12
+      operationId: perfOp09_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource13:
+    delete:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-13
+      operationId: perfOp09_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource14:
+    patch:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-14
+      operationId: perfOp09_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource15:
+    get:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-15
+      operationId: perfOp09_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource16:
+    post:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-16
+      operationId: perfOp09_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource17:
+    put:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-17
+      operationId: perfOp09_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource18:
+    delete:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-18
+      operationId: perfOp09_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource19:
+    patch:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-19
+      operationId: perfOp09_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource20:
+    get:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-20
+      operationId: perfOp09_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource21:
+    post:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-21
+      operationId: perfOp09_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag09/resource22:
+    put:
+      tags:
+        - perfTag09
+      summary: Perf operation 09-22
+      operationId: perfOp09_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource01:
+    post:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-01
+      operationId: perfOp10_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource02:
+    put:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-02
+      operationId: perfOp10_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource03:
+    delete:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-03
+      operationId: perfOp10_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource04:
+    patch:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-04
+      operationId: perfOp10_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource05:
+    get:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-05
+      operationId: perfOp10_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource06:
+    post:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-06
+      operationId: perfOp10_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource07:
+    put:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-07
+      operationId: perfOp10_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource08:
+    delete:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-08
+      operationId: perfOp10_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource09:
+    patch:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-09
+      operationId: perfOp10_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource10:
+    get:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-10
+      operationId: perfOp10_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource11:
+    post:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-11
+      operationId: perfOp10_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource12:
+    put:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-12
+      operationId: perfOp10_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource13:
+    delete:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-13
+      operationId: perfOp10_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource14:
+    patch:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-14
+      operationId: perfOp10_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource15:
+    get:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-15
+      operationId: perfOp10_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource16:
+    post:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-16
+      operationId: perfOp10_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource17:
+    put:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-17
+      operationId: perfOp10_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource18:
+    delete:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-18
+      operationId: perfOp10_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource19:
+    patch:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-19
+      operationId: perfOp10_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource20:
+    get:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-20
+      operationId: perfOp10_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource21:
+    post:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-21
+      operationId: perfOp10_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag10/resource22:
+    put:
+      tags:
+        - perfTag10
+      summary: Perf operation 10-22
+      operationId: perfOp10_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource01:
+    post:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-01
+      operationId: perfOp11_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource02:
+    put:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-02
+      operationId: perfOp11_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource03:
+    delete:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-03
+      operationId: perfOp11_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource04:
+    patch:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-04
+      operationId: perfOp11_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource05:
+    get:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-05
+      operationId: perfOp11_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource06:
+    post:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-06
+      operationId: perfOp11_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource07:
+    put:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-07
+      operationId: perfOp11_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource08:
+    delete:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-08
+      operationId: perfOp11_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource09:
+    patch:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-09
+      operationId: perfOp11_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource10:
+    get:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-10
+      operationId: perfOp11_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource11:
+    post:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-11
+      operationId: perfOp11_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource12:
+    put:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-12
+      operationId: perfOp11_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource13:
+    delete:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-13
+      operationId: perfOp11_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource14:
+    patch:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-14
+      operationId: perfOp11_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource15:
+    get:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-15
+      operationId: perfOp11_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource16:
+    post:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-16
+      operationId: perfOp11_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource17:
+    put:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-17
+      operationId: perfOp11_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource18:
+    delete:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-18
+      operationId: perfOp11_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource19:
+    patch:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-19
+      operationId: perfOp11_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource20:
+    get:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-20
+      operationId: perfOp11_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource21:
+    post:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-21
+      operationId: perfOp11_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag11/resource22:
+    put:
+      tags:
+        - perfTag11
+      summary: Perf operation 11-22
+      operationId: perfOp11_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource01:
+    post:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-01
+      operationId: perfOp12_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource02:
+    put:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-02
+      operationId: perfOp12_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource03:
+    delete:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-03
+      operationId: perfOp12_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource04:
+    patch:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-04
+      operationId: perfOp12_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource05:
+    get:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-05
+      operationId: perfOp12_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource06:
+    post:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-06
+      operationId: perfOp12_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource07:
+    put:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-07
+      operationId: perfOp12_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource08:
+    delete:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-08
+      operationId: perfOp12_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource09:
+    patch:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-09
+      operationId: perfOp12_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource10:
+    get:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-10
+      operationId: perfOp12_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource11:
+    post:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-11
+      operationId: perfOp12_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource12:
+    put:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-12
+      operationId: perfOp12_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource13:
+    delete:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-13
+      operationId: perfOp12_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource14:
+    patch:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-14
+      operationId: perfOp12_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource15:
+    get:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-15
+      operationId: perfOp12_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource16:
+    post:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-16
+      operationId: perfOp12_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource17:
+    put:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-17
+      operationId: perfOp12_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource18:
+    delete:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-18
+      operationId: perfOp12_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource19:
+    patch:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-19
+      operationId: perfOp12_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource20:
+    get:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-20
+      operationId: perfOp12_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource21:
+    post:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-21
+      operationId: perfOp12_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag12/resource22:
+    put:
+      tags:
+        - perfTag12
+      summary: Perf operation 12-22
+      operationId: perfOp12_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource01:
+    post:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-01
+      operationId: perfOp13_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource02:
+    put:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-02
+      operationId: perfOp13_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource03:
+    delete:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-03
+      operationId: perfOp13_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource04:
+    patch:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-04
+      operationId: perfOp13_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource05:
+    get:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-05
+      operationId: perfOp13_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource06:
+    post:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-06
+      operationId: perfOp13_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource07:
+    put:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-07
+      operationId: perfOp13_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource08:
+    delete:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-08
+      operationId: perfOp13_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource09:
+    patch:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-09
+      operationId: perfOp13_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource10:
+    get:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-10
+      operationId: perfOp13_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource11:
+    post:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-11
+      operationId: perfOp13_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource12:
+    put:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-12
+      operationId: perfOp13_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource13:
+    delete:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-13
+      operationId: perfOp13_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource14:
+    patch:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-14
+      operationId: perfOp13_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource15:
+    get:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-15
+      operationId: perfOp13_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource16:
+    post:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-16
+      operationId: perfOp13_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource17:
+    put:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-17
+      operationId: perfOp13_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource18:
+    delete:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-18
+      operationId: perfOp13_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource19:
+    patch:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-19
+      operationId: perfOp13_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource20:
+    get:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-20
+      operationId: perfOp13_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource21:
+    post:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-21
+      operationId: perfOp13_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag13/resource22:
+    put:
+      tags:
+        - perfTag13
+      summary: Perf operation 13-22
+      operationId: perfOp13_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource01:
+    post:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-01
+      operationId: perfOp14_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource02:
+    put:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-02
+      operationId: perfOp14_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource03:
+    delete:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-03
+      operationId: perfOp14_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource04:
+    patch:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-04
+      operationId: perfOp14_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource05:
+    get:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-05
+      operationId: perfOp14_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource06:
+    post:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-06
+      operationId: perfOp14_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource07:
+    put:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-07
+      operationId: perfOp14_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource08:
+    delete:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-08
+      operationId: perfOp14_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource09:
+    patch:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-09
+      operationId: perfOp14_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource10:
+    get:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-10
+      operationId: perfOp14_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource11:
+    post:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-11
+      operationId: perfOp14_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource12:
+    put:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-12
+      operationId: perfOp14_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource13:
+    delete:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-13
+      operationId: perfOp14_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource14:
+    patch:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-14
+      operationId: perfOp14_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource15:
+    get:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-15
+      operationId: perfOp14_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource16:
+    post:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-16
+      operationId: perfOp14_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource17:
+    put:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-17
+      operationId: perfOp14_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource18:
+    delete:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-18
+      operationId: perfOp14_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource19:
+    patch:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-19
+      operationId: perfOp14_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource20:
+    get:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-20
+      operationId: perfOp14_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource21:
+    post:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-21
+      operationId: perfOp14_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag14/resource22:
+    put:
+      tags:
+        - perfTag14
+      summary: Perf operation 14-22
+      operationId: perfOp14_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource01:
+    post:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-01
+      operationId: perfOp15_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource02:
+    put:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-02
+      operationId: perfOp15_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource03:
+    delete:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-03
+      operationId: perfOp15_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource04:
+    patch:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-04
+      operationId: perfOp15_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource05:
+    get:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-05
+      operationId: perfOp15_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource06:
+    post:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-06
+      operationId: perfOp15_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource07:
+    put:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-07
+      operationId: perfOp15_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource08:
+    delete:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-08
+      operationId: perfOp15_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource09:
+    patch:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-09
+      operationId: perfOp15_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource10:
+    get:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-10
+      operationId: perfOp15_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource11:
+    post:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-11
+      operationId: perfOp15_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource12:
+    put:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-12
+      operationId: perfOp15_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource13:
+    delete:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-13
+      operationId: perfOp15_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource14:
+    patch:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-14
+      operationId: perfOp15_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource15:
+    get:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-15
+      operationId: perfOp15_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource16:
+    post:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-16
+      operationId: perfOp15_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource17:
+    put:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-17
+      operationId: perfOp15_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource18:
+    delete:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-18
+      operationId: perfOp15_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource19:
+    patch:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-19
+      operationId: perfOp15_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource20:
+    get:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-20
+      operationId: perfOp15_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource21:
+    post:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-21
+      operationId: perfOp15_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag15/resource22:
+    put:
+      tags:
+        - perfTag15
+      summary: Perf operation 15-22
+      operationId: perfOp15_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource01:
+    post:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-01
+      operationId: perfOp16_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource02:
+    put:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-02
+      operationId: perfOp16_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource03:
+    delete:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-03
+      operationId: perfOp16_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource04:
+    patch:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-04
+      operationId: perfOp16_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource05:
+    get:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-05
+      operationId: perfOp16_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource06:
+    post:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-06
+      operationId: perfOp16_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource07:
+    put:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-07
+      operationId: perfOp16_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource08:
+    delete:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-08
+      operationId: perfOp16_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource09:
+    patch:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-09
+      operationId: perfOp16_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource10:
+    get:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-10
+      operationId: perfOp16_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource11:
+    post:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-11
+      operationId: perfOp16_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource12:
+    put:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-12
+      operationId: perfOp16_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource13:
+    delete:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-13
+      operationId: perfOp16_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource14:
+    patch:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-14
+      operationId: perfOp16_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource15:
+    get:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-15
+      operationId: perfOp16_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource16:
+    post:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-16
+      operationId: perfOp16_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource17:
+    put:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-17
+      operationId: perfOp16_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource18:
+    delete:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-18
+      operationId: perfOp16_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource19:
+    patch:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-19
+      operationId: perfOp16_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource20:
+    get:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-20
+      operationId: perfOp16_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource21:
+    post:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-21
+      operationId: perfOp16_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag16/resource22:
+    put:
+      tags:
+        - perfTag16
+      summary: Perf operation 16-22
+      operationId: perfOp16_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource01:
+    post:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-01
+      operationId: perfOp17_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource02:
+    put:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-02
+      operationId: perfOp17_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource03:
+    delete:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-03
+      operationId: perfOp17_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource04:
+    patch:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-04
+      operationId: perfOp17_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource05:
+    get:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-05
+      operationId: perfOp17_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource06:
+    post:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-06
+      operationId: perfOp17_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource07:
+    put:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-07
+      operationId: perfOp17_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource08:
+    delete:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-08
+      operationId: perfOp17_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource09:
+    patch:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-09
+      operationId: perfOp17_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource10:
+    get:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-10
+      operationId: perfOp17_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource11:
+    post:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-11
+      operationId: perfOp17_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource12:
+    put:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-12
+      operationId: perfOp17_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource13:
+    delete:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-13
+      operationId: perfOp17_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource14:
+    patch:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-14
+      operationId: perfOp17_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource15:
+    get:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-15
+      operationId: perfOp17_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource16:
+    post:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-16
+      operationId: perfOp17_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource17:
+    put:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-17
+      operationId: perfOp17_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource18:
+    delete:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-18
+      operationId: perfOp17_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource19:
+    patch:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-19
+      operationId: perfOp17_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource20:
+    get:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-20
+      operationId: perfOp17_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource21:
+    post:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-21
+      operationId: perfOp17_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag17/resource22:
+    put:
+      tags:
+        - perfTag17
+      summary: Perf operation 17-22
+      operationId: perfOp17_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource01:
+    post:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-01
+      operationId: perfOp18_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource02:
+    put:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-02
+      operationId: perfOp18_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource03:
+    delete:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-03
+      operationId: perfOp18_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource04:
+    patch:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-04
+      operationId: perfOp18_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource05:
+    get:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-05
+      operationId: perfOp18_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource06:
+    post:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-06
+      operationId: perfOp18_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource07:
+    put:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-07
+      operationId: perfOp18_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource08:
+    delete:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-08
+      operationId: perfOp18_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource09:
+    patch:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-09
+      operationId: perfOp18_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource10:
+    get:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-10
+      operationId: perfOp18_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource11:
+    post:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-11
+      operationId: perfOp18_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource12:
+    put:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-12
+      operationId: perfOp18_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource13:
+    delete:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-13
+      operationId: perfOp18_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource14:
+    patch:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-14
+      operationId: perfOp18_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource15:
+    get:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-15
+      operationId: perfOp18_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource16:
+    post:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-16
+      operationId: perfOp18_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource17:
+    put:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-17
+      operationId: perfOp18_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource18:
+    delete:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-18
+      operationId: perfOp18_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource19:
+    patch:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-19
+      operationId: perfOp18_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource20:
+    get:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-20
+      operationId: perfOp18_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource21:
+    post:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-21
+      operationId: perfOp18_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag18/resource22:
+    put:
+      tags:
+        - perfTag18
+      summary: Perf operation 18-22
+      operationId: perfOp18_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource01:
+    post:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-01
+      operationId: perfOp19_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource02:
+    put:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-02
+      operationId: perfOp19_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource03:
+    delete:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-03
+      operationId: perfOp19_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource04:
+    patch:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-04
+      operationId: perfOp19_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource05:
+    get:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-05
+      operationId: perfOp19_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource06:
+    post:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-06
+      operationId: perfOp19_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource07:
+    put:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-07
+      operationId: perfOp19_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource08:
+    delete:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-08
+      operationId: perfOp19_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource09:
+    patch:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-09
+      operationId: perfOp19_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource10:
+    get:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-10
+      operationId: perfOp19_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource11:
+    post:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-11
+      operationId: perfOp19_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource12:
+    put:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-12
+      operationId: perfOp19_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource13:
+    delete:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-13
+      operationId: perfOp19_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource14:
+    patch:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-14
+      operationId: perfOp19_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource15:
+    get:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-15
+      operationId: perfOp19_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource16:
+    post:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-16
+      operationId: perfOp19_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource17:
+    put:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-17
+      operationId: perfOp19_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource18:
+    delete:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-18
+      operationId: perfOp19_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource19:
+    patch:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-19
+      operationId: perfOp19_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource20:
+    get:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-20
+      operationId: perfOp19_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource21:
+    post:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-21
+      operationId: perfOp19_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag19/resource22:
+    put:
+      tags:
+        - perfTag19
+      summary: Perf operation 19-22
+      operationId: perfOp19_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource01:
+    post:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-01
+      operationId: perfOp20_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource02:
+    put:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-02
+      operationId: perfOp20_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource03:
+    delete:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-03
+      operationId: perfOp20_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource04:
+    patch:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-04
+      operationId: perfOp20_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource05:
+    get:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-05
+      operationId: perfOp20_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource06:
+    post:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-06
+      operationId: perfOp20_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource07:
+    put:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-07
+      operationId: perfOp20_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource08:
+    delete:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-08
+      operationId: perfOp20_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource09:
+    patch:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-09
+      operationId: perfOp20_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource10:
+    get:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-10
+      operationId: perfOp20_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource11:
+    post:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-11
+      operationId: perfOp20_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource12:
+    put:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-12
+      operationId: perfOp20_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource13:
+    delete:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-13
+      operationId: perfOp20_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource14:
+    patch:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-14
+      operationId: perfOp20_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource15:
+    get:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-15
+      operationId: perfOp20_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource16:
+    post:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-16
+      operationId: perfOp20_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource17:
+    put:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-17
+      operationId: perfOp20_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource18:
+    delete:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-18
+      operationId: perfOp20_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource19:
+    patch:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-19
+      operationId: perfOp20_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource20:
+    get:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-20
+      operationId: perfOp20_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource21:
+    post:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-21
+      operationId: perfOp20_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag20/resource22:
+    put:
+      tags:
+        - perfTag20
+      summary: Perf operation 20-22
+      operationId: perfOp20_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource01:
+    post:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-01
+      operationId: perfOp21_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource02:
+    put:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-02
+      operationId: perfOp21_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource03:
+    delete:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-03
+      operationId: perfOp21_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource04:
+    patch:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-04
+      operationId: perfOp21_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource05:
+    get:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-05
+      operationId: perfOp21_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource06:
+    post:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-06
+      operationId: perfOp21_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource07:
+    put:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-07
+      operationId: perfOp21_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource08:
+    delete:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-08
+      operationId: perfOp21_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource09:
+    patch:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-09
+      operationId: perfOp21_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource10:
+    get:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-10
+      operationId: perfOp21_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource11:
+    post:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-11
+      operationId: perfOp21_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource12:
+    put:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-12
+      operationId: perfOp21_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource13:
+    delete:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-13
+      operationId: perfOp21_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource14:
+    patch:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-14
+      operationId: perfOp21_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource15:
+    get:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-15
+      operationId: perfOp21_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource16:
+    post:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-16
+      operationId: perfOp21_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource17:
+    put:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-17
+      operationId: perfOp21_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource18:
+    delete:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-18
+      operationId: perfOp21_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource19:
+    patch:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-19
+      operationId: perfOp21_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource20:
+    get:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-20
+      operationId: perfOp21_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource21:
+    post:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-21
+      operationId: perfOp21_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag21/resource22:
+    put:
+      tags:
+        - perfTag21
+      summary: Perf operation 21-22
+      operationId: perfOp21_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource01:
+    post:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-01
+      operationId: perfOp22_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource02:
+    put:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-02
+      operationId: perfOp22_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource03:
+    delete:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-03
+      operationId: perfOp22_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource04:
+    patch:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-04
+      operationId: perfOp22_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource05:
+    get:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-05
+      operationId: perfOp22_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource06:
+    post:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-06
+      operationId: perfOp22_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource07:
+    put:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-07
+      operationId: perfOp22_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource08:
+    delete:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-08
+      operationId: perfOp22_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource09:
+    patch:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-09
+      operationId: perfOp22_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource10:
+    get:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-10
+      operationId: perfOp22_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource11:
+    post:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-11
+      operationId: perfOp22_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource12:
+    put:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-12
+      operationId: perfOp22_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource13:
+    delete:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-13
+      operationId: perfOp22_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource14:
+    patch:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-14
+      operationId: perfOp22_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource15:
+    get:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-15
+      operationId: perfOp22_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource16:
+    post:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-16
+      operationId: perfOp22_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource17:
+    put:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-17
+      operationId: perfOp22_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource18:
+    delete:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-18
+      operationId: perfOp22_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource19:
+    patch:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-19
+      operationId: perfOp22_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource20:
+    get:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-20
+      operationId: perfOp22_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource21:
+    post:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-21
+      operationId: perfOp22_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag22/resource22:
+    put:
+      tags:
+        - perfTag22
+      summary: Perf operation 22-22
+      operationId: perfOp22_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource01:
+    post:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-01
+      operationId: perfOp23_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource02:
+    put:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-02
+      operationId: perfOp23_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource03:
+    delete:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-03
+      operationId: perfOp23_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource04:
+    patch:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-04
+      operationId: perfOp23_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource05:
+    get:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-05
+      operationId: perfOp23_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource06:
+    post:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-06
+      operationId: perfOp23_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource07:
+    put:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-07
+      operationId: perfOp23_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource08:
+    delete:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-08
+      operationId: perfOp23_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource09:
+    patch:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-09
+      operationId: perfOp23_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource10:
+    get:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-10
+      operationId: perfOp23_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource11:
+    post:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-11
+      operationId: perfOp23_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource12:
+    put:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-12
+      operationId: perfOp23_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource13:
+    delete:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-13
+      operationId: perfOp23_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource14:
+    patch:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-14
+      operationId: perfOp23_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource15:
+    get:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-15
+      operationId: perfOp23_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource16:
+    post:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-16
+      operationId: perfOp23_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource17:
+    put:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-17
+      operationId: perfOp23_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource18:
+    delete:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-18
+      operationId: perfOp23_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource19:
+    patch:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-19
+      operationId: perfOp23_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource20:
+    get:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-20
+      operationId: perfOp23_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource21:
+    post:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-21
+      operationId: perfOp23_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag23/resource22:
+    put:
+      tags:
+        - perfTag23
+      summary: Perf operation 23-22
+      operationId: perfOp23_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource01:
+    post:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-01
+      operationId: perfOp24_01
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource02:
+    put:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-02
+      operationId: perfOp24_02
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource03:
+    delete:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-03
+      operationId: perfOp24_03
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource04:
+    patch:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-04
+      operationId: perfOp24_04
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource05:
+    get:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-05
+      operationId: perfOp24_05
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource06:
+    post:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-06
+      operationId: perfOp24_06
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource07:
+    put:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-07
+      operationId: perfOp24_07
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource08:
+    delete:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-08
+      operationId: perfOp24_08
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource09:
+    patch:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-09
+      operationId: perfOp24_09
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource10:
+    get:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-10
+      operationId: perfOp24_10
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource11:
+    post:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-11
+      operationId: perfOp24_11
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource12:
+    put:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-12
+      operationId: perfOp24_12
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource13:
+    delete:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-13
+      operationId: perfOp24_13
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource14:
+    patch:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-14
+      operationId: perfOp24_14
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource15:
+    get:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-15
+      operationId: perfOp24_15
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource16:
+    post:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-16
+      operationId: perfOp24_16
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource17:
+    put:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-17
+      operationId: perfOp24_17
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource18:
+    delete:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-18
+      operationId: perfOp24_18
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource19:
+    patch:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-19
+      operationId: perfOp24_19
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource20:
+    get:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-20
+      operationId: perfOp24_20
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource21:
+    post:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-21
+      operationId: perfOp24_21
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/tag24/resource22:
+    put:
+      tags:
+        - perfTag24
+      summary: Perf operation 24-22
+      operationId: perfOp24_22
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+  /perf/multi-tagged:
+    get:
+      tags:
+        - perfTag01
+        - perfTag02
+      summary: Declares two tags; renders under BOTH (duplicate-key case)
+      operationId: multiTagged
+      responses:
+        "200":
+          description: ok
