@@ -21,7 +21,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@2736533278103862a861f4a35ebac3e97854d956
         with:
-          image-ref: 'docker.swagger.io/swaggerapi/swagger-ui:unstable'
+          image-ref: 'swaggerapi/swagger-ui:unstable'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
