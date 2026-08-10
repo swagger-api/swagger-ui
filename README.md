@@ -89,10 +89,17 @@ Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false`
 
 ##### Integration Tests
 
-You will need JDK of version 7 or higher as instructed here
-https://nightwatchjs.org/guide/getting-started/installation.html#install-selenium-server
+End-to-end tests use [Cypress](https://www.cypress.io/). Run the full suite locally with `npm run cy:ci`, which starts the required servers, runs Cypress headless, and shuts the servers down afterwards - be sure you aren't running a dev server on the same ports when testing!
 
-Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
+To debug or run individual specs interactively, use `npm run cy:dev` to open the Cypress runner.
+
+To run a single spec headless, start the servers in one terminal and run that spec in another:
+
+```sh
+npm run cy:start
+# in a second terminal:
+npm run cy:run -- --spec "test/e2e-cypress/e2e/features/deep-linking.cy.js"
+```
 
 ### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, and Edge.
