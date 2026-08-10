@@ -1,7 +1,6 @@
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
-[![Build Status](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/badge/icon?subject=jenkins%20build)](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/)
 [![npm audit](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-ui-security-audit&subject=npm%20audit)](https://jenkins.swagger.io/job/oss-swagger-ui-security-audit/lastBuild/console)
 [![total GitHub contributors](https://img.shields.io/github/contributors-anon/swagger-api/swagger-ui.svg)](https://github.com/swagger-api/swagger-ui/graphs/contributors)
 
@@ -120,6 +119,6 @@ Please disclose any security-related issues or vulnerabilities by emailing [secu
 
 ## License
 
-SwaggerUI is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ui/blob/master/LICENSE).
-SwaggerUI comes with an explicit [NOTICE](https://github.com/swagger-api/swagger-ui/blob/master/NOTICE) file
+SwaggerUI is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ui/blob/main/LICENSE).
+SwaggerUI comes with an explicit [NOTICE](https://github.com/swagger-api/swagger-ui/blob/main/NOTICE) file
 containing additional legal notices and information.
