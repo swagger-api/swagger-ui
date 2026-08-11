@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react"
+import React, { useRef, useEffect, useState, useCallback } from "react"
 import classNames from "classnames"
 import PropTypes from "prop-types"
 import { CopyToClipboard } from "react-copy-to-clipboard"
@@ -42,6 +42,14 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
 
   const [activeLanguage, setActiveLanguage] = useState(requestSnippetsSelectors.getSnippetGenerators()?.keySeq().first())
   const [isExpanded, setIsExpanded] = useState(requestSnippetsSelectors?.getDefaultExpanded())
+  const [copied, setCopied] = useState(false)
+  const copyTimerRef = useRef(null)
+
+  const handleCopy = useCallback(() => {
+    setCopied(true)
+    if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+    copyTimerRef.current = setTimeout(() => setCopied(false), 1500)
+  }, [])
 
   const snippetGenerators = requestSnippetsSelectors.getSnippetGenerators()
   const activeGenerator = snippetGenerators.get(activeLanguage)
@@ -132,9 +140,10 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
             }
           </div>
           <div className="copy-to-clipboard">
-            <CopyToClipboard text={snippet}>
+            <CopyToClipboard text={snippet} onCopy={handleCopy}>
               <button />
             </CopyToClipboard>
+            {copied && <span className="copy-to-clipboard__toast">Copied!</span>}
           </div>
           <div>
             <SyntaxHighlighter
