@@ -5,9 +5,6 @@
 const path = require("path")
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const {
-  HtmlWebpackSkipAssetsPlugin,
-} = require("html-webpack-skip-assets-plugin")
 
 const configBuilder = require("./_config-builder")
 const styleConfig = require("./stylesheets")
@@ -103,9 +100,7 @@ const devConfig = configBuilder(
       isDevelopment && new ReactRefreshWebpackPlugin({ library: "[name]" }),
       new HtmlWebpackPlugin({
         template: path.join(projectBasePath, "dev-helpers", "index.html"),
-      }),
-      new HtmlWebpackSkipAssetsPlugin({
-        skipAssets: [/swagger-ui\.js/],
+        excludeChunks: ["swagger-ui"],
       }),
     ].filter(Boolean),
 

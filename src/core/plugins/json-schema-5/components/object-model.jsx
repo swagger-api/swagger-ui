@@ -100,7 +100,7 @@ export default class ObjectModel extends Component {
     const not = specSelectors.isOAS3() ? schema.get("not") : null
 
     const titleEl = title && (
-      <span className="model-title">
+      <strong className="model-title">
         {isRef && schema.get("$$ref") && (
           <span
             className={classNames("model-hint", {
@@ -111,7 +111,7 @@ export default class ObjectModel extends Component {
           </span>
         )}
         <span className="model-title__text">{title}</span>
-      </span>
+      </strong>
     )
 
     return (

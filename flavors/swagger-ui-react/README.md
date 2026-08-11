@@ -47,7 +47,7 @@ export default App = () => <SwaggerUI url="https://petstore.swagger.io/v2/swagge
 
 ## Props
 
-These props map to [Swagger UI configuration options](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md) of the same name.
+These props map to [Swagger UI configuration options](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/configuration.md) of the same name.
 
 #### `spec`: PropTypes.object
 
@@ -116,7 +116,7 @@ Controls the display of operationId in operations list. The default is false.
 
 #### `plugins`: PropTypes.arrayOf(PropTypes.object),
 
-An array of objects that augment and modify Swagger UI's functionality. See Swagger UI's [Plugin API](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plugin-api.md) for more details.
+An array of objects that augment and modify Swagger UI's functionality. See Swagger UI's [Plugin API](https://github.com/swagger-api/swagger-ui/blob/main/docs/customization/plugin-api.md) for more details.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
@@ -146,7 +146,7 @@ If set to `true`, uses the mutated request returned from a requestInterceptor to
 
 #### `presets`: PropTypes.arrayOf(PropTypes.func),
 
-An array of functions that augment and modify Swagger UI's functionality. See Swagger UI's [Plugin API](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plugin-api.md) for more details.
+An array of functions that augment and modify Swagger UI's functionality. See Swagger UI's [Plugin API](https://github.com/swagger-api/swagger-ui/blob/main/docs/customization/plugin-api.md) for more details.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
@@ -162,7 +162,7 @@ Controls the display of the request duration (in milliseconds) for "Try it out" 
 
 #### `filter`: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 
-If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag. See Swagger UI's [Plug Points](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plug-points.md#fnopsfilter) to customize the filtering behavior.
+If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag. See Swagger UI's [Plug Points](https://github.com/swagger-api/swagger-ui/blob/main/docs/customization/plug-points.md#fnopsfilter) to customize the filtering behavior.
 
 #### `requestSnippetsEnabled`: PropTypes.bool,
 
@@ -172,7 +172,7 @@ Enables the request snippet section. When disabled, the legacy curl snippet will
 
 #### `requestSnippets`: PropTypes.object,
 
-Configures the request snippet core plugin. See Swagger UI's [Display Configuration](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md#display) for more details.
+Configures the request snippet core plugin. See Swagger UI's [Display Configuration](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/configuration.md#display) for more details.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
