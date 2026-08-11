@@ -133,7 +133,7 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
           </div>
           <div className="copy-to-clipboard">
             <CopyToClipboard text={snippet}>
-              <button />
+              <button aria-label="Copy code snippet to clipboard" />
             </CopyToClipboard>
           </div>
           <div>
