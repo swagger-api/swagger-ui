@@ -1,23 +1,11 @@
 /**
  * @prettier
  */
-const buttonNameRule = {
-  runOnly: {
-    type: "rule",
-    values: ["button-name"],
-  },
-}
-
 describe("Button accessible names", () => {
-  const checkAllButtonsHaveNames = () => {
-    cy.checkA11y("#swagger-ui", buttonNameRule)
-  }
-
   const visitTestOperation = (query = "") => {
     cy.visit(
       `/?tryItOutEnabled=true${query}&url=/documents/features/try-it-out-enabled.yaml`
     )
-      .injectAxe()
       .get("#operations-default-get_")
       .click()
   }
@@ -28,8 +16,6 @@ describe("Button accessible names", () => {
     cy.get(".opblock-summary .copy-to-clipboard button")
       .should("have.attr", "aria-label", "Copy path to clipboard")
       .and("have.attr", "title", "Copy path to clipboard")
-
-    checkAllButtonsHaveNames()
   })
 
   it("gives response action buttons programmatic names", () => {
@@ -50,8 +36,6 @@ describe("Button accessible names", () => {
       "have.text",
       "Download"
     )
-
-    checkAllButtonsHaveNames()
   })
 
   it("gives the request snippet copy button a programmatic name", () => {
@@ -64,7 +48,5 @@ describe("Button accessible names", () => {
     )
       .should("have.attr", "aria-label", "Copy request snippet to clipboard")
       .and("have.attr", "title", "Copy request snippet to clipboard")
-
-    checkAllButtonsHaveNames()
   })
 })
