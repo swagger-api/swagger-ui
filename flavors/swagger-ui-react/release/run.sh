@@ -36,7 +36,7 @@ cp ../../../NOTICE ../dist
 cd ../dist
 
 if [ "$PUBLISH_FLAVOR_REACT" = "true" ] ; then
-  npm publish .
+  npm publish . --provenance
 else
   npm pack .
 fi
