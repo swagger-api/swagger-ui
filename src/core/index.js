@@ -6,6 +6,7 @@ import System from "./system"
 import BasePreset from "./presets/base"
 import ApisPreset from "./presets/apis"
 // plugins
+import AccessibilityPlugin from "./plugins/accessibility"
 import AuthPlugin from "./plugins/auth/"
 import ConfigsPlugin from "./plugins/configs"
 import DeepLinkingPlugin from "./plugins/deep-linking"
@@ -144,6 +145,7 @@ SwaggerUI.presets = {
 }
 
 SwaggerUI.plugins = {
+  Accessibility: AccessibilityPlugin,
   Auth: AuthPlugin,
   Configs: ConfigsPlugin,
   DeepLining: DeepLinkingPlugin,
