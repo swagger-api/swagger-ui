@@ -1,6 +1,6 @@
 /**
  * @prettier
  */
-const int64Generator = () => 2 ** 53 - 1
+const int64Generator = () => 0
 
 export default int64Generator

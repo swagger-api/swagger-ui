@@ -11,7 +11,7 @@ table {
     tbody {
       tr {
         td {
-          padding: 0;
+          padding: 0 0 0 1em;
 
           vertical-align: top;
 
@@ -90,9 +90,9 @@ table {
     border-width: 1px;
   }
 
-  .markdown,
-  .renderedMarkdown {
-    p {
+  .markdown:first-child,
+  .renderedMarkdown:first-child {
+    p:first-child {
       margin: 0;
     }
   }
@@ -170,8 +170,11 @@ table {
 
   .markdown,
   .renderedMarkdown {
-    p {
+    p:first-child {
       margin: 0;
+    }
+    p:last-child {
+      margin-bottom: 0;
     }
   }
 }

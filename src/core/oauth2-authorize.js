@@ -109,7 +109,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   } else {
     sanitizedAuthorizationUrl = sanitizeUrl(authorizationUrl)
   }
-  let url = [sanitizedAuthorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
+  let url = [sanitizedAuthorizationUrl, query.join("&")].join(
+    typeof authorizationUrl === "string" && !authorizationUrl.includes("?")
+      ? "?"
+      : "&"
+  )
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2

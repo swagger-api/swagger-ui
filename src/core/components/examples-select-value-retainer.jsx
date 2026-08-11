@@ -104,7 +104,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
   _setStateForNamespace = (namespace, obj) => {
     const oldStateForNamespace = this.state[namespace] || Map()
-    const newStateForNamespace = oldStateForNamespace.mergeDeep(obj)
+    const newStateForNamespace = oldStateForNamespace.merge(obj)
     return this.setState({
       [namespace]: newStateForNamespace,
     })
@@ -187,10 +187,11 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
     const examplesMatchingNewValue = examples.filter(
       (example) =>
-        example.get("value") === newValue ||
-        // sometimes data is stored as a string (e.g. in Request Bodies), so
-        // let's check against a stringified version of our example too
-        stringify(example.get("value")) === newValue
+        Map.isMap(example) &&
+        (example.get("value") === newValue ||
+          // sometimes data is stored as a string (e.g. in Request Bodies), so
+          // let's check against a stringified version of our example too
+          stringify(example.get("value")) === newValue)
     )
 
     if (examplesMatchingNewValue.size) {

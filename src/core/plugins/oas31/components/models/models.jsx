@@ -30,7 +30,12 @@ const Models = ({
    * Effects.
    */
   useEffect(() => {
-    const isOpenAndExpanded = isOpen && defaultModelsExpandDepth > 1
+    const includesExpandedSchema = Object.entries(schemas).some(
+      ([schemaName]) =>
+        layoutSelectors.isShown([...schemasPath, schemaName], false)
+    )
+    const isOpenAndExpanded =
+      isOpen && (defaultModelsExpandDepth > 1 || includesExpandedSchema)
     const isResolved = specSelectors.specResolvedSubtree(schemasPath) != null
     if (isOpenAndExpanded && !isResolved) {
       specActions.requestResolvedSubtree(schemasPath)
@@ -55,12 +60,15 @@ const Models = ({
     }
   }
   const handleJSONSchema202012Expand = (schemaName) => (e, expanded) => {
+    const schemaPath = [...schemasPath, schemaName]
     if (expanded) {
-      const schemaPath = [...schemasPath, schemaName]
       const isResolved = specSelectors.specResolvedSubtree(schemaPath) != null
       if (!isResolved) {
         specActions.requestResolvedSubtree([...schemasPath, schemaName])
       }
+      layoutActions.show(schemaPath, true)
+    } else {
+      layoutActions.show(schemaPath, false)
     }
   }
 

@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Im from "immutable"
 
 export default class Operations extends React.Component {
 
@@ -31,7 +30,7 @@ export default class Operations extends React.Component {
 
     return (
       <div>
-        { taggedOps.map(this.renderOperationTag).toArray() }
+        { taggedOps.map(this.renderOperationTag).valueSeq().toArray() }
         { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
       </div>
     )
@@ -66,7 +65,7 @@ export default class Operations extends React.Component {
             operations.map(op => {
               const path = op.get("path")
               const method = op.get("method")
-              const specPath = Im.List(["paths", path, method])
+              const specPath = op.get("specPath")
 
               if (validOperationMethods.indexOf(method) === -1) {
                 return null

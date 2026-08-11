@@ -5,7 +5,7 @@ describe("#5188: non-string operation summary value", () => {
       .get("#operations-default-objectSummary")
       .click()
       .get(".opblock-summary-description")
-      .contains("[object Object]")
+      .contains("OrderedMap { \"whatever\": 123 }")
   })
   it("should gracefully handle a missing value for an operation summary", () => {
     cy

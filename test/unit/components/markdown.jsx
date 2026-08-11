@@ -9,7 +9,7 @@ describe("Markdown component", function () {
       const getConfigs = () => ({ useUnsafeMarkdown: true })
       const str = `<span class="method" style="border-width: 1px" data-attr="value">ONE</span>`
       const el = render(<Markdown source={str} getConfigs={getConfigs} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><span data-attr="value" style="border-width: 1px" class="method">ONE</span></p>\n</div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><span class="method" style="border-width: 1px" data-attr="value">ONE</span></p>\n</div>`)
     })
 
     it("strips class, style and data-* attribs from elements", function () {
@@ -28,13 +28,13 @@ describe("Markdown component", function () {
     it("allows image elements", function () {
       const str = `![Image alt text](http://image.source "Image title")`
       const el = render(<Markdown source={str} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><img title="Image title" alt="Image alt text" src="http://image.source"></p>\n</div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><img src="http://image.source" alt="Image alt text" title="Image title"></p>\n</div>`)
     })
 
     it("allows image elements with https scheme", function () {
       const str = `![Image alt text](https://image.source "Image title")`
       const el = render(<Markdown source={str} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><img title="Image title" alt="Image alt text" src="https://image.source"></p>\n</div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><img src="https://image.source" alt="Image alt text" title="Image title"></p>\n</div>`)
     })
 
     it("allows image elements with data scheme", function () {
@@ -58,7 +58,7 @@ describe("Markdown component", function () {
     it("allows links", function () {
       const str = `[Link](https://example.com/)`
       const el = render(<Markdown source={str} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><a rel="noopener noreferrer" target="_blank" href="https://example.com/">Link</a></p>\n</div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="markdown"><p><a href="https://example.com/" target="_blank" rel="noopener noreferrer">Link</a></p>\n</div>`)
     })
   })
 
@@ -67,7 +67,7 @@ describe("Markdown component", function () {
       const getConfigs = () => ({ useUnsafeMarkdown: true })
       const str = `<span class="method" style="border-width: 1px" data-attr="value">ONE</span>`
       const el = render(<OAS3Markdown source={str} getConfigs={getConfigs} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p><span data-attr="value" style="border-width: 1px" class="method">ONE</span></p></div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p><span class="method" style="border-width: 1px" data-attr="value">ONE</span></p></div>`)
     })
 
     it("strips class, style and data-* attribs from elements", function () {
@@ -80,13 +80,13 @@ describe("Markdown component", function () {
     it("allows image elements", function () {
       const str = `![Image alt text](http://image.source "Image title")`
       const el = render(<OAS3Markdown source={str} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p><img title="Image title" alt="Image alt text" src="http://image.source"></p></div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p><img src="http://image.source" alt="Image alt text" title="Image title"></p></div>`)
     })
 
     it("allows image elements with https scheme", function () {
       const str = `![Image alt text](https://image.source "Image title")`
       const el = render(<OAS3Markdown source={str} />)
-      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p><img title="Image title" alt="Image alt text" src="https://image.source"></p></div>`)
+      expect(el.prop("outerHTML")).toEqual(`<div class="renderedMarkdown"><p><img src="https://image.source" alt="Image alt text" title="Image title"></p></div>`)
     })
 
     it("allows image elements with data scheme", function () {

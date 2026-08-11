@@ -1,0 +1,52 @@
+name: Build & Push SwaggerUI unstable Docker image
+
+on:
+  workflow_run:
+    workflows: ["Node.js CI"]
+    types:
+      - completed
+    branches: [main]
+
+jobs:
+
+  build-push-unstable:
+    if: github.event.workflow_run.conclusion == 'success'
+    name: Build & Push SwaggerUI unstable Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Use Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build SwaggerUI
+        run: npm run build
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@288220e341e5c445ddb6d73e19a57a9012ceca88
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@5b9cf3909b54a280b6df6eee035755eb1f2fd611
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
+        with:
+          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
+
+      - name: Build docker image and push
+        uses: docker/build-push-action@b9769986761dfcf8828a58eadbd440d1738476f9
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm/v6,linux/arm64,linux/386,linux/ppc64le
+          provenance: false
+          tags: swaggerapi/swagger-ui:unstable
