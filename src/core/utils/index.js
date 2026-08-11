@@ -42,7 +42,7 @@ export function arrayify (thing) {
     return []
 
   if(thing.toArray)
-    return thing.toArray()
+    return Im.isKeyed(thing) ? thing.valueSeq().toArray() : thing.toArray()
 
   return normalizeArray(thing)
 }
