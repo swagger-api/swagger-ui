@@ -1,6 +1,6 @@
 {
   "branches": [
-    {"name": "master"}
+    {"name": "main"}
   ],
   "tagFormat": "v${version}",
   "plugins": [

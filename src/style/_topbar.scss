@@ -123,4 +123,21 @@
       opacity: 1;
     }
   }
+
+  // Render topbar icons in HCM system colors regardless of author fill cascade.
+  @media (forced-colors: active) {
+    a svg [class$="cls-2"] {
+      forced-color-adjust: none;
+      fill: CanvasText;
+    }
+
+    .dark-mode-toggle {
+      opacity: 1;
+
+      button svg {
+        forced-color-adjust: none;
+        fill: ButtonText;
+      }
+    }
+  }
 }
