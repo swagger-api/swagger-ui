@@ -1,18 +1,23 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Im from "immutable"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 const propClass = "header-example"
 
 export default class Headers extends React.Component {
   static propTypes = {
     headers: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    t: PropTypes.func,
+  }
+
+  static defaultProps = {
+    t: fallbackT,
   }
 
   render() {
-    let { headers, getComponent } = this.props
-
+    let { headers, getComponent, t } = this.props
     const Property = getComponent("Property")
     const Markdown = getComponent("Markdown", true)
 
@@ -21,13 +26,13 @@ export default class Headers extends React.Component {
 
       return (
       <div className="headers-wrapper">
-        <h4 className="headers__title">Headers:</h4>
+        <h4 className="headers__title">{t("label.headers")}</h4>
         <table className="headers">
           <thead>
             <tr className="header-row">
-              <th className="header-col">Name</th>
-              <th className="header-col">Description</th>
-              <th className="header-col">Type</th>
+              <th className="header-col">{t("label.name")}</th>
+              <th className="header-col">{t("label.description")}</th>
+              <th className="header-col">{t("label.type")}</th>
             </tr>
           </thead>
           <tbody>

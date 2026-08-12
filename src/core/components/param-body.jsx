@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { fromJS, List } from "immutable"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 import createHtmlReadyId from "core/utils/create-html-ready-id"
+import { fallbackT } from "core/plugins/i18n/fn"
 
 const NOOP = Function.prototype
 
@@ -18,14 +19,16 @@ export default class ParamBody extends PureComponent {
     getComponent: PropTypes.func.isRequired,
     isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
+    t: PropTypes.func,
   }
 
-  static defaultProp = {
+  static defaultProps = {
     consumes: fromJS(["application/json"]),
     param: fromJS({}),
     onChange: NOOP,
     onChangeConsumes: NOOP,
+    t: fallbackT,
   }
 
   constructor(props, context) {
@@ -98,6 +101,7 @@ export default class ParamBody extends PureComponent {
       specSelectors,
       pathMethod,
       getComponent,
+      t,
     } = this.props
 
     const Button = getComponent("Button")
@@ -108,7 +112,7 @@ export default class ParamBody extends PureComponent {
     let parameter = specSelectors ? specSelectors.parameterWithMetaByIdentity(pathMethod, param) : param
     let errors = parameter.get("errors", List())
     let consumesValue = specSelectors.contentTypeValues(pathMethod).get("requestContentType")
-    let consumes = this.props.consumes && this.props.consumes.size ? this.props.consumes : ParamBody.defaultProp.consumes
+    let consumes = this.props.consumes && this.props.consumes.size ? this.props.consumes : ParamBody.defaultProps.consumes
 
     let { value, isEditBox } = this.state
     let language = null
@@ -132,18 +136,18 @@ export default class ParamBody extends PureComponent {
             !isExecute ? null
                        : <div className="body-param-edit">
                         <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
-                                 onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
+                                 onClick={this.toggleIsEditBox}>{ isEditBox ? t("button.cancel") : t("button.edit")}
                          </Button>
                          </div>
           }
           <label htmlFor={controlId}>
-            <span>Parameter content type</span>
+            <span>{t("label.parameter_content_type")}</span>
             <ContentType
               value={ consumesValue }
               contentTypes={ consumes }
               onChange={onChangeConsumes}
               className="body-param-content-type"
-              ariaLabel="Parameter content type"
+              ariaLabel={t("label.parameter_content_type")}
               controlId={controlId}
             />
           </label>

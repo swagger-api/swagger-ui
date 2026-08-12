@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import Im from "immutable"
 import { createDeepLinkPath, escapeDeepLinkPath, isFunc } from "core/utils"
+import { fallbackT } from "core/plugins/i18n/fn"
 import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 
 /* eslint-disable  react/jsx-no-bind */
@@ -12,6 +13,7 @@ export default class OperationTag extends React.Component {
   static defaultProps = {
     tagObj: Im.fromJS({}),
     tag: "",
+    t: fallbackT,
   }
 
   static propTypes = {
@@ -28,6 +30,7 @@ export default class OperationTag extends React.Component {
     specUrl: PropTypes.string.isRequired,
 
     children: PropTypes.element,
+    t: PropTypes.func,
   }
 
   render() {
@@ -41,6 +44,7 @@ export default class OperationTag extends React.Component {
       getConfigs,
       getComponent,
       specUrl,
+      t,
     } = this.props
 
     let {
@@ -105,7 +109,7 @@ export default class OperationTag extends React.Component {
           <button
             aria-expanded={showTag}
             className="expand-operation"
-            title={showTag ? "Collapse operation" : "Expand operation"}
+            title={showTag ? t("aria.collapse_operation") : t("aria.expand_operation")}
             onClick={() => layoutActions.show(isShownKey, !showTag)}>
 
             {showTag ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
