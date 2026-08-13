@@ -29,11 +29,14 @@ class DarkModeToggle extends Component {
 
   render() {
     const { isDarkMode } = this.state
+    const label = isDarkMode ? "Switch to light mode" : "Switch to dark mode"
 
     return (
       <div className="dark-mode-toggle">
         <button
-          aria-label="Dark mode"
+          aria-label={label}
+          title={label}
+          type="button"
           aria-pressed={isDarkMode}
           onClick={this.toggleIsDarkMode}
         >
