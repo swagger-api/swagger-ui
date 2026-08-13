@@ -69,9 +69,9 @@ export default class Primitive extends Component {
     const ModelExtensions = getComponent("ModelExtensions")
 
     const titleEl = title && (
-      <span className="model-title">
+      <strong className="model-title">
         <span className="model-title__text">{title}</span>
-      </span>
+      </strong>
     )
 
     return (
