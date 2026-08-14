@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
       - name: Run Trivy vulnerability scanner on docker image
-        uses: aquasecurity/trivy-action@2736533278103862a861f4a35ebac3e97854d956
+        uses: aquasecurity/trivy-action@d2a0b60797ff03db6132bd4e2b293f9b37081297
         with:
           image-ref: 'swaggerapi/swagger-ui:unstable'
           format: 'table'
@@ -31,7 +31,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Run Trivy vulnerability scanner on dependencies
-        uses: aquasecurity/trivy-action@2736533278103862a861f4a35ebac3e97854d956
+        uses: aquasecurity/trivy-action@d2a0b60797ff03db6132bd4e2b293f9b37081297
         with:
           scan-type: 'fs'
           scan-ref: '.'
