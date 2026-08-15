@@ -49,3 +49,34 @@ const getType = (schema, processedSchemas = new WeakSet()) => {
 
 export const getSchemaObjectTypeLabel = (schema) =>
   getType(immutableToJS(schema))
+
+// For OpenAPI 2.0 and 3.0 (JSON Schema Draft 4/5)
+// where exclusiveMinimum and exclusiveMaximum are booleans
+export const stringifyConstraintNumberRange = (schema) => {
+  // Handle both plain objects and Immutable Maps
+  const minimum = schema?.get ? schema.get("minimum") : schema?.minimum
+  const maximum = schema?.get ? schema.get("maximum") : schema?.maximum
+  const exclusiveMinimum = schema?.get ? schema.get("exclusiveMinimum") : schema?.exclusiveMinimum
+  const exclusiveMaximum = schema?.get ? schema.get("exclusiveMaximum") : schema?.exclusiveMaximum
+  
+  const hasMinimum = typeof minimum === "number"
+  const hasMaximum = typeof maximum === "number"
+  const isMinExclusive = exclusiveMinimum === true
+  const isMaxExclusive = exclusiveMaximum === true
+
+  if (hasMinimum && hasMaximum) {
+    const minSymbol = isMinExclusive ? "(" : "["
+    const maxSymbol = isMaxExclusive ? ")" : "]"
+    return `${minSymbol}${minimum}, ${maximum}${maxSymbol}`
+  }
+  if (hasMinimum) {
+    const minSymbol = isMinExclusive ? ">" : "≥"
+    return `${minSymbol} ${minimum}`
+  }
+  if (hasMaximum) {
+    const maxSymbol = isMaxExclusive ? "<" : "≤"
+    return `${maxSymbol} ${maximum}`
+  }
+
+  return null
+}

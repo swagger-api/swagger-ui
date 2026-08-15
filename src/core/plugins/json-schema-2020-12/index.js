@@ -56,6 +56,7 @@ import {
   getSchemaKeywords,
   makeGetExtensionKeywords,
   hasSchemaType,
+  stringifyConstraintNumberRange,
 } from "./fn"
 import { JSONSchemaPathContext, JSONSchemaLevelContext } from "./context"
 import {
@@ -145,6 +146,7 @@ const JSONSchema202012Plugin = ({ getSystem, fn }) => {
         getSchemaKeywords,
         getExtensionKeywords: makeGetExtensionKeywords(fnAccessor),
         hasSchemaType,
+        stringifyConstraintNumberRange,
       },
     },
   }
