@@ -164,12 +164,22 @@ export default class Response extends React.Component {
       }
     }
 
-    const sampleResponse = getSampleSchema(
-      sampleSchema,
-      activeContentType,
-      sampleGenConfig,
-      shouldOverrideSchemaExample ? mediaTypeExample : undefined
-    )
+    // Suppress synthetic sample generation for file-upload media types
+    // (e.g. application/octet-stream, image/*) where rendering a placeholder
+    // sample like "string" is misleading. User-supplied examples are kept.
+    const isFileUploadMediaType =
+      typeof fn.isFileUploadIntended === "function" &&
+      fn.isFileUploadIntended(sampleSchema, activeContentType)
+
+    const sampleResponse =
+      isFileUploadMediaType && !shouldOverrideSchemaExample
+        ? null
+        : getSampleSchema(
+            sampleSchema,
+            activeContentType,
+            sampleGenConfig,
+            shouldOverrideSchemaExample ? mediaTypeExample : undefined
+          )
 
     const example = getExampleComponent( sampleResponse, HighlightCode )
 
