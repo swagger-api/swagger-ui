@@ -5,7 +5,7 @@ import { Map, OrderedMap, List, fromJS } from "immutable"
 import { getCommonExtensions, stringify, isEmptyValue } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
-export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
+export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn, isCallback = false) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
   const schema = mediaTypeValue.get("schema", OrderedMap())
 
@@ -19,12 +19,14 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
     ])
     : exampleSchema
 
+  const sampleGenConfig = isCallback
+    ? { includeReadOnly: true }
+    : { includeWriteOnly: true }
+
   const exampleValue = fn.getSampleSchema(
     schema,
     mediaType,
-    {
-      includeWriteOnly: true
-    },
+    sampleGenConfig,
     mediaTypeExample
   )
   return stringify(exampleValue)
@@ -44,6 +46,7 @@ const RequestBody = ({
   fn,
   contentType,
   isExecute,
+  isCallback = false,
   specPath,
   onChange,
   onChangeIncludeEmpty,
@@ -93,6 +96,7 @@ const RequestBody = ({
         contentType,
         key,
         fn,
+        isCallback,
       ), val)
     }
     return container
@@ -150,7 +154,8 @@ const RequestBody = ({
         <tbody>
           {
             Map.isMap(bodyProperties) && bodyProperties.entrySeq().map(([key, schema]) => {
-              if (schema.get("readOnly")) return
+              if (!isCallback && schema.get("readOnly")) return
+              if (isCallback && schema.get("writeOnly")) return
 
               const oneOf = schema.get("oneOf")?.get(0)?.toJS()
               const anyOf = schema.get("anyOf")?.get(0)?.toJS()
@@ -167,9 +172,10 @@ const RequestBody = ({
               const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
               const included = requestBodyInclusionSetting.get(key) || false
 
-              let initialValue = fn.getSampleSchema(schema, false, {
-                includeWriteOnly: true
-              })
+              let initialValue = fn.getSampleSchema(schema, false, isCallback
+                ? { includeReadOnly: true }
+                : { includeWriteOnly: true }
+              )
 
               if (initialValue === false) {
                 initialValue = "false"
@@ -256,6 +262,7 @@ const RequestBody = ({
     contentType,
     activeExamplesKey,
     fn,
+    isCallback,
   )
   let language = null
   let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleRequestBody)
@@ -300,7 +307,8 @@ const RequestBody = ({
       schema={mediaTypeValue.get("schema")}
       specPath={specPath.push("content", contentType, "schema")}
       example={example}
-      includeWriteOnly={true}
+      includeReadOnly={isCallback}
+      includeWriteOnly={!isCallback}
     />
     {
       sampleForMediaType ? (
@@ -326,6 +334,7 @@ RequestBody.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
+  isCallback: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onChangeIncludeEmpty: PropTypes.func.isRequired,
   specPath: PropTypes.array.isRequired,
