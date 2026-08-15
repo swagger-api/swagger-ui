@@ -5,7 +5,7 @@ import React from "react"
 
 import { schema } from "../../prop-types"
 
-const $anchor = ({ schema }) => {
+const Anchor = ({ schema }) => {
   if (!schema?.$anchor) return null
 
   return (
@@ -20,8 +20,8 @@ const $anchor = ({ schema }) => {
   )
 }
 
-$anchor.propTypes = {
+Anchor.propTypes = {
   schema: schema.isRequired,
 }
 
-export default $anchor
+export default Anchor

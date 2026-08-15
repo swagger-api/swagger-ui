@@ -148,6 +148,7 @@
     "eslint-plugin-jest": "^29.15.2",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "=7.0.1",
     "esm": "=3.2.25",
     "expect": "=30.4.1",
     "express": "^4.22.2",

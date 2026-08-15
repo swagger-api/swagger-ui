@@ -45,15 +45,15 @@ const JSONSchema = forwardRef(
     const renderedSchemas = useRenderedSchemas(schema)
     const constraints = fn.stringifyConstraints(schema)
     const Accordion = useComponent("Accordion")
-    const Keyword$schema = useComponent("Keyword$schema")
-    const Keyword$vocabulary = useComponent("Keyword$vocabulary")
-    const Keyword$id = useComponent("Keyword$id")
-    const Keyword$anchor = useComponent("Keyword$anchor")
-    const Keyword$dynamicAnchor = useComponent("Keyword$dynamicAnchor")
-    const Keyword$ref = useComponent("Keyword$ref")
-    const Keyword$dynamicRef = useComponent("Keyword$dynamicRef")
-    const Keyword$defs = useComponent("Keyword$defs")
-    const Keyword$comment = useComponent("Keyword$comment")
+    const KeywordSchema = useComponent("Keyword$schema")
+    const KeywordVocabulary = useComponent("Keyword$vocabulary")
+    const KeywordId = useComponent("Keyword$id")
+    const KeywordAnchor = useComponent("Keyword$anchor")
+    const KeywordDynamicAnchor = useComponent("Keyword$dynamicAnchor")
+    const KeywordRef = useComponent("Keyword$ref")
+    const KeywordDynamicRef = useComponent("Keyword$dynamicRef")
+    const KeywordDefs = useComponent("Keyword$defs")
+    const KeywordComment = useComponent("Keyword$comment")
     const KeywordAllOf = useComponent("KeywordAllOf")
     const KeywordAnyOf = useComponent("KeywordAnyOf")
     const KeywordOneOf = useComponent("KeywordOneOf")
@@ -193,17 +193,17 @@ const JSONSchema = forwardRef(
                     />
                     <KeywordDefault schema={schema} />
                     <KeywordExamples schema={schema} />
-                    <Keyword$schema schema={schema} />
-                    <Keyword$vocabulary schema={schema} />
-                    <Keyword$id schema={schema} />
-                    <Keyword$anchor schema={schema} />
-                    <Keyword$dynamicAnchor schema={schema} />
-                    <Keyword$ref schema={schema} />
+                    <KeywordSchema schema={schema} />
+                    <KeywordVocabulary schema={schema} />
+                    <KeywordId schema={schema} />
+                    <KeywordAnchor schema={schema} />
+                    <KeywordDynamicAnchor schema={schema} />
+                    <KeywordRef schema={schema} />
                     {!isCircular && isExpandable && (
-                      <Keyword$defs schema={schema} />
+                      <KeywordDefs schema={schema} />
                     )}
-                    <Keyword$dynamicRef schema={schema} />
-                    <Keyword$comment schema={schema} />
+                    <KeywordDynamicRef schema={schema} />
+                    <KeywordComment schema={schema} />
                     <ExtensionKeywords schema={schema} />
                   </>
                 )}

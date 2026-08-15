@@ -5,7 +5,7 @@ import React from "react"
 
 import { schema } from "../../prop-types"
 
-const $schema = ({ schema }) => {
+const Schema = ({ schema }) => {
   if (!schema?.$schema) return null
 
   return (
@@ -20,8 +20,8 @@ const $schema = ({ schema }) => {
   )
 }
 
-$schema.propTypes = {
+Schema.propTypes = {
   schema: schema.isRequired,
 }
 
-export default $schema
+export default Schema
