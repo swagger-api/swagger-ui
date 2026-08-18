@@ -173,7 +173,13 @@ export default {
           return state.get("scrollToKey")
         },
         isShownKeyFromUrlHashArray(state, urlHashArray) {
-          const [tag, operationId] = urlHashArray
+          let normalizedUrlSegments = urlHashArray.slice()
+          // If there are more than 2 segments, treat all segments except the last one as the tag
+          if (normalizedUrlSegments.length > 2) {
+            normalizedUrlSegments = [normalizedUrlSegments.slice(0, 1).join("/"), normalizedUrlSegments.at(-1)]
+          }
+
+          const [tag, operationId] = normalizedUrlSegments
           // We only put operations in the URL
           if(operationId) {
             return ["operations", tag, operationId]
