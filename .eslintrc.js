@@ -73,6 +73,6 @@ module.exports = {
     "react/jsx-no-target-blank": 2,
     "react/display-name": 0,
     "import/no-extraneous-dependencies": 2,
-    "react/jsx-filename-extension": 2,
+    "react/jsx-filename-extension": [2, { extensions: [".jsx", ".tsx"] }],
   },
 }

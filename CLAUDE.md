@@ -423,9 +423,14 @@ insertPragma: true       # Insert @prettier pragma
 
 ### File Structure Conventions
 
+**TypeScript (REQUIRED for all new files):**
+- All new source files must be written in TypeScript (`.ts` / `.tsx`)
+- Use `.tsx` for React components, `.ts` for all other modules
+- Existing `.js` / `.jsx` files are not required to be migrated, but new code must not be added in plain JavaScript
+
 **Components:**
 - Location: `src/core/components/`
-- Extension: `.jsx` (React components)
+- Extension: `.tsx` (React components — TypeScript)
 - Format: PascalCase for component names
 
 **Styles:**
@@ -437,7 +442,7 @@ insertPragma: true       # Insert @prettier pragma
 **Tests:**
 - Unit: `test/unit/` (mirrors source structure)
 - E2E: `test/e2e-cypress/e2e/`
-- Naming: `*.test.js`, `*.spec.js`, `*.cy.js` (Cypress)
+- Naming: `*.test.ts`, `*.spec.ts`, `*.cy.ts` (Cypress) — use `.tsx` variants when JSX is involved
 
 ---
 
@@ -764,7 +769,7 @@ dist/                            # Build output (generated)
 ### Adding a New Component
 
 1. Create component in `src/core/components/` or appropriate plugin directory
-2. Use `.jsx` extension
+2. Use `.tsx` extension (TypeScript — required for all new files)
 3. Add `@prettier` pragma
 4. Follow React best practices (functional components, hooks)
 5. Add PropTypes validation
@@ -774,7 +779,7 @@ dist/                            # Build output (generated)
 ### Adding a New Plugin
 
 1. Create directory in `src/core/plugins/[plugin-name]/`
-2. Create `index.js` with plugin structure
+2. Create `index.ts` with plugin structure (TypeScript — required for all new files)
 3. Add actions, reducers, selectors as needed
 4. Register plugin in preset (e.g., `src/core/presets/base.js`)
 5. Add tests in `test/unit/core/plugins/[plugin-name]/`
@@ -863,40 +868,42 @@ dist/                            # Build output (generated)
 ### DO's ✅
 
 1. **Always read files before modifying them**
-2. **Follow the no-semicolon convention**
-3. **Use double quotes for strings**
-4. **Add `@prettier` pragma to all new files**
-5. **Use `.jsx` extension for React components**
-6. **Write tests for new features and bug fixes**
-7. **Run linters before committing** (automatic via husky)
-8. **Use DOMPurify for HTML sanitization**
-9. **Follow conventional commit format**
-10. **Update documentation for user-facing changes**
-11. **Test with multiple OpenAPI spec versions**
-12. **Check browser compatibility** (see `.browserslistrc`)
-13. **Use the plugin architecture** - don't modify core unnecessarily
-14. **Preserve backward compatibility** unless explicitly breaking
-15. **Run full test suite before submitting PR**
-16. **Keep plugins self-contained** - avoid cross-plugin imports (see [Cross-Plugin Import Guidelines](#cross-plugin-import-guidelines))
+2. **Write all new files in TypeScript** - use `.ts` for modules, `.tsx` for React components
+3. **Follow the no-semicolon convention**
+4. **Use double quotes for strings**
+5. **Add `@prettier` pragma to all new files**
+6. **Use `.tsx` extension for new React components** (TypeScript JSX)
+7. **Write tests for new features and bug fixes**
+8. **Run linters before committing** (automatic via husky)
+9. **Use DOMPurify for HTML sanitization**
+10. **Follow conventional commit format**
+11. **Update documentation for user-facing changes**
+12. **Test with multiple OpenAPI spec versions**
+13. **Check browser compatibility** (see `.browserslistrc`)
+14. **Use the plugin architecture** - don't modify core unnecessarily
+15. **Preserve backward compatibility** unless explicitly breaking
+16. **Run full test suite before submitting PR**
+17. **Keep plugins self-contained** - avoid cross-plugin imports (see [Cross-Plugin Import Guidelines](#cross-plugin-import-guidelines))
 
 ### DON'Ts ❌
 
-1. **Don't use semicolons** - project convention
-2. **Don't use single quotes** - use double quotes
-3. **Don't skip the @prettier pragma** - required for formatting
-4. **Don't put React in `.js` files** - use `.jsx`
-5. **Don't commit files in `dev-helpers/`** (except core files)
-6. **Don't commit build artifacts** (`dist/` is gitignored)
-7. **Don't skip tests** - they run in CI
-8. **Don't bypass ESLint** - pre-commit hook enforces
-9. **Don't use `console.log`** - only `console.warn` and `console.error`
-10. **Don't render unsanitized HTML** - XSS vulnerability
-11. **Don't modify `package-lock.json` manually**
-12. **Don't push directly to `main` or `next`**
-13. **Don't ignore Cypress test failures**
-14. **Don't add dependencies without justification**
-15. **Don't break the build** - verify with `npm run build`
-16. **Don't import from other plugins** - create self-contained copies instead (e.g., don't import from `oas31` in `oas32`)
+1. **Don't write new files in plain JavaScript** - all new files must be TypeScript (`.ts` / `.tsx`)
+2. **Don't use semicolons** - project convention
+3. **Don't use single quotes** - use double quotes
+4. **Don't skip the @prettier pragma** - required for formatting
+5. **Don't put React in `.ts` files** - use `.tsx` for JSX
+6. **Don't commit files in `dev-helpers/`** (except core files)
+7. **Don't commit build artifacts** (`dist/` is gitignored)
+8. **Don't skip tests** - they run in CI
+9. **Don't bypass ESLint** - pre-commit hook enforces
+10. **Don't use `console.log`** - only `console.warn` and `console.error`
+11. **Don't render unsanitized HTML** - XSS vulnerability
+12. **Don't modify `package-lock.json` manually**
+13. **Don't push directly to `main` or `next`**
+14. **Don't ignore Cypress test failures**
+15. **Don't add dependencies without justification**
+16. **Don't break the build** - verify with `npm run build`
+17. **Don't import from other plugins** - create self-contained copies instead (e.g., don't import from `oas31` in `oas32`)
 
 ### When Working with AI Assistants
 
