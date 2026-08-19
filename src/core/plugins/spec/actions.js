@@ -8,6 +8,7 @@ import assocPath from "lodash/fp/assocPath"
 import constant from "lodash/constant"
 
 import { paramToValue, isEmptyValue } from "core/utils"
+import { inheritPathItemParameters } from "./path-item-parameters"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -245,6 +246,15 @@ const debResolveSubtrees = debounce(() => {
         resultMap: (specSelectors.specResolvedSubtree([]) || ImmutableMap()).toJS(),
         specWithCurrentSubtrees: specSelectors.specJS()
       }))
+
+      // Mirror swagger-client's path-item parameter inheritance for
+      // path items dereferenced from external files. The generic
+      // normalize step in swagger-client runs against the still-$ref'd
+      // root spec, so operations under $ref'd path items never inherit
+      // their path-level parameters. See issue #5667.
+      if (batchResult.resultMap && batchResult.resultMap.paths) {
+        inheritPathItemParameters(batchResult.resultMap.paths)
+      }
 
       specActions.updateResolvedSubtree([], batchResult.resultMap)
     } catch(e) {
