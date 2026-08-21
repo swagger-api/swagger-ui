@@ -191,6 +191,11 @@ section.models {
 
   &.is-open {
     padding: 0 0 20px;
+
+    &.models--virtualized {
+      padding-bottom: 0;
+    }
+    
     h4 {
       margin: 0 0 5px 0;
 
@@ -265,6 +270,13 @@ section.models {
       right: 5px;
       opacity: 0.65;
     }
+  }
+
+  .models-scroll {
+    max-height: min(60vh, 800px);
+    overflow-y: auto;
+    padding-top: 20px;
+    padding-bottom: 5px;
   }
 
   .model-box {

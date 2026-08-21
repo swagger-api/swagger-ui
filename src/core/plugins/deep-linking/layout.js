@@ -5,6 +5,8 @@ import Im, { fromJS } from "immutable"
 
 const SCROLL_TO = "layout_scroll_to"
 const CLEAR_SCROLL_TO = "layout_clear_scroll"
+const SCROLL_TO_VIRTUALIZED_SCHEMA = "layout_scroll_to_virtualized_schema"
+const CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA = "layout_clear_scroll_to_virtualized_schema"
 
 export const show = (ori, { getConfigs, layoutSelectors }) => (...args) => {
   ori(...args)
@@ -133,6 +135,15 @@ export const clearScrollTo = () => {
   }
 }
 
+export const scrollToVirtualizedSchema = (name) => ({
+  type: SCROLL_TO_VIRTUALIZED_SCHEMA,
+  payload: name,
+})
+
+export const clearScrollToVirtualizedSchema = () => ({
+  type: CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA,
+})
+
 // From: https://stackoverflow.com/a/42543908/3933724
 // Modified to return html instead of body element as last resort
 function getScrollParent(element, includeHidden) {
@@ -166,11 +177,16 @@ export default {
         scrollTo,
         clearScrollTo,
         readyToScroll,
-        parseDeepLinkHash
+        parseDeepLinkHash,
+        scrollToVirtualizedSchema,
+        clearScrollToVirtualizedSchema,
       },
       selectors: {
         getScrollToKey(state) {
           return state.get("scrollToKey")
+        },
+        getScrollToVirtualizedSchema(state) {
+          return state.get("scrollToVirtualizedSchema")
         },
         isShownKeyFromUrlHashArray(state, urlHashArray) {
           const [tag, operationId] = urlHashArray
@@ -199,7 +215,13 @@ export default {
         },
         [CLEAR_SCROLL_TO](state) {
           return state.delete("scrollToKey")
-        }
+        },
+        [SCROLL_TO_VIRTUALIZED_SCHEMA](state, action) {
+          return state.set("scrollToVirtualizedSchema", action.payload)
+        },
+        [CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA](state) {
+          return state.delete("scrollToVirtualizedSchema")
+        },
       },
       wrapActions: {
         show
