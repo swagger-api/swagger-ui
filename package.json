@@ -76,6 +76,7 @@
   "dependencies": {
     "@babel/runtime-corejs3": "^7.27.1",
     "@scarf/scarf": "=1.4.0",
+    "@tanstack/react-virtual": "=3.14.9",
     "base64-js": "^1.5.1",
     "buffer": "^6.0.3",
     "classnames": "^2.5.1",

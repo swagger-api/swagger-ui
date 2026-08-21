@@ -5,6 +5,10 @@
 describe("OpenAPI 3.0 complex spec with allOf and nested references", () => {
   it("should render nested references", () => {
     cy.visit("/?url=/documents/features/oas3-complex-spec.json").then(() => {
+      // Virtualized path - scroll the list to bring the target model into view.
+      // Scroll position = index * estimateSize = 196 * 71
+      // Update estimateSize value if it changes in Models component.
+      cy.get(".models-scroll").scrollTo(0, 196 * 71)
       cy.get(
         "[id='model-com.sap.ctsm.backend.core.api.study.v1.StudyAPIv1.StudyTreatments-create']"
       )
