@@ -66,12 +66,16 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
       hash = hash.slice(1)
     }
 
-    if(hash[0] === "/") {
-      // "/pet/addPet" => "pet/addPet"
-      // makes the split result cleaner
-      // also handles forgotten leading slash
-      hash = hash.slice(1)
+    if(hash[0] !== "/") {
+      // Hash is not a Swagger UI deep link (which are always rooted at "/").
+      // Treat it as an external/native anchor (e.g. "#model-Category") and
+      // leave the browser to handle scrolling. See #10527.
+      return
     }
+
+    // "/pet/addPet" => "pet/addPet"
+    // makes the split result cleaner
+    hash = hash.slice(1)
 
     const hashArray = hash.split("/").map(val => (val || ""))
 
