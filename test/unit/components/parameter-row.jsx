@@ -147,6 +147,67 @@ describe("<ParameterRow/>", () => {
     expect(wrapper.find(".parameter__type").length).toEqual(1)
     expect(wrapper.find(".parameter__type").text()).toEqual("boolean")
   })
+
+  it("Can render Swagger 2 array parameter type with items format (#4516)", () => {
+    const param = fromJS({
+      name: "targetUserIds",
+      in: "query",
+      type: "array",
+      collectionFormat: "multi",
+      items: {
+        type: "string",
+        format: "uuid",
+      },
+    })
+
+    const props = createProps({ param, isOAS3: false })
+    const wrapper = render(<ParameterRow {...props} />)
+
+    expect(wrapper.find(".parameter__type").length).toEqual(1)
+    expect(wrapper.find(".parameter__type").text()).toEqual(
+      "array<string($uuid)>"
+    )
+  })
+
+  it("Can render Swagger 2 array parameter type without items format", () => {
+    const param = fromJS({
+      name: "tags",
+      in: "query",
+      type: "array",
+      collectionFormat: "multi",
+      items: {
+        type: "string",
+      },
+    })
+
+    const props = createProps({ param, isOAS3: false })
+    const wrapper = render(<ParameterRow {...props} />)
+
+    expect(wrapper.find(".parameter__type").length).toEqual(1)
+    expect(wrapper.find(".parameter__type").text()).toEqual("array<string>")
+  })
+
+  it("Can render OAS3 array parameter type with items format (#4516)", () => {
+    const param = fromJS({
+      name: "targetUserIds",
+      in: "query",
+      schema: {
+        type: "array",
+        items: {
+          type: "string",
+          format: "uuid",
+        },
+      },
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props} />)
+
+    expect(wrapper.find(".parameter__type").length).toEqual(1)
+    expect(wrapper.find(".parameter__type").text()).toEqual(
+      "array<string($uuid)>"
+    )
+  })
 })
 
 describe("bug #5573: zero default and example values", function () {
