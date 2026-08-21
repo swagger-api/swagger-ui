@@ -64,6 +64,30 @@ describe("Models list virtualization", () => {
 
       cy.get("#model-PerfModel001 span.inner-object").should("exist")
     })
+
+    it("expanded nested property state is preserved when scrolled out of view and back", () => {
+      cy.visit(baseUrl)
+      cy.get("#model-PerfModel001 .model-box-control").first().click()
+      cy.get("#model-PerfModel001 span.inner-object").should("exist")
+      cy.get("#model-PerfModel001 span.inner-object .prop-type").should(
+        "not.exist"
+      )
+      cy.get("#model-PerfModel001 span.inner-object .model-box-control")
+        .first()
+        .click()
+      cy.get("#model-PerfModel001 span.inner-object .prop-type").should("exist")
+
+      cy.get(".models-scroll").then(($scroll) => {
+        $scroll[0].scrollTop = $scroll[0].scrollHeight
+      })
+      cy.wait(200)
+      cy.get(".models-scroll").then(($scroll) => {
+        $scroll[0].scrollTop = 0
+      })
+      cy.wait(200)
+
+      cy.get("#model-PerfModel001 span.inner-object .prop-type").should("exist")
+    })
   })
 
   describe("virtualized path — above threshold (OpenAPI 3.0)", () => {
