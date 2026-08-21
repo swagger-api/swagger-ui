@@ -13,6 +13,65 @@ const braceOpen = "{"
 const braceClose = "}"
 const propClass = "property"
 
+const decodeRefName = (uri) => {
+  if (typeof uri !== "string") {
+    return null
+  }
+
+  const unescaped = uri.replace(/~1/g, "/").replace(/~0/g, "~")
+  try {
+    return decodeURIComponent(unescaped)
+  } catch {
+    return unescaped
+  }
+}
+
+const getRefDisplayName = (ref) => {
+  if (typeof ref !== "string") {
+    return null
+  }
+  if (ref.indexOf("#/definitions/") !== -1) {
+    return decodeRefName(ref.replace(/^.*#\/definitions\//, ""))
+  }
+  if (ref.indexOf("#/components/schemas/") !== -1) {
+    return decodeRefName(ref.replace(/^.*#\/components\/schemas\//, ""))
+  }
+  return null
+}
+
+const inferSchemaDisplayName = (schema, level = 0) => {
+  if (!schema || typeof schema.get !== "function" || level > 2) {
+    return null
+  }
+
+  const title = schema.get("title")
+  if (typeof title === "string" && title) {
+    return title
+  }
+
+  const refDisplayName = getRefDisplayName(
+    schema.get("$$ref") || schema.get("$ref")
+  )
+  if (refDisplayName) {
+    return refDisplayName
+  }
+
+  const compositions = ["allOf", "oneOf", "anyOf"]
+  for (let i = 0; i < compositions.length; i++) {
+    const composed = schema.get(compositions[i])
+    if (List.isList(composed) && composed.size) {
+      for (let j = 0; j < composed.size; j++) {
+        const inferred = inferSchemaDisplayName(composed.get(j), level + 1)
+        if (inferred) {
+          return inferred
+        }
+      }
+    }
+  }
+
+  return null
+}
+
 export default class ObjectModel extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
@@ -237,6 +296,8 @@ export default class ObjectModel extends Component {
                       <td>{"allOf ->"}</td>
                       <td>
                         {allOf.map((schema, k) => {
+                          const inferredDisplayName =
+                            inferSchemaDisplayName(schema)
                           return (
                             <div key={k}>
                               <Model
@@ -246,6 +307,7 @@ export default class ObjectModel extends Component {
                                 specPath={specPath.push("allOf", k)}
                                 getConfigs={getConfigs}
                                 schema={schema}
+                                displayName={inferredDisplayName}
                                 depth={depth + 1}
                               />
                             </div>
@@ -259,6 +321,8 @@ export default class ObjectModel extends Component {
                       <td>{"anyOf ->"}</td>
                       <td>
                         {anyOf.map((schema, k) => {
+                          const inferredDisplayName =
+                            inferSchemaDisplayName(schema)
                           return (
                             <div key={k}>
                               <Model
@@ -268,6 +332,7 @@ export default class ObjectModel extends Component {
                                 specPath={specPath.push("anyOf", k)}
                                 getConfigs={getConfigs}
                                 schema={schema}
+                                displayName={inferredDisplayName}
                                 depth={depth + 1}
                               />
                             </div>
@@ -281,6 +346,8 @@ export default class ObjectModel extends Component {
                       <td>{"oneOf ->"}</td>
                       <td>
                         {oneOf.map((schema, k) => {
+                          const inferredDisplayName =
+                            inferSchemaDisplayName(schema)
                           return (
                             <div key={k}>
                               <Model
@@ -290,6 +357,7 @@ export default class ObjectModel extends Component {
                                 specPath={specPath.push("oneOf", k)}
                                 getConfigs={getConfigs}
                                 schema={schema}
+                                displayName={inferredDisplayName}
                                 depth={depth + 1}
                               />
                             </div>

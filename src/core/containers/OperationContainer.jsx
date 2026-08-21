@@ -85,7 +85,7 @@ export default class OperationContainer extends PureComponent {
     const { isShown } = this.props
     const resolvedSubtree = this.getResolvedSubtree()
 
-    if(isShown && resolvedSubtree === undefined) {
+    if (this.shouldResolveOperationSubtree() && isShown && resolvedSubtree === undefined) {
       this.requestResolvedSubtree()
     }
   }
@@ -98,7 +98,11 @@ export default class OperationContainer extends PureComponent {
       this.setState({ executeInProgress: false })
     }
 
-    if (isShown && resolvedSubtree === undefined) {
+    if (
+      this.shouldResolveOperationSubtree() &&
+      isShown &&
+      resolvedSubtree === undefined
+    ) {
       this.requestResolvedSubtree()
     }
   }
@@ -106,11 +110,20 @@ export default class OperationContainer extends PureComponent {
   toggleShown =() => {
     let { layoutActions, tag, operationId, isShown } = this.props
     const resolvedSubtree = this.getResolvedSubtree()
-    if(!isShown && resolvedSubtree === undefined) {
+    if (
+      this.shouldResolveOperationSubtree() &&
+      !isShown &&
+      resolvedSubtree === undefined
+    ) {
       // transitioning from collapsed to expanded
       this.requestResolvedSubtree()
     }
     layoutActions.show(["operations", tag, operationId], !isShown)
+  }
+
+  shouldResolveOperationSubtree = () => {
+    const { resolveSubtreeOnExpand = true } = this.props.getConfigs()
+    return resolveSubtreeOnExpand
   }
 
   onCancelClick=() => {
@@ -214,19 +227,36 @@ export default class OperationContainer extends PureComponent {
 
     const Operation = getComponent( "operation" )
 
-    const resolvedSubtree = this.getResolvedSubtree() || Map()
+    const resolvedSubtree = this.getResolvedSubtree()
+    const unresolvedOperation = unresolvedOp.get("operation") || Map()
+    const hasResolvedSubtree = Map.isMap(resolvedSubtree) && resolvedSubtree.size
+    // When subtree resolution is enabled we wait for the resolved subtree
+    // before rendering, otherwise initializing param values from the
+    // unresolved ($ref) schema would prevent them from refreshing once the
+    // resolved schema arrives. When resolution is disabled, fall back to the
+    // unresolved operation so the operation still renders.
+    const operation = hasResolvedSubtree
+      ? resolvedSubtree
+      : this.shouldResolveOperationSubtree()
+        ? Map()
+        : unresolvedOperation
 
     const operationProps = fromJS({
-      op: resolvedSubtree,
+      op: operation,
       tag,
       path,
       summary: unresolvedOp.getIn(["operation", "summary"]) || "",
-      deprecated: resolvedSubtree.get("deprecated") || unresolvedOp.getIn(["operation", "deprecated"]) || false,
+      deprecated:
+        operation.get("deprecated") ||
+        unresolvedOp.getIn(["operation", "deprecated"]) ||
+        false,
       method,
       security,
       isAuthorized,
       operationId,
-      originalOperationId: resolvedSubtree.getIn(["operation", "__originalOperationId"]),
+      originalOperationId:
+        operation.get("__originalOperationId") ||
+        unresolvedOp.getIn(["operation", "__originalOperationId"]),
       showSummary,
       isShown,
       jumpToKey,
