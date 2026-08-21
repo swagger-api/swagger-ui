@@ -428,13 +428,27 @@ export const executeRequest = (req) =>
       const requestBodyInclusionSetting = oas3Selectors.requestBodyInclusionSetting(pathName, method)
 
       if(requestBody && requestBody.toJS) {
+        const contentType = req.requestContentType
+        const requestBodyDef = specSelectors.specResolvedSubtree([
+          "paths",
+          pathName,
+          method,
+          "requestBody",
+        ])
+        const schemaForMediaType = requestBodyDef?.getIn(["content", contentType, "schema"]) || ImmutableMap()
+        const properties = schemaForMediaType.get("properties") || ImmutableMap()
+
         req.requestBody = requestBody
           .map(
-            (val) => {
-              if (ImmutableMap.isMap(val)) {
-                return val.get("value")
+            (val, key) => {
+              const propSchema = properties.get(key) || ImmutableMap()
+              const schemaType = propSchema.get("type")
+              let outVal = ImmutableMap.isMap(val) ? val.get("value") : val
+              // If schema says string but value is not string, coerce
+              if (schemaType === "string" && typeof outVal !== "string" && outVal !== undefined && outVal !== null) {
+                outVal = String(outVal)
               }
-              return val
+              return outVal
             }
           )
           .filter(
