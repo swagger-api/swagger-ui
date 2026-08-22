@@ -78,18 +78,15 @@ export default class Parameters extends Component {
   
   onChangeMediaType = ({ value, pathMethod }) => {
     let { specActions, oas3Selectors, oas3Actions } = this.props
-    const userHasEditedBody = oas3Selectors.hasUserEditedBody(...pathMethod)
     const shouldRetainRequestBodyValue = oas3Selectors.shouldRetainRequestBodyValue(...pathMethod)
     oas3Actions.setRequestContentType({ value, pathMethod })
     oas3Actions.initRequestBodyValidateError({ pathMethod })
-    if (!userHasEditedBody) {
-      if(!shouldRetainRequestBodyValue) {
-        oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })
-      }
-      specActions.clearResponse(...pathMethod)
-      specActions.clearRequest(...pathMethod)
-      specActions.clearValidateParams(pathMethod)
+    if(!shouldRetainRequestBodyValue) {
+      oas3Actions.setRequestBodyValue({ value: undefined, pathMethod })
     }
+    specActions.clearResponse(...pathMethod)
+    specActions.clearRequest(...pathMethod)
+    specActions.clearValidateParams(pathMethod)
   }
 
   render() {
