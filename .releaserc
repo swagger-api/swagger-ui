@@ -1,6 +1,6 @@
 {
   "branches": [
-    {"name": "master"}
+    {"name": "main"}
   ],
   "tagFormat": "v${version}",
   "plugins": [
@@ -16,7 +16,7 @@
     "@semantic-release/github",
     ["@semantic-release/git", {
       "assets": [
-        "dist/*.{js,html,css}",
+        "dist/*.{js,html,css,map,LICENSE.txt}",
         "package.json",
         "package-lock.json"
       ],
