@@ -46,4 +46,27 @@ describe("OpenAPI 3.1.0 schema expansion", () => {
       .contains("prop4")
       .should("exist")
   })
+
+  it("should re-expand a collapsed nested property after the parent schema is collapsed and deeply expanded again", () => {
+    cy.visit(
+      "/?url=/documents/features/oas31-schema-expansion.yaml&showExtensions=true"
+    )
+
+    cy.get(".json-schema-2020-12-expand-deep-button").click()
+    cy.get(".json-schema-2020-12-keyword--properties")
+      .contains("prop4")
+      .should("exist")
+
+    cy.get(".json-schema-2020-12-keyword--properties").contains("prop2").click()
+    cy.get(".json-schema-2020-12-keyword--properties")
+      .contains("prop4")
+      .should("not.exist")
+
+    cy.get(".json-schema-2020-12-accordion").contains("Expansion").click()
+    cy.get(".json-schema-2020-12-expand-deep-button").click()
+
+    cy.get(".json-schema-2020-12-keyword--properties")
+      .contains("prop4")
+      .should("exist")
+  })
 })
