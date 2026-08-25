@@ -55,6 +55,8 @@ const SchemaItem = React.memo(
   }
 )
 
+SchemaItem.displayName = "SchemaItem"
+
 SchemaItem.propTypes = {
   schemaName: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
