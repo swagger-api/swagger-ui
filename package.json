@@ -220,7 +220,7 @@
     "@tree-sitter-grammars/tree-sitter-yaml@0.7.1": true,
     "tree-sitter-json@0.24.8": true,
     "fsevents@2.3.3": true,
-    "cypress@15.20.0": true,
+    "cypress@15.20.1": true,
     "unrs-resolver@1.11.1": true,
     "@scarf/scarf": false,
     "core-js-pure": false
