@@ -7,6 +7,8 @@ const SCROLL_TO = "layout_scroll_to"
 const CLEAR_SCROLL_TO = "layout_clear_scroll"
 const SCROLL_TO_VIRTUALIZED_SCHEMA = "layout_scroll_to_virtualized_schema"
 const CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA = "layout_clear_scroll_to_virtualized_schema"
+const SCROLL_TO_VIRTUALIZED_OPERATION = "layout_scroll_to_virtualized_operation"
+const CLEAR_SCROLL_TO_VIRTUALIZED_OPERATION = "layout_clear_scroll_to_virtualized_operation"
 
 export const show = (ori, { getConfigs, layoutSelectors }) => (...args) => {
   ori(...args)
@@ -106,6 +108,8 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
 
     // Scroll to the newly expanded entity
     layoutActions.scrollTo(isShownKey)
+    // Signal the virtualized operations path
+    layoutActions.scrollToVirtualizedOperation(isShownKey)
   }
 }
 
@@ -144,6 +148,15 @@ export const clearScrollToVirtualizedSchema = () => ({
   type: CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA,
 })
 
+export const scrollToVirtualizedOperation = (isShownKey) => ({
+  type: SCROLL_TO_VIRTUALIZED_OPERATION,
+  payload: isShownKey,
+})
+
+export const clearScrollToVirtualizedOperation = () => ({
+  type: CLEAR_SCROLL_TO_VIRTUALIZED_OPERATION,
+})
+
 // From: https://stackoverflow.com/a/42543908/3933724
 // Modified to return html instead of body element as last resort
 function getScrollParent(element, includeHidden) {
@@ -180,6 +193,8 @@ export default {
         parseDeepLinkHash,
         scrollToVirtualizedSchema,
         clearScrollToVirtualizedSchema,
+        scrollToVirtualizedOperation,
+        clearScrollToVirtualizedOperation,
       },
       selectors: {
         getScrollToKey(state) {
@@ -187,6 +202,9 @@ export default {
         },
         getScrollToVirtualizedSchema(state) {
           return state.get("scrollToVirtualizedSchema")
+        },
+        getScrollToVirtualizedOperation(state) {
+          return state.get("scrollToVirtualizedOperation")
         },
         isShownKeyFromUrlHashArray(state, urlHashArray) {
           const [tag, operationId] = urlHashArray
@@ -221,6 +239,12 @@ export default {
         },
         [CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA](state) {
           return state.delete("scrollToVirtualizedSchema")
+        },
+        [SCROLL_TO_VIRTUALIZED_OPERATION](state, action) {
+          return state.set("scrollToVirtualizedOperation", action.payload)
+        },
+        [CLEAR_SCROLL_TO_VIRTUALIZED_OPERATION](state) {
+          return state.delete("scrollToVirtualizedOperation")
         },
       },
       wrapActions: {

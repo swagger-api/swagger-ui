@@ -28,6 +28,8 @@ const DEFAULT_RESPONSE_KEY = "default"
 
 export const VIRTUALIZE_MODELS_THRESHOLD = 100
 
+export const VIRTUALIZE_OPERATIONS_THRESHOLD = 150
+
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 
 export const immutableToJS = (value) => isImmutable(value) ? value.toJS() : value
