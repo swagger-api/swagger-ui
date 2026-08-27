@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { useRef, useCallback, useEffect } from "react"
+import React, { useRef, useCallback, useEffect, useMemo } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 import { useVirtualizer } from "@tanstack/react-virtual"
@@ -32,7 +32,7 @@ const Models = ({
   const ArrowDownIcon = getComponent("ArrowDownIcon")
   const { getTitle } = fn.jsonSchema202012.useFn()
 
-  const schemaEntries = Object.entries(schemas)
+  const schemaEntries = useMemo(() => Object.entries(schemas), [schemas])
 
   const parentRef = useRef(null)
   const measurementsCache = useRef([])
