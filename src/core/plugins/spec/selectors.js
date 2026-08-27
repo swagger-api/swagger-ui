@@ -152,6 +152,32 @@ export const operations = createSelector(
   }
 )
 
+// Finds an operation's flattened entry (path, method, operation, id,
+// specPath -- same shape `operations` already produces) by its
+// declared operationId. Used by oas3/actions.js's executeLink to resolve
+// an OpenAPI Link Object's `operationId` to a real, navigable operation.
+//
+// NOTE: this is deliberately a plain (state, operationId) function, NOT
+// a curried createSelector (e.g. createSelector(operations, (operations)
+// => (operationId) => {...})). The plugin system's selector binding
+// (see getBoundSelectors in core/system.js) calls a bound selector as
+// fn(state, ...args); if the RESULT of that call is itself a function,
+// the system assumes it's a getSystem-consuming selector and invokes it
+// with the whole system object, not with the caller's original args.
+// A curried createSelector here returns exactly such a function as its
+// result, so specSelectors.operationById(operationId) would silently
+// receive the system object in place of operationId instead. Matching
+// the plain-function pattern already used by responseFor/requestFor/
+// findDefinition/tagDetails elsewhere in this file avoids that entirely.
+export const operationById = (state, operationId) => {
+  if (!operationId) {
+    return undefined
+  }
+  return operations(state).find(
+    op => op.getIn(["operation", "operationId"]) === operationId
+  )
+}
+
 export const consumes = createSelector(
   spec,
   spec => Set(spec.get("consumes"))

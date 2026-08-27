@@ -134,7 +134,14 @@ export default class Responses extends React.Component {
               {
                 nonExtensionResponses.entrySeq().map( ([code, response]) => {
 
-                  let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
+                  // Only the response row whose status code matches what
+                  // "Try it out" actually returned should have a live
+                  // responseContext, so an OperationLink's
+                  // `$response.body#/...` parameters resolve against the
+                  // real result, not against an unrelated documented
+                  // response row that merely happens to render below it.
+                  let isCurrentResponse = tryItOutResponse && tryItOutResponse.get("status") == code
+                  let className = isCurrentResponse ? "response_current" : ""
                   return (
                     <Response key={ code }
                               path={path}
@@ -156,6 +163,7 @@ export default class Responses extends React.Component {
                                 "responses",
                                 code
                               )}
+                              responseContext={ isCurrentResponse ? tryItOutResponse : null }
                               oas3Actions={oas3Actions}
                               getComponent={ getComponent }/>
                     )
