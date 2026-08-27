@@ -1,0 +1,33 @@
+openapi: "3.0.4"
+info:
+  title: Bug 10527 - external anchors should not be rewritten as deep links
+  version: "1.0"
+paths:
+  /pets:
+    get:
+      operationId: "listPets"
+      tags: ["pets"]
+      summary: list pets
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
