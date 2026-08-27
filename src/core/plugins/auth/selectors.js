@@ -119,3 +119,52 @@ export const getConfigs = createSelector(
     state,
     auth => auth.get( "configs" )
 )
+
+export const getSecurityRequirementsForOperation = (state, securities) => ({ specSelectors }) => {
+  if (!securities || !securities.count()) {
+    return null
+  }
+
+  const securityDefinitions = specSelectors.securityDefinitions() || Map({})
+  const requirements = []
+
+  securities.forEach((requirement) => {
+    const schemes = []
+
+    requirement.forEach((scopes, schemeName) => {
+      const definition = securityDefinitions.get(schemeName)
+
+      if (definition) {
+        const schemeInfo = {
+          name: schemeName,
+          type: definition.get("type"),
+          scopes: scopes ? scopes.toJS() : [],
+          description: definition.get("description")
+        }
+
+        // Add scheme-specific metadata
+        if (definition.get("type") === "oauth2") {
+          schemeInfo.flow = definition.get("flow")
+          schemeInfo.authorizationUrl = definition.get("authorizationUrl")
+          schemeInfo.tokenUrl = definition.get("tokenUrl")
+        } else if (definition.get("type") === "openIdConnect") {
+          schemeInfo.openIdConnectUrl = definition.get("openIdConnectUrl")
+        } else if (definition.get("type") === "apiKey") {
+          schemeInfo.in = definition.get("in")
+          schemeInfo.name = definition.get("name")
+        } else if (definition.get("type") === "http") {
+          schemeInfo.scheme = definition.get("scheme")
+          schemeInfo.bearerFormat = definition.get("bearerFormat")
+        }
+
+        schemes.push(schemeInfo)
+      }
+    })
+
+    if (schemes.length > 0) {
+      requirements.push(schemes)
+    }
+  })
+
+  return requirements
+}
