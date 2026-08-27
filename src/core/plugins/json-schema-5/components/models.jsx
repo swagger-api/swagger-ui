@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Im, { Map } from "immutable"
+import { Map, List } from "immutable"
 import PropTypes from "prop-types"
 
 /* eslint-disable  react/jsx-no-bind */
@@ -77,13 +77,13 @@ export default class Models extends Component {
           definitions.entrySeq().map(([name])=>{
 
             const fullPath = [...specPathBase, name]
-            const specPath = Im.List(fullPath)
+            const specPath = List(fullPath)
 
             const schemaValue = specSelectors.specResolvedSubtree(fullPath)
             const rawSchemaValue = specSelectors.specJson().getIn(fullPath)
 
-            const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
-            const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
+            const schema = Map.isMap(schemaValue) ? schemaValue : Map()
+            const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Map()
 
             const displayName = schema.get("title") || rawSchema.get("title") || name
             const isShown = layoutSelectors.isShown(fullPath, false)
@@ -96,7 +96,7 @@ export default class Models extends Component {
 
             const content = <ModelWrapper name={ name }
               expandDepth={ defaultModelsExpandDepth }
-              schema={ schema || Im.Map() }
+              schema={ schema || Map() }
               displayName={displayName}
               fullPath={fullPath}
               specPath={specPath}
