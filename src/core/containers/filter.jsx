@@ -32,7 +32,7 @@ export default class FilterContainer extends React.Component {
         {filter === false ? null :
           <div className="filter-container">
             <Col className="filter wrapper" mobile={12}>
-              <input className={classNames.join(" ")} placeholder="Filter by tag" type="text"
+              <input className={classNames.join(" ")} aria-label="Filter by tag" placeholder="Filter by tag" type="text"
                      onChange={this.onFilterChange} value={typeof filter === "string" ? filter : ""}
                      disabled={isLoading}/>
             </Col>
