@@ -115,6 +115,20 @@ Parameter name | Docker variable | Description
         </td>
     </tr>
     <tr>
+        <td><a name="user-content-resolvesubtreeonexpand"></a><code>resolveSubtreeOnExpand</code>
+        </td>
+        <td><em>Unavailable</em></td>
+        <td><code>Boolean=true</code>. Controls whether an operation's or model's
+            subtree is resolved (dereferencing <code>$ref</code>s and generating
+            samples) when it is expanded. The default is <code>true</code>. Set to
+            <code>false</code> to skip this work and render directly from the
+            unresolved specification, which can keep expansion responsive on very
+            large or deeply nested schemas (for example documents with many nested
+            <code>oneOf</code> compositions). When disabled, referenced schemas are
+            shown by name rather than fully inlined.
+        </td>
+    </tr>
+    <tr>
         <td><a name="user-content-filter"></a><code>filter</code></td>
         <td><code>FILTER</code></td>
         <td><code>Boolean=false OR String</code>. If set, enables filtering. The

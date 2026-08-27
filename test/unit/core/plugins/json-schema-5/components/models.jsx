@@ -17,6 +17,9 @@ describe("<Models/>", function(){
     getComponent: (c) => {
         return components[c]
     },
+    specActions: {
+      requestResolvedSubtree: jest.fn()
+    },
     specSelectors: {
       isOAS3: () => false,
       specJson: () => Map(),
@@ -31,10 +34,14 @@ describe("<Models/>", function(){
     layoutSelectors: {
       isShown: jest.fn()
     },
-    layoutActions: {},
+    layoutActions: {
+      show: jest.fn(),
+      readyToScroll: jest.fn()
+    },
     getConfigs: () => ({
       docExpansion: "list",
-      defaultModelsExpandDepth: 0
+      defaultModelsExpandDepth: 0,
+      resolveSubtreeOnExpand: false
     })
   }
 
@@ -49,6 +56,53 @@ describe("<Models/>", function(){
     wrapper.find("ModelComponent").forEach((modelWrapper) => {
       expect(modelWrapper.props().expandDepth).toBe(0)
     })
+  })
+
+  it("does not resolve model subtree on expand when disabled", function() {
+    const localProps = {
+      ...props,
+      specActions: {
+        requestResolvedSubtree: jest.fn()
+      },
+      layoutActions: {
+        show: jest.fn(),
+        readyToScroll: jest.fn()
+      },
+      getConfigs: () => ({
+        docExpansion: "list",
+        defaultModelsExpandDepth: 0,
+        resolveSubtreeOnExpand: false
+      })
+    }
+
+    const wrapper = shallow(<Models {...localProps}/>)
+    wrapper.instance().handleToggle("def1", true)
+
+    expect(localProps.layoutActions.show).toHaveBeenCalledWith(["definitions", "def1"], true)
+    expect(localProps.specActions.requestResolvedSubtree).not.toHaveBeenCalled()
+  })
+
+  it("resolves model subtree on expand when enabled", function() {
+    const localProps = {
+      ...props,
+      specActions: {
+        requestResolvedSubtree: jest.fn()
+      },
+      layoutActions: {
+        show: jest.fn(),
+        readyToScroll: jest.fn()
+      },
+      getConfigs: () => ({
+        docExpansion: "list",
+        defaultModelsExpandDepth: 0,
+        resolveSubtreeOnExpand: true
+      })
+    }
+
+    const wrapper = shallow(<Models {...localProps}/>)
+    wrapper.instance().handleToggle("def1", true)
+
+    expect(localProps.specActions.requestResolvedSubtree).toHaveBeenCalledWith(["definitions", "def1"])
   })
 
 })
