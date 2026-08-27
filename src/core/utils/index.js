@@ -26,7 +26,6 @@ import getParameterSchema from "core/utils/get-parameter-schema"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
-export const VIRTUALIZE_MODELS_THRESHOLD = 100
 
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 

@@ -1,0 +1,6 @@
+/**
+ * @prettier
+ */
+export const VIRTUALIZE_MODELS_THRESHOLD = 100
+export const VIRTUALIZE_MODELS_ESTIMATE_SIZE = 71
+export const VIRTUALIZE_MODELS_OVERSCAN = 5

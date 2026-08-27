@@ -4,125 +4,13 @@
 import React, { useRef, useMemo, useCallback, useEffect } from "react"
 import Im, { Map } from "immutable"
 import PropTypes from "prop-types"
-import ImPropTypes from "react-immutable-proptypes"
 import { useVirtualizer } from "@tanstack/react-virtual"
-import { VIRTUALIZE_MODELS_THRESHOLD } from "core/utils"
-
-/* eslint-disable  react/jsx-no-bind */
-
-const ModelItem = React.memo(
-  ({
-    name,
-    schema,
-    rawSchema,
-    isShown,
-    specPathBase,
-    defaultModelsExpandDepth,
-    getComponent,
-    specSelectors,
-    getConfigs,
-    layoutSelectors,
-    layoutActions,
-    specActions,
-    getCollapsedContent,
-    handleToggle,
-    onLoadModel,
-  }) => {
-    const fullPath = [...specPathBase, name]
-    const specPath = Im.List(fullPath)
-
-    const displayName = schema.get("title") || rawSchema.get("title") || name
-
-    if (isShown && schema.size === 0 && rawSchema.size > 0) {
-      // Firing an action in a container render is not great,
-      // but it works for now.
-      specActions.requestResolvedSubtree(fullPath)
-    }
-
-    const ModelWrapper = getComponent("ModelWrapper")
-    const ModelCollapse = getComponent("ModelCollapse")
-    const JumpToPath = getComponent("JumpToPath", true)
-
-    const content = (
-      <ModelWrapper
-        name={name}
-        expandDepth={defaultModelsExpandDepth}
-        schema={schema || Im.Map()}
-        displayName={displayName}
-        fullPath={fullPath}
-        specPath={specPath}
-        getComponent={getComponent}
-        specSelectors={specSelectors}
-        getConfigs={getConfigs}
-        layoutSelectors={layoutSelectors}
-        layoutActions={layoutActions}
-        includeReadOnly={true}
-        includeWriteOnly={true}
-      />
-    )
-
-    const title = (
-      <span className="model-box">
-        <strong className="model model-title">{displayName}</strong>
-      </span>
-    )
-
-    return (
-      <div
-        id={`model-${name}`}
-        className="model-container"
-        data-name={name}
-        ref={onLoadModel}
-      >
-        <span className="models-jump-to-path">
-          <JumpToPath path={specPath} />
-        </span>
-        <ModelCollapse
-          classes="model-box"
-          collapsedContent={getCollapsedContent(name)}
-          onToggle={handleToggle}
-          title={title}
-          displayName={displayName}
-          modelName={name}
-          specPath={specPath}
-          layoutSelectors={layoutSelectors}
-          layoutActions={layoutActions}
-          hideSelfOnExpand={true}
-          expanded={defaultModelsExpandDepth > 0 && isShown}
-        >
-          {content}
-        </ModelCollapse>
-      </div>
-    )
-  },
-  (prev, next) =>
-    prev.name === next.name &&
-    prev.isShown === next.isShown &&
-    prev.defaultModelsExpandDepth === next.defaultModelsExpandDepth &&
-    prev.specPathBase === next.specPathBase &&
-    Im.is(prev.schema, next.schema) &&
-    Im.is(prev.rawSchema, next.rawSchema)
-)
-
-ModelItem.displayName = "ModelItem"
-
-ModelItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  schema: ImPropTypes.map.isRequired,
-  rawSchema: ImPropTypes.map.isRequired,
-  isShown: PropTypes.bool.isRequired,
-  specPathBase: PropTypes.arrayOf(PropTypes.string).isRequired,
-  defaultModelsExpandDepth: PropTypes.number.isRequired,
-  getComponent: PropTypes.func.isRequired,
-  specSelectors: PropTypes.object.isRequired,
-  getConfigs: PropTypes.func.isRequired,
-  layoutSelectors: PropTypes.object.isRequired,
-  layoutActions: PropTypes.object.isRequired,
-  specActions: PropTypes.object.isRequired,
-  getCollapsedContent: PropTypes.func.isRequired,
-  handleToggle: PropTypes.func.isRequired,
-  onLoadModel: PropTypes.func.isRequired,
-}
+import {
+  VIRTUALIZE_MODELS_THRESHOLD,
+  VIRTUALIZE_MODELS_ESTIMATE_SIZE,
+  VIRTUALIZE_MODELS_OVERSCAN,
+} from "core/utils/virtualization"
+import ModelItem from "./model-item"
 
 const Models = ({
   getComponent,
@@ -183,8 +71,8 @@ const Models = ({
   const virtualizer = useVirtualizer({
     count: definitionEntries.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 71,
-    overscan: 5,
+    estimateSize: () => VIRTUALIZE_MODELS_ESTIMATE_SIZE,
+    overscan: VIRTUALIZE_MODELS_OVERSCAN,
     getItemKey: (index) => `models-section-${definitionEntries[index][0]}`,
     initialMeasurementsCache: measurementsCache.current,
     onChange: (instance) => {
@@ -288,7 +176,7 @@ const Models = ({
                     key={vItem.key}
                     data-index={vItem.index}
                     ref={virtualizer.measureElement}
-                    style={{ paddingBottom: 15 }}
+                    className="models-virtual-item"
                   >
                     <ModelItem name={name} {...getModelItemProps(name)} />
                   </div>
