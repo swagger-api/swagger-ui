@@ -2,7 +2,7 @@
  * @prettier
  */
 import React, { useRef, useMemo, useCallback, useEffect } from "react"
-import Im, { Map } from "immutable"
+import { Map } from "immutable"
 import PropTypes from "prop-types"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import {
@@ -121,8 +121,8 @@ const Models = ({
     const schemaValue = specSelectors.specResolvedSubtree(fullPath)
     const rawSchemaValue = specSelectors.specJson().getIn(fullPath)
 
-    const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
-    const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
+    const schema = Map.isMap(schemaValue) ? schemaValue : Map()
+    const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Map()
     const isShown = layoutSelectors.isShown(fullPath, false)
 
     return {
