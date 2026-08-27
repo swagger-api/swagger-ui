@@ -98,7 +98,7 @@ describe("Models list virtualization", () => {
     })
   })
 
-  describe("legacy path — below threshold (OpenAPI 3.1)", () => {
+  describe("non-virtualized path — below threshold (OpenAPI 3.1)", () => {
     it("renders all schemas without a scroll wrapper", () => {
       cy.visit("/?url=/documents/features/oas31-schema-expansion.yaml")
       cy.get(".models-scroll").should("not.exist")
