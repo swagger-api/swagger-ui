@@ -1,78 +1,18 @@
 /**
  * @prettier
  */
-import React, { useRef, useCallback, useEffect } from "react"
+import React, { useRef, useCallback, useEffect, useMemo } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 import { useVirtualizer } from "@tanstack/react-virtual"
-import { VIRTUALIZE_MODELS_THRESHOLD } from "core/utils"
+import {
+  VIRTUALIZE_MODELS_THRESHOLD,
+  VIRTUALIZE_JSON_SCHEMA_2020_12_ESTIMATE_SIZE,
+  VIRTUALIZE_MODELS_OVERSCAN,
+} from "core/utils/virtualization"
+import SchemaItem from "./schema-item"
 
 const SCHEMAS_PATH = ["components", "schemas"]
-
-const SchemaItem = React.memo(
-  ({
-    schemaName,
-    schema,
-    name,
-    specSelectors,
-    specActions,
-    layoutActions,
-    getComponent,
-  }) => {
-    const JSONSchema202012 = getComponent("JSONSchema202012")
-
-    const handleJSONSchema202012Expand = useCallback(
-      (e, expanded) => {
-        const schemaPath = [...SCHEMAS_PATH, schemaName]
-        if (expanded) {
-          const isResolved =
-            specSelectors.specResolvedSubtree(schemaPath) != null
-          if (!isResolved) specActions.requestResolvedSubtree(schemaPath)
-          layoutActions.show(schemaPath, true)
-        } else {
-          layoutActions.show(schemaPath, false)
-        }
-      },
-      [schemaName, specSelectors, specActions, layoutActions]
-    )
-
-    const handleJSONSchema202012Ref = useCallback(
-      (node) => {
-        if (node !== null)
-          layoutActions.readyToScroll([...SCHEMAS_PATH, schemaName], node)
-      },
-      [schemaName, layoutActions]
-    )
-
-    return (
-      <JSONSchema202012
-        ref={handleJSONSchema202012Ref}
-        schema={schema}
-        name={name}
-        onExpand={handleJSONSchema202012Expand}
-      />
-    )
-  }
-)
-
-SchemaItem.displayName = "SchemaItem"
-
-SchemaItem.propTypes = {
-  schemaName: PropTypes.string.isRequired,
-  schema: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  specSelectors: PropTypes.shape({
-    specResolvedSubtree: PropTypes.func.isRequired,
-  }).isRequired,
-  specActions: PropTypes.shape({
-    requestResolvedSubtree: PropTypes.func.isRequired,
-  }).isRequired,
-  layoutActions: PropTypes.shape({
-    show: PropTypes.func.isRequired,
-    readyToScroll: PropTypes.func.isRequired,
-  }).isRequired,
-  getComponent: PropTypes.func.isRequired,
-}
 
 const Models = ({
   specActions,
@@ -92,7 +32,7 @@ const Models = ({
   const ArrowDownIcon = getComponent("ArrowDownIcon")
   const { getTitle } = fn.jsonSchema202012.useFn()
 
-  const schemaEntries = Object.entries(schemas)
+  const schemaEntries = useMemo(() => Object.entries(schemas), [schemas])
 
   const parentRef = useRef(null)
   const measurementsCache = useRef([])
@@ -100,8 +40,8 @@ const Models = ({
   const virtualizer = useVirtualizer({
     count: schemaEntries.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 48,
-    overscan: 5,
+    estimateSize: () => VIRTUALIZE_JSON_SCHEMA_2020_12_ESTIMATE_SIZE,
+    overscan: VIRTUALIZE_MODELS_OVERSCAN,
     getItemKey: (index) => `models-section-${schemaEntries[index][0]}`,
     initialMeasurementsCache: measurementsCache.current,
     onChange: (instance) => {
@@ -185,7 +125,7 @@ const Models = ({
                     key={vItem.key}
                     data-index={vItem.index}
                     ref={virtualizer.measureElement}
-                    style={{ paddingBottom: 15 }}
+                    className="models-virtual-item"
                   >
                     <SchemaItem
                       schemaName={schemaName}

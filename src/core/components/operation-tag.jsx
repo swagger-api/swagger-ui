@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import Im from "immutable"
+import { fromJS } from "immutable"
 import { createDeepLinkPath, escapeDeepLinkPath, isFunc } from "core/utils"
 import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 
@@ -10,7 +10,7 @@ import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 export default class OperationTag extends React.Component {
 
   static defaultProps = {
-    tagObj: Im.fromJS({}),
+    tagObj: fromJS({}),
     tag: "",
   }
 

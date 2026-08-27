@@ -1828,7 +1828,7 @@ describe("utils", () => {
       }
 
       expect(error).toBeInstanceOf(Error)
-      expect(error.message).toContain("received a non-Im.Map parameter as input")
+      expect(error.message).toContain("received a non-Map parameter as input")
       expect(res).toEqual(null)
     })
   })

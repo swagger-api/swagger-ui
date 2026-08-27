@@ -15,16 +15,24 @@ jest.mock("@tanstack/react-virtual", () => ({
 
 describe("<Models/> (oas31)", function () {
   const dummyComponent = () => null
-  /* eslint-disable react/prop-types */
-  const DummyComponentWithChildren = ({ children }) => <div>{children}</div>
+  const DummyComponentWithChildren = ({
+    children,
+  }: {
+    children: React.ReactNode
+  }) => <div>{children}</div>
 
   const makeProps = (overrides = {}) => ({
-    getComponent: (c) => {
-      const components = {
-        Collapse: DummyComponentWithChildren,
-        JSONSchema202012: React.forwardRef(({ name }) => (
+    getComponent: (c: string) => {
+      const components: Record<
+        string,
+        React.ComponentType<Record<string, unknown>>
+      > = {
+        Collapse: DummyComponentWithChildren as React.ComponentType<
+          Record<string, unknown>
+        >,
+        JSONSchema202012: React.forwardRef(({ name }: { name?: string }) => (
           <div className="schema-item" data-name={name} />
-        )),
+        )) as unknown as React.ComponentType<Record<string, unknown>>,
         ArrowUpIcon: dummyComponent,
         ArrowDownIcon: dummyComponent,
       }
@@ -92,7 +100,7 @@ describe("<Models/> (oas31)", function () {
   })
 
   it("uses non-virtualized path when schema count is just below threshold (99)", function () {
-    const schemas = {}
+    const schemas: Record<string, object> = {}
     for (let i = 0; i < 99; i++) {
       schemas[`Schema${i}`] = {}
     }
@@ -110,7 +118,7 @@ describe("<Models/> (oas31)", function () {
   })
 
   it("uses virtualized path when schema count is at threshold (100)", function () {
-    const schemas = {}
+    const schemas: Record<string, object> = {}
     for (let i = 0; i < 100; i++) {
       schemas[`Schema${i}`] = {}
     }

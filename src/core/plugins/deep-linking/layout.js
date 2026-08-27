@@ -1,7 +1,7 @@
 import { setHash } from "./helpers"
 import zenscroll from "zenscroll"
 import { createDeepLinkPath } from "core/utils"
-import Im, { fromJS } from "immutable"
+import { fromJS, is } from "immutable"
 
 const SCROLL_TO = "layout_scroll_to"
 const CLEAR_SCROLL_TO = "layout_clear_scroll"
@@ -116,7 +116,7 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
 export const readyToScroll = (isShownKey, ref) => (system) => {
   const scrollToKey = system.layoutSelectors.getScrollToKey()
 
-  if(Im.is(scrollToKey, fromJS(isShownKey))) {
+  if(is(scrollToKey, fromJS(isShownKey))) {
     system.layoutActions.scrollToElement(ref)
     system.layoutActions.clearScrollTo()
   }
@@ -229,7 +229,7 @@ export default {
       },
       reducers: {
         [SCROLL_TO](state, action) {
-          return state.set("scrollToKey", Im.fromJS(action.payload))
+          return state.set("scrollToKey", fromJS(action.payload))
         },
         [CLEAR_SCROLL_TO](state) {
           return state.delete("scrollToKey")

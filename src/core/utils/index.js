@@ -9,7 +9,7 @@
   If you're refactoring something in here, feel free to break it out to a file
   in `./helpers` if you have the time.
 */
-import Im, { fromJS, Map, Set } from "immutable"
+import { fromJS, Map, Set, List, OrderedMap, Seq, isImmutable, isKeyed, is } from "immutable"
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
 import _memoize from "lodash/memoize"
@@ -26,11 +26,7 @@ import getParameterSchema from "core/utils/get-parameter-schema"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
-export const VIRTUALIZE_MODELS_THRESHOLD = 100
-
 export const VIRTUALIZE_OPERATIONS_THRESHOLD = 150
-
-export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 
 export const immutableToJS = (value) => isImmutable(value) ? value.toJS() : value
 
@@ -46,7 +42,7 @@ export function arrayify (thing) {
     return []
 
   if(thing.toArray)
-    return Im.isKeyed(thing) ? thing.valueSeq().toArray() : thing.toArray()
+    return isKeyed(thing) ? thing.valueSeq().toArray() : thing.toArray()
 
   return normalizeArray(thing)
 }
@@ -62,14 +58,14 @@ export function fromJSOrdered(js) {
     return js
   }
   if (Array.isArray(js)) {
-    return Im.Seq(js).map(fromJSOrdered).toList()
+    return Seq(js).map(fromJSOrdered).toList()
   }
   if (isFunction(js.entries)) {
     // handle multipart/form-data
     const objWithHashedKeys = createObjWithHashedKeys(js)
-    return Im.OrderedMap(objWithHashedKeys).map(fromJSOrdered)
+    return OrderedMap(objWithHashedKeys).map(fromJSOrdered)
   }
-  return Im.OrderedMap(js).map(fromJSOrdered)
+  return OrderedMap(js).map(fromJSOrdered)
 }
 
 /**
@@ -196,11 +192,11 @@ export function defaultStatusCode ( responses ) {
  * @returns {Immutable.List} either iterable.get(keys) or an empty Immutable.List
  */
 export function getList(iterable, keys) {
-  if(!Im.Iterable.isIterable(iterable)) {
-    return Im.List()
+  if(!isImmutable(iterable)) {
+    return List()
   }
   let val = iterable.getIn(Array.isArray(keys) ? keys : [keys])
-  return Im.List.isList(val) ? val : Im.List()
+  return List.isList(val) ? val : List()
 }
 
 /**
@@ -210,9 +206,9 @@ export function getList(iterable, keys) {
  * @param {String} key the key to use, when merging the `key`
  * @returns {Immutable.List}
  */
-export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
-  if(!Im.Map.isMap(map) || !map.size) {
-    return Im.List()
+export function mapToList(map, keyNames="key", collectedKeys=Map()) {
+  if(!Map.isMap(map) || !map.size) {
+    return List()
   }
 
   if(!Array.isArray(keyNames)) {
@@ -224,12 +220,12 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
   }
 
   // I need to avoid `flatMap` from merging in the Maps, as well as the lists
-  let list = Im.List()
+  let list = List()
   let keyName = keyNames[0]
   for(let entry of map.entries()) {
     let [key, val] = entry
     let nextList = mapToList(val, keyNames.slice(1), collectedKeys.set(keyName, key))
-    if(Im.List.isList(nextList)) {
+    if(List.isList(nextList)) {
       list = list.concat(nextList)
     } else {
       list = list.push(nextList)
@@ -292,8 +288,8 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
       }
       let b = nextProps[name]
 
-      if(Im.Iterable.isIterable(a)) {
-        return !Im.is(a,b)
+      if(isImmutable(a)) {
+        return !is(a,b)
       }
 
       // Not going to compare objects
@@ -469,7 +465,7 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   // Further this point the parameter is considered worth to validate
   let stringCheck = type === "string" && value
   let arrayCheck = type === "array" && Array.isArray(value) && value.length
-  let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
+  let arrayListCheck = type === "array" && List.isList(value) && value.count()
   let arrayStringCheck = type === "array" && typeof value === "string" && value
   let fileCheck = type === "file" && value instanceof win.File
   let booleanCheck = type === "boolean" && (value || value === false)
@@ -679,7 +675,7 @@ export function requiresValidationURL(uri) {
 
 
 export function getAcceptControllingResponse(responses) {
-  if(!Im.OrderedMap.isOrderedMap(responses)) {
+  if(!OrderedMap.isOrderedMap(responses)) {
     // wrong type!
     return null
   }
@@ -694,8 +690,8 @@ export function getAcceptControllingResponse(responses) {
   })
 
   // try to find a suitable `default` responses
-  const defaultResponse = responses.get("default") || Im.OrderedMap()
-  const defaultResponseMediaTypes = (defaultResponse.get("content") || Im.OrderedMap()).keySeq().toJS()
+  const defaultResponse = responses.get("default") || OrderedMap()
+  const defaultResponseMediaTypes = (defaultResponse.get("content") || OrderedMap()).keySeq().toJS()
   const suitableDefaultResponse = defaultResponseMediaTypes.length ? defaultResponse : null
 
   return suitable2xxResponse || suitableDefaultResponse
@@ -775,8 +771,8 @@ export function numberToString(thing) {
 }
 
 export function paramToIdentifier(param, { returnAll = false, allowHashes = true } = {}) {
-  if(!Im.Map.isMap(param)) {
-    throw new Error("paramToIdentifier: received a non-Im.Map parameter as input")
+  if(!Map.isMap(param)) {
+    throw new Error("paramToIdentifier: received a non-Map parameter as input")
   }
   const paramName = param.get("name")
   const paramIn = param.get("in")
