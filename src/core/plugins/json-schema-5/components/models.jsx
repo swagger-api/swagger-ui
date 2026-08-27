@@ -112,6 +112,10 @@ const Models = ({
     defaultModelsExpandDepth > 0 && docExpansion !== "none"
   )
 
+  const handleModelsExpand = useCallback(() => {
+    layoutActions.show(specPathBase, !showModels)
+  }, [layoutActions, specPathBase, showModels])
+
   const Collapse = getComponent("Collapse")
   const ArrowUpIcon = getComponent("ArrowUpIcon")
   const ArrowDownIcon = getComponent("ArrowDownIcon")
@@ -152,7 +156,7 @@ const Models = ({
         <button
           aria-expanded={showModels}
           className="models-control"
-          onClick={() => layoutActions.show(specPathBase, !showModels)}
+          onClick={handleModelsExpand}
         >
           <span>{isOAS3 ? "Schemas" : "Models"}</span>
           {showModels ? <ArrowUpIcon /> : <ArrowDownIcon />}
