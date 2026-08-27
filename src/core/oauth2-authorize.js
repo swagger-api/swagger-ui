@@ -1,5 +1,5 @@
 import parseUrl from "url-parse"
-import Im from "immutable"
+import { List } from "immutable"
 import { btoa, generateCodeVerifier, createCodeChallenge } from "core/utils"
 import { sanitizeUrl } from "core/utils/url"
 
@@ -59,7 +59,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let scopesArray = []
   if (Array.isArray(scopes)) {
     scopesArray = scopes
-  } else if (Im.List.isList(scopes)) {
+  } else if (List.isList(scopes)) {
     scopesArray = scopes.toArray()
   }
 

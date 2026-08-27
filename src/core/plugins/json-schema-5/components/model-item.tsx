@@ -2,12 +2,12 @@
  * @prettier
  */
 import React from "react"
-import Im from "immutable"
+import { Map, List, is } from "immutable"
 
 interface ModelItemProps {
   name: string
-  schema: Im.Map<string, unknown>
-  rawSchema: Im.Map<string, unknown>
+  schema: Map<string, unknown>
+  rawSchema: Map<string, unknown>
   isShown: boolean
   specPathBase: string[]
   defaultModelsExpandDepth: number
@@ -47,7 +47,7 @@ const ModelItem = React.memo(
     onLoadModel,
   }: ModelItemProps) => {
     const fullPath = [...specPathBase, name]
-    const specPath = Im.List(fullPath)
+    const specPath = List(fullPath)
 
     const displayName =
       (schema.get("title") as string | undefined) ||
@@ -68,7 +68,7 @@ const ModelItem = React.memo(
       <ModelWrapper
         name={name}
         expandDepth={defaultModelsExpandDepth}
-        schema={schema || Im.Map<string, unknown>()}
+        schema={schema || Map<string, unknown>()}
         displayName={displayName}
         fullPath={fullPath}
         specPath={specPath}
@@ -121,8 +121,8 @@ const ModelItem = React.memo(
     prev.isShown === next.isShown &&
     prev.defaultModelsExpandDepth === next.defaultModelsExpandDepth &&
     prev.specPathBase === next.specPathBase &&
-    Im.is(prev.schema, next.schema) &&
-    Im.is(prev.rawSchema, next.rawSchema)
+    is(prev.schema, next.schema) &&
+    is(prev.rawSchema, next.rawSchema)
 )
 
 ModelItem.displayName = "ModelItem"

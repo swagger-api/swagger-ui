@@ -2,7 +2,7 @@
  * @prettier
  */
 import React, { useRef, useMemo, useCallback, useEffect } from "react"
-import Im, { Map } from "immutable"
+import { Map } from "immutable"
 import PropTypes from "prop-types"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import {
@@ -112,6 +112,10 @@ const Models = ({
     defaultModelsExpandDepth > 0 && docExpansion !== "none"
   )
 
+  const handleModelsExpand = useCallback(() => {
+    layoutActions.show(specPathBase, !showModels)
+  }, [layoutActions, specPathBase, showModels])
+
   const Collapse = getComponent("Collapse")
   const ArrowUpIcon = getComponent("ArrowUpIcon")
   const ArrowDownIcon = getComponent("ArrowDownIcon")
@@ -121,8 +125,8 @@ const Models = ({
     const schemaValue = specSelectors.specResolvedSubtree(fullPath)
     const rawSchemaValue = specSelectors.specJson().getIn(fullPath)
 
-    const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
-    const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
+    const schema = Map.isMap(schemaValue) ? schemaValue : Map()
+    const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Map()
     const isShown = layoutSelectors.isShown(fullPath, false)
 
     return {
@@ -152,7 +156,7 @@ const Models = ({
         <button
           aria-expanded={showModels}
           className="models-control"
-          onClick={() => layoutActions.show(specPathBase, !showModels)}
+          onClick={handleModelsExpand}
         >
           <span>{isOAS3 ? "Schemas" : "Models"}</span>
           {showModels ? <ArrowUpIcon /> : <ArrowDownIcon />}
