@@ -26,8 +26,6 @@ import getParameterSchema from "core/utils/get-parameter-schema"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
-export const VIRTUALIZE_OPERATIONS_THRESHOLD = 150
-
 export const immutableToJS = (value) => isImmutable(value) ? value.toJS() : value
 
 export function objectify (thing) {

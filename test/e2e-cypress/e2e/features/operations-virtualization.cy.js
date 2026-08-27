@@ -1,6 +1,10 @@
 /**
  * @prettier
  */
+import {
+  VIRTUALIZE_OPERATIONS_TAG_ESTIMATE_SIZE,
+  VIRTUALIZE_OPERATIONS_ESTIMATE_SIZE,
+} from "core/utils/virtualization"
 
 describe("Operations list virtualization", () => {
   describe("non-virtualized path", () => {
@@ -69,9 +73,10 @@ describe("Operations list virtualization", () => {
       cy.visit(baseUrl)
       cy.get("#operations-tag-perfTag01").should("exist")
 
-      // tag header = 70px, operation row = 55px
       // perfTag01 header + 22 regular ops before multiTagged
-      const multiTaggedUnderTag01 = 70 + 22 * 55
+      const multiTaggedUnderTag01 =
+        VIRTUALIZE_OPERATIONS_TAG_ESTIMATE_SIZE +
+        22 * VIRTUALIZE_OPERATIONS_ESTIMATE_SIZE
       cy.window().then((win) => win.scrollTo(0, multiTaggedUnderTag01))
       cy.wait(200)
       cy.get("#operations-perfTag01-multiTagged").should("exist")
@@ -83,7 +88,12 @@ describe("Operations list virtualization", () => {
         .should("be.visible")
 
       // scroll past first multiTagged and through perfTag02 to its multiTagged
-      cy.window().then((win) => win.scrollTo(0, 2 * multiTaggedUnderTag01 + 55))
+      cy.window().then((win) =>
+        win.scrollTo(
+          0,
+          2 * multiTaggedUnderTag01 + VIRTUALIZE_OPERATIONS_ESTIMATE_SIZE
+        )
+      )
       cy.wait(200)
       cy.get("#operations-perfTag02-multiTagged").should("exist")
       cy.get("#operations-perfTag02-multiTagged")

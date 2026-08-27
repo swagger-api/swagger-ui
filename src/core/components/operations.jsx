@@ -11,7 +11,12 @@ import React, {
 import PropTypes from "prop-types"
 import { useWindowVirtualizer, useVirtualizer } from "@tanstack/react-virtual"
 import { opId } from "swagger-client/es/helpers"
-import { VIRTUALIZE_OPERATIONS_THRESHOLD } from "core/utils"
+import {
+  VIRTUALIZE_OPERATIONS_THRESHOLD,
+  VIRTUALIZE_OPERATIONS_TAG_ESTIMATE_SIZE,
+  VIRTUALIZE_OPERATIONS_ESTIMATE_SIZE,
+  VIRTUALIZE_OPERATIONS_OVERSCAN,
+} from "core/utils/virtualization"
 
 const findScrollParent = (el) => {
   let node = el.parentElement
@@ -128,8 +133,11 @@ const Operations = ({
   const windowVirtualizer = useWindowVirtualizer({
     enabled: isWindowScroll,
     count: isWindowScroll && isVirtualized ? flatItems.length : 0,
-    estimateSize: (i) => (flatItems[i]?.type === "tag" ? 70 : 55),
-    overscan: 3,
+    estimateSize: (i) =>
+      flatItems[i]?.type === "tag"
+        ? VIRTUALIZE_OPERATIONS_TAG_ESTIMATE_SIZE
+        : VIRTUALIZE_OPERATIONS_ESTIMATE_SIZE,
+    overscan: VIRTUALIZE_OPERATIONS_OVERSCAN,
     scrollMargin,
     getItemKey: (index) => {
       const item = flatItems[index]
@@ -142,8 +150,11 @@ const Operations = ({
   const containerVirtualizer = useVirtualizer({
     enabled: !isWindowScroll,
     count: !isWindowScroll && isVirtualized ? flatItems.length : 0,
-    estimateSize: (i) => (flatItems[i]?.type === "tag" ? 70 : 55),
-    overscan: 3,
+    estimateSize: (i) =>
+      flatItems[i]?.type === "tag"
+        ? VIRTUALIZE_OPERATIONS_TAG_ESTIMATE_SIZE
+        : VIRTUALIZE_OPERATIONS_ESTIMATE_SIZE,
+    overscan: VIRTUALIZE_OPERATIONS_OVERSCAN,
     getScrollElement: () => containerEl,
     scrollMargin,
     getItemKey: (index) => {
@@ -249,7 +260,10 @@ const Operations = ({
 
   return (
     <div ref={listRef} className="operations-virtual">
-      <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
+      <div
+        className="operations-virtual__list"
+        style={{ height: virtualizer.getTotalSize() }}
+      >
         {virtualizer.getVirtualItems().map((vItem) => {
           const item = flatItems[vItem.index]
 
@@ -258,14 +272,9 @@ const Operations = ({
               key={vItem.key}
               data-index={vItem.index}
               ref={virtualizer.measureElement}
+              className="operations-virtual__item"
               style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
                 transform: `translateY(${vItem.start - virtualizer.options.scrollMargin}px)`,
-                flexDirection: "column",
-                display: "flex",
               }}
             >
               {item.type === "tag" ? (
