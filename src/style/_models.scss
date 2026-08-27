@@ -277,6 +277,10 @@ section.models {
     overflow-y: auto;
     padding-top: 20px;
     padding-bottom: 5px;
+
+    .models-virtual-item {
+      padding-bottom: 15px;
+    }
   }
 
   .model-box {

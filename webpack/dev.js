@@ -67,7 +67,7 @@ const devConfig = configBuilder(
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.[jt]sx?$/,
           include: [
             path.join(projectBasePath, "src"),
             path.join(projectBasePath, "node_modules", "object-assign-deep"),

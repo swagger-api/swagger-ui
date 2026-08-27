@@ -3,7 +3,7 @@
  */
 
 describe("Models list virtualization", () => {
-  describe("legacy path — below threshold (OpenAPI 2.0)", () => {
+  describe("non-virtualized path — below threshold (OpenAPI 2.0)", () => {
     it("renders all model-container elements without a scroll wrapper", () => {
       cy.visit("/?url=/documents/features/models.swagger.yaml")
       cy.get(".models-scroll").should("not.exist")
