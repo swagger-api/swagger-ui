@@ -257,12 +257,7 @@ describe("<Operations/>", function () {
 
     const wrapper = mount(<Operations {...props} />)
 
-    expect(
-      wrapper.find("div").filterWhere((n) => {
-        const s = n.prop("style") || {}
-        return s.position === "relative"
-      }).length
-    ).toBeGreaterThan(0)
+    expect(wrapper.find(".operations-virtual__list").length).toBeGreaterThan(0)
   })
 
   it("renders OperationTag for each tag in the non-virtualized path", function () {
