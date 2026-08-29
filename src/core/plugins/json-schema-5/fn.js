@@ -19,7 +19,11 @@ export const hasSchemaType = (schema, type) => {
   )
 }
 
-const getType = (schema, processedSchemas = new WeakSet()) => {
+const getType = (
+  schema,
+  processedSchemas = new WeakSet(),
+  withFormat = false
+) => {
   if (schema == null) {
     return "any"
   }
@@ -30,11 +34,14 @@ const getType = (schema, processedSchemas = new WeakSet()) => {
 
   processedSchemas.add(schema)
 
-  const { type, items } = schema
+  const { type, format, items } = schema
 
   const getArrayType = () => {
     if (items) {
-      const itemsType = getType(items, processedSchemas)
+      // Inline items format (e.g. "string($uuid)") inside the array<...> label,
+      // because the array's items have no separate rendering path that would
+      // append their format. See issue #4516.
+      const itemsType = getType(items, processedSchemas, true)
       return `array<${itemsType}>`
     } else {
       return "array<any>"
@@ -43,6 +50,9 @@ const getType = (schema, processedSchemas = new WeakSet()) => {
 
   if (Object.hasOwn(schema, "items")) {
     return getArrayType()
+  }
+  if (withFormat && type && format) {
+    return `${type}($${format})`
   }
   return type
 }
