@@ -39,8 +39,8 @@ Read more about the plugin system in the [Customization documentation](/docs/cus
 Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="layout"></a>`layout` | _Unavailable_ | `String="BaseLayout"`. The name of a component available via the plugin system to use as the top-level layout for Swagger UI.
-<a name="plugins"></a>`plugins` | _Unavailable_ | `Array=[]`. An array of plugin functions to use in Swagger UI.
-<a name="presets"></a>`presets` | _Unavailable_ | `Array=[SwaggerUI.presets.ApisPreset]`. An array of presets to use in Swagger UI. Usually, you'll want to include `ApisPreset` if you use this option.
+<a name="plugins"></a>`plugins` | `PLUGIN` | `Array=[]`. An array of plugin functions to use in Swagger UI.
+<a name="presets"></a>`presets` | `PRESETS` | `Array=[SwaggerUI.presets.ApisPreset]`. An array of presets to use in Swagger UI. Usually, you'll want to include `ApisPreset` if you use this option.
 
 ##### Display
 
