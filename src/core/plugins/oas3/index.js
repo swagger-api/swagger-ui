@@ -10,11 +10,13 @@ import * as actions from "./actions"
 import * as selectors from "./selectors"
 import reducers from "./reducers"
 import { makeIsFileUploadIntended } from "./fn"
+import afterLoad from "./after-load"
 
 export default function ({ getSystem }) {
   const isFileUploadIntended = makeIsFileUploadIntended(getSystem)
 
   return {
+    afterLoad,
     components,
     wrapComponents,
     statePlugins: {
