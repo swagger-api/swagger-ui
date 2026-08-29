@@ -171,7 +171,7 @@ Parameter name | Docker variable | Description
         <td><a name="user-content-tagsorter"></a><code>tagsSorter</code></td>
         <td><em>Unavailable</em></td>
         <td><code>Function=(a =&gt; a)</code>. Apply a sort to the tag list of
-            each API. It can be 'alpha' (sort by paths alphanumerically) or a
+            each API. It can be 'alpha' (sort by tags alphanumerically) or a
             function (see <a
                     href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"
                     rel="nofollow">Array.prototype.sort()</a> to learn how to
