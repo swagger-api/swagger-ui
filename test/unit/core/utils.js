@@ -1061,6 +1061,75 @@ describe("utils", () => {
       value = undefined
       assertValidateParam(param, value, ["Required field is not provided"])
     })
+
+    it("validates required OAS3 parameters with anyOf schema", () => {
+      // missing value with anyOf should report required error
+      param = {
+        required: true,
+        schema: {
+          anyOf: [
+            { type: "integer" },
+            { type: "string" }
+          ]
+        }
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+
+      // valid integer value with anyOf
+      param = {
+        required: true,
+        schema: {
+          anyOf: [
+            { type: "integer" },
+            { type: "string" }
+          ]
+        }
+      }
+      value = 123
+      assertValidateOas3Param(param, value, [])
+
+      // valid string value with anyOf (matches second sub-schema type via first)
+      param = {
+        required: true,
+        schema: {
+          anyOf: [
+            { type: "string" },
+            { type: "integer" }
+          ]
+        }
+      }
+      value = "hello"
+      assertValidateOas3Param(param, value, [])
+    })
+
+    it("validates required OAS3 parameters with oneOf schema", () => {
+      // missing value with oneOf should report required error
+      param = {
+        required: true,
+        schema: {
+          oneOf: [
+            { type: "integer" },
+            { type: "string" }
+          ]
+        }
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+
+      // valid integer value with oneOf
+      param = {
+        required: true,
+        schema: {
+          oneOf: [
+            { type: "integer" },
+            { type: "string" }
+          ]
+        }
+      }
+      value = 123
+      assertValidateOas3Param(param, value, [])
+    })
   })
 
   describe("fromJSOrdered", () => {
