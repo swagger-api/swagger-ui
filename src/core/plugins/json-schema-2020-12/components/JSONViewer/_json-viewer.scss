@@ -9,3 +9,7 @@
   + .json-schema-2020-12-json-viewer__value--secondary::before {
   content: "=";
 }
+
+.json-schema-2020-12-json-viewer__value--no-name::before {
+  content: none !important;
+}
