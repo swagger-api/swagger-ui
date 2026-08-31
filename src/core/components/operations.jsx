@@ -113,19 +113,22 @@ const Operations = ({
     }
 
     const measure = () => {
-      if (isWindowScroll) {
-        setScrollMargin(el.offsetTop)
-      } else {
-        const listRect = el.getBoundingClientRect()
-        const containerRect = container.getBoundingClientRect()
-        setScrollMargin(listRect.top - containerRect.top + container.scrollTop)
-      }
+      setScrollMargin(el.offsetTop)
     }
 
-    measure()
-    window.addEventListener("resize", measure)
+    let raf = requestAnimationFrame(measure)
 
-    return () => window.removeEventListener("resize", measure)
+    const onResize = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(measure)
+    }
+
+    window.addEventListener("resize", onResize)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener("resize", onResize)
+    }
   }, [])
 
   const isWindowScroll = containerEl === null
