@@ -21,7 +21,17 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:prettier/recommended",
   ],
-  plugins: ["react", "import", "jest", "prettier"],
+  plugins: ["react", "import", "jest", "prettier", "@typescript-eslint"],
+  overrides: [
+    {
+      files: ["**/*.ts", "**/*.tsx"],
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+      extends: ["plugin:@typescript-eslint/recommended"],
+    },
+  ],
   settings: {
     react: {
       pragma: "React",
@@ -73,6 +83,6 @@ module.exports = {
     "react/jsx-no-target-blank": 2,
     "react/display-name": 0,
     "import/no-extraneous-dependencies": 2,
-    "react/jsx-filename-extension": 2,
+    "react/jsx-filename-extension": [2, { extensions: [".jsx", ".tsx"] }],
   },
 }

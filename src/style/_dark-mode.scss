@@ -1,44 +1,91 @@
 @use "sass:list";
 
 // Variables for consistent theme
-$neutral-10: #F0F1F1;
-$neutral-20: #E4E6E6;
-$neutral-30: #D2D6D7;
-$neutral-40: #B7BCBF;
-$neutral-50: #8C969A;
-$neutral-60: #6B757A;
-$neutral-80: #545D61;
-$neutral-85: #434B4F;
-$neutral-95: #2A2E30;
-$neutral-98: #1C2022;
-$neutral-100: #080A0B;
+$neutral-10: #f0f1f1;
+$neutral-20: #e4e6e6;
+$neutral-30: #d2d6d7;
+$neutral-40: #b7bcbf;
+$neutral-50: #8c969a;
+$neutral-60: #6b757a;
+$neutral-80: #545d61;
+$neutral-85: #434b4f;
+$neutral-95: #2a2e30;
+$neutral-98: #1c2022;
+$neutral-100: #080a0b;
 
-$success-30: #4AC966;
-$error-30: #FF5F5F;
+$success-30: #4ac966;
+$error-30: #ff5f5f;
 
-$authorize-button: #3ECE90;
-$link: #51A8FF;
-$markdown-code: #B68AE1;
-$textarea: #0D1014;
+$authorize-button: #3ece90;
+$link: #51a8ff;
+$markdown-code: #b68ae1;
+$textarea: #0d1014;
 $textarea-disabled: #202225;
-$info-version-stamp: #1D632E;
-$curl-command-button: #3B424D;
-$curl-command-button-text: #EBEBEB;
-$json-schema-2020-12__attribute--primary: #9898FF;
-$json-schema-2020-12__constraint--string: #D4AA53;
+$info-version-stamp: #1d632e;
+$curl-command-button: #3b424d;
+$curl-command-button-text: #ebebeb;
+$json-schema-2020-12__attribute--primary: #9898ff;
+$json-schema-2020-12__constraint--string: #d4aa53;
 
 $opblock_colors: (
-  post: (#112929, #104834, #14392C, #00B572),
-  deprecated: (#272C34, #495361, #262E36, #6A6A6A),
-  put: (#27201E, #523524, #9a5b3e, #FF7D35),
-  get: (#182536, #294262, #1C3043, #55A1FF),
-  delete: (#241A20, #4B2420, #2F2020, #EB6156),
-  patch: (#11282F, #16494B, #113239, #03B7BF),
-  head: (#282231, #44336A, #352C45, #B889FF),
-  options: (#202C3C, #33465E, #314558, #6895C8),
+  post: (
+    #112929,
+    #104834,
+    #14392c,
+    #00b572,
+  ),
+  deprecated: (
+    #272c34,
+    #495361,
+    #262e36,
+    #6a6a6a,
+  ),
+  put: (
+    #27201e,
+    #523524,
+    #9a5b3e,
+    #ff7d35,
+  ),
+  get: (
+    #182536,
+    #294262,
+    #1c3043,
+    #55a1ff,
+  ),
+  delete: (
+    #241a20,
+    #4b2420,
+    #2f2020,
+    #eb6156,
+  ),
+  patch: (
+    #11282f,
+    #16494b,
+    #113239,
+    #03b7bf,
+  ),
+  head: (
+    #282231,
+    #44336a,
+    #352c45,
+    #b889ff,
+  ),
+  options: (
+    #202c3c,
+    #33465e,
+    #314558,
+    #6895c8,
+  ),
+  query: (
+    #2a1a28,
+    #4a2848,
+    #3a2238,
+    #d977c6,
+  ),
 );
 
 html.dark-mode {
+  color-scheme: dark;
   background: $neutral-98;
 
   .swagger-ui {
@@ -48,7 +95,7 @@ html.dark-mode {
     .authorization__btn svg,
     .expand-operation svg,
     .opblock-control-arrow svg {
-      fill: $neutral-40;
+      color: $neutral-40;
       opacity: 1;
     }
 
@@ -57,13 +104,17 @@ html.dark-mode {
     }
 
     table thead tr {
-      td, th {
+      td,
+      th {
         color: $neutral-20;
       }
     }
 
-    .markdown, .renderedMarkdown {
-      p, pre {
+    .markdown,
+    .renderedMarkdown {
+      p,
+      pre,
+      li {
         color: $neutral-20;
       }
 
@@ -109,7 +160,7 @@ html.dark-mode {
         right 10px center no-repeat;
       color: $neutral-10;
       border-color: $neutral-40;
-      box-shadow: none; 
+      box-shadow: none;
       outline: none;
 
       &[multiple] {
@@ -121,12 +172,15 @@ html.dark-mode {
       }
     }
 
-    input::placeholder, textarea::placeholder {
+    input::placeholder,
+    textarea::placeholder {
       color: $neutral-10;
       opacity: 0.5;
     }
 
-    input.invalid, select.invalid, textarea.invalid {
+    input.invalid,
+    select.invalid,
+    textarea.invalid {
       background: $neutral-98;
       border-color: $error-30;
     }
@@ -158,17 +212,22 @@ html.dark-mode {
       .modal-ux {
         background-color: $neutral-95;
         color: $neutral-20;
-        border: none; 
+        border: none;
 
         &-header {
           border-color: $neutral-80;
 
-          .close-modal svg { 
-            fill: $neutral-20;
+          .close-modal svg {
+            color: $neutral-20;
           }
         }
 
-        h2, h3, h4, h5, p, label {
+        h2,
+        h3,
+        h4,
+        h5,
+        p,
+        label {
           color: $neutral-20;
         }
 
@@ -202,13 +261,22 @@ html.dark-mode {
               background: $neutral-80
                 url('data:image/svg+xml, <svg width="10px" height="8px" viewBox="3 7 10 8" version="1.1" xmlns="http://www.w3.org/2000/svg"><polygon id="Rectangle-34" stroke="none" fill="#E4E6E6" fill-rule="evenodd" points="6.33333333 15 3 11.6666667 4.33333333 10.3333333 6.33333333 12.3333333 11.6666667 7 13 8.33333333"></polygon></svg>')
                 center center no-repeat;
+
+              @media (forced-colors: active) {
+                forced-color-adjust: none;
+                background-color: ButtonText;
+                background-image: none;
+                mask-image: url('data:image/svg+xml, <svg width="10px" height="8px" viewBox="3 7 10 8" version="1.1" xmlns="http://www.w3.org/2000/svg"><polygon stroke="none" fill-rule="evenodd" points="6.33333333 15 3 11.6666667 4.33333333 10.3333333 6.33333333 12.3333333 11.6666667 7 13 8.33333333"/></svg>');
+                mask-position: center center;
+                mask-repeat: no-repeat;
+              }
             }
           }
         }
       }
     }
-    
-    // ------ LOADING SPINNER ------ 
+
+    // ------ LOADING SPINNER ------
 
     .loading-container .loading {
       &::before {
@@ -221,7 +289,7 @@ html.dark-mode {
       }
     }
 
-    // ------ SCHEMES / SERVERS ------ 
+    // ------ SCHEMES / SERVERS ------
 
     .scheme-container {
       background: $neutral-98;
@@ -236,19 +304,27 @@ html.dark-mode {
         color: $authorize-button;
 
         svg {
-          fill: $authorize-button;
+          color: $authorize-button;
         }
       }
     }
 
-    // ------ INFO ------ 
+    // ------ INFO ------
 
     .info {
-      h1, h2, h3, h4, h5, .title {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      .title {
         color: $neutral-30;
       }
 
-      li, p, table, .base-url {
+      li,
+      p,
+      table,
+      .base-url {
         color: $neutral-20;
       }
 
@@ -268,7 +344,8 @@ html.dark-mode {
         background: $neutral-85;
         border-color: $error-30;
 
-        h4, span {
+        h4,
+        span {
           color: $neutral-20;
         }
 
@@ -281,13 +358,23 @@ html.dark-mode {
 
     // ------ COPY / DOWNLOAD BUTTONS ------
 
-    .copy-to-clipboard, .download-contents {
+    .copy-to-clipboard,
+    .download-contents {
       background: $neutral-80;
       color: $neutral-20;
 
       button {
         background: url("data:image/svg+xml, <svg xmlns='http://www.w3.org/2000/svg' width='16' height='15' aria-hidden='true'><g transform='translate(2, -1)'><path fill='#E4E6E6' fill-rule='evenodd' d='M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z'></path></g></svg>")
           center center no-repeat;
+
+        @media (forced-colors: active) {
+          forced-color-adjust: none;
+          background-color: ButtonText;
+          background-image: none;
+          mask-image: url("data:image/svg+xml, <svg xmlns='http://www.w3.org/2000/svg' width='16' height='15' aria-hidden='true'><g transform='translate(2, -1)'><path fill-rule='evenodd' d='M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z'/></g></svg>");
+          mask-position: center center;
+          mask-repeat: no-repeat;
+        }
       }
     }
 
@@ -476,7 +563,8 @@ html.dark-mode {
       }
 
       .responses-inner {
-        h4, h5 {
+        h4,
+        h5 {
           color: $neutral-20;
         }
       }
@@ -500,6 +588,16 @@ html.dark-mode {
           background: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#e4e6e6" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>')
             center no-repeat;
           background-size: 100%;
+
+          @media (forced-colors: active) {
+            forced-color-adjust: none;
+            background-color: CanvasText;
+            background-image: none;
+            mask-image: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>');
+            mask-position: center;
+            mask-repeat: no-repeat;
+            mask-size: 100%;
+          }
         }
       }
 
@@ -507,7 +605,12 @@ html.dark-mode {
         color: $markdown-code;
       }
 
-      .property-row, .brace-open, .brace-close, .prop-format, .property, .description {
+      .property-row,
+      .brace-open,
+      .brace-close,
+      .prop-format,
+      .property,
+      .description {
         color: $neutral-20;
       }
 
@@ -519,7 +622,8 @@ html.dark-mode {
     .model-box {
       background: $neutral-95;
 
-      .model-title, .model {
+      .model-title,
+      .model {
         color: $neutral-20;
       }
 
@@ -527,7 +631,7 @@ html.dark-mode {
         &:focus {
           outline: none;
         }
-        
+
         &:not(.prop) {
           color: $neutral-20;
         }
@@ -543,7 +647,7 @@ html.dark-mode {
         background: $neutral-95;
 
         svg {
-          fill: $neutral-20;
+          color: $neutral-20;
         }
       }
 
@@ -555,7 +659,10 @@ html.dark-mode {
         color: $neutral-20;
       }
 
-      &-property--required > .json-schema-2020-12:first-of-type > .json-schema-2020-12-head .json-schema-2020-12__title::after {
+      &-property--required
+        > .json-schema-2020-12:first-of-type
+        > .json-schema-2020-12-head
+        .json-schema-2020-12__title::after {
         color: $error-30;
       }
 
@@ -596,10 +703,10 @@ html.dark-mode {
         }
 
         &--patternProperties {
-          .json-schema-2020-12__title::before, 
+          .json-schema-2020-12__title::before,
           .json-schema-2020-12__title::after {
             color: $json-schema-2020-12__attribute--primary;
-          } 
+          }
         }
       }
 
@@ -618,7 +725,8 @@ html.dark-mode {
       }
 
       &-json-viewer {
-        &__name--secondary, &__value--secondary {
+        &__name--secondary,
+        &__value--secondary {
           color: $neutral-40;
         }
       }
@@ -656,7 +764,7 @@ html.dark-mode {
         }
 
         svg {
-          fill: $neutral-40;
+          color: $neutral-40;
         }
       }
     }

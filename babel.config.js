@@ -11,6 +11,7 @@ const browser = {
       }
     ],
     "@babel/preset-react",
+    "@babel/preset-typescript",
   ],
     plugins: [
     [
@@ -59,6 +60,7 @@ module.exports = {
           }
         ],
         "@babel/preset-react",
+        "@babel/preset-typescript",
       ],
       plugins: [
         [
@@ -101,7 +103,8 @@ module.exports = {
             useBuiltIns: false,
           }
         ],
-        "@babel/preset-react"
+        "@babel/preset-react",
+        "@babel/preset-typescript",
       ],
       plugins: [
         [

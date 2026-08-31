@@ -10,7 +10,12 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   const { getComponent, fn, getConfigs } = getSystem()
   const configs = getConfigs()
 
-  if (ModelsWrapper.ModelsWithJSONSchemaContext) {
+  const pathname = window?.location?.pathname ?? "/"
+
+  if (
+    ModelsWrapper.ModelsWithJSONSchemaContext &&
+    ModelsWrapper.pathname === pathname
+  ) {
     return <ModelsWrapper.ModelsWithJSONSchemaContext />
   }
 
@@ -20,7 +25,7 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
   )
 
   // we cache the HOC as recreating it with every re-render is quite expensive
-  ModelsWrapper.ModelsWithJSONSchemaContext ??= withJSONSchemaSystemContext(
+  ModelsWrapper.ModelsWithJSONSchemaContext = withJSONSchemaSystemContext(
     Models,
     {
       config: {
@@ -38,10 +43,12 @@ const ModelsWrapper = createOnlyOAS31ComponentWrapper(({ getSystem }) => {
       },
     }
   )
+  ModelsWrapper.pathname = pathname
 
   return <ModelsWrapper.ModelsWithJSONSchemaContext />
 })
 
 ModelsWrapper.ModelsWithJSONSchemaContext = null
+ModelsWrapper.pathname = null
 
 export default ModelsWrapper

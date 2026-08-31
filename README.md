@@ -1,8 +1,8 @@
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
-[![Build Status](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/badge/icon?subject=jenkins%20build)](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/)
-[![npm audit](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-ui-security-audit&subject=npm%20audit)](https://jenkins.swagger.io/job/oss-swagger-ui-security-audit/lastBuild/console)
+[![Build Status](https://github.com/swagger-api/swagger-ui/actions/workflows/nodejs.yml/badge.svg)](https://github.com/swagger-api/swagger-ui/actions/workflows/nodejs.yml)
+[![security scan](https://img.shields.io/github/actions/workflow/status/swagger-api/swagger-ui/security-scan.yml?label=Security%20Scan)](https://github.com/swagger-api/swagger-ui/actions/workflows/security-scan.yml)
 [![total GitHub contributors](https://img.shields.io/github/contributors-anon/swagger-api/swagger-ui.svg)](https://github.com/swagger-api/swagger-ui/graphs/contributors)
 
 [![monthly npm installs](https://img.shields.io/npm/dm/swagger-ui.svg?label=npm%20downloads)](https://www.npmjs.com/package/swagger-ui)
@@ -33,9 +33,10 @@ If you are looking for plain ol' HTML/JS/CSS, [download the latest release](http
 ## Compatibility
 The OpenAPI Specification has undergone 5 revisions since initial creation in 2010.  Compatibility between Swagger UI and the OpenAPI Specification is as follows:
 
-| Swagger UI Version | Release Date | OpenAPI Spec compatibility                           | Notes                                                                 |
-|--------------------|--------------|------------------------------------------------------|-----------------------------------------------------------------------|
-| 5.19.0             | 2025-02-17   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.0.4, 3.1.0, 3.1.1 | [tag v5.19.0](https://github.com/swagger-api/swagger-ui/tree/v5.19.0) |
+| Swagger UI Version | Release Date | OpenAPI Spec compatibility                                  | Notes                                                                 |
+|--------------------|--------------|-------------------------------------------------------------|-----------------------------------------------------------------------|
+| 5.32.0             | 2026-02-27   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.0.4, 3.1.0, 3.1.1, 3.1.2, 3.2.0 | [tag v5.32.0](https://github.com/swagger-api/swagger-ui/tree/v5.32.0) |
+| 5.19.0             | 2025-02-17   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.0.4, 3.1.0, 3.1.1, 3.1.2 | [tag v5.19.0](https://github.com/swagger-api/swagger-ui/tree/v5.19.0) |
 | 5.0.0              | 2023-06-12   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0               | [tag v5.0.0](https://github.com/swagger-api/swagger-ui/tree/v5.0.0)   |
 | 4.0.0              | 2021-11-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v4.0.0](https://github.com/swagger-api/swagger-ui/tree/v4.0.0)   |
 | 3.18.3             | 2018-08-03   | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3                      | [tag v3.18.3](https://github.com/swagger-api/swagger-ui/tree/v3.18.3) |
@@ -88,10 +89,17 @@ Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false`
 
 ##### Integration Tests
 
-You will need JDK of version 7 or higher as instructed here
-https://nightwatchjs.org/guide/getting-started/installation.html#install-selenium-server
+End-to-end tests use [Cypress](https://www.cypress.io/). Run the full suite locally with `npm run cy:ci`, which starts the required servers, runs Cypress headless, and shuts the servers down afterwards - be sure you aren't running a dev server on the same ports when testing!
 
-Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
+To debug or run individual specs interactively, use `npm run cy:dev` to open the Cypress runner.
+
+To run a single spec headless, start the servers in one terminal and run that spec in another:
+
+```sh
+npm run cy:start
+# in a second terminal:
+npm run cy:run -- --spec "test/e2e-cypress/e2e/features/deep-linking.cy.js"
+```
 
 ### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, and Edge.
@@ -112,6 +120,6 @@ Please disclose any security-related issues or vulnerabilities by emailing [secu
 
 ## License
 
-SwaggerUI is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ui/blob/master/LICENSE).
-SwaggerUI comes with an explicit [NOTICE](https://github.com/swagger-api/swagger-ui/blob/master/NOTICE) file
+SwaggerUI is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ui/blob/main/LICENSE).
+SwaggerUI comes with an explicit [NOTICE](https://github.com/swagger-api/swagger-ui/blob/main/NOTICE) file
 containing additional legal notices and information.

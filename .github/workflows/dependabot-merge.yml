@@ -2,7 +2,7 @@ name: Merge me!
 
 on:
   pull_request_target:
-    branches: [ master, next ]
+    branches: [ main, next ]
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ jobs:
       # will not occur.
       - name: Dependabot metadata
         id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v2.4.0
+        uses: dependabot/fetch-metadata@15c49302c4a0a37e326ec87971fba5d1e4322d97
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       # Here the PR gets approved.
@@ -30,7 +30,7 @@ jobs:
       # Finally, tell dependabot to merge the PR if all checks are successful
       - name: Instruct dependabot to squash & merge
         if: ${{ steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major' }}
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@ec328af66588ab8f77cdeb2c264f14aba45bbf59
         with:
           repo-token: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
           allow-repeats: true

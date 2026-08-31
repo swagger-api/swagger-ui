@@ -112,22 +112,22 @@ $browser-context: 16;
 }
 
 @mixin maxHeight($height) {
-  @media (max-height: $height) {
+  @container swagger-ui (max-height: $height) {
     @content;
   }
 }
 
 @mixin breakpoint($class) {
   @if $class == tablet {
-    @media (min-width: 768px) and (max-width: 1024px) {
+    @container swagger-ui (min-width: 768px) and (max-width: 1024px) {
       @content;
     }
   } @else if $class == mobile {
-    @media (min-width: 320px) and (max-width: 736px) {
+    @container swagger-ui (min-width: 320px) and (max-width: 736px) {
       @content;
     }
   } @else if $class == desktop {
-    @media (min-width: 1400px) {
+    @container swagger-ui (min-width: 1400px) {
       @content;
     }
   } @else {

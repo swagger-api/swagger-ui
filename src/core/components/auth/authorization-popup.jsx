@@ -8,6 +8,20 @@ export default class AuthorizationPopup extends React.Component {
     authActions.showDefinitions(false)
   }
 
+  handleEscKeydown = (event) => {
+    if (event.key === "Escape") {
+      this.close()
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleEscKeydown)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleEscKeydown)
+  }
+
   render() {
     let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
@@ -16,7 +30,7 @@ export default class AuthorizationPopup extends React.Component {
 
     return (
       <div className="dialog-ux">
-        <div className="backdrop-ux"></div>
+        <div className="backdrop-ux" onClick={ this.close }></div>
         <div className="modal-ux">
           <div className="modal-dialog-ux">
             <div className="modal-ux-inner">
