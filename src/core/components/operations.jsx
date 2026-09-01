@@ -261,13 +261,20 @@ const Operations = ({
     )
   }
 
+  const vItems = virtualizer.getVirtualItems()
+  const offset = virtualizer.options.scrollMargin ?? 0
+  const paddingTop = vItems.length > 0 ? vItems[0].start - offset : 0
+  const paddingBottom =
+    virtualizer.getTotalSize() -
+    (vItems.length > 0 ? vItems.at(-1).end - offset : 0)
+
   return (
     <div ref={listRef} className="operations-virtual">
       <div
         className="operations-virtual__list"
-        style={{ height: virtualizer.getTotalSize() }}
+        style={{ paddingTop, paddingBottom }}
       >
-        {virtualizer.getVirtualItems().map((vItem) => {
+        {vItems.map((vItem) => {
           const item = flatItems[vItem.index]
 
           return (
@@ -276,9 +283,6 @@ const Operations = ({
               data-index={vItem.index}
               ref={virtualizer.measureElement}
               className="operations-virtual__item"
-              style={{
-                transform: `translateY(${vItem.start - virtualizer.options.scrollMargin}px)`,
-              }}
             >
               {item.type === "tag" ? (
                 <OperationTag
