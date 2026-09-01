@@ -180,16 +180,18 @@ const Operations = ({
 
     let idx = -1
 
+    const tagsToMatch = [tag, tag?.replaceAll("_", " ")].filter(Boolean)
+
     if (type === "operations") {
       idx = flatItems.findIndex(
         (item) =>
           item.type === "operation" &&
-          item.tag === tag &&
+          tagsToMatch.includes(item.tag) &&
           item.operationId === operationId
       )
     } else if (type === "operations-tag") {
       idx = flatItems.findIndex(
-        (item) => item.type === "tag" && item.tag === tag
+        (item) => item.type === "tag" && tagsToMatch.includes(item.tag)
       )
     }
 
