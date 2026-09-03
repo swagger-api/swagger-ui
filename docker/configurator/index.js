@@ -12,7 +12,13 @@ const indent = require("./helpers").indent
 const START_MARKER = "//<editor-fold desc=\"Changeable Configuration Block\">"
 const END_MARKER = "//</editor-fold>"
 
-const targetPath = path.normalize(process.cwd() + "/" + process.argv[2])
+const baseDir = process.cwd()
+const targetPath = path.resolve(baseDir, process.argv[2])
+
+if (targetPath !== baseDir && !targetPath.startsWith(baseDir + path.sep)) {
+  console.error("ERROR: Refusing to access a path outside of the working directory!")
+  process.exit(1)
+}
 
 const originalHtmlContent = fs.readFileSync(targetPath, "utf8")
 
