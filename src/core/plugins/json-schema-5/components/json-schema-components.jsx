@@ -57,8 +57,16 @@ export class JsonSchemaForm extends Component {
       getComponentSilently(`JsonSchema_${type}`) :
       getComponent("JsonSchema_string")
 
-    if (!isFileUploadIntended && List.isList(type) && (objectType === "array" || objectType === "object")) {
-      Comp = getComponent("JsonSchema_object")
+    if (!isFileUploadIntended && List.isList(type)) {
+      // OpenAPI 3.1 type lists (e.g. ["array", "null"] or ["object", "null"])
+      // fold down to a primary type. Render the dedicated widget for that type
+      // so nullable arrays/objects keep their pickers instead of falling back
+      // to the raw JSON editor.
+      if (objectType === "array") {
+        Comp = getComponent("JsonSchema_array")
+      } else if (objectType === "object") {
+        Comp = getComponent("JsonSchema_object")
+      }
     }
 
     if (!Comp) {
