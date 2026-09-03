@@ -92,8 +92,16 @@ const Models = ({
     )
 
     if (idx !== -1) {
+      if (document.querySelector(".operations-virtual")) {
+        // scroll instantly to avoid recomputing virtualized operations
+        parentRef.current?.scrollIntoView({
+          behavior: "instant",
+          block: "start",
+        })
+      } else {
+        layoutActions.scrollToElement(parentRef.current)
+      }
       virtualizer.scrollToIndex(idx, { align: "start" })
-      layoutActions.scrollToElement(parentRef.current)
     }
 
     layoutActions.clearScrollToVirtualizedSchema()
