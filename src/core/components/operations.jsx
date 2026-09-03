@@ -176,7 +176,7 @@ const Operations = ({
   useEffect(() => {
     if (!pendingVirtualizedOperationScroll || !isVirtualized) return
 
-    const [type, tag, operationId] = pendingVirtualizedOperationScroll
+    const [type, tag, operationId] = pendingVirtualizedOperationScroll.toJS()
 
     let idx = -1
 
