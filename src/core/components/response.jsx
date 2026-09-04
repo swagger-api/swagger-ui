@@ -44,12 +44,21 @@ export default class Response extends React.Component {
     contentType: PropTypes.string,
     activeExamplesKey: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
-    onContentTypeChange: PropTypes.func
+    onContentTypeChange: PropTypes.func,
+    // The live "Try it out" response (an Immutable Map with at least a
+    // "body" key), scoped by the parent (see responses.jsx) to only the
+    // response row whose status code actually matches what came back.
+    // null/undefined for every other row, and always for every row before
+    // "Try it out" has been executed at all. Forwarded to OperationLink so
+    // a link's `$response.body#/...` parameters have something real to
+    // resolve against; see executeLink in oas3/actions.js.
+    responseContext: PropTypes.instanceOf(Iterable),
   }
 
   static defaultProps = {
     response: fromJS({}),
-    onContentTypeChange: () => {}
+    onContentTypeChange: () => {},
+    responseContext: null,
   }
 
   _onContentTypeChange = (value) => {
@@ -87,6 +96,7 @@ export default class Response extends React.Component {
       contentType,
       controlsAcceptHeader,
       oas3Actions,
+      responseContext,
     } = this.props
 
     let { inferSchema, getSampleSchema } = fn
@@ -266,7 +276,7 @@ export default class Response extends React.Component {
         {isOAS3 ? <td className="response-col_links">
           { links ?
             links.toSeq().entrySeq().map(([key, link]) => {
-              return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
+              return <OperationLink key={key} name={key} link={ link } getComponent={getComponent} oas3Actions={oas3Actions} responseContext={responseContext} />
             })
           : <i>No links</i>}
         </td> : null}
