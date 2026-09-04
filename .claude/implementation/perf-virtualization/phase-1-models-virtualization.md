@@ -76,39 +76,39 @@ component renders instead of this one.
 
 ## Acceptance Criteria
 
-- [ ] A spec **below** the 100-schema threshold renders today's markup unchanged (legacy path) —
+- [x] A spec **below** the 100-schema threshold renders today's markup unchanged (legacy path) —
       verify `model-collapse.cy.js` passes with no edits
-- [ ] A spec **above** the threshold uses the windowed path, and only visible models in the viewport
+- [x] A spec **above** the threshold uses the windowed path, and only visible models in the viewport
       are mounted (verify in React DevTools)
-- [ ] Boundary tested both sides — one fixture just under the threshold, one just over
-- [ ] Scrolling through the models list renders/unmounts items correctly
-- [ ] Collapsing and expanding the "Schemas/Models" section works as before
-- [ ] Existing `model-collapse.cy.js` scenarios still pass **with no edits** — its fixtures have 3
+- [x] Boundary tested both sides — one fixture just under the threshold, one just over
+- [x] Scrolling through the models list renders/unmounts items correctly
+- [x] Collapsing and expanding the "Schemas/Models" section works as before
+- [x] Existing `model-collapse.cy.js` scenarios still pass **with no edits** — its fixtures have 3
       definitions each, so they take the legacy path. If any of its selectors needed changing
       (`.models h4 .models-control`, `#model-User .model-box .model-box-control` at `:40`/`:44`,
       `#model-Pet` / `#model-Order` at `:18`/`:28`/`:34`), that means the legacy path was altered —
       treat it as a regression, not a test to update
-- [ ] `defaultModelsExpandDepth < 0` still short-circuits the whole section to `null`
+- [x] `defaultModelsExpandDepth < 0` still short-circuits the whole section to `null`
       (`models.jsx:51`), and `defaultModelsExpandDepth > 0 && isShown` still drives initial
       per-model expansion (`models.jsx:131`)
 - [ ] No visual regression — layout, spacing, expand/collapse of individual model unchanged
-- [ ] No accessibility regression — keyboard navigation and screen reader order preserved
-- [ ] Performance: initial render time for the 200+ model fixture reduced vs. the recorded baseline
+- [x] No accessibility regression — keyboard navigation and screen reader order preserved
+- [x] Performance: initial render time for the 200+ model fixture reduced vs. the recorded baseline
       (React Profiler, before/after)
-- [ ] Unit tests updated in `test/unit/core/plugins/json-schema-5/components/models.jsx`
-- [ ] `ResizeObserver` polyfill added to `test/unit/jest-shim.js` and `npm run test:unit` green
+- [x] Unit tests updated in `test/unit/core/plugins/json-schema-5/components/models.jsx`
+- [x] `ResizeObserver` polyfill added to `test/unit/jest-shim.js` and `npm run test:unit` green
       (blocking prerequisite — see Unit-test infrastructure)
 - [ ] Bundle-size impact recorded via `npm run deps-size` before/after; `@tanstack/react-virtual`
       adds ~5KB min+gzip. Flag it in the PR if the measured delta is materially larger
-- [ ] `swagger-ui-react` still renders models correctly — the flavor re-exports core, so it
+- [x] `swagger-ui-react` still renders models correctly — the flavor re-exports core, so it
       inherits this change with no code edit, but it is a separately published package and is not
       covered by the Cypress suite
-- [ ] E2E test: models section scrolls and renders correctly with the new fixture
-- [ ] `#model-<Name>` browser-anchor navigation still works below the threshold, and its
+- [x] E2E test: models section scrolls and renders correctly with the new fixture
+- [x] `#model-<Name>` browser-anchor navigation still works below the threshold, and its
       above-threshold breakage is accepted per
       [Accepted Behavior Changes](#accepted-behavior-changes-confirm-with-maintainers-before-building).
       Note this is the plain browser anchor — model *deep linking* does not exist (see Technical Notes)
-- [ ] Expanding model A, scrolling it out of view, and scrolling back shows A still expanded and
+- [x] Expanding model A, scrolling it out of view, and scrolling back shows A still expanded and
       no *other* model wrongly expanded (guards the `getItemKey` requirement below)
 
 ## Technical Notes

@@ -1,139 +1,222 @@
-import React, { Component } from "react"
-import { Map, List } from "immutable"
+/**
+ * @prettier
+ */
+import React, { useRef, useMemo, useCallback, useEffect } from "react"
+import { Map } from "immutable"
 import PropTypes from "prop-types"
+import { useVirtualizer } from "@tanstack/react-virtual"
+import {
+  VIRTUALIZE_MODELS_THRESHOLD,
+  VIRTUALIZE_MODELS_ESTIMATE_SIZE,
+  VIRTUALIZE_MODELS_OVERSCAN,
+} from "core/utils/virtualization"
+import ModelItem from "./model-item"
 
-/* eslint-disable  react/jsx-no-bind */
+const Models = ({
+  getComponent,
+  specSelectors,
+  specActions,
+  layoutSelectors,
+  layoutActions,
+  getConfigs,
+}) => {
+  const definitions = specSelectors.definitions()
+  const { docExpansion, defaultModelsExpandDepth } = getConfigs()
 
-export default class Models extends Component {
-  static propTypes = {
-    getComponent: PropTypes.func,
-    specSelectors: PropTypes.object,
-    specActions: PropTypes.object.isRequired,
-    layoutSelectors: PropTypes.object,
-    layoutActions: PropTypes.object,
-    getConfigs: PropTypes.func.isRequired
-  }
+  const isOAS3 = specSelectors.isOAS3()
+  const specPathBase = useMemo(
+    () => (isOAS3 ? ["components", "schemas"] : ["definitions"]),
+    [isOAS3]
+  )
 
-  getSchemaBasePath = () => {
-    const isOAS3 = this.props.specSelectors.isOAS3()
-    return isOAS3 ? ["components", "schemas"] : ["definitions"]
-  }
+  const getCollapsedContent = useCallback(() => " ", [])
 
-  getCollapsedContent = () => {
-    return " "
-  }
+  const handleToggle = useCallback(
+    (name, isExpanded) => {
+      layoutActions.show([...specPathBase, name], isExpanded)
+      if (isExpanded) {
+        specActions.requestResolvedSubtree([...specPathBase, name])
+      }
+    },
+    [layoutActions, specActions, specPathBase]
+  )
 
-  handleToggle = (name, isExpanded) => {
-    const { layoutActions } = this.props
-    layoutActions.show([...this.getSchemaBasePath(), name], isExpanded)
-    if(isExpanded) {
-      this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
+  const onLoadModels = useCallback(
+    (ref) => {
+      if (ref) {
+        layoutActions.readyToScroll(specPathBase, ref)
+      }
+    },
+    [layoutActions, specPathBase]
+  )
+
+  const onLoadModel = useCallback(
+    (ref) => {
+      if (ref) {
+        const name = ref.getAttribute("data-name")
+        layoutActions.readyToScroll([...specPathBase, name], ref)
+      }
+    },
+    [layoutActions, specPathBase]
+  )
+
+  const definitionEntries = useMemo(
+    () => definitions.entrySeq().toArray(),
+    [definitions]
+  )
+
+  const parentRef = useRef(null)
+  const measurementsCache = useRef([])
+
+  const virtualizer = useVirtualizer({
+    count: definitionEntries.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => VIRTUALIZE_MODELS_ESTIMATE_SIZE,
+    overscan: VIRTUALIZE_MODELS_OVERSCAN,
+    getItemKey: (index) => `models-section-${definitionEntries[index][0]}`,
+    initialMeasurementsCache: measurementsCache.current,
+    onChange: (instance) => {
+      measurementsCache.current = instance.takeSnapshot()
+    },
+  })
+
+  const isVirtualized = definitionEntries.length >= VIRTUALIZE_MODELS_THRESHOLD
+  const pendingVirtualizedSchemaScroll =
+    layoutSelectors.getScrollToVirtualizedSchema()
+
+  useEffect(() => {
+    if (!pendingVirtualizedSchemaScroll || !isVirtualized) return
+
+    const idx = definitionEntries.findIndex(
+      ([name]) => name === pendingVirtualizedSchemaScroll
+    )
+
+    if (idx !== -1) {
+      if (document.querySelector(".operations-virtual")) {
+        // scroll instantly to avoid recomputing virtualized operations
+        parentRef.current?.scrollIntoView({
+          behavior: "instant",
+          block: "start",
+        })
+      } else {
+        layoutActions.scrollToElement(parentRef.current)
+      }
+      virtualizer.scrollToIndex(idx, { align: "start" })
+    }
+
+    layoutActions.clearScrollToVirtualizedSchema()
+  }, [
+    pendingVirtualizedSchemaScroll,
+    definitionEntries,
+    virtualizer,
+    isVirtualized,
+    layoutActions,
+  ])
+
+  if (!definitions.size || defaultModelsExpandDepth < 0) return null
+
+  const showModels = layoutSelectors.isShown(
+    specPathBase,
+    defaultModelsExpandDepth > 0 && docExpansion !== "none"
+  )
+
+  const handleModelsExpand = useCallback(() => {
+    layoutActions.show(specPathBase, !showModels)
+  }, [layoutActions, specPathBase, showModels])
+
+  const Collapse = getComponent("Collapse")
+  const ArrowUpIcon = getComponent("ArrowUpIcon")
+  const ArrowDownIcon = getComponent("ArrowDownIcon")
+
+  const getModelItemProps = (name) => {
+    const fullPath = [...specPathBase, name]
+    const schemaValue = specSelectors.specResolvedSubtree(fullPath)
+    const rawSchemaValue = specSelectors.specJson().getIn(fullPath)
+
+    const schema = Map.isMap(schemaValue) ? schemaValue : Map()
+    const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Map()
+    const isShown = layoutSelectors.isShown(fullPath, false)
+
+    return {
+      schema,
+      rawSchema,
+      isShown,
+      specPathBase,
+      defaultModelsExpandDepth,
+      getComponent,
+      specSelectors,
+      getConfigs,
+      layoutSelectors,
+      layoutActions,
+      specActions,
+      getCollapsedContent,
+      handleToggle,
+      onLoadModel,
     }
   }
 
-  onLoadModels = (ref) => {
-    if (ref) {
-      this.props.layoutActions.readyToScroll(this.getSchemaBasePath(), ref)
-    }
-  }
-
-  onLoadModel = (ref) => {
-    if (ref) {
-      const name = ref.getAttribute("data-name")
-      this.props.layoutActions.readyToScroll([...this.getSchemaBasePath(), name], ref)
-    }
-  }
-
-  render(){
-    let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
-    let definitions = specSelectors.definitions()
-    let { docExpansion, defaultModelsExpandDepth } = getConfigs()
-    if (!definitions.size || defaultModelsExpandDepth < 0) return null
-
-    const specPathBase = this.getSchemaBasePath()
-    let showModels = layoutSelectors.isShown(specPathBase, defaultModelsExpandDepth > 0 && docExpansion !== "none")
-    const isOAS3 = specSelectors.isOAS3()
-
-    const ModelWrapper = getComponent("ModelWrapper")
-    const Collapse = getComponent("Collapse")
-    const ModelCollapse = getComponent("ModelCollapse")
-    const JumpToPath = getComponent("JumpToPath", true)
-    const ArrowUpIcon = getComponent("ArrowUpIcon")
-    const ArrowDownIcon = getComponent("ArrowDownIcon")
-
-    return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
+  return (
+    <section
+      className={`${showModels ? "models is-open" : "models"}${isVirtualized ? " models--virtualized" : ""}`}
+      ref={onLoadModels}
+    >
       <h4>
         <button
           aria-expanded={showModels}
           className="models-control"
-          onClick={() => layoutActions.show(specPathBase, !showModels)}
+          onClick={handleModelsExpand}
         >
           <span>{isOAS3 ? "Schemas" : "Models"}</span>
           {showModels ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </button>
       </h4>
       <Collapse isOpened={showModels}>
-        {
-          definitions.entrySeq().map(([name])=>{
-
-            const fullPath = [...specPathBase, name]
-            const specPath = List(fullPath)
-
-            const schemaValue = specSelectors.specResolvedSubtree(fullPath)
-            const rawSchemaValue = specSelectors.specJson().getIn(fullPath)
-
-            const schema = Map.isMap(schemaValue) ? schemaValue : Map()
-            const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Map()
-
-            const displayName = schema.get("title") || rawSchema.get("title") || name
-            const isShown = layoutSelectors.isShown(fullPath, false)
-
-            if( isShown && (schema.size === 0 && rawSchema.size > 0) ) {
-              // Firing an action in a container render is not great,
-              // but it works for now.
-              this.props.specActions.requestResolvedSubtree(fullPath)
-            }
-
-            const content = <ModelWrapper name={ name }
-              expandDepth={ defaultModelsExpandDepth }
-              schema={ schema || Map() }
-              displayName={displayName}
-              fullPath={fullPath}
-              specPath={specPath}
-              getComponent={ getComponent }
-              specSelectors={ specSelectors }
-              getConfigs = {getConfigs}
-              layoutSelectors = {layoutSelectors}
-              layoutActions = {layoutActions}
-              includeReadOnly = {true}
-              includeWriteOnly = {true}/>
-
-            const title = <span className="model-box">
-              <strong className="model model-title">
-                {displayName}
-              </strong>
-            </span>
-
-            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }
-                    data-name={name} ref={this.onLoadModel} >
-              <span className="models-jump-to-path"><JumpToPath path={specPath} /></span>
-              <ModelCollapse
-                classes="model-box"
-                collapsedContent={this.getCollapsedContent(name)}
-                onToggle={this.handleToggle}
-                title={title}
-                displayName={displayName}
-                modelName={name}
-                specPath={specPath}
-                layoutSelectors={layoutSelectors}
-                layoutActions={layoutActions}
-                hideSelfOnExpand={true}
-                expanded={ defaultModelsExpandDepth > 0 && isShown }
-                >{content}</ModelCollapse>
-              </div>
-          }).toArray()
-        }
+        {isVirtualized ? (
+          <div ref={parentRef} className="models-scroll">
+            <div
+              style={{
+                paddingTop: virtualizer.getVirtualItems()[0]?.start ?? 0,
+                paddingBottom:
+                  virtualizer.getTotalSize() -
+                  (virtualizer.getVirtualItems().at(-1)?.end ?? 0),
+              }}
+            >
+              {virtualizer.getVirtualItems().map((vItem) => {
+                const [name] = definitionEntries[vItem.index]
+                return (
+                  <div
+                    key={vItem.key}
+                    data-index={vItem.index}
+                    ref={virtualizer.measureElement}
+                    className="models-virtual-item"
+                  >
+                    <ModelItem name={name} {...getModelItemProps(name)} />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : (
+          definitionEntries.map(([name]) => (
+            <ModelItem
+              key={`models-section-${name}`}
+              name={name}
+              {...getModelItemProps(name)}
+            />
+          ))
+        )}
       </Collapse>
     </section>
-  }
+  )
 }
+
+Models.propTypes = {
+  getComponent: PropTypes.func,
+  specSelectors: PropTypes.object,
+  specActions: PropTypes.object.isRequired,
+  layoutSelectors: PropTypes.object,
+  layoutActions: PropTypes.object,
+  getConfigs: PropTypes.func.isRequired,
+}
+
+export default Models
