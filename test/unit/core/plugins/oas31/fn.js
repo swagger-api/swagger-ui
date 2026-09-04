@@ -1,5 +1,6 @@
 import { fromJS } from "immutable"
 import { isOAS31 } from "core/plugins/oas31/fn"
+import { stringifyConstraints } from "core/plugins/json-schema-2020-12/fn"
 
 const isOAS31Shorthand = (version) => isOAS31(fromJS({
   openapi: version
@@ -34,5 +35,16 @@ describe("isOAS30", function () {
       openApi: "3.1.0"
     }))).toEqual(false)
     expect(isOAS31Shorthand(null)).toEqual(false)
+  })
+})
+
+describe("stringifyConstraints", function () {
+  it.each([
+    [1e-7, "1/10000000"],
+    [1.2e-7, "12/100000000"]
+  ])("handles a scientific-notation multipleOf", function (multipleOf, ratio) {
+    expect(stringifyConstraints({ multipleOf })).toEqual([
+      { scope: "number", value: `multiple of ${ratio}` }
+    ])
   })
 })
