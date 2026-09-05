@@ -56,3 +56,11 @@ paths:
             application/json:
               schema:
                 type: object
+  /withSlash:
+    delete:
+      operationId: "slashOperation"
+      tags: ["my-service/common"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok

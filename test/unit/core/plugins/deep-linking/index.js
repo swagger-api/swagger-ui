@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import deepLinking from "core/plugins/deep-linking"
 
 describe("deep-linking plugin", () => {
@@ -6,8 +9,7 @@ describe("deep-linking plugin", () => {
   })
 
   it("passes the undecoded location hash to the deep-link parser", () => {
-    window.location.hash =
-      "#/my-service%2Fcommon/HealthController_check"
+    window.location.hash = "#/my-service%2Fcommon/HealthController_check"
 
     const originalAction = jest.fn()
     const parseDeepLinkHash = jest.fn()

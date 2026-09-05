@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import deepLinkingLayout, {
   parseDeepLinkHash,
 } from "core/plugins/deep-linking/layout"
@@ -5,8 +8,7 @@ import deepLinkingLayout, {
 describe("deep-linking layout plugin", () => {
   describe("parseDeepLinkHash", () => {
     const selector =
-      deepLinkingLayout.statePlugins.layout.selectors
-        .isShownKeyFromUrlHashArray
+      deepLinkingLayout.statePlugins.layout.selectors.isShownKeyFromUrlHashArray
 
     const createSystem = () => {
       const layoutActions = {
@@ -33,9 +35,7 @@ describe("deep-linking layout plugin", () => {
     it("decodes an encoded slash after splitting tag and operation segments", () => {
       const { system, layoutActions, layoutSelectors } = createSystem()
 
-      parseDeepLinkHash(
-        "#/my-service%2Fcommon/HealthController_check"
-      )(system)
+      parseDeepLinkHash("#/my-service%2Fcommon/HealthController_check")(system)
 
       expect(
         layoutSelectors.isShownKeyFromUrlHashArray
@@ -49,11 +49,7 @@ describe("deep-linking layout plugin", () => {
         true
       )
       expect(layoutActions.show).toHaveBeenCalledWith(
-        [
-          "operations",
-          "my-service/common",
-          "HealthController_check",
-        ],
+        ["operations", "my-service/common", "HealthController_check"],
         true
       )
       expect(layoutActions.scrollTo).toHaveBeenCalledWith([
@@ -68,9 +64,9 @@ describe("deep-linking layout plugin", () => {
 
       parseDeepLinkHash("#/my-service%2Fcommon")(system)
 
-      expect(
-        layoutSelectors.isShownKeyFromUrlHashArray
-      ).toHaveBeenCalledWith(["my-service/common"])
+      expect(layoutSelectors.isShownKeyFromUrlHashArray).toHaveBeenCalledWith([
+        "my-service/common",
+      ])
       expect(layoutActions.show).toHaveBeenCalledWith(
         ["operations-tag", "my-service/common"],
         true

@@ -61,6 +61,10 @@ describe("Deep linking feature", () => {
       })
     })
 
+    describe("Operation with slash in tag", () => {
+      SlashTagDeeplinkTestFactory({ baseUrl: swagger2BaseUrl })
+    })
+
     describe("Operation with no operationId", () => {
       OperationDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
@@ -154,6 +158,10 @@ describe("Deep linking feature", () => {
         correctFragment: "#/%D1%88%D0%B5%D0%BB%D0%BB%D1%8B/%D0%BF%D0%BE%D1%88%D0%B5%D0%BB",
         correctHref: "#/шеллы/пошел"
       })
+    })
+
+    describe("Operation with slash in tag", () => {
+      SlashTagDeeplinkTestFactory({ baseUrl: openAPI3BaseUrl })
     })
 
     describe("Operation with no operationId", () => {
@@ -288,5 +296,23 @@ function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corre
     cy.visit(`${baseUrl}&docExpansion=none${correctFragment}`)
       .get(`.opblock-tag-section.is-open`)
       .should("have.length", 1)
+  })
+}
+
+function SlashTagDeeplinkTestFactory({ baseUrl }) {
+  const operationFragment = "#/my-service%2Fcommon/slashOperation"
+
+  it("should expand the operation from an encoded slash fragment", () => {
+    cy.visit(`${baseUrl}&docExpansion=none${operationFragment}`)
+      .get(".opblock-delete.is-open")
+      .should("exist")
+  })
+
+  it("should expand the tag from an encoded slash fragment", () => {
+    cy.visit(`${baseUrl}&docExpansion=none#/my-service%2Fcommon`)
+      .get(
+        '.opblock-tag[data-tag="my-service/common"][data-is-open="true"]'
+      )
+      .should("exist")
   })
 }
