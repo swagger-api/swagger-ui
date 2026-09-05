@@ -32,3 +32,11 @@ paths:
   /noOperationId:
     put:
       tags: ["tagTwo"]
+  /withSlash:
+    delete:
+      operationId: "slashOperation"
+      tags: ["my-service/common"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok

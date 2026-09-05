@@ -9,8 +9,7 @@ export default function() {
         wrapActions: {
           loaded: (ori, system) => (...args) => {
             ori(...args)
-            // location.hash was an UTF-16 String, here is required UTF-8
-            const hash = decodeURIComponent(window.location.hash)
+            const hash = window.location.hash
             system.layoutActions.parseDeepLinkHash(hash)
           }
         }
