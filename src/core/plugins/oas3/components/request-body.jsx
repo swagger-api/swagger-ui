@@ -129,11 +129,12 @@ const RequestBody = ({
 
   const isObjectContent = fn.hasSchemaType(mediaTypeValue.get("schema"), "object")
 
+  const isContentTypeMultipart = contentType.indexOf("multipart/") === 0
   if (
     isObjectContent &&
     (
       contentType === "application/x-www-form-urlencoded" ||
-      contentType.indexOf("multipart/") === 0
+      isContentTypeMultipart
     ) &&
     schemaForMediaType.get("properties", OrderedMap()).size > 0
   ) {
@@ -203,6 +204,10 @@ const RequestBody = ({
                 }}
               />
 
+              const schemaPartForKey = mediaTypeValue
+                            .get("schema")
+                            .update("properties", (properties) => properties.filter((v, k) => k === key))
+
               return <tr key={key} className="parameters" data-property-name={key}>
               <td className="parameters-col_name">
                 <div className={required ? "parameter__name required" : "parameter__name"}>
@@ -242,6 +247,23 @@ const RequestBody = ({
                     />
                   )}
                 </div> : null }
+                {!isExecute && isContentTypeMultipart && objectType === "object" ? (
+                  <ModelExample
+                    getComponent={getComponent}
+                    getConfigs={getConfigs}
+                    specSelectors={specSelectors}
+                    expandDepth={1}
+                    isExecute={false}
+                    schema={schemaPartForKey}
+                    specPath={specPath.push("content", contentType)}
+                    example={
+                      <HighlightCode className="body-param__example" language={"json"}>
+                        {initialValue}
+                      </HighlightCode>
+                    }
+                    includeWriteOnly={true}
+                  />
+                ) : null }
               </td>
               </tr>
             })
