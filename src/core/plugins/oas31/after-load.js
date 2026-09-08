@@ -3,6 +3,7 @@
  */
 import {
   makeIsExpandable,
+  makeGetTitle,
   getProperties,
 } from "./json-schema-2020-12-extensions/fn"
 import { wrapOAS31Fn } from "./fn"
@@ -16,8 +17,13 @@ function afterLoad({ fn, getSystem }) {
       fn.jsonSchema202012.isExpandable,
       getSystem
     )
+    const getTitle = makeGetTitle(fn.jsonSchema202012.getTitle)
 
-    Object.assign(this.fn.jsonSchema202012, { isExpandable, getProperties })
+    Object.assign(this.fn.jsonSchema202012, {
+      isExpandable,
+      getProperties,
+      ...(getTitle && { getTitle }),
+    })
   }
 
   // wraps schema generators from samples plugin and make them specific to OpenAPI 3.1 version
