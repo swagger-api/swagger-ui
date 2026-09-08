@@ -1,19 +1,177 @@
-<!-- HTML for static distribution bundle build -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Swagger UI</title>
-    <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
-    <link rel="stylesheet" type="text/css" href="index.css" />
-    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
-  </head>
-
-  <body>
-    <div id="swagger-ui"></div>
-    <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
-    <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-    <script src="./swagger-initializer.js" charset="UTF-8"> </script>
-  </body>
-</html>
+openapi: 3.0.0
+info:
+  title: ReqRes API
+  description: A fake API for testing and prototyping.
+  version: 1.0.0
+servers:
+  - url: https://reqres.in/api
+paths:
+  /users:
+    get:
+      summary: Get a list of users
+      description: Retrieves a list of users.
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            example: 2
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            example: 6
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 2
+                  per_page:
+                    type: integer
+                    example: 6
+                  total:
+                    type: integer
+                    example: 12
+                  total_pages:
+                    type: integer
+                    example: 2
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 2
+                        email:
+                          type: string
+                          example: janet.weaver@reqres.in
+                        first_name:
+                          type: string
+                          example: Janet
+                        last_name:
+                          type: string
+                          example: Weaver
+                        avatar:
+                          type: string
+                          example: https://reqres.in/img/faces/2-image.jpg
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Retrieves a single user by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      email:
+                        type: string
+                        example: janet.weaver@reqres.in
+                      first_name:
+                        type: string
+                        example: Janet
+                      last_name:
+                        type: string
+                        example: Weaver
+                      avatar:
+                        type: string
+                        example: https://reqres.in/img/faces/2-image.jpg
+        '404':
+          description: User not found
+  /users:
+    post:
+      summary: Create a new user
+      description: Adds a new user to the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                job:
+                  type: string
+                  example: Software Developer
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 12
+                  createdAt:
+                    type: string
+                    example: "2024-09-20T12:34:56.789Z"
+  /users/{id}:
+    put:
+      summary: Update a user
+      description: Updates an existing user’s information.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Jane Doe
+                job:
+                  type: string
+                  example: Product Manager
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updatedAt:
+                    type: string
+                    example: "2024-09-20T12:34:56.789Z"
+  /users/{id}:
+    delete:
+      summary: Delete a user
+      description: Removes a user from the server.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User deleted
