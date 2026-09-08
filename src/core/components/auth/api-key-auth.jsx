@@ -75,7 +75,8 @@ export default class ApiKeyAuth extends React.Component {
                       <Input 
                         id="api_key_value" 
                         type="text" 
-                        onChange={ this.onChange } 
+                        onChange={ this.onChange }
+                        autoComplete='off'
                         autoFocus
                       />
                     </Col>
