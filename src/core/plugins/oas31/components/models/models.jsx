@@ -30,14 +30,8 @@ const Models = ({
    * Effects.
    */
   useEffect(() => {
-    const includesExpandedSchema = Object.entries(schemas).some(
-      ([schemaName]) =>
-        layoutSelectors.isShown([...schemasPath, schemaName], false)
-    )
-    const isOpenAndExpanded =
-      isOpen && (defaultModelsExpandDepth > 1 || includesExpandedSchema)
     const isResolved = specSelectors.specResolvedSubtree(schemasPath) != null
-    if (isOpenAndExpanded && !isResolved) {
+    if (isOpen && !isResolved) {
       specActions.requestResolvedSubtree(schemasPath)
     }
   }, [isOpen, defaultModelsExpandDepth])
