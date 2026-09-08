@@ -85,48 +85,50 @@ export default class LiveResponse extends React.Component {
           </div>
         }
         <h4>Server response</h4>
-        <table className="responses-table live-responses-table">
-          <thead>
-          <tr className="responses-header">
-            <td className="col_header response-col_status">Code</td>
-            <td className="col_header response-col_description">Details</td>
-          </tr>
-          </thead>
-          <tbody>
-            <tr className="response">
-              <td className="response-col_status">
-                { status }
-                {
-                  notDocumented ? <div className="response-undocumented">
-                                    <i> Undocumented </i>
-                                  </div>
-                                : null
-                }
-              </td>
-              <td className="response-col_description">
-                {
-                  isError ? <Markdown source={`${response.get("name") !== "" ? `${response.get("name")}: ` : ""}${response.get("message")}`}/>
-                          : null
-                }
-                {
-                  body ? <ResponseBody content={ body }
-                                       contentType={ contentType }
-                                       url={ url }
-                                       headers={ headers }
-                                       getConfigs={ getConfigs }
-                                       getComponent={ getComponent }/>
-                       : null
-                }
-                {
-                  hasHeaders ? <Headers headers={ returnObject }/> : null
-                }
-                {
-                  displayRequestDuration && duration ? <Duration duration={ duration } /> : null
-                }
-              </td>
+        <div className="server-response-panel">
+          <table className="responses-table live-responses-table">
+            <thead>
+            <tr className="responses-header">
+              <td className="col_header response-col_status">Code</td>
+              <td className="col_header response-col_description">Details</td>
             </tr>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <tr className="response">
+                <td className="response-col_status">
+                  { status }
+                  {
+                    notDocumented ? <div className="response-undocumented">
+                                      <i> Undocumented </i>
+                                    </div>
+                                  : null
+                  }
+                </td>
+                <td className="response-col_description">
+                  {
+                    isError ? <Markdown source={`${response.get("name") !== "" ? `${response.get("name")}: ` : ""}${response.get("message")}`}/>
+                            : null
+                  }
+                  {
+                    body ? <ResponseBody content={ body }
+                                         contentType={ contentType }
+                                         url={ url }
+                                         headers={ headers }
+                                         getConfigs={ getConfigs }
+                                         getComponent={ getComponent }/>
+                         : null
+                  }
+                  {
+                    hasHeaders ? <Headers headers={ returnObject }/> : null
+                  }
+                  {
+                    displayRequestDuration && duration ? <Duration duration={ duration } /> : null
+                  }
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   }
