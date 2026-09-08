@@ -29,6 +29,9 @@ export default class Auths extends React.Component {
 
     let { authActions } = this.props
     authActions.authorizeWithPersistOption(this.state)
+    setTimeout(() => {
+      this.close(e)
+    }, 50)
   }
 
   logoutClick =(e) => {
