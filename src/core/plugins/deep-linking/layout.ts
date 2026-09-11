@@ -144,7 +144,10 @@ export const parseDeepLinkHash =
         hash = hash.slice(1)
       }
 
-      const hashArray = hash.split("/").map((val) => val || "")
+      // Split before decoding so encoded slashes remain part of their segment.
+      const hashArray = hash
+        .split("/")
+        .map((val) => decodeURIComponent(val || ""))
 
       const isShownKey = layoutSelectors.isShownKeyFromUrlHashArray(hashArray)
 
