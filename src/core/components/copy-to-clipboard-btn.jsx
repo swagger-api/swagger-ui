@@ -13,8 +13,6 @@ export default class CopyToClipboardBtn extends React.Component {
   render() {
     let { getComponent } = this.props
 
-    const CopyIcon = getComponent("CopyIcon")
-
     return (
       <div
         className="view-line-link copy-to-clipboard"
@@ -26,9 +24,7 @@ export default class CopyToClipboardBtn extends React.Component {
             aria-label={COPY_PATH_LABEL}
             title={COPY_PATH_LABEL}
             type="button"
-          >
-            <CopyIcon />
-          </button>
+          />
         </CopyToClipboard>
       </div>
     )
