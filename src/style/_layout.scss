@@ -47,6 +47,15 @@
   flex-direction: column;
 }
 
+.operations-virtual {
+  &__item {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+  }
+}
+
 .try-out.btn-group {
   padding: 0;
   display: flex;

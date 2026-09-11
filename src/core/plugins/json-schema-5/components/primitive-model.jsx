@@ -3,6 +3,7 @@
  */
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import { getExtensions } from "core/utils"
 import { sanitizeUrl } from "core/utils/url"
 
@@ -17,6 +18,18 @@ export default class Primitive extends Component {
     displayName: PropTypes.string,
     depth: PropTypes.number,
     expandDepth: PropTypes.number,
+    specPath: ImPropTypes.list,
+    layoutActions: PropTypes.shape({
+      show: PropTypes.func.isRequired,
+    }),
+    layoutSelectors: PropTypes.shape({
+      isShown: PropTypes.func.isRequired,
+    }),
+  }
+
+  handleToggle = (modelName, shown) => {
+    const { layoutActions, specPath } = this.props
+    layoutActions?.show(specPath?.toJS(), shown)
   }
 
   render() {
@@ -28,9 +41,15 @@ export default class Primitive extends Component {
       displayName,
       depth,
       expandDepth,
+      specPath,
+      layoutSelectors,
     } = this.props
 
     const { showExtensions } = getConfigs()
+    const defaultExpanded = depth <= expandDepth
+    const isExpanded =
+      layoutSelectors?.isShown(specPath?.toJS(), defaultExpanded) ??
+      defaultExpanded
 
     if (!schema || !schema.get) {
       // don't render if schema isn't correctly formed
@@ -78,7 +97,8 @@ export default class Primitive extends Component {
       <span className="model">
         <ModelCollapse
           title={titleEl}
-          expanded={depth <= expandDepth}
+          onToggle={this.handleToggle}
+          expanded={isExpanded}
           collapsedContent="[...]"
         >
           <span className="prop">

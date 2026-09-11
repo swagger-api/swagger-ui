@@ -269,7 +269,7 @@ export default class ParameterRow extends Component {
                    pathMethod={ pathMethod }
       />
 
-    const ModelExample = getComponent("modelExample")
+    const ModelExample = getComponent("modelExample", true)
     const Markdown = getComponent("Markdown", true)
     const ParameterExt = getComponent("ParameterExt")
     const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")

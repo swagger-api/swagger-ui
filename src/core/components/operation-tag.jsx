@@ -68,50 +68,57 @@ export default class OperationTag extends React.Component {
     let isShownKey = ["operations-tag", tag]
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
+    const header = (
+      <h3
+        onClick={() => layoutActions.show(isShownKey, !showTag)}
+        className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag"}
+        id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}
+        data-tag={tag}
+        data-is-open={showTag}
+      >
+        <DeepLink
+          enabled={deepLinking}
+          isShown={showTag}
+          path={createDeepLinkPath(tag)}
+          text={tag} />
+        {!tagDescription ? <small></small> :
+          <small>
+            <Markdown source={tagDescription} />
+          </small>
+        }
+
+        {!tagExternalDocsUrl ? null :
+          <div className="info__externaldocs">
+            <small>
+              <Link
+                  href={sanitizeUrl(tagExternalDocsUrl)}
+                  onClick={(e) => e.stopPropagation()}
+                  target="_blank"
+                >{tagExternalDocsDescription || tagExternalDocsUrl}</Link>
+            </small>
+          </div>
+        }
+
+
+        <button
+          aria-expanded={showTag}
+          className="expand-operation"
+          title={showTag ? "Collapse operation" : "Expand operation"}
+          onClick={() => layoutActions.show(isShownKey, !showTag)}>
+
+          {showTag ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
+        </button>
+      </h3>
+    )
+
+    // Virtualized path — render only the header
+    if (children == null) {
+      return header
+    }
+
     return (
       <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} >
-
-        <h3
-          onClick={() => layoutActions.show(isShownKey, !showTag)}
-          className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag"}
-          id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}
-          data-tag={tag}
-          data-is-open={showTag}
-        >
-          <DeepLink
-            enabled={deepLinking}
-            isShown={showTag}
-            path={createDeepLinkPath(tag)}
-            text={tag} />
-          {!tagDescription ? <small></small> :
-            <small>
-              <Markdown source={tagDescription} />
-            </small>
-          }
-
-          {!tagExternalDocsUrl ? null :
-            <div className="info__externaldocs">
-              <small>
-                <Link
-                    href={sanitizeUrl(tagExternalDocsUrl)}
-                    onClick={(e) => e.stopPropagation()}
-                    target="_blank"
-                  >{tagExternalDocsDescription || tagExternalDocsUrl}</Link>
-              </small>
-            </div>
-          }
-
-
-          <button
-            aria-expanded={showTag}
-            className="expand-operation"
-            title={showTag ? "Collapse operation" : "Expand operation"}
-            onClick={() => layoutActions.show(isShownKey, !showTag)}>
-
-            {showTag ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
-          </button>
-        </h3>
-
+        {header}
         <Collapse isOpened={showTag}>
           {children}
         </Collapse>

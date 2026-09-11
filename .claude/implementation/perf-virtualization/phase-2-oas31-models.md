@@ -84,16 +84,20 @@ not re-imported.)
 
 ## Acceptance Criteria
 
-- [ ] An OAS 3.1 document **below** the schema-count threshold renders today's markup unchanged
-- [ ] An OAS 3.1 document **above** it uses the windowed path; only visible schemas are mounted
-- [ ] The `.models-scroll` rule is present in `oas31/components/models/_models.scss` and matches
+- [x] An OAS 3.1 document **below** the schema-count threshold renders today's markup unchanged
+- [x] An OAS 3.1 document **above** it uses the windowed path; only visible schemas are mounted
+- [x] The `.models-scroll` rule is present in `oas31/components/models/_models.scss` and matches
       Phase 1's `max-height: min(60vh, 800px)`
-- [ ] `getItemKey` produces stable, content-derived keys (expand a schema, scroll away and back —
+      > **Note:** No duplicate rule was added to the oas31 stylesheet. The global `src/style/_models.scss`
+      > (edited in Phase 1) already covers `.models-scroll` for all paths. This plugin's `_models.scss`
+      > only holds rules specific to `.json-schema-2020-12` elements; `.models-scroll` is a layout rule
+      > that belongs in the global stylesheet. The original assumption above is kept in case this changes.
+- [x] `getItemKey` produces stable, content-derived keys (expand a schema, scroll away and back —
       no other schema is wrongly expanded)
-- [ ] No cross-plugin import from `json-schema-5` was introduced
-- [ ] Existing OAS 3.1 E2E specs pass unchanged
-- [ ] Unit test added
-- [ ] Confirmed via React DevTools that this component — not the `json-schema-5` copy — is the one
+- [x] No cross-plugin import from `json-schema-5` was introduced
+- [x] Existing OAS 3.1 E2E specs pass unchanged
+- [x] Unit test added
+- [x] Confirmed via React DevTools that this component — not the `json-schema-5` copy — is the one
       under test
 
 ## References
