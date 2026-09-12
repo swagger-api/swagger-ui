@@ -25,6 +25,9 @@ describe("OAS 3.2 QUERY operation rendering", () => {
             isOAS32: jest.fn(() => true),
           },
         })),
+        specSelectors: {
+          specJson: jest.fn(() => Map()),
+        },
         oas32Selectors: {
           validOperationMethods: oas32ValidOperationMethods,
         },
@@ -41,6 +44,55 @@ describe("OAS 3.2 QUERY operation rendering", () => {
       expect(result).toContain("get")
       expect(result).toContain("post")
       expect(result.length).toBe(9) // 8 standard + query
+    })
+
+    it("should include custom additionalOperations methods for OAS 3.2 specs", () => {
+      const originalSelector = jest.fn(() => [
+        "get",
+        "put",
+        "post",
+        "delete",
+        "options",
+        "head",
+        "patch",
+        "trace",
+      ])
+
+      const system = {
+        getSystem: jest.fn(() => ({
+          specSelectors: {
+            isOAS32: jest.fn(() => true),
+          },
+        })),
+        specSelectors: {
+          specJson: jest.fn(() =>
+            Map({
+              paths: Map({
+                "/pets": Map({
+                  additionalOperations: Map({
+                    LIST: Map({ summary: "List pets" }),
+                    SEARCH: Map({ summary: "Search pets" }),
+                  }),
+                }),
+              }),
+            })
+          ),
+        },
+        oas32Selectors: {
+          validOperationMethods: oas32ValidOperationMethods,
+        },
+      }
+
+      const wrappedSelector = validOperationMethodsWrapper(
+        originalSelector,
+        system
+      )
+      const state = Map()
+      const result = wrappedSelector(state)
+
+      expect(result).toContain("query")
+      expect(result).toContain("LIST")
+      expect(result).toContain("SEARCH")
     })
 
     it("should not include 'query' for non-OAS32 specs", () => {

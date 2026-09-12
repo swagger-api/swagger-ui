@@ -50,6 +50,7 @@ export default class OperationSummary extends PureComponent {
 
     const resolvedSummary = op.get("summary")
     const security = operationProps.get("security")
+    const methodClassName = String(method).toLowerCase()
 
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn", true)
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
@@ -63,7 +64,7 @@ export default class OperationSummary extends PureComponent {
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
     const allowAnonymous = !hasSecurity || securityIsOptional
     return (
-      <div className={`opblock-summary opblock-summary-${method}`} >
+      <div className={`opblock-summary opblock-summary-${methodClassName}`} >
         <button
           aria-expanded={isShown}
           className="opblock-summary-control"
