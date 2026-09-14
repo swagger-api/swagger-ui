@@ -18,8 +18,9 @@ info:
     * multipart/form-data object property schema type is `string` and format is `binary`
     * multipart/form-data object property schema union type includes `string` and format is `byte`
     * multipart/form-data object property schema union type includes `string` and format is `binary`
-    * multipart/form-data object property schema `contentMediaType` is present and is a non-empty `string` 
+    * multipart/form-data object property schema `contentMediaType` is present and is a non-empty `string`
     * multipart/form-data object property schema `contentEncoding` is present and is a non-empty `string`
+    * multipart/form-data array property whose items schema has `contentMediaType` set to a non-empty `string`
   version: "1.0.0"
 paths:
   /upload-application-octet-stream:
@@ -190,3 +191,17 @@ paths:
               properties:
                 file:
                   contentEncoding: base64
+  /upload-array-property-schema-contentMediaType:
+    post:
+      operationId: uploadArrayPropertySchemaContentMediaType
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    contentMediaType: application/octet-stream
