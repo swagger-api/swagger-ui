@@ -1,0 +1,30 @@
+openapi: 3.0.4
+info:
+  title: Octet-stream response example
+  version: "1.0"
+paths:
+  /download:
+    get:
+      summary: Download a binary file
+      operationId: downloadBinary
+      responses:
+        "200":
+          description: Binary download (no example expected)
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /downloadWithExample:
+    get:
+      summary: Download a binary file with a user-provided example
+      operationId: downloadBinaryWithExample
+      responses:
+        "200":
+          description: Binary download with explicit example
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+              example: user-supplied-example
