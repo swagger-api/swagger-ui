@@ -48,5 +48,6 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: outputPath,
+    chunkFormat: 'array-push',
   }
 };
