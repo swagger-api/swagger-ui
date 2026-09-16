@@ -127,8 +127,12 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     callback = authActions.authorizeAccessCodeWithFormParams
   }
 
+  // remove stale `code` without mutating original auth
+  let updatedAuth = { ...auth }
+  delete updatedAuth.code
+
   authActions.authPopup(url, {
-    auth: auth,
+    auth: updatedAuth,
     state: state,
     redirectUrl: redirectUrl,
     callback: callback,
