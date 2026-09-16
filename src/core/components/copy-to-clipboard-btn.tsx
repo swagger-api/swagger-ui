@@ -10,7 +10,7 @@ interface Props {
   textToCopy: string
 }
 
-const CopyToClipboardBtn: React.FC<Props> = ({ textToCopy }) => (
+const CopyToClipboardBtn = ({ textToCopy }: Props) => (
   <div
     className="view-line-link copy-to-clipboard"
     title={COPY_PATH_LABEL}
