@@ -21,9 +21,11 @@ class StandaloneLayout extends React.Component {
     const Topbar = getComponent("Topbar", true)
     const BaseLayout = getComponent("BaseLayout", true)
     const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
+    const SkipToOperations = getComponent("SkipToOperations", true)
 
     return (
       <Container className='swagger-ui'>
+        {SkipToOperations ? <SkipToOperations /> : null}
         {Topbar ? <Topbar /> : null}
         <BaseLayout />
         <Row>

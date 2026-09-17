@@ -1,9 +1,18 @@
 /**
  * @prettier
  */
-import React, { useCallback, useEffect } from "react"
+import React, { useRef, useCallback, useEffect, useMemo } from "react"
 import PropTypes from "prop-types"
 import classNames from "classnames"
+import { useVirtualizer } from "@tanstack/react-virtual"
+import {
+  VIRTUALIZE_MODELS_THRESHOLD,
+  VIRTUALIZE_JSON_SCHEMA_2020_12_ESTIMATE_SIZE,
+  VIRTUALIZE_MODELS_OVERSCAN,
+} from "core/utils/virtualization"
+import SchemaItem from "./schema-item"
+
+const SCHEMAS_PATH = ["components", "schemas"]
 
 const Models = ({
   specActions,
@@ -15,30 +24,45 @@ const Models = ({
   fn,
 }) => {
   const schemas = specSelectors.selectSchemas()
-  const hasSchemas = Object.keys(schemas).length > 0
-  const schemasPath = ["components", "schemas"]
   const { docExpansion, defaultModelsExpandDepth } = getConfigs()
   const isOpenDefault = defaultModelsExpandDepth > 0 && docExpansion !== "none"
-  const isOpen = layoutSelectors.isShown(schemasPath, isOpenDefault)
+  const isOpen = layoutSelectors.isShown(SCHEMAS_PATH, isOpenDefault)
   const Collapse = getComponent("Collapse")
-  const JSONSchema202012 = getComponent("JSONSchema202012")
   const ArrowUpIcon = getComponent("ArrowUpIcon")
   const ArrowDownIcon = getComponent("ArrowDownIcon")
   const { getTitle } = fn.jsonSchema202012.useFn()
+
+  const schemaEntries = useMemo(() => Object.entries(schemas), [schemas])
+
+  const parentRef = useRef(null)
+  const measurementsCache = useRef([])
+
+  const virtualizer = useVirtualizer({
+    count: schemaEntries.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => VIRTUALIZE_JSON_SCHEMA_2020_12_ESTIMATE_SIZE,
+    overscan: VIRTUALIZE_MODELS_OVERSCAN,
+    getItemKey: (index) => `models-section-${schemaEntries[index][0]}`,
+    initialMeasurementsCache: measurementsCache.current,
+    onChange: (instance) => {
+      measurementsCache.current = instance.takeSnapshot()
+    },
+  })
+
+  const isVirtualized = schemaEntries.length >= VIRTUALIZE_MODELS_THRESHOLD
 
   /**
    * Effects.
    */
   useEffect(() => {
-    const includesExpandedSchema = Object.entries(schemas).some(
-      ([schemaName]) =>
-        layoutSelectors.isShown([...schemasPath, schemaName], false)
+    const includesExpandedSchema = schemaEntries.some(([schemaName]) =>
+      layoutSelectors.isShown([...SCHEMAS_PATH, schemaName], false)
     )
     const isOpenAndExpanded =
       isOpen && (defaultModelsExpandDepth > 1 || includesExpandedSchema)
-    const isResolved = specSelectors.specResolvedSubtree(schemasPath) != null
+    const isResolved = specSelectors.specResolvedSubtree(SCHEMAS_PATH) != null
     if (isOpenAndExpanded && !isResolved) {
-      specActions.requestResolvedSubtree(schemasPath)
+      specActions.requestResolvedSubtree(SCHEMAS_PATH)
     }
   }, [isOpen, defaultModelsExpandDepth])
 
@@ -47,42 +71,28 @@ const Models = ({
    */
 
   const handleModelsExpand = useCallback(() => {
-    layoutActions.show(schemasPath, !isOpen)
+    layoutActions.show(SCHEMAS_PATH, !isOpen)
   }, [isOpen])
   const handleModelsRef = useCallback((node) => {
     if (node !== null) {
-      layoutActions.readyToScroll(schemasPath, node)
+      layoutActions.readyToScroll(SCHEMAS_PATH, node)
     }
   }, [])
-  const handleJSONSchema202012Ref = (schemaName) => (node) => {
-    if (node !== null) {
-      layoutActions.readyToScroll([...schemasPath, schemaName], node)
-    }
-  }
-  const handleJSONSchema202012Expand = (schemaName) => (e, expanded) => {
-    const schemaPath = [...schemasPath, schemaName]
-    if (expanded) {
-      const isResolved = specSelectors.specResolvedSubtree(schemaPath) != null
-      if (!isResolved) {
-        specActions.requestResolvedSubtree([...schemasPath, schemaName])
-      }
-      layoutActions.show(schemaPath, true)
-    } else {
-      layoutActions.show(schemaPath, false)
-    }
-  }
 
   /**
    * Rendering.
    */
 
-  if (!hasSchemas || defaultModelsExpandDepth < 0) {
+  if (!schemaEntries.length || defaultModelsExpandDepth < 0) {
     return null
   }
 
   return (
     <section
-      className={classNames("models", { "is-open": isOpen })}
+      className={classNames("models", {
+        "is-open": isOpen,
+        "models--virtualized": isVirtualized,
+      })}
       ref={handleModelsRef}
     >
       <h4>
@@ -96,19 +106,59 @@ const Models = ({
         </button>
       </h4>
       <Collapse isOpened={isOpen}>
-        {Object.entries(schemas).map(([schemaName, schema]) => {
-          const name = getTitle(schema, { lookup: "basic" }) || schemaName
+        {isVirtualized ? (
+          <div ref={parentRef} className="models-scroll">
+            <div
+              style={{
+                paddingTop: virtualizer.getVirtualItems()[0]?.start ?? 0,
+                paddingBottom:
+                  virtualizer.getTotalSize() -
+                  (virtualizer.getVirtualItems().at(-1)?.end ?? 0),
+              }}
+            >
+              {virtualizer.getVirtualItems().map((vItem) => {
+                const [schemaName, schema] = schemaEntries[vItem.index]
+                const name = getTitle(schema, { lookup: "basic" }) || schemaName
 
-          return (
-            <JSONSchema202012
-              key={schemaName}
-              ref={handleJSONSchema202012Ref(schemaName)}
-              schema={schema}
-              name={name}
-              onExpand={handleJSONSchema202012Expand(schemaName)}
-            />
-          )
-        })}
+                return (
+                  <div
+                    key={vItem.key}
+                    data-index={vItem.index}
+                    ref={virtualizer.measureElement}
+                    className="models-virtual-item"
+                  >
+                    <SchemaItem
+                      schemaName={schemaName}
+                      schema={schema}
+                      name={name}
+                      specSelectors={specSelectors}
+                      specActions={specActions}
+                      layoutActions={layoutActions}
+                      getComponent={getComponent}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : (
+          schemaEntries.map(([schemaName, schema]) => {
+            const name = getTitle(schema, { lookup: "basic" }) || schemaName
+
+            return (
+              <SchemaItem
+                key={schemaName}
+                schemaName={schemaName}
+                schema={schema}
+                name={name}
+                specSelectors={specSelectors}
+                specActions={specActions}
+                layoutActions={layoutActions}
+                getComponent={getComponent}
+              />
+            )
+          })
+        )}
       </Collapse>
     </section>
   )
