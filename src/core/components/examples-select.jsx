@@ -22,7 +22,7 @@ export default class ExamplesSelect extends React.PureComponent {
     onSelect: (...args) =>
       // eslint-disable-next-line no-console
       console.log(
-        // FIXME: remove before merging to master...
+        // FIXME: remove before merging to main...
         `DEBUG: ExamplesSelect was not given an onSelect callback`,
         ...args
       ),

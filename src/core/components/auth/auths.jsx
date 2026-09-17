@@ -35,9 +35,7 @@ export default class Auths extends React.Component {
     e.preventDefault()
 
     let { authActions, definitions } = this.props
-    let auths = definitions.map( (val, key) => {
-      return key
-    }).toArray()
+    let auths = definitions.keySeq().toArray()
 
     this.setState(auths.reduce((prev, auth) => {
       prev[auth] = ""
@@ -85,7 +83,7 @@ export default class Auths extends React.Component {
                   errSelectors={errSelectors}
                   authSelectors={authSelectors}
                   />
-              }).toArray()
+              }).valueSeq().toArray()
             }
             <div className="auth-btn-wrapper">
               {
@@ -112,7 +110,7 @@ export default class Auths extends React.Component {
                             name={ name } />
                   </div>)
                 }
-                ).toArray()
+                ).valueSeq().toArray()
             }
           </div> : null
         }

@@ -64,7 +64,7 @@ export default class Overview extends React.Component {
 
                 </div>
                 )
-            }).toArray()
+            }).valueSeq().toArray()
           }
 
           { taggedOps.size < 1 && <h3> No operations defined in spec! </h3> }

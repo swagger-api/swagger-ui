@@ -1,0 +1,4823 @@
+# GENERATED FIXTURE — perf/virtualization epic (Phase 2: OAS 3.1 models copy)
+# 240 component schemas, above VIRTUALIZE_MODELS_THRESHOLD (100).
+# OAS 3.1.0 — routes to the oas31 models component, NOT json-schema-5.
+# Regenerate rather than hand-edit. See .claude/implementation/perf-virtualization/phase-2-oas31-models.md
+openapi: 3.1.0
+info:
+  title: Many Schemas (OpenAPI 3.1 perf fixture)
+  version: 1.0.0
+  description: Generated fixture with 240 component schemas for models-list virtualization tests.
+servers:
+  - url: https://petstore.swagger.io/v2
+paths:
+  /ping:
+    get:
+      tags:
+        - ping
+      summary: Minimal operation so the spec is valid
+      operationId: ping
+      responses:
+        "200":
+          description: pong
+components:
+  schemas:
+    PerfModel001:
+      type: object
+      description: Generated perf schema 1
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel002:
+      type: object
+      description: Generated perf schema 2
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel003:
+      type: object
+      description: Generated perf schema 3
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel004:
+      type: object
+      description: Generated perf schema 4
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel005:
+      type: object
+      description: Generated perf schema 5
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel006:
+      type: object
+      description: Generated perf schema 6
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel007:
+      type: object
+      description: Generated perf schema 7
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel008:
+      type: object
+      description: Generated perf schema 8
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel009:
+      type: object
+      description: Generated perf schema 9
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel010:
+      type: object
+      description: Generated perf schema 10
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel011:
+      type: object
+      description: Generated perf schema 11
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel012:
+      type: object
+      description: Generated perf schema 12
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel013:
+      type: object
+      description: Generated perf schema 13
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel014:
+      type: object
+      description: Generated perf schema 14
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel015:
+      type: object
+      description: Generated perf schema 15
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel016:
+      type: object
+      description: Generated perf schema 16
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel017:
+      type: object
+      description: Generated perf schema 17
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel018:
+      type: object
+      description: Generated perf schema 18
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel019:
+      type: object
+      description: Generated perf schema 19
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel020:
+      type: object
+      description: Generated perf schema 20
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel021:
+      type: object
+      description: Generated perf schema 21
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel022:
+      type: object
+      description: Generated perf schema 22
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel023:
+      type: object
+      description: Generated perf schema 23
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel024:
+      type: object
+      description: Generated perf schema 24
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel025:
+      type: object
+      description: Generated perf schema 25
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel026:
+      type: object
+      description: Generated perf schema 26
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel027:
+      type: object
+      description: Generated perf schema 27
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel028:
+      type: object
+      description: Generated perf schema 28
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel029:
+      type: object
+      description: Generated perf schema 29
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel030:
+      type: object
+      description: Generated perf schema 30
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel031:
+      type: object
+      description: Generated perf schema 31
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel032:
+      type: object
+      description: Generated perf schema 32
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel033:
+      type: object
+      description: Generated perf schema 33
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel034:
+      type: object
+      description: Generated perf schema 34
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel035:
+      type: object
+      description: Generated perf schema 35
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel036:
+      type: object
+      description: Generated perf schema 36
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel037:
+      type: object
+      description: Generated perf schema 37
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel038:
+      type: object
+      description: Generated perf schema 38
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel039:
+      type: object
+      description: Generated perf schema 39
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel040:
+      type: object
+      description: Generated perf schema 40
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel041:
+      type: object
+      description: Generated perf schema 41
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel042:
+      type: object
+      description: Generated perf schema 42
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel043:
+      type: object
+      description: Generated perf schema 43
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel044:
+      type: object
+      description: Generated perf schema 44
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel045:
+      type: object
+      description: Generated perf schema 45
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel046:
+      type: object
+      description: Generated perf schema 46
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel047:
+      type: object
+      description: Generated perf schema 47
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel048:
+      type: object
+      description: Generated perf schema 48
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel049:
+      type: object
+      description: Generated perf schema 49
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel050:
+      type: object
+      description: Generated perf schema 50
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel051:
+      type: object
+      description: Generated perf schema 51
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel052:
+      type: object
+      description: Generated perf schema 52
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel053:
+      type: object
+      description: Generated perf schema 53
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel054:
+      type: object
+      description: Generated perf schema 54
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel055:
+      type: object
+      description: Generated perf schema 55
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel056:
+      type: object
+      description: Generated perf schema 56
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel057:
+      type: object
+      description: Generated perf schema 57
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel058:
+      type: object
+      description: Generated perf schema 58
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel059:
+      type: object
+      description: Generated perf schema 59
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel060:
+      type: object
+      description: Generated perf schema 60
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel061:
+      type: object
+      description: Generated perf schema 61
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel062:
+      type: object
+      description: Generated perf schema 62
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel063:
+      type: object
+      description: Generated perf schema 63
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel064:
+      type: object
+      description: Generated perf schema 64
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel065:
+      type: object
+      description: Generated perf schema 65
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel066:
+      type: object
+      description: Generated perf schema 66
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel067:
+      type: object
+      description: Generated perf schema 67
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel068:
+      type: object
+      description: Generated perf schema 68
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel069:
+      type: object
+      description: Generated perf schema 69
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel070:
+      type: object
+      description: Generated perf schema 70
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel071:
+      type: object
+      description: Generated perf schema 71
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel072:
+      type: object
+      description: Generated perf schema 72
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel073:
+      type: object
+      description: Generated perf schema 73
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel074:
+      type: object
+      description: Generated perf schema 74
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel075:
+      type: object
+      description: Generated perf schema 75
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel076:
+      type: object
+      description: Generated perf schema 76
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel077:
+      type: object
+      description: Generated perf schema 77
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel078:
+      type: object
+      description: Generated perf schema 78
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel079:
+      type: object
+      description: Generated perf schema 79
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel080:
+      type: object
+      description: Generated perf schema 80
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel081:
+      type: object
+      description: Generated perf schema 81
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel082:
+      type: object
+      description: Generated perf schema 82
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel083:
+      type: object
+      description: Generated perf schema 83
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel084:
+      type: object
+      description: Generated perf schema 84
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel085:
+      type: object
+      description: Generated perf schema 85
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel086:
+      type: object
+      description: Generated perf schema 86
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel087:
+      type: object
+      description: Generated perf schema 87
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel088:
+      type: object
+      description: Generated perf schema 88
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel089:
+      type: object
+      description: Generated perf schema 89
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel090:
+      type: object
+      description: Generated perf schema 90
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel091:
+      type: object
+      description: Generated perf schema 91
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel092:
+      type: object
+      description: Generated perf schema 92
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel093:
+      type: object
+      description: Generated perf schema 93
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel094:
+      type: object
+      description: Generated perf schema 94
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel095:
+      type: object
+      description: Generated perf schema 95
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel096:
+      type: object
+      description: Generated perf schema 96
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel097:
+      type: object
+      description: Generated perf schema 97
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel098:
+      type: object
+      description: Generated perf schema 98
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel099:
+      type: object
+      description: Generated perf schema 99
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel100:
+      type: object
+      description: Generated perf schema 100
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel101:
+      type: object
+      description: Generated perf schema 101
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel102:
+      type: object
+      description: Generated perf schema 102
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel103:
+      type: object
+      description: Generated perf schema 103
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel104:
+      type: object
+      description: Generated perf schema 104
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel105:
+      type: object
+      description: Generated perf schema 105
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel106:
+      type: object
+      description: Generated perf schema 106
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel107:
+      type: object
+      description: Generated perf schema 107
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel108:
+      type: object
+      description: Generated perf schema 108
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel109:
+      type: object
+      description: Generated perf schema 109
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel110:
+      type: object
+      description: Generated perf schema 110
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel111:
+      type: object
+      description: Generated perf schema 111
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel112:
+      type: object
+      description: Generated perf schema 112
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel113:
+      type: object
+      description: Generated perf schema 113
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel114:
+      type: object
+      description: Generated perf schema 114
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel115:
+      type: object
+      description: Generated perf schema 115
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel116:
+      type: object
+      description: Generated perf schema 116
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel117:
+      type: object
+      description: Generated perf schema 117
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel118:
+      type: object
+      description: Generated perf schema 118
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel119:
+      type: object
+      description: Generated perf schema 119
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel120:
+      type: object
+      description: Generated perf schema 120
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel121:
+      type: object
+      description: Generated perf schema 121
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel122:
+      type: object
+      description: Generated perf schema 122
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel123:
+      type: object
+      description: Generated perf schema 123
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel124:
+      type: object
+      description: Generated perf schema 124
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel125:
+      type: object
+      description: Generated perf schema 125
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel126:
+      type: object
+      description: Generated perf schema 126
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel127:
+      type: object
+      description: Generated perf schema 127
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel128:
+      type: object
+      description: Generated perf schema 128
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel129:
+      type: object
+      description: Generated perf schema 129
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel130:
+      type: object
+      description: Generated perf schema 130
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel131:
+      type: object
+      description: Generated perf schema 131
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel132:
+      type: object
+      description: Generated perf schema 132
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel133:
+      type: object
+      description: Generated perf schema 133
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel134:
+      type: object
+      description: Generated perf schema 134
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel135:
+      type: object
+      description: Generated perf schema 135
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel136:
+      type: object
+      description: Generated perf schema 136
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel137:
+      type: object
+      description: Generated perf schema 137
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel138:
+      type: object
+      description: Generated perf schema 138
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel139:
+      type: object
+      description: Generated perf schema 139
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel140:
+      type: object
+      description: Generated perf schema 140
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel141:
+      type: object
+      description: Generated perf schema 141
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel142:
+      type: object
+      description: Generated perf schema 142
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel143:
+      type: object
+      description: Generated perf schema 143
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel144:
+      type: object
+      description: Generated perf schema 144
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel145:
+      type: object
+      description: Generated perf schema 145
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel146:
+      type: object
+      description: Generated perf schema 146
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel147:
+      type: object
+      description: Generated perf schema 147
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel148:
+      type: object
+      description: Generated perf schema 148
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel149:
+      type: object
+      description: Generated perf schema 149
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel150:
+      type: object
+      description: Generated perf schema 150
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel151:
+      type: object
+      description: Generated perf schema 151
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel152:
+      type: object
+      description: Generated perf schema 152
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel153:
+      type: object
+      description: Generated perf schema 153
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel154:
+      type: object
+      description: Generated perf schema 154
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel155:
+      type: object
+      description: Generated perf schema 155
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel156:
+      type: object
+      description: Generated perf schema 156
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel157:
+      type: object
+      description: Generated perf schema 157
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel158:
+      type: object
+      description: Generated perf schema 158
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel159:
+      type: object
+      description: Generated perf schema 159
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel160:
+      type: object
+      description: Generated perf schema 160
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel161:
+      type: object
+      description: Generated perf schema 161
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel162:
+      type: object
+      description: Generated perf schema 162
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel163:
+      type: object
+      description: Generated perf schema 163
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel164:
+      type: object
+      description: Generated perf schema 164
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel165:
+      type: object
+      description: Generated perf schema 165
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel166:
+      type: object
+      description: Generated perf schema 166
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel167:
+      type: object
+      description: Generated perf schema 167
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel168:
+      type: object
+      description: Generated perf schema 168
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel169:
+      type: object
+      description: Generated perf schema 169
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel170:
+      type: object
+      description: Generated perf schema 170
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel171:
+      type: object
+      description: Generated perf schema 171
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel172:
+      type: object
+      description: Generated perf schema 172
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel173:
+      type: object
+      description: Generated perf schema 173
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel174:
+      type: object
+      description: Generated perf schema 174
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel175:
+      type: object
+      description: Generated perf schema 175
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel176:
+      type: object
+      description: Generated perf schema 176
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel177:
+      type: object
+      description: Generated perf schema 177
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel178:
+      type: object
+      description: Generated perf schema 178
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel179:
+      type: object
+      description: Generated perf schema 179
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel180:
+      type: object
+      description: Generated perf schema 180
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel181:
+      type: object
+      description: Generated perf schema 181
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel182:
+      type: object
+      description: Generated perf schema 182
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel183:
+      type: object
+      description: Generated perf schema 183
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel184:
+      type: object
+      description: Generated perf schema 184
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel185:
+      type: object
+      description: Generated perf schema 185
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel186:
+      type: object
+      description: Generated perf schema 186
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel187:
+      type: object
+      description: Generated perf schema 187
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel188:
+      type: object
+      description: Generated perf schema 188
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel189:
+      type: object
+      description: Generated perf schema 189
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel190:
+      type: object
+      description: Generated perf schema 190
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel191:
+      type: object
+      description: Generated perf schema 191
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel192:
+      type: object
+      description: Generated perf schema 192
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel193:
+      type: object
+      description: Generated perf schema 193
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel194:
+      type: object
+      description: Generated perf schema 194
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel195:
+      type: object
+      description: Generated perf schema 195
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel196:
+      type: object
+      description: Generated perf schema 196
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel197:
+      type: object
+      description: Generated perf schema 197
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel198:
+      type: object
+      description: Generated perf schema 198
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel199:
+      type: object
+      description: Generated perf schema 199
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel200:
+      type: object
+      description: Generated perf schema 200
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel201:
+      type: object
+      description: Generated perf schema 201
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel202:
+      type: object
+      description: Generated perf schema 202
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel203:
+      type: object
+      description: Generated perf schema 203
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel204:
+      type: object
+      description: Generated perf schema 204
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel205:
+      type: object
+      description: Generated perf schema 205
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel206:
+      type: object
+      description: Generated perf schema 206
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel207:
+      type: object
+      description: Generated perf schema 207
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel208:
+      type: object
+      description: Generated perf schema 208
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel209:
+      type: object
+      description: Generated perf schema 209
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel210:
+      type: object
+      description: Generated perf schema 210
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel211:
+      type: object
+      description: Generated perf schema 211
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel212:
+      type: object
+      description: Generated perf schema 212
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel213:
+      type: object
+      description: Generated perf schema 213
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel214:
+      type: object
+      description: Generated perf schema 214
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel215:
+      type: object
+      description: Generated perf schema 215
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel216:
+      type: object
+      description: Generated perf schema 216
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel217:
+      type: object
+      description: Generated perf schema 217
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel218:
+      type: object
+      description: Generated perf schema 218
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel219:
+      type: object
+      description: Generated perf schema 219
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel220:
+      type: object
+      description: Generated perf schema 220
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel221:
+      type: object
+      description: Generated perf schema 221
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel222:
+      type: object
+      description: Generated perf schema 222
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel223:
+      type: object
+      description: Generated perf schema 223
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel224:
+      type: object
+      description: Generated perf schema 224
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel225:
+      type: object
+      description: Generated perf schema 225
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel226:
+      type: object
+      description: Generated perf schema 226
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel227:
+      type: object
+      description: Generated perf schema 227
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel228:
+      type: object
+      description: Generated perf schema 228
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel229:
+      type: object
+      description: Generated perf schema 229
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel230:
+      type: object
+      description: Generated perf schema 230
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel231:
+      type: object
+      description: Generated perf schema 231
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel232:
+      type: object
+      description: Generated perf schema 232
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel233:
+      type: object
+      description: Generated perf schema 233
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel234:
+      type: object
+      description: Generated perf schema 234
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel235:
+      type: object
+      description: Generated perf schema 235
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel236:
+      type: object
+      description: Generated perf schema 236
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel237:
+      type: object
+      description: Generated perf schema 237
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel238:
+      type: object
+      description: Generated perf schema 238
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel239:
+      type: object
+      description: Generated perf schema 239
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    PerfModel240:
+      type: object
+      description: Generated perf schema 240
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string

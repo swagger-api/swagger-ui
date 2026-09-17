@@ -23,9 +23,9 @@ export default class ContentType extends React.Component {
   }
 
   componentDidMount() {
-    // Populate the form initially
-    const { contentTypes, onChange } = this.props
-    if (contentTypes && contentTypes.size) {
+    // Populate the form initially, but only if there is no valid value already set
+    const { contentTypes, value, onChange } = this.props
+    if (contentTypes && contentTypes.size && !contentTypes.includes(value)) {
       onChange(contentTypes.first())
     }
   }

@@ -1,6 +1,7 @@
 /**
  * @prettier
  */
+import AccessibilityPlugin from "core/plugins/accessibility"
 import AuthPlugin from "core/plugins/auth/"
 import ConfigsPlugin from "core/plugins/configs"
 import DeepLinkingPlugin from "core/plugins/deep-linking"
@@ -27,6 +28,7 @@ import CoreComponentsPlugin from "core/presets/base/plugins/core-components"
 import FormComponentsPlugin from "core/presets/base/plugins/form-components"
 
 const BasePreset = () => [
+  AccessibilityPlugin,
   ConfigsPlugin,
   UtilPlugin,
   LogsPlugin,
