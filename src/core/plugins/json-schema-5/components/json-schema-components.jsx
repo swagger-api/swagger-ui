@@ -420,7 +420,7 @@ export class JsonSchema_object extends PureComponent {
       disabled
     } = this.props
 
-    const TextArea = getComponent("TextArea")
+    const TextArea = getComponent("DebounceTextArea")
     errors = errors.toJS ? errors.toJS() : Array.isArray(errors) ? errors : []
 
     return (
