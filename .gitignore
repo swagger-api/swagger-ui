@@ -1,9 +1,7 @@
 node_modules
 .idea
-.vscode
 .deps_check
 .DS_Store
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -27,3 +25,4 @@ dist/log*
 # Cypress
 test/e2e-cypress/screenshots
 test/e2e-cypress/videos
+config.bat

@@ -31,6 +31,11 @@ Content-Type: application/json
 Content-Length: 0
 ```
 
+If your API definition includes [`QUERY` operations](./http-query-method.md)
+(OpenAPI 3.2+), add `QUERY` to `Access-Control-Allow-Methods` as well —
+browsers preflight `QUERY` requests the same way they preflight `PUT` or
+`PATCH` requests.
+
 This tells us that the petstore resource listing supports OPTIONS, and the following headers:  `Content-Type`, `api_key`, `Authorization`.
 
 - Try Swagger UI from your file system and look at the debug console.  If CORS is not enabled, you'll see something like this:
