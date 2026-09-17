@@ -1,10 +1,10 @@
 import React, { PureComponent, Component } from "react"
 import PropTypes from "prop-types"
-import { List, fromJS } from "immutable"
+import { List, fromJS, isImmutable } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
-import { stringify, isImmutable } from "core/utils"
+import { stringify } from "core/utils"
 
 const noop = ()=> {}
 const JsonSchemaPropShape = {

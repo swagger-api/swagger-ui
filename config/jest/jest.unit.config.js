@@ -6,6 +6,8 @@ module.exports = {
   testMatch: [
     '**/test/unit/*.js?(x)',
     '**/test/unit/**/*.js?(x)',
+    '**/test/unit/*.ts?(x)',
+    '**/test/unit/**/*.ts?(x)',
   ],
   setupFiles: ['<rootDir>/test/unit/jest-shim.js'],
   setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],

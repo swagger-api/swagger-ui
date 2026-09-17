@@ -2,9 +2,9 @@
  * @prettier
  */
 
-import Im from "immutable"
+import { Map, Set } from "immutable"
 
-const swagger2SchemaKeys = Im.Set.of(
+const swagger2SchemaKeys = Set.of(
   "type",
   "format",
   "items",
@@ -45,9 +45,9 @@ const swagger2SchemaKeys = Im.Set.of(
  */
 export default function getParameterSchema(parameter, { isOAS3 } = {}) {
   // Return empty Map if `parameter` isn't a Map
-  if (!Im.Map.isMap(parameter)) {
+  if (!Map.isMap(parameter)) {
     return {
-      schema: Im.Map(),
+      schema: Map(),
       parameterContentMediaType: null,
     }
   }
@@ -56,7 +56,7 @@ export default function getParameterSchema(parameter, { isOAS3 } = {}) {
     // Swagger 2.0
     if (parameter.get("in") === "body") {
       return {
-        schema: parameter.get("schema", Im.Map()),
+        schema: parameter.get("schema", Map()),
         parameterContentMediaType: null,
       }
     } else {
@@ -71,7 +71,7 @@ export default function getParameterSchema(parameter, { isOAS3 } = {}) {
 
   if (parameter.get("content")) {
     const parameterContentMediaTypes = parameter
-      .get("content", Im.Map({}))
+      .get("content", Map({}))
       .keySeq()
 
     const parameterContentMediaType = parameterContentMediaTypes.first()
@@ -79,16 +79,14 @@ export default function getParameterSchema(parameter, { isOAS3 } = {}) {
     return {
       schema: parameter.getIn(
         ["content", parameterContentMediaType, "schema"],
-        Im.Map()
+        Map()
       ),
       parameterContentMediaType,
     }
   }
 
   return {
-    schema: parameter.get("schema")
-      ? parameter.get("schema", Im.Map())
-      : Im.Map(),
+    schema: parameter.get("schema") ? parameter.get("schema", Map()) : Map(),
     parameterContentMediaType: null,
   }
 }
