@@ -1,0 +1,33 @@
+openapi: 3.0.4
+info:
+  title: 5667 - External pet store
+  version: 1.0.0
+paths:
+  /pets/{petId}:
+    parameters:
+      - $ref: '#/components/parameters/PetIdPathParam'
+    get:
+      summary: Info for a specific pet
+      operationId: showPetById
+      tags:
+        - pets
+      responses:
+        '200':
+          description: ok
+    options:
+      summary: Options for a specific pet
+      operationId: optionsPetById
+      tags:
+        - pets
+      responses:
+        '200':
+          description: ok
+components:
+  parameters:
+    PetIdPathParam:
+      in: path
+      name: petId
+      required: true
+      description: The id of the pet to retrieve
+      schema:
+        type: string
