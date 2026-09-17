@@ -83,6 +83,14 @@ const standardVariables = {
     type: "string",
     name: "oauth2RedirectUrl"
   },
+  PRESETS: {
+    type: "array",
+    name: "presets"
+  },
+  PLUGINS: {
+    type: "array",
+    name: "plugins"
+  },
   PERSIST_AUTHORIZATION: {
     type: "boolean",
     name: "persistAuthorization"
