@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress")
 
 const startOAuthServer = require("./test/e2e-cypress/support/helpers/oauth2-server")
+const startQueryMethodServer = require("./test/e2e-cypress/support/helpers/query-method-server")
 
 module.exports = defineConfig({
   fileServerFolder: "test/e2e-cypress/static",
@@ -14,6 +15,7 @@ module.exports = defineConfig({
     specPattern: "test/e2e-cypress/e2e/**/*.cy.{js,jsx}",
     setupNodeEvents: () => {
       startOAuthServer()
+      startQueryMethodServer()
     },
   },
 })
