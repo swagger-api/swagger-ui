@@ -45,10 +45,42 @@ export const makeGetType = (fnAccessor) => {
       return "any"
     }
 
+    const isSchemaImmutable = Map.isMap(schema)
+    schema = isSchemaImmutable ? schema.toJS() : schema
+
     if (processedSchemas.has(schema)) {
       return "any" // detect a cycle
     }
     processedSchemas.add(schema)
+
+    // If this schema is a $ref and the system exposes a resolver, try to
+    // resolve it for the purposes of type inference/display.
+    const schemaRef = schema && schema.$ref
+    if (schemaRef && fn && typeof fn.getRefSchemaByRef === "function") {
+      try {
+        const resolved = fn.getRefSchemaByRef(schemaRef)
+        if (resolved && typeof resolved === "object") {
+          const friendlyLabel =
+            (resolved.title && String(resolved.title)) ||
+            (resolved.$id && String(resolved.$id)) ||
+            (fn.getModelNameFromRef &&
+            typeof fn.getModelNameFromRef === "function"
+              ? fn.getModelNameFromRef(schemaRef)
+              : null)
+
+          if (friendlyLabel) {
+            processedSchemas.delete(schema)
+            return friendlyLabel
+          }
+
+          const result = getType(resolved, processedSchemas)
+          processedSchemas.delete(schema)
+          return result
+        }
+      } catch (e) {
+        // ignore resolution errors and continue with normal inference
+      }
+    }
 
     const { type, prefixItems, items } = schema
 
