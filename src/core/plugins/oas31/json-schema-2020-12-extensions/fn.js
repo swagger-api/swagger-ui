@@ -1,6 +1,20 @@
 /**
  * @prettier
  */
+import { getModelName } from "../../../utils/get-model-name"
+
+export const makeGetTitle = (original) => {
+  if (typeof original !== "function") {
+    return null
+  }
+
+  return (schema, options) => {
+    const title = original(schema, options)
+    if (title) return title
+    return getModelName(schema?.$$ref) || ""
+  }
+}
+
 export const makeIsExpandable = (original, getSystem) => {
   const { fn } = getSystem()
 
