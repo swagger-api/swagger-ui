@@ -2954,7 +2954,7 @@ describe("createXMLExample", function () {
     })
     it("should use exampleOverride for attr too", () => {
       const expected =
-        '<?xml version="1.0" encoding="UTF-8"?>\n<aliens test="probe">\n</aliens>'
+        '<?xml version="1.0" encoding="UTF-8"?>\n<aliens test="probe"/>\n'
       const definition = {
         type: "object",
         properties: {
@@ -3041,8 +3041,8 @@ describe("createXMLExample", function () {
     }
 
     const expected = `<?xml version="1.0" encoding="UTF-8"?>
-<test arrayOfStrings="string" arrayOfArrays="UnknownTypeArray UnknownTypeArray UnknownTypeArray" arrayOfContainsObject="UnknownTypeObject UnknownTypeObject UnknownTypeObject">
-</test>`
+<test arrayOfStrings="string" arrayOfArrays="UnknownTypeArray UnknownTypeArray UnknownTypeArray" arrayOfContainsObject="UnknownTypeObject UnknownTypeObject UnknownTypeObject"/>
+`
 
     expect(sut(definition)).toEqual(expected)
   })
@@ -3069,8 +3069,8 @@ describe("createXMLExample", function () {
     }
 
     const expected = `<?xml version="1.0" encoding="UTF-8"?>
-<test object="UnknownTypeObject">
-</test>`
+<test object="UnknownTypeObject"/>
+`
 
     expect(sut(definition)).toEqual(expected)
   })
