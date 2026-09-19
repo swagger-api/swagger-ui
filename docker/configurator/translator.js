@@ -50,6 +50,13 @@ const defaultBaseConfig = {
       type: "boolean",
       base: true,
     }
+  },
+  operationsSorter: {
+    value: "none",
+    schema: {
+      type: "string",
+      base: true
+    }
   }
 }
 

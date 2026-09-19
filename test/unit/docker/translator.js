@@ -147,6 +147,15 @@ describe("docker: env translator", function() {
       ))
     })
 
+    it("should generate operationsSorter configuration prop", function () {
+      const input = {
+        OPERATIONS_SORTER: "alpha"
+      }
+
+      expect(translator(input)).toEqual(dedent(`operationsSorter: alpha,`))
+
+    })
+
     it("should generate an object config", function () {
       const input = {
         SPEC: `{ swagger: "2.0" }`
