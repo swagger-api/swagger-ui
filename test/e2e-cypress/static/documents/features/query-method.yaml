@@ -1,0 +1,59 @@
+openapi: 3.2.0
+info:
+  title: HTTP QUERY Method E2E Test
+  version: "1.0.0"
+  description: >
+    Exercises the HTTP QUERY method (RFC 10008) end-to-end against a real
+    local server, via `test/e2e-cypress/support/helpers/query-method-server`.
+servers:
+  - url: http://localhost:3232
+paths:
+  /query-test:
+    query:
+      summary: Execute a safe, idempotent query using request content
+      description: >
+        QUERY is safe and idempotent, and its request content (together with
+        its media type) defines the query. This is distinct from the ?query
+        string parameters on the URI, which are supported independently.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filter:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                sort:
+                  type: array
+                  items:
+                    type: string
+                limit:
+                  type: integer
+            example:
+              filter:
+                status: active
+              sort:
+                - -createdAt
+              limit: 50
+      responses:
+        "200":
+          description: The server's raw view of the request it received.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  method:
+                    type: string
+                  received:
+                    type: boolean
+                  url:
+                    type: string
+                  contentType:
+                    type: string
+                  body:
+                    type: object
