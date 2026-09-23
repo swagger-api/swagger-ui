@@ -324,4 +324,20 @@ describe("OpenAPI 3.1 Request Body upload file button", () => {
       ).should("have.prop", "type", "file")
     })
   })
+
+  describe("multipart/form-data array property whose items schema has contentMediaType with non-empty string", () => {
+    beforeEach(() => {
+      cy.get(
+        "#operations-default-uploadArrayPropertySchemaContentMediaType"
+      ).click()
+    })
+
+    it("should display a file upload button when an item is added", () => {
+      cy.get(".try-out__btn").click()
+      cy.get(".json-schema-form-item-add").click()
+      cy.get(
+        ".opblock-section-request-body .json-schema-array .json-schema-form-item input"
+      ).should("have.prop", "type", "file")
+    })
+  })
 })
