@@ -364,3 +364,118 @@ describe("bug #5573: zero default and example values", function () {
     expect(props.onChange).toHaveBeenCalledWith(paramValue, "0", false)
   })
 })
+
+describe("parameter constraints display", () => {
+  const createProps = ({ param, isOAS3 }) => {
+    const getSystem = () => ({
+      getComponent: () => "div",
+      specSelectors: {
+        parameterWithMetaByIdentity: () => param,
+        isOAS3: () => isOAS3,
+        isSwagger2: () => !isOAS3,
+      },
+      fn: {
+        memoizedSampleFromSchema,
+        memoizedCreateXMLExample,
+        getSchemaObjectTypeLabel,
+        getSchemaObjectType,
+        getJsonSampleSchema: makeGetJsonSampleSchema(getSystem),
+        getYamlSampleSchema: makeGetYamlSampleSchema(getSystem),
+        getXmlSampleSchema: makeGetXmlSampleSchema(getSystem),
+        getSampleSchema: makeGetSampleSchema(getSystem),
+        mergeJsonSchema,
+      },
+      oas3Selectors: { activeExamplesMember: () => {} },
+      getConfigs: () => ({}),
+    })
+
+    return {
+      ...getSystem(),
+      param,
+      rawParam: param,
+      pathMethod: [],
+    }
+  }
+
+  it("should display minimum constraint", () => {
+    const param = fromJS({
+      name: "id",
+      in: "path",
+      required: true,
+      schema: {
+        type: "integer",
+        minimum: 1
+      }
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props} />)
+    
+    // Check if constraint text is rendered somewhere in the component
+    expect(wrapper.html()).toContain("≥ 1")
+  })
+
+  it("should display maximum constraint", () => {
+    const param = fromJS({
+      name: "limit",
+      in: "query",
+      schema: {
+        type: "integer",
+        maximum: 100
+      }
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props} />)
+    
+    expect(wrapper.html()).toContain("≤ 100")
+  })
+
+  it("should display exclusive minimum constraint", () => {
+    const param = fromJS({
+      name: "price",
+      in: "query",
+      schema: {
+        type: "number",
+        exclusiveMinimum: 0
+      }
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props} />)
+    
+    expect(wrapper.html()).toContain("> 0")
+  })
+
+  it("should display range constraints", () => {
+    const param = fromJS({
+      name: "range",
+      in: "query",
+      schema: {
+        type: "integer",
+        minimum: 1,
+        maximum: 100
+      }
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props} />)
+    
+    expect(wrapper.html()).toContain("[1, 100]")
+  })
+
+  it("should not display constraints when none are present", () => {
+    const param = fromJS({
+      name: "name",
+      in: "query",
+      schema: {
+        type: "string"
+      }
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props} />)
+    
+    expect(wrapper.html()).not.toContain("Constraints")
+  })
+})

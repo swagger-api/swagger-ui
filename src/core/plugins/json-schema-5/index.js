@@ -14,7 +14,7 @@ import Schemes from "./components/schemes"
 import SchemesContainer from "./containers/schemes"
 import * as JSONSchemaComponents from "./components/json-schema-components"
 import { ModelExtensions } from "./components/model-extensions"
-import { getSchemaObjectTypeLabel, hasSchemaType } from "./fn"
+import { getSchemaObjectTypeLabel, hasSchemaType, stringifyConstraintNumberRange } from "./fn"
 
 const JSONSchema5Plugin = () => ({
   components: {
@@ -35,6 +35,7 @@ const JSONSchema5Plugin = () => ({
   fn: {
     hasSchemaType,
     getSchemaObjectTypeLabel,
+    stringifyConstraintNumberRange,
   },
 })
 
