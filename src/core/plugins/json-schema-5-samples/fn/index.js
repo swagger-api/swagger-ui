@@ -58,6 +58,25 @@ const primitive = (schema) => {
 const sanitizeRef = (value) => deeplyStripKey(value, "$$ref", (val) =>
   typeof val === "string" && val.indexOf("#") > -1)
 
+// When a schema's `example` keyword is `{$ref: '#/components/examples/X'}`,
+// swagger-client inlines the referenced Example Object verbatim, leaving
+// `{ value: <user data>, $$ref: '#/components/examples/X' }`. The sample
+// generator must use the inner `value`, not the wrapper.
+const unwrapTopLevelExampleReference = (value) => {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    return value
+  }
+  const ref = value.$$ref
+  if (
+    typeof ref === "string" &&
+    ref.indexOf("#/components/examples/") > -1 &&
+    Object.prototype.hasOwnProperty.call(value, "value")
+  ) {
+    return value.value
+  }
+  return value
+}
+
 const objectContracts = ["maxProperties", "minProperties"]
 const arrayContracts = ["minItems", "maxItems"]
 const numberContracts = [
@@ -383,9 +402,9 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
   if(usePlainValue) {
     let sample
     if(exampleOverride !== undefined) {
-      sample = sanitizeRef(exampleOverride)
+      sample = sanitizeRef(unwrapTopLevelExampleReference(exampleOverride))
     } else if(example !== undefined) {
-      sample = sanitizeRef(example)
+      sample = sanitizeRef(unwrapTopLevelExampleReference(example))
     } else {
       sample = sanitizeRef(schema.default)
     }
