@@ -1,0 +1,36 @@
+openapi: 3.0.2
+info:
+  title: test
+  version: 0.0.0
+paths:
+  /foo:
+    post:
+      requestBody:
+        description: A JSON object, XML object, or text string containing foo data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            examples:
+              foo_json:
+                value:
+                  foo: bar
+              bar_json:
+                value:
+                  bar: foo
+          text/plain:
+            schema:
+              type: string
+              example: Hello, world!
+          application/xml:
+            schema:
+              type: object
+            examples:
+              foo_xml:
+                value: <foo>bar</foo>
+              bar_xml:
+                value: <bar>foo</bar>
+      responses:
+        201:
+          description: Created
