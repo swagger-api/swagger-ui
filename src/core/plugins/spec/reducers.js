@@ -37,7 +37,16 @@ export default {
   },
 
   [UPDATE_URL]: (state, action) => {
-    return state.set("url", action.payload+"")
+    const nextUrl = action.payload + ""
+    if (state.get("url") === nextUrl) {
+      return state.set("url", nextUrl)
+    }
+    // Loading a new spec URL: clear any scheme state retained from the
+    // previously loaded spec so it cannot leak into the new spec when the
+    // new spec does not declare its own `schemes`.
+    return state
+      .set("url", nextUrl)
+      .delete("scheme")
   },
 
   [UPDATE_JSON]: (state, action) => {
