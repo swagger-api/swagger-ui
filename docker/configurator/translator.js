@@ -99,7 +99,14 @@ function objectToKeyValueString(env, { injectBaseConfig = false, schema = config
     const escapedName = /[^a-zA-Z0-9]/.test(key) ? `"${key}"` : key
 
     if (value.schema.type === "string") {
-      result += `${escapedName}: "${value.value}",\n`
+      // The literal string "null" should be emitted as the JS `null` value
+      // so that env vars like `VALIDATOR_URL=null` correctly disable the
+      // feature, rather than being treated as the URL "null". See #5519.
+      if (value.value === "null") {
+        result += `${escapedName}: null,\n`
+      } else {
+        result += `${escapedName}: "${value.value}",\n`
+      }
     } else {
       result += `${escapedName}: ${value.value === "" ? `undefined` : value.value},\n`
     }
