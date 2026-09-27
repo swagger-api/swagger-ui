@@ -71,20 +71,11 @@ export default function({ configs, getConfigs }) {
         )
         const shouldCloneInput = hasResolverRef(subtree)
         const resolverInput = shouldCloneInput ? cloneDeep(obj) : obj
-        let result
-
-        try {
-          result = await makeResolveSubtree(defaultOptions)(
-            resolverInput,
-            path,
-            options
-          )
-        } catch (error) {
-          if (shouldCloneInput) {
-            refs.clearCache()
-          }
-          throw error
-        }
+        const result = await makeResolveSubtree(defaultOptions)(
+          resolverInput,
+          path,
+          options
+        )
 
         if (hasArrayItemResolverError(result.errors)) {
           refs.clearCache()
