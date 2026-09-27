@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: Chart configuration API
+  version: 1.0.0
+paths:
+  /charts:
+    $ref: "./paths/charts.yml#/charts"

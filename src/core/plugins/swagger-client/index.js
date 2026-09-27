@@ -9,20 +9,32 @@ import { makeResolveSubtree } from "swagger-client/es/subtree-resolver"
 import { opId } from "swagger-client/es/helpers"
 import { loaded } from "./configs-wrap-actions"
 
+const resolveStrategies = [
+  openApi31ApiDOMResolveStrategy,
+  openApi30ResolveStrategy,
+  openApi2ResolveStrategy,
+  genericResolveStrategy,
+]
+
+const strictResolveStrategies = resolveStrategies.map((strategy) => ({
+  ...strategy,
+  resolve: (options) => strategy.resolve({ ...options, mode: "strict" }),
+}))
+
+const hasArrayItemResolverError = (errors) =>
+  errors?.some(
+    (error) =>
+      error.message ===
+      "Cannot read properties of undefined (reading 'items')"
+  )
+
 export default function({ configs, getConfigs }) {
   return {
     fn: {
       fetch: makeHttp(Http, configs.preFetch, configs.postFetch),
       buildRequest,
       execute,
-      resolve: makeResolve({
-        strategies: [
-          openApi31ApiDOMResolveStrategy,
-          openApi30ResolveStrategy,
-          openApi2ResolveStrategy,
-          genericResolveStrategy,
-        ],
-      }),
+      resolve: makeResolve({ strategies: resolveStrategies }),
       resolveSubtree: async (obj, path, options = {}) => {
         const freshConfigs = getConfigs()
         const defaultOptions = {
@@ -30,15 +42,19 @@ export default function({ configs, getConfigs }) {
           parameterMacro: freshConfigs.parameterMacro,
           requestInterceptor: freshConfigs.requestInterceptor,
           responseInterceptor: freshConfigs.responseInterceptor,
-          strategies: [
-            openApi31ApiDOMResolveStrategy,
-            openApi30ResolveStrategy,
-            openApi2ResolveStrategy,
-            genericResolveStrategy,
-          ],
+          strategies: resolveStrategies,
         }
 
-        return makeResolveSubtree(defaultOptions)(obj, path, options)
+        const result = await makeResolveSubtree(defaultOptions)(obj, path, options)
+
+        if (!hasArrayItemResolverError(result.errors)) {
+          return result
+        }
+
+        return makeResolveSubtree({
+          ...defaultOptions,
+          strategies: strictResolveStrategies,
+        })(obj, path, options)
       },
       serializeRes,
       opId
