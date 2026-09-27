@@ -7,6 +7,7 @@ import { execute, buildRequest } from "swagger-client/es/execute"
 import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
 import { makeResolveSubtree } from "swagger-client/es/subtree-resolver"
 import { opId } from "swagger-client/es/helpers"
+import cloneDeep from "lodash/cloneDeep"
 import { loaded } from "./configs-wrap-actions"
 
 const resolveStrategies = [
@@ -21,12 +22,14 @@ const strictResolveStrategies = resolveStrategies.map((strategy) => ({
   resolve: (options) => strategy.resolve({ ...options, mode: "strict" }),
 }))
 
+const isArrayItemResolverError = (error) =>
+  error.message === "Cannot read properties of undefined (reading 'items')"
+
 const hasArrayItemResolverError = (errors) =>
-  errors?.some(
-    (error) =>
-      error.message ===
-      "Cannot read properties of undefined (reading 'items')"
-  )
+  errors?.some(isArrayItemResolverError)
+
+const hasOtherResolverError = (errors) =>
+  errors?.some((error) => !isArrayItemResolverError(error))
 
 export default function({ configs, getConfigs }) {
   return {
@@ -45,16 +48,23 @@ export default function({ configs, getConfigs }) {
           strategies: resolveStrategies,
         }
 
-        const result = await makeResolveSubtree(defaultOptions)(obj, path, options)
+        const result = await makeResolveSubtree(defaultOptions)(
+          cloneDeep(obj),
+          path,
+          options
+        )
 
-        if (!hasArrayItemResolverError(result.errors)) {
+        if (
+          !hasArrayItemResolverError(result.errors) ||
+          hasOtherResolverError(result.errors)
+        ) {
           return result
         }
 
         return makeResolveSubtree({
           ...defaultOptions,
           strategies: strictResolveStrategies,
-        })(obj, path, options)
+        })(cloneDeep(obj), path, options)
       },
       serializeRes,
       opId
