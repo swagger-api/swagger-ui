@@ -32,6 +32,22 @@ const hasArrayItemResolverError = (errors) =>
 const hasOtherResolverError = (errors) =>
   errors?.some((error) => !isArrayItemResolverError(error))
 
+const hasResolverRef = (value, seen = new WeakSet()) => {
+  if (!value || typeof value !== "object" || seen.has(value)) {
+    return false
+  }
+
+  seen.add(value)
+
+  return Object.entries(value).some(
+    ([key, child]) =>
+      key === "$ref" ||
+      key === "$$ref" ||
+      key === "allOf" ||
+      hasResolverRef(child, seen)
+  )
+}
+
 export default function({ configs, getConfigs }) {
   return {
     fn: {
@@ -49,7 +65,12 @@ export default function({ configs, getConfigs }) {
           strategies: resolveStrategies,
         }
 
-        const resolverInput = cloneDeep(obj)
+        const subtree = path.reduce(
+          (value, pathSegment) => value?.[pathSegment],
+          obj
+        )
+        const shouldCloneInput = hasResolverRef(subtree)
+        const resolverInput = shouldCloneInput ? cloneDeep(obj) : obj
         let result
 
         try {
@@ -59,11 +80,13 @@ export default function({ configs, getConfigs }) {
             options
           )
         } catch (error) {
-          refs.clearCache()
+          if (shouldCloneInput) {
+            refs.clearCache()
+          }
           throw error
         }
 
-        if (result.errors?.length) {
+        if (hasArrayItemResolverError(result.errors)) {
           refs.clearCache()
         }
 
