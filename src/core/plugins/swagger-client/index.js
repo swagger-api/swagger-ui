@@ -7,6 +7,8 @@ import { execute, buildRequest } from "swagger-client/es/execute"
 import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
 import { makeResolveSubtree } from "swagger-client/es/subtree-resolver"
 import { opId } from "swagger-client/es/helpers"
+import refs from "swagger-client/es/resolver/specmap/lib/refs"
+import cloneDeep from "lodash/cloneDeep"
 import { loaded } from "./configs-wrap-actions"
 
 const resolveStrategies = [
@@ -21,90 +23,30 @@ const strictResolveStrategies = resolveStrategies.map((strategy) => ({
   resolve: (options) => strategy.resolve({ ...options, mode: "strict" }),
 }))
 
-const isExternalRef = (ref, baseDoc) => {
-  const [urlPart] = ref.split("#")
+const isArrayItemResolverError = (error) =>
+  error?.message === "Cannot read properties of undefined (reading 'items')"
 
-  if (!urlPart) {
-    return false
-  }
+const hasArrayItemResolverError = (errors) =>
+  errors?.some(isArrayItemResolverError)
 
-  if (!baseDoc) {
-    return true
-  }
+const hasOtherResolverError = (errors) =>
+  errors?.some((error) => !isArrayItemResolverError(error))
 
-  try {
-    return new URL(urlPart, baseDoc).href !== new URL(baseDoc).href
-  } catch {
-    return true
-  }
-}
+const snapshotResolverCache = () =>
+  Object.fromEntries(
+    Object.entries(refs.docCache).map(([url, document]) => [
+      url,
+      document && typeof document.then === "function"
+        ? document
+        : cloneDeep(document),
+    ])
+  )
 
-const resolveLocalRef = (ref, root) => {
-  const [, pointer] = ref.split("#")
-
-  if (!pointer) {
-    return
-  }
-
-  try {
-    return pointer
-      .split("/")
-      .slice(1)
-      .map((token) =>
-        decodeURIComponent(
-          token.replace(/~1/g, "/").replace(/~0/g, "~")
-        )
-      )
-      .reduce((value, token) => value?.[token], root)
-  } catch {
-    return
-  }
-}
-
-const hasExternalRef = (
-  value,
-  baseDoc,
-  root,
-  seen = new WeakSet(),
-  followedRefs = new Set()
-) => {
-  if (!value || typeof value !== "object" || seen.has(value)) {
-    return false
-  }
-
-  seen.add(value)
-
-  return Object.entries(value).some(([key, child]) => {
-    if (
-      (key === "$ref" || key === "$$ref") &&
-      typeof child === "string" &&
-      isExternalRef(child, baseDoc)
-    ) {
-      return true
-    }
-
-    if (
-      key === "$ref" &&
-      child.startsWith("#") &&
-      !followedRefs.has(child)
-    ) {
-      followedRefs.add(child)
-
-      if (
-        hasExternalRef(
-          resolveLocalRef(child, root),
-          baseDoc,
-          root,
-          seen,
-          followedRefs
-        )
-      ) {
-        return true
-      }
-    }
-
-    return hasExternalRef(child, baseDoc, root, seen, followedRefs)
+const restoreResolverCache = (snapshot) => {
+  Object.keys(refs.docCache).forEach((url) => {
+    delete refs.docCache[url]
   })
+  Object.assign(refs.docCache, snapshot)
 }
 
 export default function({ configs, getConfigs }) {
@@ -124,18 +66,26 @@ export default function({ configs, getConfigs }) {
           strategies: resolveStrategies,
         }
 
-        const subtree = path.reduce(
-          (value, pathSegment) => value?.[pathSegment],
-          obj
+        const cacheSnapshot = snapshotResolverCache()
+        const result = await makeResolveSubtree(defaultOptions)(
+          cloneDeep(obj),
+          path,
+          options
         )
-        const strategies = hasExternalRef(subtree, options.baseDoc, obj)
-          ? strictResolveStrategies
-          : resolveStrategies
+
+        if (
+          !hasArrayItemResolverError(result.errors) ||
+          hasOtherResolverError(result.errors)
+        ) {
+          return result
+        }
+
+        restoreResolverCache(cacheSnapshot)
 
         return makeResolveSubtree({
           ...defaultOptions,
-          strategies,
-        })(obj, path, options)
+          strategies: strictResolveStrategies,
+        })(cloneDeep(obj), path, options)
       },
       serializeRes,
       opId
