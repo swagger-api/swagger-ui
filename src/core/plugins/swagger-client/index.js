@@ -7,7 +7,6 @@ import { execute, buildRequest } from "swagger-client/es/execute"
 import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
 import { makeResolveSubtree } from "swagger-client/es/subtree-resolver"
 import { opId } from "swagger-client/es/helpers"
-import cloneDeep from "lodash/cloneDeep"
 import { loaded } from "./configs-wrap-actions"
 
 const resolveStrategies = [
@@ -22,14 +21,43 @@ const strictResolveStrategies = resolveStrategies.map((strategy) => ({
   resolve: (options) => strategy.resolve({ ...options, mode: "strict" }),
 }))
 
-const isArrayItemResolverError = (error) =>
-  error.message === "Cannot read properties of undefined (reading 'items')"
+const isExternalRef = (ref, baseDoc) => {
+  const [urlPart] = ref.split("#")
 
-const hasArrayItemResolverError = (errors) =>
-  errors?.some(isArrayItemResolverError)
+  if (!urlPart) {
+    return false
+  }
 
-const hasOtherResolverError = (errors) =>
-  errors?.some((error) => !isArrayItemResolverError(error))
+  if (!baseDoc) {
+    return true
+  }
+
+  try {
+    return new URL(urlPart, baseDoc).href !== new URL(baseDoc).href
+  } catch {
+    return true
+  }
+}
+
+const hasExternalRef = (value, baseDoc, seen = new WeakSet()) => {
+  if (!value || typeof value !== "object" || seen.has(value)) {
+    return false
+  }
+
+  seen.add(value)
+
+  return Object.entries(value).some(([key, child]) => {
+    if (
+      (key === "$ref" || key === "$$ref") &&
+      typeof child === "string" &&
+      isExternalRef(child, baseDoc)
+    ) {
+      return true
+    }
+
+    return hasExternalRef(child, baseDoc, seen)
+  })
+}
 
 export default function({ configs, getConfigs }) {
   return {
@@ -48,23 +76,18 @@ export default function({ configs, getConfigs }) {
           strategies: resolveStrategies,
         }
 
-        const result = await makeResolveSubtree(defaultOptions)(
-          cloneDeep(obj),
-          path,
-          options
+        const subtree = path.reduce(
+          (value, pathSegment) => value?.[pathSegment],
+          obj
         )
-
-        if (
-          !hasArrayItemResolverError(result.errors) ||
-          hasOtherResolverError(result.errors)
-        ) {
-          return result
-        }
+        const strategies = hasExternalRef(subtree, options.baseDoc)
+          ? strictResolveStrategies
+          : resolveStrategies
 
         return makeResolveSubtree({
           ...defaultOptions,
-          strategies: strictResolveStrategies,
-        })(cloneDeep(obj), path, options)
+          strategies,
+        })(obj, path, options)
       },
       serializeRes,
       opId

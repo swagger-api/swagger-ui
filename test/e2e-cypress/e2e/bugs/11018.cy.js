@@ -10,9 +10,24 @@ describe("Issue #11018: external array item refs", () => {
       .click()
 
     cy.get(".opblock-body").should("contain.text", "Request body")
-    cy.get("button").contains("Try it out").click()
-    cy.get(".model-example button").contains("Schema").click()
-    cy.get(".model-example .model").should("contain.text", "line")
+    cy.window().then((win) => {
+      const schema = win.ui.specSelectors
+        .specResolvedSubtree([
+          "paths",
+          "/charts",
+          "post",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+        ])
+        .toJS()
+
+      expect(schema.allOf).to.have.length(2)
+      expect(
+        schema.allOf[1].oneOf[0].properties.chartTypes.items.enum
+      ).to.deep.equal(["line", "bar", "pie"])
+    })
     cy.get(".errors-wrapper .message").should("not.exist")
   })
 })
