@@ -32,23 +32,6 @@ const hasArrayItemResolverError = (errors) =>
 const hasOtherResolverError = (errors) =>
   errors?.some((error) => !isArrayItemResolverError(error))
 
-const snapshotResolverCache = () =>
-  Object.fromEntries(
-    Object.entries(refs.docCache).map(([url, document]) => [
-      url,
-      document && typeof document.then === "function"
-        ? document
-        : cloneDeep(document),
-    ])
-  )
-
-const restoreResolverCache = (snapshot) => {
-  Object.keys(refs.docCache).forEach((url) => {
-    delete refs.docCache[url]
-  })
-  Object.assign(refs.docCache, snapshot)
-}
-
 export default function({ configs, getConfigs }) {
   return {
     fn: {
@@ -66,12 +49,23 @@ export default function({ configs, getConfigs }) {
           strategies: resolveStrategies,
         }
 
-        const cacheSnapshot = snapshotResolverCache()
-        const result = await makeResolveSubtree(defaultOptions)(
-          cloneDeep(obj),
-          path,
-          options
-        )
+        const resolverInput = cloneDeep(obj)
+        let result
+
+        try {
+          result = await makeResolveSubtree(defaultOptions)(
+            resolverInput,
+            path,
+            options
+          )
+        } catch (error) {
+          refs.clearCache()
+          throw error
+        }
+
+        if (result.errors?.length) {
+          refs.clearCache()
+        }
 
         if (
           !hasArrayItemResolverError(result.errors) ||
@@ -79,8 +73,6 @@ export default function({ configs, getConfigs }) {
         ) {
           return result
         }
-
-        restoreResolverCache(cacheSnapshot)
 
         return makeResolveSubtree({
           ...defaultOptions,
