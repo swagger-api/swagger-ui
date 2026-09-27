@@ -39,7 +39,35 @@ const isExternalRef = (ref, baseDoc) => {
   }
 }
 
-const hasExternalRef = (value, baseDoc, seen = new WeakSet()) => {
+const resolveLocalRef = (ref, root) => {
+  const [, pointer] = ref.split("#")
+
+  if (!pointer) {
+    return
+  }
+
+  try {
+    return pointer
+      .split("/")
+      .slice(1)
+      .map((token) =>
+        decodeURIComponent(
+          token.replace(/~1/g, "/").replace(/~0/g, "~")
+        )
+      )
+      .reduce((value, token) => value?.[token], root)
+  } catch {
+    return
+  }
+}
+
+const hasExternalRef = (
+  value,
+  baseDoc,
+  root,
+  seen = new WeakSet(),
+  followedRefs = new Set()
+) => {
   if (!value || typeof value !== "object" || seen.has(value)) {
     return false
   }
@@ -55,7 +83,27 @@ const hasExternalRef = (value, baseDoc, seen = new WeakSet()) => {
       return true
     }
 
-    return hasExternalRef(child, baseDoc, seen)
+    if (
+      key === "$ref" &&
+      child.startsWith("#") &&
+      !followedRefs.has(child)
+    ) {
+      followedRefs.add(child)
+
+      if (
+        hasExternalRef(
+          resolveLocalRef(child, root),
+          baseDoc,
+          root,
+          seen,
+          followedRefs
+        )
+      ) {
+        return true
+      }
+    }
+
+    return hasExternalRef(child, baseDoc, root, seen, followedRefs)
   })
 }
 
@@ -80,7 +128,7 @@ export default function({ configs, getConfigs }) {
           (value, pathSegment) => value?.[pathSegment],
           obj
         )
-        const strategies = hasExternalRef(subtree, options.baseDoc)
+        const strategies = hasExternalRef(subtree, options.baseDoc, obj)
           ? strictResolveStrategies
           : resolveStrategies
 
