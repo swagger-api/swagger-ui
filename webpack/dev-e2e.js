@@ -50,7 +50,7 @@ const devE2eConfig = configBuilder(
       host: "0.0.0.0",
       hot: true,
       static: {
-        directory: path.join(__dirname, "../", "test", "e2e-cypress", "static"),
+        directory: path.join(__dirname, "../", "test", "e2e-playwright", "static"),
         publicPath: "/",
       },
       client: {
