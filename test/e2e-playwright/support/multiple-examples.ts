@@ -144,6 +144,11 @@ export function ParameterPrimitiveTestCases({
     await swaggerUi.tryItOut()
     // Modify the input value
     await page.locator(paramInput).fill(unescapeCypressType(customUserInput))
+    // the input is debounced (350ms); wait until the edit landed, otherwise it
+    // would overwrite the example selected below
+    await expect(page.locator(`${examplesSelect} option:checked`)).toHaveText(
+      "[Modified value]"
+    )
     // Select the first example
     await page.locator(examplesSelect).selectOption(exampleA.key)
     await swaggerUi.execute()
