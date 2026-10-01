@@ -1054,6 +1054,60 @@ describe("consumesOptionsFor", function() {
   })
 })
 describe("taggedOperations", function () {
+  it("should include OpenAPI 3.2 additionalOperations as first-class operations", function () {
+    const system = {
+      getConfigs: () => ({})
+    }
+    const state = fromJS({
+      json: {
+        openapi: "3.2.0",
+        paths: {
+          "/pets": {
+            get: {
+              tags: ["pets"],
+              summary: "List pets with query parameters"
+            },
+            additionalOperations: {
+              LIST: {
+                tags: ["pets"],
+                summary: "List pets with a request body",
+                requestBody: {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "object"
+                      }
+                    }
+                  }
+                }
+              },
+              SEARCH: {
+                tags: ["pets"],
+                summary: "Search pets with a custom method"
+              }
+            }
+          }
+        }
+      }
+    })
+
+    const result = taggedOperations(state)(system)
+    const renderedOperations = result.getIn(["pets", "operations"])
+
+    expect(renderedOperations.map(op => op.get("method")).toJS()).toEqual([
+      "get",
+      "LIST",
+      "SEARCH",
+    ])
+    expect(renderedOperations.getIn([1, "specPath"]).toJS()).toEqual([
+      "paths",
+      "/pets",
+      "additionalOperations",
+      "LIST",
+    ])
+    expect(renderedOperations.getIn([1, "operation", "requestBody", "content", "application/json", "schema", "type"])).toBe("object")
+  })
+
   it("should return a List of ad-hoc tagged operations", function () {
     const system = {
       getConfigs: () => ({})
@@ -1242,6 +1296,88 @@ describe("taggedOperations", function () {
 })
 describe("getOAS3RequiredRequestBodyContentType", () => {
   const pathMethod = ["/test", "post"]
+
+  it("should use resolved subtree data for standard operations", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/test": {
+            post: {
+              requestBody: {
+                required: false,
+                content: {
+                  "application/json": {
+                    schema: {
+                      required: ["fromJson"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      resolvedSubtrees: {
+        paths: {
+          "/test": {
+            post: {
+              requestBody: {
+                required: true,
+                content: {
+                  "application/json": {
+                    schema: {
+                      required: ["fromResolvedSubtree"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    expect(getOAS3RequiredRequestBodyContentType(state, pathMethod)).toEqual({
+      requestBody: true,
+      requestContentType: {
+        "application/json": ["fromResolvedSubtree"]
+      }
+    })
+  })
+
+  it("should read request body content from additionalOperations", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/test": {
+            additionalOperations: {
+              LIST: {
+                requestBody: {
+                  required: true,
+                  content: {
+                    "application/json": {
+                      schema: {
+                        required: ["filter"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    const result = getOAS3RequiredRequestBodyContentType(state, ["/test", "LIST"])
+
+    expect(result).toEqual({
+      requestBody: true,
+      requestContentType: {
+        "application/json": ["filter"]
+      }
+    })
+  })
 
   it("should return default requiredObj when requestBody is missing", () => {
     const state = fromJS({

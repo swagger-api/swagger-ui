@@ -79,6 +79,27 @@ export const specJsonWithResolvedSubtrees = createSelector(
   )
 )
 
+export const operationSpecPath = (state, path, method) => {
+  const spec = specJsonWithResolvedSubtrees(state)
+  const directPath = ["paths", path, method]
+  const additionalOperationPath = [
+    "paths",
+    path,
+    "additionalOperations",
+    method,
+  ]
+
+  if (spec.hasIn(directPath)) {
+    return directPath
+  }
+
+  if (spec.hasIn(additionalOperationPath)) {
+    return additionalOperationPath
+  }
+
+  return directPath
+}
+
 // Default Spec ( as an object )
 export const spec = state => {
   let res = specJson(state)
@@ -146,6 +167,21 @@ export const operations = createSelector(
           specPath: ["paths", pathName, method],
         }))
       })
+      const additionalOperations = path.get("additionalOperations", Map())
+      if (Map.isMap(additionalOperations)) {
+        additionalOperations.forEach((operation, method) => {
+          if(OPERATION_METHODS.indexOf(method) >= 0) {
+            return
+          }
+          list = list.push(fromJS({
+            path: pathName,
+            method,
+            operation,
+            id: `${method}-${pathName}`,
+            specPath: ["paths", pathName, "additionalOperations", method],
+          }))
+        })
+      }
     })
 
     return list
@@ -308,7 +344,7 @@ export const allowTryItOutFor = () => {
 }
 
 export const parameterWithMetaByIdentity = (state, pathMethod, param) => {
-  const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], OrderedMap())
+  const opParams = specJsonWithResolvedSubtrees(state).getIn([...operationSpecPath(state, ...pathMethod), "parameters"], OrderedMap())
   const metaParams = state.getIn(["meta", "paths", ...pathMethod, "parameters"], OrderedMap())
 
   const mergedParams = opParams.map((currentParam) => {
@@ -330,13 +366,13 @@ export const parameterInclusionSettingFor = (state, pathMethod, paramName, param
 
 
 export const parameterWithMeta = (state, pathMethod, paramName, paramIn) => {
-  const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], OrderedMap())
+  const opParams = specJsonWithResolvedSubtrees(state).getIn([...operationSpecPath(state, ...pathMethod), "parameters"], OrderedMap())
   const currentParam = opParams.find(param => param.get("in") === paramIn && param.get("name") === paramName, OrderedMap())
   return parameterWithMetaByIdentity(state, pathMethod, currentParam)
 }
 
 export const operationWithMeta = (state, path, method) => {
-  const op = specJsonWithResolvedSubtrees(state).getIn(["paths", path, method], OrderedMap())
+  const op = specJsonWithResolvedSubtrees(state).getIn(operationSpecPath(state, path, method), OrderedMap())
   const meta = state.getIn(["meta", "paths", path, method], OrderedMap())
 
   const mergedParams = op.get("parameters", List()).map((param) => {
@@ -395,7 +431,7 @@ export function parametersIncludeType(parameters, typeValue="") {
 // Get the consumes/produces value that the user selected
 export function contentTypeValues(state, pathMethod) {
   pathMethod = pathMethod || []
-  let op = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod], fromJS({}))
+  let op = specJsonWithResolvedSubtrees(state).getIn(operationSpecPath(state, ...pathMethod), fromJS({}))
   let meta = state.getIn(["meta", "paths", ...pathMethod], fromJS({}))
   let producesValue = currentProducesFor(state, pathMethod)
 
@@ -418,7 +454,7 @@ export function contentTypeValues(state, pathMethod) {
 export function currentProducesFor(state, pathMethod) {
   pathMethod = pathMethod || []
 
-  const operation = specJsonWithResolvedSubtrees(state).getIn([ "paths", ...pathMethod], null)
+  const operation = specJsonWithResolvedSubtrees(state).getIn(operationSpecPath(state, ...pathMethod), null)
 
   if(operation === null) {
     // return nothing if the operation does not exist
@@ -437,7 +473,7 @@ export function producesOptionsFor(state, pathMethod) {
   pathMethod = pathMethod || []
 
   const spec = specJsonWithResolvedSubtrees(state)
-  const operation = spec.getIn([ "paths", ...pathMethod], null)
+  const operation = spec.getIn(operationSpecPath(state, ...pathMethod), null)
 
   if(operation === null) {
     // return nothing if the operation does not exist
@@ -458,7 +494,7 @@ export function consumesOptionsFor(state, pathMethod) {
   pathMethod = pathMethod || []
 
   const spec = specJsonWithResolvedSubtrees(state)
-  const operation = spec.getIn(["paths", ...pathMethod], null)
+  const operation = spec.getIn(operationSpecPath(state, ...pathMethod), null)
 
   if (operation === null) {
     // return nothing if the operation does not exist
@@ -539,7 +575,7 @@ export const getOAS3RequiredRequestBodyContentType = (state, pathMethod) => {
     requestBody: false,
     requestContentType: {}
   }
-  let requestBody = state.getIn(["resolvedSubtrees", "paths", ...pathMethod, "requestBody"], fromJS([]))
+  let requestBody = specJsonWithResolvedSubtrees(state).getIn([...operationSpecPath(state, ...pathMethod), "requestBody"], fromJS([]))
   if (requestBody.size < 1) {
     return requiredObj
   }
@@ -564,7 +600,7 @@ export const isMediaTypeSchemaPropertiesEqual = ( state, pathMethod, currentMedi
   if((currentMediaType || targetMediaType) && currentMediaType === targetMediaType ) {
     return true
   }
-  let requestBodyContent = state.getIn(["resolvedSubtrees", "paths", ...pathMethod, "requestBody", "content"], fromJS([]))
+  let requestBodyContent = specJsonWithResolvedSubtrees(state).getIn([...operationSpecPath(state, ...pathMethod), "requestBody", "content"], fromJS([]))
   if (requestBodyContent.size < 2 || !currentMediaType || !targetMediaType) {
     // nothing to compare
     return false
