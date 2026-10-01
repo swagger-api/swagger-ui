@@ -14,7 +14,8 @@ window.onload = function() {
       SwaggerUIBundle.plugins.DownloadUrl
     ],
     // requestSnippetsEnabled: true,
-    layout: "StandaloneLayout"
+    layout: "StandaloneLayout",
+    deepLinking: true
   })
 
   window.ui = ui
