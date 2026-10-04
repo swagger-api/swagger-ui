@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: "1.0"
+paths:
+  /users:
+    get:
+      summary: Get users
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+components:
+  schemas:
+    User:
+      type: object
+      description: A user of the system.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    UserList:
+      type: object
+      description: A list of users.
+      properties:
+        results:
+          type: integer
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
