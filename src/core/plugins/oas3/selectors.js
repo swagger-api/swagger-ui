@@ -187,6 +187,18 @@ export const responseContentType = onlyOAS3((state, path, method) => {
   )
 })
 
+export const responseCodeContentType = onlyOAS3((state, path, method, code) => {
+  return (
+    state.getIn([
+      "requestData",
+      path,
+      method,
+      "responseCodeContentType",
+      code,
+    ]) || null
+  )
+})
+
 export const serverVariableValue = onlyOAS3((state, locationData, key) => {
   let path
 

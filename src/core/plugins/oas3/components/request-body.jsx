@@ -69,7 +69,7 @@ const RequestBody = ({
   }
 
   const Markdown = getComponent("Markdown", true)
-  const ModelExample = getComponent("modelExample")
+  const ModelExample = getComponent("modelExample", true)
   const RequestBodyEditor = getComponent("RequestBodyEditor")
   const HighlightCode = getComponent("HighlightCode", true)
   const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
