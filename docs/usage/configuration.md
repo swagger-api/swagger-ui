@@ -97,6 +97,14 @@ Parameter name | Docker variable | Description
         </td>
     </tr>
     <tr>
+        <td><a name="user-content-defaultsendemptyvalue"></a><code>defaultSendEmptyValue</code>
+        </td>
+        <td><code>DEFAULT_SEND_EMPTY_VAlUE</code></td>
+        <td><code>Boolean=true</code>. Controls the initial state of the "Send empty value" checkbox in "Try it out"
+            forms. The default is <code>true</code> (checked).
+        </td>
+    </tr>
+    <tr>
         <td><a name="user-content-displayrequestduration"></a><code>displayRequestDuration</code>
         </td>
         <td><code>DISPLAY_REQUEST_DURATION</code></td>

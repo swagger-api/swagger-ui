@@ -34,6 +34,10 @@ const mappings = {
     typeCaster: numberTypeCaster,
     defaultValue: defaultOptions.defaultModelsExpandDepth,
   },
+  defaultSendEmptyValue: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.defaultSendEmptyValue,
+  },
   displayOperationId: {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.displayOperationId,
