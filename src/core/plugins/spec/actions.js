@@ -529,3 +529,14 @@ export function setScheme (scheme, path, method) {
     payload: { scheme, path, method }
   }
 }
+
+export const responseInterceptor = (response, system) => {
+  const { getConfigs, authActions } = system;
+  const configs = getConfigs();
+
+  if (configs.autoPromptAuthOn401 && response.status === 401) {
+    authActions.showDefinitions(true); // Trigger the Authorize modal
+  }
+
+  return response;
+};
