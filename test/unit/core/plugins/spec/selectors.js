@@ -1240,6 +1240,70 @@ describe("taggedOperations", function () {
     expect(result.toJS()).toEqual([])
   })
 })
+describe("operations", function () {
+  it("should recognize a `query` path item as an operation (HTTP QUERY method, RFC 10008)", function () {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/search": {
+            query: {
+              operationId: "searchThings",
+              summary: "Search things",
+            },
+            get: {
+              operationId: "listThings",
+            },
+          },
+        },
+      },
+    })
+
+    const result = operations(state)
+
+    expect(result.toJS()).toEqual([
+      {
+        path: "/search",
+        method: "query",
+        operation: {
+          operationId: "searchThings",
+          summary: "Search things",
+        },
+        id: "query-/search",
+        specPath: ["paths", "/search", "query"],
+      },
+      {
+        path: "/search",
+        method: "get",
+        operation: {
+          operationId: "listThings",
+        },
+        id: "get-/search",
+        specPath: ["paths", "/search", "get"],
+      },
+    ])
+  })
+
+  it("should not misclassify a `query` operation as GET or POST", function () {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/search": {
+            query: {
+              operationId: "searchThings",
+            },
+          },
+        },
+      },
+    })
+
+    const result = operations(state)
+
+    expect(result.size).toEqual(1)
+    expect(result.first().get("method")).toEqual("query")
+    expect(result.first().get("method")).not.toEqual("get")
+    expect(result.first().get("method")).not.toEqual("post")
+  })
+})
 describe("getOAS3RequiredRequestBodyContentType", () => {
   const pathMethod = ["/test", "post"]
 
