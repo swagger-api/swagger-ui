@@ -1,0 +1,28 @@
+swagger: "2.0"
+info:
+  description: "OAS 2.0 sample with x-examples in body parameter (issue #3233)"
+  version: "0.0.1"
+  title: "Swagger Sample"
+paths:
+  /data/targets:
+    post:
+      summary: "Returns validation results of given list of targets."
+      description: ""
+      operationId: "dataTargets"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Targets list in JSON format.
+          required: true
+          schema:
+            type: object
+          x-examples:
+            default:
+              targets: [1, 2, 3, 4]
+      responses:
+        "200":
+          description: OK
