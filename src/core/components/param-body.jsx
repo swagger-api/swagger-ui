@@ -101,7 +101,7 @@ export default class ParamBody extends PureComponent {
     } = this.props
 
     const Button = getComponent("Button")
-    const TextArea = getComponent("TextArea")
+    const TextArea = getComponent("DebounceTextArea")
     const HighlightCode = getComponent("HighlightCode", true)
     const ContentType = getComponent("contentType")
     // for domains where specSelectors not passed
