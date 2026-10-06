@@ -1,0 +1,37 @@
+openapi: 3.0.2
+info:
+  title: "Issue 5748: schema example $ref renders value keyword"
+  version: "0.1"
+paths:
+  /first:
+    get:
+      operationId: getFirst
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestMeta'
+components:
+  schemas:
+    RequestMeta:
+      description: Wrapper schema whose `request` property example references a reusable Example Object.
+      type: object
+      required:
+        - request
+      properties:
+        request:
+          description: Should render the Example Object's `value` contents, not the wrapper.
+          type: object
+          example:
+            $ref: '#/components/examples/MetaContent'
+  examples:
+    MetaContent:
+      value:
+        Individual:
+          - "ga4gh-phenopacket-individual-v0.1"
+          - "ga4gh-schemablocks-individual-v0.1"
+        Variant:
+          - "ga4gh-variant-representation-v0.1"
+          - "ga4gh-schemablocks-beacon-variant-v0.1"
