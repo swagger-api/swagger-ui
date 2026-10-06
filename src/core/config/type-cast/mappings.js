@@ -68,6 +68,10 @@ const mappings = {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.persistAuthorization,
   },
+  queryConfigEnabled: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.queryConfigEnabled,
+  },
   plugins: {
     typeCaster: arrayTypeCaster,
     defaultValue: defaultOptions.plugins,
