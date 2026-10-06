@@ -114,12 +114,22 @@ const RequestBody = ({
     const Input = getComponent("Input")
 
     if(!isExecute) {
-      return <i>
-        Example values are not available for <code>{contentType}</code> media types.
-      </i>
+      return <div>
+        { requestBodyDescription &&
+          <Markdown source={requestBodyDescription} />
+        }
+        <i>
+          Example values are not available for <code>{contentType}</code> media types.
+        </i>
+      </div>
     }
 
-    return <Input type={"file"} onChange={handleFile} />
+    return <div>
+      { requestBodyDescription &&
+        <Markdown source={requestBodyDescription} />
+      }
+      <Input type={"file"} onChange={handleFile} />
+    </div>
   }
 
 
