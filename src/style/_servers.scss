@@ -64,3 +64,73 @@
     margin-bottom: 2em;
   }
 }
+
+.schemes-server-container {
+  > div:has(.servers) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+  }
+
+  .servers {
+    display: flex;
+    column-gap: 10px;
+    font-size: 12px;
+
+    > div {
+
+      .computed-url {
+        margin: 5px 0 0;
+        display: flex;
+        column-gap: 5px;
+
+        > code {
+          margin: 0;
+          padding: 0;
+          font-size: 12px;
+          font-weight: normal;
+        }
+      }
+
+      > h4 {
+        margin: 0 0 2px;
+      }
+
+      table {
+        tr:first-child > td {
+          padding-top: 0;
+        }
+
+        tr:last-child > td {
+          padding-bottom: 0;
+        }
+
+        td {
+          padding-top: 2px;
+          padding-bottom: 2px;
+
+          &:first-of-type {
+            padding: 2px 0;
+          }
+
+          input {
+            margin: 0;
+            padding: 5px 10px;
+          }
+        }
+      }
+    }
+
+    > div:not(:first-child) {
+      margin-top: -16px
+    }
+
+    select {
+      background-position: right 5px center;
+      padding: 5px 30px 5px 10px;
+      font-size: 12px;
+      border: 1px solid #d9d9d9;
+      box-shadow: none;
+    }
+  }
+}
