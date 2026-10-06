@@ -1,0 +1,7 @@
+openapi: 3.0.4
+info:
+  title: 5667 - Global parameters via $ref
+  version: 1.0.0
+paths:
+  /pets/{petId}:
+    $ref: ./5667-pets.yaml#/paths/~1pets~1{petId}
