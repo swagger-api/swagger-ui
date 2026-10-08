@@ -38,18 +38,18 @@ order-of-magnitude improvement.
   - `test/unit/core/plugins/json-schema-5/components/models.jsx` (existing test file — update;
     currently uses Enzyme `shallow`, which will not survive the hook conversion)
   - `test/unit/jest-shim.js` (add a `ResizeObserver` polyfill — see "Unit-test infrastructure")
-  - `test/e2e-cypress/static/documents/` (new large-schema fixture, see below)
-  - `test/e2e-cypress/e2e/features/` (new spec)
+  - `test/e2e-playwright/static/documents/` (new large-schema fixture, see below)
+  - `test/e2e-playwright/features/` (new spec)
   - `test/e2e-selenium/pages/main.js:506-539` — holds **all 12 `.model-container` references under
     `test/`**. (Production code has its own ~10 refs; those are covered by the CSS audit below.)
     These are **positional descendant selectors** — e.g.
     `section.models div.model-container:nth-child(2)` — so wrapping each model in its own virtual
     item div makes every `.model-container` a `:nth-child(1)`, and every `:nth-child(2..6)` selector
     matches nothing. They are **definitely broken by this change, not merely affected.** Mitigating
-    factor only: there are **zero** Cypress references to that class and the Selenium suite is not
-    run in CI (`.github/workflows/nodejs.yml` runs Cypress only), so this does not turn CI red —
-    fix or delete them deliberately rather than discovering it later. The Cypress-side exposure is
-    the `#model-<Name>` id selectors instead — covered by the `model-collapse.cy.js` AC above.
+    factor only: there are **zero** Playwright references to that class and the Selenium suite is not
+    run in CI (`.github/workflows/nodejs.yml` runs Playwright only), so this does not turn CI red —
+    fix or delete them deliberately rather than discovering it later. The Playwright-side exposure is
+    the `#model-<Name>` id selectors instead — covered by the `model-collapse.spec.ts` AC above.
 - New dependency: `@tanstack/react-virtual` (~5KB min+gzip)
 - **Dominant unknown when sizing this:** the `Collapse`-unmount / measurement-cache interaction.
   (The deep-link bridge was ruled out once model deep-linking was found not to exist; the threshold
@@ -58,13 +58,13 @@ order-of-magnitude improvement.
 ### Test fixtures (CREATED — committed 2026-08-04)
 
 Both variants exist, because `models.jsx` branches on `isOAS3()` for the base path
-(`getSchemaBasePath()`, lines 17–20) and `model-collapse.cy.js` runs its scenarios twice (Swagger 2
+(`getSchemaBasePath()`, lines 17–20) and `model-collapse.spec.ts` runs its scenarios twice (Swagger 2
 at `:2-6`, OpenAPI 3 at `:7-10`):
 
 | Fixture | Schemas | Notes |
 |---|---|---|
-| `test/e2e-cypress/static/documents/perf/many-schemas.swagger.yaml` | 240 `definitions` | Swagger 2.0 |
-| `test/e2e-cypress/static/documents/perf/many-schemas.openapi.yaml` | 240 `components/schemas` | `openapi: 3.0.0` |
+| `test/e2e-playwright/static/documents/perf/many-schemas.swagger.yaml` | 240 `definitions` | Swagger 2.0 |
+| `test/e2e-playwright/static/documents/perf/many-schemas.openapi.yaml` | 240 `components/schemas` | `openapi: 3.0.0` |
 
 240 is deliberately well above the 100 threshold, so the virtualized path is unambiguously
 exercised. Both are generated files with a regenerate-don't-hand-edit header; both parse and each
@@ -77,13 +77,13 @@ component renders instead of this one.
 ## Acceptance Criteria
 
 - [x] A spec **below** the 100-schema threshold renders today's markup unchanged (legacy path) —
-      verify `model-collapse.cy.js` passes with no edits
+      verify `model-collapse.spec.ts` passes with no edits
 - [x] A spec **above** the threshold uses the windowed path, and only visible models in the viewport
       are mounted (verify in React DevTools)
 - [x] Boundary tested both sides — one fixture just under the threshold, one just over
 - [x] Scrolling through the models list renders/unmounts items correctly
 - [x] Collapsing and expanding the "Schemas/Models" section works as before
-- [x] Existing `model-collapse.cy.js` scenarios still pass **with no edits** — its fixtures have 3
+- [x] Existing `model-collapse.spec.ts` scenarios still pass **with no edits** — its fixtures have 3
       definitions each, so they take the legacy path. If any of its selectors needed changing
       (`.models h4 .models-control`, `#model-User .model-box .model-box-control` at `:40`/`:44`,
       `#model-Pet` / `#model-Order` at `:18`/`:28`/`:34`), that means the legacy path was altered —
@@ -102,7 +102,7 @@ component renders instead of this one.
       adds ~5KB min+gzip. Flag it in the PR if the measured delta is materially larger
 - [x] `swagger-ui-react` still renders models correctly — the flavor re-exports core, so it
       inherits this change with no code edit, but it is a separately published package and is not
-      covered by the Cypress suite
+      covered by the Playwright suite
 - [x] E2E test: models section scrolls and renders correctly with the new fixture
 - [x] `#model-<Name>` browser-anchor navigation still works below the threshold, and its
       above-threshold breakage is accepted per
@@ -143,7 +143,7 @@ The virtual wrapper is an **extra** div around today's markup, not a replacement
 `.model-container` must be reproduced verbatim — all of it is test or embedder surface:
 
 - `id={`model-${name}`}` (`models.jsx:117`) — the anchor and the handle every
-  `model-collapse.cy.js` assertion uses.
+  `model-collapse.spec.ts` assertion uses.
 - `className="model-container"` (`:117`) — 12 references across `test/`.
 - `data-name={name}` (`:118`) — read back by `onLoadModel` via `ref.getAttribute("data-name")`
   (`:42`), so dropping it breaks that callback even though the callback is otherwise dead.
@@ -314,7 +314,7 @@ But `scrollToKey` can never hold a schema path:
 So `["definitions", "Pet"]` never matches, and `#/definitions/SomeModel` is not a recognized hash
 form. `docs/usage/deep-linking.md` documents no model/schema syntax.
 
-Corroborating evidence: `test/e2e-cypress/e2e/features/model-collapse.cy.js:4` does define
+Corroborating evidence: `test/e2e-playwright/features/model-collapse.spec.ts:4` does define
 `const urlFragment = "#/definitions/Pet"` and pass it as a second argument — but the receiving
 function signature is `function ModelCollapseTest(baseUrl)` (`:13`), a single parameter, so the
 fragment is silently discarded and no test ever visits it. Even the one reference in the repo is
@@ -361,7 +361,7 @@ Pick a strategy and state it in the PR:
   non-zero height, which jsdom does not provide by default — heights are all 0, so the virtualizer
   may window nothing); **or**
 - mock `@tanstack/react-virtual` in the unit test so `useVirtualizer` returns a deterministic fake
-  (fixed `getVirtualItems()`, no-op `measureElement`), and cover real windowing in Cypress only.
+  (fixed `getVirtualItems()`, no-op `measureElement`), and cover real windowing in Playwright only.
 
 The second option is recommended: it keeps the unit test asserting *this component's* logic (the
 config gates, `requestResolvedSubtree` dispatch, key/DOM contract) and leaves genuine scroll
@@ -415,7 +415,7 @@ This is the most consequential instruction in the ticket, because it inverts mos
   contract items and the CSS audit below apply to the *virtualized* branch only; the legacy branch
   preserves them by construction.
 - **Every existing test keeps passing untouched.** `features/models.swagger.yaml` has **3**
-  definitions and `features/models.openapi.yaml` likewise, so `model-collapse.cy.js` and the
+  definitions and `features/models.openapi.yaml` likewise, so `model-collapse.spec.ts` and the
   Selenium `:nth-child` selectors in `main.js:506-539` all take the legacy path and are unaffected.
   That removes them from this ticket's risk surface entirely.
 - **The virtualized path has zero existing coverage.** The new perf fixtures are its *only* E2E
@@ -436,7 +436,7 @@ unconditionally, *before* the threshold branch — you cannot put the early retu
 | Config gates lost in class→functional conversion (`defaultModelsExpandDepth < 0` early return at `:51`, `> 0 && isShown` expansion gate at `:131`) | Unit-test both boundaries explicitly; they are easy to drop when the render body is restructured |
 | `Collapse` unmounting `.models-scroll` destroys the scroll element and measurement cache on every section toggle | Decide the persistence strategy up front (see constraints); explicit test: expand section, scroll, collapse, re-expand |
 | `getScrollParent` now resolves to `.models-scroll` instead of `window`, changing scroll behavior | Pass an explicit `container` to `scrollToElement`; E2E-verify the section scrolls into view too |
-| ~~E2E selectors break on DOM restructure~~ — **neutralized by the count threshold.** All existing fixtures are ≤3 definitions, so every current Cypress and Selenium selector runs the legacy path | None. Do not "clean up" the legacy markup while converting — that is what would reintroduce this |
+| ~~E2E selectors break on DOM restructure~~ — **neutralized by the count threshold.** All existing fixtures are ≤3 definitions, so every current Playwright and Selenium selector runs the legacy path | None. Do not "clean up" the legacy markup while converting — that is what would reintroduce this |
 | **Virtualized path ships untested** because every existing fixture is below threshold | The new perf fixtures are its only coverage and must exceed 100 definitions; add a just-under/just-over boundary pair |
 | Two render paths diverge over time — a fix applied to one branch only | Keep the legacy branch as a thin extraction of today's JSX, not a parallel reimplementation; unit-test both branches |
 | Find-in-page / print regression (see above) | Maintainer decision on threshold or flag |

@@ -119,9 +119,9 @@ These ACs move out of the individual phase tickets, because they are only meanin
 integrated result:
 
 - [ ] `npm run deps-size` before/after for the whole train (`@tanstack/react-virtual`, ~5KB min+gzip)
-- [ ] `swagger-ui-react` smoke-tested — separately published, not covered by Cypress
+- [ ] `swagger-ui-react` smoke-tested — separately published, not covered by Playwright
 - [ ] Combined React Profiler benchmark, all phases active, against the perf fixtures
-- [ ] Full `npm test` (lint + unit + Cypress) green on the integration branch
+- [ ] Full `npm test` (lint + unit + Playwright) green on the integration branch
 - [ ] `npm run test:artifact` passes
 - [ ] Release note drafted covering the above-threshold behavior changes (find-in-page, print, DOM)
 - [ ] Threshold constants confirmed against a real profile, or accepted as-is (100 / 150)
@@ -149,7 +149,7 @@ Verify with `npm run deps-size` after adding.
 ## Test Fixtures (created 2026-08-04)
 
 ```
-test/e2e-cypress/static/documents/perf/
+test/e2e-playwright/static/documents/perf/
 ├── many-schemas.swagger.yaml    240 definitions            ← Phase 1 (Swagger 2.0)
 ├── many-schemas.openapi.yaml    240 components/schemas     ← Phase 1 (OAS 3.0.0)
 ├── many-schemas.openapi31.yaml  240 components/schemas     ← Phase 2 (OAS 3.1.0 → oas31 component)
@@ -193,7 +193,7 @@ export const VIRTUALIZE_OPERATIONS_THRESHOLD = 150  // Phase 3 (counted on flatI
 - **No public API break.** `OperationTag` keeps accepting `children`;
   `.opblock-tag-section`, `.operation-tag-content` and `.model-container` nesting all survive on
   the legacy path.
-- **Every existing Cypress and Selenium test keeps passing untouched**, because every current
+- **Every existing Playwright and Selenium test keeps passing untouched**, because every current
   fixture is far below either threshold: `features/models.swagger.yaml` has **3** definitions,
   `features/deep-linking.swagger.yaml` **5** operations, `oas32/component-only.yaml` **0** paths.
 - Find-in-page / print loss applies **only** to specs above the threshold — where the content was
