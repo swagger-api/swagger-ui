@@ -38,6 +38,9 @@ jobs:
       - name: Lint code for errors only
         run: npm run lint-errors
 
+      - name: Type-check Playwright tests
+        run: npm run e2e:typecheck
+
       - name: Run all tests
         run: npm run test:unit
         env:

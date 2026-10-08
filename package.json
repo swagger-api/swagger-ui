@@ -65,6 +65,7 @@
     "e2e:ui": "cross-env BROWSERSLIST_ENV=browser-production playwright test --ui",
     "e2e:headed": "cross-env BROWSERSLIST_ENV=browser-production playwright test --headed",
     "e2e:report": "playwright show-report",
+    "e2e:typecheck": "tsc -p test/e2e-playwright/tsconfig.json",
     "open-static": "npx open-cli http://localhost:3002",
     "security-audit": "run-s -sc security-audit:all security-audit:prod",
     "security-audit:prod": "npm-audit-ci-wrapper -p -t low",

@@ -308,6 +308,9 @@ npm run e2e:headed
 # Open the HTML report of the last run
 npm run e2e:report
 
+# Type-check the specs (Playwright itself does not; also runs in CI)
+npm run e2e:typecheck
+
 # Run one spec
 npm run e2e -- test/e2e-playwright/features/deep-linking.spec.ts
 ```

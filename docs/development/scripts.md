@@ -34,6 +34,7 @@ Script name | Description
 `e2e:ui` | Open the Playwright UI mode to run and debug tests interactively.
 `e2e:headed` | Run the Playwright tests in a visible browser.
 `e2e:report` | Open the last Playwright HTML report.
+`e2e:typecheck` | Type-check the Playwright tests and `playwright.config.ts` with `tsc` (strict). Playwright itself does not type-check.
 `e2e:server` | Start only the webpack dev server used by the end-to-end tests (port 3230).
 `e2e:mock-api` | Start only the mock API used by the end-to-end tests (port 3204).
 `lint` | Run ESLint test
