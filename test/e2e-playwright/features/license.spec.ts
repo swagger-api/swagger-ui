@@ -111,21 +111,22 @@ test.describe("Render License Component", () => {
     })
 
     test.describe("URL and SPX are mutually exclusive", () => {
-      // FIXME: the app renders `.info__license__url` when both url and
-      // identifier are present. The Cypress version only passed because
-      // `not.exist` was checked before the spec had rendered (vacuous pass).
-      test.fixme(
-        "should render nothing if both URL & SPDX exists",
-        async ({ page }) => {
-          const baseUrl =
-            "/?url=/documents/features/license-openAPI31-error-both-identifier-and-url.yaml"
-          await page.goto(baseUrl)
-          await expect(page.locator(".info__license__identifier")).toHaveCount(
-            0
-          )
-          await expect(page.locator(".info__license__url")).toHaveCount(0)
-        }
-      )
+      // The Cypress test was titled "should render nothing if both URL & SPDX
+      // exists" but only passed because it checked `not.exist` before the spec
+      // had rendered. The app resolves the conflict by letting `url` win over
+      // `identifier` (see selectLicenseUrl in plugins/oas31/selectors.js).
+      test("should prefer the URL over the SPDX identifier if both exist", async ({
+        page,
+      }) => {
+        await page.goto(
+          "/?url=/documents/features/license-openAPI31-error-both-identifier-and-url.yaml"
+        )
+        await expect(page.locator(".info__license__url > a")).toHaveAttribute(
+          "href",
+          "https://www.apache.org/licenses/LICENSE-2.0.html"
+        )
+        await expect(page.locator(".info__license__identifier")).toHaveCount(0)
+      })
     })
   })
 })

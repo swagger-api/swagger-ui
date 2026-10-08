@@ -52,16 +52,16 @@ test.describe("Render Info Component", () => {
       await expect(anchor).toHaveAttribute("target", "_blank")
     })
 
-    // FIXME: info-openAPI30.yaml declares `openapi: 3.1.0`, so the summary IS
-    // rendered. The Cypress version only passed because `not.exist` was checked
-    // before the spec had rendered (vacuous pass). Needs a fixture fix (3.0.x).
-    test.fixme(
-      "should not render Info Summary (an OpenAPI 3.1 field)",
-      async ({ page }) => {
-        await page.goto(baseUrl)
-        await expect(page.locator(".info__summary")).toHaveCount(0)
-      }
-    )
+    test("should not render Info Summary (an OpenAPI 3.1 field)", async ({
+      page,
+    }) => {
+      await page.goto(baseUrl)
+      // wait for the spec to render first, otherwise the absence check is vacuous
+      await expect(page.locator(".info .description")).toContainText(
+        "This is a sample"
+      )
+      await expect(page.locator(".info__summary")).toHaveCount(0)
+    })
   })
 
   test.describe("OpenAPI 3.1.x", () => {

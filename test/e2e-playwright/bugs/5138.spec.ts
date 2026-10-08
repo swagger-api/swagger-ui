@@ -8,8 +8,9 @@ test.describe("#5138: unwanted `url`/`urls` interactions", () => {
     await page.goto("/pages/5138/")
     const title = page.locator("h1.title")
     await expect(title).toContainText("USPTO Data Set API")
-    // replaces cy.wait(3000): let all spec/url loading settle, then re-check
-    await page.waitForLoadState("networkidle")
+    // same fixed wait as the Cypress test (cy.wait(3000)): the bug was a
+    // delayed re-render swapping the title, which no event signals
+    await page.waitForTimeout(3000)
     await expect(title).toContainText("USPTO Data Set API")
   })
 })
