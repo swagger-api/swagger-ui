@@ -21,6 +21,9 @@ import { validOperationMethods } from "./selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
   validOperationMethods as validOperationMethodsWrapper,
+  callbacksOperations,
+  selectWebhooksOperations,
+  webhooks,
 } from "./spec-extensions/wrap-selectors"
 import {
   license as selectLicense,
@@ -112,8 +115,12 @@ const OAS32Plugin = ({ fn }) => {
         wrapSelectors: {
           // Ensure OAS 3.2 specs are recognized as OAS 3.x (for servers, etc.)
           isOAS3: isOAS3SelectorWrapper,
-          // Override validOperationMethods to include QUERY for OAS 3.2
+          // Extend validOperationMethods with QUERY and custom additionalOperations methods (OAS 3.2)
           validOperationMethods: validOperationMethodsWrapper,
+          // Include additionalOperations from callback and webhook Path Items (OAS 3.2)
+          callbacksOperations,
+          selectWebhooksOperations,
+          webhooks,
         },
       },
       oas32: {

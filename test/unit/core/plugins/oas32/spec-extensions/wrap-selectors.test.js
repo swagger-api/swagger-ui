@@ -32,7 +32,7 @@ describe("OAS32 wrap-selectors", () => {
 
       const system = {
         specSelectors: {
-          specJson: jest.fn(() => Map()),
+          specJsonWithResolvedSubtrees: jest.fn(() => Map()),
         },
         getSystem: jest.fn(() => ({
           specSelectors: {

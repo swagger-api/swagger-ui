@@ -26,7 +26,7 @@ describe("OAS 3.2 QUERY operation rendering", () => {
           },
         })),
         specSelectors: {
-          specJson: jest.fn(() => Map()),
+          specJsonWithResolvedSubtrees: jest.fn(() => Map()),
         },
         oas32Selectors: {
           validOperationMethods: oas32ValidOperationMethods,
@@ -65,7 +65,7 @@ describe("OAS 3.2 QUERY operation rendering", () => {
           },
         })),
         specSelectors: {
-          specJson: jest.fn(() =>
+          specJsonWithResolvedSubtrees: jest.fn(() =>
             Map({
               paths: Map({
                 "/pets": Map({
@@ -93,6 +93,33 @@ describe("OAS 3.2 QUERY operation rendering", () => {
       expect(result).toContain("query")
       expect(result).toContain("LIST")
       expect(result).toContain("SEARCH")
+    })
+
+    it("should discover exact custom tokens from resolved path items", () => {
+      const system = {
+        getSystem: () => ({ specSelectors: { isOAS32: () => true } }),
+        specSelectors: {
+          specJson: () => Map(),
+          specJsonWithResolvedSubtrees: () =>
+            Map({
+              paths: Map({
+                "/pets": Map({
+                  additionalOperations: Map({ "Search-Pets": Map() }),
+                }),
+                "/other": Map({
+                  additionalOperations: Map({ "Search-Pets": Map() }),
+                }),
+              }),
+            }),
+        },
+        oas32Selectors: { validOperationMethods: oas32ValidOperationMethods },
+      }
+      const result = validOperationMethodsWrapper(jest.fn(), system)(Map())
+
+      expect(result.filter((method) => method === "Search-Pets")).toEqual([
+        "Search-Pets",
+      ])
+      expect(result).not.toContain("search-pets")
     })
 
     it("should not include 'query' for non-OAS32 specs", () => {

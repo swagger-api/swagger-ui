@@ -16,7 +16,8 @@ import {
   taggedOperations,
   isMediaTypeSchemaPropertiesEqual,
   getOAS3RequiredRequestBodyContentType,
-  validationErrors
+  validationErrors,
+  operationSpecPath,
 } from "core/plugins/spec/selectors"
 
 import Petstore from "./assets/petstore.json"
@@ -1727,5 +1728,37 @@ describe("validationErrors", function() {
       "For 'objectWithArray' at path 'a[0].b': Value must be a number.",
       "For 'objectWithoutArray' at path 'c.d.e': Value must be a string."
     ])
+  })
+})
+
+describe("additionalOperations fixed-field handling", () => {
+  const state = fromJS({
+    json: {
+      paths: {
+        "/p": {
+          post: { summary: "real" },
+          additionalOperations: {
+            post: { summary: "dup-lower" },
+            POST: { summary: "dup-upper" },
+            COPY: { summary: "custom" },
+          },
+        },
+      },
+    },
+    resolvedSubtrees: {},
+  })
+
+  it("resolves fixed-field methods to the direct path", () => {
+    expect(operationSpecPath(state, "/p", "post")).toEqual(["paths", "/p", "post"])
+  })
+
+  it("resolves custom methods to additionalOperations", () => {
+    expect(operationSpecPath(state, "/p", "COPY"))
+      .toEqual(["paths", "/p", "additionalOperations", "COPY"])
+  })
+
+  it("skips additionalOperations keys duplicating fixed fields in any case", () => {
+    const methods = operations(state).map((op) => op.get("method")).toJS()
+    expect(methods).toEqual(["post", "COPY"])
   })
 })

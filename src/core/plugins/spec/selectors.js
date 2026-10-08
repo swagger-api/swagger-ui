@@ -5,7 +5,7 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 
 const DEFAULT_TAG = "default"
 
-const OPERATION_METHODS = [
+export const OPERATION_METHODS = [
   "get", "put", "post", "delete", "options", "head", "patch", "trace", "query"
 ]
 
@@ -79,25 +79,27 @@ export const specJsonWithResolvedSubtrees = createSelector(
   )
 )
 
+// OAS 3.2: additionalOperations MUST NOT contain methods that have a fixed field.
+// Keys there are written in real HTTP casing ("POST"), so compare case-insensitively.
+export const isFixedOperationMethod = (method) =>
+OPERATION_METHODS.includes(String(method).toLowerCase())
+
 export const operationSpecPath = (state, path, method) => {
-  const spec = specJsonWithResolvedSubtrees(state)
   const directPath = ["paths", path, method]
+  if (isFixedOperationMethod(method)) {
+    return directPath
+  }
+
   const additionalOperationPath = [
     "paths",
     path,
     "additionalOperations",
     method,
   ]
-
-  if (spec.hasIn(directPath)) {
-    return directPath
-  }
-
-  if (spec.hasIn(additionalOperationPath)) {
-    return additionalOperationPath
-  }
-
-  return directPath
+  
+  return specJsonWithResolvedSubtrees(state).hasIn(additionalOperationPath)
+  ? additionalOperationPath
+  : directPath
 }
 
 // Default Spec ( as an object )
@@ -170,20 +172,18 @@ export const operations = createSelector(
       const additionalOperations = path.get("additionalOperations", Map())
       if (Map.isMap(additionalOperations)) {
         additionalOperations.forEach((operation, method) => {
-          if(OPERATION_METHODS.indexOf(method) >= 0) {
-            return
+          if(!isFixedOperationMethod(method)) {
+            list = list.push(fromJS({
+              path: pathName,
+              method,
+              operation,
+              id: `${method}-${pathName}`,
+              specPath: ["paths", pathName, "additionalOperations", method],
+            }))
           }
-          list = list.push(fromJS({
-            path: pathName,
-            method,
-            operation,
-            id: `${method}-${pathName}`,
-            specPath: ["paths", pathName, "additionalOperations", method],
-          }))
         })
       }
     })
-
     return list
   }
 )

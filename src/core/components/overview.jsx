@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "core/components/layout-utils"
+import { OPERATION_METHODS } from "core/plugins/spec/selectors"
 
 export default class Overview extends React.Component {
 
@@ -95,12 +96,11 @@ export class OperationLink extends React.Component {
 
   render() {
     let { id, method, shown, href } = this.props
-    const methodClassName = String(method).toLowerCase()
 
     return (
       <Link href={ href } onClick={this.onClick} className={`block opblock-link ${shown ? "shown" : ""}`}>
         <div>
-          <small className={`bold-label-${methodClassName}`}>{method.toUpperCase()}</small>
+          <small>{OPERATION_METHODS.includes(method) ? method.toUpperCase() : method}</small>
           <span className="bold-label" >{id}</span>
         </div>
       </Link>
