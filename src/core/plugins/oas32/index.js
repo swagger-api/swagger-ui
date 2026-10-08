@@ -21,6 +21,8 @@ import { validOperationMethods } from "./selectors"
 import {
   isOAS3 as isOAS3SelectorWrapper,
   validOperationMethods as validOperationMethodsWrapper,
+  webhooks as webhooksWrapper,
+  selectWebhooksOperations as selectWebhooksOperationsWrapper,
 } from "./spec-extensions/wrap-selectors"
 import {
   license as selectLicense,
@@ -52,6 +54,7 @@ import afterLoad from "./after-load"
  * New features in OAS 3.2 (basic implementation):
  * - query operation: QUERY HTTP method support
  * - info.summary: Short summary field in Info Object
+ * - webhooks: rendered as in OAS 3.1, including QUERY operations
  *
  * Additional features (not yet implemented):
  * - $self: Self-referencing URI for base URI resolution
@@ -114,6 +117,9 @@ const OAS32Plugin = ({ fn }) => {
           isOAS3: isOAS3SelectorWrapper,
           // Override validOperationMethods to include QUERY for OAS 3.2
           validOperationMethods: validOperationMethodsWrapper,
+          // Webhooks selectors are limited to OAS 3.1 by the oas31 plugin
+          webhooks: webhooksWrapper,
+          selectWebhooksOperations: selectWebhooksOperationsWrapper,
         },
       },
       oas32: {
