@@ -32,16 +32,18 @@ export class SwaggerUi {
 }
 
 export const test = base.extend<{ swaggerUi: SwaggerUi }>({
-  // Cypress ran with an `uncaught:exception` handler that returned `true`, i.e.
-  // app exceptions were logged but never failed a test. Same here: log only.
+  // Cypress's `uncaught:exception` handler returned `true`, and only a `false`
+  // return suppresses the failure, so uncaught app exceptions failed the old
+  // tests. Same here: collect them and fail the test during fixture teardown.
   context: async ({ context }, use) => {
+    const errors: string[] = []
     context.on("weberror", (webError) => {
-      console.error(
-        `[pageerror] ${webError.page()?.url() ?? ""}`,
-        webError.error()
-      )
+      const error = webError.error()
+      console.error(`[pageerror] ${webError.page()?.url() ?? ""}`, error)
+      errors.push(error.stack ?? error.message)
     })
     await use(context)
+    expect(errors, "uncaught page exceptions").toEqual([])
   },
   swaggerUi: async ({ page }, use) => {
     await use(new SwaggerUi(page))
