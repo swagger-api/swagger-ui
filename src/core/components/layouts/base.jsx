@@ -128,11 +128,12 @@ export default class BaseLayout extends React.Component {
 
           <FilterContainer />
 
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Operations />
-            </Col>
-          </Row>
+          <main id="operations" tabIndex="-1" style={{ outline: "none" }}>
+            <Row>
+              <Col mobile={12} desktop={12}>
+                <Operations />
+              </Col>
+            </Row>
 
           {(isOAS31 || isOAS32) && (
             <Row className="webhooks-container">
@@ -142,11 +143,12 @@ export default class BaseLayout extends React.Component {
             </Row>
           )}
 
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Models />
-            </Col>
-          </Row>
+            <Row>
+              <Col mobile={12} desktop={12}>
+                <Models />
+              </Col>
+            </Row>
+          </main>
         </VersionPragmaFilter>
       </div>
     )

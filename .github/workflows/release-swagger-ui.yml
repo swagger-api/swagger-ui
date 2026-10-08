@@ -27,7 +27,7 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Determine the next release version
-        uses: cycjimmy/semantic-release-action@71b2ac36ece276d61489147b9d5de3cf0d13fad8
+        uses: cycjimmy/semantic-release-action@b12c8f6015dc215fe37bc154d4ad456dd3833c90 # v6.0.0
         with:
           dry_run: true
           extra_plugins: |
@@ -56,7 +56,7 @@ jobs:
 
       - name: Semantic Release
         id: semantic
-        uses: cycjimmy/semantic-release-action@71b2ac36ece276d61489147b9d5de3cf0d13fad8
+        uses: cycjimmy/semantic-release-action@b12c8f6015dc215fe37bc154d4ad456dd3833c90 # v6.0.0
         with:
           dry_run: false
           extra_plugins: |
