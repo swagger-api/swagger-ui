@@ -28,11 +28,14 @@ Script name | Description
 ### Testing
 Script name | Description
 --- | ---
-`test` | Run unit tests in Node, run Cypress end-to-end tests, and run ESLint in errors-only mode.
+`test` | Run ESLint in errors-only mode, unit tests in Node, and Playwright end-to-end tests.
 `test:unit` | Run Jest unit tests in Node.
-`e2e` | Run end-to-end tests (requires JDK and Selenium).
-`e2e-cypress` | Run end-to-end browser tests with Cypress.
-`dev-e2e-cypress` | Dev mode, open Cypress runner and manually select tests to run.
+`e2e` | Run end-to-end browser tests with Playwright. Starts the webpack dev server and the mock API automatically (reuses them if already running outside CI).
+`e2e:ui` | Open the Playwright UI mode to run and debug tests interactively.
+`e2e:headed` | Run the Playwright tests in a visible browser.
+`e2e:report` | Open the last Playwright HTML report.
+`e2e:server` | Start only the webpack dev server used by the end-to-end tests (port 3230).
+`e2e:mock-api` | Start only the mock API used by the end-to-end tests (port 3204).
 `lint` | Run ESLint test
 `test:artifact` | Run list of bundle artifact tests in Jest
 `test:artifact:umd:bundle` | Run unit test that confirms `swagger-ui-bundle` exports as a Function

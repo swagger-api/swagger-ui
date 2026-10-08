@@ -144,7 +144,6 @@
     "cross-env": "=7.0.3",
     "css-loader": "=7.1.2",
     "cssnano": "=7.0.7",
-    "cypress": "=15.20.1",
     "dedent": "^1.7.2",
     "deepmerge": "^4.3.1",
     "enzyme": "=3.11.0",
@@ -192,7 +191,6 @@
     "shx": "=0.4.0",
     "sinon": "21.0.1",
     "source-map-support": "^0.5.21",
-    "start-server-and-test": "^2.0.11",
     "stream-browserify": "^3.0.0",
     "stylelint": "^16.19.1",
     "stylelint-prettier": "^5.0.3",
@@ -224,7 +222,6 @@
     "@tree-sitter-grammars/tree-sitter-yaml@0.7.1": true,
     "tree-sitter-json@0.24.8": true,
     "fsevents@2.3.3": true,
-    "cypress@15.20.1": true,
     "unrs-resolver@1.11.1": true,
     "@scarf/scarf": false,
     "core-js-pure": false

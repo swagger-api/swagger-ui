@@ -298,22 +298,24 @@ describe("oas40 plugin - fn - isOAS40", () => {
 })
 ```
 
-#### E2E Test (test/e2e-cypress/e2e/features/oas40/workflows.cy.js)
+#### E2E Test (test/e2e-playwright/features/oas40/workflows.spec.ts)
 
 ```javascript
 /**
  * @prettier
  */
 
-describe("OpenAPI 4.0 - Workflows", () => {
-  it("should render workflows section", () => {
-    cy.visit("/e2e-cypress/static/documents/oas40/petstore-workflows.yaml")
-    cy.get(".opblock-tag").contains("Workflows").should("exist")
+import { test, expect } from "../../support/fixtures"
+
+test.describe("OpenAPI 4.0 - Workflows", () => {
+  test("should render workflows section", async ({ page }) => {
+    await page.goto("/?url=/documents/oas40/petstore-workflows.yaml")
+    await expect(page.locator(".opblock-tag")).toContainText("Workflows")
   })
 
-  it("should display workflow definitions", () => {
-    cy.visit("/e2e-cypress/static/documents/oas40/petstore-workflows.yaml")
-    cy.get(".opblock-workflow").should("have.length.greaterThan", 0)
+  test("should display workflow definitions", async ({ page }) => {
+    await page.goto("/?url=/documents/oas40/petstore-workflows.yaml")
+    await expect(page.locator(".opblock-workflow").first()).toBeAttached()
   })
 })
 ```
@@ -359,7 +361,7 @@ npm run build
 npm run test:artifact
 
 # E2E tests
-npm run cy:ci
+npm run e2e
 ```
 
 ### 9. Claude Creates Commit
@@ -368,7 +370,7 @@ npm run cy:ci
 git add src/core/plugins/oas40/
 git add src/core/presets/apis/index.js
 git add test/unit/core/plugins/oas40/
-git add test/e2e-cypress/e2e/features/oas40/
+git add test/e2e-playwright/features/oas40/
 git add README.md CLAUDE.md
 
 git commit -m "$(cat <<'EOF'
@@ -425,9 +427,9 @@ test/unit/core/plugins/oas40/
 └── components/
     └── version-pragma-filter.jsx (45 lines)
 
-test/e2e-cypress/e2e/features/oas40/
-├── workflows.cy.js (34 lines)
-└── async-api-auth.cy.js (28 lines)
+test/e2e-playwright/features/oas40/
+├── workflows.spec.ts (34 lines)
+└── async-api-auth.spec.ts (28 lines)
 ```
 
 **Total:** ~1,367 lines of code, fully tested and documented.
