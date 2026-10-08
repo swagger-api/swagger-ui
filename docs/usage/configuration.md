@@ -169,7 +169,7 @@ Parameter name | Docker variable | Description
     </tr>
     <tr>
         <td><a name="user-content-tagsorter"></a><code>tagsSorter</code></td>
-        <td>TAGS_SORTER</td>
+        <td><code>TAGS_SORTER</code></td>
         <td><code>Function=(a =&gt; a)</code>. Apply a sort to the tag list of
             each API. It can be 'alpha' (sort by paths alphanumerically) or a
             function (see <a
