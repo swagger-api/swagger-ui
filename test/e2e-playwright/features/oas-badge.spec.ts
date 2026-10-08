@@ -4,6 +4,9 @@
 import { test, expect } from "../support/fixtures"
 import type { Page } from "@playwright/test"
 
+const escapeRegExp = (text: string) =>
+  text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+
 // Cypress `.get(...).get(...)` chain required each selector to exist, then
 // `.contains` checked the badge text.
 async function expectBadge(page: Page, url: string, text: string) {
@@ -14,7 +17,7 @@ async function expectBadge(page: Page, url: string, text: string) {
   await expect(
     page
       .locator("pre.version")
-      .filter({ hasText: new RegExp(text.replace(/\./g, "\\.")) })
+      .filter({ hasText: new RegExp(escapeRegExp(text)) })
       .first()
   ).toBeAttached()
 }
