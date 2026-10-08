@@ -209,6 +209,15 @@ textarea {
       background: $form-checkbox-background-color
         url('data:image/svg+xml, <svg width="10px" height="8px" viewBox="3 7 10 8" version="1.1" xmlns="http://www.w3.org/2000/svg"><polygon id="Rectangle-34" stroke="none" fill="#41474E" fill-rule="evenodd" points="6.33333333 15 3 11.6666667 4.33333333 10.3333333 6.33333333 12.3333333 11.6666667 7 13 8.33333333"></polygon></svg>')
         center center no-repeat;
+
+      @media (forced-colors: active) {
+        forced-color-adjust: none;
+        background-color: ButtonText;
+        background-image: none;
+        mask-image: url('data:image/svg+xml, <svg width="10px" height="8px" viewBox="3 7 10 8" version="1.1" xmlns="http://www.w3.org/2000/svg"><polygon stroke="none" fill-rule="evenodd" points="6.33333333 15 3 11.6666667 4.33333333 10.3333333 6.33333333 12.3333333 11.6666667 7 13 8.33333333"/></svg>');
+        mask-position: center center;
+        mask-repeat: no-repeat;
+      }
     }
   }
 }

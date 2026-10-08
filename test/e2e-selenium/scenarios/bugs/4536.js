@@ -17,9 +17,9 @@ describe("bug #4536: model name consistency", function () {
     done()
   })
   it("consistently displays a model's name regardless of expansion state", function (client) {
-    client.waitForElementVisible("span.model.model-title", 10000)
-      .assert.containsText("span.model.model-title", "TitleName")
-      .click("span.model.model-title")
+    client.waitForElementVisible("strong.model.model-title", 10000)
+      .assert.containsText("strong.model.model-title", "TitleName")
+      .click("strong.model.model-title")
       .pause(500)
       .assert.containsText("span.model-title__text", "TitleName")
 
