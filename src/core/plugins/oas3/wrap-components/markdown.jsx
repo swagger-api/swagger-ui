@@ -17,18 +17,18 @@ export const Markdown = ({ source, className = "", getConfigs = () => ({ useUnsa
   if ( source ) {
     const { useUnsafeMarkdown } = getConfigs()
     const html = parser.render(source)
-    const sanitized = sanitizer(html, { useUnsafeMarkdown })
 
     let trimmed
 
-    if(typeof sanitized === "string") {
-      trimmed = sanitized.trim()
-    }
+    if (typeof html === "string")
+      trimmed = html.trim()
+
+    const sanitized = sanitizer(trimmed, { useUnsafeMarkdown })
 
     return (
       <div
         dangerouslySetInnerHTML={{
-          __html: trimmed
+          __html: sanitized
         }}
         className={cx(className, "renderedMarkdown")}
       />
