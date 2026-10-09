@@ -34,7 +34,7 @@ function validateRequestBodyIsRequired(selector) {
   return (...args) =>
     (system) => {
       const specSelectors = system.getSystem().specSelectors
-      const specJson = specSelectors.specJson()
+      const specJson = specSelectors.specJsonWithResolvedSubtrees()
       const argsList = [...args]
       // expect argsList[0] = state
       let pathMethod = argsList[1] || []
