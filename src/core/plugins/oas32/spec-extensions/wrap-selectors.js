@@ -35,8 +35,8 @@ export const validOperationMethods = createOnlyOAS32SelectorWrapper(
         if (additionalOperations?.forEach) {
           additionalOperations.forEach((operation, method) => {
             if (
-              validMethods.indexOf(method) === -1 &&
-              customMethods.indexOf(method) === -1
+              !validMethods.includes(method) &&
+              !customMethods.includes(method)
             ) {
               customMethods.push(method)
             }

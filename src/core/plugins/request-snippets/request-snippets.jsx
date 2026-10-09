@@ -3,6 +3,8 @@ import classNames from "classnames"
 import PropTypes from "prop-types"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
+const COPY_REQUEST_SNIPPET_LABEL = "Copy request snippet to clipboard"
+
 const style = {
   cursor: "pointer",
   lineHeight: 1,
@@ -131,9 +133,17 @@ const RequestSnippets = ({ request, requestSnippetsSelectors, getComponent }) =>
               })
             }
           </div>
-          <div className="copy-to-clipboard">
+          <div
+            className="copy-to-clipboard"
+            title={COPY_REQUEST_SNIPPET_LABEL}
+            aria-label={COPY_REQUEST_SNIPPET_LABEL}
+          >
             <CopyToClipboard text={snippet}>
-              <button />
+              <button
+                aria-label={COPY_REQUEST_SNIPPET_LABEL}
+                title={COPY_REQUEST_SNIPPET_LABEL}
+                type="button"
+              />
             </CopyToClipboard>
           </div>
           <div>

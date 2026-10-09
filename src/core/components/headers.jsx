@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Im from "immutable"
+import { Map } from "immutable"
 
 const propClass = "header-example"
 
@@ -33,7 +33,7 @@ export default class Headers extends React.Component {
           <tbody>
           {
             headers.entrySeq().map( ([ key, header ]) => {
-              if(!Im.Map.isMap(header)) {
+              if(!Map.isMap(header)) {
                 return null
               }
 

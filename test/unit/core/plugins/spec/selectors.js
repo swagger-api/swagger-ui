@@ -7,6 +7,7 @@ import {
   operationScheme,
   specJsonWithResolvedSubtrees,
   operations,
+  operationSpecPath,
   producesOptionsFor,
   operationWithMeta,
   parameterWithMeta,
@@ -1726,6 +1727,44 @@ describe("validationErrors", function() {
       "For 'arrayWithObjects' at path '[1].name': Value must be a string.",
       "For 'objectWithArray' at path 'a[0].b': Value must be a number.",
       "For 'objectWithoutArray' at path 'c.d.e': Value must be a string."
+    ])
+  })
+})
+
+
+describe("operationSpecPath", () => {
+  it("prefers the direct operation when both locations exist", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/items": {
+            get: { summary: "Direct operation" },
+            additionalOperations: { get: { summary: "Duplicate operation" } },
+          },
+        },
+      },
+    })
+    expect(operationSpecPath(state, "/items", "get")).toEqual([
+      "paths", "/items", "get",
+    ])
+  })
+
+  it("preserves the exact custom method token from a resolved subtree", () => {
+    const state = fromJS({
+      json: { paths: { "/items": {} } },
+      resolvedSubtrees: {
+        paths: {
+          "/items": {
+            additionalOperations: { "X-Search": { summary: "Custom operation" } },
+          },
+        },
+      },
+    })
+    expect(operationSpecPath(state, "/items", "X-Search")).toEqual([
+      "paths", "/items", "additionalOperations", "X-Search",
+    ])
+    expect(operationSpecPath(state, "/items", "x-search")).toEqual([
+      "paths", "/items", "x-search",
     ])
   })
 })

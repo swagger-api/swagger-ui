@@ -4,7 +4,7 @@ describe("XSS: OAuth2 authorizationUrl sanitization", () => {
       .window()
       .then(win => {
         let args = null
-        cy.stub(win, "open", (...callArgs) => {
+        cy.stub(win, "open").callsFake((...callArgs) => {
           args = callArgs
         }).as("windowOpen")
 

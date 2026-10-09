@@ -39,6 +39,7 @@ export default class Response extends React.Component {
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object,
     specPath: ImPropTypes.list.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
@@ -53,18 +54,34 @@ export default class Response extends React.Component {
   }
 
   _onContentTypeChange = (value) => {
-    const { onContentTypeChange, controlsAcceptHeader } = this.props
-    this.setState({ responseContentType: value })
+    const { onContentTypeChange, controlsAcceptHeader, specSelectors, path, method, code, oas3Actions } = this.props
+
+    if (specSelectors.isOAS3()) {
+      oas3Actions.setResponseCodeContentType({ value, path, method, code })
+    } else {
+      this.setState({ responseContentType: value })
+    }
+
     onContentTypeChange({
       value: value,
       controlsAcceptHeader
     })
   }
 
-  getTargetExamplesKey = () => {
-    const { response, contentType, activeExamplesKey } = this.props
+  getActiveContentType = () => {
+    const { specSelectors, path, method, code, contentType, oas3Selectors } = this.props
 
-    const activeContentType = this.state.responseContentType || contentType
+    if (specSelectors.isOAS3()) {
+      return oas3Selectors?.responseCodeContentType(path, method, code) || contentType || ""
+    }
+
+    return this.state.responseContentType || contentType
+  }
+
+  getTargetExamplesKey = () => {
+    const { response, activeExamplesKey } = this.props
+
+    const activeContentType = this.getActiveContentType()
     const activeMediaType = response.getIn(["content", activeContentType], Map({}))
     const examplesForMediaType = activeMediaType.get("examples", null)
 
@@ -84,7 +101,6 @@ export default class Response extends React.Component {
       getComponent,
       getConfigs,
       specSelectors,
-      contentType,
       controlsAcceptHeader,
       oas3Actions,
     } = this.props
@@ -99,7 +115,7 @@ export default class Response extends React.Component {
     const ResponseExtension = getComponent("ResponseExtension")
     const Headers = getComponent("headers")
     const HighlightCode = getComponent("HighlightCode", true)
-    const ModelExample = getComponent("modelExample")
+    const ModelExample = getComponent("modelExample", true)
     const Markdown = getComponent("Markdown", true)
     const OperationLink = getComponent("operationLink")
     const ContentType = getComponent("contentType")
@@ -109,7 +125,7 @@ export default class Response extends React.Component {
 
     var schema, specPathWithPossibleSchema
 
-    const activeContentType = this.state.responseContentType || contentType
+    const activeContentType = this.getActiveContentType()
     const activeMediaType = response.getIn(["content", activeContentType], Map({}))
     const examplesForMediaType = activeMediaType.get("examples", null)
 
@@ -119,7 +135,7 @@ export default class Response extends React.Component {
 
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
       specPathWithPossibleSchema = oas3SchemaForContentType
-        ? specPath.push("content", this.state.responseContentType, "schema")
+        ? specPath.push("content", activeContentType, "schema")
         : specPath
     } else {
       schema = response.get("schema")
@@ -197,7 +213,7 @@ export default class Response extends React.Component {
                   Media type
                 </small>
                 <ContentType
-                  value={this.state.responseContentType}
+                  value={activeContentType}
                   contentTypes={
                     response.get("content")
                       ? response.get("content").keySeq()
@@ -220,14 +236,16 @@ export default class Response extends React.Component {
                   <ExamplesSelect
                     examples={examplesForMediaType}
                     currentExampleKey={this.getTargetExamplesKey()}
-                    onSelect={key =>
+                    onSelect={(key, { isSyntheticChange } = {}) => {
+                      if (isSyntheticChange) return
+                      
                       oas3Actions.setActiveExamplesMember({
                         name: key,
                         pathMethod: [path, method],
                         contextType: "responses",
                         contextName: code
                       })
-                    }
+                    }}
                     showLabels={false}
                   />
                 </div>

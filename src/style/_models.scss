@@ -47,6 +47,17 @@
       background: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>')
         center no-repeat;
       background-size: 100%;
+
+      // HCM: substitute data-URL chevron with a mask + system color.
+      @media (forced-colors: active) {
+        forced-color-adjust: none;
+        background-color: CanvasText;
+        background-image: none;
+        mask-image: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>');
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: 100%;
+      }
     }
   }
 
@@ -180,6 +191,11 @@ section.models {
 
   &.is-open {
     padding: 0 0 20px;
+
+    &.models--virtualized {
+      padding-bottom: 0;
+    }
+    
     h4 {
       margin: 0 0 5px 0;
 
@@ -256,6 +272,17 @@ section.models {
     }
   }
 
+  .models-scroll {
+    max-height: min(60vh, 800px);
+    overflow-y: auto;
+    padding-top: 20px;
+    padding-bottom: 5px;
+
+    .models-virtual-item {
+      padding-bottom: 15px;
+    }
+  }
+
   .model-box {
     background: none;
 
@@ -285,6 +312,7 @@ section.models {
 
 .model-title {
   font-size: 16px;
+  font-weight: inherit;
 
   @include type.text_headline($section-models-model-title-font-color);
 

@@ -128,25 +128,27 @@ export default class BaseLayout extends React.Component {
 
           <FilterContainer />
 
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Operations />
-            </Col>
-          </Row>
-
-          {isOAS31 && (
-            <Row className="webhooks-container">
+          <main id="operations" tabIndex="-1" style={{ outline: "none" }}>
+            <Row>
               <Col mobile={12} desktop={12}>
-                <Webhooks />
+                <Operations />
               </Col>
             </Row>
-          )}
 
-          <Row>
-            <Col mobile={12} desktop={12}>
-              <Models />
-            </Col>
-          </Row>
+            {isOAS31 && (
+              <Row className="webhooks-container">
+                <Col mobile={12} desktop={12}>
+                  <Webhooks />
+                </Col>
+              </Row>
+            )}
+
+            <Row>
+              <Col mobile={12} desktop={12}>
+                <Models />
+              </Col>
+            </Row>
+          </main>
         </VersionPragmaFilter>
       </div>
     )

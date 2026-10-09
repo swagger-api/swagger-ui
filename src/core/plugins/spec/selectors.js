@@ -1,13 +1,10 @@
 import { createSelector } from "reselect"
+import { OPERATION_METHODS } from "core/utils/operation-methods"
 import constant from "lodash/constant"
 import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 
 const DEFAULT_TAG = "default"
-
-const OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch", "trace", "query"
-]
 
 const state = state => {
   return state || Map()
@@ -170,16 +167,15 @@ export const operations = createSelector(
       const additionalOperations = path.get("additionalOperations", Map())
       if (Map.isMap(additionalOperations)) {
         additionalOperations.forEach((operation, method) => {
-          if(OPERATION_METHODS.indexOf(method) >= 0) {
-            return
+          if (!OPERATION_METHODS.includes(method)) {
+            list = list.push(fromJS({
+              path: pathName,
+              method,
+              operation,
+              id: `${method}-${pathName}`,
+              specPath: ["paths", pathName, "additionalOperations", method],
+            }))
           }
-          list = list.push(fromJS({
-            path: pathName,
-            method,
-            operation,
-            id: `${method}-${pathName}`,
-            specPath: ["paths", pathName, "additionalOperations", method],
-          }))
         })
       }
     })

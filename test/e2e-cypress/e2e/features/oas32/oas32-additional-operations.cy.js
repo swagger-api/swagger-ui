@@ -27,7 +27,7 @@ describe("OpenAPI 3.2 additional operations", () => {
       [searchOperation, "X-Search", "Search with a mixed-case custom method"],
     ]) {
       cy.get(operation)
-        .should("have.class", "opblock-custom-method")
+        .should("have.class", "opblock-custom")
         .within(() => {
           cy.get(".opblock-summary-method").should(
             "have.text",
