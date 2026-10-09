@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { Map, List } from "immutable"
+import { Map, List, fromJS } from "immutable"
 import { validOperationMethods as validOperationMethodsWrapper } from "core/plugins/oas32/spec-extensions/wrap-selectors"
 import { validOperationMethods as oas32ValidOperationMethods } from "core/plugins/oas32/selectors"
 
@@ -66,15 +66,15 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         })),
         specSelectors: {
           specJsonWithResolvedSubtrees: jest.fn(() =>
-            Map({
-              paths: Map({
-                "/pets": Map({
-                  additionalOperations: Map({
-                    LIST: Map({ summary: "List pets" }),
-                    SEARCH: Map({ summary: "Search pets" }),
-                  }),
-                }),
-              }),
+            fromJS({
+              paths: {
+                "/pets": {
+                  additionalOperations: {
+                    LIST: { summary: "List pets" },
+                    SEARCH: { summary: "Search pets" },
+                  },
+                },
+              },
             })
           ),
         },
@@ -100,17 +100,18 @@ describe("OAS 3.2 QUERY operation rendering", () => {
         getSystem: () => ({ specSelectors: { isOAS32: () => true } }),
         specSelectors: {
           specJson: () => Map(),
-          specJsonWithResolvedSubtrees: () =>
-            Map({
-              paths: Map({
-                "/pets": Map({
-                  additionalOperations: Map({ "Search-Pets": Map() }),
-                }),
-                "/other": Map({
-                  additionalOperations: Map({ "Search-Pets": Map() }),
-                }),
-              }),
-            }),
+          specJsonWithResolvedSubtrees: jest.fn(() =>
+            fromJS({
+              paths: {
+                "/pets": {
+                  additionalOperations: { "Search-Pets": {} },
+                },
+                "/other": {
+                  additionalOperations: { "Search-Pets": {} },
+                },
+              },
+            })
+          ),
         },
         oas32Selectors: { validOperationMethods: oas32ValidOperationMethods },
       }
@@ -155,6 +156,19 @@ describe("OAS 3.2 QUERY operation rendering", () => {
       expect(result).not.toContain("query")
       expect(result.length).toBe(8)
     })
+
+    it("returns the same array for unchanged paths (memoized)", () => {
+      const paths = fromJS({ "/pets": { additionalOperations: { LIST: {} } } })
+      const system = {
+        getSystem: () => ({ specSelectors: { isOAS32: () => true } }),
+        specSelectors: {
+          specJsonWithResolvedSubtrees: () => fromJS({}).set("paths", paths),
+        },
+        oas32Selectors: { validOperationMethods: oas32ValidOperationMethods },
+      }
+      const wrapped = validOperationMethodsWrapper(jest.fn(), system)
+      expect(wrapped(Map())).toBe(wrapped(Map()))
+    })
   })
 
   describe("integration test", () => {
@@ -173,20 +187,20 @@ describe("OAS 3.2 QUERY operation rendering", () => {
       ]
 
       const operations = List([
-        Map({
+        fromJS({
           path: "/pets",
           method: "get",
-          operation: Map({ summary: "Get pets" }),
+          operation: fromJS({ summary: "Get pets" }),
         }),
-        Map({
+        fromJS({
           path: "/pets",
           method: "query",
-          operation: Map({ summary: "Search pets" }),
+          operation: fromJS({ summary: "Search pets" }),
         }),
-        Map({
+        fromJS({
           path: "/pets",
           method: "post",
-          operation: Map({ summary: "Create pet" }),
+          operation: fromJS({ summary: "Create pet" }),
         }),
       ])
 

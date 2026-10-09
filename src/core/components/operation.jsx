@@ -6,7 +6,7 @@ import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
 import RollingLoadSVG from "core/assets/rolling-load.svg"
-import { OPERATION_METHODS } from "../plugins/spec/selectors"
+import { OPERATION_METHODS } from "core/utils/operation-methods"
 
 export default class Operation extends PureComponent {
   static propTypes = {

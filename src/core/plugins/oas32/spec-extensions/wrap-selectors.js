@@ -1,22 +1,13 @@
 /**
  * @prettier
  */
+import { createSelector } from "reselect"
 import { List, Map } from "immutable"
-import { OPERATION_METHODS } from "core/plugins/spec/selectors"
+import {
+  isOperationMethodField,
+  isFixedOperationMethod,
+} from "core/utils/operation-methods"
 import { createOnlyOAS32SelectorWrapper } from "../fn"
-
-/**
- * Direct Path Item operation fields are the fixed, lowercase method names.
- */
-const isDirectOperationField = (key) => OPERATION_METHODS.includes(key)
-
-/**
- * additionalOperations keys use real HTTP casing (e.g. "COPY", "POST").
- * Entries that duplicate a fixed field (in any case) are invalid per OAS 3.2
- * and must be ignored.
- */
-const isFixedFieldMethod = (method) =>
-  OPERATION_METHODS.includes(String(method).toLowerCase())
 
 /**
  * Wraps isOAS3 selector to return true when spec is OAS 3.2.x
@@ -31,28 +22,23 @@ export const isOAS3 =
   }
 
 /**
- * Extends validOperationMethods for OAS 3.2.x with:
- * - QUERY (new fixed field)
- * - exact custom method tokens declared under Path Item `additionalOperations`
- *
- * Reference: https://spec.openapis.org/oas/v3.2.0.html#path-item-object
+ * Memoized: recomputes only when the base list or the resolved `paths` change.
  */
-export const validOperationMethods = createOnlyOAS32SelectorWrapper(
-  () => (oriSelector, system) => {
-    const validMethods = system.oas32Selectors.validOperationMethods()
+const selectValidOperationMethods = createSelector(
+  [(baseMethods) => baseMethods, (baseMethods, paths) => paths],
+  (baseMethods, paths) => {
     const customMethods = []
-    const paths = system.specSelectors
-      .specJsonWithResolvedSubtrees()
-      .get("paths")
 
-    if (paths?.forEach) {
+    if (Map.isMap(paths)) {
       paths.forEach((pathItem) => {
-        const additionalOperations = pathItem?.get?.("additionalOperations")
+        const additionalOperations = Map.isMap(pathItem)
+          ? pathItem.get("additionalOperations")
+          : null
 
-        if (additionalOperations?.forEach) {
+        if (Map.isMap(additionalOperations)) {
           additionalOperations.forEach((operation, method) => {
             if (
-              !isFixedFieldMethod(method) &&
+              !isFixedOperationMethod(method) &&
               !customMethods.includes(method)
             ) {
               customMethods.push(method)
@@ -62,8 +48,23 @@ export const validOperationMethods = createOnlyOAS32SelectorWrapper(
       })
     }
 
-    return validMethods.concat(customMethods)
+    return baseMethods.concat(customMethods)
   }
+)
+
+/**
+ * Extends validOperationMethods for OAS 3.2.x with:
+ * - QUERY (new fixed field)
+ * - exact custom method tokens declared under Path Item `additionalOperations`
+ *
+ * Reference: https://spec.openapis.org/oas/v3.2.0.html#path-item-object
+ */
+export const validOperationMethods = createOnlyOAS32SelectorWrapper(
+  () => (oriSelector, system) =>
+    selectValidOperationMethods(
+      system.oas32Selectors.validOperationMethods(),
+      system.specSelectors.specJsonWithResolvedSubtrees().get("paths")
+    )
 )
 
 /**
@@ -76,7 +77,7 @@ const pathItemOperations = (pathItem, specPath) => {
 
   const operations = pathItem
     .entrySeq()
-    .filter(([key]) => isDirectOperationField(key))
+    .filter(([key]) => isOperationMethodField(key))
     .map(([method, operation]) => ({
       operation: Map({ operation }),
       method,
@@ -90,7 +91,7 @@ const pathItemOperations = (pathItem, specPath) => {
   return operations.concat(
     additionalOperations
       .entrySeq()
-      .filter(([method]) => !isFixedFieldMethod(method))
+      .filter(([method]) => !isFixedOperationMethod(method))
       .map(([method, operation]) => ({
         operation: Map({ operation }),
         method,
@@ -140,14 +141,15 @@ export const webhooks = createOnlyOAS32SelectorWrapper(
   }
 )
 
-export const selectWebhooksOperations = createOnlyOAS32SelectorWrapper(
-  () => (oriSelector, system) => {
-    const webhooks = system.specSelectors
-      .specJsonWithResolvedSubtrees()
-      .get("webhooks")
-    if (!Map.isMap(webhooks)) return {}
+/**
+ * Memoized on the resolved `webhooks` map, matching the OAS 3.1 selector.
+ */
+const selectWebhooksOperationsFromMap = createSelector(
+  [(webhooksMap) => webhooksMap],
+  (webhooksMap) => {
+    if (!Map.isMap(webhooksMap)) return {}
 
-    return webhooks
+    return webhooksMap
       .reduce(
         (allOperations, pathItem, pathItemName) =>
           allOperations.concat(
@@ -161,4 +163,11 @@ export const selectWebhooksOperations = createOnlyOAS32SelectorWrapper(
       .map((operations) => operations.toArray())
       .toObject()
   }
+)
+
+export const selectWebhooksOperations = createOnlyOAS32SelectorWrapper(
+  () => (oriSelector, system) =>
+    selectWebhooksOperationsFromMap(
+      system.specSelectors.specJsonWithResolvedSubtrees().get("webhooks")
+    )
 )

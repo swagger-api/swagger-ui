@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { Iterable } from "immutable"
-import { OPERATION_METHODS } from "core/plugins/spec/selectors"
+import { OPERATION_METHODS } from "core/utils/operation-methods"
 
 export default class OperationSummaryMethod extends PureComponent {
 

@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "core/components/layout-utils"
-import { OPERATION_METHODS } from "core/plugins/spec/selectors"
+import { OPERATION_METHODS } from "core/utils/operation-methods"
 
 export default class Overview extends React.Component {
 

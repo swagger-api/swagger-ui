@@ -214,39 +214,26 @@ describe("OAS 3.2 Additional Operations", () => {
   })
 
   describe("state and validation", () => {
-    it("keeps parameter values and validation scoped to the custom operation", () => {
-      cy.visit(baseUrl)
+    it("validates required parameters through Try it out and keeps values scoped", () => {
+      loadWithConfig({ supportedSubmitMethods: ["get", "COPY"] })
       cy.get(copyOperation).find(".opblock-summary-control").click()
-      cy.get(copyOperation)
-        .find(".parameters")
-        .should("contain.text", "destination")
-      cy.window().then(({ ui }) => {
-        const system = ui.getSystem()
-        system.specActions.validateParams(["/pets/{id}", "COPY"])
-        expect(
-          system.specSelectors.validationErrors(["/pets/{id}", "COPY"]).length
-        ).to.be.greaterThan(0)
-        system.specActions.changeParamByIdentity(
-          ["/pets/{id}", "COPY"],
-          system.specSelectors
-            .specJsonWithResolvedSubtrees()
-            .getIn([
-              "paths",
-              "/pets/{id}",
-              "additionalOperations",
-              "COPY",
-              "parameters",
-              0,
-            ]),
-          "123"
+      cy.get(copyOperation).within(() => {
+        cy.get(".try-out__btn").click()
+        cy.get(".execute").click()
+        cy.get('tr[data-param-name="id"] input').should("have.class", "invalid")
+        cy.get('tr[data-param-name="destination"] input').should(
+          "have.class",
+          "invalid"
         )
-        const values = system.specSelectors
-          .parameterValues(["/pets/{id}", "COPY"])
-          .toJS()
-        expect(values["path.id"]).to.eq("123")
-        expect(
-          system.specSelectors.parameterValues(["/pets/{id}", "get"]).toJS()
-        ).not.to.deep.eq(values)
+        cy.get(".curl-command").should("not.exist")
+        cy.get('tr[data-param-name="id"] input').type("123")
+      })
+
+      // The value typed for COPY must not leak into GET on the same path
+      cy.get("#operations-pets-getPet").find(".opblock-summary-control").click()
+      cy.get("#operations-pets-getPet").within(() => {
+        cy.get(".try-out__btn").click()
+        cy.get('tr[data-param-name="id"] input').should("have.value", "")
       })
     })
 

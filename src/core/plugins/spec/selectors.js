@@ -2,12 +2,9 @@ import { createSelector } from "reselect"
 import constant from "lodash/constant"
 import { sorters, paramToIdentifier } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
+import { OPERATION_METHODS, isFixedOperationMethod } from "core/utils/operation-methods"
 
 const DEFAULT_TAG = "default"
-
-export const OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch", "trace", "query"
-]
 
 const state = state => {
   return state || Map()
@@ -78,11 +75,6 @@ export const specJsonWithResolvedSubtrees = createSelector(
     spec.get("resolvedSubtrees")
   )
 )
-
-// OAS 3.2: additionalOperations MUST NOT contain methods that have a fixed field.
-// Keys there are written in real HTTP casing ("POST"), so compare case-insensitively.
-export const isFixedOperationMethod = (method) =>
-OPERATION_METHODS.includes(String(method).toLowerCase())
 
 export const operationSpecPath = (state, path, method) => {
   const directPath = ["paths", path, method]
