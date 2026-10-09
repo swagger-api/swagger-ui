@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { Iterable } from "immutable"
+import { OPERATION_METHODS } from "core/utils/operation-methods"
 
 export default class OperationSummaryMethod extends PureComponent {
 
@@ -19,7 +20,7 @@ export default class OperationSummaryMethod extends PureComponent {
     } = this.props
 
     return (
-      <span className="opblock-summary-method">{method.toUpperCase()}</span>
+      <span className="opblock-summary-method">{OPERATION_METHODS.includes(method) ? method.toUpperCase() : method}</span>
     )
   }
 }
