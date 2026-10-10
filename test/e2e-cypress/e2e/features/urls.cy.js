@@ -58,7 +58,7 @@ describe("urls with server variables", () => {
       .should("have.text", "basePath")
       .get("input")
       .should("have.value", "/oneFirstUrl")
-      .get(".servers > label > select")
+      .get(".servers > select")
       .eq(0)
       .select(1)
       .get("input")
@@ -96,7 +96,7 @@ describe("urls with server variables", () => {
   })
   it("should change server variables, then select second url, and maintain server variables index", () => {
     cy.visit("/?configUrl=/configs/urls-server-variables.yaml")
-      .get(".servers > label >select")
+      .get(".servers > select")
       .eq(0)
       .select(1)
       .get("input")
