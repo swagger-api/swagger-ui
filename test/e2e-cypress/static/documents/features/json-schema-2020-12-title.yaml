@@ -96,6 +96,12 @@ components:
           type: string
         tag:
           type: string
+        nickname:
+          type: string
+          title: Pet nickname
+        color:
+          type: string
+          title: color
     Pets:
       title: My Pets
       type: array

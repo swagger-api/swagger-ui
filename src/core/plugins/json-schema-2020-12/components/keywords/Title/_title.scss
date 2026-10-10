@@ -12,6 +12,12 @@
     & .json-schema-2020-12-keyword__name {
       margin: 0;
     }
+
+    &-secondary {
+      margin-left: 10px;
+      font-weight: normal;
+      font-style: italic;
+    }
   }
 
   &-property {
