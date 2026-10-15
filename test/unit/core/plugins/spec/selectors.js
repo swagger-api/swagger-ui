@@ -7,6 +7,7 @@ import {
   operationScheme,
   specJsonWithResolvedSubtrees,
   operations,
+  operationById,
   producesOptionsFor,
   operationWithMeta,
   parameterWithMeta,
@@ -1238,6 +1239,120 @@ describe("taggedOperations", function () {
     const result = operations(state)
 
     expect(result.toJS()).toEqual([])
+  })
+})
+describe("operationById", () => {
+  it("is a plain (state, operationId) function, not a curried selector", () => {
+    // The actual regression this selector broke on: a curried
+    // createSelector(operations, (operations) => (operationId) => {...})
+    // returns a FUNCTION as its own result, which the plugin system's
+    // selector binding (getBoundSelectors, core/system.js) then invokes
+    // with the whole system object instead of the caller's real
+    // argument. Asserting the exported value's arity here catches a
+    // regression back to that shape before any behavioral test below
+    // would even need to run.
+    expect(typeof operationById).toBe("function")
+    expect(operationById.length).toBe(2)
+  })
+
+  it("finds a real operation by its declared operationId", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/widgets": {
+            get: { operationId: "get_widgets", tags: ["Widgets"] },
+            post: { operationId: "post_widgets", tags: ["Widgets"] }
+          },
+          "/widgets/{id}": {
+            get: { operationId: "get_widgets_id", tags: ["Widgets"], summary: "Fetch one widget" }
+          }
+        }
+      }
+    })
+
+    const result = operationById(state, "get_widgets_id")
+
+    expect(result.get("path")).toEqual("/widgets/{id}")
+    expect(result.get("method")).toEqual("get")
+    expect(result.getIn(["operation", "summary"])).toEqual("Fetch one widget")
+  })
+
+  it("finds operations across multiple paths and methods by operationId", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/widgets": {
+            get: { operationId: "get_widgets" },
+            post: { operationId: "post_widgets" }
+          },
+          "/widgets/{id}": {
+            get: { operationId: "get_widgets_id" }
+          }
+        }
+      }
+    })
+
+    expect(operationById(state, "get_widgets").get("method")).toEqual("get")
+    expect(operationById(state, "post_widgets").get("method")).toEqual("post")
+    expect(operationById(state, "get_widgets_id").get("path")).toEqual("/widgets/{id}")
+  })
+
+  it("returns undefined for an operationId that does not exist", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/widgets": {
+            get: { operationId: "get_widgets" }
+          }
+        }
+      }
+    })
+
+    expect(operationById(state, "totally_made_up")).toEqual(undefined)
+  })
+
+  it("returns undefined when operationId is falsy, without throwing", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/widgets": {
+            get: { operationId: "get_widgets" }
+          }
+        }
+      }
+    })
+
+    expect(operationById(state, "")).toEqual(undefined)
+    expect(operationById(state, null)).toEqual(undefined)
+    expect(operationById(state, undefined)).toEqual(undefined)
+  })
+
+  it("does not throw on an untagged, operationId-less operation mixed in with tagged ones", () => {
+    const state = fromJS({
+      json: {
+        paths: {
+          "/": {
+            get: { summary: "Landing page" } // no operationId, no tags
+          },
+          "/widgets": {
+            get: { operationId: "get_widgets", tags: ["Widgets"] }
+          }
+        }
+      }
+    })
+
+    expect(() => operationById(state, "get_widgets")).not.toThrow()
+    expect(operationById(state, "get_widgets").get("path")).toEqual("/widgets")
+  })
+
+  it("works against the real Petstore fixture used elsewhere in this file", () => {
+    const state = fromJSOrdered({ json: Petstore })
+
+    const result = operationById(state, "addPet")
+
+    expect(result).toBeDefined()
+    expect(result.get("path")).toEqual("/pet")
+    expect(result.get("method")).toEqual("post")
   })
 })
 describe("getOAS3RequiredRequestBodyContentType", () => {
