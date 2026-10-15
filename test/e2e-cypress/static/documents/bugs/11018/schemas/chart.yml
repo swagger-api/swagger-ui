@@ -1,0 +1,54 @@
+ChartConfiguration:
+  type: object
+  additionalProperties: false
+  required: [view]
+  properties:
+    view:
+      type: string
+    chartTypes:
+      type: array
+      items:
+        $ref: "#/ChartType"
+  allOf:
+    - oneOf:
+        - properties:
+            view:
+              type: string
+              enum: [summary]
+        - properties:
+            view:
+              type: string
+              enum: [detail]
+    - oneOf:
+        - additionalProperties: true
+          required: [chartTypes]
+          properties:
+            view:
+              type: string
+              enum: [summary]
+            chartTypes:
+              type: array
+              minItems: 1
+              items:
+                $ref: "#/ChartType"
+          allOf:
+            - oneOf:
+                - additionalProperties: true
+                  properties:
+                    includeLegend:
+                      type: boolean
+                      enum: [true]
+                - additionalProperties: true
+                  properties:
+                    includeLegend:
+                      type: boolean
+                      enum: [false]
+        - additionalProperties: true
+          properties:
+            view:
+              type: string
+              enum: [detail]
+
+ChartType:
+  type: string
+  enum: [line, bar, pie]
