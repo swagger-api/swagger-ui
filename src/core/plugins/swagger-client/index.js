@@ -52,17 +52,23 @@ export default function({ configs, getConfigs }) {
         if (
           !isAdditionalOperation ||
           options.returnEntireTree ||
+          !String(obj?.openapi).startsWith("3.2") ||
+          !obj?.paths?.[path[1]]?.parameters ||
           !result.spec ||
           typeof result.spec !== "object"
         ) {
           return result
         }
 
-        const { spec: pathParameters } = await resolve(
+        const { spec: pathParameters, errors: pathErrors } = await resolve(
           obj,
           ["paths", path[1], "parameters"],
           options
         )
+
+        if (Array.isArray(pathErrors) && pathErrors.length > 0) {
+          result.errors = [...(result.errors || []), ...pathErrors]
+        }
 
         if (!Array.isArray(pathParameters) || pathParameters.length === 0) {
           return result
