@@ -15,6 +15,6 @@ describe("#4943: XML example not rendered correctly with oneOf", () => {
       .get(".try-out__btn")
       .click()
       .get(".microlight")
-      .contains("<c>\n\t</c>")
+      .contains("<c/>")
   })
 })
