@@ -83,4 +83,57 @@ describe("<Response />", function () {
       .schema.toJS().properties
     expect(Object.keys(modelExampleSchemaProperties)).toEqual(["c", "b", "a"])
   })
+
+  it("should render without error when OAS3 response has empty examples map", function () {
+    const oas3Components = {
+      ...components,
+      ExamplesSelect: dummyComponent,
+      Example: dummyComponent,
+    }
+    const getOAS3System = () => ({
+      getComponent: (c) => oas3Components[c],
+      getConfigs: () => {
+        return {}
+      },
+      specSelectors: {
+        isOAS3() {
+          return true
+        },
+      },
+      fn: {
+        inferSchema,
+        memoizedSampleFromSchema,
+        memoizedCreateXMLExample,
+        getJsonSampleSchema: makeGetJsonSampleSchema(getOAS3System),
+        getYamlSampleSchema: makeGetYamlSampleSchema(getOAS3System),
+        getXmlSampleSchema: makeGetXmlSampleSchema(getOAS3System),
+        getSampleSchema: makeGetSampleSchema(getOAS3System),
+      },
+    })
+    const oas3Props = {
+      ...getOAS3System(),
+      contentType: "application/json",
+      className: "for-test",
+      specPath: List(),
+      response: fromJS({
+        description: "ok",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+            },
+            examples: {},
+          },
+        },
+      }),
+      code: "200",
+      path: "/foo",
+      method: "get",
+      oas3Actions: {},
+    }
+
+    expect(() => {
+      shallow(<Response {...oas3Props} />)
+    }).not.toThrow()
+  })
 })
