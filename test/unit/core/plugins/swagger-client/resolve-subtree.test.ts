@@ -14,7 +14,9 @@ jest.mock("swagger-client/es/resolver/strategies/openapi-3-0", () =>
   jest.requireActual("swagger-client/lib/resolver/strategies/openapi-3-0")
 )
 jest.mock("swagger-client/es/resolver/strategies/openapi-3-1-apidom", () =>
-  jest.requireActual("swagger-client/lib/resolver/strategies/openapi-3-1-apidom")
+  jest.requireActual(
+    "swagger-client/lib/resolver/strategies/openapi-3-1-apidom"
+  )
 )
 jest.mock("swagger-client/es/resolver", () =>
   jest.requireActual("swagger-client/lib/resolver")
@@ -44,9 +46,7 @@ const makeSpec = () => ({
       get: { responses: { 200: { description: "OK" } } },
       additionalOperations: {
         COPY: {
-          parameters: [
-            { name: "q", in: "query", description: "override" },
-          ],
+          parameters: [{ name: "q", in: "query", description: "override" }],
           responses: { 200: { description: "OK" } },
         },
         MOVE: { responses: { 200: { description: "OK" } } },
@@ -56,7 +56,8 @@ const makeSpec = () => ({
 })
 
 describe("swagger-client plugin resolveSubtree", () => {
-  const { fn } = (SwaggerClientPlugin as any)({
+  type Param = { name: string; description?: string }
+  const { fn } = SwaggerClientPlugin({
     configs: {},
     getConfigs: () => ({}),
   })
@@ -69,7 +70,7 @@ describe("swagger-client plugin resolveSubtree", () => {
       "MOVE",
     ])
 
-    expect(spec.parameters.map((p: any) => p.name)).toEqual(["id", "q"])
+    expect(spec.parameters.map((p: Param) => p.name)).toEqual(["id", "q"])
   })
 
   it("lets operation parameters override but not remove Path Item ones", async () => {
