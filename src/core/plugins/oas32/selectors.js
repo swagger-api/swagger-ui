@@ -2,6 +2,7 @@
  * @prettier
  */
 import constant from "lodash/constant"
+import { OPERATION_METHODS } from "core/utils/operation-methods"
 
 /**
  * Valid HTTP operation methods for OAS 3.2.x
@@ -11,14 +12,4 @@ import constant from "lodash/constant"
  *
  * Reference: https://spec.openapis.org/oas/v3.2.0.html#path-item-object
  */
-export const validOperationMethods = constant([
-  "get",
-  "put",
-  "post",
-  "delete",
-  "options",
-  "head",
-  "patch",
-  "trace",
-  "query", // NEW in OAS 3.2
-])
+export const validOperationMethods = constant(OPERATION_METHODS)

@@ -5,6 +5,8 @@ import { safeBuildUrl, sanitizeUrl } from "core/utils/url"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
+import { OPERATION_METHODS } from "core/utils/operation-methods"
+
 import RollingLoadSVG from "core/assets/rolling-load.svg"
 
 export default class Operation extends PureComponent {
@@ -87,6 +89,10 @@ export default class Operation extends PureComponent {
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
+    const normalizedMethod = String(method).toLowerCase()
+    const methodClassName = OPERATION_METHODS.includes(normalizedMethod)
+      ? normalizedMethod
+      : "custom"
     let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
 
@@ -115,7 +121,7 @@ export default class Operation extends PureComponent {
     const validationErrors = specSelectors.validationErrors([path, method])
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
+        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${methodClassName} is-open` : `opblock opblock-${methodClassName}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
           <OperationSummary operationProps={operationProps} isShown={isShown} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">

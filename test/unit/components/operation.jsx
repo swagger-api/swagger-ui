@@ -1,4 +1,5 @@
 import React from "react"
+import { fromJS } from "immutable"
 import { shallow } from "enzyme"
 import Operation from "core/components/operation"
 
@@ -26,5 +27,38 @@ describe("<Operation/>", function(){
 
     wrapper.find(".opblock-summary").simulate("click")
     expect(props.toggleCollapse).toHaveBeenCalled()
+  })
+})
+
+
+describe("operation method styling", () => {
+  it.each([
+    ["get", "opblock-get"],
+    ["query", "opblock-query"],
+    ["LIST", "opblock-custom"],
+    ["X-Search", "opblock-custom"],
+    ["X!Search", "opblock-custom"],
+  ])("renders %s without changing its operation method", (method, className) => {
+    const operation = fromJS({
+      method,
+      path: "/items",
+      tag: "Items",
+      operationId: "items",
+      op: { responses: {} },
+    })
+    const wrapper = shallow(<Operation
+      operation={operation}
+      getComponent={() => "div"}
+      getConfigs={() => ({})}
+      specSelectors={{
+        operationScheme: () => null,
+        validationErrors: () => null,
+        producesOptionsFor: () => null,
+        currentProducesFor: () => null,
+      }}
+      oas3Selectors={{}}
+    />)
+    expect(wrapper.hasClass(className)).toBe(true)
+    expect(wrapper.childAt(0).prop("operationProps").get("method")).toBe(method)
   })
 })
