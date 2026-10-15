@@ -2,6 +2,10 @@
  * @prettier
  */
 import { createOnlyOAS32SelectorWrapper } from "../fn"
+import {
+  webhooks as selectWebhooks,
+  selectWebhooksOperations as selectOAS32WebhooksOperations,
+} from "./selectors"
 
 /**
  * Wraps isOAS3 selector to return true when spec is OAS 3.2.x
@@ -24,4 +28,19 @@ export const isOAS3 =
  */
 export const validOperationMethods = createOnlyOAS32SelectorWrapper(
   () => (oriSelector, system) => system.oas32Selectors.validOperationMethods()
+)
+
+/**
+ * Wraps webhooks selectors to return OpenAPI.webhooks for OAS 3.2.x.
+ * The original selectors are limited to OAS 3.1.x and return null otherwise.
+ *
+ * Reference: https://spec.openapis.org/oas/v3.2.0.html#oas-webhooks
+ */
+export const webhooks = createOnlyOAS32SelectorWrapper(
+  (state) => (oriSelector, system) => selectWebhooks(state)(system)
+)
+
+export const selectWebhooksOperations = createOnlyOAS32SelectorWrapper(
+  (state) => (oriSelector, system) =>
+    selectOAS32WebhooksOperations(state, system)
 )

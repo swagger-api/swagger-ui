@@ -1,0 +1,50 @@
+openapi: 3.2.0
+info:
+  title: OpenAPI 3.2 Webhooks
+  version: 1.0.0
+  summary: a summary of the API
+  description: This is a sample server for a pet store.
+  termsOfService: https://example.com/terms/
+  license:
+    name: Apache 2.0
+    identifier: Apache-2.0
+webhooks:
+  newPet:
+    post:
+      summary: summary for newPet--post
+      requestBody:
+        description: Information about a new pet in the system
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/foo"
+      responses:
+        "200":
+          description: Return a 200 status to indicate that the data was received successfully
+    query:
+      summary: summary for newPet--query
+      requestBody:
+        description: Information about a new pet in the system
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/foo"
+      responses:
+        "200":
+          description: Return a 200 status to indicate that the data was received successfully
+  oldPet:
+    post:
+      summary: summary for oldPet--post
+      requestBody:
+        description: Information about a new pet in the system
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/foo"
+      responses:
+        "200":
+          description: Return a 200 status to indicate that the data was received successfully
+components:
+  schemas:
+    foo:
+      type: string
