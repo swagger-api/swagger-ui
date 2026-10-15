@@ -2,18 +2,16 @@
 @use "type";
 
 .servers {
-  > label {
+  > select {
     font-size: 12px;
 
     margin: -20px 15px 0 0;
 
     @include type.text_headline();
 
-    select {
-      min-width: 130px;
-      max-width: 100%;
-      width: 100%;
-    }
+    min-width: 130px;
+    max-width: 100%;
+    width: 100%;
   }
 
   h4.message {
