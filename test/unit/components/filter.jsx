@@ -44,4 +44,20 @@ describe("<FilterContainer/>", function(){
     const renderedColInsideFilter = wrapper.find(Col)
     expect(renderedColInsideFilter.length).toEqual(0)
   })
+
+  it("exposes an accessible name on the filter input via aria-label", function(){
+
+    // Given
+    let props = {...mockedProps}
+    props.layoutSelectors = {...mockedProps.specSelectors}
+    props.layoutSelectors.currentFilter = function() {return true}
+
+    // When
+    let wrapper = mount(<FilterContainer {...props}/>)
+
+    // Then
+    const input = wrapper.find("input.operation-filter-input")
+    expect(input.length).toEqual(1)
+    expect(input.prop("aria-label")).toEqual("Filter by tag")
+  })
 })
