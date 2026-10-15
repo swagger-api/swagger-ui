@@ -3,6 +3,7 @@
  */
 import React from "react"
 import PropTypes from "prop-types"
+import ScrollToTopButton from "./scroll-to-top"
 
 class App extends React.Component {
   getLayout() {
@@ -18,7 +19,12 @@ class App extends React.Component {
   render() {
     const Layout = this.getLayout()
 
-    return <Layout />
+    return (
+      <>
+      <ScrollToTopButton />
+      <Layout />
+      </>
+    )
   }
 }
 
