@@ -38,7 +38,54 @@ export default function({ configs, getConfigs }) {
           ],
         }
 
-        return makeResolveSubtree(defaultOptions)(obj, path, options)
+        const resolve = makeResolveSubtree(defaultOptions)
+        const result = await resolve(obj, path, options)
+
+        // swagger-client only propagates Path Item `parameters` into fixed-field
+        // operations; do the same for OAS 3.2 `additionalOperations` entries.
+        const isAdditionalOperation =
+          Array.isArray(path) &&
+          path.length === 4 &&
+          path[0] === "paths" &&
+          path[2] === "additionalOperations"
+
+        if (
+          !isAdditionalOperation ||
+          options.returnEntireTree ||
+          !result.spec ||
+          typeof result.spec !== "object"
+        ) {
+          return result
+        }
+
+        const { spec: pathParameters } = await resolve(
+          obj,
+          ["paths", path[1], "parameters"],
+          options
+        )
+
+        if (!Array.isArray(pathParameters) || pathParameters.length === 0) {
+          return result
+        }
+
+        const operationParameters = Array.isArray(result.spec.parameters)
+          ? result.spec.parameters
+          : []
+        const isOverridden = (param) =>
+          operationParameters.some(
+            (opParam) =>
+              opParam?.name === param?.name && opParam?.in === param?.in
+          )
+
+        result.spec = {
+          ...result.spec,
+          parameters: [
+            ...pathParameters.filter((param) => !isOverridden(param)),
+            ...operationParameters,
+          ],
+        }
+
+        return result
       },
       serializeRes,
       opId
