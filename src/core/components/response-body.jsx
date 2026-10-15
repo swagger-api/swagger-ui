@@ -135,7 +135,8 @@ export default class ResponseBody extends React.PureComponent {
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
-      bodyEl = <pre className="microlight"><audio controls key={ url }><source src={ url } type={ contentType } /></audio></pre>
+      const audioUrl = window.URL.createObjectURL(content);
+      bodyEl = <pre className="microlight"> <audio controls key={ audioUrl }><source src={ audioUrl } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} canCopy>{content}</HighlightCode>
     } else if ( content.size > 0 ) {
