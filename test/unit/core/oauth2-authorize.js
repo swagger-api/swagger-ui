@@ -71,6 +71,52 @@ describe("oauth2", () => {
       relativeAuthConfig.authActions.authPopup.mockReset()
     })
 
+    it("should build authorize url with dot-relative path and currentServer", function () {
+      // Regression test for https://github.com/swagger-api/swagger-ui/issues/10340
+      let relativeMockSchema = {
+        flow: "authorizationCode",
+        authorizationUrl: "./../identity/connect/authorize"
+      }
+      let relativeAuthConfig = {
+        auth: { schema: { get: (key) => relativeMockSchema[key] } },
+        authActions: {
+          authPopup: jest.fn()
+        },
+        errActions: {},
+        configs: { oauth2RedirectUrl: "" },
+        authConfigs: {},
+        currentServer: "https://localhost/swagger"
+      }
+      oauth2Authorize(relativeAuthConfig)
+      expect(relativeAuthConfig.authActions.authPopup.mock.calls.length).toEqual(1)
+      expect(relativeAuthConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://localhost/identity/connect/authorize?response_type=code&redirect_uri=&state=")
+
+      relativeAuthConfig.authActions.authPopup.mockReset()
+    })
+
+    it("should build authorize url with ../ relative path and currentServer", function () {
+      // Regression test for https://github.com/swagger-api/swagger-ui/issues/10340
+      let relativeMockSchema = {
+        flow: "authorizationCode",
+        authorizationUrl: "../identity/connect/authorize"
+      }
+      let relativeAuthConfig = {
+        auth: { schema: { get: (key) => relativeMockSchema[key] } },
+        authActions: {
+          authPopup: jest.fn()
+        },
+        errActions: {},
+        configs: { oauth2RedirectUrl: "" },
+        authConfigs: {},
+        currentServer: "https://localhost/swagger"
+      }
+      oauth2Authorize(relativeAuthConfig)
+      expect(relativeAuthConfig.authActions.authPopup.mock.calls.length).toEqual(1)
+      expect(relativeAuthConfig.authActions.authPopup.mock.calls[0][0]).toMatch("https://localhost/identity/connect/authorize?response_type=code&redirect_uri=&state=")
+
+      relativeAuthConfig.authActions.authPopup.mockReset()
+    })
+
     it("should append query parameters to authorizeUrl with query parameters", () => {
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
       oauth2Authorize(authConfig)
