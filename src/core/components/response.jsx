@@ -103,6 +103,7 @@ export default class Response extends React.Component {
       specSelectors,
       controlsAcceptHeader,
       oas3Actions,
+      oas3Selectors,
     } = this.props
 
     let { inferSchema, getSampleSchema } = fn
@@ -213,7 +214,7 @@ export default class Response extends React.Component {
                   Media type
                 </small>
                 <ContentType
-                  value={activeContentType}
+                  value={oas3Selectors?.responseCodeContentType(path, method, code) || ""}
                   contentTypes={
                     response.get("content")
                       ? response.get("content").keySeq()
