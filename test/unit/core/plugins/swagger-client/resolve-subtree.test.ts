@@ -13,6 +13,11 @@ jest.mock("swagger-client/es/resolver/strategies/openapi-2", () =>
 jest.mock("swagger-client/es/resolver/strategies/openapi-3-0", () =>
   jest.requireActual("swagger-client/lib/resolver/strategies/openapi-3-0")
 )
+jest.mock("swagger-client/es/resolver/strategies/openapi-3-2-apidom", () =>
+  jest.requireActual(
+    "swagger-client/lib/resolver/strategies/openapi-3-2-apidom"
+  )
+)
 jest.mock("swagger-client/es/resolver/strategies/openapi-3-1-apidom", () =>
   jest.requireActual(
     "swagger-client/lib/resolver/strategies/openapi-3-1-apidom"
@@ -82,7 +87,12 @@ describe("swagger-client plugin resolveSubtree", () => {
     ])
 
     expect(spec.parameters).toHaveLength(2)
-    expect(spec.parameters[0].name).toEqual("id")
-    expect(spec.parameters[1].description).toEqual("override")
+    expect(spec.parameters.map((p: Param) => p.name).sort()).toEqual([
+      "id",
+      "q",
+    ])
+    expect(
+      spec.parameters.find((p: Param) => p.name === "q").description
+    ).toEqual("override")
   })
 })
