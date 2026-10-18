@@ -101,6 +101,8 @@ const Operations = ({
   const listRef = useRef(null)
 
   useLayoutEffect(() => {
+    if (!isVirtualized) return
+
     const el = listRef.current
 
     if (!el) return
@@ -129,7 +131,7 @@ const Operations = ({
       cancelAnimationFrame(raf)
       window.removeEventListener("resize", onResize)
     }
-  }, [])
+  }, [isVirtualized])
 
   const isWindowScroll = containerEl === null
 
