@@ -1,0 +1,33 @@
+openapi: 3.2.0
+info:
+  title: Custom-only path repro
+  version: 1.0.0
+paths:
+  /files/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: File ID
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Path-level query
+        schema:
+          type: string
+    additionalOperations:
+      COPY:
+        responses:
+          '200':
+            description: OK
+      MOVE:
+        parameters:
+          - name: q
+            in: query
+            description: Operation-level override
+            schema:
+              type: string
+        responses:
+          '200':
+            description: OK
