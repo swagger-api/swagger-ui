@@ -29,6 +29,17 @@ export default class ObjectModel extends Component {
     specPath: ImPropTypes.list.isRequired,
     includeReadOnly: PropTypes.bool,
     includeWriteOnly: PropTypes.bool,
+    layoutActions: PropTypes.shape({
+      show: PropTypes.func.isRequired,
+    }),
+    layoutSelectors: PropTypes.shape({
+      isShown: PropTypes.func.isRequired,
+    }),
+  }
+
+  handleToggle = (modelName, shown) => {
+    const { layoutActions, specPath } = this.props
+    layoutActions?.show(specPath.toJS(), shown)
   }
 
   render() {
@@ -40,15 +51,22 @@ export default class ObjectModel extends Component {
       getComponent,
       getConfigs,
       depth,
-      onToggle,
-      expanded,
       specPath,
       ...otherProps
     } = this.props
-    let { specSelectors, expandDepth, includeReadOnly, includeWriteOnly } =
-      otherProps
+    let {
+      specSelectors,
+      expandDepth,
+      includeReadOnly,
+      includeWriteOnly,
+      layoutSelectors,
+    } = otherProps
     const { isOAS3 } = specSelectors
     const isEmbedded = depth > 2 || (depth === 2 && specPath.last() !== "items")
+    const defaultExpanded = depth <= expandDepth
+    const isExpanded =
+      layoutSelectors?.isShown(specPath.toJS(), defaultExpanded) ??
+      defaultExpanded
 
     if (!schema) {
       return null
@@ -119,8 +137,8 @@ export default class ObjectModel extends Component {
         <ModelCollapse
           modelName={name}
           title={titleEl}
-          onToggle={onToggle}
-          expanded={expanded ? true : depth <= expandDepth}
+          onToggle={this.handleToggle}
+          expanded={isExpanded}
           collapsedContent={collapsedContent}
         >
           <span className="brace-open object">{braceOpen}</span>

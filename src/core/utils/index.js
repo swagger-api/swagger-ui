@@ -26,7 +26,6 @@ import getParameterSchema from "core/utils/get-parameter-schema"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
-
 export const immutableToJS = (value) => isImmutable(value) ? value.toJS() : value
 
 export function objectify (thing) {

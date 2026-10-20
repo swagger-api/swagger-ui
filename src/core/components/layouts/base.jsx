@@ -135,7 +135,7 @@ export default class BaseLayout extends React.Component {
               </Col>
             </Row>
 
-            {isOAS31 && (
+            {(isOAS31 || isOAS32) && (
               <Row className="webhooks-container">
                 <Col mobile={12} desktop={12}>
                   <Webhooks />

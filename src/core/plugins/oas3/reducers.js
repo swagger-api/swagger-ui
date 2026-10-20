@@ -8,6 +8,7 @@ import {
   UPDATE_REQUEST_CONTENT_TYPE,
   UPDATE_SERVER_VARIABLE_VALUE,
   UPDATE_RESPONSE_CONTENT_TYPE,
+  UPDATE_RESPONSE_CODE_CONTENT_TYPE,
   SET_REQUEST_BODY_VALIDATE_ERROR,
   CLEAR_REQUEST_BODY_VALIDATE_ERROR,
   CLEAR_REQUEST_BODY_VALUE, UPDATE_REQUEST_BODY_VALUE_RETAIN_FLAG,
@@ -58,6 +59,9 @@ export default {
   },
   [UPDATE_RESPONSE_CONTENT_TYPE]: (state, { payload: { value, path, method } } ) =>{
     return state.setIn( [ "requestData", path, method, "responseContentType" ], value)
+  },
+  [UPDATE_RESPONSE_CODE_CONTENT_TYPE]: (state, { payload: { value, path, method, code } } ) =>{
+    return state.setIn( [ "requestData", path, method, "responseCodeContentType", code ], value)
   },
   [UPDATE_SERVER_VARIABLE_VALUE]: (state, { payload: { server, namespace, key, val } } ) =>{
     const path = namespace ? [ namespace, "serverVariableValues", server, key ] : [ "serverVariableValues", server, key ]

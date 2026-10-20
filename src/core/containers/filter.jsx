@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import DebounceInput from "react-debounce-input"
 
 export default class FilterContainer extends React.Component {
 
@@ -32,8 +33,8 @@ export default class FilterContainer extends React.Component {
         {filter === false ? null :
           <div className="filter-container">
             <Col className="filter wrapper" mobile={12}>
-              <input className={classNames.join(" ")} placeholder="Filter by tag" type="text"
-                     onChange={this.onFilterChange} value={typeof filter === "string" ? filter : ""}
+              <DebounceInput className={classNames.join(" ")} placeholder="Filter by tag or path" type="text"
+                     debounceTimeout={250} onChange={this.onFilterChange} value={typeof filter === "string" ? filter : ""}
                      disabled={isLoading}/>
             </Col>
           </div>

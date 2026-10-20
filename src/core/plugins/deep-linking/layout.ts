@@ -9,9 +9,15 @@ import { fromJS, Map, is, List } from "immutable"
 // Action types
 const SCROLL_TO = "layout_scroll_to"
 const CLEAR_SCROLL_TO = "layout_clear_scroll"
+const SCROLL_TO_VIRTUALIZED_SCHEMA = "layout_scroll_to_virtualized_schema"
+const CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA =
+  "layout_clear_scroll_to_virtualized_schema"
+const SCROLL_TO_VIRTUALIZED_OPERATION = "layout_scroll_to_virtualized_operation"
+const CLEAR_SCROLL_TO_VIRTUALIZED_OPERATION =
+  "layout_clear_scroll_to_virtualized_operation"
 
 // Type definitions
-type LayoutState = Map<string, List<string> | undefined>
+type LayoutState = Map<string, List<string> | string | undefined>
 type ShowKey = string[]
 type UrlHashArray = string[]
 
@@ -29,10 +35,30 @@ interface ClearScrollToAction extends Action {
   type: typeof CLEAR_SCROLL_TO
 }
 
+interface ScrollToVirtualizedSchemaAction extends Action {
+  type: typeof SCROLL_TO_VIRTUALIZED_SCHEMA
+  payload: string
+}
+
+interface ClearScrollToVirtualizedSchemaAction extends Action {
+  type: typeof CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA
+}
+
+interface ScrollToVirtualizedOperationAction extends Action {
+  type: typeof SCROLL_TO_VIRTUALIZED_OPERATION
+  payload: string[]
+}
+
+interface ClearScrollToVirtualizedOperationAction extends Action {
+  type: typeof CLEAR_SCROLL_TO_VIRTUALIZED_OPERATION
+}
+
 interface LayoutSelectors {
   urlHashArrayFromIsShownKey: (key: ShowKey) => UrlHashArray
   isShownKeyFromUrlHashArray: (hashArray: UrlHashArray) => ShowKey
   getScrollToKey: () => List<string> | undefined
+  getScrollToVirtualizedSchema: () => string | undefined
+  getScrollToVirtualizedOperation: () => List<string> | undefined
 }
 
 interface LayoutActions {
@@ -40,6 +66,10 @@ interface LayoutActions {
   scrollTo: (key: ShowKey) => void
   scrollToElement: (ref: Element, container?: Element) => void
   clearScrollTo: () => void
+  scrollToVirtualizedSchema: (name: string) => void
+  clearScrollToVirtualizedSchema: () => void
+  scrollToVirtualizedOperation: (key: ShowKey) => void
+  clearScrollToVirtualizedOperation: () => void
 }
 
 type GetConfigs = () => { deepLinking?: boolean }
@@ -187,6 +217,8 @@ export const parseDeepLinkHash =
 
       // Scroll to the newly expanded entity
       layoutActions.scrollTo(isShownKey)
+      // Signal the virtualized operations path
+      layoutActions.scrollToVirtualizedOperation(isShownKey)
     }
   }
 
@@ -219,6 +251,30 @@ export const clearScrollTo = (): ClearScrollToAction => {
     type: CLEAR_SCROLL_TO,
   }
 }
+
+export const scrollToVirtualizedSchema = (
+  name: string
+): ScrollToVirtualizedSchemaAction => ({
+  type: SCROLL_TO_VIRTUALIZED_SCHEMA,
+  payload: name,
+})
+
+export const clearScrollToVirtualizedSchema =
+  (): ClearScrollToVirtualizedSchemaAction => ({
+    type: CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA,
+  })
+
+export const scrollToVirtualizedOperation = (
+  isShownKey: ShowKey
+): ScrollToVirtualizedOperationAction => ({
+  type: SCROLL_TO_VIRTUALIZED_OPERATION,
+  payload: isShownKey,
+})
+
+export const clearScrollToVirtualizedOperation =
+  (): ClearScrollToVirtualizedOperationAction => ({
+    type: CLEAR_SCROLL_TO_VIRTUALIZED_OPERATION,
+  })
 
 /**
  * Finds the nearest ancestor element that can scroll.
@@ -286,10 +342,24 @@ export default {
         clearScrollTo,
         readyToScroll,
         parseDeepLinkHash,
+        scrollToVirtualizedSchema,
+        clearScrollToVirtualizedSchema,
+        scrollToVirtualizedOperation,
+        clearScrollToVirtualizedOperation,
       },
       selectors: {
         getScrollToKey(state: LayoutState): List<string> | undefined {
-          return state.get("scrollToKey")
+          return state.get("scrollToKey") as List<string> | undefined
+        },
+        getScrollToVirtualizedSchema(state: LayoutState): string | undefined {
+          return state.get("scrollToVirtualizedSchema") as string | undefined
+        },
+        getScrollToVirtualizedOperation(
+          state: LayoutState
+        ): List<string> | undefined {
+          return state.get("scrollToVirtualizedOperation") as
+            | List<string>
+            | undefined
         },
         isShownKeyFromUrlHashArray(
           _state: LayoutState,
@@ -324,6 +394,29 @@ export default {
         },
         [CLEAR_SCROLL_TO](state: LayoutState): LayoutState {
           return state.delete("scrollToKey")
+        },
+        [SCROLL_TO_VIRTUALIZED_SCHEMA](
+          state: LayoutState,
+          action: ScrollToVirtualizedSchemaAction
+        ): LayoutState {
+          return state.set("scrollToVirtualizedSchema", action.payload)
+        },
+        [CLEAR_SCROLL_TO_VIRTUALIZED_SCHEMA](state: LayoutState): LayoutState {
+          return state.delete("scrollToVirtualizedSchema")
+        },
+        [SCROLL_TO_VIRTUALIZED_OPERATION](
+          state: LayoutState,
+          action: ScrollToVirtualizedOperationAction
+        ): LayoutState {
+          return state.set(
+            "scrollToVirtualizedOperation",
+            fromJS(action.payload)
+          )
+        },
+        [CLEAR_SCROLL_TO_VIRTUALIZED_OPERATION](
+          state: LayoutState
+        ): LayoutState {
+          return state.delete("scrollToVirtualizedOperation")
         },
       },
       wrapActions: {
