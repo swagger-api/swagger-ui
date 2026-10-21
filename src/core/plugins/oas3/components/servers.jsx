@@ -71,23 +71,22 @@ const Servers = ({
 
   return (
     <div className="servers">
-      <label htmlFor="servers">
-        <select
-          onChange={handleServerChange}
-          value={currentServer}
-          id="servers"
-        >
-          {servers
-            .valueSeq()
-            .map((server) => (
-              <option value={server.get("url")} key={server.get("url")}>
-                {server.get("url")}
-                {server.get("description") && ` - ${server.get("description")}`}
-              </option>
-            ))
-            .toArray()}
-        </select>
-      </label>
+      <select
+        aria-label="Servers"
+        onChange={handleServerChange}
+        value={currentServer}
+        id="servers"
+      >
+        {servers
+          .valueSeq()
+          .map((server) => (
+            <option value={server.get("url")} key={server.get("url")}>
+              {server.get("url")}
+              {server.get("description") && ` - ${server.get("description")}`}
+            </option>
+          ))
+          .toArray()}
+      </select>
       {shouldShowVariableUI && (
         <div>
           <div className={"computed-url"}>
