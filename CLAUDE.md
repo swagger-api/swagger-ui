@@ -143,7 +143,7 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 ### Prerequisites
 
 - **Node.js:** >=24.22 (Node 24.x recommended, as defined in `.nvmrc`)
-- **npm:** >=11.18.0
+- **npm:** >=11.19.1
 - **Git:** Any version
 - **JDK 7+:** Required for Nightwatch.js integration tests
 
