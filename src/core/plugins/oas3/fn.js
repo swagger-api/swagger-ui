@@ -33,3 +33,10 @@ export const makeIsFileUploadIntended = (getSystem) => {
 
   return isFileUploadIntended
 }
+
+/**
+ * Returns the name of the Media Type Object field that describes the payload.
+ * OpenAPI 3.0.x and 3.1.x only define `schema`; OpenAPI 3.2 overrides this
+ * to support `itemSchema` for sequential media types.
+ */
+export const getMediaTypeSchemaField = () => "schema"

@@ -44,3 +44,25 @@ export const makeIsFileUploadIntended = (getSystem) => {
 
   return isFileUploadIntended
 }
+
+/**
+ * OpenAPI 3.2 lets a Media Type Object describe a sequential media type
+ * (e.g. `text/event-stream`, `application/jsonl`, `application/json-seq`,
+ * `multipart/mixed`) with `itemSchema`, the schema of each item in the
+ * sequence, instead of `schema`. When only `itemSchema` is present we use it
+ * as the payload schema so its example and model can be rendered.
+ */
+export const getMediaTypeSchemaField = (mediaType) => {
+  const isMediaTypeImmutable = Map.isMap(mediaType)
+
+  if (!isMediaTypeImmutable && !isPlainObject(mediaType)) {
+    return "schema"
+  }
+
+  const has = (field) =>
+    isMediaTypeImmutable
+      ? mediaType.get(field) != null
+      : mediaType[field] != null
+
+  return !has("schema") && has("itemSchema") ? "itemSchema" : "schema"
+}
