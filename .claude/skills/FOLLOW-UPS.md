@@ -35,11 +35,7 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
 
 ## Open Work on the Skills
 
-1. **Trigger optimisation** of the three descriptions with skill-creator's `run_loop`. The
-   near-misses to include: a bug fix in an OAS 3.1 component (not add-oas-support), a JSON Schema
-   keyword inside an OAS Schema Object (add-oas-support or a plain fix, not
-   add-json-schema-support), ApiDOM work (the ApiDOM skills).
-2. **The major-version branch of `/add-oas-support` has no eval with a real target.** OAS 4.0
+1. **The major-version branch of `/add-oas-support` has no eval with a real target.** OAS 4.0
    (Moonwalk) has no release and only a non-consensus draft without Fixed Fields tables; the
    2.0 → 3.0 dry run was dropped because the answers are in the repository (the oas3 plugin) and
    don't carry over to 4.0. When a 4.0 draft with object tables appears, add a preview case

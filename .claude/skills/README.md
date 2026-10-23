@@ -103,8 +103,19 @@ ask before starting them.
 5. Alternative with Claude Code v2.1.269 or later: `claude plugin eval . --scaffold --allow-tools Write,Edit,Bash`
    from a skill directory runs its cases with and without the skill.
 
-Not run yet: no case has results, and the skill descriptions haven't been through skill-creator's
-trigger optimisation.
+Not run yet: no case has results.
+
+### Trigger Check
+
+On 2026-10-23 each description was scored with skill-creator's `run_eval` (Opus 5.5, one run per
+question) on 20 questions: 10 that should trigger it and 10 near-misses (a bug fix in an OAS 3.1
+component, a JSON Schema keyword inside a Schema Object, ApiDOM work, a generic code review, the
+other two skills' requests). Each run had `CLAUDE.md` and the other two skills, not the skill
+under test. All three scored 20/20, so the descriptions weren't optimised. The question sets are
+in `~/WebstormProjects/swagger-ui-skills-workspace/trigger/{skill}/trigger-eval.json`; rerun them
+after changing a description. `run_eval` as shipped puts every concurrent run's skill copy in one
+`.claude/commands/`, so runs pick each other's copies and count as misses: use
+`--num-workers 1`, or give each run its own directory.
 
 ## Creating New Skills
 
