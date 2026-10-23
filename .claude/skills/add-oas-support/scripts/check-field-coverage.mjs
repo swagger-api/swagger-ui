@@ -3,7 +3,8 @@
  * @prettier
  *
  * Reads the field map (OAS) or keyword map (JSON Schema) of a tracking document and checks that
- * every in-scope NEW / CHANGED-TYPE row is mentioned in source, in a test and in a fixture.
+ * every in-scope row that needs code (NEW, CHANGED-TYPE, MOVED; for keywords also CHANGED-SHAPE
+ * and RENAMED) is mentioned in source, in a test and in a fixture.
  * A mention is not proof of correct rendering; a missing mention is proof of a gap. Generic names
  * (parent, kind, summary) match unrelated code, so check those rows by hand.
  */
@@ -15,11 +16,12 @@ import { changedFiles } from "./lib/git.mjs"
 
 const USAGE = `
 Usage:
-  node check-field-coverage.mjs <tracking-doc.md> --plugin <dir> [--plugin <dir>...] [--base <ref>]
+  node check-field-coverage.mjs <tracking-doc.md> --plugin <dir> [--plugin <dir>...]
+                                [--scope <PR>] [--base <ref>]
 
 Reads every markdown table of the tracking document that has a "Field" (or "Keyword") and a
-"Status" column. Rows with status NEW or CHANGED-TYPE are checked unless their "Scope" column
-contains "deferred" or "out".
+"Status" column. Rows with status NEW, CHANGED-TYPE, MOVED, CHANGED-SHAPE or RENAMED are checked
+unless their "Scope" column contains "deferred" or "out".
 
 For each row the field name must appear (as a whole word, $ and - included) in:
   src      a file under one of the --plugin directories, or a src/ file changed since <ref>
@@ -28,6 +30,8 @@ For each row the field name must appear (as a whole word, $ and - included) in:
   fixture  a document under test/e2e-cypress/static/documents whose path contains <plugin>, or
            a changed fixture, as a key ("field:" in YAML, "field": in JSON)
 
+  --scope   only rows whose Scope names this PR, e.g. --scope "PR 3" (not "PR 30"); the gate
+            of a feature PR checks its own rows
   --base    git ref for "changed since" (default: main)
 
 Exit codes: 0 every row covered, 1 a row is missing somewhere, 2 usage error.
@@ -38,6 +42,7 @@ const { values, positionals } = parseCli(USAGE, {
   options: {
     plugin: { type: "string", multiple: true, default: [] },
     base: { type: "string", default: "main" },
+    scope: { type: "string" },
   },
   validate: ({ values: v, positionals: p }) => {
     if (p.length !== 1) return "exactly one tracking document required"
@@ -82,9 +87,17 @@ const parseRows = (markdown) => {
   return rows
 }
 
+// "PR 3" matches "PR 3" and "PR 3 (query)", not "PR 30"
+const wanted = values.scope
+  ? new RegExp(
+      `(^|[^\\w])${values.scope.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\w])`,
+      "i"
+    )
+  : undefined
 const inScope = ({ status, scope, field }) =>
-  /^(NEW|CHANGED-TYPE)\b/.test(status) &&
-  !/deferred|out/.test(scope) &&
+  /^(NEW|CHANGED-TYPE|MOVED|CHANGED-SHAPE|RENAMED)\b/.test(status) &&
+  !/\b(deferred|out)\b/.test(scope) &&
+  (!wanted || wanted.test(scope)) &&
   !/^[{<]/.test(field)
 
 const walk = (path) => {
@@ -145,7 +158,7 @@ const firstHit = (files, re) => files.find((path) => re.test(read(path)))
 const rows = parseRows(readFileSync(positionals[0], "utf8")).filter(inScope)
 if (rows.length === 0) {
   console.error(
-    "error: no NEW / CHANGED-TYPE rows in scope; check the table headers (Field/Keyword, Status, Scope)"
+    `error: no NEW / CHANGED-TYPE / MOVED / CHANGED-SHAPE / RENAMED rows in scope${values.scope ? ` for "${values.scope}"` : ""}; check the table headers (Field/Keyword, Status, Scope)`
   )
   process.exit(2)
 }
