@@ -1057,6 +1057,7 @@ Build Output:          dist/
 - **Plugin API:** `docs/customization/plugin-api.md`
 - **Configuration:** `docs/usage/configuration.md`
 - **OAuth2 Setup:** `docs/usage/oauth2.md`
+- **Claude Code Skills:** `.claude/skills/README.md` (adding OpenAPI versions, standalone JSON Schema, spec reviews)
 
 ### External Links
 

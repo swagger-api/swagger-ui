@@ -1,0 +1,14 @@
+schema_version: "1.1"
+name: oas32-tag-fields-planted-defects
+# fixture: ee02195f (main on 2026-10-22, before the rebuilt skills), checked out by checkout-fixture.sh
+context:
+  scaffold_script: checkout-fixture.sh
+expected_outcome: |
+  A findings report on feat/oas32-tag-fields (8 planted defects on top of main ee02195f) with a
+  spec citation per finding. It finds: Tag externalDocs presented as new in 3.2 (it exists since
+  3.0); `parent` read as an object although it is a string tag name; `kind` limited to three values
+  although any string is allowed; a hand-written isOAS32() guard instead of
+  createOnlyOAS32ComponentWrapper; Tag summary rendered in the shared OperationTag component for
+  every OAS version; a selector (selectTagKinds) used only by its unit test; a .cy.ts spec that
+  Cypress's specPattern never runs; and a broken spec anchor (#tag-object-fields). Pre-existing
+  problems (DIALECT, missing OpenAPI32 export) are kept apart from the branch's findings.

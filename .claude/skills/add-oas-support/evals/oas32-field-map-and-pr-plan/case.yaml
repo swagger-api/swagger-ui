@@ -1,0 +1,17 @@
+schema_version: "1.1"
+name: oas32-field-map-and-pr-plan
+# fixture: a398208d (state before PR #10721 (basic OAS 3.2 support)), checked out by checkout-fixture.sh
+context:
+  scaffold_script: checkout-fixture.sh
+expected_outcome: |
+  ADD-OAS-3.2.md exists with a field map built from the 3.2.0 and 3.1.x Fixed Fields tables and a PR plan.
+  Fields that OAS 3.1 already had are INHERITED (Info.summary, Components.pathItems), the new ones
+  are NEW (Path Item query and additionalOperations, Media Type itemSchema, Tag summary/parent/kind,
+  Server name, OpenAPI $self, ...), the querystring parameter location is recorded as a change
+  of Parameter `in`, and the table-level changes (Response description now optional, `content`
+  accepting Reference Objects) are recorded. The Schema Object stays on JSON Schema 2020-12. The dialect id comes from a
+  /oas/3.2/dialect/ URL, not the /oas/3.2/schema/ document schema. The plan notices that the pinned
+  swagger-client lacks the 3.2 resolve strategy, and PR 1 (basic support) covers detection, isOAS3
+  widening, the version pragma filter props in layouts/base.jsx, Model/Models JSON Schema 2020-12
+  wrappers, the resolve strategy, preset order and the SwaggerUI.plugins export, and implements no
+  NEW field; each new feature (QUERY included) is its own later PR. No source changes.
