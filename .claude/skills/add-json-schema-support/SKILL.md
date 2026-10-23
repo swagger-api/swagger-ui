@@ -116,8 +116,11 @@ For each group of rows (`renderer-architecture.md` section 2 lists every place a
    not in `getSchemaKeywords()` or the shared 2020-12 components, unless the change is correct
    for OAS 3.1/3.2 too and the user agreed to change OAS rendering.
 2. `CHANGED-SHAPE` rows get dialect components; the 2020-12 component stays untouched.
-3. `NOT-IN-DRAFT` rows: the instance's keyword list omits them, so they show as extension
-   keywords and don't get 2020-12 meaning.
+3. `NOT-IN-DRAFT` rows: dropping the name from the instance's keyword list only makes it
+   eligible for `ExtensionKeywords`; `JSONSchema.jsx` still calls every keyword component, and
+   e.g. `PrefixItems.jsx` reads `schema.prefixItems` without consulting that list. So also
+   override the component (or its `fn`) in the dialect instance with one that renders nothing
+   for the keyword, and add a Cypress assertion that the 2020-12 rendering is absent.
 4. Fixture keys for every in-scope row; a Cypress assertion for every row whose target
    behaviour is visible.
 5. Mark the rows done in the tracking doc.
@@ -129,10 +132,12 @@ For each group of rows (`renderer-architecture.md` section 2 lists every place a
 3. The PR's Cypress specs, then `npm run cy:ci` (the regression spec proves OAS rendering is
    unchanged).
 4. `npm run build`, `npm run test:artifact`.
-5. `check-plugin-conventions.mjs`: 0 errors. `.cy.ts` specs need `cypress.config.js`'s
+5. `check-plugin-conventions.mjs`: 0 errors (DIALECT only inspects files this PR changed, so
+   findings already on `main`, such as the oas32 Model/Models URLs, don't count against it). `.cy.ts` specs need `cypress.config.js`'s
    `specPattern` extended in the same PR.
 6. `check-field-coverage.mjs ADD-JSON-SCHEMA-{DRAFT}.md --plugin src/core/plugins/{plugin} --scope "PR n"`:
-   0 gaps for this PR's rows; generic keyword names (`type`, `items`, `format`) need a manual
+   0 gaps for this PR's rows (a scope with only `SAME` / `NOT-IN-DRAFT` rows, such as the
+   detection PR, reports `n/a` and exits 0); generic keyword names (`type`, `items`, `format`) need a manual
    look, because they match unrelated code.
 7. `verify-urls.mjs --diff main`: 0 `BROKEN`.
 8. A fresh-context review: run `/review-spec-support` in a subagent with only the draft, the

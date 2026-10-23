@@ -113,8 +113,13 @@ if [[ -f "$PATCH" ]] && git cat-file -e "$FIXTURE^{commit}" 2>/dev/null; then
   git clone --quiet --shared --no-checkout "$ROOT" "$TMP/clone"
   git -C "$TMP/clone" checkout --quiet -B main "$FIXTURE"
   git -C "$TMP/clone" apply "$PATCH"
-  (cd "$TMP/clone" && check 'check-plugin-conventions on the planted branch' 1 \
-    node "$SCRIPTS/check-plugin-conventions.mjs" --base main)
+  # DIALECT only reads changed files; the fixture's model.jsx carries the wrong URL already, so touch it
+  echo '// touched' >>"$TMP/clone/src/core/plugins/oas32/wrap-components/model.jsx"
+  # parent shell, not a subshell, so check's FAILED=1 survives
+  pushd "$TMP/clone" >/dev/null || exit 1
+  check 'check-plugin-conventions on the planted branch' 1 \
+    node "$SCRIPTS/check-plugin-conventions.mjs" --base main
+  popd >/dev/null || exit 1
   expect_output 'HAND-GUARD in the hand-written wrapper' 'WARNING +HAND-GUARD +src/core/plugins/oas32/wrap-components/operation-tag\.tsx'
   expect_output 'NOT-TS for the .cy.ts spec Cypress skips' 'ERROR +NOT-TS +test/e2e-cypress/e2e/features/oas32/oas32-tag-fields\.cy\.ts'
   expect_output 'CORE-TOUCH for the shared component' 'NOTE +CORE-TOUCH +src/core/components/operation-tag\.jsx'

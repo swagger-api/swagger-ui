@@ -57,8 +57,8 @@ const cells = (line) =>
   line
     .trim()
     .replace(/^\||\|$/g, "")
-    .split("|")
-    .map((cell) => cell.trim())
+    .split(/(?<!\\)\|/)
+    .map((cell) => cell.trim().replace(/\\\|/g, "|"))
 
 const parseRows = (markdown) => {
   const rows = []
@@ -155,7 +155,14 @@ const key = (field) =>
   new RegExp(`(^|[\\s{,-])["']?${escape(field)}["']?\\s*:`, "m")
 const firstHit = (files, re) => files.find((path) => re.test(read(path)))
 
-const rows = parseRows(readFileSync(positionals[0], "utf8")).filter(inScope)
+const allRows = parseRows(readFileSync(positionals[0], "utf8"))
+const rows = allRows.filter(inScope)
+if (rows.length === 0 && wanted && allRows.some(({ scope }) => wanted.test(scope))) {
+  console.log(
+    `n/a: "${values.scope}" has rows but none with a NEW / CHANGED-TYPE / MOVED / CHANGED-SHAPE / RENAMED status (SAME, NOT-IN-DRAFT and INHERITED rows need no coverage)`
+  )
+  process.exit(0)
+}
 if (rows.length === 0) {
   console.error(
     `error: no NEW / CHANGED-TYPE / MOVED / CHANGED-SHAPE / RENAMED rows in scope${values.scope ? ` for "${values.scope}"` : ""}; check the table headers (Field/Keyword, Status, Scope)`

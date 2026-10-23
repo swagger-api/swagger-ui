@@ -24,8 +24,10 @@ Checks files changed relative to the merge base of <ref> (default: main), plus u
   HAND-GUARD    hand-written isOAS3x() check in a wrapper; use the createOnlyOAS3x* factory  warning
   CORE-TOUCH    shared file outside the new plugin changed; prove other versions unaffected  note
 
-Checks the whole tree:
+Checks changed files only, so findings already on the base branch don't fail the PR:
   DIALECT       default$schema points at an OpenAPI document schema (/schema/), not a dialect  error
+
+Checks the whole tree:
   PRESET-ORDER  newest OpenAPI plugin is not the last OpenAPI plugin in presets/apis          error
   EXPORT        an OpenAPI plugin directory has no SwaggerUI.plugins entry in src/core/index.js note
 
@@ -158,8 +160,9 @@ const walk = (dir) =>
     const path = join(dir, name)
     return statSync(path).isDirectory() ? walk(path) : [path]
   })
+const changedPaths = new Set(present.map(({ path }) => path))
 for (const path of walk("src/core/plugins")) {
-  if (!/\.(js|jsx|ts|tsx)$/.test(path)) continue
+  if (!changedPaths.has(path) || !/\.(js|jsx|ts|tsx)$/.test(path)) continue
   read(path)
     .split("\n")
     .forEach((line, i) => {
