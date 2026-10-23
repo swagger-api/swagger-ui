@@ -244,9 +244,11 @@ const stringifyConstraintMultipleOf = (schema) => {
     return `multiple of ${multipleOf}`
   }
 
-  const decimalPlaces = multipleOf.toString().split(".")[1].length
+  const [coefficient, exponent = "0"] = multipleOf.toString().split("e")
+  const decimalPlaces =
+    (coefficient.split(".")[1]?.length ?? 0) - Number(exponent)
   const factor = 10 ** decimalPlaces
-  const numerator = multipleOf * factor
+  const numerator = Number(coefficient.replace(".", ""))
   const denominator = factor
   return `multiple of ${numerator}/${denominator}`
 }
