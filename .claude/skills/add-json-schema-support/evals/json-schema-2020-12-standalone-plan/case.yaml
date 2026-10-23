@@ -11,6 +11,7 @@ expected_outcome: |
   version pragma filter shows "Unable to render this definition"); unknown keywords already render
   as extension keywords but are hidden by default (showExtensions false); `$ref` is shown as a
   string; the OAS plugins add keywords and fn overrides (oas31 after-load) that a standalone
-  instance must not inherit. It lists the decisions for the user (delivery plan, where it displays
-  and whether the plugin joins the apis preset, $ref resolution), includes a regression test that
-  OAS documents render unchanged, and contains no code changes.
+  instance must not inherit. It records the answered decisions (Full plan; native display with the
+  plugin in the apis preset), lists the open ones for the user ($ref resolution, the plugin name
+  SwaggerEditor's gate needs), includes a regression test that OAS documents render unchanged, and
+  contains no code changes.

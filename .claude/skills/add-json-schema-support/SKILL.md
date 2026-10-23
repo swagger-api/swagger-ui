@@ -16,9 +16,9 @@ The work spans repositories. This skill owns the Swagger UI part and plans the r
 
 | Repository | Part |
 |------------|------|
-| swagger-ui | detection, document component, dialect-configured renderer, keyword components |
-| swagger-editor (`main`, v5) | content-type detection per draft, `editor-preview-json-schema` |
-| apidom | parser adapters and reference support per draft (Full plan only), via its `/add-spec-version` |
+| swagger-ui | detection, document component, dialect-configured renderer, keyword components, layout branch and `apis` preset registration |
+| swagger-editor (`main`, v5) | content-type detection per draft, routing JSON Schema content to its existing Swagger UI preview |
+| apidom | parser adapters, language service and reference support per draft (Full plan), via its `/add-spec-version` |
 
 ## Bundled Tools
 
@@ -49,12 +49,14 @@ imports); they apply throughout.
 ## Step 1: Decisions
 
 Read `references/design-and-delivery.md`. Its "Decisions for the User" change what gets built
-(a legacy-renderer route and a 2020-12-instance route share almost no code), so put them to the
-user, each with your recommendation and the facts behind it, before planning PRs or writing
-code. When the request is research only (a keyword map, an assessment), record them as open in
-the tracking doc and continue; the research usually sharpens the recommendations. As a subagent,
-record them as open, plan with your recommendations, say so, and stop before code. Don't answer
-them silently: they include public behaviour (the `apis` preset) and multi-sprint scope.
+(a legacy-renderer route and a 2020-12-instance route share almost no code). Decisions 1 (Full
+plan) and 4 (native display, plugin in the `apis` preset) are answered there: record them as
+given. Put the open ones to the user, each with your recommendation and the facts behind it,
+before planning PRs or writing code. When the request is research only (a keyword map, an
+assessment), record them as open in the tracking doc and continue; the research usually
+sharpens the recommendations. As a subagent, record them as open, plan with your
+recommendations, say so, and stop before code. Don't answer the open ones silently: they
+include multi-sprint scope and the name SwaggerEditor depends on (decision 7).
 
 ## Step 2: Research the Draft
 
@@ -100,10 +102,12 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
       (or the system HOC) with this dialect's `overrides`: its keyword list, its components and
       `default$schema` = the meta-schema identifier. It must not take the OAS `fn` overrides
       (`renderer-architecture.md` section 4).
-- [ ] Display path per decision 4: the SwaggerEditor preview needs only the component; a
-      `SwaggerUI({ url })` path also needs the layout and version pragma filter to let the
-      document through.
-- [ ] Registration in `SwaggerUI.plugins`, and in the `apis` preset only if decision 4 says so.
+- [ ] Display (decision 4): `SwaggerUI({ url })` renders the document natively, so the layout
+      and the version pragma filter let it through. SwaggerEditor shows it by routing the
+      content to its Swagger UI preview; it needs nothing else from this PR.
+- [ ] Registration in `SwaggerUI.plugins` and in the `apis` preset (decision 4), under the
+      registration key recorded for decision 7 (SwaggerEditor's gate looks for it in the
+      swagger-ui-react bundle).
 - [ ] Tests: detection units; a Cypress spec loading a fixture of this draft that asserts the
       renderer output; a regression spec that OAS 3.0/3.1/3.2 documents (including ones whose
       Schema Objects carry `$schema`) render exactly as before.
@@ -147,5 +151,6 @@ For each group of rows (`renderer-architecture.md` section 2 lists every place a
 ## Hand-off
 
 Report the PRs (branch, URL, state, gates), the decisions taken and by whom, rows `deferred` or
-`out` with reasons, and the SwaggerEditor and ApiDOM work items with their repositories. Pushing
-and opening PRs are outward-facing: confirm each with the user.
+`out` with reasons, the decision 7 registration key and the swagger-ui release that ships it
+(SwaggerEditor's routing waits for both), and the SwaggerEditor and ApiDOM work items with their
+repositories. Pushing and opening PRs are outward-facing: confirm each with the user.

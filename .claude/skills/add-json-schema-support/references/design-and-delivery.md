@@ -11,7 +11,9 @@ facts checked against the code since.
    has `$schema`.
 2. **Renderers per draft**: the modern renderer (`json-schema-2020-12`) for Draft 7, 2019-09 and
    2020-12; the legacy renderer (`json-schema-5`) for Draft 4, 5 and 6.
-3. **Display** through a new SwaggerEditor@5 plugin, `editor-preview-json-schema`.
+3. **Display** through a new SwaggerEditor@5 plugin, `editor-preview-json-schema`. Superseded
+   on 2026-10-23 (decision 4): Swagger UI renders standalone JSON Schema natively, and
+   SwaggerEditor routes JSON Schema content to the Swagger UI preview it already has.
 
 ## Delivery Plans
 
@@ -21,9 +23,12 @@ facts checked against the code since.
 | MVP | Swagger UI and SwaggerEditor | ajv in SwaggerEditor | about 2 sprints |
 
 ApiDOM already ships the JSON Schema namespaces (`apidom-ns-json-schema-draft-4`, `-draft-6`,
-`-draft-7`, `-2019-09`, `-2020-12`) but no JSON Schema parser adapters. The adapters matter for
-the Full plan (editor features: completion, hover, linting), not for rendering in Swagger UI.
-Each ApiDOM phase is done with that repository's `/add-spec-version` skill.
+`-draft-7`, `-2019-09`, `-2020-12`) and JSON and YAML parser adapters for 2020-12
+(`apidom-parser-adapter-json-schema-{json,yaml}-2020-12`). apidom-ls and apidom-reference don't
+handle standalone schemas yet. That ApiDOM work matters for the Full plan (editor features:
+completion, hover, linting, reference validation), not for rendering in Swagger UI. Each ApiDOM
+phase is done with that repository's `/add-spec-version` skill
+(`--spec json-schema --version 2020-12`).
 
 ## Corrections From the Code
 
@@ -38,33 +43,38 @@ Each ApiDOM phase is done with that repository's `/add-spec-version` skill.
 
 | Repository | Owns |
 |------------|------|
-| `swagger-api/swagger-ui` | rendering a JSON Schema document per dialect: detection of the root `$schema`, the document component, dialect-specific keyword lists and components, the layout branch for `SwaggerUI({ url })` if in scope |
-| `swagger-api/swagger-editor` (`main` is v5) | content-type detection per draft (`src/plugins/editor-content-type/`), the `editor-preview-json-schema` plugin, the `swagger-ui-adapter` BaseLayout wrap short-circuiting JSON Schema, a fixture and "Load Example" entry per draft (2020-12 has both: `editor-content-fixtures/selectors/selectJSONSchema202012YAML.js`, `top-bar/.../JSONSchema202012MenuItem.jsx`), ajv validation in the MVP |
-| `swagger-api/apidom` | parser adapters and reference support per draft (Full plan) |
+| `swagger-api/swagger-ui` | rendering a JSON Schema document per dialect: detection of the root `$schema`, the document component, dialect-specific keyword lists and components, the layout branch for `SwaggerUI({ url })`, registration in the `apis` preset |
+| `swagger-api/swagger-editor` (`main` is v5) | content-type detection per draft (`src/plugins/editor-content-type/`), routing JSON Schema content to its existing Swagger UI preview (`editor-preview-swagger-ui`) and the swagger-ui-react bump, a fixture and "Load Example" entry per draft (2020-12 has both: `editor-content-fixtures/selectors/selectJSONSchema202012YAML.js`, `top-bar/.../JSONSchema202012MenuItem.jsx`) |
+| `swagger-api/apidom` | parser adapters, language service and reference support per draft (Full plan) |
 
-Keeping the dialect logic in Swagger UI, which owns the renderer, means the editor preview only
-picks a component: `getComponent("{the document component}")`. The SwaggerEditor preview to
-model is `editor-preview-asyncapi`: an `EditorPreview` wrap that switches on the content type
-(`extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx`), a
-`detectContentTypeSuccess` wrap-action (`extensions/editor-content-type/wrap-actions.js`), and
-a preview component that switches on the parse status (`components/EditorPreviewAsyncAPI/`).
+Keeping detection and rendering in Swagger UI means SwaggerEditor adds no preview plugin: today
+its Swagger UI preview handles OpenAPI only and a JSON Schema document gets the editor's
+fallback ("Unable to render editor content"). SwaggerEditor's `/add-json-schema-support` routes
+the content once a swagger-ui-react release renders it, and its `spec-status.mjs
+--swagger-ui-plugin` finds that release by the name from decision 7.
 
 ## Decisions for the User
 
-Ask these at the first checkpoint, each with your recommendation. Running as a subagent, record
+Decisions 1 and 4 were answered on 2026-10-23; record them in the tracking doc as given. Ask the
+others at the first checkpoint, each with your recommendation. Running as a subagent, record
 them as open in the tracking doc, plan with the recommendation, and stop before code.
 
-1. **Delivery plan**: Full or MVP. Recommendation: start with the Swagger UI part, which both
-   plans need, and keep the ApiDOM work separate.
+1. **Delivery plan**: answered: the Full plan, ApiDOM first; the MVP (ajv in SwaggerEditor) is
+   not pursued.
 2. **Drafts and order**: which drafts after 2020-12. Draft 4/5/6 depend on decision 3.
 3. **Renderer for Draft 4/5/6**: the doc's legacy renderer (needs decoupling from OAS
    selectors) or a 2020-12 instance with dialect overrides (needs components for keywords whose
    shape differs). Present the cost of each from the keyword map, don't pick silently.
-4. **Where it displays**: SwaggerEditor preview only (the doc), or also `SwaggerUI({ url })`
-   with a JSON Schema document, and if so whether the new plugin joins the `apis` preset (a
-   behaviour change for every user) or is only exported through `SwaggerUI.plugins`.
+4. **Where it displays**: answered: natively, in `SwaggerUI({ url })`, with the new plugin in
+   the `apis` preset and in `SwaggerUI.plugins`. That changes behaviour for every Swagger UI
+   user by design: a JSON Schema document renders instead of "Unable to render this
+   definition". SwaggerEditor shows it through its Swagger UI preview.
 5. **`$ref` resolution**: what the matching swagger-client strategy does with JSON Schema
-   documents (`$id` base URIs, `$anchor`, `$dynamicRef`), and whether the MVP accepts that.
+   documents (`$id` base URIs, `$anchor`, `$dynamicRef`), and whether the first release accepts
+   that.
 6. **Unrecognised `$schema` values** (custom meta-schemas, OAS dialect ids, scheme variants):
    render as 2020-12, render with a notice, or refuse.
-7. **Plugin name** for the Swagger UI side.
+7. **Plugin name** for the Swagger UI side, plus the string SwaggerEditor's gate looks for in
+   the swagger-ui-react bundle (`spec-status.mjs --swagger-ui-plugin`). Use a registration key,
+   such as the document component's name, which survives bundling; plugin function names may be
+   minified. Record it in the tracking doc, keep it stable, and give it to SwaggerEditor.
