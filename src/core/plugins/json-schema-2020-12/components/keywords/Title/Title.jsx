@@ -9,11 +9,26 @@ import { useFn } from "../../../hooks"
 
 const Title = ({ title = "", schema }) => {
   const fn = useFn()
+  const schemaTitle = fn.getTitle(schema, { lookup: "basic" })
   const renderedTitle = title || fn.getTitle(schema)
+  const hasSecondaryTitle =
+    typeof title === "string" &&
+    title !== "" &&
+    schemaTitle !== "" &&
+    !title.toLowerCase().includes(schemaTitle.toLowerCase())
 
   if (!renderedTitle) return null
 
-  return <strong className="json-schema-2020-12__title">{renderedTitle}</strong>
+  return (
+    <strong className="json-schema-2020-12__title">
+      {renderedTitle}
+      {hasSecondaryTitle && (
+        <span className="json-schema-2020-12__title-secondary">
+          {schemaTitle}
+        </span>
+      )}
+    </strong>
+  )
 }
 
 Title.propTypes = {
