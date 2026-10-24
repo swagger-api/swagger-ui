@@ -631,13 +631,38 @@ export const inferSchema = (thing) => {
   return thing // Hopefully this will have something schema like in it... `type` for example
 }
 
+const normalizeXMLContent = (obj) => {
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return null
+    // If every item in the array is an _attr object (no actual content), collapse
+    // to a plain object so the xml package renders a self-closing tag with attributes
+    const nonAttrItems = obj.filter(
+      (item) => !(item && typeof item === "object" && item._attr)
+    )
+    if (nonAttrItems.length === 0) {
+      const merged = {}
+      obj.forEach((item) => Object.assign(merged, item._attr))
+      return { _attr: merged }
+    }
+    return obj.map(normalizeXMLContent)
+  }
+  if (obj !== null && typeof obj === "object") {
+    const result = {}
+    for (const key of Object.keys(obj)) {
+      result[key] = normalizeXMLContent(obj[key])
+    }
+    return result
+  }
+  return obj
+}
+
 export const createXMLExample = (schema, config, o) => {
   const json = sampleFromSchemaGeneric(schema, config, o, true)
   if (!json) { return }
   if(typeof json === "string") {
     return json
   }
-  return XML(json, { declaration: true, indent: "\t" })
+  return XML(normalizeXMLContent(json), { declaration: true, indent: "\t" })
 }
 
 
