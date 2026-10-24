@@ -1491,7 +1491,7 @@ describe("OAS{VERSION}VersionPragmaFilter", () => {
 
 ### Step 13: Add E2E Tests
 
-**Directory:** `test/e2e-cypress/e2e/features/oas{VERSION_NUMBER}/`
+**Directory:** `test/e2e-playwright/features/oas{VERSION_NUMBER}/`
 
 **Create test spec file:**
 ```javascript
@@ -1499,23 +1499,25 @@ describe("OAS{VERSION}VersionPragmaFilter", () => {
  * @prettier
  */
 
-describe("OpenAPI {MAJOR}.{MINOR} features", () => {
-  it("should detect OAS {VERSION} version", () => {
-    cy.visit("/oas{VERSION_NUMBER}-spec.html")
-    cy.get(".information-container .version").should("contain", "{MAJOR}.{MINOR}.0")
+import { test, expect } from "../../support/fixtures"
+
+test.describe("OpenAPI {MAJOR}.{MINOR} features", () => {
+  test("should detect OAS {VERSION} version", async ({ page }) => {
+    await page.goto("/oas{VERSION_NUMBER}-spec.html")
+    await expect(page.locator(".information-container .version")).toContainText("{MAJOR}.{MINOR}.0")
   })
 
   // Add tests for new features
-  it("should render new feature X", () => {
-    cy.visit("/oas{VERSION_NUMBER}-spec.html")
-    cy.get(".opblock-tag-section").should("contain", "New Feature")
+  test("should render new feature X", async ({ page }) => {
+    await page.goto("/oas{VERSION_NUMBER}-spec.html")
+    await expect(page.locator(".opblock-tag-section")).toContainText("New Feature")
   })
 })
 ```
 
 **Add test fixtures:**
-- Create sample OAS {VERSION} spec in `test/e2e-cypress/static/documents/oas{VERSION_NUMBER}/`
-- Create HTML fixture in `test/e2e-cypress/static/` referencing the spec
+- Create sample OAS {VERSION} spec in `test/e2e-playwright/static/documents/oas{VERSION_NUMBER}/`
+- Create HTML fixture in `test/e2e-playwright/static/` referencing the spec
 
 ### Step 14: Update Documentation
 
@@ -1559,7 +1561,7 @@ npm run test:artifact
 ```bash
 npm run lint-errors      # ESLint errors only
 npm run test:unit        # Jest unit tests
-npm run cy:ci            # Cypress E2E tests
+npm run e2e              # Playwright E2E tests
 ```
 
 **All tests must pass before submitting PR.**
@@ -1966,7 +1968,7 @@ const OpenAPI40Plugin = ({ fn }) => {
 
 **Step 1: Create test spec**
 ```yaml
-# test/e2e-cypress/static/documents/oas40/workflows-example.yaml
+# test/e2e-playwright/static/documents/oas40/workflows-example.yaml
 openapi: 4.0.0
 info:
   title: Workflows API
@@ -1986,23 +1988,25 @@ paths:
 
 **Step 2: Create E2E test**
 ```javascript
-// test/e2e-cypress/e2e/features/oas40/workflows.cy.js
+// test/e2e-playwright/features/oas40/workflows.spec.ts
 
-describe("OAS 4.0 - Workflows", () => {
-  beforeEach(() => {
-    cy.visit("/e2e-cypress/static/documents/oas40/workflows-example.yaml")
+import { test, expect } from "../../support/fixtures"
+
+test.describe("OAS 4.0 - Workflows", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/?url=/documents/oas40/workflows-example.yaml")
   })
 
-  it("should render workflows section", () => {
-    cy.get(".opblock-tag").contains("Workflows").should("exist")
+  test("should render workflows section", async ({ page }) => {
+    await expect(page.locator(".opblock-tag")).toContainText("Workflows")
   })
 
-  it("should display workflow definitions", () => {
-    cy.get(".opblock-workflow").should("have.length.greaterThan", 0)
+  test("should display workflow definitions", async ({ page }) => {
+    await expect(page.locator(".opblock-workflow").first()).toBeAttached()
   })
 
-  it("should show workflow steps", () => {
-    cy.get(".opblock-workflow-steps ul li").should("exist")
+  test("should show workflow steps", async ({ page }) => {
+    await expect(page.locator(".opblock-workflow-steps ul li").first()).toBeAttached()
   })
 })
 ```

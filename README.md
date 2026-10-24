@@ -89,17 +89,17 @@ Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false`
 
 ##### Integration Tests
 
-End-to-end tests use [Cypress](https://www.cypress.io/). Run the full suite locally with `npm run cy:ci`, which starts the required servers, runs Cypress headless, and shuts the servers down afterwards - be sure you aren't running a dev server on the same ports when testing!
+End-to-end tests use [Playwright](https://playwright.dev/). Install the browser once with `npx playwright install chromium`, then run the full suite locally with `npm run e2e`. Playwright starts the required servers itself (and reuses them if they are already running) - be sure you aren't running a dev server on the same ports when testing, unless you want it reused!
 
-To debug or run individual specs interactively, use `npm run cy:dev` to open the Cypress runner.
+To debug or run individual specs interactively, use `npm run e2e:ui` (or `npm run e2e:headed`).
 
-To run a single spec headless, start the servers in one terminal and run that spec in another:
+To run a single spec:
 
 ```sh
-npm run cy:start
-# in a second terminal:
-npm run cy:run -- --spec "test/e2e-cypress/e2e/features/deep-linking.cy.js"
+npm run e2e -- test/e2e-playwright/features/deep-linking.spec.ts
 ```
+
+After a run, `npm run e2e:report` opens the HTML report.
 
 ### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, and Edge.
