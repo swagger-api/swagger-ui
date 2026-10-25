@@ -126,7 +126,7 @@ class TopBar extends React.Component {
     let control = []
     let formOnSubmit = null
 
-    if(urls) {
+    if(urls && urls.length) {
       let rows = []
       urls.forEach((link, i) => {
         rows.push(<option key={i} value={link.url}>{link.name}</option>)
