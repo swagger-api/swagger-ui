@@ -56,10 +56,10 @@ release by the registration key and the release version from decision 7.
 
 ## Decisions for the User
 
-Decisions 1 and 4 were answered on 2026-10-23, decisions 3, 6 and 7 on 2026-10-25; record them
-in the tracking doc as given. Ask the others at the first checkpoint, each with your recommendation.
-Running as a subagent, record them as open in the tracking doc, plan with the recommendation,
-and stop before code.
+Decisions 1 and 4 were answered on 2026-10-23, decisions 3, 5, 6 and 7 on 2026-10-25; record
+them in the tracking doc as given. Ask the others at the first checkpoint, each with your
+recommendation. Running as a subagent, record them as open in the tracking doc, plan with the
+recommendation, and stop before code.
 
 1. **Delivery plan**: answered: the Full plan, ApiDOM first; the MVP (ajv in SwaggerEditor) is
    not pursued.
@@ -79,9 +79,14 @@ and stop before code.
    the `apis` preset and in `SwaggerUI.plugins`. That changes behaviour for every Swagger UI
    user by design: a JSON Schema document renders instead of "Unable to render this
    definition". SwaggerEditor shows it through its Swagger UI preview.
-5. **`$ref` resolution**: what the matching swagger-client strategy does with JSON Schema
-   documents (`$id` base URIs, `$anchor`, `$dynamicRef`), and whether the first release accepts
-   that.
+5. **`$ref` resolution**: answered: swagger-client resolves it. Its `/add-json-schema-support`
+   builds a `json-schema-<dialect>-apidom` strategy over ApiDOM, so `$id` base URIs and
+   `$anchor`s resolve as in OAS 3.1 Schema Objects and `$dynamicRef` stays as written. Without
+   it a standalone document falls to swagger-client's `generic` strategy (specmap JSON
+   References: no `$id`, no `$anchor`). PR 1 imports the strategy into both lists of
+   `src/core/plugins/swagger-client/index.js` and bumps `swagger-client` to the release that
+   ships it; until that release exists, `$ref` resolution is swagger-client work, not a
+   workaround here.
 6. **Unrecognised `$schema` values**: answered: refuse. A root `$schema` that isn't the
    identifier of a delivered dialect (`dialects.md`; only an empty fragment is normalised) is
    not rendered, neither as its declared base draft nor as 2020-12: a custom meta-schema, an OAS

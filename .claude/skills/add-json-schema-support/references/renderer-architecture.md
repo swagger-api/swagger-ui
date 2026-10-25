@@ -123,9 +123,10 @@ Independent of the draft:
   document needs a component that renders the root schema with an instance configured for its
   dialect, and a layout branch that shows it instead of the OAS layout.
 - **`$ref`**: `Keyword$ref` shows the reference as a string. In OAS documents swagger-client
-  resolves references before rendering (`specJsonWithResolvedSubtrees`); for a standalone
-  document, check which resolve strategy matches it (`src/core/plugins/swagger-client/index.js`
-  lists them) and whether it understands `$id` base URIs and `$anchor`s.
+  resolves references before rendering (`specJsonWithResolvedSubtrees`); a standalone document
+  needs swagger-client's `json-schema-<dialect>-apidom` strategy in the lists of
+  `src/core/plugins/swagger-client/index.js` (decision 5), or it falls to `generic`, which
+  knows no `$id` base URIs or `$anchor`s.
 - **Descriptions**: plain text (section 4).
 
 ## 7. Exports

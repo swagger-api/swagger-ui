@@ -39,8 +39,9 @@ and rendering standalone JSON Schema documents. They are modelled on the ApiDOM 
 
 The work that a new OAS version needs before Swagger UI can support it (ApiDOM namespace,
 parser adapters, reference support, then a swagger-client release with the resolve strategy) is
-done in the ApiDOM and swagger-js repositories. `/add-oas-support` checks for it in Step 0 and
-stops when it's missing.
+done in the ApiDOM and swagger-client repositories, with their own skills (`/add-spec-version`;
+`/add-oas-support` and `/add-json-schema-support` in swagger-client). `/add-oas-support` checks
+for it in Step 0 and stops when it's missing.
 
 ## Scripts
 

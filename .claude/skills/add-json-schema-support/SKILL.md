@@ -50,8 +50,9 @@ imports); they apply throughout.
 
 Read `references/design-and-delivery.md`. Its "Decisions for the User" change what gets built.
 Decisions 1 (Full plan), 3 (the 2020-12 renderer for every draft), 4 (native display, plugin in
-the `apis` preset), 6 (refuse unrecognised `$schema` values) and 7 (the `json-schema-document`
-plugin, registration key `JSONSchemaDocument`) are answered there: record them as given. Put
+the `apis` preset), 5 (`$ref` resolution by swagger-client's `json-schema-<dialect>-apidom`
+strategy), 6 (refuse unrecognised `$schema` values) and 7 (the `json-schema-document` plugin,
+registration key `JSONSchemaDocument`) are answered there: record them as given. Put
 the open ones to the user, each with your recommendation and the facts behind it, before
 planning PRs or writing code.
 When the request is research only (a keyword map, an assessment), record them as open in the
@@ -69,9 +70,11 @@ answer the open ones silently.
    before that, the single meta-schema's `properties`, confirmed against the keyword sections of
    the specifications. The specification text decides value shape and meaning.
 3. Read the draft's change appendix relative to its neighbours for renames, splits and removals.
-4. Check the reference strategies: which swagger-client strategy would resolve a document of
-   this draft (`src/core/plugins/swagger-client/index.js`), and what it does with `$id`,
-   `$anchor` and the draft's dynamic references.
+4. Check the swagger-client strategy for the draft (decision 5): the installed `swagger-client`
+   has `es/resolver/strategies/json-schema-<dialect>-apidom` (`ls node_modules/swagger-client/es/
+   resolver/strategies`). Without it the document falls to the `generic` strategy (no `$id`, no
+   `$anchor`): record it in the tracking doc as swagger-client work (its
+   `/add-json-schema-support`), which PR 1 waits for.
 
 ## Step 3: Keyword Map and PR Plan
 
@@ -111,6 +114,10 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
       refusal message (decision 6) for a root `$schema` no delivered dialect has, else the
       component it wraps, so OAS documents still get the oas32 filter. SwaggerEditor shows it by
       routing the content to its Swagger UI preview; it needs nothing else from this PR.
+- [ ] `$ref` resolution (decision 5): import
+      `swagger-client/es/resolver/strategies/json-schema-<dialect>-apidom` into both strategy
+      lists of `src/core/plugins/swagger-client/index.js` (`resolve` and `resolveSubtree`), ahead
+      of `genericResolveStrategy`, and bump `swagger-client` to the release that ships it.
 - [ ] Registration (decisions 4 and 7): `SwaggerUI.plugins.JSONSchemaDocument`, and the `apis`
       preset after `OpenAPI32Plugin` (it must wrap oas32's filter, whose "Load LAST" comment is
       about the OAS plugins). The document component is registered as `JSONSchemaDocument`,

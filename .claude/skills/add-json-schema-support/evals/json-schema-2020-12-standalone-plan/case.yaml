@@ -13,6 +13,7 @@ expected_outcome: |
   string; the OAS plugins add keywords and fn overrides (oas31 after-load) that a standalone
   instance must not inherit. It records the answered decisions (Full plan; native display with the
   plugin in the apis preset; the 2020-12 renderer for every draft; refusing unrecognised `$schema`
-  values; the json-schema-document plugin with registration key JSONSchemaDocument), lists the
-  open one for the user ($ref resolution), includes a regression test that OAS documents render
-  unchanged, and contains no code changes.
+  values; the json-schema-document plugin with registration key JSONSchemaDocument; $ref
+  resolution by swagger-client's json-schema-2020-12-apidom strategy, imported into the
+  swagger-client plugin), includes a regression test that OAS documents render unchanged, and
+  contains no code changes.
