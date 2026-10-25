@@ -50,9 +50,10 @@ imports); they apply throughout.
 
 Read `references/design-and-delivery.md`. Its "Decisions for the User" change what gets built.
 Decisions 1 (Full plan), 3 (the 2020-12 renderer for every draft), 4 (native display, plugin in
-the `apis` preset) and 7 (the `json-schema-document` plugin, registration key
-`JSONSchemaDocument`) are answered there: record them as given. Put the open ones to the user,
-each with your recommendation and the facts behind it, before planning PRs or writing code.
+the `apis` preset), 6 (refuse unrecognised `$schema` values) and 7 (the `json-schema-document`
+plugin, registration key `JSONSchemaDocument`) are answered there: record them as given. Put
+the open ones to the user, each with your recommendation and the facts behind it, before
+planning PRs or writing code.
 When the request is research only (a keyword map, an assessment), record them as open in the
 tracking doc and continue; the research usually sharpens the recommendations. As a subagent,
 record them as open, plan with your recommendations, say so, and stop before code. Don't
@@ -98,14 +99,16 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
       dialect creates it; a later dialect adds its detection entry and its overrides to it.
 - [ ] Detection of the root `$schema` per `dialects.md` (empty-fragment normalisation, Draft 4/5
       as one dialect, no `openapi`/`swagger` field), as an exported pure function with unit
-      tests for every identifier variant and for OAS documents (which must not match). The spec
-      selectors `isJSONSchemaDocument()` and `jsonSchemaDialect()` expose it.
+      tests for every identifier variant, accepted or refused (decision 6), and for OAS
+      documents (which must not match). The spec selectors `isJSONSchemaDocument()` and
+      `jsonSchemaDialect()` expose it.
 - [ ] A document component that renders the root schema through `withJSONSchema202012Context`
       (or the system HOC) with this dialect's `overrides`: its keyword list, its components and
       `default$schema` = the meta-schema identifier. It must not take the OAS `fn` overrides
       (`renderer-architecture.md` section 4).
 - [ ] Display (decision 4): `SwaggerUI({ url })` renders the document natively. The plugin wraps
-      `VersionPragmaFilter` and renders `JSONSchemaDocument` for a detected document, else the
+      `VersionPragmaFilter` and renders `JSONSchemaDocument` for a detected document, the
+      refusal message (decision 6) for a root `$schema` no delivered dialect has, else the
       component it wraps, so OAS documents still get the oas32 filter. SwaggerEditor shows it by
       routing the content to its Swagger UI preview; it needs nothing else from this PR.
 - [ ] Registration (decisions 4 and 7): `SwaggerUI.plugins.JSONSchemaDocument`, and the `apis`
@@ -114,8 +117,10 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
       the key SwaggerEditor's gate looks for in the swagger-ui-react bundle. A later dialect
       registers nothing new.
 - [ ] Tests: detection units; a Cypress spec loading a fixture of this draft that asserts the
-      renderer output; a regression spec that OAS 3.0/3.1/3.2 documents (including ones whose
-      Schema Objects carry `$schema`) render exactly as before.
+      renderer output; refusal cases (a custom meta-schema, an OAS dialect id, the other
+      scheme, an undelivered draft) that assert the message and no schema output; a regression
+      spec that OAS 3.0/3.1/3.2 documents (including ones whose Schema Objects carry `$schema`)
+      render exactly as before.
 
 ## Step 5: Keyword PRs
 

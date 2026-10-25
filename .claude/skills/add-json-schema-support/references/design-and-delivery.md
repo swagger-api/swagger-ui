@@ -56,8 +56,8 @@ release by the registration key and the release version from decision 7.
 
 ## Decisions for the User
 
-Decisions 1 and 4 were answered on 2026-10-23, decisions 3 and 7 on 2026-10-25; record them in
-the tracking doc as given. Ask the others at the first checkpoint, each with your recommendation.
+Decisions 1 and 4 were answered on 2026-10-23, decisions 3, 6 and 7 on 2026-10-25; record them
+in the tracking doc as given. Ask the others at the first checkpoint, each with your recommendation.
 Running as a subagent, record them as open in the tracking doc, plan with the recommendation,
 and stop before code.
 
@@ -82,8 +82,13 @@ and stop before code.
 5. **`$ref` resolution**: what the matching swagger-client strategy does with JSON Schema
    documents (`$id` base URIs, `$anchor`, `$dynamicRef`), and whether the first release accepts
    that.
-6. **Unrecognised `$schema` values** (custom meta-schemas, OAS dialect ids, scheme variants):
-   render as 2020-12, render with a notice, or refuse.
+6. **Unrecognised `$schema` values**: answered: refuse. A root `$schema` that isn't the
+   identifier of a delivered dialect (`dialects.md`; only an empty fragment is normalised) is
+   not rendered, neither as its declared base draft nor as 2020-12: a custom meta-schema, an OAS
+   dialect id, the other scheme (`http://json-schema.org/draft/2020-12/schema`), a draft not
+   delivered yet. The plugin's `VersionPragmaFilter` wrapper shows "Unable to render this
+   definition" with the value and the supported identifiers, in place of oas32's message, which
+   asks for a Swagger or OpenAPI version field.
 7. **Plugin name and registration key**: answered: one plugin for every dialect,
    `src/core/plugins/json-schema-document/`, exported as `SwaggerUI.plugins.JSONSchemaDocument`
    and loaded in the `apis` preset after `OpenAPI32Plugin`. It registers the document component

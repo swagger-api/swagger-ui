@@ -24,11 +24,12 @@ Detection rules:
   need to be: Draft 5 changed wording, not keywords. Treat them as one dialect.
 - Up to Draft 7 the identifiers are `http://` with an empty fragment `#`; from 2019-09 they are
   `https://` without a fragment. Documents in the wild drop the `#` or switch the scheme.
-  Normalise the empty fragment; whether to accept the other scheme is a decision to record, not
-  to assume (SwaggerEditor matches the 2020-12 identifier exactly).
+  Normalise the empty fragment; the other scheme is refused (decision 6 in
+  `design-and-delivery.md`), and SwaggerEditor, which matches the 2020-12 identifier exactly,
+  doesn't detect it either.
 - A `$schema` naming any other URI (a custom meta-schema or a vocabulary dialect such as the OAS
-  dialects below) is not one of these drafts. Decide explicitly how it renders: as its declared
-  base draft, as 2020-12, or with a message.
+  dialects below) is not one of these drafts, and neither is a draft whose support isn't
+  delivered yet. Decision 6 refuses them with a message; they never render as another draft.
 - Detection happens at the document root only, and only when there is no `openapi` or `swagger`
   field. Schema Objects inside OAS documents may carry `$schema` too.
 
