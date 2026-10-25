@@ -199,6 +199,55 @@ describe("spec plugin - reducer", function(){
       expect(List.isList(response)).toEqual(true)
     })
   })
+  describe("spec_update_url", function() {
+    it("should set the url payload as a string", () => {
+      const updateUrl = reducer["spec_update_url"]
+
+      const state = fromJS({})
+      const result = updateUrl(state, { payload: "https://example.com/spec.json" })
+
+      expect(result.get("url")).toEqual("https://example.com/spec.json")
+    })
+
+    it("should clear retained scheme state when loading a different url", () => {
+      const updateUrl = reducer["spec_update_url"]
+
+      const state = fromJS({
+        url: "https://old.example.com/spec.json",
+        scheme: {
+          _defaultScheme: "https",
+          "/pet": {
+            post: "https"
+          }
+        }
+      })
+
+      const result = updateUrl(state, {
+        payload: "http://new.example.com/spec.json"
+      })
+
+      expect(result.get("url")).toEqual("http://new.example.com/spec.json")
+      expect(result.has("scheme")).toEqual(false)
+    })
+
+    it("should keep scheme state when the url payload does not change", () => {
+      const updateUrl = reducer["spec_update_url"]
+
+      const state = fromJS({
+        url: "https://example.com/spec.json",
+        scheme: {
+          _defaultScheme: "https"
+        }
+      })
+
+      const result = updateUrl(state, {
+        payload: "https://example.com/spec.json"
+      })
+
+      expect(result.get("url")).toEqual("https://example.com/spec.json")
+      expect(result.getIn(["scheme", "_defaultScheme"])).toEqual("https")
+    })
+  })
   describe("SPEC_UPDATE_EMPTY_PARAM_INCLUSION", function() {
     it("should store parameter values by {in}.{name}", () => {
       const updateParam = reducer["spec_update_empty_param_inclusion"]
