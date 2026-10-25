@@ -23,6 +23,7 @@ Type notations are formatted like so:
 
 Parameter name | Docker variable | Description
 --- | --- | -----
+<a name="configs"></a>`configs` | _Unavailable_ | `Object={}`. An object with additional configuration values. Used internally to pass configurations from external sources.
 <a name="configUrl"></a>`configUrl` | `CONFIG_URL` |  `String`. URL to fetch external configuration document from.
 <a name="dom_id"></a>`dom_id` | `DOM_ID` |`String`, **REQUIRED** if `domNode` is not provided. The ID of a DOM element inside which `SwaggerUI` will put its user interface.
 <a name="domNode"></a>`domNode` | _Unavailable_ | `Element`, **REQUIRED** if `dom_id` is not provided. The HTML DOM element inside which `SwaggerUI` will put its user interface. Overrides `dom_id`.
@@ -30,7 +31,8 @@ Parameter name | Docker variable | Description
 <a name="url"></a>`url` | `URL` | `String`. The URL pointing to API definition (normally `swagger.json` or `swagger.yaml`). Will be ignored if `urls` or `spec` is used.
 <a name="urls"></a>`urls` | `URLS` | `Array`. An array of API definition objects (`[{url: "<url1>", name: "<name1>"},{url: "<url2>", name: "<name2>"}]`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed. Names and URLs must be unique among all items in this array, since they're used as identifiers.
 <a name="urls.primaryName"></a>`urls.primaryName` | `URLS_PRIMARY_NAME` | `String`. When using `urls`, you can use this subparameter. If the value matches the name of a spec provided in `urls`, that spec will be displayed when Swagger UI loads, instead of defaulting to the first spec in `urls`.
-<a name="queryConfigEnabled"></a>`queryConfigEnabled` | `QUERY_CONFIG_ENABLED` | `Boolean=false`. Enables overriding configuration parameters via URL search params.  
+<a name="queryConfigEnabled"></a>`queryConfigEnabled` | `QUERY_CONFIG_ENABLED` | `Boolean=false`. Enables overriding configuration parameters via URL search params.
+<a name="uncaughtExceptionHandler"></a>`uncaughtExceptionHandler` | _Unavailable_ | `Function=null`. A function that handles uncaught exceptions in the application. Accepts the error as an argument.
 
 ##### Plugin system
 
@@ -38,6 +40,9 @@ Read more about the plugin system in the [Customization documentation](/docs/cus
 
 Parameter name | Docker variable | Description
 --- | --- | -----
+<a name="components"></a>`components` | _Unavailable_ | `Object={}`. An object with component overrides. Component names are keys and their implementations are values.
+<a name="fn"></a>`fn` | _Unavailable_ | `Object={}`. An object with custom function overrides. Function names are keys and their implementations are values.
+<a name="initialState"></a>`initialState` | _Unavailable_ | `Object={}`. An object to set the initial state of the Redux store.
 <a name="layout"></a>`layout` | _Unavailable_ | `String="BaseLayout"`. The name of a component available via the plugin system to use as the top-level layout for Swagger UI.
 <a name="plugins"></a>`plugins` | _Unavailable_ | `Array=[]`. An array of plugin functions to use in Swagger UI.
 <a name="presets"></a>`presets` | _Unavailable_ | `Array=[SwaggerUI.presets.ApisPreset]`. An array of presets to use in Swagger UI. Usually, you'll want to include `ApisPreset` if you use this option.
@@ -113,6 +118,11 @@ Parameter name | Docker variable | Description
             (expands only the tags), 'full' (expands the tags and operations) or
             'none' (expands nothing).
         </td>
+    </tr>
+    <tr>
+        <td><a name="user-content-fileuploadmediatypes"></a><code>fileUploadMediaTypes</code></td>
+        <td><em>Unavailable</em></td>
+        <td><code>Array=["application/octet-stream", "image/", "audio/", "video/"]</code>. A list of media type prefixes that should trigger the file upload UI instead of the text editor when used in a request body.</td>
     </tr>
     <tr>
         <td><a name="user-content-filter"></a><code>filter</code></td>
