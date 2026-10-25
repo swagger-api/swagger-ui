@@ -46,7 +46,8 @@ export const sampleFromSchemaGeneric = (
     }
   }
   const _attr = {}
-  let { xml, properties, additionalProperties, items, contains } = schema || {}
+  let { xml, properties, additionalProperties, items, contains, prefixItems } =
+    schema || {}
   let type = getType(schema)
   let { includeReadOnly, includeWriteOnly } = config
   xml = xml || {}
@@ -378,6 +379,23 @@ export const sampleFromSchemaGeneric = (
       } else {
         return sampleFromSchemaGeneric(contains, config, undefined, respectXML)
       }
+    }
+
+    if (Array.isArray(prefixItems) && prefixItems.length > 0) {
+      sampleArray.push(
+        ...prefixItems.map((prefixItemSchema) => {
+          if (respectXML && isJSONSchemaObject(prefixItemSchema)) {
+            prefixItemSchema.xml = prefixItemSchema.xml || schema.xml || {}
+            prefixItemSchema.xml.name = prefixItemSchema.xml.name || xml.name
+          }
+          return sampleFromSchemaGeneric(
+            prefixItemSchema,
+            config,
+            undefined,
+            respectXML
+          )
+        })
+      )
     }
 
     if (isJSONSchemaObject(items)) {
