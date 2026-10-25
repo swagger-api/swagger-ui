@@ -109,8 +109,9 @@ document:
 - components expect `specPath` and the layout actions;
 - it knows no keyword beyond its OAS subsets.
 
-Using it for standalone Draft 4/6 documents needs real decoupling first. Weigh that against
-rendering those drafts with a 2020-12 instance and per-dialect overrides.
+Using it for standalone Draft 4/6 documents would need real decoupling first, so decision 3
+(`design-and-delivery.md`) renders every draft, Draft 4/5/6 included, with a 2020-12 instance
+and per-dialect overrides. The legacy renderer stays with OAS 2.0 and 3.0.
 
 ## 6. Gaps for Standalone Documents
 

@@ -10,7 +10,8 @@ facts checked against the code since.
 1. **Standalone JSON Schema 2020-12 first.** A document is a JSON Schema document when its root
    has `$schema`.
 2. **Renderers per draft**: the modern renderer (`json-schema-2020-12`) for Draft 7, 2019-09 and
-   2020-12; the legacy renderer (`json-schema-5`) for Draft 4, 5 and 6.
+   2020-12; the legacy renderer (`json-schema-5`) for Draft 4, 5 and 6. Superseded on
+   2026-10-25 (decision 3): the 2020-12 renderer for every draft.
 3. **Display** through a new SwaggerEditor@5 plugin, `editor-preview-json-schema`. Superseded
    on 2026-10-23 (decision 4): Swagger UI renders standalone JSON Schema natively, and
    SwaggerEditor routes JSON Schema content to the Swagger UI preview it already has.
@@ -55,17 +56,25 @@ release by the registration key and the release version from decision 7.
 
 ## Decisions for the User
 
-Decisions 1 and 4 were answered on 2026-10-23 and decision 7 on 2026-10-25; record them in the
-tracking doc as given. Ask the others at the first checkpoint, each with your recommendation.
+Decisions 1 and 4 were answered on 2026-10-23, decisions 3 and 7 on 2026-10-25; record them in
+the tracking doc as given. Ask the others at the first checkpoint, each with your recommendation.
 Running as a subagent, record them as open in the tracking doc, plan with the recommendation,
 and stop before code.
 
 1. **Delivery plan**: answered: the Full plan, ApiDOM first; the MVP (ajv in SwaggerEditor) is
    not pursued.
-2. **Drafts and order**: which drafts after 2020-12. Draft 4/5/6 depend on decision 3.
-3. **Renderer for Draft 4/5/6**: the doc's legacy renderer (needs decoupling from OAS
-   selectors) or a 2020-12 instance with dialect overrides (needs components for keywords whose
-   shape differs). Present the cost of each from the keyword map, don't pick silently.
+2. **Drafts and order**: which drafts after the current one, and when. Each draft is its own
+   delivery (the 2020-12 one excludes the others), so this doesn't block the current draft:
+   record it as open unless the user is planning the next one.
+3. **Renderer per draft**: answered: a 2020-12 instance with per-dialect overrides for every
+   draft, Draft 4/5/6 included, not the doc's legacy renderer, which reads OAS selectors or
+   `specPath` in 10 of its 13 components and renders only OAS keyword subsets
+   (`renderer-architecture.md` section 5). Measured against the 2020-12 vocabularies, a draft
+   needs few components of its own, mostly shared between drafts: array-form `items`,
+   `additionalItems`, `definitions` and `dependencies` (Draft 4-7), `$recursiveRef` and
+   `$recursiveAnchor` (2019-09), `id` and boolean `exclusiveMinimum`/`exclusiveMaximum` (Draft
+   4/5). The rest is hiding the 2020-12 keywords the draft lacks, and, for Draft 4-7, the
+   keywords beside a `$ref`, which those drafts ignore. The keyword map gives the exact rows.
 4. **Where it displays**: answered: natively, in `SwaggerUI({ url })`, with the new plugin in
    the `apis` preset and in `SwaggerUI.plugins`. That changes behaviour for every Swagger UI
    user by design: a JSON Schema document renders instead of "Unable to render this

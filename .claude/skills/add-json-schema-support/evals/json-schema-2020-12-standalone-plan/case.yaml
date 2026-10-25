@@ -12,7 +12,7 @@ expected_outcome: |
   as extension keywords but are hidden by default (showExtensions false); `$ref` is shown as a
   string; the OAS plugins add keywords and fn overrides (oas31 after-load) that a standalone
   instance must not inherit. It records the answered decisions (Full plan; native display with the
-  plugin in the apis preset; the json-schema-document plugin with registration key
-  JSONSchemaDocument), lists the open ones for the user ($ref resolution, unrecognised `$schema`
-  values), includes a regression test that OAS documents render unchanged, and contains no code
-  changes.
+  plugin in the apis preset; the 2020-12 renderer for every draft; the json-schema-document plugin
+  with registration key JSONSchemaDocument), lists the open ones for the user ($ref resolution,
+  unrecognised `$schema` values), includes a regression test that OAS documents render unchanged,
+  and contains no code changes.

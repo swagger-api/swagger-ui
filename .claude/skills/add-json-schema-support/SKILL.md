@@ -48,15 +48,15 @@ imports); they apply throughout.
 
 ## Step 1: Decisions
 
-Read `references/design-and-delivery.md`. Its "Decisions for the User" change what gets built
-(a legacy-renderer route and a 2020-12-instance route share almost no code). Decisions 1 (Full
-plan), 4 (native display, plugin in the `apis` preset) and 7 (the `json-schema-document`
-plugin, registration key `JSONSchemaDocument`) are answered there: record them as given. Put
-the open ones to the user, each with your recommendation and the facts behind it, before
-planning PRs or writing code. When the request is research only (a keyword map, an assessment),
-record them as open in the tracking doc and continue; the research usually sharpens the
-recommendations. As a subagent, record them as open, plan with your recommendations, say so,
-and stop before code. Don't answer the open ones silently: they include multi-sprint scope.
+Read `references/design-and-delivery.md`. Its "Decisions for the User" change what gets built.
+Decisions 1 (Full plan), 3 (the 2020-12 renderer for every draft), 4 (native display, plugin in
+the `apis` preset) and 7 (the `json-schema-document` plugin, registration key
+`JSONSchemaDocument`) are answered there: record them as given. Put the open ones to the user,
+each with your recommendation and the facts behind it, before planning PRs or writing code.
+When the request is research only (a keyword map, an assessment), record them as open in the
+tracking doc and continue; the research usually sharpens the recommendations. As a subagent,
+record them as open, plan with your recommendations, say so, and stop before code. Don't
+answer the open ones silently.
 
 ## Step 2: Research the Draft
 
