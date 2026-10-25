@@ -86,7 +86,7 @@ export default class RequestBodyEditor extends PureComponent {
     } = this.state
 
     let isInvalid = errors.size > 0 ? true : false
-    const TextArea = getComponent("TextArea")
+    const TextArea = getComponent("DebounceTextArea")
 
     return (
       <div className="body-param">
