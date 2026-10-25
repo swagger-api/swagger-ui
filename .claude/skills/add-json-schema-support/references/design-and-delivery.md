@@ -47,6 +47,7 @@ phase is done with that repository's `/add-spec-version` skill
 | `swagger-api/swagger-ui` | rendering a JSON Schema document per dialect: detection of the root `$schema`, the document component, dialect-specific keyword lists and components, the layout branch for `SwaggerUI({ url })`, registration in the `apis` preset |
 | `swagger-api/swagger-editor` (`main` is v5) | content-type detection per draft (`src/plugins/editor-content-type/`), routing JSON Schema content to its existing Swagger UI preview (`editor-preview-swagger-ui`) and the swagger-ui-react bump, a fixture and "Load Example" entry per draft (2020-12 has both: `editor-content-fixtures/selectors/selectJSONSchema202012YAML.js`, `top-bar/.../JSONSchema202012MenuItem.jsx`) |
 | `swagger-api/apidom` | parser adapters, language service and reference support per draft (Full plan) |
+| `swagger-api/swagger-client` | `$ref` resolution for standalone documents: the `json-schema-<dialect>-apidom` resolve strategy, released before Swagger UI's PR 1 imports it (decision 5) |
 
 Keeping detection and rendering in Swagger UI means SwaggerEditor adds no preview plugin: today
 its Swagger UI preview handles OpenAPI only and a JSON Schema document gets the editor's

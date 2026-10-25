@@ -19,6 +19,7 @@ The work spans repositories. This skill owns the Swagger UI part and plans the r
 | swagger-ui | detection, document component, dialect-configured renderer, keyword components, layout branch and `apis` preset registration |
 | swagger-editor (`main`, v5) | content-type detection per draft, routing JSON Schema content to its existing Swagger UI preview |
 | apidom | parser adapters, language service and reference support per draft (Full plan), via its `/add-spec-version` |
+| swagger-client | `$ref` resolution for the preview: the `json-schema-<dialect>-apidom` strategy, via its `/add-json-schema-support`; PR 1 imports it (decision 5) |
 
 ## Bundled Tools
 
