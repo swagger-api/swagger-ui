@@ -132,5 +132,6 @@ Independent of the draft:
 `SwaggerUI.plugins` (`src/core/index.js`, around lines 145-175) exports `JSONSchema202012`,
 `JSONSchema202012Samples`, `JSONSchema5` and `JSONSchema5Samples`. The `apis` preset
 (`src/core/presets/apis/index.js`) includes `JSONSchema202012Plugin` and
-`JSONSchema202012SamplesPlugin`. A new standalone plugin needs the same two registrations, and
-whether it joins the `apis` preset is a public behaviour change for every Swagger UI user.
+`JSONSchema202012SamplesPlugin`. The `json-schema-document` plugin (decision 7) gets the same
+two registrations, as `JSONSchemaDocument` and after `OpenAPI32Plugin` in the preset; joining
+the `apis` preset is a public behaviour change for every Swagger UI user (decision 4).

@@ -50,14 +50,15 @@ phase is done with that repository's `/add-spec-version` skill
 Keeping detection and rendering in Swagger UI means SwaggerEditor adds no preview plugin: today
 its Swagger UI preview handles OpenAPI only and a JSON Schema document gets the editor's
 fallback ("Unable to render editor content"). SwaggerEditor's `/add-json-schema-support` routes
-the content once a swagger-ui-react release renders it, and its `spec-status.mjs
---swagger-ui-plugin` finds that release by the name from decision 7.
+the content once a swagger-ui-react release renders it, and its `spec-status.mjs` finds that
+release by the registration key and the release version from decision 7.
 
 ## Decisions for the User
 
-Decisions 1 and 4 were answered on 2026-10-23; record them in the tracking doc as given. Ask the
-others at the first checkpoint, each with your recommendation. Running as a subagent, record
-them as open in the tracking doc, plan with the recommendation, and stop before code.
+Decisions 1 and 4 were answered on 2026-10-23 and decision 7 on 2026-10-25; record them in the
+tracking doc as given. Ask the others at the first checkpoint, each with your recommendation.
+Running as a subagent, record them as open in the tracking doc, plan with the recommendation,
+and stop before code.
 
 1. **Delivery plan**: answered: the Full plan, ApiDOM first; the MVP (ajv in SwaggerEditor) is
    not pursued.
@@ -74,7 +75,23 @@ them as open in the tracking doc, plan with the recommendation, and stop before 
    that.
 6. **Unrecognised `$schema` values** (custom meta-schemas, OAS dialect ids, scheme variants):
    render as 2020-12, render with a notice, or refuse.
-7. **Plugin name** for the Swagger UI side, plus the string SwaggerEditor's gate looks for in
-   the swagger-ui-react bundle (`spec-status.mjs --swagger-ui-plugin`). Use a registration key,
-   such as the document component's name, which survives bundling; plugin function names may be
-   minified. Record it in the tracking doc, keep it stable, and give it to SwaggerEditor.
+7. **Plugin name and registration key**: answered: one plugin for every dialect,
+   `src/core/plugins/json-schema-document/`, exported as `SwaggerUI.plugins.JSONSchemaDocument`
+   and loaded in the `apis` preset after `OpenAPI32Plugin`. It registers the document component
+   `JSONSchemaDocument` and the spec selectors `isJSONSchemaDocument()` and `jsonSchemaDialect()`
+   (the detected dialect, which picks that dialect's renderer overrides). No name carries a
+   dialect: a later dialect adds its detection entry and overrides to this plugin. The renderer
+   keeps its names (`JSONSchema202012`, `withJSONSchema202012Context`): they are public, and a
+   2019-09 or Draft 7 document renders through a 2020-12 instance with its own overrides.
+   - **Why not `json-schema-2020-12`**: the oas31 and oas32 `VersionPragmaFilter` wrappers
+     don't render the component they wrap, and the preset loads `json-schema-2020-12` before
+     them, so a layout wrapper there would be discarded. Loaded after `OpenAPI32Plugin`, this
+     plugin's wrapper renders the document or else what oas32 rendered, without changing the
+     OAS plugins. `json-schema-2020-12` stays a renderer that OAS-only builds load without
+     document detection.
+   - **What SwaggerEditor's gate gets, per dialect**: the key `JSONSchemaDocument`, which
+     survives bundling (plugin function names are minified), and the swagger-ui release that
+     first renders the dialect (`spec-status.mjs --swagger-ui-plugin --swagger-ui-version`). The
+     key alone doesn't tell dialects apart, and a dialect's `$schema` identifier can't either:
+     the 2020-12 one is already in the bundle as the renderer's `default$schema`. Record the
+     release in the tracking doc and give both to SwaggerEditor.

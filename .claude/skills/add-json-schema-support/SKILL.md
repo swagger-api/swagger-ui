@@ -50,13 +50,13 @@ imports); they apply throughout.
 
 Read `references/design-and-delivery.md`. Its "Decisions for the User" change what gets built
 (a legacy-renderer route and a 2020-12-instance route share almost no code). Decisions 1 (Full
-plan) and 4 (native display, plugin in the `apis` preset) are answered there: record them as
-given. Put the open ones to the user, each with your recommendation and the facts behind it,
-before planning PRs or writing code. When the request is research only (a keyword map, an
-assessment), record them as open in the tracking doc and continue; the research usually
-sharpens the recommendations. As a subagent, record them as open, plan with your
-recommendations, say so, and stop before code. Don't answer the open ones silently: they
-include multi-sprint scope and the name SwaggerEditor depends on (decision 7).
+plan), 4 (native display, plugin in the `apis` preset) and 7 (the `json-schema-document`
+plugin, registration key `JSONSchemaDocument`) are answered there: record them as given. Put
+the open ones to the user, each with your recommendation and the facts behind it, before
+planning PRs or writing code. When the request is research only (a keyword map, an assessment),
+record them as open in the tracking doc and continue; the research usually sharpens the
+recommendations. As a subagent, record them as open, plan with your recommendations, say so,
+and stop before code. Don't answer the open ones silently: they include multi-sprint scope.
 
 ## Step 2: Research the Draft
 
@@ -94,20 +94,25 @@ include multi-sprint scope and the name SwaggerEditor depends on (decision 7).
 
 Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
 
-- [ ] A new plugin under `src/core/plugins/` (name per decision 7), TypeScript.
+- [ ] The `src/core/plugins/json-schema-document/` plugin (decision 7), TypeScript. The first
+      dialect creates it; a later dialect adds its detection entry and its overrides to it.
 - [ ] Detection of the root `$schema` per `dialects.md` (empty-fragment normalisation, Draft 4/5
       as one dialect, no `openapi`/`swagger` field), as an exported pure function with unit
-      tests for every identifier variant and for OAS documents (which must not match).
+      tests for every identifier variant and for OAS documents (which must not match). The spec
+      selectors `isJSONSchemaDocument()` and `jsonSchemaDialect()` expose it.
 - [ ] A document component that renders the root schema through `withJSONSchema202012Context`
       (or the system HOC) with this dialect's `overrides`: its keyword list, its components and
       `default$schema` = the meta-schema identifier. It must not take the OAS `fn` overrides
       (`renderer-architecture.md` section 4).
-- [ ] Display (decision 4): `SwaggerUI({ url })` renders the document natively, so the layout
-      and the version pragma filter let it through. SwaggerEditor shows it by routing the
-      content to its Swagger UI preview; it needs nothing else from this PR.
-- [ ] Registration in `SwaggerUI.plugins` and in the `apis` preset (decision 4), under the
-      registration key recorded for decision 7 (SwaggerEditor's gate looks for it in the
-      swagger-ui-react bundle).
+- [ ] Display (decision 4): `SwaggerUI({ url })` renders the document natively. The plugin wraps
+      `VersionPragmaFilter` and renders `JSONSchemaDocument` for a detected document, else the
+      component it wraps, so OAS documents still get the oas32 filter. SwaggerEditor shows it by
+      routing the content to its Swagger UI preview; it needs nothing else from this PR.
+- [ ] Registration (decisions 4 and 7): `SwaggerUI.plugins.JSONSchemaDocument`, and the `apis`
+      preset after `OpenAPI32Plugin` (it must wrap oas32's filter, whose "Load LAST" comment is
+      about the OAS plugins). The document component is registered as `JSONSchemaDocument`,
+      the key SwaggerEditor's gate looks for in the swagger-ui-react bundle. A later dialect
+      registers nothing new.
 - [ ] Tests: detection units; a Cypress spec loading a fixture of this draft that asserts the
       renderer output; a regression spec that OAS 3.0/3.1/3.2 documents (including ones whose
       Schema Objects carry `$schema`) render exactly as before.
@@ -151,6 +156,7 @@ For each group of rows (`renderer-architecture.md` section 2 lists every place a
 ## Hand-off
 
 Report the PRs (branch, URL, state, gates), the decisions taken and by whom, rows `deferred` or
-`out` with reasons, the decision 7 registration key and the swagger-ui release that ships it
-(SwaggerEditor's routing waits for both), and the SwaggerEditor and ApiDOM work items with their
-repositories. Pushing and opening PRs are outward-facing: confirm each with the user.
+`out` with reasons, the registration key `JSONSchemaDocument` and the swagger-ui release that
+first renders this dialect (SwaggerEditor's gate takes both: `--swagger-ui-plugin` and
+`--swagger-ui-version`), and the SwaggerEditor and ApiDOM work items with their repositories.
+Pushing and opening PRs are outward-facing: confirm each with the user.
