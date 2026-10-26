@@ -29,6 +29,9 @@ Checks changed files only, so findings already on the base branch don't fail the
 Checks the whole tree:
   PRESET-ORDER  newest OpenAPI plugin is not the last OpenAPI plugin in presets/apis          error
   EXPORT        an OpenAPI plugin directory has no SwaggerUI.plugins entry in src/core/index.js note
+  UNRELEASED    package.json takes a dependency from a tarball, path, git or URL (an       warning
+                unreleased upstream PR, references/unreleased-upstream.md): fine on a branch,
+                replace it with the release before merging
 
 Exit codes: 0 no errors (warnings and notes may remain), 1 errors, 2 usage error.
 `
@@ -197,6 +200,27 @@ for (const name of readdirSync("src/core/plugins")) {
       `src/core/plugins/${name}: no ${exportName} entry in SwaggerUI.plugins (src/core/index.js)`
     )
 }
+
+// UNRELEASED: dependency fields and overrides, nested ones included
+const UNRELEASED_SPEC = /^(file:|link:|git\+|git:|github:|https?:)|\.tgz$/
+const manifest = JSON.parse(read("package.json"))
+const reportUnreleased = (label, entries) =>
+  Object.entries(entries ?? {}).forEach(([name, spec]) => {
+    if (typeof spec !== "string") reportUnreleased(`${label} ${name} >`, spec)
+    else if (UNRELEASED_SPEC.test(spec))
+      report(
+        "warning",
+        "UNRELEASED",
+        `package.json: ${label} ${name} is ${spec}; replace it with the release before merging`
+      )
+  })
+for (const field of [
+  "dependencies",
+  "devDependencies",
+  "optionalDependencies",
+  "overrides",
+])
+  reportUnreleased(field, manifest[field])
 
 for (const level of ["note", "warning", "error"])
   for (const line of findings[level])
