@@ -25,9 +25,9 @@ unless their "Scope" column contains "deferred" or "out".
 
 For each row the field name must appear (as a whole word, $ and - included) in:
   src      a file under one of the --plugin directories, or a src/ file changed since <ref>
-  test     a test under test/unit/**/<plugin> or test/e2e-cypress/e2e/**/<plugin>*, or a test
+  test     a test under test/unit/**/<plugin> or test/e2e-playwright/**/<plugin>*, or a test
            file changed since <ref>
-  fixture  a document under test/e2e-cypress/static/documents whose path contains <plugin>, or
+  fixture  a document under test/e2e-playwright/static/documents whose path contains <plugin>, or
            a changed fixture, as a key ("field:" in YAML, "field": in JSON)
 
   --scope   only rows whose Scope names this PR, e.g. --scope "PR 3" (not "PR 30"); the gate
@@ -125,14 +125,14 @@ const srcFiles = uniq([
 
 const testFiles = uniq([
   ...pluginNames.flatMap((name) => walk(`test/unit/core/plugins/${name}`)),
-  ...walk("test/e2e-cypress/e2e").filter((path) =>
+  ...walk("test/e2e-playwright").filter((path) =>
     pluginNames.some((name) => path.includes(name))
   ),
   ...changed.filter((path) => path.startsWith("test/")),
 ]).filter((path) => CODE.test(path))
 
 const fixtureFiles = uniq([
-  ...walk("test/e2e-cypress/static/documents").filter((path) =>
+  ...walk("test/e2e-playwright/static/documents").filter((path) =>
     pluginNames.some((name) => path.includes(name))
   ),
   ...changed.filter((path) => path.startsWith("test/")),

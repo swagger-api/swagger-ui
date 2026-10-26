@@ -103,7 +103,7 @@ One feature per PR. Group rows only when they can't ship apart, and say why.
 
 ## Gate log
 
-- {date} PR 1: lint ✓, type-check ✓, unit ✓, cypress (targeted) ✓, cy:ci ✓, build ✓, artifact ✓,
+- {date} PR 1: lint ✓, type-check ✓, unit ✓, e2e (targeted) ✓, e2e (full) ✓, e2e:typecheck ✓, build ✓, artifact ✓,
   conventions 0 errors, coverage n/a (parity), scope ✓, verify-urls 0 broken, review: {n} findings fixed
 ```
 

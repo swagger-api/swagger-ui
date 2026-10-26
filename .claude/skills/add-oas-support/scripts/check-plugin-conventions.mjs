@@ -18,7 +18,6 @@ Usage:
 Checks files changed relative to the merge base of <ref> (default: main), plus untracked files:
   DIST          build output (dist/, flavors/*/dist/) is part of the change                   error
   NOT-TS        new source or test file is .js/.jsx instead of .ts/.tsx (CLAUDE.md, #11000),
-                or a new .cy.ts spec that cypress.config.js specPattern doesn't run          error
   PRAGMA        new .js/.jsx/.ts/.tsx file has no @prettier pragma                            error
   CROSS-IMPORT  file in src/core/plugins/<a> imports from src/core/plugins/<b>                error
   HAND-GUARD    hand-written isOAS3x() check in a wrapper; use the createOnlyOAS3x* factory  warning
@@ -60,25 +59,13 @@ for (const { path } of changes) {
     report("error", "DIST", `${path}: build output must not be committed`)
 }
 
-// NOT-TS: new code files under src/ and test/ (fixtures and docs are fine). Cypress only runs
-// what cypress.config.js specPattern matches, so a .cy.ts spec is silently skipped until the
-// pattern includes ts.
-const cypressConfig = existsSync("cypress.config.js")
-  ? readFileSync("cypress.config.js", "utf8")
-  : ""
-const cypressRunsTs = /specPattern:[^\n]*\bts\b/.test(cypressConfig)
+// NOT-TS: new code files under src/ and test/ (fixtures and docs are fine)
 for (const { path } of added) {
-  if (/\.cy\.(ts|tsx)$/.test(path) && !cypressRunsTs)
-    report(
-      "error",
-      "NOT-TS",
-      `${path}: cypress.config.js specPattern does not match .cy.ts, so this spec never runs; extend specPattern in the same PR`
-    )
   if (!/^(src|test)\/.*\.(js|jsx)$/.test(path)) continue
   report(
     "error",
     "NOT-TS",
-    `${path}: new files are TypeScript (.ts, .tsx, .test.ts, .cy.ts)`
+    `${path}: new files are TypeScript (.ts, .tsx, .test.ts, .spec.ts)`
   )
 }
 
