@@ -1,0 +1,267 @@
+diff --git a/src/core/components/operation-tag.jsx b/src/core/components/operation-tag.jsx
+index d06922b9..16152e17 100644
+--- a/src/core/components/operation-tag.jsx
++++ b/src/core/components/operation-tag.jsx
+@@ -56,6 +56,7 @@ export default class OperationTag extends React.Component {
+     const ArrowDownIcon = getComponent("ArrowDownIcon")
+ 
+     let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
++    let tagSummary = tagObj.getIn(["tagDetails", "summary"], null)
+     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
+     let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
+     let tagExternalDocsUrl
+@@ -81,6 +82,9 @@ export default class OperationTag extends React.Component {
+           isShown={showTag}
+           path={createDeepLinkPath(tag)}
+           text={tag} />
++        {!tagSummary ? null :
++          <small className="opblock-tag__summary">{tagSummary}</small>
++        }
+         {!tagDescription ? <small></small> :
+           <small>
+             <Markdown source={tagDescription} />
+diff --git a/src/core/plugins/oas32/index.js b/src/core/plugins/oas32/index.js
+index 85e4ce5d..11a581df 100644
+--- a/src/core/plugins/oas32/index.js
++++ b/src/core/plugins/oas32/index.js
+@@ -7,6 +7,7 @@ import InfoWrapper from "./wrap-components/info"
+ import LicenseWrapper from "./wrap-components/license"
+ import ModelWrapper from "./wrap-components/model"
+ import ModelsWrapper from "./wrap-components/models"
++import OperationTagWrapper from "./wrap-components/operation-tag"
+ import OpenAPIVersionWrapper from "./wrap-components/openapi-version"
+ import VersionPragmaFilterWrapper from "./wrap-components/version-pragma-filter"
+ import JSONSchema202012KeywordDescriptionWrapper from "./json-schema-2020-12-extensions/wrap-components/keywords/Description"
+@@ -38,6 +39,7 @@ import {
+   selectContactUrl,
+   selectLicenseUrl,
+   selectInfoSummaryField,
++  selectTagKinds,
+ } from "./spec-extensions/selectors"
+ import afterLoad from "./after-load"
+ 
+@@ -56,11 +58,12 @@ import afterLoad from "./after-load"
+  * - query operation: QUERY HTTP method support
+  * - additionalOperations: Custom HTTP methods support
+  * - info.summary: Short summary field in Info Object
++ * - Tag enhancements: summary, kind, parent
++ * - Tag externalDocs (new in OAS 3.2)
+  *
+  * Additional features (not yet implemented):
+  * - $self: Self-referencing URI for base URI resolution
+  * - mediaTypes in Components: Reusable Media Type Objects
+- * - Tag enhancements (summary, kind, parent)
+  * - querystring parameter location
+  * - itemSchema for streaming responses
+  */
+@@ -83,6 +86,7 @@ const OAS32Plugin = ({ fn }) => {
+       License: LicenseWrapper,
+       Model: ModelWrapper,
+       Models: ModelsWrapper,
++      OperationTag: OperationTagWrapper,
+       OpenAPIVersion: OpenAPIVersionWrapper,
+       VersionPragmaFilter: VersionPragmaFilterWrapper,
+       JSONSchema202012KeywordDescription:
+@@ -99,6 +103,9 @@ const OAS32Plugin = ({ fn }) => {
+           // Info selectors (inherited from OAS31)
+           selectInfoSummaryField,
+ 
++          // Tag selectors (OAS 3.2)
++          selectTagKinds,
++
+           // License and contact selectors (inherited from OAS31)
+           license: selectLicense,
+           selectLicenseNameField,
+diff --git a/src/core/plugins/oas32/spec-extensions/selectors.js b/src/core/plugins/oas32/spec-extensions/selectors.js
+index 2eee9207..ba1d27f9 100644
+--- a/src/core/plugins/oas32/spec-extensions/selectors.js
++++ b/src/core/plugins/oas32/spec-extensions/selectors.js
+@@ -1,7 +1,7 @@
+ /**
+  * @prettier
+  */
+-import { Map } from "immutable"
++import { List, Map } from "immutable"
+ import { createSelector } from "reselect"
+ 
+ import { safeBuildUrl } from "core/utils/url"
+@@ -84,3 +84,15 @@ export const selectContactUrl = createSelector(
+ export const selectInfoSummaryField = () => (system) => {
+   return system.specSelectors.info().get("summary")
+ }
++
++/**
++ * Lists the distinct `kind` values used by the document's Tag Objects (OAS 3.2).
++ */
++export const selectTagKinds = () => (system) => {
++  const tags = system.specSelectors.specJson().get("tags", List())
++  return tags
++    .map((tag) => tag.get("kind"))
++    .filter(Boolean)
++    .toOrderedSet()
++    .toList()
++}
+diff --git a/src/core/plugins/oas32/wrap-components/operation-tag.tsx b/src/core/plugins/oas32/wrap-components/operation-tag.tsx
+new file mode 100644
+index 00000000..a940e379
+--- /dev/null
++++ b/src/core/plugins/oas32/wrap-components/operation-tag.tsx
+@@ -0,0 +1,50 @@
++/**
++ * @prettier
++ */
++import React from "react"
++import ImPropTypes from "react-immutable-proptypes"
++
++/**
++ * Renders the OAS 3.2 Tag fields `kind` and `parent` next to the tag heading.
++ *
++ * Reference: https://spec.openapis.org/oas/v3.2.0.html#tag-object-fields
++ */
++const TAG_KINDS = ["nav", "badge", "audience"]
++
++const TagDetails = ({ tagObj }) => {
++  const tagDetails = tagObj.get("tagDetails")
++  const kind = tagDetails?.get("kind")
++  const parentName = tagDetails?.getIn(["parent", "name"])
++
++  return (
++    <>
++      {parentName && (
++        <span className="opblock-tag__parent">{parentName} /</span>
++      )}
++      {TAG_KINDS.includes(kind) && (
++        <span className={`opblock-tag__kind opblock-tag__kind--${kind}`}>
++          {kind}
++        </span>
++      )}
++    </>
++  )
++}
++
++TagDetails.propTypes = {
++  tagObj: ImPropTypes.map.isRequired,
++}
++
++const OperationTagWrapper = (Original, system) => (props) => {
++  if (!system.specSelectors.isOAS32()) {
++    return <Original {...props} />
++  }
++
++  return (
++    <div className="opblock-tag-oas32">
++      <TagDetails {...props} />
++      <Original {...props} />
++    </div>
++  )
++}
++
++export default OperationTagWrapper
+diff --git a/test/e2e-cypress/e2e/features/oas32/oas32-tag-fields.cy.ts b/test/e2e-cypress/e2e/features/oas32/oas32-tag-fields.cy.ts
+new file mode 100644
+index 00000000..91be1def
+--- /dev/null
++++ b/test/e2e-cypress/e2e/features/oas32/oas32-tag-fields.cy.ts
+@@ -0,0 +1,16 @@
++/**
++ * @prettier
++ */
++describe("OAS 3.2 Tag fields", () => {
++  const baseUrl = "/?url=/documents/oas32/tag-fields.yaml"
++
++  it("renders tag summary, kind and parent", () => {
++    cy.visit(baseUrl)
++    cy.get("#operations-tag-pets").should("contain", "All about pets")
++    cy.get("#operations-tag-pets")
++      .parent()
++      .find(".opblock-tag__kind--nav")
++      .should("exist")
++    cy.get(".opblock-tag__parent").should("contain", "pets")
++  })
++})
+diff --git a/test/e2e-cypress/static/documents/oas32/tag-fields.yaml b/test/e2e-cypress/static/documents/oas32/tag-fields.yaml
+new file mode 100644
+index 00000000..f388cd9f
+--- /dev/null
++++ b/test/e2e-cypress/static/documents/oas32/tag-fields.yaml
+@@ -0,0 +1,48 @@
++openapi: 3.2.0
++info:
++  title: OAS 3.2 Tag fields
++  version: 1.0.0
++tags:
++  - name: pets
++    summary: All about pets
++    description: Everything about your pets.
++    kind: nav
++  - name: cats
++    summary: Cats
++    parent: pets
++    kind: nav
++  - name: internal
++    summary: Internal operations
++    kind: audience
++  - name: partner
++    summary: Partner operations
++    kind: partner-api
++paths:
++  /pets:
++    get:
++      tags: [pets]
++      summary: List pets
++      responses:
++        "200":
++          description: OK
++  /cats:
++    get:
++      tags: [cats]
++      summary: List cats
++      responses:
++        "200":
++          description: OK
++  /admin/reindex:
++    post:
++      tags: [internal]
++      summary: Reindex the catalogue
++      responses:
++        "204":
++          description: Reindexed
++  /partners/orders:
++    get:
++      tags: [partner]
++      summary: List partner orders
++      responses:
++        "200":
++          description: OK
+diff --git a/test/unit/core/plugins/oas32/tag-fields.test.ts b/test/unit/core/plugins/oas32/tag-fields.test.ts
+new file mode 100644
+index 00000000..c182c80c
+--- /dev/null
++++ b/test/unit/core/plugins/oas32/tag-fields.test.ts
+@@ -0,0 +1,26 @@
++/**
++ * @prettier
++ */
++import { fromJS } from "immutable"
++import { selectTagKinds } from "core/plugins/oas32/spec-extensions/selectors"
++
++describe("oas32 plugin - Tag fields", () => {
++  it("lists the distinct tag kinds used by the document", () => {
++    const system = {
++      specSelectors: {
++        specJson: () =>
++          fromJS({
++            openapi: "3.2.0",
++            tags: [
++              { name: "pets", kind: "nav" },
++              { name: "cats", kind: "nav", parent: "pets" },
++              { name: "internal", kind: "audience" },
++              { name: "store" },
++            ],
++          }),
++      },
++    }
++
++    expect(selectTagKinds()(system).toJS()).toEqual(["nav", "audience"])
++  })
++})
