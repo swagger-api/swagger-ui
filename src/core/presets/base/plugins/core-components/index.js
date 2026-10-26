@@ -19,6 +19,7 @@ import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
+import OperationNavigation from "core/components/operation-navigation"
 import OperationTag from "core/components/operation-tag"
 import Operation from "core/components/operation"
 import OperationContainer from "core/containers/OperationContainer"
@@ -87,6 +88,7 @@ const CoreComponentsPlugin = () => ({
     CopyToClipboardBtn,
     onlineValidatorBadge: OnlineValidatorBadge,
     operations: Operations,
+    OperationNavigation,
     operation: Operation,
     OperationSummary,
     OperationSummaryMethod,

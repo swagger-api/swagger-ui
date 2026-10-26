@@ -120,3 +120,52 @@ describe("Operations list virtualization", () => {
     })
   })
 })
+
+describe("Operation navigation", () => {
+  it("is disabled by default", () => {
+    cy.visit("/?url=/documents/features/deep-linking.swagger.yaml")
+    cy.get(".operation-navigation").should("not.exist")
+  })
+
+  it("finds and opens an operation without an explicit operationId", () => {
+    cy.visit(
+      "/?showOperationNavigation=true&deepLinking=true&docExpansion=none&url=/documents/features/deep-linking.swagger.yaml"
+    )
+
+    cy.get(".operation-navigation__search").type("put_noOperationId")
+    cy.get(".operation-navigation__item")
+      .should("have.length", 1)
+      .and("have.attr", "data-operation-id", "put_noOperationId")
+      .click()
+
+    cy.get("#operations-tag-tagTwo[data-is-open='true']").should("exist")
+    cy.get("#operations-tagTwo-put_noOperationId.is-open").should("exist")
+    cy.location("hash").should("eq", "#/tagTwo/put_noOperationId")
+  })
+
+  it("jumps to an operation outside the virtualized viewport", () => {
+    cy.visit(
+      "/?showOperationNavigation=true&url=/documents/perf/many-operations.yaml"
+    )
+
+    cy.get("#operations-perfTag24-perfOp24_22").should("not.exist")
+    cy.get(".operation-navigation__search").type("/perf/tag24/resource22")
+    cy.get(".operation-navigation__item")
+      .should("have.length", 1)
+      .click()
+
+    cy.get("#operations-perfTag24-perfOp24_22.is-open", {
+      timeout: 8000,
+    }).should("exist")
+  })
+
+  it("keeps navigation in sync with the existing operation filter", () => {
+    cy.visit(
+      "/?showOperationNavigation=true&filter=true&url=/documents/petstore.swagger.yaml"
+    )
+
+    cy.get(".operation-filter-input").type("findByStatus")
+    cy.get(".operation-navigation__search").type("findByStatus")
+    cy.get(".operation-navigation__item").should("have.length", 1)
+  })
+})

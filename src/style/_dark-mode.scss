@@ -98,6 +98,39 @@ html.dark-mode {
     color: $neutral-20;
     background: $neutral-98;
 
+    .operation-navigation {
+      border-color: $neutral-60;
+      background: $neutral-95;
+
+      &__heading,
+      &__search-label,
+      &__tag,
+      &__item,
+      &__empty {
+        color: $neutral-20;
+      }
+
+      &__group + .operation-navigation__group {
+        border-color: $neutral-60;
+      }
+
+      &__search {
+        border-color: $neutral-60;
+        background: $neutral-98;
+        color: $neutral-10;
+      }
+
+      &__tag:hover,
+      &__item:hover {
+        background: $neutral-85;
+      }
+
+      &__tag:focus-visible,
+      &__item:focus-visible {
+        outline-color: $link;
+      }
+    }
+
     .authorization__btn svg,
     .expand-operation svg,
     .opblock-control-arrow svg {

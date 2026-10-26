@@ -151,6 +151,17 @@ Parameter name | Docker variable | Description
         </td>
     </tr>
     <tr>
+        <td><a name="user-content-showoperationnavigation"></a><code>showOperationNavigation</code></td>
+        <td><code>SHOW_OPERATION_NAVIGATION</code></td>
+        <td><code>Boolean=false</code>. Shows a searchable menu of visible
+            operations, grouped by tag, beside the operations list. Search
+            matches tags, methods, paths, summaries, and operation IDs. Selecting
+            an endpoint expands and scrolls to it. The menu follows the
+            <code>filter</code> and <code>maxDisplayedTags</code> settings.
+            On narrow displays, the menu appears above the operations list.
+        </td>
+    </tr>
+    <tr>
         <td>
             <a name="user-content-showextensions"></a><code>showExtensions</code>
         </td>

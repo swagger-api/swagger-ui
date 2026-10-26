@@ -39,6 +39,10 @@ const standardVariables = {
     type: "boolean",
     name: "displayOperationId"
   },
+  SHOW_OPERATION_NAVIGATION: {
+    type: "boolean",
+    name: "showOperationNavigation"
+  },
   DEFAULT_MODELS_EXPAND_DEPTH: {
     type: "number",
     name: "defaultModelsExpandDepth"
