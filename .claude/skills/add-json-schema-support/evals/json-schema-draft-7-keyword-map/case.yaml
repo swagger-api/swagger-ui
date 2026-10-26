@@ -1,0 +1,14 @@
+schema_version: "1.1"
+name: json-schema-draft-7-keyword-map
+# fixture: ee02195f (main on 2026-10-22, before the rebuilt skills), checked out by checkout-fixture.sh
+context:
+  scaffold_script: checkout-fixture.sh
+expected_outcome: |
+  ADD-JSON-SCHEMA-DRAFT-7.md lists every Draft 7 keyword with its status against the 2020-12
+  renderer. It identifies the Draft 7 meta-schema id http://json-schema.org/draft-07/schema#, flags
+  array-form `items` (tuple validation) as rendering wrong because the 2020-12 Items component
+  assumes a single schema, marks `additionalItems` and `dependencies` as unknown to the renderer and
+  `definitions` as the predecessor of `$defs`, notes Draft 7 `$id` plain-name fragments versus
+  2020-12 `$anchor`, and lists 2020-12 keywords that Draft 7 doesn't have so that they don't get
+  2020-12 meaning. It is based on the Draft 7 specification text and meta-schema, and contains no
+  code changes.
