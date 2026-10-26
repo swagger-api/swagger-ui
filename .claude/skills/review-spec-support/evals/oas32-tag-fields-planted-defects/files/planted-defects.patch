@@ -157,33 +157,34 @@ index 00000000..a940e379
 +}
 +
 +export default OperationTagWrapper
-diff --git a/test/e2e-cypress/e2e/features/oas32/oas32-tag-fields.cy.ts b/test/e2e-cypress/e2e/features/oas32/oas32-tag-fields.cy.ts
+diff --git a/test/e2e-playwright/features/oas32/oas32-tag-fields.spec.js b/test/e2e-playwright/features/oas32/oas32-tag-fields.spec.js
 new file mode 100644
 index 00000000..91be1def
 --- /dev/null
-+++ b/test/e2e-cypress/e2e/features/oas32/oas32-tag-fields.cy.ts
-@@ -0,0 +1,16 @@
++++ b/test/e2e-playwright/features/oas32/oas32-tag-fields.spec.js
+@@ -0,0 +1,17 @@
 +/**
 + * @prettier
 + */
-+describe("OAS 3.2 Tag fields", () => {
++import { test, expect } from "../../support/fixtures"
++
++test.describe("OAS 3.2 Tag fields", () => {
 +  const baseUrl = "/?url=/documents/oas32/tag-fields.yaml"
 +
-+  it("renders tag summary, kind and parent", () => {
-+    cy.visit(baseUrl)
-+    cy.get("#operations-tag-pets").should("contain", "All about pets")
-+    cy.get("#operations-tag-pets")
-+      .parent()
-+      .find(".opblock-tag__kind--nav")
-+      .should("exist")
-+    cy.get(".opblock-tag__parent").should("contain", "pets")
++  test("renders tag summary, kind and parent", async ({ page }) => {
++    await page.goto(baseUrl)
++    await expect(page.locator("#operations-tag-pets")).toContainText(
++      "All about pets"
++    )
++    await expect(page.locator(".opblock-tag__kind--nav")).toBeAttached()
++    await expect(page.locator(".opblock-tag__parent")).toContainText("pets")
 +  })
 +})
-diff --git a/test/e2e-cypress/static/documents/oas32/tag-fields.yaml b/test/e2e-cypress/static/documents/oas32/tag-fields.yaml
+diff --git a/test/e2e-playwright/static/documents/oas32/tag-fields.yaml b/test/e2e-playwright/static/documents/oas32/tag-fields.yaml
 new file mode 100644
 index 00000000..f388cd9f
 --- /dev/null
-+++ b/test/e2e-cypress/static/documents/oas32/tag-fields.yaml
++++ b/test/e2e-playwright/static/documents/oas32/tag-fields.yaml
 @@ -0,0 +1,48 @@
 +openapi: 3.2.0
 +info:

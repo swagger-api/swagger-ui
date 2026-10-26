@@ -1,6 +1,6 @@
 ---
 name: add-oas-support
-description: Adds support for a new OpenAPI Specification version to Swagger UI (patch, minor such as 3.3, or major such as 4.0) in phases that keep every pull request reviewable - an investigation that diffs the new version's Fixed Fields tables against the previous version (bundled script) into a field map with a backward-compatibility classification; a basic-support PR that gives new-version documents everything the previous version had and nothing new; then one PR per new feature and per breaking change. Checks swagger-client/ApiDOM prerequisites first and gates every PR with lint, unit, Cypress, build, coverage, convention and URL checks plus a fresh-context spec review. Use whenever someone wants Swagger UI to support, render or detect an OpenAPI version, plan or continue that work, asks what changed between OAS versions and what it means for Swagger UI, or wants one new field of a recent version implemented (e.g. "render itemSchema"), even if they don't name this skill.
+description: Adds support for a new OpenAPI Specification version to Swagger UI (patch, minor such as 3.3, or major such as 4.0) in phases that keep every pull request reviewable - an investigation that diffs the new version's Fixed Fields tables against the previous version (bundled script) into a field map with a backward-compatibility classification; a basic-support PR that gives new-version documents everything the previous version had and nothing new; then one PR per new feature and per breaking change. Checks swagger-client/ApiDOM prerequisites first and gates every PR with lint, unit, Playwright, build, coverage, convention and URL checks plus a fresh-context spec review. Use whenever someone wants Swagger UI to support, render or detect an OpenAPI version, plan or continue that work, asks what changed between OAS versions and what it means for Swagger UI, or wants one new field of a recent version implemented (e.g. "render itemSchema"), even if they don't name this skill.
 ---
 
 # Add OpenAPI Specification Version Support
@@ -43,12 +43,12 @@ Run from the repository root: `node .claude/skills/add-oas-support/scripts/<scri
 |------|-----|
 | `scripts/diff-spec-versions.mjs <old> <new> [--rename "A Object=B Object"]` | Phase 1. Field-level diff of two versions' Fixed/Patterned Fields tables (fetched by version number or read from files): `NEW`, `REMOVED` (with a "moved?" hint), `CHANGED-TYPE`, `CHANGED-REQUIRED`, `REVIEW` (description changed; added and removed value tokens listed), as a draft field map. |
 | `scripts/check-field-coverage.mjs <tracking-doc> --plugin <dir> [--scope "PR n"]` | Every in-scope `NEW` / `CHANGED-TYPE` / `MOVED` row appears in source, a test and a fixture; `--scope` limits it to one PR's rows. A hit is not proof of correct rendering; a miss is proof of a gap. Generic names (`in`, `kind`, `parent`) need a manual check. |
-| `scripts/check-plugin-conventions.mjs [--base main]` | Branch diff: committed build output (`DIST`), new `.js/.jsx` or a `.cy.ts` that Cypress doesn't run (`NOT-TS`), missing `@prettier` (`PRAGMA`), plugin importing another plugin (`CROSS-IMPORT`), inline `isOAS3x()` guards (`HAND-GUARD`, warning), shared files touched (`CORE-TOUCH`, note). Whole tree: `DIALECT`, `PRESET-ORDER`, `EXPORT`. Exit 1 on errors. |
+| `scripts/check-plugin-conventions.mjs [--base main]` | Branch diff: committed build output (`DIST`), new `.js/.jsx` (`NOT-TS`), missing `@prettier` (`PRAGMA`), plugin importing another plugin (`CROSS-IMPORT`), inline `isOAS3x()` guards (`HAND-GUARD`, warning), shared files touched (`CORE-TOUCH`, note). Whole tree: `DIALECT`, `PRESET-ORDER`, `EXPORT`. Exit 1 on errors. |
 | `scripts/verify-urls.mjs <paths>` or `--diff main` | HTTP status and `#anchor` existence of every URL. `BROKEN` fails the gate. |
 | `references/field-map-template.md` | Tracking document, field map, compatibility and PR plan. Read at Phase 1 step 3. |
 | `references/plugin-patterns.md` | Real shapes of the version plugin and when to wrap versus copy. Read before writing plugin code. |
 | `references/integration-points.md` | Files outside the new plugin that a version or feature touches. Read for PR 1 and for any feature that changes shared behaviour. |
-| `references/testing.md` | Unit, Cypress and parity tests, fixtures. Read before writing tests. |
+| `references/testing.md` | Unit, Playwright and parity tests, fixtures. Read before writing tests. |
 | `references/review-lessons.md` | Defect classes from past reviews. Read before the first PR. |
 
 Project conventions (TypeScript for new files, `@prettier` pragma, no semicolons, double quotes,
@@ -227,8 +227,8 @@ One PR per feature in plan order.
    PropTypes in `flavors/swagger-ui-react/index.jsx`.
 5. A breaking change (major): render the new structure for the new version only, and test that
    both a parent-version document and a new-version document render with their own meaning.
-6. Tests: unit tests for selectors and fns, and a Cypress spec that **executes** Try-it-out for
-   anything that changes a request, asserting the request with `cy.intercept`.
+6. Tests: unit tests for selectors and fns, and a Playwright spec that **executes** Try-it-out for
+   anything that changes a request, asserting the request with `page.route`.
 7. If the PR grows a second feature, split it. Mark the rows done in the tracking doc.
 
 ## Gates (every PR, in order)
@@ -236,10 +236,11 @@ One PR per feature in plan order.
 1. `npm run lint-errors`; `npm run type-check`; `npm run lint-styles` when `.scss` changed (hex
    colours lowercase).
 2. `npm run test:unit`.
-3. Targeted Cypress specs, then the full suite:
+3. Targeted Playwright specs, then the full suite (both start the dev server themselves):
    ```bash
-   npx start-server-and-test cy:start http://localhost:3204 "npm run cy:run -- --spec <spec>"
-   npm run cy:ci
+   npm run e2e -- <spec>
+   npm run e2e
+   npm run e2e:typecheck
    ```
 4. `npm run build` and `npm run test:artifact`.
 5. `check-plugin-conventions.mjs`: 0 errors; every `HAND-GUARD` warning fixed or justified, every

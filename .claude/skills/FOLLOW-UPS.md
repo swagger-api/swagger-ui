@@ -16,21 +16,15 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
    are listed in `add-json-schema-support/references/dialects.md`; which one to use is a decision,
    because the 3.2.0 spec text names a different id. Nothing reads `default$schema` yet, so there
    is no visible effect today. `DIALECT` errors.
-4. **Cypress never runs `.cy.ts` specs**, while `CLAUDE.md` requires new specs to be `.cy.ts`:
-   `cypress.config.js` has `specPattern: "test/e2e-cypress/e2e/**/*.cy.{js,jsx}"`. The first
-   TypeScript spec must extend it (and may need a Cypress TypeScript setup). `NOT-TS` reports it.
-5. **`resolve` lacks the OAS 3.2 strategy.** `src/core/plugins/swagger-client/index.js` lists
+4. **`resolve` lacks the OAS 3.2 strategy.** `src/core/plugins/swagger-client/index.js` lists
    `openApi32ApiDOMResolveStrategy` only in `resolveSubtree`. `fn.resolve` is used by the
    deprecated `specActions.resolveSpec` and by plugins calling `system.fn.resolve`, so the impact
    is limited, but 3.1's strategy is in both lists.
-6. **The oas32 plugin header lists `info.summary` as new in 3.2**
+5. **The oas32 plugin header lists `info.summary` as new in 3.2**
    (`src/core/plugins/oas32/index.js`); it came with OAS 3.1.
-7. **OAS 3.2 Cypress specs are spread over three directories** (`e2e/features/`,
-   `e2e/features/oas32/`, `e2e/features/plugins/oas32/`), and `oas32-query-operation.cy.js` exists
-   in the first two.
-8. **OAS 3.2 parity copies drift.** `test/e2e-cypress/e2e/features/plugins/oas32/oas32-schema-expansion.cy.js`
-   mirrors the oas31 spec but lacks its "re-expand a collapsed nested property" test.
-9. **`CLAUDE.md` is stale on versions**: "OpenAPI Specification Compatibility" says support goes up
+6. **OAS 3.2 parity copies can drift.** `test/e2e-playwright/features/plugins/oas32/oas32-schema-expansion.spec.ts`
+   mirrors the oas31 spec; check that it has the oas31 "re-expand a collapsed nested property" test.
+7. **`CLAUDE.md` is stale on versions**: "OpenAPI Specification Compatibility" says support goes up
    to 3.1.x and v5.31.0, and the plugin count and file counts are out of date.
 
 ## Open Work on the Skills

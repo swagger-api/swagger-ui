@@ -9,6 +9,6 @@ expected_outcome: |
   3.0); `parent` read as an object although it is a string tag name; `kind` limited to three values
   although any string is allowed; a hand-written isOAS32() guard instead of
   createOnlyOAS32ComponentWrapper; Tag summary rendered in the shared OperationTag component for
-  every OAS version; a selector (selectTagKinds) used only by its unit test; a .cy.ts spec that
-  Cypress's specPattern never runs; and a broken spec anchor (#tag-object-fields). Pre-existing
+  every OAS version; a selector (selectTagKinds) used only by its unit test; a new Playwright spec
+  written in plain JavaScript (.js); and a broken spec anchor (#tag-object-fields). Pre-existing
   problems (DIALECT, missing OpenAPI32 export) are kept apart from the branch's findings.

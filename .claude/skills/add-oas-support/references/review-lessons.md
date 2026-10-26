@@ -61,7 +61,7 @@ published list at `https://spec.openapis.org/oas/`, record both, and check them 
 
 The oas31 `Model`/`Models` wrappers are gated on `isOAS31`, so 3.2 schemas fell back to the
 legacy JSON Schema 5 renderer until the oas32 plugin got its own wrappers. Every renderer
-wrapper of the parent needs a counterpart (`plugin-patterns.md` section 7). Gate: Cypress spec
+wrapper of the parent needs a counterpart (`plugin-patterns.md` section 7). Gate: Playwright spec
 asserting `.json-schema-2020-12` elements for a 3.Y model.
 
 ## 9. swagger-client resolve strategy missing
@@ -77,9 +77,9 @@ integration-points checklist.
 
 ## 11. Tests that don't test the behaviour
 
-Cypress specs that only checked that something rendered, for a feature that changes requests;
+Playwright specs that only checked that something rendered, for a feature that changes requests;
 nested `Map(...)` construction instead of one `fromJS`; new tests in `.js`. Execute Try-it-out
-and assert the request; write `.test.ts` / `.cy.ts` (and make Cypress run them). Gate: `NOT-TS`,
+and assert the request; write `.test.ts` / `.spec.ts`. Gate: `NOT-TS`,
 review.
 
 ## 12. Selector-module hygiene

@@ -121,7 +121,7 @@ if [[ -f "$PATCH" ]] && git cat-file -e "$FIXTURE^{commit}" 2>/dev/null; then
     node "$SCRIPTS/check-plugin-conventions.mjs" --base main
   popd >/dev/null || exit 1
   expect_output 'HAND-GUARD in the hand-written wrapper' 'WARNING +HAND-GUARD +src/core/plugins/oas32/wrap-components/operation-tag\.tsx'
-  expect_output 'NOT-TS for the .cy.ts spec Cypress skips' 'ERROR +NOT-TS +test/e2e-cypress/e2e/features/oas32/oas32-tag-fields\.cy\.ts'
+  expect_output 'NOT-TS for the plain-JS Playwright spec' 'ERROR +NOT-TS +test/e2e-playwright/features/oas32/oas32-tag-fields\.spec\.js'
   expect_output 'CORE-TOUCH for the shared component' 'NOTE +CORE-TOUCH +src/core/components/operation-tag\.jsx'
   expect_output 'DIALECT for the oas32 document-schema URL' 'ERROR +DIALECT +src/core/plugins/oas32/wrap-components/model\.jsx'
   expect_output 'EXPORT for the missing OpenAPI32 entry' 'NOTE +EXPORT +src/core/plugins/oas32'

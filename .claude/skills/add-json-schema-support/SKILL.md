@@ -1,6 +1,6 @@
 ---
 name: add-json-schema-support
-description: Plans and delivers rendering of standalone JSON Schema documents in Swagger UI (a document whose root has `$schema` and no `openapi`/`swagger` field), starting with JSON Schema 2020-12 and extending to 2019-09, Draft 7, Draft 6 and Draft 4/5, as in the "Standalone JSON Schema" design doc. Builds a per-draft keyword map against the existing json-schema-2020-12 renderer, settles the design decisions (delivery plan, renderer per draft, where it displays, $ref resolution) with the user, then implements detection, a dialect-configured renderer instance and keyword components in version-gated PRs with lint, unit, Cypress, build and coverage gates. Use whenever someone wants Swagger UI or SwaggerEditor to show, preview, detect or render a JSON Schema document or a specific draft, asks what standalone JSON Schema support would take, or asks to support a JSON Schema keyword outside an OpenAPI document - even if they don't name this skill. Not for Schema Objects inside OpenAPI documents (that is add-oas-support).
+description: Plans and delivers rendering of standalone JSON Schema documents in Swagger UI (a document whose root has `$schema` and no `openapi`/`swagger` field), starting with JSON Schema 2020-12 and extending to 2019-09, Draft 7, Draft 6 and Draft 4/5, as in the "Standalone JSON Schema" design doc. Builds a per-draft keyword map against the existing json-schema-2020-12 renderer, settles the design decisions (delivery plan, renderer per draft, where it displays, $ref resolution) with the user, then implements detection, a dialect-configured renderer instance and keyword components in version-gated PRs with lint, unit, Playwright, build and coverage gates. Use whenever someone wants Swagger UI or SwaggerEditor to show, preview, detect or render a JSON Schema document or a specific draft, asks what standalone JSON Schema support would take, or asks to support a JSON Schema keyword outside an OpenAPI document - even if they don't name this skill. Not for Schema Objects inside OpenAPI documents (that is add-oas-support).
 ---
 
 # Add Standalone JSON Schema Support
@@ -124,7 +124,7 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
       about the OAS plugins). The document component is registered as `JSONSchemaDocument`,
       the key SwaggerEditor's gate looks for in the swagger-ui-react bundle. A later dialect
       registers nothing new.
-- [ ] Tests: detection units; a Cypress spec loading a fixture of this draft that asserts the
+- [ ] Tests: detection units; a Playwright spec loading a fixture of this draft that asserts the
       renderer output; refusal cases (a custom meta-schema, an OAS dialect id, the other
       scheme, an undelivered draft) that assert the message and no schema output; a regression
       spec that OAS 3.0/3.1/3.2 documents (including ones whose Schema Objects carry `$schema`)
@@ -142,8 +142,8 @@ For each group of rows (`renderer-architecture.md` section 2 lists every place a
    eligible for `ExtensionKeywords`; `JSONSchema.jsx` still calls every keyword component, and
    e.g. `PrefixItems.jsx` reads `schema.prefixItems` without consulting that list. So also
    override the component (or its `fn`) in the dialect instance with one that renders nothing
-   for the keyword, and add a Cypress assertion that the 2020-12 rendering is absent.
-4. Fixture keys for every in-scope row; a Cypress assertion for every row whose target
+   for the keyword, and add a Playwright assertion that the 2020-12 rendering is absent.
+4. Fixture keys for every in-scope row; a Playwright assertion for every row whose target
    behaviour is visible.
 5. Mark the rows done in the tracking doc.
 
@@ -151,12 +151,11 @@ For each group of rows (`renderer-architecture.md` section 2 lists every place a
 
 1. `npm run lint-errors`, `npm run type-check`, `npm run lint-styles` when `.scss` changed.
 2. `npm run test:unit`.
-3. The PR's Cypress specs, then `npm run cy:ci` (the regression spec proves OAS rendering is
+3. The PR's Playwright specs (`npm run e2e -- <spec>`), then `npm run e2e` and `npm run e2e:typecheck` (the regression spec proves OAS rendering is
    unchanged).
 4. `npm run build`, `npm run test:artifact`.
 5. `check-plugin-conventions.mjs`: 0 errors (DIALECT only inspects files this PR changed, so
-   findings already on `main`, such as the oas32 Model/Models URLs, don't count against it). `.cy.ts` specs need `cypress.config.js`'s
-   `specPattern` extended in the same PR.
+   findings already on `main`, such as the oas32 Model/Models URLs, don't count against it).
 6. `check-field-coverage.mjs ADD-JSON-SCHEMA-{DRAFT}.md --plugin src/core/plugins/{plugin} --scope "PR n"`:
    0 gaps for this PR's rows (a scope with only `SAME` / `NOT-IN-DRAFT` rows, such as the
    detection PR, reports `n/a` and exits 0); generic keyword names (`type`, `items`, `format`) need a manual

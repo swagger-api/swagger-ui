@@ -98,7 +98,7 @@ Read `../add-oas-support/references/review-lessons.md` first. For OAS, also keep
 - [ ] **3.5 URLs.** Dialect and schema ids match the spec text and `https://spec.openapis.org/oas/`
       (OAS) or the meta-schema `$id` (JSON Schema); anchors exist.
 - [ ] **3.6 Tests.** Unit tests for detection and selectors (including the gated-off case);
-      Cypress specs that execute Try-it-out for request-changing features and assert the
+      Playwright specs that execute Try-it-out for request-changing features and assert the
       request; fixtures containing every in-scope field; new tests in TypeScript and picked up
       by the runner.
 - [ ] **3.7 Code shape.** Wrap rather than copy; no cross-plugin imports; no dead selectors or
