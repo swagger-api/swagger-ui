@@ -12,15 +12,17 @@ export default class BaseLayout extends React.Component {
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
   }
 
   render() {
-    const { errSelectors, specSelectors, getComponent } = this.props
+    const { errSelectors, specSelectors, getComponent, getConfigs } = this.props
 
     const SvgAssets = getComponent("SvgAssets")
     const InfoContainer = getComponent("InfoContainer", true)
     const VersionPragmaFilter = getComponent("VersionPragmaFilter")
     const Operations = getComponent("operations", true)
+    const OperationNavigation = getComponent("OperationNavigation", true)
     const Models = getComponent("Models", true)
     const Webhooks = getComponent("Webhooks", true)
     const Row = getComponent("Row")
@@ -94,6 +96,7 @@ export default class BaseLayout extends React.Component {
     const hasServers = servers && servers.size
     const hasSchemes = schemes && schemes.size
     const hasSecurityDefinitions = !!specSelectors.securityDefinitions()
+    const { showOperationNavigation } = getConfigs()
 
     return (
       <div className="swagger-ui">
@@ -131,7 +134,16 @@ export default class BaseLayout extends React.Component {
           <main id="operations" tabIndex="-1" style={{ outline: "none" }}>
             <Row>
               <Col mobile={12} desktop={12}>
-                <Operations />
+                {showOperationNavigation ? (
+                  <div className="operations-with-navigation">
+                    <OperationNavigation />
+                    <div className="operations-with-navigation__content">
+                      <Operations />
+                    </div>
+                  </div>
+                ) : (
+                  <Operations />
+                )}
               </Col>
             </Row>
 

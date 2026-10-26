@@ -19,6 +19,7 @@ const defaultOptions = Object.freeze({
   persistAuthorization: false,
   configs: {},
   displayOperationId: false,
+  showOperationNavigation: false,
   displayRequestDuration: false,
   deepLinking: false,
   tryItOutEnabled: false,
