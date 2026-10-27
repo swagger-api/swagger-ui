@@ -6,6 +6,7 @@ import { mount } from "enzyme"
 import { fromJS, Map } from "immutable"
 
 import JSONSchemaDocument from "core/plugins/json-schema-document/components/JSONSchemaDocument"
+import type { OverridesSystem } from "core/plugins/json-schema-document/overrides"
 
 type Component = React.ComponentType<Record<string, unknown>>
 
@@ -25,6 +26,7 @@ const resolved = {
 const JSONSchema = ({ schema }: { schema?: { title?: string } }) => (
   <div className="json-schema-stub">{schema?.title}</div>
 )
+const Keyword$defs = () => null
 const Row = ({ children }: { children?: React.ReactNode }) => (
   <div className="row-stub">{children}</div>
 )
@@ -40,6 +42,7 @@ const makeProps = (resolvedSubtree: unknown) => {
   )
   const components: Record<string, unknown> = {
     JSONSchema202012: JSONSchema,
+    JSONSchema202012Keyword$defs: Keyword$defs,
     withJSONSchema202012SystemContext: withContext,
     Row,
     Col: Row,
@@ -56,9 +59,16 @@ const makeProps = (resolvedSubtree: unknown) => {
       specActions: { requestResolvedSubtree: jest.fn() },
       getComponent: (name: string) => components[name],
       getConfigs: () => ({ defaultModelExpandDepth: 2, showExtensions: true }),
-      fn: {
-        jsonSchema202012: { getSchemaKeywords: () => ["$schema", "$ref"] },
-      },
+      getSystem: () =>
+        ({
+          fn: {
+            jsonSchema202012: {
+              getSchemaKeywords: () => ["$schema", "$ref"],
+              useFn: () => ({}),
+            },
+          },
+          getComponent: (name: string) => components[name],
+        }) as unknown as OverridesSystem,
     },
   }
 }
@@ -92,12 +102,19 @@ describe("<JSONSchemaDocument />", () => {
       default$schema: dialect,
       defaultExpandedLevels: 2,
     })
-    expect(Object.keys(overrides.fn as object)).toEqual(["getSchemaKeywords"])
+    // the dialect's keywords and components, none of the OpenAPI fn
+    expect(Object.keys(overrides.fn as object).sort()).toEqual([
+      "getSchemaKeywords",
+      "isExpandable",
+    ])
     expect(
       (
         overrides.fn as { getSchemaKeywords: () => string[] }
       ).getSchemaKeywords()
-    ).toEqual(["$schema", "$ref", "$$ref"])
+    ).toEqual(["$schema", "$ref", "definitions", "$$ref"])
+    expect(Object.keys(overrides.components as object)).toEqual([
+      "Keyword$defs",
+    ])
   })
 
   it("keeps the renderer instance across re-renders", () => {

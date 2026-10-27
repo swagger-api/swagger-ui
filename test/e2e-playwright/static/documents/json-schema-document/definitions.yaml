@@ -1,0 +1,30 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Catalog
+type: object
+properties:
+  product:
+    $ref: "#/definitions/Product"
+  tag:
+    # nothing but `definitions` to show below the head
+    type: string
+    definitions:
+      Slug:
+        type: string
+        pattern: "^[a-z-]+$"
+# the deprecated name of `$defs`, kept by the default meta-schema
+definitions:
+  Product:
+    title: Product
+    type: object
+    properties:
+      price:
+        $ref: "#/definitions/Price"
+  Price:
+    title: Price
+    type: number
+    exclusiveMinimum: 0
+$defs:
+  Currency:
+    title: Currency
+    type: string
+    pattern: "^[A-Z]{3}$"
