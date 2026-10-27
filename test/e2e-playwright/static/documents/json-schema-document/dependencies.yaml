@@ -1,0 +1,45 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Order
+type: object
+properties:
+  name:
+    type: string
+  creditCard:
+    type: string
+  billingAddress:
+    type: string
+  giftWrap:
+    type: boolean
+  delivery:
+    # nothing but schema entries of `dependencies` to show below the head
+    type: object
+    dependencies:
+      express:
+        required:
+          - carrier
+# the deprecated predecessor of dependentSchemas and dependentRequired, kept by the
+# default meta-schema
+dependencies:
+  # array form, like dependentRequired
+  creditCard:
+    - billingAddress
+  # schema form, like dependentSchemas
+  giftWrap:
+    properties:
+      giftMessage:
+        $ref: "#/$defs/Message"
+    required:
+      - giftMessage
+dependentRequired:
+  name:
+    - billingAddress
+dependentSchemas:
+  name:
+    properties:
+      nickname:
+        type: string
+$defs:
+  Message:
+    title: Message
+    type: string
+    maxLength: 200
