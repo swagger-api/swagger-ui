@@ -1,0 +1,17 @@
+openapi: 3.1.0
+info:
+  title: Catalog
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # the schema of definitions.yaml: in an OpenAPI 3.1 Schema Object
+    # (OAS 3.1 dialect), `definitions` keeps no meaning
+    Catalog:
+      title: Catalog
+      type: object
+      definitions:
+        Price:
+          title: Price
+          type: number
+          exclusiveMinimum: 0
