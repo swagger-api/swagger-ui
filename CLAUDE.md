@@ -108,7 +108,7 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 - Action/selector binding
 - Configuration management
 
-**26 Core Plugins** (in `src/core/plugins/`):
+**27 Core Plugins** (in `src/core/plugins/`):
 - `auth` - Authentication handling
 - `configs` - Configuration management
 - `deep-linking` - URL-based navigation
@@ -641,7 +641,7 @@ src/
 ├── core/
 │   ├── system.js                 # Plugin system & Redux store
 │   ├── components/               # 59 React components
-│   ├── plugins/                  # 26 core plugins
+│   ├── plugins/                  # 27 core plugins
 │   ├── presets/                  # Preset configurations
 │   ├── utils/                    # Utility functions
 │   └── config/                   # Configuration system
