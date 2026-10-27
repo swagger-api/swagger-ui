@@ -116,10 +116,16 @@ export const getRootSchemaKeyword = (spec: unknown): string => {
  * - `dependencies`: split into `dependentSchemas` (its schema form) and
  *   `dependentRequired` (its property name array form) by the same appendix,
  *   so each entry renders like the keyword that took over its form.
+ * - `$recursiveAnchor`, `$recursiveRef`: renamed to `$dynamicAnchor` and
+ *   `$dynamicRef` "with behavior modification"
+ *   (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01.html#appendix-G-2.4.1.5),
+ *   so they are shown as written, like those, and not resolved.
  */
 export const DEFAULT_META_SCHEMA_KEYWORDS: readonly string[] = [
   "definitions",
   "dependencies",
+  "$recursiveAnchor",
+  "$recursiveRef",
 ]
 
 /**
@@ -242,6 +248,21 @@ type Schema = Record<string, unknown> | boolean | null | undefined
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === "object" && !Array.isArray(value)
+
+/**
+ * Whether a schema object has the keyword, whatever its value.
+ */
+export const hasKeyword = (
+  schema: Schema,
+  keyword: string
+): schema is Record<string, unknown> =>
+  isObject(schema) && Object.hasOwn(schema, keyword)
+
+/**
+ * A keyword value as written: a string as is, anything else as JSON.
+ */
+export const stringifyAsWritten = (value: unknown): string =>
+  typeof value === "string" ? value : (JSON.stringify(value) ?? String(value))
 
 const getDependencies = (schema: Schema): [string, unknown][] =>
   isObject(schema) && isObject(schema.dependencies)
@@ -376,7 +397,9 @@ export const makeIsExpandable =
         fn.getExtensionKeywords(schema).length > 0 ||
         // keywords of the default meta-schema
         getDefinitions(schema) !== null ||
-        Object.keys(getSchemaDependencies(schema)).length > 0
+        Object.keys(getSchemaDependencies(schema)).length > 0 ||
+        hasKeyword(schema, "$recursiveAnchor") ||
+        hasKeyword(schema, "$recursiveRef")
     )
   }
 

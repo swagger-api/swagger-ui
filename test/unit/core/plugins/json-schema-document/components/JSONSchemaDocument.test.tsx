@@ -51,6 +51,8 @@ const makeProps = (resolvedSubtree: unknown) => {
   const components: Record<string, unknown> = {
     JSONSchema202012: JSONSchema,
     JSONSchema202012Keyword$defs: Keyword$defs,
+    JSONSchema202012Keyword$dynamicAnchor: Keyword$defs,
+    JSONSchema202012Keyword$dynamicRef: Keyword$defs,
     JSONSchema202012KeywordDependentSchemas: Keyword$defs,
     JSONSchema202012KeywordDependentRequired: Keyword$defs,
     withJSONSchema202012SystemContext: withContext,
@@ -127,8 +129,18 @@ describe("<JSONSchemaDocument />", () => {
       (
         overrides.fn as { getSchemaKeywords: () => string[] }
       ).getSchemaKeywords()
-    ).toEqual(["$schema", "$ref", "definitions", "dependencies", "$$ref"])
+    ).toEqual([
+      "$schema",
+      "$ref",
+      "definitions",
+      "dependencies",
+      "$recursiveAnchor",
+      "$recursiveRef",
+      "$$ref",
+    ])
     expect(Object.keys(overrides.components as object)).toEqual([
+      "Keyword$dynamicAnchor",
+      "Keyword$dynamicRef",
       "Keyword$defs",
       "KeywordDependentSchemas",
       "KeywordDependentRequired",
