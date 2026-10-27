@@ -30,8 +30,11 @@ Detection rules:
 - A `$schema` naming any other URI (a custom meta-schema or a vocabulary dialect such as the OAS
   dialects below) is not one of these drafts, and neither is a draft whose support isn't
   delivered yet. Decision 6 refuses them with a message; they never render as another draft.
-- Detection happens at the document root only, and only when there is no `openapi` or `swagger`
-  field. Schema Objects inside OAS documents may carry `$schema` too.
+- Detection happens at the document root only, and only when the root has none of the API
+  description fields `openapi`, `swagger`, `asyncapi` and `arazzo` (decision 8 in
+  `design-and-delivery.md`; the presence of the key counts, whatever its value). Schema Objects
+  inside OAS documents may carry `$schema` too, and so may the root of an OpenAPI, AsyncAPI or
+  Arazzo document; swagger-client's `isJSONSchema202012` predicate applies the same rule.
 
 ## Specification Documents
 
