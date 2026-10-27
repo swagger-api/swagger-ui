@@ -115,6 +115,8 @@ if [[ -f "$PATCH" ]] && git cat-file -e "$FIXTURE^{commit}" 2>/dev/null; then
   git -C "$TMP/clone" apply "$PATCH"
   # DIALECT only reads changed files; the fixture's model.jsx carries the wrong URL already, so touch it
   echo '// touched' >>"$TMP/clone/src/core/plugins/oas32/wrap-components/model.jsx"
+  # a swagger-client tarball and a nested git override: UNRELEASED; a $name override isn't
+  node -e 'const f=process.argv[1],p=require(f);p.dependencies["swagger-client"]="file:../upstream-tarballs/swagger-client-abc1234.tgz";p.overrides={...p.overrides,"swagger-client":"$swagger-client",x:{"@swagger-api/apidom-core":"github:swagger-api/apidom#feat"}};require("fs").writeFileSync(f,JSON.stringify(p,null,2))' "$TMP/clone/package.json"
   # parent shell, not a subshell, so check's FAILED=1 survives
   pushd "$TMP/clone" >/dev/null || exit 1
   check 'check-plugin-conventions on the planted branch' 1 \
@@ -125,6 +127,14 @@ if [[ -f "$PATCH" ]] && git cat-file -e "$FIXTURE^{commit}" 2>/dev/null; then
   expect_output 'CORE-TOUCH for the shared component' 'NOTE +CORE-TOUCH +src/core/components/operation-tag\.jsx'
   expect_output 'DIALECT for the oas32 document-schema URL' 'ERROR +DIALECT +src/core/plugins/oas32/wrap-components/model\.jsx'
   expect_output 'EXPORT for the missing OpenAPI32 entry' 'NOTE +EXPORT +src/core/plugins/oas32'
+  expect_output 'UNRELEASED for the swagger-client tarball' 'WARNING +UNRELEASED +package\.json: dependencies swagger-client is file:'
+  expect_output 'UNRELEASED for a nested git override' 'WARNING +UNRELEASED +package\.json: overrides x > @swagger-api/apidom-core is github:'
+  if grep -q 'UNRELEASED.*is \$swagger-client' "$TMP/out"; then
+    printf 'FAIL  %-58s\n' 'no UNRELEASED finding for a $name override'
+    FAILED=1
+  else
+    printf 'ok    %-58s\n' 'no UNRELEASED finding for a $name override'
+  fi
   if grep -q 'PRAGMA' "$TMP/out"; then
     printf 'FAIL  %-58s\n' 'no PRAGMA finding (every new file has the pragma)'
     FAILED=1

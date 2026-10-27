@@ -32,6 +32,7 @@ The work spans repositories. This skill owns the Swagger UI part and plans the r
 | `../add-oas-support/scripts/check-field-coverage.mjs <doc> --plugin <dir>` | Every in-scope `NEW` / `CHANGED-SHAPE` / `RENAMED` keyword appears in source, a test and a fixture. |
 | `../add-oas-support/scripts/check-plugin-conventions.mjs` | TypeScript, pragma, cross-plugin imports, committed `dist/`. The OAS-specific checks don't apply. |
 | `../add-oas-support/scripts/verify-urls.mjs` | URLs and anchors. |
+| `../add-oas-support/references/unreleased-upstream.md` | Starting PR 1 on a ready but unreleased swagger-client PR: pack its branch, wire the tarballs, replace them with the release before merging. Read at Step 2 when the strategy isn't released yet. |
 
 Run scripts from the repository root: `node .claude/skills/add-oas-support/scripts/<script>`.
 Project conventions are in `CLAUDE.md` (TypeScript for new files, `@prettier`, no cross-plugin
@@ -75,7 +76,10 @@ answer the open ones silently.
    has `es/resolver/strategies/json-schema-<dialect>-apidom` (`ls node_modules/swagger-client/es/
    resolver/strategies`). Without it the document falls to the `generic` strategy (no `$id`, no
    `$anchor`): record it in the tracking doc as swagger-client work (its
-   `/add-json-schema-support`), which PR 1 waits for.
+   `/add-json-schema-support`), which PR 1 waits for. Once that swagger-client PR is ready (its
+   exit gate passes, its review is clean), PR 1 can start on a tarball of its branch
+   (`../add-oas-support/references/unreleased-upstream.md`) and merges after the swagger-client
+   release.
 
 ## Step 3: Keyword Map and PR Plan
 
@@ -118,7 +122,8 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
 - [ ] `$ref` resolution (decision 5): import
       `swagger-client/es/resolver/strategies/json-schema-<dialect>-apidom` into both strategy
       lists of `src/core/plugins/swagger-client/index.js` (`resolve` and `resolveSubtree`), ahead
-      of `genericResolveStrategy`, and bump `swagger-client` to the release that ships it.
+      of `genericResolveStrategy`, and bump `swagger-client` to the release that ships it (until
+      then a tarball of its ready PR, replaced by the release before merging).
 - [ ] Registration (decisions 4 and 7): `SwaggerUI.plugins.JSONSchemaDocument`, and the `apis`
       preset after `OpenAPI32Plugin` (it must wrap oas32's filter, whose "Load LAST" comment is
       about the OAS plugins). The document component is registered as `JSONSchemaDocument`,
@@ -155,7 +160,8 @@ For each group of rows (`renderer-architecture.md` section 2 lists every place a
    unchanged).
 4. `npm run build`, `npm run test:artifact`.
 5. `check-plugin-conventions.mjs`: 0 errors (DIALECT only inspects files this PR changed, so
-   findings already on `main`, such as the oas32 Model/Models URLs, don't count against it).
+   findings already on `main`, such as the oas32 Model/Models URLs, don't count against it);
+   before merging also no `UNRELEASED` warning (`unreleased-upstream.md` section 4).
 6. `check-field-coverage.mjs ADD-JSON-SCHEMA-{DRAFT}.md --plugin src/core/plugins/{plugin} --scope "PR n"`:
    0 gaps for this PR's rows (a scope with only `SAME` / `NOT-IN-DRAFT` rows, such as the
    detection PR, reports `n/a` and exits 0); generic keyword names (`type`, `items`, `format`) need a manual
@@ -171,4 +177,6 @@ Report the PRs (branch, URL, state, gates), the decisions taken and by whom, row
 `out` with reasons, the registration key `JSONSchemaDocument` and the swagger-ui release that
 first renders this dialect (SwaggerEditor's gate takes both: `--swagger-ui-plugin` and
 `--swagger-ui-version`), and the SwaggerEditor and ApiDOM work items with their repositories.
+Before that release, once PR 1 is ready, SwaggerEditor can start on a swagger-ui-react tarball of
+its branch: report the branch and the tarballs it uses (the `UNRELEASED` warnings).
 Pushing and opening PRs are outward-facing: confirm each with the user.
