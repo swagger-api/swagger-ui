@@ -120,13 +120,14 @@ describe("json-schema-document detection", () => {
       }
     )
 
-    it("are not detected when only a nested schema has $schema", () => {
+    it("are not detected when only an embedded resource has $schema", () => {
       const spec = parse(
         [
           "title: Nested",
           "type: object",
           "properties:",
           "  name:",
+          "    $id: https://example.com/schemas/name",
           "    $schema: https://json-schema.org/draft/2020-12/schema",
           "    type: string",
         ].join("\n")
