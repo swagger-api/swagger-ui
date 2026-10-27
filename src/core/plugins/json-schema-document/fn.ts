@@ -101,13 +101,89 @@ export const getRootSchemaKeyword = (spec: unknown): string => {
 }
 
 /**
- * The 2020-12 keyword list plus `$$ref`, the annotation swagger-client adds to
- * every schema it resolved, so that it isn't listed as an extension keyword.
+ * Keywords of earlier drafts that the JSON Schema 2020-12 default meta-schema
+ * (https://json-schema.org/draft/2020-12/schema) still defines in its
+ * `properties`, "as they remain in common use"; none of its vocabularies has
+ * them. A document whose root `$schema` is that meta-schema may use them:
+ *
+ * - `definitions`: "implementations SHOULD assume that `$defs` and
+ *   `definitions` have the same behavior when that meta-schema is used"
+ *   (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#appendix-A),
+ *   so it renders like `$defs`.
+ */
+export const DEFAULT_META_SCHEMA_KEYWORDS: readonly string[] = ["definitions"]
+
+/**
+ * The 2020-12 keyword list, the keywords of the default meta-schema this
+ * instance renders, and `$$ref`, the annotation swagger-client adds to every
+ * schema it resolved, so that none of them is listed as an extension keyword.
  */
 export const makeGetSchemaKeywords = (
   original: () => string[]
 ): (() => string[]) => {
-  const keywords = [...original(), "$$ref"]
+  const keywords = [...original(), ...DEFAULT_META_SCHEMA_KEYWORDS, "$$ref"]
 
   return () => keywords
 }
+
+type Schema = Record<string, unknown> | boolean | null | undefined
+
+/**
+ * The `fn` of a json-schema-2020-12 renderer instance, as far as used here.
+ */
+export interface InstanceFn {
+  hasKeyword: (schema: Schema, keyword: string) => boolean
+  getExtensionKeywords: (schema: Schema) => string[]
+}
+
+/**
+ * Whether a schema has anything to show below its head. A copy of
+ * `makeIsExpandable` of the json-schema-2020-12 renderer (plugins don't import
+ * each other; keep the two in step), plus the keywords of the default
+ * meta-schema that render in the body. `fnAccessor` returns the `fn` of the
+ * renderer instance, so `getExtensionKeywords` uses this instance's keywords.
+ */
+export const makeIsExpandable =
+  (fnAccessor: () => InstanceFn) =>
+  (schema: Schema): boolean => {
+    const fn = fnAccessor()
+    const s = typeof schema === "object" && schema !== null ? schema : {}
+
+    return Boolean(
+      s.$schema ||
+        s.$vocabulary ||
+        s.$id ||
+        s.$anchor ||
+        s.$dynamicAnchor ||
+        s.$ref ||
+        s.$dynamicRef ||
+        s.$defs ||
+        s.$comment ||
+        s.allOf ||
+        s.anyOf ||
+        s.oneOf ||
+        fn.hasKeyword(schema, "not") ||
+        fn.hasKeyword(schema, "if") ||
+        fn.hasKeyword(schema, "then") ||
+        fn.hasKeyword(schema, "else") ||
+        s.dependentSchemas ||
+        s.prefixItems ||
+        fn.hasKeyword(schema, "items") ||
+        fn.hasKeyword(schema, "contains") ||
+        s.properties ||
+        s.patternProperties ||
+        fn.hasKeyword(schema, "additionalProperties") ||
+        fn.hasKeyword(schema, "propertyNames") ||
+        fn.hasKeyword(schema, "unevaluatedItems") ||
+        fn.hasKeyword(schema, "unevaluatedProperties") ||
+        s.description ||
+        s.enum ||
+        fn.hasKeyword(schema, "const") ||
+        fn.hasKeyword(schema, "contentSchema") ||
+        fn.hasKeyword(schema, "default") ||
+        s.examples ||
+        fn.getExtensionKeywords(schema).length > 0 ||
+        // keywords of the default meta-schema
+        s.definitions
+    )
+  }
