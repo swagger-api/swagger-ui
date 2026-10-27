@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
-import { fromJS, Seq, Iterable, Map } from "immutable"
+import { fromJS, Seq, Iterable, Map, isImmutable } from "immutable"
 import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
@@ -133,7 +133,7 @@ export default class Response extends React.Component {
     if(isOAS3) {
       const oas3SchemaForContentType = activeMediaType.get("schema")
 
-      schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
+      schema = isImmutable(oas3SchemaForContentType) ? inferSchema(oas3SchemaForContentType?.toJS()) : null
       specPathWithPossibleSchema = oas3SchemaForContentType
         ? specPath.push("content", activeContentType, "schema")
         : specPath
@@ -151,14 +151,15 @@ export default class Response extends React.Component {
 
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
-      sampleSchema = activeMediaType.get("schema")?.toJS()
+      const activeMediaTypeSchema = activeMediaType.get("schema")
+      sampleSchema = isImmutable(activeMediaTypeSchema) ? activeMediaType.get("schema")?.toJS() : {}
       if(Map.isMap(examplesForMediaType) && !examplesForMediaType.isEmpty()) {
         const targetExamplesKey = this.getTargetExamplesKey()
         const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
         const getMediaTypeExample = (targetExample) =>
-          Map.isMap(targetExample) 
-          ? targetExample.get("value") 
+          Map.isMap(targetExample)
+          ? targetExample.get("value")
           : undefined
         mediaTypeExample = getMediaTypeExample(targetExample)
         if(mediaTypeExample === undefined) {
@@ -238,7 +239,7 @@ export default class Response extends React.Component {
                     currentExampleKey={this.getTargetExamplesKey()}
                     onSelect={(key, { isSyntheticChange } = {}) => {
                       if (isSyntheticChange) return
-                      
+
                       oas3Actions.setActiveExamplesMember({
                         name: key,
                         pathMethod: [path, method],
