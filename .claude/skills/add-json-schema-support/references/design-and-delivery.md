@@ -57,10 +57,10 @@ release by the registration key and the release version from decision 7.
 
 ## Decisions for the User
 
-Decisions 1 and 4 were answered on 2026-10-23, decisions 3, 5, 6 and 7 on 2026-10-25; record
-them in the tracking doc as given. Ask the others at the first checkpoint, each with your
-recommendation. Running as a subagent, record them as open in the tracking doc, plan with the
-recommendation, and stop before code.
+Decisions 1 and 4 were answered on 2026-10-23, decisions 3, 5, 6 and 7 on 2026-10-25, decision 8
+on 2026-10-27; record them in the tracking doc as given. Ask the others at the first checkpoint,
+each with your recommendation. Running as a subagent, record them as open in the tracking doc,
+plan with the recommendation, and stop before code.
 
 1. **Delivery plan**: answered: the Full plan, ApiDOM first; the MVP (ajv in SwaggerEditor) is
    not pursued.
@@ -115,3 +115,30 @@ recommendation, and stop before code.
      key alone doesn't tell dialects apart, and a dialect's `$schema` identifier can't either:
      the 2020-12 one is already in the bundle as the renderer's `default$schema`. Record the
      release in the tracking doc and give both to SwaggerEditor.
+8. **Which roots are JSON Schema documents**: answered on 2026-10-27: a document is a standalone
+   JSON Schema document only when its root has the dialect's `$schema` and none of the API
+   description fields `openapi`, `swagger`, `asyncapi` and `arazzo` (the key's presence counts,
+   whatever its value). AsyncAPI and Arazzo documents may carry a root `$schema` too; they are not
+   rendered as JSON Schema, and Swagger UI keeps showing what it showed for them before.
+   swagger-client's `isJSONSchema202012` predicate (its `json-schema-2020-12-apidom` strategy)
+   refuses the same four fields, so detection and resolution agree. Test it with an AsyncAPI 3.0
+   and an Arazzo 1.0.1 document whose root carries the 2020-12 `$schema`.
+
+## Decisions Recorded by the 2020-12 Delivery
+
+The "Standalone JSON Schema 2020-12" PRD numbers its decisions D1-D19. The skill decisions above
+map to them as 1 = D1, 3 = D8, 4 = D2, 5 = D9, 6 = D10, 7 = D7, 8 = D18; decision 2 (later drafts
+and their order) has no PRD number and stays open. The PRD also fixed, for every dialect:
+
+- D3: `$ref`s that cross dialects (an embedded resource with another `$schema`) are out of scope.
+- D5: dereferencing leaves every `$dynamicRef` in place, as for OAS 3.1.
+- D6: bundling is deferred.
+- D12: swagger-client handles `allOf` and the macros as for OAS 3.1 (it merges `allOf` in
+  non-strict mode before Swagger UI renders).
+- D13: Swagger UI's PR 1 starts on tarballs of the ready swagger-client branch and the ApiDOM
+  tarballs that branch uses (`../../add-oas-support/references/unreleased-upstream.md`), and
+  merges only after the swagger-client release, with the tarballs replaced and every gate run
+  again. No prerelease on npm.
+
+D11 (editor theme colours), D14-D17 (ApiDOM and swagger-client internals) and D19 (a
+swagger-client subtree-cycle fix) don't change Swagger UI.

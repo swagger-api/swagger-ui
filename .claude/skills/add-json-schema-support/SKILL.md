@@ -1,6 +1,6 @@
 ---
 name: add-json-schema-support
-description: Plans and delivers rendering of standalone JSON Schema documents in Swagger UI (a document whose root has `$schema` and no `openapi`/`swagger` field), starting with JSON Schema 2020-12 and extending to 2019-09, Draft 7, Draft 6 and Draft 4/5, as in the "Standalone JSON Schema" design doc. Builds a per-draft keyword map against the existing json-schema-2020-12 renderer, settles the design decisions (delivery plan, renderer per draft, where it displays, $ref resolution) with the user, then implements detection, a dialect-configured renderer instance and keyword components in version-gated PRs with lint, unit, Playwright, build and coverage gates. Use whenever someone wants Swagger UI or SwaggerEditor to show, preview, detect or render a JSON Schema document or a specific draft, asks what standalone JSON Schema support would take, or asks to support a JSON Schema keyword outside an OpenAPI document - even if they don't name this skill. Not for Schema Objects inside OpenAPI documents (that is add-oas-support).
+description: Plans and delivers rendering of standalone JSON Schema documents in Swagger UI (a document whose root has `$schema` and none of the fields `openapi`, `swagger`, `asyncapi`, `arazzo`), starting with JSON Schema 2020-12 and extending to 2019-09, Draft 7, Draft 6 and Draft 4/5, as in the "Standalone JSON Schema" design doc. Builds a per-draft keyword map against the existing json-schema-2020-12 renderer, settles the design decisions (delivery plan, renderer per draft, where it displays, $ref resolution) with the user, then implements detection, a dialect-configured renderer instance and keyword components in version-gated PRs with lint, unit, Playwright, build and coverage gates. Use whenever someone wants Swagger UI or SwaggerEditor to show, preview, detect or render a JSON Schema document or a specific draft, asks what standalone JSON Schema support would take, or asks to support a JSON Schema keyword outside an OpenAPI document - even if they don't name this skill. Not for Schema Objects inside OpenAPI documents (that is add-oas-support).
 ---
 
 # Add Standalone JSON Schema Support
@@ -53,8 +53,9 @@ imports); they apply throughout.
 Read `references/design-and-delivery.md`. Its "Decisions for the User" change what gets built.
 Decisions 1 (Full plan), 3 (the 2020-12 renderer for every draft), 4 (native display, plugin in
 the `apis` preset), 5 (`$ref` resolution by swagger-client's `json-schema-<dialect>-apidom`
-strategy), 6 (refuse unrecognised `$schema` values) and 7 (the `json-schema-document` plugin,
-registration key `JSONSchemaDocument`) are answered there: record them as given. Put
+strategy), 6 (refuse unrecognised `$schema` values), 7 (the `json-schema-document` plugin,
+registration key `JSONSchemaDocument`) and 8 (a root with `openapi`, `swagger`, `asyncapi` or
+`arazzo` is never a JSON Schema document) are answered there: record them as given. Put
 the open ones to the user, each with your recommendation and the facts behind it, before
 planning PRs or writing code.
 When the request is research only (a keyword map, an assessment), record them as open in the
@@ -106,10 +107,11 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
 - [ ] The `src/core/plugins/json-schema-document/` plugin (decision 7), TypeScript. The first
       dialect creates it; a later dialect adds its detection entry and its overrides to it.
 - [ ] Detection of the root `$schema` per `dialects.md` (empty-fragment normalisation, Draft 4/5
-      as one dialect, no `openapi`/`swagger` field), as an exported pure function with unit
-      tests for every identifier variant, accepted or refused (decision 6), and for OAS
-      documents (which must not match). The spec selectors `isJSONSchemaDocument()` and
-      `jsonSchemaDialect()` expose it.
+      as one dialect, none of the API description fields `openapi`, `swagger`, `asyncapi`,
+      `arazzo` at the root: decision 8), as an exported pure function with unit tests for every
+      identifier variant, accepted or refused (decision 6), and for OAS, AsyncAPI and Arazzo
+      documents with a root `$schema` (which must not match). The spec selectors
+      `isJSONSchemaDocument()` and `jsonSchemaDialect()` expose it.
 - [ ] A document component that renders the root schema through `withJSONSchema202012Context`
       (or the system HOC) with this dialect's `overrides`: its keyword list, its components and
       `default$schema` = the meta-schema identifier. It must not take the OAS `fn` overrides
@@ -133,7 +135,8 @@ Read `references/renderer-architecture.md` sections 1, 4 and 6 first.
       renderer output; refusal cases (a custom meta-schema, an OAS dialect id, the other
       scheme, an undelivered draft) that assert the message and no schema output; a regression
       spec that OAS 3.0/3.1/3.2 documents (including ones whose Schema Objects carry `$schema`)
-      render exactly as before.
+      render exactly as before, and that AsyncAPI and Arazzo documents with a root `$schema`
+      aren't detected (decision 8).
 
 ## Step 5: Keyword PRs
 
