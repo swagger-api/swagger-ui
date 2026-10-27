@@ -1,0 +1,20 @@
+asyncapi: 3.0.0
+$schema: https://json-schema.org/draft/2020-12/schema
+info:
+  title: AsyncAPI 3.0 with a root $schema
+  version: 1.0.0
+channels:
+  userSignedUp:
+    address: user/signedup
+    messages:
+      UserSignedUp:
+        payload:
+          type: object
+          properties:
+            name:
+              type: string
+operations:
+  onUserSignedUp:
+    action: receive
+    channel:
+      $ref: "#/channels/userSignedUp"
