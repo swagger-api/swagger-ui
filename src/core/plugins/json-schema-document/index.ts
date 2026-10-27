@@ -24,7 +24,9 @@ import { requestResolvedSubtree } from "./wrap-actions"
  * arrays); a `$ref` into them is resolved, a `$ref` inside them stays as
  * written (swagger-client doesn't dereference there). `$recursiveAnchor` and
  * `$recursiveRef` are shown as written, like `$dynamicAnchor` and
- * `$dynamicRef`, and not resolved.
+ * `$dynamicRef`, and not resolved. The OpenAPI number formats (`int32`,
+ * `int64`, `float`, `double`), which JSON Schema doesn't define, imply no type
+ * for a schema without `type`.
  * Limitation: an embedded resource (`$id` with its own `$schema`) or an external
  * file that declares another dialect is rendered with the 2020-12 meaning;
  * references that cross dialects are out of scope.
