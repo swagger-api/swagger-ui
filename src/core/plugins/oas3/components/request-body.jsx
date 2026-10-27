@@ -30,6 +30,58 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
   return stringify(exampleValue)
 }
 
+/**
+ * When a schema uses `oneOf` or `anyOf` and the media type has no explicit
+ * `examples` object, synthesize one example entry per subschema so that the
+ * existing ExamplesSelect dropdown can be used to switch between them.
+ *
+ * Returns an Immutable OrderedMap shaped like the `examples` object from the
+ * OpenAPI spec (each entry has at least a `summary` and a `value`), or `null`
+ * when the schema does not use `oneOf`/`anyOf`.
+ */
+export const getOneOfExamples = (requestBody, mediaType, fn) => {
+  const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
+
+  const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
+  if (hasExamplesKey)
+    return null
+
+  const schema = mediaTypeValue.get("schema", OrderedMap())
+  const schemaJS = typeof schema.toJS === "function" ? schema.toJS() : schema
+
+  const variants = schemaJS.oneOf ?? schemaJS.anyOf ?? null
+  if (!Array.isArray(variants) || variants.length < 2)
+    return null
+
+  const keyword = schemaJS.oneOf ? "oneOf" : "anyOf"
+
+  // Build a parent schema that omits the oneOf/anyOf key so that
+  // getSampleSchema generates a sample for each individual variant.
+  const parentWithoutVariants = { ...schemaJS }
+  delete parentWithoutVariants[keyword]
+
+  const entries = variants.map((variant, index) => {
+    const variantSchema = fn.mergeJsonSchema
+      ? fn.mergeJsonSchema(parentWithoutVariants, variant)
+      : variant
+
+    const nameFromRef = variant["$$ref"]
+      ?.replace(/^.*#\/components\/schemas\//, "")
+      ?.replace(/^.*#\/definitions\//, "")
+    const summary =
+      variant.title ?? variant["x-summary"] ?? nameFromRef ?? `${keyword}[${index}]`
+    const value = fn.getSampleSchema(
+      fromJS(variantSchema),
+      mediaType,
+      { includeWriteOnly: true }
+    )
+
+    return [summary, Map({ summary, value: stringify(value) })]
+  })
+
+  return OrderedMap(entries)
+}
+
 
 
 const RequestBody = ({
@@ -85,18 +137,23 @@ const RequestBody = ({
   const mediaTypeValue = requestBodyContent.get(contentType) ?? OrderedMap()
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
   const rawExamplesOfMediaType = mediaTypeValue.get("examples", null)
-  const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
-    const val = container?.get("value", null)
-    if(val) {
-      container = container.set("value", getDefaultRequestBodyValue(
-        requestBody,
-        contentType,
-        key,
-        fn,
-      ), val)
-    }
-    return container
-  })
+  const oneOfExamples = rawExamplesOfMediaType
+    ? null
+    : getOneOfExamples(requestBody, contentType, fn)
+  const sampleForMediaType = rawExamplesOfMediaType
+    ? rawExamplesOfMediaType.map((container, key) => {
+        const val = container?.get("value", null)
+        if(val) {
+          container = container.set("value", getDefaultRequestBodyValue(
+            requestBody,
+            contentType,
+            key,
+            fn,
+          ), val)
+        }
+        return container
+      })
+    : oneOfExamples
 
   const handleExamplesSelect = (key /*, { isSyntheticChange } */) => {
     updateActiveExamplesKey(key)
@@ -251,12 +308,14 @@ const RequestBody = ({
     </div>
   }
 
-  const sampleRequestBody = getDefaultRequestBodyValue(
-    requestBody,
-    contentType,
-    activeExamplesKey,
-    fn,
-  )
+  const sampleRequestBody = oneOfExamples
+    ? (oneOfExamples.get(activeExamplesKey) ?? oneOfExamples.first())?.get("value") ?? ""
+    : getDefaultRequestBodyValue(
+        requestBody,
+        contentType,
+        activeExamplesKey,
+        fn,
+      )
   let language = null
   let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleRequestBody)
   if (testValueForJson) {
