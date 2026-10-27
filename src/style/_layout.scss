@@ -966,7 +966,21 @@ a.nostyle {
       padding: 4px 4px 2px;
       white-space: pre;
     }
+
+    &--unsupported-dialect code {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
   }
+
+  &__dialects {
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.wrapper.json-schema-document {
+  margin: 30px auto;
 }
 
 .opblock-link {

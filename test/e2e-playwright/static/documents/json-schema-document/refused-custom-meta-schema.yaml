@@ -1,0 +1,3 @@
+$schema: https://example.com/schemas/custom-meta-schema
+title: Custom meta-schema
+type: object
