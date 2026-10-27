@@ -1,0 +1,16 @@
+- /children: deep-equal
+- img
+- heading "Unable to render this definition" [level=3]
+- paragraph: The provided definition does not specify a valid version field.
+- paragraph:
+  - text: Please indicate a valid Swagger or OpenAPI version field. Supported version fields are
+  - code: "swagger: \"2.0\""
+  - text: and
+  - code: "openapi: 3.0.x"
+  - text: ","
+  - code: "openapi: 3.1.x"
+  - text: ", or"
+  - code: "openapi: 3.2.x"
+  - text: (for example,
+  - code: "openapi: 3.2.0"
+  - text: ).
