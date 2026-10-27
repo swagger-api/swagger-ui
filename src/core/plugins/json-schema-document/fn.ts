@@ -110,8 +110,14 @@ export const getRootSchemaKeyword = (spec: unknown): string => {
  *   `definitions` have the same behavior when that meta-schema is used"
  *   (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#appendix-A),
  *   so it renders like `$defs`.
+ * - `dependencies`: split into `dependentSchemas` (its schema form) and
+ *   `dependentRequired` (its property name array form) by the same appendix,
+ *   so each entry renders like the keyword that took over its form.
  */
-export const DEFAULT_META_SCHEMA_KEYWORDS: readonly string[] = ["definitions"]
+export const DEFAULT_META_SCHEMA_KEYWORDS: readonly string[] = [
+  "definitions",
+  "dependencies",
+]
 
 /**
  * The 2020-12 keyword list, the keywords of the default meta-schema this
@@ -127,6 +133,59 @@ export const makeGetSchemaKeywords = (
 }
 
 type Schema = Record<string, unknown> | boolean | null | undefined
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === "object" && !Array.isArray(value)
+
+const getDependencies = (schema: Schema): [string, unknown][] =>
+  isObject(schema) && isObject(schema.dependencies)
+    ? Object.entries(schema.dependencies)
+    : []
+
+/**
+ * The schema form of `dependencies`: the entries whose value is a schema (an
+ * object or a boolean), which apply to the whole instance when it has the
+ * property, as `dependentSchemas` does.
+ */
+export const getSchemaDependencies = (
+  schema: Schema
+): Record<string, Record<string, unknown> | boolean> =>
+  Object.fromEntries(
+    getDependencies(schema).filter(
+      (entry): entry is [string, Record<string, unknown> | boolean] =>
+        typeof entry[1] === "boolean" || isObject(entry[1])
+    )
+  )
+
+/**
+ * The properties whose presence makes `propertyName` required: from
+ * `dependentRequired` and from the property name array form of
+ * `dependencies`. A copy of `getDependentRequired` of the json-schema-2020-12
+ * renderer (plugins don't import each other; keep the two in step), plus
+ * `dependencies`.
+ */
+export const getDependentRequired = (
+  propertyName: string,
+  schema: Schema
+): string[] => {
+  const entries = [
+    ...(isObject(schema) && isObject(schema.dependentRequired)
+      ? Object.entries(schema.dependentRequired)
+      : []),
+    ...getDependencies(schema),
+  ]
+
+  return Array.from(
+    entries.reduce((acc, [prop, list]) => {
+      if (!Array.isArray(list)) return acc
+      if (!list.includes(propertyName)) return acc
+
+      acc.add(prop)
+
+      return acc
+    }, new Set<string>())
+  )
+}
 
 /**
  * The `fn` of a json-schema-2020-12 renderer instance, as far as used here.
@@ -184,6 +243,7 @@ export const makeIsExpandable =
         s.examples ||
         fn.getExtensionKeywords(schema).length > 0 ||
         // keywords of the default meta-schema
-        s.definitions
+        s.definitions ||
+        Object.keys(getSchemaDependencies(schema)).length > 0
     )
   }

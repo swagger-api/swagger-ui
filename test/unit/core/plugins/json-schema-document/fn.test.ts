@@ -9,12 +9,15 @@ import {
   getJSONSchemaDialect,
   getRootSchemaKeyword,
   isJSONSchemaDocument,
+  getDependentRequired,
+  getSchemaDependencies,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
   makeIsExpandable,
   normalizeDialectIdentifier,
 } from "core/plugins/json-schema-document/fn"
 import {
+  getDependentRequired as getJSONSchema202012DependentRequired,
   getSchemaKeywords as getJSONSchema202012Keywords,
   hasKeyword,
   makeIsExpandable as makeJSONSchema202012IsExpandable,
@@ -184,6 +187,7 @@ describe("json-schema-document makeGetSchemaKeywords", () => {
       "$ref",
       "type",
       "definitions",
+      "dependencies",
       "$$ref",
     ])
   })
@@ -237,8 +241,74 @@ describe("json-schema-document makeIsExpandable", () => {
     expect(isExpandable({ type: "string" })).toBe(false)
   })
 
+  it("expands a schema whose only body keyword is a schema dependency", () => {
+    expect(
+      isExpandable({ type: "object", dependencies: { a: { required: ["b"] } } })
+    ).toBe(true)
+    expect(isExpandable({ type: "object", dependencies: { a: true } })).toBe(
+      true
+    )
+    // the array form renders on the properties it makes required
+    expect(isExpandable({ type: "object", dependencies: { a: ["b"] } })).toBe(
+      false
+    )
+    expect(isExpandable({ type: "object", dependencies: {} })).toBe(false)
+  })
+
   it("expands a schema with an extension keyword of this instance", () => {
     expect(isExpandable({ type: "string", "x-internal": true })).toBe(true)
     expect(isExpandable({ type: "string", $$ref: "#/$defs/A" })).toBe(false)
+  })
+})
+
+describe("json-schema-document dependencies", () => {
+  const schema = {
+    properties: { a: {}, b: {}, c: {} },
+    dependencies: {
+      a: ["b"],
+      c: { required: ["a"] },
+      d: false,
+      e: ["b", "c"],
+    },
+    dependentRequired: { f: ["b"], a: ["c"] },
+  }
+
+  it("takes the schema entries of dependencies, like dependentSchemas", () => {
+    expect(getSchemaDependencies(schema)).toEqual({
+      c: { required: ["a"] },
+      d: false,
+    })
+    for (const value of [undefined, null, [], "a", true]) {
+      expect(getSchemaDependencies({ dependencies: value })).toEqual({})
+    }
+    expect(getSchemaDependencies(true)).toEqual({})
+  })
+
+  it("adds the array entries of dependencies to dependentRequired", () => {
+    expect(getDependentRequired("b", schema)).toEqual(["f", "a", "e"])
+    expect(getDependentRequired("c", schema)).toEqual(["a", "e"])
+    expect(getDependentRequired("a", schema)).toEqual([])
+    expect(getDependentRequired("b", { dependencies: { a: ["b"] } })).toEqual([
+      "a",
+    ])
+  })
+
+  it("decides as the json-schema-2020-12 renderer without dependencies", () => {
+    const schemas = [
+      { dependentRequired: { f: ["b"], a: ["c", "b"] } },
+      { dependentRequired: { f: "b" } },
+      { dependentRequired: {} },
+      {},
+      true,
+      null,
+    ]
+
+    for (const s of schemas) {
+      for (const name of ["a", "b", "c"]) {
+        expect(getDependentRequired(name, s)).toEqual(
+          getJSONSchema202012DependentRequired(name, s)
+        )
+      }
+    }
   })
 })
