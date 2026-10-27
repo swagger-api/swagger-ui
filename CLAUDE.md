@@ -118,6 +118,7 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 - `icons` - Icon components
 - `json-schema-2020-12` - JSON Schema 2020-12 support
 - `json-schema-2020-12-samples` - Sample generation
+- `json-schema-document` - Standalone JSON Schema documents (2020-12): detection, `JSONSchemaDocument`
 - `json-schema-5` - JSON Schema Draft 5 support
 - `json-schema-5-samples` - Sample generation for Draft 5
 - `layout` - Layout system

@@ -16,6 +16,7 @@ import IconsPlugin from "./plugins/icons"
 import JSONSchema5Plugin from "./plugins/json-schema-5"
 import JSONSchema202012Plugin from "./plugins/json-schema-2020-12"
 import JSONSchema202012SamplesPlugin from "./plugins/json-schema-2020-12-samples"
+import JSONSchemaDocumentPlugin from "./plugins/json-schema-document"
 import LayoutPlugin from "./plugins/layout"
 import LogsPlugin from "./plugins/logs"
 import OpenAPI30Plugin from "./plugins/oas3"
@@ -156,6 +157,7 @@ SwaggerUI.plugins = {
   JSONSchema5Samples: JSONSchema5SamplesPlugin,
   JSONSchema202012: JSONSchema202012Plugin,
   JSONSchema202012Samples: JSONSchema202012SamplesPlugin,
+  JSONSchemaDocument: JSONSchemaDocumentPlugin,
   Layout: LayoutPlugin,
   Logs: LogsPlugin,
   OpenAPI30: OpenAPI30Plugin,

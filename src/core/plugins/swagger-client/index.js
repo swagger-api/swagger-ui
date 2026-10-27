@@ -3,6 +3,7 @@ import openApi2ResolveStrategy from "swagger-client/es/resolver/strategies/opena
 import openApi30ResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-0"
 import openApi31ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-1-apidom"
 import openApi32ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-2-apidom"
+import jsonSchema202012ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/json-schema-2020-12-apidom"
 import { makeResolve } from "swagger-client/es/resolver"
 import { execute, buildRequest } from "swagger-client/es/execute"
 import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
@@ -21,6 +22,7 @@ export default function({ configs, getConfigs }) {
           openApi31ApiDOMResolveStrategy,
           openApi30ResolveStrategy,
           openApi2ResolveStrategy,
+          jsonSchema202012ApiDOMResolveStrategy,
           genericResolveStrategy,
         ],
       }),
@@ -36,6 +38,7 @@ export default function({ configs, getConfigs }) {
             openApi31ApiDOMResolveStrategy,
             openApi30ResolveStrategy,
             openApi2ResolveStrategy,
+            jsonSchema202012ApiDOMResolveStrategy,
             genericResolveStrategy,
           ],
         }

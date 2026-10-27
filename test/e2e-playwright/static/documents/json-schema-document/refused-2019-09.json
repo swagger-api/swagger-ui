@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "JSON Schema 2019-09",
+  "type": "object"
+}
