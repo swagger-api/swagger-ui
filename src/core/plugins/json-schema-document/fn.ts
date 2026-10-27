@@ -214,6 +214,7 @@ export const getDependentRequired = (
 export interface InstanceFn {
   hasKeyword: (schema: Schema, keyword: string) => boolean
   getExtensionKeywords: (schema: Schema) => string[]
+  isBooleanJSONSchema: (schema: unknown) => schema is boolean
 }
 
 /**
@@ -270,3 +271,165 @@ export const makeIsExpandable =
         hasKeyword(schema, "$recursiveRef")
     )
   }
+
+/**
+ * The number formats OpenAPI defines for its Schema Object dialect
+ * (https://spec.openapis.org/oas/v3.1.1.html#data-type-format). JSON Schema
+ * 2020-12 defines none of them, so in a JSON Schema document they imply no
+ * type: neither `integer`/`number`, as the json-schema-2020-12 renderer infers
+ * for OpenAPI, nor `string`, as it infers from any other `format`.
+ */
+export const OPENAPI_NUMBER_FORMATS: readonly string[] = [
+  "int32",
+  "int64",
+  "float",
+  "double",
+]
+
+const SIMPLE_TYPES = [
+  "null",
+  "boolean",
+  "object",
+  "array",
+  "number",
+  "integer",
+  "string",
+]
+
+/**
+ * The type label shown in a schema's head. A copy of `makeGetType` of the
+ * json-schema-2020-12 renderer (plugins don't import each other; keep the two
+ * in step), except that a schema without `type` infers no type from the
+ * OpenAPI number formats (`OPENAPI_NUMBER_FORMATS`). `fnAccessor` returns the
+ * `fn` of the renderer instance.
+ */
+export const makeGetType = (fnAccessor: () => InstanceFn) => {
+  const getType = (
+    schema: Schema,
+    processedSchemas: WeakSet<object> = new WeakSet()
+  ): string => {
+    const fn = fnAccessor()
+
+    if (schema == null) {
+      return "any"
+    }
+
+    if (fn.isBooleanJSONSchema(schema)) {
+      return schema ? "any" : "never"
+    }
+
+    if (typeof schema !== "object") {
+      return "any"
+    }
+
+    if (processedSchemas.has(schema)) {
+      return "any" // detect a cycle
+    }
+    processedSchemas.add(schema)
+
+    const { type, prefixItems, items } = schema
+
+    const getArrayType = () => {
+      if (Array.isArray(prefixItems)) {
+        const prefixItemsTypes = prefixItems.map((itemSchema) =>
+          getType(itemSchema, processedSchemas)
+        )
+        const itemsType = items
+          ? getType(items as Schema, processedSchemas)
+          : "any"
+        return `array<[${prefixItemsTypes.join(", ")}], ${itemsType}>`
+      } else if (items) {
+        const itemsType = getType(items as Schema, processedSchemas)
+        return `array<${itemsType}>`
+      } else {
+        return "array<any>"
+      }
+    }
+
+    const inferType = () => {
+      if (
+        Object.hasOwn(schema, "prefixItems") ||
+        Object.hasOwn(schema, "items") ||
+        Object.hasOwn(schema, "contains")
+      ) {
+        return getArrayType()
+      } else if (
+        Object.hasOwn(schema, "properties") ||
+        Object.hasOwn(schema, "additionalProperties") ||
+        Object.hasOwn(schema, "patternProperties")
+      ) {
+        return "object"
+      } else if (
+        Object.hasOwn(schema, "minimum") ||
+        Object.hasOwn(schema, "maximum") ||
+        Object.hasOwn(schema, "exclusiveMinimum") ||
+        Object.hasOwn(schema, "exclusiveMaximum") ||
+        Object.hasOwn(schema, "multipleOf")
+      ) {
+        return "number | integer"
+      } else if (
+        Object.hasOwn(schema, "pattern") ||
+        (Object.hasOwn(schema, "format") &&
+          !OPENAPI_NUMBER_FORMATS.includes(schema.format as string)) ||
+        Object.hasOwn(schema, "minLength") ||
+        Object.hasOwn(schema, "maxLength") ||
+        Object.hasOwn(schema, "contentEncoding") ||
+        Object.hasOwn(schema, "contentMediaType")
+      ) {
+        return "string"
+      } else if (typeof schema.const !== "undefined") {
+        if (schema.const === null) {
+          return "null"
+        } else if (typeof schema.const === "boolean") {
+          return "boolean"
+        } else if (typeof schema.const === "number") {
+          return Number.isInteger(schema.const) ? "integer" : "number"
+        } else if (typeof schema.const === "string") {
+          return "string"
+        } else if (Array.isArray(schema.const)) {
+          return "array<any>"
+        } else if (typeof schema.const === "object") {
+          return "object"
+        }
+      }
+      return null
+    }
+
+    if (schema.not && getType(schema.not as Schema) === "any") {
+      return "never"
+    }
+
+    const typeString = Array.isArray(type)
+      ? type.map((t) => (t === "array" ? getArrayType() : t)).join(" | ")
+      : type === "array"
+        ? getArrayType()
+        : SIMPLE_TYPES.includes(type as string)
+          ? (type as string)
+          : inferType()
+
+    const handleCombiningKeywords = (keyword: string, separator: string) => {
+      const subschemas = schema[keyword]
+      if (Array.isArray(subschemas)) {
+        const combinedTypes = subschemas.map((subSchema) =>
+          getType(subSchema, processedSchemas)
+        )
+        return `(${combinedTypes.join(separator)})`
+      }
+      return null
+    }
+
+    const oneOfString = handleCombiningKeywords("oneOf", " | ")
+    const anyOfString = handleCombiningKeywords("anyOf", " | ")
+    const allOfString = handleCombiningKeywords("allOf", " & ")
+
+    const combinedStrings = [typeString, oneOfString, anyOfString, allOfString]
+      .filter(Boolean)
+      .join(" | ")
+
+    processedSchemas.delete(schema)
+
+    return combinedStrings || "any"
+  }
+
+  return getType
+}
