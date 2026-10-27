@@ -1,0 +1,23 @@
+openapi: 3.1.0
+info:
+  title: Order
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # the schema of dependencies.yaml: in an OpenAPI 3.1 Schema Object
+    # (OAS 3.1 dialect), `dependencies` keeps no meaning
+    Order:
+      title: Order
+      type: object
+      properties:
+        creditCard:
+          type: string
+        billingAddress:
+          type: string
+      dependencies:
+        creditCard:
+          - billingAddress
+        giftWrap:
+          required:
+            - giftMessage
