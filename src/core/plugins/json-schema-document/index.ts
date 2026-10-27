@@ -20,6 +20,9 @@ import { requestResolvedSubtree } from "./wrap-actions"
  * stays as written). A root `$schema` naming any other dialect is refused with
  * a message. Not yet rendered as keywords (extension keywords until then): the
  * deprecated `definitions`, `dependencies`, `$recursiveAnchor`, `$recursiveRef`.
+ * Limitation: an embedded resource (`$id` with its own `$schema`) or an external
+ * file that declares another dialect is rendered with the 2020-12 meaning;
+ * references that cross dialects are out of scope.
  *
  * Load it AFTER the OpenAPI plugins: it wraps their `VersionPragmaFilter`,
  * whose wrappers don't render the component they wrap.
