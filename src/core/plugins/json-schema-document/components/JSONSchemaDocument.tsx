@@ -5,6 +5,7 @@ import React, { useEffect, useMemo } from "react"
 import { Map } from "immutable"
 
 import { makeJSONSchema202012Overrides } from "../overrides"
+import JSONSchemaDocumentDefinitions from "./JSONSchemaDocumentDefinitions"
 import type { OverridesSystem } from "../overrides"
 
 type Component = React.ComponentType<Record<string, unknown>>
@@ -25,6 +26,8 @@ export interface JSONSchemaDocumentProps {
   getComponent: (name: string, container?: boolean) => unknown
   getConfigs: () => {
     defaultModelExpandDepth?: number
+    defaultModelsExpandDepth?: number
+    docExpansion?: string
     showExtensions?: boolean
   }
   getSystem: () => OverridesSystem
@@ -46,7 +49,12 @@ const JSONSchemaDocument = ({
   const specJson = specSelectors.specJson()
   const resolvedDocument = specSelectors.specResolvedSubtree([])
   const dialect = specSelectors.jsonSchemaDialect()
-  const { defaultModelExpandDepth, showExtensions } = getConfigs()
+  const {
+    defaultModelExpandDepth,
+    defaultModelsExpandDepth = 1,
+    docExpansion,
+    showExtensions,
+  } = getConfigs()
   const isResolved = Map.isMap(resolvedDocument) && resolvedDocument.size > 0
 
   useEffect(() => {
@@ -56,14 +64,24 @@ const JSONSchemaDocument = ({
     // once per document: a failed resolution isn't retried on every re-render
   }, [specJson])
 
-  const schema = useMemo(
-    () =>
-      (isResolved
-        ? (resolvedDocument as Map<string, unknown>)
-        : specJson
-      ).toJS(),
-    [isResolved, resolvedDocument, specJson]
-  )
+  // the root `$defs` are listed in their own section, not as a root keyword
+  const { schema, definitions } = useMemo(() => {
+    const { $defs, ...rest } = (
+      isResolved ? (resolvedDocument as Map<string, unknown>) : specJson
+    ).toJS()
+    const hasDefinitions =
+      $defs !== null &&
+      typeof $defs === "object" &&
+      !Array.isArray($defs) &&
+      Object.keys($defs).length > 0
+
+    return hasDefinitions
+      ? { schema: rest, definitions: $defs as Record<string, unknown> }
+      : {
+          schema: { ...rest, ...($defs === undefined ? {} : { $defs }) },
+          definitions: null,
+        }
+  }, [isResolved, resolvedDocument, specJson])
 
   const JSONSchema = getComponent("JSONSchema202012") as Component
   const withJSONSchemaSystemContext = getComponent(
@@ -91,13 +109,35 @@ const JSONSchemaDocument = ({
 
   const Row = getComponent("Row") as Component
   const Col = getComponent("Col") as Component
+  const Info = getComponent("JSONSchemaDocumentInfo", true) as Component
 
   return (
-    <Row className="json-schema-document">
-      <Col mobile={12}>
-        <JSONSchemaInstance schema={schema} />
-      </Col>
-    </Row>
+    <>
+      <Row className="information-container">
+        <Col mobile={12}>
+          <Info />
+        </Col>
+      </Row>
+      <Row className="json-schema-document">
+        <Col mobile={12}>
+          <JSONSchemaInstance schema={schema} />
+        </Col>
+      </Row>
+      {definitions !== null && defaultModelsExpandDepth >= 0 && (
+        <Row className="json-schema-document-definitions">
+          <Col mobile={12}>
+            <JSONSchemaDocumentDefinitions
+              definitions={definitions}
+              JSONSchema={JSONSchemaInstance}
+              getComponent={getComponent}
+              isOpenDefault={
+                defaultModelsExpandDepth > 0 && docExpansion !== "none"
+              }
+            />
+          </Col>
+        </Row>
+      )}
+    </>
   )
 }
 
