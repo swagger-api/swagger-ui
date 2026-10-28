@@ -34,23 +34,23 @@ const subschemaTitles = (keyword: Locator) =>
 test.describe("Standalone JSON Schema 2020-12: definitions", () => {
   const url = `/?url=${documents}/definitions.yaml`
 
-  test("renders definitions like $defs, right after it", async ({ page }) => {
+  test("renders definitions like $defs, in the root schema", async ({
+    page,
+  }) => {
     await page.goto(url)
     const root = page
       .locator(".json-schema-document .json-schema-2020-12")
       .first()
     const body = root.locator(":scope > .json-schema-2020-12-body")
-    const $defs = body.locator(":scope > .json-schema-2020-12-keyword--\\$defs")
     const definitions = body.locator(
       ":scope > .json-schema-2020-12-keyword--definitions"
     )
 
     await expect(definitions).toBeVisible()
+    // the root $defs are listed in their own section
     await expect(
-      body.locator(
-        ":scope > .json-schema-2020-12-keyword--\\$defs + .json-schema-2020-12-keyword--definitions"
-      )
-    ).toHaveCount(1)
+      body.locator(":scope > .json-schema-2020-12-keyword--\\$defs")
+    ).toHaveCount(0)
     await expect(
       definitions.locator(".json-schema-2020-12-keyword__name").first()
     ).toHaveText("definitions")
@@ -62,9 +62,6 @@ test.describe("Standalone JSON Schema 2020-12: definitions", () => {
     await expect(subschemaTitles(definitions)).toHaveCount(0)
     await definitions.locator(".json-schema-2020-12-accordion").first().click()
     await expect(subschemaTitles(definitions)).toHaveText(["Product", "Price"])
-
-    await $defs.locator(".json-schema-2020-12-accordion").first().click()
-    await expect(subschemaTitles($defs)).toHaveText(["Currency"])
   })
 
   test("renders the $refs into definitions resolved", async ({ page }) => {

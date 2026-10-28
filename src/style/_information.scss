@@ -52,6 +52,16 @@
     margin: 0 0 5px 0;
   }
 
+  .json-schema-document__uris {
+    width: auto;
+    margin: 5px 0 0;
+    padding: 0;
+
+    td {
+      padding: 6px 18px 6px 0;
+    }
+  }
+
   .base-url {
     font-size: 12px;
     font-weight: 300 !important;
