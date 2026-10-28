@@ -3,6 +3,8 @@
  */
 import { createSystemSelector } from "./fn"
 import JSONSchemaDocument from "./components/JSONSchemaDocument"
+import JSONSchemaDocumentInfo from "./components/JSONSchemaDocumentInfo"
+import JSONSchemaDocumentDefinitions from "./components/JSONSchemaDocumentDefinitions"
 import VersionPragmaFilterWrapper from "./wrap-components/VersionPragmaFilter"
 import SkipToOperationsWrapper from "./wrap-components/SkipToOperations"
 import OnlineValidatorBadgeWrapper from "./wrap-components/OnlineValidatorBadge"
@@ -54,6 +56,8 @@ import { requestResolvedSubtree } from "./wrap-actions"
 const JSONSchemaDocumentPlugin = () => ({
   components: {
     JSONSchemaDocument,
+    JSONSchemaDocumentInfo,
+    JSONSchemaDocumentDefinitions,
   },
   wrapComponents: {
     VersionPragmaFilter: VersionPragmaFilterWrapper,
