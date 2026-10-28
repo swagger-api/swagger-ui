@@ -108,7 +108,7 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 - Action/selector binding
 - Configuration management
 
-**26 Core Plugins** (in `src/core/plugins/`):
+**27 Core Plugins** (in `src/core/plugins/`):
 - `auth` - Authentication handling
 - `configs` - Configuration management
 - `deep-linking` - URL-based navigation
@@ -118,6 +118,7 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 - `icons` - Icon components
 - `json-schema-2020-12` - JSON Schema 2020-12 support
 - `json-schema-2020-12-samples` - Sample generation
+- `json-schema-document` - Standalone JSON Schema documents (2020-12): detection, `JSONSchemaDocument`
 - `json-schema-5` - JSON Schema Draft 5 support
 - `json-schema-5-samples` - Sample generation for Draft 5
 - `layout` - Layout system
@@ -640,7 +641,7 @@ src/
 ├── core/
 │   ├── system.js                 # Plugin system & Redux store
 │   ├── components/               # 59 React components
-│   ├── plugins/                  # 26 core plugins
+│   ├── plugins/                  # 27 core plugins
 │   ├── presets/                  # Preset configurations
 │   ├── utils/                    # Utility functions
 │   └── config/                   # Configuration system

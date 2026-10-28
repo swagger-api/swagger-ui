@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product",
+  "type": "object",
+  "properties": {
+    "sku": { "$ref": "#sku" }
+  },
+  "$defs": {
+    "Sku": {
+      "$anchor": "sku",
+      "title": "Sku",
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{4}$"
+    }
+  }
+}

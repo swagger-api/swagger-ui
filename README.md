@@ -47,6 +47,12 @@ The OpenAPI Specification has undergone 5 revisions since initial creation in 20
 | 1.0.13             | 2013-03-08   | 1.1, 1.2                                             | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 | 1.0.1              | 2011-10-11   | 1.0, 1.1                                             | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
 
+Swagger UI also renders standalone JSON Schema documents: a document whose root `$schema` names a supported dialect and that has none of the fields `openapi`, `swagger`, `asyncapi` and `arazzo`. A root `$schema` naming any other dialect is refused with a message. An embedded schema resource (`$id` with its own `$schema`) or an external file that declares another dialect is rendered with the 2020-12 meaning, because references that cross dialects are not supported.
+
+| JSON Schema dialect | Root `$schema`                                  | Swagger UI Version |
+|---------------------|-------------------------------------------------|--------------------|
+| 2020-12             | `https://json-schema.org/draft/2020-12/schema`  | TBD                |
+
 ## Anonymized analytics
 
 SwaggerUI uses [Scarf](https://scarf.sh/) to collect [anonymized installation analytics](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-what-information-does-scarf-js-send-about-me). These analytics help support the maintainers of this library and ONLY run during installation. To [opt out](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-how-can-i-opt-out-of-analytics), you can set the `scarfSettings.enabled` field to `false` in your project's `package.json`:

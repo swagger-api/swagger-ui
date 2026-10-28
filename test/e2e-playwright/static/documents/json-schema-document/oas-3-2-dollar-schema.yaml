@@ -1,0 +1,42 @@
+openapi: 3.2.0
+$schema: https://json-schema.org/draft/2020-12/schema
+info:
+  title: OpenAPI 3.2.0 with $schema at the root and in a Schema Object
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List pets
+      responses:
+        "200":
+          description: The pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      $schema: https://json-schema.org/draft/2020-12/schema
+      title: Pet
+      description: A pet with a **markdown** description.
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Milo
+        tag:
+          type: string
+        owner:
+          $ref: "#/components/schemas/Owner"
+    Owner:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64

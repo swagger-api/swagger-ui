@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Order",
+  "description": "An order. JSON Schema descriptions are plain text, so **this** stays as written.",
+  "type": "object",
+  "required": [
+    "customer"
+  ],
+  "properties": {
+    "customer": {
+      "$ref": "#/$defs/Customer"
+    },
+    "status": {
+      "$ref": "#status"
+    },
+    "address": {
+      "$ref": "external.json#/$defs/Address"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Item"
+      }
+    },
+    "total": {
+      "$ref": "#/$defs/Money"
+    },
+    "metadata": {
+      "$dynamicRef": "#meta"
+    }
+  },
+  "$defs": {
+    "Customer": {
+      "title": "Customer",
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Status": {
+      "$anchor": "status",
+      "title": "Status",
+      "type": "string",
+      "enum": [
+        "open",
+        "closed"
+      ]
+    },
+    "Item": {
+      "$id": "items/",
+      "title": "Item",
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "product.json"
+        }
+      }
+    },
+    "Money": {
+      "$id": "https://example.com/schemas/money",
+      "title": "Money",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "$ref": "amount"
+        }
+      },
+      "$defs": {
+        "Amount": {
+          "$id": "https://example.com/schemas/amount",
+          "title": "Amount",
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "Meta": {
+      "$dynamicAnchor": "meta",
+      "title": "Meta",
+      "type": "object"
+    }
+  }
+}

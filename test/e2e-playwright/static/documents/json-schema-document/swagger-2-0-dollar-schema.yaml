@@ -1,0 +1,30 @@
+swagger: "2.0"
+$schema: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Swagger 2.0 with $schema
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List pets
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: The pets
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Pet"
+definitions:
+  Pet:
+    $schema: http://json-schema.org/draft-04/schema#
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      tag:
+        type: string
