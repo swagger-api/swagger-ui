@@ -281,7 +281,7 @@ describe("json-schema-document renderer overrides", () => {
       )
     const value = (root: Element, keyword: string) =>
       root.querySelector(
-        `:scope > .json-schema-2020-12-body > .json-schema-2020-12-keyword--${keyword.replace("$", "\\$")} .json-schema-2020-12-keyword__value`
+        `:scope > .json-schema-2020-12-body > .json-schema-2020-12-keyword--${keyword.replace(/\$/g, "\\$")} .json-schema-2020-12-keyword__value`
       ).textContent
 
     it("renders them as written, right after $dynamicAnchor and $dynamicRef", () => {

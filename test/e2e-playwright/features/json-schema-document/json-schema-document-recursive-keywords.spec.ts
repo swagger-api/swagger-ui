@@ -23,7 +23,7 @@ const property = (scope: Locator, name: string) =>
 // a keyword of a schema's own body (not of its subschemas)
 const ownKeyword = (schema: Locator, keyword: string) =>
   schema.locator(
-    `:scope > .json-schema-2020-12-body > .json-schema-2020-12-keyword--${keyword.replace("$", "\\$")}`
+    `:scope > .json-schema-2020-12-body > .json-schema-2020-12-keyword--${keyword.replace(/\$/g, "\\$")}`
   )
 
 /**
@@ -127,7 +127,7 @@ test.describe("Standalone JSON Schema 2020-12: $recursiveAnchor and $recursiveRe
       for (const keyword of ["$recursiveAnchor", "$recursiveRef"]) {
         await expect(
           model.locator(
-            `.json-schema-2020-12-keyword--${keyword.replace("$", "\\$")}`
+            `.json-schema-2020-12-keyword--${keyword.replace(/\$/g, "\\$")}`
           )
         ).toHaveCount(0)
       }
@@ -146,7 +146,7 @@ test.describe("Standalone JSON Schema 2020-12: $recursiveAnchor and $recursiveRe
       for (const keyword of ["$recursiveAnchor", "$recursiveRef"]) {
         await expect(
           model.locator(
-            `.json-schema-2020-12-keyword--${keyword.replace("$", "\\$")}`
+            `.json-schema-2020-12-keyword--${keyword.replace(/\$/g, "\\$")}`
           )
         ).toHaveCount(0)
         // expanded: defaultModelsExpandDepth 5
