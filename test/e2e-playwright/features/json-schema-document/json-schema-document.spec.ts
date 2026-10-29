@@ -32,7 +32,13 @@ test.describe("Standalone JSON Schema 2020-12 documents", () => {
 
       await expect(document).toBeVisible()
       await expect(page.locator(".version-pragma__message")).toHaveCount(0)
-      await expect(page.locator(".information-container")).toHaveCount(0)
+      await expect(page.locator(".information-container .info")).toHaveCount(1)
+      await expect(
+        page.locator(".information-container .info .title")
+      ).toContainText("Person")
+      await expect(
+        page.locator(".information-container .info .version-stamp .version")
+      ).toHaveText("JSON Schema")
       await expect(page.locator("#operations")).toHaveCount(0)
 
       const root = document.locator(".json-schema-2020-12").first()

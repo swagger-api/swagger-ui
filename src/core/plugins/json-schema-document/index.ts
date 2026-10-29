@@ -2,6 +2,8 @@
  * @prettier
  */
 import JSONSchemaDocument from "./components/JSONSchemaDocument"
+import JSONSchemaDocumentInfo from "./components/JSONSchemaDocumentInfo"
+import JSONSchemaDocumentDefinitions from "./components/JSONSchemaDocumentDefinitions"
 import VersionPragmaFilterWrapper from "./wrap-components/VersionPragmaFilter"
 import { isJSONSchemaDocument, jsonSchemaDialect } from "./selectors"
 import { requestResolvedSubtree } from "./wrap-actions"
@@ -37,6 +39,8 @@ import { requestResolvedSubtree } from "./wrap-actions"
 const JSONSchemaDocumentPlugin = () => ({
   components: {
     JSONSchemaDocument,
+    JSONSchemaDocumentInfo,
+    JSONSchemaDocumentDefinitions,
   },
   wrapComponents: {
     VersionPragmaFilter: VersionPragmaFilterWrapper,
