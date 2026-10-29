@@ -7,6 +7,8 @@ import { mount } from "enzyme"
 import { withJSONSchemaContext } from "core/plugins/json-schema-2020-12/hoc"
 import JSONSchema from "core/plugins/json-schema-2020-12/components/JSONSchema/JSONSchema"
 import Keyword$defs from "core/plugins/json-schema-2020-12/components/keywords/$defs"
+import Keyword$dynamicAnchor from "core/plugins/json-schema-2020-12/components/keywords/$dynamicAnchor"
+import Keyword$dynamicRef from "core/plugins/json-schema-2020-12/components/keywords/$dynamicRef"
 import KeywordDependentSchemas from "core/plugins/json-schema-2020-12/components/keywords/DependentSchemas"
 import { getSchemaKeywords } from "core/plugins/json-schema-2020-12/fn"
 import {
@@ -28,6 +30,8 @@ type Component = React.ComponentType<Record<string, unknown>>
 // the parts of the system the overrides take, as the json-schema-2020-12 plugin registers them
 const systemComponents: Record<string, unknown> = {
   JSONSchema202012Keyword$defs: Keyword$defs,
+  JSONSchema202012Keyword$dynamicAnchor: Keyword$dynamicAnchor,
+  JSONSchema202012Keyword$dynamicRef: Keyword$dynamicRef,
   JSONSchema202012KeywordDependentSchemas: KeywordDependentSchemas,
   JSONSchema202012PathContext: () => JSONSchemaPathContext,
   JSONSchema202012LevelContext: () => JSONSchemaLevelContext,
@@ -76,6 +80,8 @@ describe("json-schema-document renderer overrides", () => {
       "isExpandable",
     ])
     expect(Object.keys(overrides.components)).toEqual([
+      "Keyword$dynamicAnchor",
+      "Keyword$dynamicRef",
       "Keyword$defs",
       "KeywordDependentSchemas",
     ])
@@ -83,6 +89,8 @@ describe("json-schema-document renderer overrides", () => {
       ...getSchemaKeywords(),
       "definitions",
       "dependencies",
+      "$recursiveAnchor",
+      "$recursiveRef",
       "$$ref",
     ])
   })
@@ -258,6 +266,72 @@ describe("json-schema-document renderer overrides", () => {
       expect(
         withArray.querySelector(".json-schema-2020-12-keyword--dependencies")
       ).toBeNull()
+    })
+  })
+  describe("$recursiveAnchor and $recursiveRef", () => {
+    // the body keywords of a schema, in order
+    const bodyKeywords = (root: Element) =>
+      Array.from(
+        root.querySelector(":scope > .json-schema-2020-12-body").children
+      ).map((child) =>
+        child.className.replace(
+          /^json-schema-2020-12-keyword json-schema-2020-12-keyword--/,
+          ""
+        )
+      )
+    const value = (root: Element, keyword: string) =>
+      root.querySelector(
+        `:scope > .json-schema-2020-12-body > [class~="json-schema-2020-12-keyword--${keyword}"] .json-schema-2020-12-keyword__value`
+      ).textContent
+
+    it("renders them as written, right after $dynamicAnchor and $dynamicRef", () => {
+      const root = render({
+        title: "Tree",
+        $dynamicAnchor: "node",
+        $recursiveAnchor: "node",
+        $dynamicRef: "#node",
+        $recursiveRef: "#",
+      }).getDOMNode()
+
+      expect(bodyKeywords(root)).toEqual([
+        "$dynamicAnchor",
+        "$recursiveAnchor",
+        "$dynamicRef",
+        "$recursiveRef",
+      ])
+      expect(value(root, "$recursiveAnchor")).toBe("node")
+      expect(value(root, "$recursiveRef")).toBe("#")
+    })
+
+    it("shows 2019-09's boolean $recursiveAnchor as written", () => {
+      for (const anchor of [true, false]) {
+        const root = render({
+          title: "T",
+          $recursiveAnchor: anchor,
+        }).getDOMNode()
+
+        expect(value(root, "$recursiveAnchor")).toBe(String(anchor))
+      }
+    })
+
+    it("aren't extension keywords and make a schema expandable", () => {
+      const wrapper = render({
+        type: "object",
+        properties: { child: { $recursiveRef: "#" } },
+      })
+      const child = wrapper
+        .getDOMNode()
+        .querySelector(".json-schema-2020-12-property > .json-schema-2020-12")
+
+      expect(
+        wrapper.find(".json-schema-2020-12-keyword--extension-keywords")
+      ).toHaveLength(0)
+      expect(
+        child.querySelectorAll(
+          ":scope > .json-schema-2020-12-head .json-schema-2020-12-accordion"
+        )
+      ).toHaveLength(1)
+      expect(value(child, "$recursiveRef")).toBe("#")
     })
   })
 })

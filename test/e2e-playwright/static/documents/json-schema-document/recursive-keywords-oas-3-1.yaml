@@ -1,0 +1,18 @@
+openapi: 3.1.0
+info:
+  title: Tree
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # the schema of recursive-keywords.yaml: in an OpenAPI 3.1 Schema Object
+    # (OAS 3.1 dialect), $recursiveAnchor and $recursiveRef keep no meaning
+    Tree:
+      title: Tree
+      $recursiveAnchor: node
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $recursiveRef: "#"
