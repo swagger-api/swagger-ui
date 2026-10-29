@@ -22,7 +22,7 @@ If you're installing Swagger UI via NPM, for example, you can do this by using a
 
 ### `fn.opsFilter`
 
-When using the `filter` option, tag names will be filtered by the user-provided value. If you'd like to customize this behavior, you can override the default `opsFilter` function.
+When using the `filter` option, tag names and operation paths will be filtered by the user-provided value (case-insensitive substring match). If you'd like to customize this behavior, you can override the default `opsFilter` function.
 
 For example, you can implement a multiple-phrase filter:
 

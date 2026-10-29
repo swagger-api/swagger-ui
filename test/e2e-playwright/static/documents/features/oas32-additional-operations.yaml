@@ -1,0 +1,235 @@
+openapi: 3.2.0
+info:
+  title: Additional Operations
+  version: 1.0.0
+servers:
+  - url: https://example.com/api
+paths:
+  /items:
+    servers:
+      - url: /api
+    get:
+      tags: [Items]
+      operationId: getItems
+      summary: Get items with query parameters
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Items retrieved
+    additionalOperations:
+      LIST:
+        tags: [Items]
+        operationId: listItems
+        summary: List items with a request body
+        description: Filter items using the custom LIST method.
+        parameters:
+          - name: status
+            in: query
+            schema:
+              type: string
+        requestBody:
+          required: true
+          description: Required item filter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFilter'
+              example:
+                category: books
+        responses:
+          '200':
+            description: Filtered items
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: string
+          '400':
+            description: Invalid item filter
+      X-Search:
+        tags: [Items]
+        operationId: searchItems
+        summary: Search with a mixed-case custom method
+        servers:
+          - url: /search-api
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  term:
+                    type: string
+              example:
+                term: notebook
+        responses:
+          '200':
+            description: Search results
+  /pets/{id}:
+    get:
+      tags: [pets]
+      operationId: getPet
+      summary: Get a pet
+      parameters:
+        - $ref: '#/components/parameters/PetId'
+      responses:
+        '200':
+          description: A pet
+    additionalOperations:
+      COPY:
+        tags: [pets]
+        operationId: copyPet
+        summary: Copy a pet
+        description: Copy this pet to a new destination.
+        callbacks:
+          copied:
+            '{$request.query.callbackUrl}':
+              additionalOperations:
+                Notify-Pet:
+                  operationId: notifyCopy
+                  summary: Notify that copying is complete
+                  responses:
+                    '204':
+                      description: Notification accepted
+        parameters:
+          - $ref: '#/components/parameters/PetId'
+          - name: destination
+            in: header
+            required: true
+            schema:
+              type: string
+        responses:
+          '201':
+            $ref: '#/components/responses/Copied'
+      Search-Pets:
+        tags: [pets]
+        operationId: searchPets
+        summary: Search with a custom method
+        description: Search pets using a custom request body.
+        externalDocs:
+          description: Search documentation
+          url: https://example.com/search-docs
+        servers:
+          - url: https://example.com/search
+        security:
+          - apiKey: []
+        parameters:
+          - $ref: '#/components/parameters/PetId'
+        requestBody:
+          $ref: '#/components/requestBodies/Search'
+        responses:
+          '200':
+            description: Matching pets
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Pet'
+          '400':
+            description: Invalid search
+      search-pets:
+        tags: [pets]
+        operationId: searchPetsLowercase
+        summary: Distinct lowercase method
+        responses:
+          '204':
+            description: No matches
+  /health:
+    additionalOperations:
+      PING:
+        summary: Check health without an operationId
+        responses:
+          '200':
+            description: Healthy
+  /invalid-duplicates:
+    post:
+      tags: [invalid]
+      operationId: createInvalid
+      summary: Standard post
+      responses:
+        '201':
+          description: Created
+    additionalOperations:
+      POST:
+        tags: [invalid]
+        operationId: duplicatePostUpper
+        summary: Duplicate POST must be ignored
+        responses:
+          '200':
+            description: Duplicate response
+      post:
+        tags: [invalid]
+        operationId: duplicatePostLower
+        summary: Duplicate post must be ignored
+        responses:
+          '200':
+            description: Duplicate response
+webhooks:
+  petChanged:
+    additionalOperations:
+      Notify-Pet:
+        operationId: notifyPetChanged
+        summary: Notify a pet change
+        responses:
+          '204':
+            description: Change accepted
+  petCreated:
+    post:
+      operationId: petCreated
+      summary: A pet was created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Received
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+  parameters:
+    PetId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBodies:
+    Search:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+          example:
+            name: Milo
+  responses:
+    Copied:
+      description: Pet copied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    ItemFilter:
+      type: object
+      required: [category]
+      properties:
+        category:
+          type: string

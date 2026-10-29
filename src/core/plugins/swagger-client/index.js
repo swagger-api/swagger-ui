@@ -2,6 +2,7 @@ import genericResolveStrategy from "swagger-client/es/resolver/strategies/generi
 import openApi2ResolveStrategy from "swagger-client/es/resolver/strategies/openapi-2"
 import openApi30ResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-0"
 import openApi31ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-1-apidom"
+import openApi32ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-2-apidom"
 import { makeResolve } from "swagger-client/es/resolver"
 import { execute, buildRequest } from "swagger-client/es/execute"
 import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
@@ -18,7 +19,12 @@ const resolveStrategies = [
   genericResolveStrategy,
 ]
 
-const strictResolveStrategies = resolveStrategies.map((strategy) => ({
+const resolveSubtreeStrategies = [
+  openApi32ApiDOMResolveStrategy,
+  ...resolveStrategies,
+]
+
+const strictResolveStrategies = resolveSubtreeStrategies.map((strategy) => ({
   ...strategy,
   resolve: (options) => strategy.resolve({ ...options, mode: "strict" }),
 }))
@@ -62,7 +68,7 @@ export default function({ configs, getConfigs }) {
           parameterMacro: freshConfigs.parameterMacro,
           requestInterceptor: freshConfigs.requestInterceptor,
           responseInterceptor: freshConfigs.responseInterceptor,
-          strategies: resolveStrategies,
+          strategies: resolveSubtreeStrategies,
         }
 
         const subtree = path.reduce(

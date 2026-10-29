@@ -62,7 +62,7 @@ The timings above are impressionistic. **Record a real baseline before starting*
     new directory**; existing unit tests live under `test/unit/core/plugins/`, `system/`, `config/`,
     `helpers/`. No `testMatch` change needed — `config/jest/jest.unit.config.js:6-9` globs
     `**/test/unit/**/*.js?(x)`, so the new path is picked up automatically)
-  - `test/e2e-cypress/static/documents/perf/many-operations.yaml` — **already created and committed
+  - `test/e2e-playwright/static/documents/perf/many-operations.yaml` — **already created and committed
     (2026-08-04)**: 529 operations across 24 tags, `flatItems` ≈ 554 fully expanded, comfortably
     above the 150 threshold. Includes `operationId: multiTagged` at `/perf/multi-tagged` declaring
     **two** tags (`perfTag01`, `perfTag02`) — the duplicate-key case for `getItemKey`. Generated
@@ -72,7 +72,7 @@ The timings above are impressionistic. **Record a real baseline before starting*
 ## Acceptance Criteria
 
 - [ ] A spec **below** the 150-item threshold renders today's nested markup unchanged — the legacy
-      regression contract: `deep-linking.cy.js`, `oas32-component-only.cy.js` and the Selenium
+      regression contract: `deep-linking.spec.ts`, `oas32-component-only.spec.ts` and the Selenium
       scenarios all pass **with no edits**
 - [ ] A spec **above** the threshold uses the windowed path; only operations within the viewport are
       mounted (verify in React DevTools)
@@ -496,8 +496,8 @@ header-only:
   So this is a "reproduce `flex-direction: column` on the virtual wrapper" job, not a CSS
   refactor. Confirm with `grep -rn "opblock-tag-section\|operation-tag-content" src/style/`.
 - **The real fallout is in tests, not styles.** `test/` references these class names in ~14
-  places — `test/e2e-cypress/e2e/features/deep-linking.cy.js` (×2),
-  `test/e2e-cypress/e2e/features/oas32/oas32-component-only.cy.js`, and ~9
+  places — `test/e2e-playwright/features/deep-linking.spec.ts` (×2),
+  `test/e2e-playwright/features/oas32/oas32-component-only.spec.ts`, and ~9
   `test/e2e-selenium/scenarios/` files (`bugs/4445.js`, `bugs/4485.js`, `bugs/4756.js`,
   `bugs/4374.js`, `bugs/4587.js`, `bugs/4409.js`, `bugs/4196.js`,
   `features/parameter-example-rendering.js`, `features/parameter-enum-rendering.js`).
@@ -514,7 +514,7 @@ header-only:
 - `id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}` (`:77`) — the tag anchor.
 - `data-tag={tag}` (`:78`) and `data-is-open={showTag}` (`:79`).
 
-`deep-linking.cy.js` targets tags through exactly these, e.g.
+`deep-linking.spec.ts` targets tags through exactly these, e.g.
 `.opblock-tag[data-tag="myTag"][data-is-open="true"]` (`:78`,`:89`,`:173`,`:184`). They survive the
 header-only restructure unchanged — but they are attributes on an element whose parent is being
 deleted, so they are easy to lose in the edit.
@@ -522,9 +522,9 @@ deleted, so they are easy to lose in the edit.
 **Under the count-threshold decision these tests are no longer at risk** — all of them use fixtures
 far below 150 items, so they exercise the legacy path where these classes still exist:
 
-- `deep-linking.cy.js:237`/`:289` assert `.opblock-tag-section.is-open` positively —
+- `deep-linking.spec.ts:237`/`:289` assert `.opblock-tag-section.is-open` positively —
   `deep-linking.swagger.yaml` has **5** operations → legacy path → passes untouched.
-- `oas32-component-only.cy.js:18` asserts `.opblock-tag-section` does **not** exist —
+- `oas32-component-only.spec.ts:18` asserts `.opblock-tag-section` does **not** exist —
   `component-only.yaml` has **0** paths → legacy path → still a meaningful assertion, not a
   vacuous one.
 - The 9 Selenium scenarios likewise (and Selenium is not in CI anyway).
@@ -540,7 +540,7 @@ Same two blockers as Phase 1 — see
 If Phase 1 shipped the `ResizeObserver` polyfill in `test/unit/jest-shim.js`, this phase inherits
 it; verify rather than assume. The new `Operations` test is greenfield, so choose the same strategy
 Phase 1 settled on (recommended: mock `@tanstack/react-virtual`, and cover real windowing in
-Cypress).
+Playwright).
 
 ### Measuring Success
 
@@ -613,8 +613,8 @@ This decision **substantially changes this ticket's risk profile — read before
   `.operation-tag-content`, the `<Collapse>`, or the `children` propType. This also means it is
   **no longer a public plugin-API break** (see Accepted Behavior Changes).
 - **All the E2E fallout in constraint 6 evaporates.** `deep-linking.swagger.yaml` has **5**
-  operations and `oas32/component-only.yaml` has **0** paths, so `deep-linking.cy.js:237`/`:289`,
-  `oas32-component-only.cy.js:18` and the 9 Selenium scenarios all take the legacy path and pass
+  operations and `oas32/component-only.yaml` has **0** paths, so `deep-linking.spec.ts:237`/`:289`,
+  `oas32-component-only.spec.ts:18` and the 9 Selenium scenarios all take the legacy path and pass
   untouched. Keep constraint 6's DOM-contract list as the definition of what the legacy path must
   keep producing.
 - **The virtualized path has zero existing coverage.** `many-operations.yaml` (529 ops / 24 tags,
@@ -645,7 +645,7 @@ Hooks must be called unconditionally before the branch; the early return goes af
 - Schema property lists — out of scope for this epic; see the README's "Out of scope" section for why virtualization was rejected there
 - `src/core/components/overview.jsx` tag list — typically <100 tags, low ROI
 - `swagger-ui-react` flavor — inherits the change automatically (it re-exports core), so no code
-  work. But it is a separately published package not covered by the Cypress suite, so smoke-test
+  work. But it is a separately published package not covered by the Playwright suite, so smoke-test
   it once before release, same as Phase 1.
 
 ## Risks

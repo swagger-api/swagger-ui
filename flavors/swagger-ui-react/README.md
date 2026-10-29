@@ -162,7 +162,7 @@ Controls the display of the request duration (in milliseconds) for "Try it out" 
 
 #### `filter`: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 
-If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag. See Swagger UI's [Plug Points](https://github.com/swagger-api/swagger-ui/blob/main/docs/customization/plug-points.md#fnopsfilter) to customize the filtering behavior.
+If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case-insensitive and matches the filter expression anywhere inside the tag name or the operation path. A tag whose name matches is shown with all of its operations; otherwise only the operations whose path matches are shown, under their tags. See Swagger UI's [Plug Points](https://github.com/swagger-api/swagger-ui/blob/main/docs/customization/plug-points.md#fnopsfilter) to customize the filtering behavior.
 
 #### `requestSnippetsEnabled`: PropTypes.bool,
 

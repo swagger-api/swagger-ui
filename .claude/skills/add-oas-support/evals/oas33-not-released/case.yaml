@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: oas33-not-released
+# fixture: ee02195f (main on 2026-10-22, before the rebuilt skills), checked out by checkout-fixture.sh
+context:
+  scaffold_script: checkout-fixture.sh
+expected_outcome: |
+  The run pins the version first and finds that no OAS 3.3 release exists (the latest published
+  version is 3.2.1), and that neither @swagger-api/apidom-ns-openapi-3-3 nor a swagger-client
+  openapi-3-3-apidom strategy is published. It stops before writing code, reports what is missing
+  and which repositories own it (OAI for the spec, ApiDOM, swagger-client), and creates no oas33
+  plugin. It finds the 3.3 draft on the v3.3-dev branch and offers or runs a Phase 1 preview
+  against it, as a preview only.

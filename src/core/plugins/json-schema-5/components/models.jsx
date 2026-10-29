@@ -113,8 +113,6 @@ const Models = ({
     layoutActions,
   ])
 
-  if (!definitions.size || defaultModelsExpandDepth < 0) return null
-
   const showModels = layoutSelectors.isShown(
     specPathBase,
     defaultModelsExpandDepth > 0 && docExpansion !== "none"
@@ -123,6 +121,8 @@ const Models = ({
   const handleModelsExpand = useCallback(() => {
     layoutActions.show(specPathBase, !showModels)
   }, [layoutActions, specPathBase, showModels])
+
+  if (!definitions.size || defaultModelsExpandDepth < 0) return null
 
   const Collapse = getComponent("Collapse")
   const ArrowUpIcon = getComponent("ArrowUpIcon")

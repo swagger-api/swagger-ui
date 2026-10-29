@@ -23,7 +23,7 @@ Do not start before Phase 1; the pattern is expected to shift during its review.
 - `src/core/plugins/oas31/components/models/_models.scss` (the `.models-scroll` rule —
   **this plugin has its own stylesheet**, Phase 1's edit to `src/style/_models.scss` does not cover it)
 - New unit test (none exists for this component today)
-- E2E: reuse `test/e2e-cypress/static/documents/perf/many-schemas.openapi.yaml` — but see the
+- E2E: reuse `test/e2e-playwright/static/documents/perf/many-schemas.openapi.yaml` — but see the
   OAS-version note below
 
 ### Fixture caveat
