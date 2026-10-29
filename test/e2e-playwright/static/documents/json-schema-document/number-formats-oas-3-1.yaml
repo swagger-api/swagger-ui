@@ -1,0 +1,29 @@
+openapi: 3.1.0
+info:
+  title: Measurement
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # the schema of number-formats.yaml: in an OpenAPI 3.1 Schema Object
+    # (OAS 3.1 dialect), the number formats imply integer and number
+    Measurement:
+      title: Measurement
+      type: object
+      properties:
+        count:
+          format: int32
+        total:
+          format: int64
+        ratio:
+          format: float
+        mean:
+          format: double
+        id:
+          type: integer
+          format: int64
+        takenAt:
+          format: date-time
+        weight:
+          format: double
+          minimum: 0
