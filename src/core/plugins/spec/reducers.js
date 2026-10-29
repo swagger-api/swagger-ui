@@ -5,6 +5,7 @@ import win from "core/window"
 // selector-in-reducer is suboptimal, but `operationWithMeta` is more of a helper
 import {
   specJsonWithResolvedSubtrees,
+  operationSpecPath,
   parameterValues,
   parameterInclusionSettingFor,
 } from "./selectors"
@@ -83,7 +84,7 @@ export default {
   },
 
   [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
-    const op = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod])
+    const op = specJsonWithResolvedSubtrees(state).getIn(operationSpecPath(state, ...pathMethod))
     const paramValues = parameterValues(state, pathMethod).toJS()
 
     return state.updateIn(["meta", "paths", ...pathMethod, "parameters"], fromJS({}), paramMeta => {
