@@ -11,8 +11,14 @@ import {
   isJSONSchemaDocument,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
+  makeIsExpandable,
   normalizeDialectIdentifier,
 } from "core/plugins/json-schema-document/fn"
+import {
+  getSchemaKeywords as getJSONSchema202012Keywords,
+  hasKeyword,
+  makeIsExpandable as makeJSONSchema202012IsExpandable,
+} from "core/plugins/json-schema-2020-12/fn"
 
 // as the spec plugin parses both JSON and YAML (specActions.parseToJson)
 const parse = (source: string) =>
@@ -171,10 +177,15 @@ describe("json-schema-document detection", () => {
 })
 
 describe("json-schema-document makeGetSchemaKeywords", () => {
-  it("adds swagger-client's $$ref annotation to the dialect's keywords", () => {
+  it("adds the default meta-schema's keywords and swagger-client's $$ref annotation", () => {
     const getSchemaKeywords = makeGetSchemaKeywords(() => ["$ref", "type"])
 
-    expect(getSchemaKeywords()).toEqual(["$ref", "type", "$$ref"])
+    expect(getSchemaKeywords()).toEqual([
+      "$ref",
+      "type",
+      "definitions",
+      "$$ref",
+    ])
   })
 
   it("adds none of the OpenAPI keywords", () => {
@@ -184,5 +195,50 @@ describe("json-schema-document makeGetSchemaKeywords", () => {
     expect(keywords).not.toContain("xml")
     expect(keywords).not.toContain("externalDocs")
     expect(keywords).not.toContain("example")
+  })
+})
+
+describe("json-schema-document makeIsExpandable", () => {
+  const keywords = makeGetSchemaKeywords(getJSONSchema202012Keywords)()
+  const fn = {
+    hasKeyword,
+    getExtensionKeywords: (schema: unknown) =>
+      schema !== null && typeof schema === "object"
+        ? Object.keys(schema).filter((key) => !keywords.includes(key))
+        : [],
+  }
+  const isExpandable = makeIsExpandable(() => fn)
+  const isExpandable202012 = makeJSONSchema202012IsExpandable(() => fn)
+
+  it("decides as the json-schema-2020-12 renderer for every 2020-12 keyword", () => {
+    const values = [{}, { type: "string" }, "x", 0, false, true, []]
+
+    for (const keyword of getJSONSchema202012Keywords()) {
+      for (const value of values) {
+        const schema = { [keyword]: value }
+        expect([keyword, isExpandable(schema)]).toEqual([
+          keyword,
+          Boolean(isExpandable202012(schema)),
+        ])
+      }
+    }
+    for (const schema of [true, false, null, undefined, {}]) {
+      expect(isExpandable(schema)).toBe(Boolean(isExpandable202012(schema)))
+    }
+  })
+
+  it("expands a schema whose only body keyword is definitions", () => {
+    expect(
+      isExpandable({
+        type: "string",
+        definitions: { Slug: { type: "string" } },
+      })
+    ).toBe(true)
+    expect(isExpandable({ type: "string" })).toBe(false)
+  })
+
+  it("expands a schema with an extension keyword of this instance", () => {
+    expect(isExpandable({ type: "string", "x-internal": true })).toBe(true)
+    expect(isExpandable({ type: "string", $$ref: "#/$defs/A" })).toBe(false)
   })
 })
