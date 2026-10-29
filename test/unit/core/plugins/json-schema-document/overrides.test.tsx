@@ -7,6 +7,7 @@ import { mount } from "enzyme"
 import { withJSONSchemaContext } from "core/plugins/json-schema-2020-12/hoc"
 import JSONSchema from "core/plugins/json-schema-2020-12/components/JSONSchema/JSONSchema"
 import Keyword$defs from "core/plugins/json-schema-2020-12/components/keywords/$defs"
+import KeywordDependentSchemas from "core/plugins/json-schema-2020-12/components/keywords/DependentSchemas"
 import { getSchemaKeywords } from "core/plugins/json-schema-2020-12/fn"
 import {
   useComponent,
@@ -27,6 +28,7 @@ type Component = React.ComponentType<Record<string, unknown>>
 // the parts of the system the overrides take, as the json-schema-2020-12 plugin registers them
 const systemComponents: Record<string, unknown> = {
   JSONSchema202012Keyword$defs: Keyword$defs,
+  JSONSchema202012KeywordDependentSchemas: KeywordDependentSchemas,
   JSONSchema202012PathContext: () => JSONSchemaPathContext,
   JSONSchema202012LevelContext: () => JSONSchemaLevelContext,
 }
@@ -69,13 +71,18 @@ describe("json-schema-document renderer overrides", () => {
 
     expect(Object.keys(overrides).sort()).toEqual(["components", "fn"])
     expect(Object.keys(overrides.fn).sort()).toEqual([
+      "getDependentRequired",
       "getSchemaKeywords",
       "isExpandable",
     ])
-    expect(Object.keys(overrides.components)).toEqual(["Keyword$defs"])
+    expect(Object.keys(overrides.components)).toEqual([
+      "Keyword$defs",
+      "KeywordDependentSchemas",
+    ])
     expect(overrides.fn.getSchemaKeywords()).toEqual([
       ...getSchemaKeywords(),
       "definitions",
+      "dependencies",
       "$$ref",
     ])
   })
@@ -149,6 +156,108 @@ describe("json-schema-document renderer overrides", () => {
           wrapper.find(".json-schema-2020-12-keyword--definitions")
         ).toHaveLength(0)
       }
+    })
+  })
+  describe("dependencies", () => {
+    const schema = {
+      title: "Order",
+      properties: {
+        name: { type: "string" },
+        creditCard: { type: "string" },
+        billingAddress: { type: "string" },
+      },
+      dependencies: {
+        creditCard: ["billingAddress"],
+        giftWrap: { required: ["giftMessage"], title: "Gift" },
+      },
+      dependentRequired: { name: ["billingAddress"] },
+      dependentSchemas: { name: { title: "Named" } },
+    }
+
+    it("renders the schema entries like dependentSchemas, right after it", () => {
+      const root = render(schema).getDOMNode()
+      const keywords = Array.from(
+        root.querySelector(":scope > .json-schema-2020-12-body").children
+      )
+        .map((child) => child.className)
+        .filter((className) =>
+          /json-schema-2020-12-keyword--(dependentSchemas|dependencies)\b/.test(
+            className
+          )
+        )
+      const dependencies = root.querySelector(
+        ".json-schema-2020-12-keyword--dependencies"
+      )
+
+      expect(keywords).toEqual([
+        "json-schema-2020-12-keyword json-schema-2020-12-keyword--dependentSchemas",
+        "json-schema-2020-12-keyword json-schema-2020-12-keyword--dependencies",
+      ])
+      expect(
+        dependencies.querySelector(".json-schema-2020-12-keyword__name")
+          .textContent
+      ).toBe("Dependencies")
+      expect(titles(dependencies)).toEqual(["giftWrap"])
+    })
+
+    it("renders the array entries like dependentRequired", () => {
+      const root = render(schema).getDOMNode()
+      const required = Array.from(
+        root.querySelectorAll(".json-schema-2020-12-property")
+      ).map((property) => [
+        property.querySelector(".json-schema-2020-12__title").textContent,
+        Array.from(
+          property.querySelectorAll(
+            ":scope > .json-schema-2020-12 > .json-schema-2020-12-body > .json-schema-2020-12-keyword--dependentRequired li"
+          )
+        ).map((item) => item.textContent),
+      ])
+
+      expect(required).toEqual(
+        expect.arrayContaining([
+          ["name", []],
+          ["creditCard", []],
+          ["billingAddress", ["name", "creditCard"]],
+        ])
+      )
+    })
+
+    it("isn't an extension keyword", () => {
+      const wrapper = render(schema)
+
+      expect(
+        wrapper.find(".json-schema-2020-12-keyword--extension-keywords")
+      ).toHaveLength(0)
+    })
+
+    it("makes a schema expandable only with a schema entry", () => {
+      const withSchema = render({
+        type: "object",
+        dependencies: { express: { required: ["carrier"] } },
+      }).getDOMNode()
+      const withArray = render({
+        type: "object",
+        dependencies: { express: ["carrier"] },
+      }).getDOMNode()
+
+      expect(
+        withSchema.querySelectorAll(
+          ":scope > .json-schema-2020-12-head .json-schema-2020-12-accordion"
+        )
+      ).toHaveLength(1)
+      expect(
+        titles(
+          withSchema.querySelector(".json-schema-2020-12-keyword--dependencies")
+        )
+      ).toEqual(["express"])
+      expect(
+        withArray.querySelectorAll(
+          ":scope > .json-schema-2020-12-head .json-schema-2020-12-accordion"
+        )
+      ).toHaveLength(0)
+      expect(
+        withArray.querySelector(".json-schema-2020-12-keyword--dependencies")
+      ).toBeNull()
     })
   })
 })
