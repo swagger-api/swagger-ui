@@ -147,6 +147,23 @@ describe("<ParameterRow/>", () => {
     expect(wrapper.find(".parameter__type").length).toEqual(1)
     expect(wrapper.find(".parameter__type").text()).toEqual("boolean")
   })
+
+  it("coerces empty array parameter values to null", () => {
+    const param = fromJS({
+      name: "status",
+      in: "query",
+      value: ["available"],
+    })
+    const props = {
+      ...createProps({ param, isOAS3: true }),
+      onChange: jest.fn(),
+    }
+    const parameterRow = new ParameterRow(props)
+
+    parameterRow.onChangeWrapper([])
+
+    expect(props.onChange).toHaveBeenCalledWith(param, null, false)
+  })
 })
 
 describe("bug #5573: zero default and example values", function () {

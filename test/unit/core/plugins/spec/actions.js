@@ -142,6 +142,65 @@ describe("spec plugin - actions", function(){
       expect(system.specActions.setMutatedRequest.mock.calls.length).toEqual(1)
       expect(system.specActions.setRequest.mock.calls.length).toEqual(1)
     })
+
+    it("should send explicitly included empty array parameters as empty strings", async () => {
+      // Given
+      const system = {
+        fn: {
+          buildRequest: jest.fn(req => req),
+          execute: jest.fn().mockImplementation(() => Promise.resolve({}))
+        },
+        specActions: {
+          setMutatedRequest: jest.fn(),
+          setRequest: jest.fn(),
+          setResponse: jest.fn()
+        },
+        specSelectors: {
+          parameterInclusionSettingFor: () => true,
+          url: () => "http://example.com/openapi.json",
+          isOAS3: () => false
+        },
+        getConfigs: () => ({
+          requestInterceptor: jest.fn(),
+          responseInterceptor: jest.fn()
+        })
+      }
+      // When
+      let executeFn = executeRequest({
+        pathName: "/pets",
+        method: "GET",
+        operation: fromJS({
+          operationId: "findPets",
+          parameters: [
+            {
+              name: "status",
+              in: "query",
+              allowEmptyValue: true
+            }
+          ]
+        }),
+        parameters: {
+          status: []
+        }
+      })
+      await executeFn(system)
+
+      // Then
+      expect(system.fn.buildRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          parameters: {
+            status: ""
+          }
+        })
+      )
+      expect(system.fn.execute).toHaveBeenCalledWith(
+        expect.objectContaining({
+          parameters: {
+            status: ""
+          }
+        })
+      )
+    })
   })
 
   xit("should call specActions.setResponse, when fn.execute resolves", function(){
