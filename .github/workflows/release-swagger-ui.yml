@@ -47,6 +47,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
       - name: Prepare for the Release
         env:
           REACT_APP_VERSION: ${{ env.NEXT_RELEASE_VERSION }}
