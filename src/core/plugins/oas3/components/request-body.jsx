@@ -19,7 +19,7 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
     ])
     : exampleSchema
 
-  const exampleValue = fn.getSampleSchema(
+  let exampleValue = fn.getSampleSchema(
     schema,
     mediaType,
     {
@@ -27,6 +27,16 @@ export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExample
     },
     mediaTypeExample
   )
+  
+  const isFormLike = mediaType === "application/x-www-form-urlencoded" || mediaType.indexOf("multipart/") === 0
+  if (isFormLike && schema && schema.type === "object" && schema.properties && exampleValue && typeof exampleValue === "object") {
+    Object.entries(schema.properties).forEach(([prop, propSchema]) => {
+      const propType = Array.isArray(propSchema?.type) ? propSchema.type[0] : propSchema?.type
+      if (propType === "string" && propSchema && Object.prototype.hasOwnProperty.call(propSchema, "default")) {
+        exampleValue[prop] = String(propSchema.default)
+      }
+    })
+  }
   return stringify(exampleValue)
 }
 
@@ -177,6 +187,18 @@ const RequestBody = ({
 
               if (initialValue === 0) {
                 initialValue = "0"
+              }
+
+              // If schema defines a default and the property is string-typed, prefer it verbatim.
+              // This preserves values like "1.0" exactly as specified by the spec.
+              if (objectType === "string") {
+                const schemaDefault = schema.get("default")
+                if (schemaDefault !== undefined) {
+                  initialValue = String(schemaDefault)
+                } else if (typeof initialValue !== "string") {
+                  // Otherwise ensure the sampled value is coerced to string.
+                  initialValue = String(initialValue)
+                }
               }
 
               if (typeof initialValue !== "string" && objectType === "object") {
