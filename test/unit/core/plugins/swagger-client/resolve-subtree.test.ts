@@ -38,6 +38,9 @@ jest.mock("swagger-client/es/subtree-resolver", () =>
 jest.mock("swagger-client/es/helpers", () =>
   jest.requireActual("swagger-client/lib/helpers")
 )
+jest.mock("swagger-client/es/resolver/specmap/lib/refs", () =>
+  jest.requireActual("swagger-client/lib/resolver/specmap/lib/refs")
+)
 
 const makeSpec = () => ({
   openapi: "3.2.0",
