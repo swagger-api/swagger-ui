@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
-import { fromJS, Seq, Iterable, Map } from "immutable"
+import { fromJS, Iterable, Map } from "immutable"
 import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
@@ -78,14 +78,21 @@ export default class Response extends React.Component {
     return this.state.responseContentType || contentType
   }
 
+  getActiveMediaType = () => {
+    const { response } = this.props
+    const mediaType = response.getIn(["content", this.getActiveContentType()])
+    
+    return Map.isMap(mediaType) ? mediaType : Map({})
+  }
+
   getTargetExamplesKey = () => {
-    const { response, activeExamplesKey } = this.props
+    const { activeExamplesKey } = this.props
 
-    const activeContentType = this.getActiveContentType()
-    const activeMediaType = response.getIn(["content", activeContentType], Map({}))
-    const examplesForMediaType = activeMediaType.get("examples", null)
+    const examplesForMediaType = this.getActiveMediaType().get("examples", null)
 
-    const firstExamplesKey = examplesForMediaType.keySeq().first()
+    const firstExamplesKey = Map.isMap(examplesForMediaType)
+      ? examplesForMediaType.keySeq().first()
+      : undefined
     return activeExamplesKey || firstExamplesKey
   }
 
@@ -126,15 +133,16 @@ export default class Response extends React.Component {
     var schema, specPathWithPossibleSchema
 
     const activeContentType = this.getActiveContentType()
-    const activeMediaType = response.getIn(["content", activeContentType], Map({}))
+    const activeMediaType = this.getActiveMediaType()
     const examplesForMediaType = activeMediaType.get("examples", null)
 
     // Goal: find a schema value for `schema`
     if(isOAS3) {
       const oas3SchemaForContentType = activeMediaType.get("schema")
+      const hasSchemaForContentType = Map.isMap(oas3SchemaForContentType)
 
-      schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
-      specPathWithPossibleSchema = oas3SchemaForContentType
+      schema = hasSchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
+      specPathWithPossibleSchema = hasSchemaForContentType
         ? specPath.push("content", activeContentType, "schema")
         : specPath
     } else {
@@ -151,14 +159,15 @@ export default class Response extends React.Component {
 
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
-      sampleSchema = activeMediaType.get("schema")?.toJS()
+      const activeMediaTypeSchema = activeMediaType.get("schema")
+      sampleSchema = Map.isMap(activeMediaTypeSchema) ? activeMediaTypeSchema.toJS() : undefined
       if(Map.isMap(examplesForMediaType) && !examplesForMediaType.isEmpty()) {
         const targetExamplesKey = this.getTargetExamplesKey()
         const targetExample = examplesForMediaType
           .get(targetExamplesKey, Map({}))
         const getMediaTypeExample = (targetExample) =>
-          Map.isMap(targetExample) 
-          ? targetExample.get("value") 
+          Map.isMap(targetExample)
+          ? targetExample.get("value")
           : undefined
         mediaTypeExample = getMediaTypeExample(targetExample)
         if(mediaTypeExample === undefined) {
@@ -202,7 +211,7 @@ export default class Response extends React.Component {
 
           { !showExtensions || !extensions.size ? null : extensions.entrySeq().map(([key, v]) => <ResponseExtension key={`${key}-${v}`} xKey={key} xVal={v} /> )}
 
-          {isOAS3 && response.get("content") ? (
+          {isOAS3 && Map.isMap(response.get("content")) ? (
             <section className="response-controls">
               <div
                 className={cx("response-control-media-type", {
@@ -214,11 +223,7 @@ export default class Response extends React.Component {
                 </small>
                 <ContentType
                   value={activeContentType}
-                  contentTypes={
-                    response.get("content")
-                      ? response.get("content").keySeq()
-                      : Seq()
-                  }
+                  contentTypes={response.get("content").keySeq()}
                   onChange={this._onContentTypeChange}
                   ariaLabel="Media Type"
                 />
@@ -238,7 +243,7 @@ export default class Response extends React.Component {
                     currentExampleKey={this.getTargetExamplesKey()}
                     onSelect={(key, { isSyntheticChange } = {}) => {
                       if (isSyntheticChange) return
-                      
+
                       oas3Actions.setActiveExamplesMember({
                         name: key,
                         pathMethod: [path, method],
@@ -264,7 +269,7 @@ export default class Response extends React.Component {
               includeReadOnly={ true }/>
           ) : null }
 
-          { isOAS3 && examplesForMediaType ? (
+          { isOAS3 && Map.isMap(examplesForMediaType) ? (
               <Example
                 example={examplesForMediaType.get(this.getTargetExamplesKey(), Map({}))}
                 getComponent={getComponent}
@@ -282,7 +287,7 @@ export default class Response extends React.Component {
 
         </td>
         {isOAS3 ? <td className="response-col_links">
-          { links ?
+          { Map.isMap(links) ?
             links.toSeq().entrySeq().map(([key, link]) => {
               return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
             })
