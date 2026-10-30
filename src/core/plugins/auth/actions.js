@@ -1,6 +1,6 @@
-import parseUrl from "url-parse"
 import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
+import { resolveUrl } from "core/utils/url"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const AUTHORIZE = "authorize"
@@ -172,15 +172,25 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 
   let parsedUrl
 
-  if (specSelectors.isOAS3()) {
-    let finalServerUrl = oas3Selectors.serverEffectiveValue(oas3Selectors.selectedServer())
-    parsedUrl = parseUrl(url, finalServerUrl, true)
-  } else {
-    parsedUrl = parseUrl(url, specSelectors.url(), true)
+  try {
+    const baseUrl = specSelectors.isOAS3()
+      ? oas3Selectors.serverEffectiveValue(oas3Selectors.selectedServer())
+      : specSelectors.url()
+    parsedUrl = resolveUrl(url, baseUrl)
+  } catch (e) {
+    errActions.newAuthErr({
+      authId: name,
+      source: "auth",
+      level: "error",
+      message: e.message
+    })
+    return
   }
 
-  if(typeof additionalQueryStringParams === "object") {
-    parsedUrl.query = Object.assign({}, parsedUrl.query, additionalQueryStringParams)
+  if (typeof additionalQueryStringParams === "object" && additionalQueryStringParams !== null) {
+    Object.entries(additionalQueryStringParams).forEach(([key, value]) => {
+      parsedUrl.searchParams.set(key, value == null || Number.isNaN(value) ? "" : value)
+    })
   }
 
   const fetchUrl = parsedUrl.toString()

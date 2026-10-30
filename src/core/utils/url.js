@@ -1,3 +1,15 @@
+import win from "core/window"
+
+// Resolve a relative base against the page URL. Absolute URLs do not need a base,
+// which also allows them to work outside a browser or with an invalid server URL.
+export function resolveUrl(url, base = win.location.href) {
+  try {
+    return new URL(url || "")
+  } catch {
+    return new URL(url || "", new URL(base || "", win.location.href))
+  }
+}
+
 export function isAbsoluteUrl(url) {
   return url.match(/^(?:[a-z]+:)?\/\//i) // Matches http://, HTTP://, https://, ftp://, //example.com,
 }

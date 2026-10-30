@@ -1,6 +1,5 @@
 import YAML, { JSON_SCHEMA } from "js-yaml"
 import { Map as ImmutableMap } from "immutable"
-import parseUrl from "url-parse"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
@@ -8,6 +7,7 @@ import assocPath from "lodash/fp/assocPath"
 import constant from "lodash/constant"
 
 import { paramToValue, isEmptyValue } from "core/utils"
+import { resolveUrl } from "core/utils/url"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -400,8 +400,12 @@ export const executeRequest = (req) =>
         })
     }
 
-    // if url is relative, parseUrl makes it absolute by inferring from `window.location`
-    req.contextUrl = parseUrl(specSelectors.url()).toString()
+    try {
+      req.contextUrl = resolveUrl(specSelectors.url()).href
+    } catch (err) {
+      specActions.setResponse(req.pathName, req.method, { error: true, err })
+      return Promise.resolve()
+    }
 
     if(op && op.operationId) {
       req.operationId = op.operationId
