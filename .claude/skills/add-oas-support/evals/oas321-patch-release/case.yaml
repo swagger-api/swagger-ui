@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: oas321-patch-release
+# fixture: ee02195f (main on 2026-10-22, before the rebuilt skills), checked out by checkout-fixture.sh
+context:
+  scaffold_script: checkout-fixture.sh
+expected_outcome: |
+  The run treats 3.2.1 as a patch release of an already supported line: no new plugin, because the
+  oas32 detection regex already matches 3.2.1. It compares the 3.2.1 and 3.2.0 Fixed Fields tables
+  and finds no new fields. Changes stay small: the README compatibility table gains 3.2.1, and a test
+  or fixture uses `openapi: 3.2.1`. It reports the existing oas32 `default$schema` problem (the
+  document schema URL instead of a dialect) and the dialect id in the 3.2.1 text, rather than
+  silently rewriting unrelated code, and runs at least lint and unit tests.
