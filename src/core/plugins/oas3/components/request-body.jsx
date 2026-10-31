@@ -7,7 +7,8 @@ import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 export const getDefaultRequestBodyValue = (requestBody, mediaType, activeExamplesKey, fn) => {
   const mediaTypeValue = requestBody.getIn(["content", mediaType]) ?? OrderedMap()
-  const schema = mediaTypeValue.get("schema", OrderedMap())
+  const schemaField = fn.getMediaTypeSchemaField?.(mediaTypeValue) ?? "schema"
+  const schema = mediaTypeValue.get(schemaField, OrderedMap())
 
   const hasExamplesKey = mediaTypeValue.get("examples") !== undefined
   const exampleSchema = mediaTypeValue.get("example")
@@ -83,7 +84,10 @@ const RequestBody = ({
   contentType = contentType || requestBodyContent.keySeq().first() || ""
 
   const mediaTypeValue = requestBodyContent.get(contentType) ?? OrderedMap()
-  const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
+  // `itemSchema` (OAS 3.2) describes each item of a sequential media type
+  const schemaField = fn.getMediaTypeSchemaField?.(mediaTypeValue) ?? "schema"
+  const isItemSchema = schemaField === "itemSchema"
+  const schemaForMediaType = mediaTypeValue.get(schemaField, OrderedMap())
   const rawExamplesOfMediaType = mediaTypeValue.get("examples", null)
   const sampleForMediaType = rawExamplesOfMediaType?.map((container, key) => {
     const val = container?.get("value", null)
@@ -104,7 +108,7 @@ const RequestBody = ({
   requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
   const isFileUploadIntended = fn.isFileUploadIntended(
-    mediaTypeValue?.get("schema"),
+    mediaTypeValue?.get(schemaField),
     contentType
   )
 
@@ -127,9 +131,12 @@ const RequestBody = ({
     return null
   }
 
-  const isObjectContent = fn.hasSchemaType(mediaTypeValue.get("schema"), "object")
+  const isObjectContent = fn.hasSchemaType(mediaTypeValue.get(schemaField), "object")
 
+  // `itemSchema` describes each part of a sequence such as `multipart/mixed`,
+  // not named form fields, so it is never rendered as a form
   if (
+    !isItemSchema &&
     isObjectContent &&
     (
       contentType === "application/x-www-form-urlencoded" ||
@@ -276,6 +283,13 @@ const RequestBody = ({
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
     }
+    { isItemSchema ? (
+      <div className="body-param-item-schema-note">
+        <small>
+          Schema of each item in the <code>{ contentType }</code> sequence
+        </small>
+      </div>
+    ) : null }
     {
       sampleForMediaType ? (
         <ExamplesSelectValueRetainer
@@ -297,8 +311,8 @@ const RequestBody = ({
       specSelectors={ specSelectors }
       expandDepth={1}
       isExecute={isExecute}
-      schema={mediaTypeValue.get("schema")}
-      specPath={specPath.push("content", contentType, "schema")}
+      schema={mediaTypeValue.get(schemaField)}
+      specPath={specPath.push("content", contentType, schemaField)}
       example={example}
       includeWriteOnly={true}
     />

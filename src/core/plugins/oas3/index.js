@@ -9,7 +9,7 @@ import wrapComponents from "./wrap-components"
 import * as actions from "./actions"
 import * as selectors from "./selectors"
 import reducers from "./reducers"
-import { makeIsFileUploadIntended } from "./fn"
+import { makeIsFileUploadIntended, getMediaTypeSchemaField } from "./fn"
 
 export default function ({ getSystem }) {
   const isFileUploadIntended = makeIsFileUploadIntended(getSystem)
@@ -34,6 +34,7 @@ export default function ({ getSystem }) {
     fn: {
       isFileUploadIntended,
       isFileUploadIntendedOAS30: isFileUploadIntended,
+      getMediaTypeSchemaField,
     },
   }
 }
