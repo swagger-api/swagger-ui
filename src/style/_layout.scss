@@ -437,7 +437,7 @@
   }
 
   &.opblock-deprecated {
-    opacity: 0.6;
+    //opacity: 0.6;
 
     @include mixins.method($color-disabled);
   }

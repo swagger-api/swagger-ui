@@ -86,11 +86,13 @@ input,
 textarea,
 select {
   &[disabled] {
-    background-color: #fafafa;
-    color: #888;
+    filter: invert(0.08);
+    opacity: .5;
+    pointer-events: none;
     cursor: not-allowed;
   }
 }
+
 
 select[disabled] {
   border-color: #888;

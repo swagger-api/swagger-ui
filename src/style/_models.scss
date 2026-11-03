@@ -102,11 +102,11 @@
   }
 
   .property {
-    color: #999;
+    color: $dark-grayish-brown;
     font-style: italic;
 
     &.primitive {
-      color: #6b6b6b;
+      color: $mako-gray;
 
       &.extension {
         display: block;
@@ -155,7 +155,7 @@ table.model {
       }
 
       .star {
-        color: red;
+        color: $guardsman-red;
       }
     }
 
@@ -195,7 +195,7 @@ section.models {
     &.models--virtualized {
       padding-bottom: 0;
     }
-    
+
     h4 {
       margin: 0 0 5px 0;
 
