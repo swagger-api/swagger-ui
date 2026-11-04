@@ -14,6 +14,43 @@
     <div id="swagger-ui"></div>
     <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
     <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-    <script src="./swagger-initializer.js" charset="UTF-8"> </script>
+    <script src="./swagger-initializer.js" charset="UTF-8">
+    
+    const oidcConfig = {
+      clientId: "your-client-id",
+      discoveryUrl: "https://your-auth-server/.well-known/openid-configuration",
+      oauth2RedirectUrl: window.location.origin + "/oauth2-redirect.html"
+    };
+
+    window.onload = function () {
+
+      const ui = SwaggerUIBundle({
+  url: "/path/to/openapi.yaml",  // Make sure this points to your OpenAPI spec
+  dom_id: '#swagger-ui',
+  deepLinking: true,
+  presets: [
+    SwaggerUIBundle.presets.apis,
+    SwaggerUIStandalonePreset
+  ],
+  layout: "StandaloneLayout",
+
+  oauth2RedirectUrl: window.location.origin + "/oauth2-redirect.html",  // OAuth2 redirect URL
+
+  // OAuth2 authentication configuration
+  oauth2: {
+    clientId: "YOUR_CLIENT_ID",   // Replace with actual client ID
+    clientSecret: "YOUR_CLIENT_SECRET", // Optional, only needed for some flows
+    authorizationUrl: "https://your-oidc-provider.com/oauth/authorize",  // OIDC authorization URL
+    tokenUrl: "https://your-oidc-provider.com/oauth/token",   // Token endpoint
+    scopes: ["openid", "profile", "email"],  // Specify the required scopes
+    flow: "implicit",   // Use implicit flow for OAuth2/OIDC
+  }
+});
+
+    };
+    
+    </script>
+
+    
   </body>
 </html>
