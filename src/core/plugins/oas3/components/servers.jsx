@@ -71,72 +71,77 @@ const Servers = ({
 
   return (
     <div className="servers">
-      <label htmlFor="servers">
-        <select
-          onChange={handleServerChange}
-          value={currentServer}
-          id="servers"
-        >
-          {servers
-            .valueSeq()
-            .map((server) => (
-              <option value={server.get("url")} key={server.get("url")}>
-                {server.get("url")}
-                {server.get("description") && ` - ${server.get("description")}`}
-              </option>
-            ))
-            .toArray()}
-        </select>
-      </label>
-      {shouldShowVariableUI && (
-        <div>
+      <div>
+        <label htmlFor="servers">
+          <select
+            onChange={handleServerChange}
+            value={currentServer}
+            id="servers"
+          >
+            {servers
+              .valueSeq()
+              .map((server) => (
+                <option value={server.get("url")} key={server.get("url")}>
+                  {server.get("url")}
+                  {server.get("description") &&
+                    ` - ${server.get("description")}`}
+                </option>
+              ))
+              .toArray()}
+          </select>
+        </label>
+        {shouldShowVariableUI && (
           <div className={"computed-url"}>
             Computed URL:
             <code>{getEffectiveServerValue(currentServer)}</code>
           </div>
-          <h4>Server variables</h4>
-          <table>
-            <tbody>
-              {currentServerVariableDefs.entrySeq().map(([name, val]) => {
-                return (
-                  <tr key={name}>
-                    <td>{name}</td>
-                    <td>
-                      {val.get("enum") ? (
-                        <select
-                          data-variable={name}
-                          onChange={handleServerVariableChange}
-                        >
-                          {val.get("enum").map((enumValue) => {
-                            return (
-                              <option
-                                selected={
-                                  enumValue ===
-                                  getServerVariable(currentServer, name)
-                                }
-                                key={enumValue}
-                                value={enumValue}
-                              >
-                                {enumValue}
-                              </option>
-                            )
-                          })}
-                        </select>
-                      ) : (
-                        <input
-                          type={"text"}
-                          value={getServerVariable(currentServer, name) || ""}
-                          onChange={handleServerVariableChange}
-                          data-variable={name}
-                        ></input>
-                      )}
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+        )}
+      </div>
+      {shouldShowVariableUI && (
+          <div>
+            <h4>Server variables</h4>
+            <table>
+              <tbody>
+                {currentServerVariableDefs.entrySeq().map(([name, val]) => {
+                  return (
+                    <tr key={name}>
+                      <td>{name}</td>
+                      <td>
+                        {val.get("enum") ? (
+                          <select
+                            data-variable={name}
+                            onChange={handleServerVariableChange}
+                          >
+                            {val.get("enum").map((enumValue) => {
+                              return (
+                                <option
+                                  selected={
+                                    enumValue ===
+                                    getServerVariable(currentServer, name)
+                                  }
+                                  key={enumValue}
+                                  value={enumValue}
+                                >
+                                  {enumValue}
+                                </option>
+                              )
+                            })}
+                          </select>
+                        ) : (
+                          <input
+                            type={"text"}
+                            value={getServerVariable(currentServer, name) || ""}
+                            onChange={handleServerVariableChange}
+                            data-variable={name}
+                          ></input>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
       )}
     </div>
   )
