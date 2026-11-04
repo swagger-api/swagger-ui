@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
+import debounce from "lodash/debounce"
 import { stringify } from "core/utils"
 
 const NOOP = Function.prototype
@@ -27,6 +28,8 @@ export default class RequestBodyEditor extends PureComponent {
       value: stringify(props.value) || props.defaultValue
     }
 
+    this.debouncedPropsOnChange = debounce(props.onChange, 350)
+
     // this is the glue that makes sure our initial value gets set as the
     // current request body value
     // TODO: achieve this in a selector instead
@@ -47,12 +50,16 @@ export default class RequestBodyEditor extends PureComponent {
     this.props.onChange(stringify(value))
   }
 
+  componentWillUnmount() {
+    this.debouncedPropsOnChange.cancel()
+  }
+
   onDomChange = e => {
     const inputValue = e.target.value
 
     this.setState({
       value: inputValue,
-    }, () => this.onChange(inputValue))
+    }, () => this.debouncedPropsOnChange(stringify(inputValue)))
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
