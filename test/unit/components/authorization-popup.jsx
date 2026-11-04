@@ -89,4 +89,14 @@ describe("<AuthorizationPopup/>", function () {
 
     wrapper.unmount()
   })
+
+  it("gives the close button an accessible name", function () {
+    const wrapper = mount(<AuthorizationPopup {...mockedProps} />)
+
+    const closeButton = wrapper.find("button.close-modal")
+
+    expect(closeButton.prop("aria-label")).toBe("Close dialog")
+
+    wrapper.unmount()
+  })
 })
