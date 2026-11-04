@@ -1,12 +1,19 @@
 import React from "react"
 import Immutable, { List } from "immutable"
-import { Select, Input, TextArea } from "core/components/layout-utils"
+import { Select, Input, TextArea, Button } from "core/components/layout-utils"
 import { mount, render } from "enzyme"
 import { getSchemaObjectType } from "core/plugins/json-schema-5-samples/fn/index"
+import { foldType } from "core/plugins/json-schema-2020-12-samples/fn/core/type"
+import {
+  isBooleanJSONSchema,
+  makeGetType,
+} from "core/plugins/json-schema-2020-12/fn"
 import * as JsonSchemaComponents from "core/plugins/json-schema-5/components/json-schema-components"
 import { makeIsFileUploadIntended } from "core/plugins/oas3/fn"
 
-const components = {...JsonSchemaComponents, Select, Input, TextArea}
+const components = {...JsonSchemaComponents, Select, Input, TextArea, Button}
+const jsonSchema202012GetType = makeGetType(() => ({ isBooleanJSONSchema }))
+const toJS = (schema) => schema?.toJS ? schema.toJS() : schema
 
 const getComponentStub = (name) => {
   if(components[name]) return components[name]
@@ -241,6 +248,50 @@ describe("<JsonSchemaComponents.JsonSchemaForm/>", function(){
 
       expect(wrapper.find("textarea").length).toEqual(1)
       expect(wrapper.find("textarea").text()).toEqual(`{\n  "id": "abc123"\n}`)
+    })
+  })
+  describe("arrays", function() {
+    it("renders tuple array items when additional items are disallowed", function() {
+      let props = {
+        getComponent: getComponentStub,
+        value: Immutable.fromJS([["triggered-at", "desc-nulls-last"]]),
+        onChange: () => {},
+        keyName: "",
+        fn: {
+          getSchemaObjectType: (schema) => foldType(toJS(schema)?.type),
+          getSchemaObjectTypeLabel: (schema) => jsonSchema202012GetType(toJS(schema)),
+          isFileUploadIntended: makeIsFileUploadIntended(getSystemStub)
+        },
+        errors: List(),
+        schema: Immutable.fromJS({
+          type: "array",
+          items: {
+            type: "array",
+            prefixItems: [
+              {
+                type: "string",
+                enum: ["triggered-at"]
+              },
+              {
+                type: "string",
+                enum: [
+                  "asc-nulls-first",
+                  "asc-nulls-last",
+                  "desc-nulls-first",
+                  "desc-nulls-last"
+                ]
+              }
+            ],
+            items: false
+          }
+        })
+      }
+
+      let wrapper = render(<JsonSchemaComponents.JsonSchemaForm {...props}/>)
+
+      expect(wrapper.find("input").length).toEqual(2)
+      expect(wrapper.find("input").eq(0).attr("value")).toEqual("triggered-at")
+      expect(wrapper.find("input").eq(1).attr("value")).toEqual("desc-nulls-last")
     })
   })
   describe("unknown types", function() {
