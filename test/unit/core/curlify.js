@@ -1,5 +1,9 @@
 import Im from "immutable"
-import { requestSnippetGenerator_curl_bash as curl } from "core/plugins/request-snippets/fn.js"
+import {
+  requestSnippetGenerator_curl_bash as curl,
+  requestSnippetGenerator_curl_cmd as curlCmd,
+  requestSnippetGenerator_curl_powershell as curlPowershell,
+} from "core/plugins/request-snippets/fn.js"
 import win from "core/window"
 import { fromJSOrdered } from "core/utils"
 
@@ -35,6 +39,28 @@ describe("curlify", function () {
     let curlified = curl(Im.fromJS(req))
 
     expect(curlified).toEqual("curl -X 'POST' \\\n  'http://example.com' \\\n  -d ''")
+  })
+
+  it("does add an empty data param quoted for CMD if no request body given", function () {
+    let req = {
+      url: "http://example.com",
+      method: "POST",
+    }
+
+    let curlified = curlCmd(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl -X \"POST\" ^\n  \"http://example.com\" ^\n  -d \"\"")
+  })
+
+  it("does add an empty data param quoted for PowerShell if no request body given", function () {
+    let req = {
+      url: "http://example.com",
+      method: "POST",
+    }
+
+    let curlified = curlPowershell(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl.exe -X 'POST' `\n  'http://example.com' `\n  -d ''")
   })
 
   it("does not change the case of header in curl", function () {
