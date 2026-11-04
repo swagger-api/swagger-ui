@@ -9,6 +9,7 @@ import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
 import { makeResolveSubtree } from "swagger-client/es/subtree-resolver"
 import { opId } from "swagger-client/es/helpers"
 import { loaded } from "./configs-wrap-actions"
+import wrapParameterMacro from "../../utils/wrap-parameter-macro"
 
 export default function({ configs, getConfigs }) {
   return {
@@ -28,7 +29,7 @@ export default function({ configs, getConfigs }) {
         const freshConfigs = getConfigs()
         const defaultOptions = {
           modelPropertyMacro: freshConfigs.modelPropertyMacro,
-          parameterMacro: freshConfigs.parameterMacro,
+          parameterMacro: wrapParameterMacro(freshConfigs.parameterMacro),
           requestInterceptor: freshConfigs.requestInterceptor,
           responseInterceptor: freshConfigs.responseInterceptor,
           strategies: [
