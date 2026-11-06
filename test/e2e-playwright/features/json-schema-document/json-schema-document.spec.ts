@@ -24,6 +24,19 @@ test.describe("Standalone JSON Schema 2020-12 documents", () => {
   test.describe("given a YAML document", () => {
     const url = `/?url=${documents}/person.yaml`
 
+    test("skip link targets the schema region", async ({ page }) => {
+      await page.goto(url)
+
+      await expect(
+        page.getByRole("link", { name: "Skip to operations" })
+      ).toHaveCount(0)
+      await page.keyboard.press("Tab")
+      const skipLink = page.getByRole("link", { name: "Skip to JSON Schema" })
+      await expect(skipLink).toBeFocused()
+      await page.keyboard.press("Enter")
+      await expect(page.locator("main#json-schema-document")).toBeFocused()
+    })
+
     test("renders the root schema instead of the version message", async ({
       page,
     }) => {
@@ -34,6 +47,7 @@ test.describe("Standalone JSON Schema 2020-12 documents", () => {
       await expect(page.locator(".version-pragma__message")).toHaveCount(0)
       await expect(page.locator(".information-container")).toHaveCount(0)
       await expect(page.locator("#operations")).toHaveCount(0)
+      await expect(page.locator("main#json-schema-document")).toHaveCount(1)
 
       const root = document.locator(".json-schema-2020-12").first()
       await expect(

@@ -237,7 +237,8 @@ const debResolveSubtrees = debounce(() => {
         }
         if (path.length === 0) {
           // an empty path is the whole document: `set` and `assocPath` would ignore it
-          if (isPlainObject(spec)) {
+          // a boolean is a valid root schema (`$ref` to `true` or `false`)
+          if (isPlainObject(spec) || typeof spec === "boolean") {
             resultMap = spec
             specWithCurrentSubtrees = spec
           }
@@ -251,7 +252,12 @@ const debResolveSubtrees = debounce(() => {
           specWithCurrentSubtrees
         }
       }, Promise.resolve({
-        resultMap: (specSelectors.specResolvedSubtree([]) || ImmutableMap()).toJS(),
+        resultMap: (() => {
+          const resolvedRoot = specSelectors.specResolvedSubtree([])
+          // a boolean root schema is stored as is
+          if (typeof resolvedRoot === "boolean") return resolvedRoot
+          return (resolvedRoot || ImmutableMap()).toJS()
+        })(),
         specWithCurrentSubtrees: specSelectors.specJS()
       }))
 

@@ -3,6 +3,7 @@
  */
 import JSONSchemaDocument from "./components/JSONSchemaDocument"
 import VersionPragmaFilterWrapper from "./wrap-components/VersionPragmaFilter"
+import SkipToOperationsWrapper from "./wrap-components/SkipToOperations"
 import { isJSONSchemaDocument, jsonSchemaDialect } from "./selectors"
 import { requestResolvedSubtree } from "./wrap-actions"
 
@@ -33,6 +34,7 @@ const JSONSchemaDocumentPlugin = () => ({
   },
   wrapComponents: {
     VersionPragmaFilter: VersionPragmaFilterWrapper,
+    SkipToOperations: SkipToOperationsWrapper,
   },
   statePlugins: {
     spec: {

@@ -4,7 +4,7 @@
 import React, { useEffect, useMemo } from "react"
 import { Map } from "immutable"
 
-import { makeGetSchemaKeywords } from "../fn"
+import { JSON_SCHEMA_DOCUMENT_ID, makeGetSchemaKeywords } from "../fn"
 
 type Component = React.ComponentType<Record<string, unknown>>
 type WithJSONSchemaContext = (
@@ -29,6 +29,7 @@ export interface JSONSchemaDocumentProps {
   fn: {
     jsonSchema202012: {
       getSchemaKeywords: () => string[]
+      getTitle?: (schema: unknown) => string
     }
   }
 }
@@ -50,8 +51,11 @@ const JSONSchemaDocument = ({
   const resolvedDocument = specSelectors.specResolvedSubtree([])
   const dialect = specSelectors.jsonSchemaDialect()
   const { defaultModelExpandDepth, showExtensions } = getConfigs()
-  const isResolved = Map.isMap(resolvedDocument) && resolvedDocument.size > 0
-  const { getSchemaKeywords } = fn.jsonSchema202012
+  // a boolean is a valid root schema, e.g. a `$ref` to `false`
+  const isResolved =
+    typeof resolvedDocument === "boolean" ||
+    (Map.isMap(resolvedDocument) && resolvedDocument.size > 0)
+  const { getSchemaKeywords, getTitle } = fn.jsonSchema202012
 
   useEffect(() => {
     if (!isResolved) {
@@ -60,14 +64,12 @@ const JSONSchemaDocument = ({
     // once per document: a failed resolution isn't retried on every re-render
   }, [specJson])
 
-  const schema = useMemo(
-    () =>
-      (isResolved
-        ? (resolvedDocument as Map<string, unknown>)
-        : specJson
-      ).toJS(),
-    [isResolved, resolvedDocument, specJson]
-  )
+  const schema = useMemo(() => {
+    if (typeof resolvedDocument === "boolean") return resolvedDocument
+    return (
+      isResolved ? (resolvedDocument as Map<string, unknown>) : specJson
+    ).toJS()
+  }, [isResolved, resolvedDocument, specJson])
 
   const JSONSchema = getComponent("JSONSchema202012") as Component
   const withJSONSchemaSystemContext = getComponent(
@@ -98,12 +100,23 @@ const JSONSchemaDocument = ({
   const Row = getComponent("Row") as Component
   const Col = getComponent("Col") as Component
 
+  // without a title, `$anchor` or `$id` the expand button would have no
+  // accessible name; schema-provided titles are kept
+  const name = getTitle?.(schema) ? undefined : "Schema"
+
   return (
-    <Row className="json-schema-document">
-      <Col mobile={12}>
-        <JSONSchemaInstance schema={schema} />
-      </Col>
-    </Row>
+    <main
+      id={JSON_SCHEMA_DOCUMENT_ID}
+      aria-label="JSON Schema"
+      tabIndex={-1}
+      style={{ outline: "none" }}
+    >
+      <Row className="json-schema-document">
+        <Col mobile={12}>
+          <JSONSchemaInstance schema={schema} name={name} />
+        </Col>
+      </Row>
+    </main>
   )
 }
 

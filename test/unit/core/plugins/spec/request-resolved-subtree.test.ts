@@ -15,7 +15,7 @@ const json = {
 
 const makeSystem = (
   resolveSubtree: ResolveSubtree,
-  resolvedSubtrees: Record<string, unknown> = {}
+  resolvedSubtrees: Record<string, unknown> | boolean = {}
 ) => ({
   fn: { resolveSubtree: jest.fn(resolveSubtree) },
   getConfigs: () => ({}),
@@ -27,7 +27,10 @@ const makeSystem = (
     url: () => "http://localhost/schema.json",
     isOAS3: () => false,
     specJS: () => json,
-    specResolvedSubtree: () => fromJS(resolvedSubtrees),
+    specResolvedSubtree: () =>
+      typeof resolvedSubtrees === "boolean"
+        ? resolvedSubtrees
+        : fromJS(resolvedSubtrees),
   },
 })
 
@@ -84,5 +87,32 @@ describe("spec plugin - requestResolvedSubtree", () => {
       components: { securitySchemes: null },
       paths: { "/a": { get: {} } },
     })
+  })
+
+  it.each([true, false])(
+    "stores a boolean root schema (%s) for an empty path",
+    async (value) => {
+      const system = makeSystem(async () => ({ spec: value, errors: [] }))
+
+      requestResolvedSubtree([])(system)
+      await flushBatch()
+
+      expect(system.specActions.updateResolvedSubtree).toHaveBeenCalledWith(
+        [],
+        value
+      )
+    }
+  )
+
+  it("does not fail when the earlier root result is a boolean", async () => {
+    const system = makeSystem(async () => ({ spec: false, errors: [] }), true)
+
+    requestResolvedSubtree([])(system)
+    await flushBatch()
+
+    expect(system.specActions.updateResolvedSubtree).toHaveBeenCalledWith(
+      [],
+      false
+    )
   })
 })
