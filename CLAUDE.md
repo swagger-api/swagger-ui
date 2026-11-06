@@ -84,6 +84,7 @@ Apache 2.0 - See LICENSE and NOTICE files for details.
 - Webpack 5.97.1 - Module bundling
 - Babel 7.26.x - JavaScript transpilation
 - sass-embedded 1.86.0 - SCSS compilation
+- Tailwind CSS 4.x (`@tailwindcss/postcss`) - utility classes for new UI code
 - PostCSS - CSS processing
 
 **Testing:**
@@ -422,12 +423,13 @@ insertPragma: true       # Insert @prettier pragma
 **Lint-staged Configuration:** `.lintstagedrc`
 ```json
 {
-  "*.{js,jsx}": ["eslint --max-warnings 0"],
-  "*.scss": ["stylelint '**/*.scss'"]
+  "*.{js,jsx,ts,tsx}": ["eslint --max-warnings 0"],
+  "*.scss": ["stylelint '**/*.scss'"],
+  "src/**/*.css": ["stylelint"]
 }
 ```
 
-**Critical:** All staged JS/JSX/SCSS files are linted with **zero warnings tolerance**.
+**Critical:** All staged JS/TS/SCSS/CSS files are linted with **zero warnings tolerance**.
 
 ### File Structure Conventions
 
@@ -446,6 +448,13 @@ insertPragma: true       # Insert @prettier pragma
 - Extension: `.scss`
 - Format: SCSS with PostCSS processing
 - Dark mode: `_dark-mode.scss`
+
+**Tailwind (new UI code may use it):**
+- Use utilities with the `sui:` prefix (`sui:flex`, `sui:dark:bg-black`); `dark:` targets `.dark-mode`
+- Class names must be static strings (or values of a static map) - the scanner never sees built names like `` `sui:text-${color}` ``
+- Entry: `src/style/tailwind.css`, compiled into `swagger-ui.css`; no preflight, all layers and variables namespaced
+- Don't edit the isolation setup without reading the `ui-shell` spec; `npm run test:artifact` (`test/build-artifacts/tailwind-isolation.ts`) enforces it
+- Existing SCSS stays; don't migrate it as a drive-by
 
 **Tests:**
 - Unit: `test/unit/` (mirrors source structure)
