@@ -11,44 +11,39 @@ test.describe("JSON Schema 2020-12 extension keywords", () => {
       )
     })
 
-    test("should render `Extension Keywords` section", async ({ page }) => {
-      await page.locator(".json-schema-2020-12-accordion").click()
-      await expect(
-        page.locator(".json-schema-2020-12-keyword--extension-keywords")
-      ).toBeAttached()
+    test("should render `Extension Keywords` section", async ({ schemaUi }) => {
+      await schemaUi.accordion().click()
+      await expect(schemaUi.keyword("extensionKeywords")).toBeAttached()
     })
 
     test("should render extension keywords with primitive values", async ({
       page,
+      schemaUi,
     }) => {
-      await page.locator(".json-schema-2020-12-accordion").click()
+      await schemaUi.accordion().click()
       // cy.contains is case-sensitive, so use a RegExp instead of a string
       await page.getByText(/Extension Keywords/).click()
 
-      const primitiveExtension = page
-        .locator(".json-schema-2020-12-json-viewer-extension-keyword")
+      const primitiveExtension = schemaUi
+        .extensionKeywordViewer()
         .getByText(/primitiveExtension/)
       await expect(primitiveExtension).toBeAttached()
 
       // cy `.siblings(sel)` -> parent's children matching sel
       await expect(
-        primitiveExtension
-          .locator("xpath=..")
-          .locator(":scope > .json-schema-2020-12-json-viewer__value")
-          .getByText(/1/)
+        schemaUi.jsonViewerValue(primitiveExtension).getByText(/1/)
       ).toBeAttached()
     })
 
     test("should render extension keywords with array values", async ({
       page,
+      schemaUi,
     }) => {
-      await page.locator(".json-schema-2020-12-accordion").click()
+      await schemaUi.accordion().click()
       await page.getByText(/Extension Keywords/).click()
 
       await expect(
-        page
-          .locator(".json-schema-2020-12-json-viewer-extension-keyword")
-          .getByText(/arrayExtension/)
+        schemaUi.extensionKeywordViewer().getByText(/arrayExtension/)
       ).toBeAttached()
 
       // cy.contains yields the first match
@@ -57,29 +52,23 @@ test.describe("JSON Schema 2020-12 extension keywords", () => {
         .first()
         .click()
 
-      const arrayExtensionItem = page
-        .locator(".json-schema-2020-12-json-viewer__children")
-        .getByText(/#0/)
+      const arrayExtensionItem = schemaUi.jsonViewerChildren().getByText(/#0/)
       await expect(arrayExtensionItem).toBeAttached()
 
       await expect(
-        arrayExtensionItem
-          .locator("xpath=..")
-          .locator(":scope > .json-schema-2020-12-json-viewer__value")
-          .getByText(/2/)
+        schemaUi.jsonViewerValue(arrayExtensionItem).getByText(/2/)
       ).toBeAttached()
     })
 
     test("should render extension keywords with object values", async ({
       page,
+      schemaUi,
     }) => {
-      await page.locator(".json-schema-2020-12-accordion").click()
+      await schemaUi.accordion().click()
       await page.getByText(/Extension Keywords/).click()
 
       await expect(
-        page
-          .locator(".json-schema-2020-12-json-viewer-extension-keyword")
-          .getByText(/objectExtension/)
+        schemaUi.extensionKeywordViewer().getByText(/objectExtension/)
       ).toBeAttached()
 
       await page
@@ -87,28 +76,24 @@ test.describe("JSON Schema 2020-12 extension keywords", () => {
         .first()
         .click()
 
-      const objectExtensionProperty = page
-        .locator(".json-schema-2020-12-json-viewer__children")
+      const objectExtensionProperty = schemaUi
+        .jsonViewerChildren()
         .getByText(/prop/)
       await expect(objectExtensionProperty).toBeAttached()
 
       await expect(
-        objectExtensionProperty
-          .locator("xpath=..")
-          .locator(":scope > .json-schema-2020-12-json-viewer__value")
-          .getByText(/3/)
+        schemaUi.jsonViewerValue(objectExtensionProperty).getByText(/3/)
       ).toBeAttached()
     })
 
     test("should not render OpenAPI 3.1.0 keywords as extension keywords", async ({
       page,
+      schemaUi,
     }) => {
-      await page.locator(".json-schema-2020-12-accordion").click()
+      await schemaUi.accordion().click()
       await page.getByText(/Extension Keywords/).click()
 
-      const extensionKeywords = page.locator(
-        ".json-schema-2020-12-keyword--extension-keywords"
-      )
+      const extensionKeywords = schemaUi.keyword("extensionKeywords")
       // cy `.children()` implicitly requires the section to exist
       await expect(
         extensionKeywords.locator(":scope > *").first()
@@ -121,12 +106,13 @@ test.describe("JSON Schema 2020-12 extension keywords", () => {
 
   test("shouldn't display extensions when showExtensions option is set to false", async ({
     page,
+    schemaUi,
   }) => {
     await page.goto(
       "/?url=/documents/features/json-schema-2020-12-extension-keywords.yaml"
     )
 
-    await page.locator(".json-schema-2020-12-accordion").click()
+    await schemaUi.accordion().click()
     await expect(page.getByText(/Extension Keywords/)).toHaveCount(0)
   })
 })

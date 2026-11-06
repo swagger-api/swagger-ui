@@ -10,10 +10,11 @@ plus the fixes that came later. When a feature touches a file that isn't listed,
 |------|--------|-------------------------|
 | `package.json` | `swagger-client` at the first release that ships `es/resolver/strategies/openapi-3-Y-apidom` (#11090 bumped `^3.38.3` → `^3.38.4` for 3.2) | the strategy import fails to resolve |
 | `src/core/plugins/swagger-client/index.js` | import `openApi3YApiDOMResolveStrategy` and list it first in `resolveSubtree`'s `strategies` (what the UI uses) and in `resolve`'s (used by the deprecated `specActions.resolveSpec` and by plugins calling `system.fn.resolve`; oas31's strategy is there too) | `$ref` siblings dropped, 3.Y documents resolved by the generic strategy (#11090) |
-| `src/core/presets/apis/index.js` | import `OpenAPI3YPlugin`, append it **last** | parent plugin's wrappers win; `PRESET-ORDER` |
+| `src/core/presets/apis/index.js` | import `OpenAPI3YPlugin`, insert it **after the other OpenAPI plugins and before `JSONSchemaUnifiedPlugin`** (which stays last) | parent plugin's wrappers win, or the new plugin's `Model`/`Models` wrappers bypass the opt-in unified schema view; `PRESET-ORDER` |
 | `src/core/index.js` | import `OpenAPI3YPlugin from "./plugins/oas3Y"`, add `OpenAPI3Y: OpenAPI3YPlugin` to `SwaggerUI.plugins` | users composing their own preset can't reach the plugin; `EXPORT` |
 | `src/core/components/layouts/base.jsx` | `const isOAS3Y = specSelectors.isOAS3Y()`, pass `isOAS3Y={isOAS3Y}` to `VersionPragmaFilter`, add it to the webhooks condition `(isOAS31 \|\| isOAS32)` | "Unable to render this definition"; no webhooks section |
 | parent's `components/version-pragma-filter.jsx` | supported-versions text no longer says "3.x.y" (#10721 changed the oas31 copy) | message lists the wrong versions |
+| `src/core/plugins/json-schema-unified/dialects.ts` | add an `oas3Y` dialect (its `default$schema` dialect id and any keyword differences from its parent) and map the new version to it where the unified `Model`/`Models` wrappers choose a dialect | with `unifiedJSONSchemaEnabled`, 3.Y schemas fall back to the parent's classic view instead of the unified one |
 | `README.md` | row in the Compatibility table (`TBD` release date until the release) | users can't tell the version is supported |
 | `CLAUDE.md` | plugin list and "OpenAPI Specification Compatibility" | AI assistants work from stale facts |
 
@@ -30,7 +31,7 @@ those lines as templates; they're in `../../FOLLOW-UPS.md`.
 | changes request building | swagger-client release first; Swagger UI only passes data through | - |
 | adds a config option | `src/core/config/defaults.js`, `docs/usage/configuration.md`, `flavors/swagger-ui-react/index.jsx` (destructured prop, constructor call, `propTypes`) | `supportedSubmitMethods` gained `query` |
 | renders inside an existing component | copy the component into the plugin and wrap the original name (`plugin-patterns.md` section 6); touch `src/core/components/` only when the change must reach every version | - |
-| adds a Schema Object keyword | the plugin's `json-schema-2020-12-extensions` (`makeGetSchemaKeywords` plus a keyword component and wrapper) | `discriminator`, `xml` |
+| adds a Schema Object keyword | the plugin's `json-schema-2020-12-extensions` (`makeGetSchemaKeywords` plus a keyword component and wrapper), **and** the same keyword in `src/core/plugins/json-schema-unified` (component in `components/keywords/oas/`, registered in `registry.ts`, listed in the dialect's keywords in `dialects.ts`) | `discriminator`, `xml` |
 | needs a new style | `src/style/*.scss` and the dark-mode counterpart; hex colours lowercase | `$color-query` |
 
 `flavors/swagger-ui-react` needs no change for a new plugin, preset or layout: `presets` always

@@ -323,6 +323,10 @@ npm run e2e -- test/e2e-playwright/features/deep-linking.spec.ts
 - `test/e2e-playwright/support/` - Shared `test` fixture, helpers and the OAuth2 test server (port 3231, started by global setup)
 - `test/e2e-playwright/tsconfig.json` - strict TypeScript config for specs and `playwright.config.ts`
 
+**Projects:**
+- `chromium` - the full suite with default options
+- `unified-json-schema` - re-runs the schema specs listed in `playwright.config.ts` with `unifiedJSONSchemaEnabled=true`; its guard fails a test whose page didn't actually render the unified schema view. Specs in that list must select schema DOM through the `schemaLocators`/`schemaUi` helpers in `support/fixtures.ts`, never classic classes directly (`npm run e2e -- --project=unified-json-schema`)
+
 **Test Categories:**
 - `a11y/**/*.spec.ts` - Accessibility tests
 - `security/**/*.spec.ts` - Security tests
