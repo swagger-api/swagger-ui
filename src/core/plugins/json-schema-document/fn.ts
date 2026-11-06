@@ -433,3 +433,60 @@ export const makeGetType = (fnAccessor: () => InstanceFn) => {
 
   return getType
 }
+
+/**
+ * The name of a document: its `title`, else `$anchor`, else `$id` (as the
+ * json-schema-2020-12 renderer names a schema), else the name of the dialect.
+ */
+export const getDocumentTitle = (
+  spec: Map<string, unknown>,
+  dialectName: string
+): string => {
+  const title = spec.get("title")
+  if (typeof title === "string" && title !== "") return title
+
+  const $anchor = spec.get("$anchor")
+  if (typeof $anchor === "string" && $anchor !== "") return $anchor
+
+  const $id = spec.get("$id")
+  if (typeof $id === "string" && $id !== "") return $id
+
+  return dialectName
+}
+
+/**
+ * The URI the document was retrieved from, absolute. A document that wasn't
+ * retrieved (loaded from a `spec` object or string) is known by the URI of the
+ * page; `null` when no absolute URI can be built.
+ */
+export const getRetrievalURI = (
+  url: string | undefined,
+  documentBaseURI: string | undefined
+): string | null => {
+  try {
+    return new URL(url || documentBaseURI || "", documentBaseURI).toString()
+  } catch {
+    return null
+  }
+}
+
+/**
+ * The base URI of the document: its `$id` resolved against the retrieval URI
+ * (https://json-schema.org/draft/2020-12/json-schema-core#name-base-uri),
+ * the retrieval URI when there's no `$id`, `null` when neither is an absolute URI.
+ */
+export const getBaseURI = (
+  spec: Map<string, unknown>,
+  retrievalURI: string | null
+): string | null => {
+  const $id = spec.get("$id")
+  if (typeof $id !== "string" || $id === "") return retrievalURI
+
+  try {
+    return retrievalURI === null
+      ? new URL($id).toString()
+      : new URL($id, retrievalURI).toString()
+  } catch {
+    return retrievalURI
+  }
+}
