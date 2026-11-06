@@ -3,12 +3,26 @@ import openApi2ResolveStrategy from "swagger-client/es/resolver/strategies/opena
 import openApi30ResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-0"
 import openApi31ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-1-apidom"
 import openApi32ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/openapi-3-2-apidom"
+import jsonSchema202012ApiDOMResolveStrategy from "swagger-client/es/resolver/strategies/json-schema-2020-12-apidom"
 import { makeResolve } from "swagger-client/es/resolver"
 import { execute, buildRequest } from "swagger-client/es/execute"
 import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
 import { makeResolveSubtree } from "swagger-client/es/subtree-resolver"
 import { opId } from "swagger-client/es/helpers"
 import { loaded } from "./configs-wrap-actions"
+
+// `resolveSubtree` drops a top-level `mode` option, so strict mode is enforced
+// by the strategy itself. The non-strict default merges `allOf`, which changes
+// the meaning of a standalone JSON Schema (Core 10.2.1.1: valid against all
+// subschemas). The OpenAPI strategies keep their defaults.
+const strictJSONSchema202012ApiDOMResolveStrategy = {
+  ...jsonSchema202012ApiDOMResolveStrategy,
+  resolve: (options) =>
+    jsonSchema202012ApiDOMResolveStrategy.resolve({
+      ...options,
+      mode: "strict",
+    }),
+}
 
 export default function({ configs, getConfigs }) {
   return {
@@ -21,6 +35,7 @@ export default function({ configs, getConfigs }) {
           openApi31ApiDOMResolveStrategy,
           openApi30ResolveStrategy,
           openApi2ResolveStrategy,
+          strictJSONSchema202012ApiDOMResolveStrategy,
           genericResolveStrategy,
         ],
       }),
@@ -36,6 +51,7 @@ export default function({ configs, getConfigs }) {
             openApi31ApiDOMResolveStrategy,
             openApi30ResolveStrategy,
             openApi2ResolveStrategy,
+            strictJSONSchema202012ApiDOMResolveStrategy,
             genericResolveStrategy,
           ],
         }
