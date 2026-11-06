@@ -3,6 +3,8 @@
  */
 import type React from "react"
 
+import $recursiveAnchor from "./components/keywords/$recursiveAnchor"
+import $recursiveRef from "./components/keywords/$recursiveRef"
 import Definitions from "./components/keywords/Definitions"
 import Dependencies from "./components/keywords/Dependencies"
 import withKeyword from "./components/keywords/withKeyword"
@@ -40,6 +42,16 @@ export const makeJSONSchema202012Overrides = (
 
   return {
     components: {
+      Keyword$dynamicAnchor: withKeyword(
+        getComponent("JSONSchema202012Keyword$dynamicAnchor") as Component,
+        $recursiveAnchor,
+        getSystem
+      ),
+      Keyword$dynamicRef: withKeyword(
+        getComponent("JSONSchema202012Keyword$dynamicRef") as Component,
+        $recursiveRef,
+        getSystem
+      ),
       Keyword$defs: withKeyword(
         getComponent("JSONSchema202012Keyword$defs") as Component,
         Definitions,

@@ -11,10 +11,12 @@ import {
   isJSONSchemaDocument,
   getDependentRequired,
   getSchemaDependencies,
+  hasKeyword as hasDialectKeyword,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
   makeIsExpandable,
   normalizeDialectIdentifier,
+  stringifyAsWritten,
 } from "core/plugins/json-schema-document/fn"
 import {
   getDependentRequired as getJSONSchema202012DependentRequired,
@@ -188,6 +190,8 @@ describe("json-schema-document makeGetSchemaKeywords", () => {
       "type",
       "definitions",
       "dependencies",
+      "$recursiveAnchor",
+      "$recursiveRef",
       "$$ref",
     ])
   })
@@ -255,6 +259,15 @@ describe("json-schema-document makeIsExpandable", () => {
     expect(isExpandable({ type: "object", dependencies: {} })).toBe(false)
   })
 
+  it("expands a schema whose only body keyword is $recursiveAnchor or $recursiveRef", () => {
+    expect(isExpandable({ type: "object", $recursiveRef: "#" })).toBe(true)
+    expect(isExpandable({ type: "object", $recursiveAnchor: "node" })).toBe(
+      true
+    )
+    // 2019-09's boolean form, shown as written
+    expect(isExpandable({ type: "object", $recursiveAnchor: false })).toBe(true)
+  })
+
   it("expands a schema with an extension keyword of this instance", () => {
     expect(isExpandable({ type: "string", "x-internal": true })).toBe(true)
     expect(isExpandable({ type: "string", $$ref: "#/$defs/A" })).toBe(false)
@@ -310,5 +323,26 @@ describe("json-schema-document dependencies", () => {
         )
       }
     }
+  })
+})
+
+describe("json-schema-document keyword values", () => {
+  it("finds a keyword whatever its value", () => {
+    expect(
+      hasDialectKeyword({ $recursiveAnchor: false }, "$recursiveAnchor")
+    ).toBe(true)
+    expect(hasDialectKeyword({ $recursiveRef: "" }, "$recursiveRef")).toBe(true)
+    expect(hasDialectKeyword({}, "$recursiveRef")).toBe(false)
+    expect(hasDialectKeyword(true, "$recursiveRef")).toBe(false)
+    expect(hasDialectKeyword(null, "$recursiveRef")).toBe(false)
+  })
+
+  it("shows a value as written", () => {
+    expect(stringifyAsWritten("#")).toBe("#")
+    expect(stringifyAsWritten("")).toBe("")
+    expect(stringifyAsWritten(true)).toBe("true")
+    expect(stringifyAsWritten(false)).toBe("false")
+    expect(stringifyAsWritten(null)).toBe("null")
+    expect(stringifyAsWritten({ a: 1 })).toBe('{"a":1}')
   })
 })
