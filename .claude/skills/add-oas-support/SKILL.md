@@ -198,7 +198,7 @@ a template there, copied from the oas32 plugin, and every new file is TypeScript
       to the legacy renderer.
 - [ ] `after-load`: route sample generation, `isFileUploadIntended` and `hasSchemaType` through
       `wrapOAS3YFn`.
-- [ ] Plugin registered **last** in `src/core/presets/apis/index.js`, exported as `OpenAPI3Y` in
+- [ ] Plugin registered **last among the OpenAPI plugins** (before `JSONSchemaUnifiedPlugin`) in `src/core/presets/apis/index.js`, exported as `OpenAPI3Y` in
       `SwaggerUI.plugins` (`src/core/index.js`).
 - [ ] swagger-client resolve strategy `openApi3YApiDOMResolveStrategy` in **both** `resolve` and
       `resolveSubtree` of `src/core/plugins/swagger-client/index.js`, newest first (plus the
