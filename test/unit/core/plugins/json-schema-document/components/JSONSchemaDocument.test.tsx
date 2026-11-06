@@ -155,4 +155,27 @@ describe("<JSONSchemaDocument />", () => {
 
     expect(wrapper.find(".json-schema-stub").prop("data-name")).toBeUndefined()
   })
+
+  it("remounts the renderer when the resolved schema replaces the raw one", () => {
+    const mounts = jest.fn()
+    const Counting = () => {
+      React.useEffect(() => mounts(), [])
+      return null
+    }
+    const { props } = makeProps(Map())
+    const countingProps = {
+      ...props,
+      getComponent: (name: string) =>
+        name === "JSONSchema202012" ? Counting : props.getComponent(name),
+    }
+    const wrapper = mount(<JSONSchemaDocument {...countingProps} />)
+    expect(mounts).toHaveBeenCalledTimes(1)
+
+    props.specSelectors.specResolvedSubtree.mockImplementation(() =>
+      fromJS(resolved)
+    )
+    wrapper.setProps({})
+
+    expect(mounts).toHaveBeenCalledTimes(2)
+  })
 })
