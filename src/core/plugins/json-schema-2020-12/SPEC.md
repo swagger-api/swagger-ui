@@ -12,7 +12,10 @@ depends-on:
 ## Responsibility
 
 Renders Schema Objects as expandable models and generates example payloads from them. There are
-two independent renderer/sample pairs, chosen by OpenAPI version:
+two independent renderer/sample pairs, chosen by OpenAPI version. A third, opt-in renderer,
+[json-schema-unified](../json-schema-unified/SPEC.md), replaces the 2020-12 model views (OpenAPI
+3.1/3.2) when `unifiedJSONSchemaEnabled` is on; it reuses neither pair's code and leaves the
+samples to them.
 
 | Pair | Plugins | Used for | Preset |
 |---|---|---|---|

@@ -125,6 +125,10 @@ const mappings = {
     typeCaster: booleanTypeCaster,
     defaultValue: defaultOptions.tryItOutEnabled,
   },
+  unifiedJSONSchemaEnabled: {
+    typeCaster: booleanTypeCaster,
+    defaultValue: defaultOptions.unifiedJSONSchemaEnabled,
+  },
   url: { typeCaster: stringTypeCaster },
   urls: { typeCaster: nullableArrayTypeCaster },
   "urls.primaryName": { typeCaster: stringTypeCaster },
