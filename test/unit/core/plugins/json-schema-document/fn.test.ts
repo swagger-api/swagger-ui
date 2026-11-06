@@ -8,7 +8,6 @@ import {
   JSON_SCHEMA_2020_12,
   getJSONSchemaDialect,
   getRootSchemaKeyword,
-  isJSONSchemaDocument,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
   normalizeDialectIdentifier,
@@ -32,7 +31,7 @@ describe("json-schema-document detection", () => {
       )
 
       expect(getJSONSchemaDialect(spec)).toBe(JSON_SCHEMA_2020_12)
-      expect(isJSONSchemaDocument(spec)).toBe(true)
+      expect(getJSONSchemaDialect(spec)).not.toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(false)
     })
 
@@ -42,7 +41,7 @@ describe("json-schema-document detection", () => {
       )
 
       expect(getJSONSchemaDialect(spec)).toBe(JSON_SCHEMA_2020_12)
-      expect(isJSONSchemaDocument(spec)).toBe(true)
+      expect(getJSONSchemaDialect(spec)).not.toBeNull()
     })
 
     it("is detected with an empty fragment, which is normalised", () => {
@@ -54,9 +53,9 @@ describe("json-schema-document detection", () => {
     })
 
     it("is detected when $schema is the only keyword", () => {
-      expect(isJSONSchemaDocument(withRootSchema(JSON_SCHEMA_2020_12))).toBe(
-        true
-      )
+      expect(
+        getJSONSchemaDialect(withRootSchema(JSON_SCHEMA_2020_12))
+      ).not.toBeNull()
     })
   })
 
@@ -78,7 +77,7 @@ describe("json-schema-document detection", () => {
       const spec = withRootSchema($schema, { type: "object" })
 
       expect(getJSONSchemaDialect(spec)).toBeNull()
-      expect(isJSONSchemaDocument(spec)).toBe(false)
+      expect(getJSONSchemaDialect(spec)).toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(true)
       expect(getRootSchemaKeyword(spec)).toBe($schema)
     })
@@ -91,7 +90,7 @@ describe("json-schema-document detection", () => {
     ])("is refused when it is %s", (_, $schema, written) => {
       const spec = withRootSchema($schema)
 
-      expect(isJSONSchemaDocument(spec)).toBe(false)
+      expect(getJSONSchemaDialect(spec)).toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(true)
       expect(getRootSchemaKeyword(spec)).toBe(written)
     })
@@ -115,7 +114,7 @@ describe("json-schema-document detection", () => {
         })
 
         expect(getJSONSchemaDialect(spec)).toBeNull()
-        expect(isJSONSchemaDocument(spec)).toBe(false)
+        expect(getJSONSchemaDialect(spec)).toBeNull()
         expect(isUnsupportedJSONSchemaDocument(spec)).toBe(false)
       }
     )
@@ -133,14 +132,14 @@ describe("json-schema-document detection", () => {
         ].join("\n")
       )
 
-      expect(isJSONSchemaDocument(spec)).toBe(false)
+      expect(getJSONSchemaDialect(spec)).toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(false)
     })
 
     it("are not detected without $schema", () => {
       const spec = parse("type: object\n")
 
-      expect(isJSONSchemaDocument(spec)).toBe(false)
+      expect(getJSONSchemaDialect(spec)).toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(false)
     })
 
@@ -151,7 +150,7 @@ describe("json-schema-document detection", () => {
     ])("are not detected when the root is %s", (_, source) => {
       const spec = parse(source)
 
-      expect(isJSONSchemaDocument(spec)).toBe(false)
+      expect(getJSONSchemaDialect(spec)).toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(false)
       expect(getRootSchemaKeyword(spec)).toBe("")
     })

@@ -22,8 +22,16 @@ const resolved = {
   properties: { a: { type: "string", $$ref: "#/$defs/A" } },
 }
 
-const JSONSchema = ({ schema }: { schema?: { title?: string } }) => (
-  <div className="json-schema-stub">{schema?.title}</div>
+const JSONSchema = ({
+  schema,
+  name,
+}: {
+  schema?: { title?: string } | boolean
+  name?: string
+}) => (
+  <div className="json-schema-stub" data-name={name}>
+    {typeof schema === "object" ? schema.title : String(schema)}
+  </div>
 )
 const Row = ({ children }: { children?: React.ReactNode }) => (
   <div className="row-stub">{children}</div>
@@ -57,7 +65,14 @@ const makeProps = (resolvedSubtree: unknown) => {
       getComponent: (name: string) => components[name],
       getConfigs: () => ({ defaultModelExpandDepth: 2, showExtensions: true }),
       fn: {
-        jsonSchema202012: { getSchemaKeywords: () => ["$schema", "$ref"] },
+        jsonSchema202012: {
+          getSchemaKeywords: () => ["$schema", "$ref"],
+          getTitle: (schema: unknown) =>
+            (schema as { title?: string } | boolean) === true ||
+            (schema as { title?: string })?.title
+              ? "t"
+              : "",
+        },
       },
     },
   }
@@ -107,5 +122,37 @@ describe("<JSONSchemaDocument />", () => {
     wrapper.setProps({})
 
     expect(withContext).toHaveBeenCalledTimes(1)
+  })
+
+  it("renders a boolean root schema resolved from a $ref", () => {
+    const { props } = makeProps(false)
+    const wrapper = mount(<JSONSchemaDocument {...props} />)
+
+    expect(props.specActions.requestResolvedSubtree).not.toHaveBeenCalled()
+    expect(wrapper.find(".json-schema-stub").text()).toBe("false")
+  })
+
+  it("renders the document in a labelled, focusable main landmark", () => {
+    const { props } = makeProps(fromJS(resolved))
+    const wrapper = mount(<JSONSchemaDocument {...props} />)
+    const main = wrapper.find("main")
+
+    expect(main.prop("id")).toBe("json-schema-document")
+    expect(main.prop("aria-label")).toBe("JSON Schema")
+    expect(main.prop("tabIndex")).toBe(-1)
+  })
+
+  it("names a root schema that has no title, $anchor or $id", () => {
+    const { props } = makeProps(fromJS({ $schema: dialect, type: "object" }))
+    const wrapper = mount(<JSONSchemaDocument {...props} />)
+
+    expect(wrapper.find(".json-schema-stub").prop("data-name")).toBe("Schema")
+  })
+
+  it("keeps the schema-provided title of the root", () => {
+    const { props } = makeProps(fromJS(resolved))
+    const wrapper = mount(<JSONSchemaDocument {...props} />)
+
+    expect(wrapper.find(".json-schema-stub").prop("data-name")).toBeUndefined()
   })
 })

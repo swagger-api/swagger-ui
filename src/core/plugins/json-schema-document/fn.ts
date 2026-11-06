@@ -4,6 +4,12 @@
 import { Map } from "immutable"
 
 /**
+ * Id of the `<main>` landmark of a rendered JSON Schema document, the target
+ * of the skip link that replaces "Skip to operations".
+ */
+export const JSON_SCHEMA_DOCUMENT_ID = "json-schema-document"
+
+/**
  * Meta-schema identifier of JSON Schema 2020-12, the value a root `$schema` carries.
  *
  * https://json-schema.org/draft/2020-12/schema
@@ -70,9 +76,6 @@ export const getJSONSchemaDialect = (spec: unknown): string | null => {
     ? identifier
     : null
 }
-
-export const isJSONSchemaDocument = (spec: unknown): boolean =>
-  getJSONSchemaDialect(spec) !== null
 
 /**
  * A document whose root declares a JSON Schema dialect that isn't delivered:
