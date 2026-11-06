@@ -4,7 +4,8 @@
 import React, { useEffect, useMemo } from "react"
 import { Map } from "immutable"
 
-import { makeGetSchemaKeywords } from "../fn"
+import { makeJSONSchema202012Overrides } from "../overrides"
+import type { OverridesSystem } from "../overrides"
 
 type Component = React.ComponentType<Record<string, unknown>>
 type WithJSONSchemaContext = (
@@ -26,11 +27,7 @@ export interface JSONSchemaDocumentProps {
     defaultModelExpandDepth?: number
     showExtensions?: boolean
   }
-  fn: {
-    jsonSchema202012: {
-      getSchemaKeywords: () => string[]
-    }
-  }
+  getSystem: () => OverridesSystem
 }
 
 /**
@@ -44,14 +41,13 @@ const JSONSchemaDocument = ({
   specActions,
   getComponent,
   getConfigs,
-  fn,
+  getSystem,
 }: JSONSchemaDocumentProps) => {
   const specJson = specSelectors.specJson()
   const resolvedDocument = specSelectors.specResolvedSubtree([])
   const dialect = specSelectors.jsonSchemaDialect()
   const { defaultModelExpandDepth, showExtensions } = getConfigs()
   const isResolved = Map.isMap(resolvedDocument) && resolvedDocument.size > 0
-  const { getSchemaKeywords } = fn.jsonSchema202012
 
   useEffect(() => {
     if (!isResolved) {
@@ -81,9 +77,7 @@ const JSONSchemaDocument = ({
           default$schema: dialect,
           defaultExpandedLevels: defaultModelExpandDepth,
         },
-        fn: {
-          getSchemaKeywords: makeGetSchemaKeywords(getSchemaKeywords),
-        },
+        ...makeJSONSchema202012Overrides(getSystem),
       }),
     [
       withJSONSchemaSystemContext,
@@ -91,7 +85,7 @@ const JSONSchemaDocument = ({
       dialect,
       defaultModelExpandDepth,
       showExtensions,
-      getSchemaKeywords,
+      getSystem,
     ]
   )
 

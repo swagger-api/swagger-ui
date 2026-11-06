@@ -18,8 +18,11 @@ import { requestResolvedSubtree } from "./wrap-actions"
  * rendered by the json-schema-2020-12 renderer with `$ref`s resolved by
  * swagger-client's `json-schema-2020-12-apidom` strategy (every `$dynamicRef`
  * stays as written). A root `$schema` naming any other dialect is refused with
- * a message. Not yet rendered as keywords (extension keywords until then): the
- * deprecated `definitions`, `dependencies`, `$recursiveAnchor`, `$recursiveRef`.
+ * a message. Of the keywords the 2020-12 default meta-schema keeps from earlier
+ * drafts, `definitions` renders like `$defs` (a `$ref` into it is resolved, a
+ * `$ref` inside it stays as written: swagger-client doesn't dereference there);
+ * not yet rendered as keywords (extension keywords until then):
+ * `dependencies`, `$recursiveAnchor`, `$recursiveRef`.
  * Limitation: an embedded resource (`$id` with its own `$schema`) or an external
  * file that declares another dialect is rendered with the 2020-12 meaning;
  * references that cross dialects are out of scope.
