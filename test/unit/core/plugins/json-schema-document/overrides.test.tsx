@@ -77,6 +77,7 @@ describe("json-schema-document renderer overrides", () => {
     expect(Object.keys(overrides.fn).sort()).toEqual([
       "getDependentRequired",
       "getSchemaKeywords",
+      "getType",
       "isExpandable",
     ])
     expect(Object.keys(overrides.components)).toEqual([
@@ -332,6 +333,45 @@ describe("json-schema-document renderer overrides", () => {
         )
       ).toHaveLength(1)
       expect(value(child, "$recursiveRef")).toBe("#")
+    })
+  })
+  describe("getType", () => {
+    // the type label in a schema's head
+    const typeLabel = (root: Element) =>
+      root.querySelector(
+        ":scope > .json-schema-2020-12-head .json-schema-2020-12__attribute--primary"
+      ).textContent
+
+    it("shows no type inferred from an OpenAPI number format", () => {
+      const root = render({
+        title: "Count",
+        format: "int32",
+        properties: { amount: { format: "double" } },
+      }).getDOMNode()
+      const amount = root.querySelector(
+        ".json-schema-2020-12-property > .json-schema-2020-12"
+      )
+
+      expect(typeLabel(root)).toBe("object")
+      expect(typeLabel(amount)).toBe("any")
+    })
+
+    it("shows an explicit type and other inferred types as before", () => {
+      const root = render({
+        title: "Count",
+        properties: {
+          a: { type: "integer", format: "int64" },
+          b: { format: "date" },
+          c: { format: "float", minimum: 0 },
+        },
+      }).getDOMNode()
+      const types = Array.from(
+        root.querySelectorAll(
+          ".json-schema-2020-12-property > .json-schema-2020-12"
+        )
+      ).map(typeLabel)
+
+      expect(types).toEqual(["integer", "string", "number | integer"])
     })
   })
 })

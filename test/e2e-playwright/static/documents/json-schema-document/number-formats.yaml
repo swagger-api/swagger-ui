@@ -1,0 +1,23 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Measurement
+type: object
+properties:
+  # OpenAPI's number formats, which JSON Schema 2020-12 doesn't define:
+  # without `type` they imply no type
+  count:
+    format: int32
+  total:
+    format: int64
+  ratio:
+    format: float
+  mean:
+    format: double
+  # an explicit type, a JSON Schema format and other keywords as before
+  id:
+    type: integer
+    format: int64
+  takenAt:
+    format: date-time
+  weight:
+    format: double
+    minimum: 0

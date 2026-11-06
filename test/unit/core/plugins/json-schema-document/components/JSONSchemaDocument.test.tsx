@@ -109,6 +109,7 @@ describe("<JSONSchemaDocument />", () => {
     expect(Object.keys(overrides.fn as object).sort()).toEqual([
       "getDependentRequired",
       "getSchemaKeywords",
+      "getType",
       "isExpandable",
     ])
     expect(
