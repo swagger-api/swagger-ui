@@ -1,0 +1,11 @@
+/*
+ * Tailwind CSS entry for Swagger UI components.
+ * Isolation rules (prefix, namespaced layers, no preflight): see the ui-shell spec.
+ */
+@layer swagger-ui.theme, swagger-ui.utilities;
+
+@import "tailwindcss/theme.css" layer(swagger-ui.theme) prefix(sui);
+@import "tailwindcss/utilities.css" layer(swagger-ui.utilities) prefix(sui)
+  important source("..");
+
+@custom-variant dark (&:where(.dark-mode, .dark-mode *));

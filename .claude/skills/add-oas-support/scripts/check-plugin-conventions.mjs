@@ -76,6 +76,8 @@ for (const { path } of added) {
 for (const { path } of added) {
   if (!/^(src|test|flavors)\/.*\.(js|jsx|ts|tsx)$/.test(path)) continue
   if (/\/dist\//.test(path)) continue
+  // its .eslintrc requires single quotes and semicolons, which the pragma's prettier rule rejects
+  if (path.startsWith("test/build-artifacts/")) continue
   const head = read(path).split("\n").slice(0, 8).join("\n")
   if (!head.includes("@prettier"))
     report(
