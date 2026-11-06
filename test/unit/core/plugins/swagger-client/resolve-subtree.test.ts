@@ -23,6 +23,13 @@ jest.mock("swagger-client/es/resolver/strategies/openapi-3-1-apidom", () =>
     "swagger-client/lib/resolver/strategies/openapi-3-1-apidom"
   )
 )
+jest.mock(
+  "swagger-client/es/resolver/strategies/json-schema-2020-12-apidom",
+  () =>
+    jest.requireActual(
+      "swagger-client/lib/resolver/strategies/json-schema-2020-12-apidom"
+    )
+)
 jest.mock("swagger-client/es/resolver", () =>
   jest.requireActual("swagger-client/lib/resolver")
 )

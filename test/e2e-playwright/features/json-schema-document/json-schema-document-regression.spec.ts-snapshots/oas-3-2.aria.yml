@@ -1,0 +1,90 @@
+- /children: deep-equal
+- img
+- heading "OpenAPI 3.2.0 with $schema at the root and in a Schema Object 1.0.0 OAS 3.2" [level=1]
+- link "/documents/json-schema-document/oas-3-2-dollar-schema.yaml":
+  - /url: /documents/json-schema-document/oas-3-2-dollar-schema.yaml
+- main:
+  - heading "default Collapse operation" [level=3]:
+    - text: ""
+    - button "Collapse operation" [expanded]
+  - button "GET /pets List pets" [expanded]
+  - button "Copy path to clipboard"
+  - button "get /pets" [expanded]
+  - heading "Parameters" [level=4]
+  - button "Try it out"
+  - paragraph: No parameters
+  - heading "Responses" [level=4]
+  - region:
+    - rowgroup:
+      - row "Code Description Links":
+        - cell "Code"
+        - cell "Description"
+        - cell "Links"
+    - rowgroup:
+      - row /\d+ The pets Media type application\/json Controls Accept header\. Example Value No links/:
+        - cell /\d+/
+        - cell "The pets Media type application/json Controls Accept header. Example Value":
+          - paragraph: The pets
+          - text: ""
+          - combobox "Media Type":
+            - option "application/json" [selected]
+          - text: ""
+          - code: Accept
+          - text: ""
+          - tablist:
+            - tab "Example Value" [selected]
+            - tab "Schema"
+          - tabpanel "Example Value":
+            - code: "[ { \"name\": \"Milo\", \"tag\": \"string\", \"owner\": { \"id\": 0 } } ]"
+        - cell "No links"
+  - heading "Schemas" [level=4]:
+    - button "Schemas" [expanded]
+  - article:
+    - button "Pet":
+      - strong: Pet
+      - img
+    - button "Collapse all"
+    - strong: object
+    - paragraph:
+      - text: A pet with a
+      - strong: markdown
+      - text: description.
+    - list:
+      - listitem:
+        - article:
+          - button "name*":
+            - strong: name*
+            - img
+          - button "Collapse all"
+          - strong: string
+          - text: Example="Milo"
+      - listitem:
+        - article:
+          - strong: tag
+          - strong: string
+      - listitem:
+        - article:
+          - button "owner":
+            - strong: owner
+            - img
+          - button "Collapse all"
+          - strong: object
+          - list:
+            - listitem:
+              - article:
+                - strong: id
+                - strong: integer
+                - text: int64
+    - text: /\$schema=https:\/\/json-schema\.org\/draft\/\d+-\d+\/schema/
+  - article:
+    - button "Owner":
+      - strong: Owner
+      - img
+    - button "Collapse all"
+    - strong: object
+    - list:
+      - listitem:
+        - article:
+          - strong: id
+          - strong: integer
+          - text: int64

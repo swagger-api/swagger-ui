@@ -4,6 +4,7 @@ import parseUrl from "url-parse"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
+import isPlainObject from "lodash/isPlainObject"
 import assocPath from "lodash/fp/assocPath"
 import constant from "lodash/constant"
 
@@ -234,8 +235,16 @@ const debResolveSubtrees = debounce(() => {
               }
             }))
         }
-        set(resultMap, path, spec)
-        specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
+        if (path.length === 0) {
+          // an empty path is the whole document: `set` and `assocPath` would ignore it
+          if (isPlainObject(spec)) {
+            resultMap = spec
+            specWithCurrentSubtrees = spec
+          }
+        } else {
+          set(resultMap, path, spec)
+          specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
+        }
 
         return {
           resultMap,

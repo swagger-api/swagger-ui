@@ -1,0 +1,27 @@
+# the empty fragment of the dialect identifier is normalised
+$schema: "https://json-schema.org/draft/2020-12/schema#"
+$id: https://example.com/schemas/person
+title: Person
+description: A person. Plain text, so **this** isn't bold.
+type: object
+required:
+  - name
+properties:
+  name:
+    type: string
+    readOnly: true
+  nickname:
+    type: string
+    writeOnly: true
+  age:
+    type: integer
+    minimum: 0
+# OpenAPI Schema Object keywords mean nothing in JSON Schema 2020-12
+example:
+  name: Milo
+discriminator:
+  propertyName: name
+xml:
+  name: person
+externalDocs:
+  url: https://example.com/docs/person
