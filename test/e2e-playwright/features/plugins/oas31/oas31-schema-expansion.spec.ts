@@ -4,41 +4,39 @@
 import { test, expect } from "../../../support/fixtures"
 
 test.describe("OpenAPI 3.1.0 schema expansion", () => {
-  test("should expand to the default expansion level", async ({ page }) => {
+  test("should expand to the default expansion level", async ({
+    page,
+    schemaUi,
+  }) => {
     await page.goto(
       "/?url=/documents/features/oas31-schema-expansion.yaml&defaultModelsExpandDepth=3&showExtensions=true"
     )
 
     await expect(
-      page
-        .locator(".json-schema-2020-12-property")
-        .filter({ hasText: "prop2" })
-        .first()
+      schemaUi.property().filter({ hasText: "prop2" }).first()
     ).toBeAttached()
-    await expect(
-      page.locator(".json-schema-2020-12-property").filter({ hasText: "prop3" })
-    ).toHaveCount(0)
+    await expect(schemaUi.property().filter({ hasText: "prop3" })).toHaveCount(
+      0
+    )
 
     await expect(
-      page
-        .locator(".json-schema-2020-12-keyword--xml")
-        .filter({ hasText: "x-extension" })
-        .first()
+      schemaUi.keyword("xml").filter({ hasText: "x-extension" }).first()
     ).toBeAttached()
     await expect(
-      page
-        .locator(".json-schema-2020-12-keyword--xml")
-        .filter({ hasText: "prop1" })
+      schemaUi.keyword("xml").filter({ hasText: "prop1" })
     ).toHaveCount(0)
   })
 
-  test("should deeply expand nested collapsed keywords", async ({ page }) => {
+  test("should deeply expand nested collapsed keywords", async ({
+    page,
+    schemaUi,
+  }) => {
     await page.goto(
       "/?url=/documents/features/oas31-schema-expansion.yaml&showExtensions=true"
     )
-    const xmlKeyword = page.locator(".json-schema-2020-12-keyword--xml")
+    const xmlKeyword = schemaUi.keyword("xml")
 
-    await page.locator(".json-schema-2020-12-expand-deep-button").click()
+    await schemaUi.expandDeepButton().click()
     await expect(xmlKeyword.filter({ hasText: "prop4" }).first()).toBeAttached()
 
     // cy.contains yields the deepest element with the text, so click that rather than the keyword container
@@ -46,26 +44,20 @@ test.describe("OpenAPI 3.1.0 schema expansion", () => {
     await expect(xmlKeyword.filter({ hasText: "prop4" })).toHaveCount(0)
 
     await xmlKeyword.getByText(/XML/).first().click()
-    await page
-      .locator(
-        ".json-schema-2020-12-keyword--xml .json-schema-2020-12-expand-deep-button"
-      )
-      .first()
-      .click()
+    await schemaUi.expandDeepButton(xmlKeyword).first().click()
     await expect(xmlKeyword.filter({ hasText: "prop4" }).first()).toBeAttached()
   })
 
   test("should re-expand a collapsed nested property after the parent schema is collapsed and deeply expanded again", async ({
     page,
+    schemaUi,
   }) => {
     await page.goto(
       "/?url=/documents/features/oas31-schema-expansion.yaml&showExtensions=true"
     )
-    const propertiesKeyword = page.locator(
-      ".json-schema-2020-12-keyword--properties"
-    )
+    const propertiesKeyword = schemaUi.keyword("properties")
 
-    await page.locator(".json-schema-2020-12-expand-deep-button").click()
+    await schemaUi.expandDeepButton().click()
     await expect(
       propertiesKeyword.filter({ hasText: "prop4" }).first()
     ).toBeAttached()
@@ -73,12 +65,8 @@ test.describe("OpenAPI 3.1.0 schema expansion", () => {
     await propertiesKeyword.getByText("prop2").first().click()
     await expect(propertiesKeyword.filter({ hasText: "prop4" })).toHaveCount(0)
 
-    await page
-      .locator(".json-schema-2020-12-accordion")
-      .getByText("Expansion")
-      .first()
-      .click()
-    await page.locator(".json-schema-2020-12-expand-deep-button").click()
+    await schemaUi.accordion().getByText("Expansion").first().click()
+    await schemaUi.expandDeepButton().click()
 
     await expect(
       propertiesKeyword.filter({ hasText: "prop4" }).first()

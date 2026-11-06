@@ -29,6 +29,7 @@ anything an earlier one provided.
 | [ui-shell](src/core/components/SPEC.md) | shared components, rendering, layout state, deep linking, filtering, error boundaries, sanitization |
 | [oas-versions](src/core/plugins/oas3/SPEC.md) | OpenAPI 3.0 / 3.1 / 3.2 detection and per-version behaviour |
 | [json-schema](src/core/plugins/json-schema-2020-12/SPEC.md) | the two schema renderers and their sample generators |
+| [json-schema-unified](src/core/plugins/json-schema-unified/SPEC.md) | the opt-in unified schema view for OpenAPI 3.1 / 3.2 (`unifiedJSONSchemaEnabled`) |
 | [standalone](src/standalone/SPEC.md) | the standalone preset: top bar, URL picker, dark mode |
 | [react-flavor](flavors/swagger-ui-react/SPEC.md) | the `swagger-ui-react` component |
 | [docker-image](docker/SPEC.md) | the `swaggerapi/swagger-ui` image and its env-var config contract |
@@ -47,6 +48,9 @@ flowchart LR
   OV --> UI
   OV --> JS[json-schema]
   JS --> UI
+  JU[json-schema-unified] --> DL
+  JU --> UI
+  JU --> OV
   ST[standalone] --> DL
   ST --> UI
   RE[react-flavor] --> CR[core-runtime]
@@ -62,7 +66,11 @@ document on its own (see Invariants).
 - **base** (`src/core/presets/base`): the version-agnostic plugins plus the shared component
   set and the JSON Schema 5 renderer.
 - **apis** (`src/core/presets/apis`, the default): base → oas3 → json-schema-2020-12 →
-  json-schema-2020-12-samples → oas31 → oas32. The newest OpenAPI version is always last.
+  json-schema-2020-12-samples → oas31 → oas32 → json-schema-unified. The newest OpenAPI version
+  is always last *among the OpenAPI plugins*. json-schema-unified always comes after all of them,
+  so its `Model`/`Models` wrappers stay outermost and the opt-in unified schema view
+  (`unifiedJSONSchemaEnabled`) also covers versions added later. The add-oas-support
+  PRESET-ORDER check enforces both.
 - **standalone** (separate bundle): layered on top of apis by the user (`layout:
   "StandaloneLayout"`).
 

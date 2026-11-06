@@ -44,8 +44,9 @@ OAS 2.0 has no plugin of its own. It renders through the shared components
 - **Invariant: a newer version plugin never changes how an older version renders.** A change to
   shared or core code for a new version is gated at the call site and comes with a test showing
   older versions are unchanged.
-- **The newest plugin loads last.** `VersionPragmaFilter` and other last-wins overrides belong to
-  it. `afterLoad` uses `wrapOAS3xFn` to switch the top-level sample and schema `fn`s
+- **The newest plugin loads last among the OpenAPI plugins**, before json-schema-unified (load
+  order: [architecture](../../../../architecture.md)). `VersionPragmaFilter` and other last-wins
+  overrides belong to it. `afterLoad` uses `wrapOAS3xFn` to switch the top-level sample and schema `fn`s
   (`sampleFromSchema`, `getSampleSchema`, `hasSchemaType`, …) to the 2020-12 versions for 3.1+
   documents ([json-schema](../json-schema-2020-12/SPEC.md)).
 
@@ -62,7 +63,7 @@ OAS 2.0 has no plugin of its own. It renders through the shared components
 ## Adding a version or a field
 
 Integration points for a new version: the swagger-client resolve strategy in both `resolve` and
-`resolveSubtree`, last position in the apis preset, an entry in `SwaggerUI.plugins`, and the
+`resolveSubtree`, the last OpenAPI position in the apis preset (before json-schema-unified), an entry in `SwaggerUI.plugins`, and the
 `isOAS3Y` flag in `BaseLayout`. The delivery process is: investigation, then a parity-only
 basic-support PR, then one PR per new feature or breaking change, each reviewed against the
 specification. That process is owned by the `.claude/skills/add-oas-support` and
