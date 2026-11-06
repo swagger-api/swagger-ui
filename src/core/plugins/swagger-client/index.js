@@ -11,6 +11,19 @@ import { makeResolveSubtree } from "swagger-client/es/subtree-resolver"
 import { opId } from "swagger-client/es/helpers"
 import { loaded } from "./configs-wrap-actions"
 
+// `resolveSubtree` drops a top-level `mode` option, so strict mode is enforced
+// by the strategy itself. The non-strict default merges `allOf`, which changes
+// the meaning of a standalone JSON Schema (Core 10.2.1.1: valid against all
+// subschemas). The OpenAPI strategies keep their defaults.
+const strictJSONSchema202012ApiDOMResolveStrategy = {
+  ...jsonSchema202012ApiDOMResolveStrategy,
+  resolve: (options) =>
+    jsonSchema202012ApiDOMResolveStrategy.resolve({
+      ...options,
+      mode: "strict",
+    }),
+}
+
 export default function({ configs, getConfigs }) {
   return {
     fn: {
@@ -22,7 +35,7 @@ export default function({ configs, getConfigs }) {
           openApi31ApiDOMResolveStrategy,
           openApi30ResolveStrategy,
           openApi2ResolveStrategy,
-          jsonSchema202012ApiDOMResolveStrategy,
+          strictJSONSchema202012ApiDOMResolveStrategy,
           genericResolveStrategy,
         ],
       }),
@@ -38,7 +51,7 @@ export default function({ configs, getConfigs }) {
             openApi31ApiDOMResolveStrategy,
             openApi30ResolveStrategy,
             openApi2ResolveStrategy,
-            jsonSchema202012ApiDOMResolveStrategy,
+            strictJSONSchema202012ApiDOMResolveStrategy,
             genericResolveStrategy,
           ],
         }
