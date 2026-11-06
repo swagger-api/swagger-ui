@@ -9,3 +9,31 @@
   important source("..");
 
 @custom-variant dark (&:where(.dark-mode, .dark-mode *));
+
+/*
+ * JSON Schema renderer palette (json-schema-unified), copied from the SCSS
+ * variables of json-schema-2020-12 and `_dark-mode.scss`.
+ */
+@theme {
+  --color-json-schema-text: #3b4151;
+  --color-json-schema-title: #505050;
+  --color-json-schema-secondary: #6b6b6b;
+  --color-json-schema-extension: #929292;
+  --color-json-schema-muted: #808080;
+  --color-json-schema-prop-type: #55a;
+  --color-json-schema-warning: #f00;
+  --color-json-schema-expand-deep: #afaeae;
+  --color-json-schema-border: rgb(0 0 0 / 10%);
+  --color-json-schema-background: rgb(0 0 0 / 5%);
+  --color-json-schema-constraint: #805ad5;
+  --color-json-schema-constraint-string: #d69e2e;
+  --color-json-schema-constraint-text: #fff;
+  --color-json-schema-dark-background: #2a2e30;
+  --color-json-schema-dark-text: #e4e6e6;
+  --color-json-schema-dark-muted: #b7bcbf;
+  --color-json-schema-dark-link: #51a8ff;
+  --color-json-schema-dark-warning: #ff5f5f;
+  --color-json-schema-dark-prop-type: #9898ff;
+  --color-json-schema-dark-constraint-string: #d4aa53;
+  --color-json-schema-dark-constraint-text: #080a0b;
+}

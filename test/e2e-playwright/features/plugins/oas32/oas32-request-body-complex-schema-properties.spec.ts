@@ -29,6 +29,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
 
   test("should render schema for properties with union type including object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -41,7 +42,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 
@@ -61,6 +62,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
 
   test("should render schema for properties with union type including array of objects", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -73,7 +75,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 
@@ -93,6 +95,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
 
   test("should render schema for properties of type array with union type of items including object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -105,7 +108,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 
@@ -125,6 +128,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
 
   test("should render schema for properties with union type including array and union type of items including object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -137,7 +141,7 @@ test.describe("OpenAPI 3.2 request body properties with schema and union type", 
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 })
