@@ -4,9 +4,14 @@
 import type React from "react"
 
 import Definitions from "./components/keywords/Definitions"
+import Dependencies from "./components/keywords/Dependencies"
 import withKeyword from "./components/keywords/withKeyword"
 import type { System } from "./components/keywords/types"
-import { makeGetSchemaKeywords, makeIsExpandable } from "./fn"
+import {
+  getDependentRequired,
+  makeGetSchemaKeywords,
+  makeIsExpandable,
+} from "./fn"
 import type { InstanceFn } from "./fn"
 
 type Component = React.ComponentType<Record<string, unknown>>
@@ -40,10 +45,16 @@ export const makeJSONSchema202012Overrides = (
         Definitions,
         getSystem
       ),
+      KeywordDependentSchemas: withKeyword(
+        getComponent("JSONSchema202012KeywordDependentSchemas") as Component,
+        Dependencies,
+        getSystem
+      ),
     },
     fn: {
       getSchemaKeywords: makeGetSchemaKeywords(getSchemaKeywords),
       isExpandable: makeIsExpandable(useFn),
+      getDependentRequired,
     },
   }
 }
