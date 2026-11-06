@@ -13,6 +13,9 @@ const json = {
   $defs: { A: { type: "string" } },
 }
 
+// the document currently loaded; replacing it simulates loading another one
+const currentJson: { value: unknown } = { value: "document A" }
+
 const makeSystem = (
   resolveSubtree: ResolveSubtree,
   resolvedSubtrees: Record<string, unknown> | boolean = {}
@@ -23,6 +26,7 @@ const makeSystem = (
   errSelectors: { allErrors: () => List() },
   specActions: { updateResolvedSubtree: jest.fn() },
   specSelectors: {
+    specJson: () => currentJson.value,
     specStr: () => JSON.stringify(json),
     url: () => "http://localhost/schema.json",
     isOAS3: () => false,
@@ -38,6 +42,10 @@ const makeSystem = (
 const flushBatch = () => new Promise((resolve) => setTimeout(resolve, 100))
 
 describe("spec plugin - requestResolvedSubtree", () => {
+  beforeEach(() => {
+    currentJson.value = "document A"
+  })
+
   it("stores the resolved document for an empty path", async () => {
     const resolved = {
       ...json,
@@ -114,5 +122,19 @@ describe("spec plugin - requestResolvedSubtree", () => {
       [],
       false
     )
+  })
+
+  it("discards a batch that finishes after another document was loaded", async () => {
+    const system = makeSystem(async () => {
+      currentJson.value = "document B"
+      return { spec: { title: "A" }, errors: [new Error("late")] }
+    })
+
+    requestResolvedSubtree([])(system)
+    await flushBatch()
+
+    expect(system.fn.resolveSubtree).toHaveBeenCalledTimes(1)
+    expect(system.specActions.updateResolvedSubtree).not.toHaveBeenCalled()
+    expect(system.errActions.newThrownErrBatch).not.toHaveBeenCalled()
   })
 })

@@ -113,7 +113,13 @@ const JSONSchemaDocument = ({
     >
       <Row className="json-schema-document">
         <Col mobile={12}>
-          <JSONSchemaInstance schema={schema} name={name} />
+          {/* the paths of the expansion callbacks come from the first render:
+              remount when the resolved schema (its title, `$id`s) replaces the raw one */}
+          <JSONSchemaInstance
+            key={isResolved ? "resolved" : "raw"}
+            schema={schema}
+            name={name}
+          />
         </Col>
       </Row>
     </main>

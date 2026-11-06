@@ -172,6 +172,13 @@ const debResolveSubtrees = debounce(() => {
     } = system
     const getLineNumberForPath = AST.getLineNumberForPath ?? constant(undefined)
     const specStr = specSelectors.specStr()
+    // a batch that outlives its document (another one was loaded meanwhile)
+    // must not touch the resolved cache or the errors of the current one
+    const batchSpecJson = specSelectors.specJson()
+    const batchUrl = specSelectors.url()
+    const isStale = () =>
+      specSelectors.specJson() !== batchSpecJson ||
+      specSelectors.url() !== batchUrl
     const {
       modelPropertyMacro,
       parameterMacro,
@@ -181,7 +188,9 @@ const debResolveSubtrees = debounce(() => {
 
     try {
       const batchResult = await systemRequestBatch.reduce(async (prev, path) => {
-        let { resultMap, specWithCurrentSubtrees } = await prev
+        const previous = await prev
+        if (previous.stale) return previous
+        let { resultMap, specWithCurrentSubtrees } = previous
         const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
           baseDoc: String(new URL(specSelectors.url(), document.baseURI)),
           modelPropertyMacro,
@@ -189,6 +198,8 @@ const debResolveSubtrees = debounce(() => {
           requestInterceptor,
           responseInterceptor
         })
+
+        if (isStale()) return { resultMap, specWithCurrentSubtrees, stale: true }
 
         if(errSelectors.allErrors().size) {
           errActions.clearBy(err => {
@@ -260,6 +271,8 @@ const debResolveSubtrees = debounce(() => {
         })(),
         specWithCurrentSubtrees: specSelectors.specJS()
       }))
+
+      if (batchResult.stale || isStale()) return
 
       specActions.updateResolvedSubtree([], batchResult.resultMap)
     } catch(e) {
