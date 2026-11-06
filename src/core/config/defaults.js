@@ -33,6 +33,7 @@ const defaultOptions = Object.freeze({
   defaultModelsExpandDepth: 1,
   showExtensions: false,
   showCommonExtensions: false,
+  unifiedJSONSchemaEnabled: false,
   withCredentials: false,
   requestSnippetsEnabled: false,
   requestSnippets: {
