@@ -30,7 +30,11 @@ import { requestResolvedSubtree } from "./wrap-actions"
  * drafts, `definitions` renders like `$defs`, and `dependencies` like
  * `dependentSchemas` (schema entries) and `dependentRequired` (property name
  * arrays); a `$ref` into them is resolved, a `$ref` inside them stays as
- * written (swagger-client doesn't dereference there). Not yet rendered as
+ * written (swagger-client doesn't dereference there:
+ * https://github.com/swagger-api/apidom/issues/5303). Names that
+ * `dependentRequired`, `dependencies` or `required` list without a `properties`
+ * entry are not shown, as in the json-schema-2020-12 renderer (see
+ * `.claude/skills/FOLLOW-UPS.md`). Not yet rendered as
  * keywords (extension keywords until then): `$recursiveAnchor`,
  * `$recursiveRef`.
  * Limitation: an embedded resource (`$id` with its own `$schema`) or an external

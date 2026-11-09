@@ -297,6 +297,32 @@ describe("json-schema-document dependencies", () => {
     ])
   })
 
+  it("answers every property of one schema alike, and each schema on its own", () => {
+    const first = { dependencies: { a: ["b", "c"], d: ["b"] } }
+    const second = { dependencies: { x: ["b"] } }
+
+    // asked in turn, as `Properties` does, and again
+    for (let i = 0; i < 2; i++) {
+      expect(getDependentRequired("b", first)).toEqual(["a", "d"])
+      expect(getDependentRequired("c", first)).toEqual(["a"])
+      expect(getDependentRequired("z", first)).toEqual([])
+    }
+    expect(getDependentRequired("b", second)).toEqual(["x"])
+    // a copy is another schema object
+    expect(getDependentRequired("b", { ...first, dependencies: {} })).toEqual(
+      []
+    )
+  })
+
+  it("lists a property once when both keywords name it", () => {
+    expect(
+      getDependentRequired("b", {
+        dependentRequired: { a: ["b", "b"] },
+        dependencies: { a: ["b"], c: ["b"] },
+      })
+    ).toEqual(["a", "c"])
+  })
+
   it("decides as the json-schema-2020-12 renderer without dependencies", () => {
     const schemas = [
       { dependentRequired: { f: ["b"], a: ["c", "b"] } },

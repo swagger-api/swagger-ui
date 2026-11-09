@@ -113,7 +113,8 @@ test.describe("Standalone JSON Schema 2020-12: dependencies", () => {
     ).toHaveCount(1)
     // swagger-client's json-schema-2020-12-apidom strategy doesn't dereference inside
     // `dependencies` (ApiDOM's 2020-12 namespace drops it as a schema keyword), so a $ref
-    // within a schema entry stays as written
+    // within a schema entry stays as written (https://github.com/swagger-api/apidom/issues/5303);
+    // update this assertion when that is fixed
     await expect(
       property(giftWrap, "giftMessage").locator(
         ".json-schema-2020-12-keyword--\\$ref"
@@ -139,6 +140,9 @@ test.describe("Standalone JSON Schema 2020-12: dependencies", () => {
     await expect(dependencies).toBeVisible()
     await dependencies.locator(".json-schema-2020-12-accordion").first().click()
     await expect(subschemaTitles(dependencies)).toHaveText(["express"])
+    // the `required` of that entry names `carrier`, which has no `properties` entry,
+    // so the json-schema-2020-12 renderer shows nothing of it (.claude/skills/FOLLOW-UPS.md)
+    await expect(dependencies).not.toContainText("carrier")
   })
 
   test("doesn't list dependencies as an extension keyword", async ({
