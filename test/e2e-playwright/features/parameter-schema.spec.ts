@@ -25,6 +25,7 @@ test.describe("Operation parameters", () => {
 
   test("should render schema for parameters of type object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -36,7 +37,9 @@ test.describe("Operation parameters", () => {
       .filter({ hasText: "Schema" })
       .click()
     // Cypress `exist` passes with 1+ matches; several `.model` nodes render here
-    await expect(page.locator(".model-example .model").first()).toBeAttached()
+    await expect(
+      schemaUi.modelNode(page.locator(".model-example")).first()
+    ).toBeAttached()
   })
 
   test("should render example for parameters of type array of objects", async ({
@@ -58,6 +61,7 @@ test.describe("Operation parameters", () => {
 
   test("should render schema for parameters of type array of objects", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -69,6 +73,8 @@ test.describe("Operation parameters", () => {
       .filter({ hasText: "Schema" })
       .click()
     // Cypress `exist` passes with 1+ matches; several `.model` nodes render here
-    await expect(page.locator(".model-example .model").first()).toBeAttached()
+    await expect(
+      schemaUi.modelNode(page.locator(".model-example")).first()
+    ).toBeAttached()
   })
 })

@@ -4,8 +4,11 @@
 import React, { useCallback } from "react"
 import { isImmutable } from "immutable"
 
+import { useFn } from "../../hooks"
+import { isLegacyDialect } from "../../legacy"
 import { toPlainSchema } from "../../schemas"
 import { MODEL } from "../../styles"
+import type { OASDialect } from "../../dialects"
 
 type AnyComponent = React.ComponentType<Record<string, unknown>>
 
@@ -34,6 +37,8 @@ const toArray = (value: unknown): unknown[] => {
 }
 
 export interface ModelProps {
+  /** The instance's dialect (set by the gate). */
+  dialect?: OASDialect
   /** Immutable Schema Object (as ModelWrapper passes it) or a plain one. */
   schema: unknown
   getComponent: (name: string, container?: boolean) => AnyComponent | null
@@ -43,23 +48,29 @@ export interface ModelProps {
 
 /**
  * The Schema tab's schema (copy of oas31's `OAS31Model`): the schema rendered
- * by `JSONSchemaUnified`, named after its `$$ref`, with an identifier derived
- * from its spec path. The enclosing instance (see `../../views`) carries the
- * dialect, readOnly/writeOnly flags and expansion depth.
+ * by `JSONSchemaUnified`, named after its `$$ref` (3.1/3.2) or, in the
+ * 2.0/3.0 dialects, after its `title` or the last token of its `$$ref`, as
+ * json-schema-5 names models; with an identifier derived from its spec path.
+ * The enclosing instance (see `../../views`) carries the dialect,
+ * readOnly/writeOnly flags and expansion depth.
  */
 const Model = ({
+  dialect,
   schema,
   getComponent,
   onToggle = () => {},
   specPath,
 }: ModelProps) => {
   const JSONSchemaUnified = getComponent("JSONSchemaUnified")
+  const fn = useFn()
   const plainSchema = toPlainSchema(schema ?? {})
-  const name = getModelName(
-    plainSchema && typeof plainSchema === "object"
-      ? plainSchema.$$ref
-      : undefined
-  )
+  const name = isLegacyDialect(dialect)
+    ? fn.getTitle(plainSchema) || undefined
+    : getModelName(
+        plainSchema && typeof plainSchema === "object"
+          ? plainSchema.$$ref
+          : undefined
+      )
 
   const handleExpand = useCallback(
     (e: unknown, expanded: boolean) => {

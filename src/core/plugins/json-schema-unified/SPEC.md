@@ -15,7 +15,7 @@ references:
 
 ## Responsibility
 
-Gives OpenAPI 3.1 and 3.2 documents one schema UI: the Schemas section and the **Schema** tab
+Gives every OpenAPI version one schema UI: the Schemas/Models section and the **Schema** tab
 (parameters, request bodies, responses). It is shown only when the config option
 `unifiedJSONSchemaEnabled` is `true` (default `false`, also a `swagger-ui-react` prop). With the
 option off, nothing changes. The view looks and behaves like the 2020-12 schema view, styled
@@ -23,8 +23,7 @@ with Tailwind ([ui-shell](../../components/SPEC.md) → Styling with Tailwind). 
 eventually replace json-schema-5's model views.
 
 Not in scope: example values, which still come from each version's sample generator; parameter
-input widgets (`JsonSchemaForm`); and OAS 2.0 and 3.0 documents, which keep the classic
-json-schema-5 view with the option on (no dialect, see Gating).
+input widgets (`JsonSchemaForm`); and the OAS 2.0 scheme picker.
 
 ## Gating
 
@@ -35,14 +34,53 @@ json-schema-5 view with the option on (no dialect, see Gating).
   original.
   - Plugin registration can't be the gate, because configs aren't visible at load time
     ([core-runtime](../../SPEC.md)).
-  - An undetected version, or one without a dialect (2.0, 3.0), gets the classic view.
-- Dialects today, newest first: `oas32` and `oas31`. `dialects.ts#getOASDialectOverrides`
+  - An undetected version, or one without a dialect, gets the classic view.
+- Dialects today, newest first: `oas32`, `oas31`, `oas30` (oas3's `isOAS30`; its `isOAS3` is
+  widened to 3.1/3.2) and `swagger2` (`isSwagger2`). `dialects.ts#getOASDialectOverrides`
   returns per-instance `{config, fn, components}`: the dialect's keyword list (with the internal
   `$$ref` hidden), readOnly/writeOnly filtering, markdown descriptions, and the OAS keywords.
   - `default$schema` for 3.2 is the published dialect id `…/oas/3.2/dialect/2025-09-17`, not
-    oas32's document-schema id.
+    oas32's document-schema id. 2.0 and 3.0 define no dialect id for schemas, so theirs is
+    `undefined`; no renderer reads it, and no marker was needed.
   - Nothing mutates shared `fn`. oas31's `afterLoad` mutation of `fn.jsonSchema202012` is
     deliberately not copied.
+
+## 2.0/3.0 dialects
+
+- **Own keyword lists** (`legacy.ts`): the Schema Object fixed fields of each version. 2020-12-only
+  keywords (`const`, `$defs`, `prefixItems`, `if`, `examples`, …) are not keywords there: their
+  slots render nothing and they show as extension keywords (only with `showExtensions`).
+  This is the same rule as for unknown keywords in every version, and was confirmed over
+  json-schema-5's plain rows. 2.0 also lacks `oneOf`/`anyOf`/`not`, `nullable`, `writeOnly`, and
+  `deprecated`. `writeOnly` still hides properties from 2.0 response schemas, as json-schema-5
+  does (confirmed), but it is not rendered as a keyword; its `discriminator` is a property-name string, and `type: file`
+  is a type. 3.0's `discriminator` is the object of 3.1.
+- **Boolean exclusive bounds.** `maximum: 10, exclusiveMaximum: true` is rewritten to the
+  2020-12 numeric form before formatting, so it reads `< 10` (and `(1, 10]`, `> 0`, …) exactly as
+  2020-12 bounds do. A numeric `exclusive*` is ignored.
+- **Nullable.** 3.0 `nullable: true` appends ` | null` to the type, as a 2020-12
+  `type: [X, "null"]` reads.
+- **Nested names (2.0/3.0 only).** `getTitle` falls back from `title` to the last token of
+  `$$ref` (then `$ref`), percent- and `~1`/`~0`-decoded, empty for an empty pointer, as
+  json-schema-5 names models. It applies wherever the renderer titles a schema itself (Schema tab
+  root, combiner members). A property or `items` keeps its own label and shows the nested
+  schema's name next to it, collapsed or expanded (`data-keyword="schemaName"`, json-schema-5's
+  `category: Category`). 3.1/3.2 naming is unchanged.
+- **Reference path (2.0/3.0 only).** An expanded dereferenced schema shows its `$$ref` in its
+  head (`data-keyword="$$ref"`), styled like json-schema-5's `.model-hint`. Same-document
+  references show as `#/…`. It is inline rather than a hover tooltip, which the schemas' scroll
+  container would clip.
+- **Schemas section.** Path and layout/expansion/scroll key `definitions` with the heading
+  "Models" for 2.0, `components/schemas` with "Schemas" for 3.0; subtrees are requested on
+  expand as for 3.x.
+- **Recursive `$ref`s.** swagger-client's 2.0/3.0 strategies leave cyclic `$ref`s unresolved
+  (and merge `allOf`, keeping such a `$ref` beside the merged siblings). json-schema-5 resolves
+  them by name on render. The dialects do the same (`fn.getLazyRef`): a local
+  `#/definitions/X` / `#/components/schemas/X` `$ref` renders definition `X` (resolved subtree,
+  else raw) with the `$ref`'s siblings deep-merged over it. Bodies render only when expanded,
+  so the recursion is bounded by the user's expansion. Each rendering gets a fresh object, so
+  the cycle check does not mark it `[circular]`. "Expand all" stops at the first target already
+  resolved on the branch. Other `$ref`s stay visible as `$ref`.
 
 ## Contracts
 
@@ -54,14 +92,15 @@ json-schema-5 view with the option on (no dialect, see Gating).
 - **Customization is through plugins only.** Embedders customize via `wrapComponents` on the
   `JSONSchemaUnified*` components, not through CSS: utilities are `!important` and there are no
   semantic classes.
-  - In OAS dialects, wrap the `KeywordOAS*` slots. The OAS Examples slot uses the plugin's own
-    2020-12 Examples directly.
-  - With the option on, existing wrappers of `OAS31Model` and `JSONSchema202012Keyword*` don't
-    apply to 3.1/3.2 documents.
+  - In OAS dialects, wrap the `KeywordOAS*` slots (2.0's discriminator:
+    `KeywordSwagger2Discriminator`). The OAS Examples slot uses the plugin's own 2020-12 Examples
+    directly.
+  - With the option on, existing wrappers of `OAS31Model`, `JSONSchema202012Keyword*`, and the
+    json-schema-5 model components don't apply.
 - **Automation hooks.** The `data-*` attributes are hooks for tests and automation, not a styling
   API: `data-json-schema-unified[-model|-models|-models-scroll]`, `data-schema-name`,
-  `data-expanded`, `data-keyword`, `data-json-schema-title`, `data-json-viewer-*`, and
-  `data-constraint-scope`.
+  `data-expanded`, `data-keyword` (including `$$ref` for the 2.0/3.0 reference path),
+  `data-json-schema-title`, `data-json-viewer-*`, and `data-constraint-scope`.
 - **Instance caching.** HOC instances are cached per System, then per view, dialect,
   `includeReadOnly`/`includeWriteOnly`, expand depth, and `showExtensions`. They are never cached
   on a static field keyed by `location.pathname`. That pattern freezes the first render's flags,
@@ -79,9 +118,10 @@ json-schema-5 view with the option on (no dialect, see Gating).
 - **Error isolation.** Each view is wrapped in `fn.withErrorBoundary`. Its outermost wrapper
   bypasses safe-render's `Models`/`ModelWrapper` boundary.
 - **Parity is proven by tests.** The Playwright project `unified-json-schema` re-runs the schema
-  specs listed in `playwright.config.ts` with the option on, for 3.1 and 3.2 documents. Its guard
-  fails any test whose page didn't actually render the unified view, or still rendered a classic
-  json-schema-2020-12 one.
+  specs listed in `playwright.config.ts` with the option on, for 2.0, 3.0, 3.1, and 3.2 documents.
+  Its guard fails any test whose page didn't actually render the unified view, or still rendered
+  a classic json-schema-2020-12 or json-schema-5 one. The project `webkit-unified` runs the
+  plugin's own specs in WebKit to check the Safari browser floor.
 
 ## Known limitations
 

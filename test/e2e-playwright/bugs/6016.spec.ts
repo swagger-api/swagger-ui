@@ -22,11 +22,16 @@ test.describe("Entries should be valid property name", () => {
   })
   test("should render expanded Models of OAS3.0 definition that uses 'entries' as a 'components' property name", async ({
     page,
+    schemaUi,
   }) => {
     await page.goto("/?url=/documents/bugs/6016-oas3.yaml")
-    await page.locator("#model-Testmodel > span .model-box").click()
+    await schemaUi
+      .modelToggle(schemaUi.model("Testmodel"), ":scope > span .model-box")
+      .click()
     // Cypress `should("exist")` passes when at least one element matches
-    await expect(page.locator("div .model-box")).not.toHaveCount(0)
+    await expect(schemaUi.modelContent(page, "div .model-box")).not.toHaveCount(
+      0
+    )
   })
   test("should render a OAS2.0 definition that uses 'entries' as a 'definitions' property name", async ({
     page,
@@ -46,10 +51,15 @@ test.describe("Entries should be valid property name", () => {
   })
   test("should render expanded Models of OAS2.0 definition that uses 'entries' as a 'defintions' property name", async ({
     page,
+    schemaUi,
   }) => {
     await page.goto("/?url=/documents/bugs/6016-oas2.yaml")
-    await page.locator("#model-Pet > span .model-box").click()
+    await schemaUi
+      .modelToggle(schemaUi.model("Pet"), ":scope > span .model-box")
+      .click()
     // Cypress `should("exist")` passes when at least one element matches
-    await expect(page.locator("div .model-box")).not.toHaveCount(0)
+    await expect(schemaUi.modelContent(page, "div .model-box")).not.toHaveCount(
+      0
+    )
   })
 })

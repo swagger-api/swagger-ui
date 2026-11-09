@@ -31,3 +31,7 @@ export const DescriptionSlot = makeSlot("KeywordOASDescription")
 export const ExamplesSlot = makeSlot("KeywordOASExamples")
 
 export const PropertiesSlot = makeSlot("KeywordOASProperties")
+
+export const Swagger2DiscriminatorSlot = makeSlot(
+  "KeywordSwagger2Discriminator"
+)

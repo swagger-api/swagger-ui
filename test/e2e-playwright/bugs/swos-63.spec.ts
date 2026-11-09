@@ -5,13 +5,16 @@ import { test, expect } from "../support/fixtures"
 
 test.describe("SWOS-63: Schema/Model labeling", () => {
   test.describe("SchemaS/Models section", () => {
-    test("should render `Schemas` for OpenAPI 3", async ({ page }) => {
+    test("should render `Schemas` for OpenAPI 3", async ({
+      page,
+      schemaUi,
+    }) => {
       await page.goto("/?url=/documents/petstore-expanded.openapi.yaml")
-      await expect(page.locator("section.models > h4")).toContainText("Schemas")
+      await expect(schemaUi.modelsHeading()).toContainText("Schemas")
     })
-    test("should render `Models` for OpenAPI 2", async ({ page }) => {
+    test("should render `Models` for OpenAPI 2", async ({ page, schemaUi }) => {
       await page.goto("/?url=/documents/petstore.swagger.yaml")
-      await expect(page.locator("section.models > h4")).toContainText("Models")
+      await expect(schemaUi.modelsHeading()).toContainText("Models")
     })
   })
   test.describe("ModelExample within Operation", () => {

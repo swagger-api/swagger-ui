@@ -8,6 +8,8 @@ import type { OASDialect } from "./dialects"
  * optional: a selector a preset does not register means "not this version".
  */
 export interface VersionSpecSelectors {
+  isSwagger2?: () => boolean
+  isOAS30?: () => boolean
   isOAS31?: () => boolean
   isOAS32?: () => boolean
   [selector: string]: unknown
@@ -24,7 +26,8 @@ export interface UnifiedDialectEntry {
  * document whose version has no entry (an undetected version) falls through
  * to the original Model/Models view. Supporting a new version is one entry
  * here, plus its dialect in `./dialects` and its schemas path in `./schemas`
- * (`SCHEMAS_PATHS`).
+ * (`SCHEMAS_PATHS`). 3.0 is detected with oas3's `isOAS30` (its `isOAS3` is
+ * widened to 3.1/3.2 by those plugins).
  */
 export const UNIFIED_DIALECTS: ReadonlyArray<UnifiedDialectEntry> =
   Object.freeze([
@@ -35,6 +38,14 @@ export const UNIFIED_DIALECTS: ReadonlyArray<UnifiedDialectEntry> =
     {
       dialect: "oas31",
       isActive: (specSelectors) => specSelectors.isOAS31?.() === true,
+    },
+    {
+      dialect: "oas30",
+      isActive: (specSelectors) => specSelectors.isOAS30?.() === true,
+    },
+    {
+      dialect: "swagger2",
+      isActive: (specSelectors) => specSelectors.isSwagger2?.() === true,
     },
   ])
 

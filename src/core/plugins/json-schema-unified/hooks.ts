@@ -1,19 +1,30 @@
 /**
  * @prettier
  */
-import { useCallback, useContext, useEffect, useRef, useState } from "react"
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 
 import {
   JSONSchemaContext,
   JSONSchemaLevelContext,
   JSONSchemaCyclesContext,
   JSONSchemaPathContext,
+  JSONSchemaLazyRefsContext,
 } from "./context"
 import { JSONSchemaIsExpandedState } from "./enum"
+import { mergeLazyRef } from "./legacy"
 import type {
   JSONSchemaConfig,
   JSONSchemaContextValue,
   JSONSchemaFn,
+  Schema,
+  SchemaObject,
 } from "./types"
 
 type ContextState = JSONSchemaContextValue["state"]
@@ -117,7 +128,15 @@ export const usePath = (pathToken?: string) => {
   return { path: currentPath, pathMutator }
 }
 
-export const useIsExpanded = (name?: string) => {
+export interface IsExpandedOptions {
+  /** Follow a parent's deep expansion ("Expand all"); default `true`. */
+  inheritDeep?: boolean
+}
+
+export const useIsExpanded = (
+  name?: string,
+  { inheritDeep = true }: IsExpandedOptions = {}
+) => {
   const [level] = useLevel()
   const { defaultExpandedLevels } = useConfig()
   const { path, pathMutator } = usePath(name)
@@ -147,7 +166,7 @@ export const useIsExpanded = (name?: string) => {
     }
 
     pathMutator(
-      parentState === JSONSchemaIsExpandedState.DeeplyExpanded
+      inheritDeep && parentState === JSONSchemaIsExpandedState.DeeplyExpanded
         ? JSONSchemaIsExpandedState.DeeplyExpanded
         : isExpandedState
     )
@@ -190,4 +209,48 @@ export const useRenderedSchemas = (schema: unknown = undefined) => {
 export const useIsCircular = (schema: unknown): boolean => {
   const renderedSchemas: Set<unknown> = useRenderedSchemas()
   return renderedSchemas.has(schema)
+}
+
+export interface LazyRefState {
+  /** The schema to render: `schema`, or its lazily resolved definition. */
+  schema: Schema
+  /** Whether `schema` is a lazily resolved reference. */
+  isLazyRef: boolean
+  /** Whether the reference's target is already resolved on this branch. */
+  isRepeated: boolean
+  /** The lazy-reference targets of this branch, for the children. */
+  lazyRefs: ReadonlySet<string>
+}
+
+/**
+ * Resolves a reference the resolver left in place (2.0/3.0 dialects,
+ * `fn.getLazyRef`): the schema renders the referenced definition merged with
+ * the reference's siblings. Each rendering gets its own merged object, so a
+ * recursive model is never reported as circular and stays expandable; the
+ * lookup only happens where a schema renders, i.e. inside expanded parents.
+ */
+export const useLazyRef = (schema: Schema): LazyRefState => {
+  const fn = useFn()
+  const lazyRefs = useContext(JSONSchemaLazyRefsContext)
+  const lazyRef =
+    typeof fn.getLazyRef === "function" ? fn.getLazyRef(schema) : null
+  const key = lazyRef?.key
+  const definition = lazyRef?.definition
+
+  const resolvedSchema = useMemo(
+    () =>
+      definition ? mergeLazyRef(definition, schema as SchemaObject) : schema,
+    [definition, schema]
+  )
+  const nextLazyRefs = useMemo(
+    () => (key === undefined ? lazyRefs : new Set([...lazyRefs, key])),
+    [key, lazyRefs]
+  )
+
+  return {
+    schema: resolvedSchema,
+    isLazyRef: Boolean(definition),
+    isRepeated: key !== undefined && lazyRefs.has(key),
+    lazyRefs: nextLazyRefs,
+  }
 }
