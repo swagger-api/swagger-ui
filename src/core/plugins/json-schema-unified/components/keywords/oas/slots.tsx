@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
 import { useComponent } from "../../../hooks"
 import type { KeywordProps } from "../../../types"
 
@@ -23,9 +22,6 @@ const makeSlot = (contextName: string) => {
     return Component ? <Component {...props} /> : null
   }
   Slot.displayName = `JSONSchemaUnifiedSlot(${contextName})`
-  Slot.propTypes = {
-    schema: schema.isRequired,
-  }
 
   return Slot
 }

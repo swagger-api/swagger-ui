@@ -2,7 +2,6 @@
  * @prettier
  */
 import React, { useCallback } from "react"
-import PropTypes from "prop-types"
 
 import { useComponent } from "../../hooks"
 
@@ -62,12 +61,6 @@ const Accordion = ({
       </span>
     </button>
   )
-}
-
-Accordion.propTypes = {
-  expanded: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-  onChange: PropTypes.func.isRequired,
 }
 
 export default Accordion

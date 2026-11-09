@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
 import { useComponent, useFn } from "../../../hooks"
 import type { KeywordProps } from "../../../types"
 
@@ -19,10 +18,6 @@ const Example = ({ schema }: KeywordProps) => {
   if (!fn.hasKeyword(schema, "example")) return null
 
   return <JSONViewer name="Example" value={schema.example} keyword="example" />
-}
-
-Example.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default Example

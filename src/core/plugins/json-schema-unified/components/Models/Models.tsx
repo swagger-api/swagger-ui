@@ -2,7 +2,6 @@
  * @prettier
  */
 import React, { useRef, useCallback, useEffect, useMemo } from "react"
-import PropTypes from "prop-types"
 import classNames from "classnames"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import type { VirtualItem } from "@tanstack/react-virtual"
@@ -253,29 +252,6 @@ const Models = ({
       </Collapse>
     </section>
   )
-}
-
-Models.propTypes = {
-  dialect: PropTypes.string.isRequired,
-  getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.isRequired,
-  specSelectors: PropTypes.shape({
-    specJson: PropTypes.func.isRequired,
-    specResolvedSubtree: PropTypes.func.isRequired,
-  }).isRequired,
-  specActions: PropTypes.shape({
-    requestResolvedSubtree: PropTypes.func.isRequired,
-  }).isRequired,
-  layoutSelectors: PropTypes.shape({
-    isShown: PropTypes.func.isRequired,
-    getScrollToVirtualizedSchema: PropTypes.func,
-  }).isRequired,
-  layoutActions: PropTypes.shape({
-    show: PropTypes.func.isRequired,
-    readyToScroll: PropTypes.func.isRequired,
-    scrollToElement: PropTypes.func,
-    clearScrollToVirtualizedSchema: PropTypes.func,
-  }).isRequired,
 }
 
 export default Models

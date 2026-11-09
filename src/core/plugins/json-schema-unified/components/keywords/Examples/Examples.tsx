@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
 import { useComponent } from "../../../hooks"
 import { toSchemaObject } from "../../../fn"
 import type { KeywordProps } from "../../../types"
@@ -24,10 +23,6 @@ const Examples = ({ schema }: KeywordProps) => {
       keyword="examples"
     />
   )
-}
-
-Examples.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default Examples

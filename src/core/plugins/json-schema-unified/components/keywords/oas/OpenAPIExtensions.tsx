@@ -2,7 +2,6 @@
  * @prettier
  */
 import React from "react"
-import PropTypes from "prop-types"
 
 import { useComponent } from "../../../hooks"
 
@@ -37,11 +36,6 @@ const OpenAPIExtensions = ({
       ))}
     </>
   )
-}
-
-OpenAPIExtensions.propTypes = {
-  openAPISpecObj: PropTypes.object.isRequired,
-  openAPIExtensions: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default OpenAPIExtensions
