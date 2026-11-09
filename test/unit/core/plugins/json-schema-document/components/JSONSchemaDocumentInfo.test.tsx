@@ -11,12 +11,7 @@ const dialect = "https://json-schema.org/draft/2020-12/schema"
 
 const InfoUrl = ({ url }: { url: string }) => <span className="url">{url}</span>
 
-const Markdown = ({ source }: { source: string }) => (
-  <div className="markdown">{source}</div>
-)
-
-const getComponent = (name: string) =>
-  name === "Markdown" ? Markdown : InfoUrl
+const getComponent = () => InfoUrl
 
 const render = (json: Record<string, unknown>, url = "") =>
   mount(
@@ -44,12 +39,17 @@ describe("<JSONSchemaDocumentInfo />", () => {
     expect(wrapper.find("h1 small.version-stamp").text()).toBe("JSON Schema")
   })
 
-  it("renders the description as Markdown below the header", () => {
-    const wrapper = render({ $schema: dialect, description: "A *person*" })
+  it("renders the description as plain text below the header", () => {
+    const wrapper = render({
+      $schema: dialect,
+      description: "A *person*, **not** <b>bold</b> [or a link](https://e.com)",
+    })
 
-    expect(wrapper.find(".info__description .markdown").text()).toBe(
-      "A *person*"
+    expect(wrapper.find(".info__description p").text()).toBe(
+      "A *person*, **not** <b>bold</b> [or a link](https://e.com)"
     )
+    expect(wrapper.find(".info__description").find("b")).toHaveLength(0)
+    expect(wrapper.find(".info__description").find("a")).toHaveLength(0)
     expect(
       render({ $schema: dialect }).find(".info__description")
     ).toHaveLength(0)
@@ -107,6 +107,30 @@ describe("<JSONSchemaDocumentInfo />", () => {
       "Base URI",
       "https://e.com/schemas/person",
     ])
+  })
+
+  it("shows the base URI of an $id with an empty fragment as the retrieval URI", () => {
+    const wrapper = render(
+      { $schema: dialect, $id: "https://e.com/s.json#" },
+      "https://e.com/s.json"
+    )
+
+    expect(uris(wrapper)).toEqual([["Retrieval URI", "https://e.com/s.json"]])
+  })
+
+  it("knows a document without a URL by the URI of the page, without its fragment", () => {
+    const page = "https://e.com/docs/index.html#/Schemas/Person"
+    const baseURI = jest
+      .spyOn(globalThis.document, "baseURI", "get")
+      .mockReturnValue(page)
+
+    try {
+      expect(uris(render({ $schema: dialect }))).toEqual([
+        ["Retrieval URI", "https://e.com/docs/index.html"],
+      ])
+    } finally {
+      baseURI.mockRestore()
+    }
   })
 
   it("knows a document without a URL by the URI of the page", () => {

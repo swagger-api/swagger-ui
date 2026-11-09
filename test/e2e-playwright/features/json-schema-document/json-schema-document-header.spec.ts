@@ -31,6 +31,16 @@ test.describe("Standalone JSON Schema 2020-12: header and $defs section", () => 
         "https://example.com/schemas/person"
       )
     })
+
+    test("shows the description as plain text", async ({ page }) => {
+      await page.goto(`/?url=${documents}/person.yaml`)
+      const description = page.locator(
+        ".information-container .info__description"
+      )
+
+      await expect(description).toContainText("**this** isn't bold")
+      await expect(description.locator("strong")).toHaveCount(0)
+    })
   })
 
   test.describe("Schemas ($defs) section", () => {

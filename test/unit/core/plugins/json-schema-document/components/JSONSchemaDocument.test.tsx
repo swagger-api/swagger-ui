@@ -135,7 +135,8 @@ describe("<JSONSchemaDocument />", () => {
     const { props, withContext } = makeProps(fromJS(resolved))
     mount(<JSONSchemaDocument {...props} />)
 
-    expect(withContext).toHaveBeenCalledTimes(1)
+    // the root, and the definitions section
+    expect(withContext).toHaveBeenCalledTimes(2)
     const [component, overrides] = withContext.mock.calls[0]
     expect(component).toBe(JSONSchema)
     expect(overrides.config).toEqual({
@@ -177,7 +178,59 @@ describe("<JSONSchemaDocument />", () => {
 
     wrapper.setProps({})
 
-    expect(withContext).toHaveBeenCalledTimes(1)
+    expect(withContext).toHaveBeenCalledTimes(2)
+  })
+
+  it("expands the definitions by defaultModelsExpandDepth, with an instance of their own", () => {
+    for (const [defaultModelsExpandDepth, levels] of [
+      [undefined, 0],
+      [1, 0],
+      [5, 4],
+    ] as const) {
+      const { props, withContext } = makeProps(fromJS(resolved), {
+        defaultModelExpandDepth: 2,
+        defaultModelsExpandDepth,
+      })
+      mount(<JSONSchemaDocument {...props} />)
+
+      expect(withContext).toHaveBeenCalledTimes(2)
+      const [root, definitions] = withContext.mock.calls.map(
+        ([, overrides]) => overrides.config
+      )
+      expect(root).toEqual({
+        default$schema: dialect,
+        defaultExpandedLevels: 2,
+      })
+      expect(definitions).toEqual({
+        default$schema: dialect,
+        defaultExpandedLevels: levels,
+      })
+      expect(withContext.mock.results[0].value).not.toBe(
+        withContext.mock.results[1].value
+      )
+    }
+  })
+
+  it("renders the definitions with the component the system has registered", () => {
+    const { props } = makeProps(fromJS(resolved))
+    const Custom = ({
+      definitions,
+    }: {
+      definitions: Record<string, unknown>
+    }) => (
+      <div className="custom-definitions">
+        {Object.keys(definitions).join()}
+      </div>
+    )
+    const getComponent = (name: string) =>
+      name === "JSONSchemaDocumentDefinitions"
+        ? Custom
+        : props.getComponent(name)
+    const customProps = { ...props, getComponent }
+    const wrapper = mount(<JSONSchemaDocument {...customProps} />)
+
+    expect(wrapper.find(".custom-definitions").text()).toBe("A")
+    expect(wrapper.find(".json-schema-document__definitions")).toHaveLength(0)
   })
 
   it("renders a boolean root schema resolved from a $ref", () => {

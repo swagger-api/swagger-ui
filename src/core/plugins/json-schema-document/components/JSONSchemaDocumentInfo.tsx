@@ -26,14 +26,13 @@ export interface JSONSchemaDocumentInfoProps {
  * The header of a standalone JSON Schema document, in place of the OpenAPI
  * `info`: the name of the document as the page heading, next to stamps naming
  * the dialect and the kind of document, the URIs the document is known by and
- * its `description`.
+ * its `description`, as plain text.
  */
 const JSONSchemaDocumentInfo = ({
   specSelectors,
   getComponent,
 }: JSONSchemaDocumentInfoProps) => {
   const InfoUrl = getComponent("InfoUrl") as Component
-  const Markdown = getComponent("Markdown", true) as Component
   const specJson = specSelectors.specJson()
   const dialect = specSelectors.jsonSchemaDialect()
   const dialectName =
@@ -90,7 +89,9 @@ const JSONSchemaDocumentInfo = ({
 
       {typeof description === "string" && description !== "" && (
         <div className="info__description description">
-          <Markdown source={description} />
+          {/* plain text: JSON Schema gives `description` no Markdown meaning,
+              and the renderer shows the keyword as text as well */}
+          <p>{description}</p>
         </div>
       )}
     </div>

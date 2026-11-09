@@ -112,7 +112,10 @@ export const getRootSchemaKeyword = (spec: unknown): string => {
  * - `definitions`: "implementations SHOULD assume that `$defs` and
  *   `definitions` have the same behavior when that meta-schema is used"
  *   (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#appendix-A),
- *   so it renders like `$defs`.
+ *   so it renders like `$defs`, as a keyword of the schema that has it. (The
+ *   `$defs` of the root schema are listed in a section of their own below it
+ *   instead, as the schemas of an OpenAPI document; the root `definitions`
+ *   stay inline.)
  * - `dependencies`: split into `dependentSchemas` (its schema form) and
  *   `dependentRequired` (its property name array form) by the same appendix,
  *   so each entry renders like the keyword that took over its form.
@@ -658,7 +661,7 @@ export const makeGetType = (fnAccessor: () => InstanceFn) => {
  * json-schema-2020-12 renderer names a schema), else the name of the dialect.
  */
 export const getDocumentTitle = (
-  spec: Map<string, unknown>,
+  spec: ImmutableMap<string, unknown>,
   dialectName: string
 ): string => {
   const title = spec.get("title")
@@ -674,16 +677,17 @@ export const getDocumentTitle = (
 }
 
 /**
- * The URI the document was retrieved from, absolute. A document that wasn't
- * retrieved (loaded from a `spec` object or string) is known by the URI of the
- * page; `null` when no absolute URI can be built.
+ * The URI the document was retrieved from, absolute, without the fragment of
+ * the page (the resolver's base doesn't have it either). A document that
+ * wasn't retrieved (loaded from a `spec` object or string) is known by the URI
+ * of the page; `null` when no absolute URI can be built.
  */
 export const getRetrievalURI = (
   url: string | undefined,
   documentBaseURI: string | undefined
 ): string | null => {
   try {
-    return new URL(url || documentBaseURI || "", documentBaseURI).toString()
+    return new URL(url || "", documentBaseURI).toString()
   } catch {
     return null
   }
@@ -692,19 +696,24 @@ export const getRetrievalURI = (
 /**
  * The base URI of the document: its `$id` resolved against the retrieval URI
  * (https://json-schema.org/draft/2020-12/json-schema-core#name-base-uri),
- * the retrieval URI when there's no `$id`, `null` when neither is an absolute URI.
+ * the retrieval URI when there's no `$id`, `null` when neither is an absolute
+ * URI. An empty fragment is dropped: the absolute-URI form "MUST be considered
+ * the canonical URI, regardless of the presence or absence of an empty
+ * fragment" (core, 8.2.1).
  */
 export const getBaseURI = (
-  spec: Map<string, unknown>,
+  spec: ImmutableMap<string, unknown>,
   retrievalURI: string | null
 ): string | null => {
   const $id = spec.get("$id")
   if (typeof $id !== "string" || $id === "") return retrievalURI
 
   try {
-    return retrievalURI === null
-      ? new URL($id).toString()
-      : new URL($id, retrievalURI).toString()
+    const uri =
+      retrievalURI === null ? new URL($id) : new URL($id, retrievalURI)
+    if (uri.hash === "") uri.hash = ""
+
+    return uri.toString()
   } catch {
     return retrievalURI
   }

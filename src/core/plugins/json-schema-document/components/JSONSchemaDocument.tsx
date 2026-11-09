@@ -5,7 +5,6 @@ import React, { useEffect, useMemo } from "react"
 import { Map } from "immutable"
 
 import { makeJSONSchema202012Overrides } from "../overrides"
-import JSONSchemaDocumentDefinitions from "./JSONSchemaDocumentDefinitions"
 import type { OverridesSystem } from "../overrides"
 import { JSON_SCHEMA_DOCUMENT_ID } from "../fn"
 
@@ -115,10 +114,31 @@ const JSONSchemaDocument = ({
       getSystem,
     ]
   )
+  // the definitions have an instance, and so an expansion state, of their own,
+  // expanded by `defaultModelsExpandDepth` as the schemas of an OpenAPI document
+  const DefinitionsInstance = useMemo(
+    () =>
+      withJSONSchemaSystemContext(JSONSchema, {
+        config: {
+          default$schema: dialect,
+          defaultExpandedLevels: defaultModelsExpandDepth - 1,
+        },
+        ...makeJSONSchema202012Overrides(getSystem),
+      }),
+    [
+      withJSONSchemaSystemContext,
+      JSONSchema,
+      dialect,
+      defaultModelsExpandDepth,
+      showExtensions,
+      getSystem,
+    ]
+  )
 
   const Row = getComponent("Row") as Component
   const Col = getComponent("Col") as Component
   const Info = getComponent("JSONSchemaDocumentInfo", true) as Component
+  const Definitions = getComponent("JSONSchemaDocumentDefinitions") as Component
 
   // without a title, `$anchor` or `$id` the expand button would have no
   // accessible name; schema-provided titles are kept
@@ -150,9 +170,9 @@ const JSONSchemaDocument = ({
       {definitions !== null && defaultModelsExpandDepth >= 0 && (
         <Row className="json-schema-document-definitions">
           <Col mobile={12}>
-            <JSONSchemaDocumentDefinitions
+            <Definitions
               definitions={definitions}
-              JSONSchema={JSONSchemaInstance}
+              JSONSchema={DefinitionsInstance}
               getComponent={getComponent}
               isOpenDefault={
                 defaultModelsExpandDepth > 0 && docExpansion !== "none"
