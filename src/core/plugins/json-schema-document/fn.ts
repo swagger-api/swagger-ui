@@ -250,12 +250,13 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === "object" && !Array.isArray(value)
 
 /**
- * Whether a schema object has the keyword, whatever its value.
+ * Whether a schema object has the keyword, whatever its value. An object
+ * without it is no less an object, so the predicate names the keyword.
  */
-export const hasKeyword = (
+export const hasKeyword = <K extends string>(
   schema: Schema,
-  keyword: string
-): schema is Record<string, unknown> =>
+  keyword: K
+): schema is Record<string, unknown> & Record<K, unknown> =>
   isObject(schema) && Object.hasOwn(schema, keyword)
 
 /**
