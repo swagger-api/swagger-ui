@@ -4,24 +4,33 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 
-import { getSchemaDependencies } from "../../fn"
-import type { KeywordProps } from "./types"
+import {
+  getDisplayName,
+  getEmptyNameIdentifier,
+  getSchemaDependencies,
+} from "../../fn"
+import type { KeywordProps, Schema, System } from "./types"
 
 type Context<T> = () => React.Context<T>
 
+interface DependenciesListProps {
+  dependencies: Record<string, Schema>
+  getSystem: () => System
+}
+
 /**
- * The schema entries of `dependencies`, kept by the JSON Schema 2020-12
- * default meta-schema from earlier drafts, rendered like `dependentSchemas`
- * (a copy of the json-schema-2020-12 renderer's `DependentSchemas` component),
- * which took over that form; the array entries render like
- * `dependentRequired`, on the properties they make required
- * (`getDependentRequired`):
- * https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#appendix-A
+ * The keyword with its expansion state. Split from `Dependencies`, which
+ * mounts it only for a schema that has a schema entry to list: every schema
+ * of a document reaches `Dependencies`, and the hooks here would register a
+ * path and re-render for each of them.
  */
-const Dependencies = ({ schema, getSystem }: KeywordProps) => {
+const DependenciesList = ({
+  dependencies,
+  getSystem,
+}: DependenciesListProps) => {
   const { fn, getComponent } = getSystem()
-  const { useComponent, useIsExpanded, usePath, useLevel } = fn.jsonSchema202012
-  const dependencies = getSchemaDependencies(schema)
+  const { useComponent, useIsExpanded, usePath, useLevel, getTitle } =
+    fn.jsonSchema202012
   const pathToken = "dependencies"
   const { path } = usePath(pathToken)
   const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(pathToken)
@@ -60,7 +69,7 @@ const Dependencies = ({ schema, getSystem }: KeywordProps) => {
   /**
    * Rendering.
    */
-  if (Object.keys(dependencies).length === 0) return null
+  const emptyNameIdentifier = getEmptyNameIdentifier(dependencies)
 
   return (
     <JSONSchemaPathContext.Provider value={path}>
@@ -89,13 +98,38 @@ const Dependencies = ({ schema, getSystem }: KeywordProps) => {
             {isExpanded &&
               Object.entries(dependencies).map(([propertyName, subschema]) => (
                 <li key={propertyName} className="json-schema-2020-12-property">
-                  <JSONSchema name={propertyName} schema={subschema} />
+                  <JSONSchema
+                    name={getDisplayName(propertyName, subschema, getTitle)}
+                    // the renderer's default token is the schema's `$id` before
+                    // its name, which another entry's name can equal
+                    identifier={
+                      propertyName === "" ? emptyNameIdentifier : propertyName
+                    }
+                    schema={subschema}
+                  />
                 </li>
               ))}
           </ul>
         </div>
       </JSONSchemaLevelContext.Provider>
     </JSONSchemaPathContext.Provider>
+  )
+}
+
+/**
+ * The schema entries of `dependencies`, kept by the JSON Schema 2020-12
+ * default meta-schema from earlier drafts, rendered like `dependentSchemas`
+ * (a copy of the json-schema-2020-12 renderer's `DependentSchemas` component),
+ * which took over that form; the array entries render like
+ * `dependentRequired`, on the properties they make required
+ * (`getDependentRequired`):
+ * https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#appendix-A
+ */
+const Dependencies = ({ schema, getSystem }: KeywordProps) => {
+  const dependencies = getSchemaDependencies(schema)
+
+  return Object.keys(dependencies).length === 0 ? null : (
+    <DependenciesList dependencies={dependencies} getSystem={getSystem} />
   )
 }
 

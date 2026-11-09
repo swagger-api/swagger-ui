@@ -154,6 +154,47 @@ export const makeGetSchemaKeywords = (
   return () => keywords
 }
 
+/**
+ * Labels of an entry whose name is the empty string, or only whitespace (both
+ * valid property names), and that has no title, `$anchor` or `$id` to show
+ * instead: a blank head would be an accordion without a name, a blank list
+ * item a requirement nobody can read.
+ */
+export const EMPTY_NAME_LABEL = "(empty name)"
+export const BLANK_NAME_LABEL = "(blank name)"
+
+const isBlank = (value: string) => value.trim() === ""
+
+const getBlankNameLabel = (name: string) =>
+  name === "" ? EMPTY_NAME_LABEL : BLANK_NAME_LABEL
+
+/**
+ * The name the renderer shows for an entry of a keyword that lists
+ * subschemas by name: the name itself, nothing for a blank name when the
+ * schema has a title to show, else a label.
+ */
+export const getDisplayName = <S>(
+  name: string,
+  subschema: S,
+  getTitle: (schema: S) => string
+) => {
+  if (!isBlank(name)) return name
+  if (!isBlank(getTitle(subschema))) return ""
+
+  return getBlankNameLabel(name)
+}
+
+/**
+ * The expansion path token of an entry named "": one that no other entry's
+ * name is, so that it keeps a path of its own whatever label it shows. Every
+ * other entry's token is its name.
+ */
+export const getEmptyNameIdentifier = (entries: Record<string, unknown>) => {
+  let identifier = EMPTY_NAME_LABEL
+  while (identifier in entries) identifier += "_"
+  return identifier
+}
+
 type Schema = Record<string, unknown> | boolean | null | undefined
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
@@ -225,14 +266,21 @@ const getDependentRequiredIndex = (
  * renderer (plugins don't import each other; keep the two in step), plus
  * `dependencies`. It answers from an index built once per schema object, so a
  * schema with many properties and dependencies isn't scanned for each
- * property; a schema object isn't changed while it is rendered.
+ * property; a schema object isn't changed while it is rendered. A property
+ * name that is blank is listed as a label (`getDisplayName`).
  */
 export const getDependentRequired = (
   propertyName: string,
   schema: Schema
 ): string[] =>
   isObject(schema)
-    ? Array.from(getDependentRequiredIndex(schema).get(propertyName) ?? [])
+    ? Array.from(
+        new Set(
+          Array.from(
+            getDependentRequiredIndex(schema).get(propertyName) ?? []
+          ).map((name) => (isBlank(name) ? getBlankNameLabel(name) : name))
+        )
+      )
     : []
 
 /**

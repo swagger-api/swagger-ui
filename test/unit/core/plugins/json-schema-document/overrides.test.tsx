@@ -363,6 +363,78 @@ describe("json-schema-document renderer overrides", () => {
       ).toHaveLength(0)
     })
 
+    it("mounts no hooks for a schema without a schema entry", () => {
+      const useIsExpandedSpy = jest.fn(useIsExpanded)
+      const system = getSystem()
+      system.fn.jsonSchema202012.useIsExpanded = useIsExpandedSpy
+      const Keyword = makeJSONSchema202012Overrides(() => system).components
+        .KeywordDependentSchemas as unknown as Component
+      const Instance = withJSONSchemaContext(Keyword as never, {
+        config: { defaultExpandedLevels: 5 },
+      }) as Component
+
+      for (const dependencies of [{}, { a: ["b"] }, [], "a", null]) {
+        mount(<Instance schema={{ type: "object", dependencies }} />)
+      }
+
+      expect(useIsExpandedSpy).not.toHaveBeenCalled()
+    })
+
+    it("labels an entry whose name or title is only whitespace", () => {
+      const root = render({
+        dependencies: {
+          "": { required: ["a"] },
+          " ": { required: ["b"] },
+          "\t": { title: "Tabbed", required: ["c"] },
+        },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--dependencies"))
+      ).toEqual(["(empty name)", "(blank name)", "Tabbed"])
+    })
+
+    it("keeps the expansion of an entry apart from one whose $id is its name", () => {
+      const schema = {
+        dependencies: {
+          first: { $id: "second", type: "object", properties: { a: {} } },
+          second: { type: "object", properties: { b: {} } },
+        },
+      }
+      const wrapper = render(schema)
+      const toggles = () =>
+        wrapper
+          .find(
+            ".json-schema-2020-12-keyword--dependencies button.json-schema-2020-12-accordion"
+          )
+          .slice(1)
+      const expanded = () =>
+        toggles().map((toggle) => toggle.prop("aria-expanded"))
+
+      expect(expanded()).toEqual([true, true])
+      toggles().at(0).simulate("click")
+      // the expansion state is shared by the entries that have one token, and only
+      // the clicked entry re-renders: render everything again to see it
+      wrapper.setProps({ schema: { ...schema } })
+      expect(expanded()).toEqual([false, true])
+    })
+
+    it("lists a blank property name that makes another required", () => {
+      const root = render({
+        type: "object",
+        properties: { b: { type: "string" } },
+        dependencies: { "": ["b"], " ": ["b"] },
+        dependentRequired: { "\t": ["b"] },
+      }).getDOMNode()
+      const items = Array.from(
+        root.querySelectorAll(
+          ".json-schema-2020-12-keyword--dependentRequired li"
+        )
+      ).map((item) => item.textContent)
+
+      expect(items).toEqual(["(blank name)", "(empty name)"])
+    })
+
     it("makes a schema expandable only with a schema entry", () => {
       const withSchema = render({
         type: "object",

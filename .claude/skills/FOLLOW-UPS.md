@@ -35,7 +35,10 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
    (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#section-6.5.4).
    It affects OAS 3.1 and 3.2 Schema Objects too, so the fix is a change to the core renderer with
    an OAS regression check. The json-schema-document plugin copies `getDependentRequired` (and
-   renders `dependencies` array entries the same way), so it follows once core changes.
+   renders `dependencies` array entries the same way), so it follows once core changes. The core
+   `DependentRequired` component also renders a trigger property named `""` (or only whitespace) as an
+   empty list item; the json-schema-document plugin lists such a name as `(empty name)` or
+   `(blank name)` instead.
 9. **`required` names without a `properties` entry are not rendered.** `Properties.jsx` returns
    `null` when a schema has no `properties`, and `required` only marks declared properties. A schema
    like `{ type: "object", required: ["carrier"] }` (for example as a `dependentSchemas` or legacy
@@ -56,7 +59,8 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     (`key === startPath || key.startsWith(startPath + ",")`) in both branches and add a regression
     test for sibling names where one is a prefix of the other. It changes OAS 3.1/3.2 behavior, so it
     needs its own PR. The json-schema-document `definitions` list meets it for definitions named `""`
-    and `"(empty name)"` in one document, which get the path tokens `(empty name)_` and `(empty name)`.
+    and `"(empty name)"` in one document, which get the path tokens `(empty name)_` and `(empty name)`,
+    and the `dependencies` list for keys such as `card` and `cardNumber`.
 
 ## Open Work on the Skills
 
