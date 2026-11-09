@@ -32,7 +32,10 @@ export interface OverridesSystem extends System {
  * renders a JSON Schema 2020-12 document: the renderer's own, extended by the
  * keywords the default meta-schema keeps from earlier drafts
  * (`DEFAULT_META_SCHEMA_KEYWORDS`). None of the OpenAPI `fn` (`getProperties`,
- * the OpenAPI `isExpandable`) is passed.
+ * the OpenAPI `isExpandable`) is passed. The registered "Required when
+ * defined" component is wrapped, so that it lists the labels of `getNameLabel`
+ * (`fn.ts`) for blank and label-like names, in the lists of `dependentRequired`
+ * as well as those of `dependencies`.
  */
 export const makeJSONSchema202012Overrides = (
   getSystem: () => OverridesSystem
