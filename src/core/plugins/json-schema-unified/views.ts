@@ -5,6 +5,8 @@ import type React from "react"
 
 import { getOASDialectOverrides } from "./dialects"
 import type { OASDialect, OASDialectOptions } from "./dialects"
+import { findSchemaDefinition } from "./schemas"
+import type { SchemasSpecSelectors } from "./schemas"
 import type { JSONSchemaOverrides } from "./types"
 
 type AnyComponent = React.ComponentType<Record<string, unknown>>
@@ -18,7 +20,8 @@ export const VIEW_COMPONENTS: Readonly<Record<UnifiedViewName, string>> =
     Models: "JSONSchemaUnifiedModels",
   })
 
-export interface ViewOptions extends OASDialectOptions {
+export interface ViewOptions
+  extends Omit<OASDialectOptions, "findSchema" | "getDocumentUrl"> {
   dialect: OASDialect
 }
 
@@ -27,6 +30,19 @@ export interface ViewSystem {
   getComponent: (name: string, container?: boolean) => AnyComponent | null
   fn: {
     withErrorBoundary?: (Component: AnyComponent) => AnyComponent
+  }
+}
+
+/**
+ * The absolute URL of the document, as the subtree resolver's `baseDoc`
+ * (spec plugin `requestResolvedSubtree`), so references into the document
+ * can be shown relative to it.
+ */
+const getDocumentUrl = (url: unknown): string => {
+  try {
+    return String(new URL(String(url ?? ""), document.baseURI))
+  } catch {
+    return ""
   }
 }
 
@@ -89,9 +105,21 @@ export const getUnifiedView = (
     overrides: JSONSchemaOverrides
   ) => AnyComponent
   const { dialect, ...dialectOptions } = options
+  const getSpecSelectors = () =>
+    (
+      system.getSystem() as {
+        specSelectors: SchemasSpecSelectors & { url?: () => unknown }
+      }
+    ).specSelectors
   const WithContext = withSystemContext(
     Component,
-    getOASDialectOverrides(dialect, dialectOptions)
+    getOASDialectOverrides(dialect, {
+      ...dialectOptions,
+      // read at render time, from the current state
+      findSchema: (name) =>
+        findSchemaDefinition(getSpecSelectors(), dialect, name),
+      getDocumentUrl: () => getDocumentUrl(getSpecSelectors().url?.()),
+    })
   )
   WithContext.displayName = `JSONSchemaUnified${view}View`
   const View =

@@ -7,6 +7,7 @@ test.describe("Parse YAML as YAML@1.2 with json_schema for all JSON-supported ty
   test("should have date string even without quotes", async ({
     page,
     swaggerUi,
+    schemaUi,
   }) => {
     await page.goto("/?url=/documents/features/spec-parse-to-json.yaml")
     await swaggerUi.toggleOperation("#operations-default-get_foo")
@@ -19,23 +20,15 @@ test.describe("Parse YAML as YAML@1.2 with json_schema for all JSON-supported ty
     )
     // Responses -> schema tab
     await page.locator(".model-example > .tab > :nth-child(2)").click()
-    await page
-      .locator(":nth-child(1) > :nth-child(2) > .model > :nth-child(1)")
-      .click()
+    await schemaUi.propertyRowToggle(1).click()
     // first element, without-quotes
-    await expect(
-      page.locator(
-        ":nth-child(1) > :nth-child(2) > .model > :nth-child(1) > .prop > .property"
-      )
-    ).toHaveText("example: 1999-11-31")
-    await page
-      .locator(":nth-child(2) > :nth-child(2) > .model > :nth-child(1)")
-      .click()
+    await expect(schemaUi.propertyRowExample(1)).toHaveText(
+      schemaUi.unified ? '"1999-11-31"' : "example: 1999-11-31"
+    )
+    await schemaUi.propertyRowToggle(2).click()
     // second element, with quotes
-    await expect(
-      page.locator(
-        ":nth-child(2) > :nth-child(2) > .model > :nth-child(1) > .prop > .property"
-      )
-    ).toHaveText("example: 1999-12-31")
+    await expect(schemaUi.propertyRowExample(2)).toHaveText(
+      schemaUi.unified ? '"1999-12-31"' : "example: 1999-12-31"
+    )
   })
 })

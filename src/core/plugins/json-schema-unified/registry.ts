@@ -54,6 +54,9 @@ import KeywordXml from "./components/keywords/oas/Xml"
 import KeywordExternalDocs from "./components/keywords/oas/ExternalDocs"
 import KeywordExample from "./components/keywords/oas/Example"
 import KeywordOpenAPIExtensions from "./components/keywords/oas/OpenAPIExtensions"
+import KeywordSwagger2Discriminator from "./components/keywords/oas/Swagger2Discriminator"
+import KeywordRefPath from "./components/keywords/oas/RefPath"
+import KeywordSchemaName from "./components/keywords/oas/SchemaName"
 import type { ComponentMap } from "./types"
 
 /**
@@ -139,7 +142,9 @@ export const extensionKeywordComponents = {
  * by instances configured with an OAS dialect (`./dialects`): the dialect
  * points the `KeywordDescription`, `KeywordExamples` and `KeywordProperties`
  * slots at the `KeywordOAS*` components, and `KeywordOASExamples` renders the
- * other OAS keywords.
+ * other OAS keywords. The 2.0 dialect points the `KeywordDiscriminator` slot
+ * at `KeywordSwagger2Discriminator`; `KeywordRefPath` renders only in the
+ * 2.0/3.0 dialects (they set `fn.getRefPath`).
  */
 export const oasKeywordComponents = {
   KeywordOASDescription,
@@ -150,6 +155,9 @@ export const oasKeywordComponents = {
   KeywordExternalDocs,
   KeywordExample,
   KeywordOpenAPIExtensions,
+  KeywordSwagger2Discriminator,
+  KeywordRefPath,
+  KeywordSchemaName,
 }
 
 export const contextComponents: ComponentMap = {

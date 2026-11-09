@@ -166,7 +166,7 @@ If set, enables filtering. The top bar will show an edit box that you can use to
 
 #### `unifiedJSONSchemaEnabled`: PropTypes.bool
 
-Opt-in preview: renders the Schemas section and the Schema tab of OpenAPI 3.1 and 3.2 documents with the unified JSON Schema renderer. The default is false. See Swagger UI's [Display Configuration](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/configuration.md#display) for what changes when it's enabled.
+Opt-in preview: renders the Schemas/Models section and the Schema tab of every OpenAPI version with the unified JSON Schema renderer. The default is false. See Swagger UI's [Display Configuration](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/configuration.md#display) for what changes when it's enabled.
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 

@@ -63,16 +63,16 @@ const legacyDocuments = [
 
 test.describe("Unified JSON Schema: OpenAPI 2.0 / 3.0 documents", () => {
   for (const { version, document, heading, tab } of legacyDocuments) {
-    test(`renders the classic view of an OpenAPI ${version} document with the option on`, async ({
+    test(`renders the classic view of an OpenAPI ${version} document with the option off`, async ({
       page,
     }) => {
       await page.goto(
-        `/?url=/documents/features/json-schema-unified/${document}&unifiedJSONSchemaEnabled=true`
+        `/?url=/documents/features/json-schema-unified/${document}`
       )
 
       await expect(page.locator("section.models h4")).toHaveText(heading)
       await expect(page.locator("#model-Pet .model-box").first()).toBeVisible()
-      expect(await unifiedOption(page)).toBe(true)
+      expect(await unifiedOption(page)).toBe(false)
 
       await page.locator("#operations-default-addPet").click()
       await page
@@ -85,6 +85,40 @@ test.describe("Unified JSON Schema: OpenAPI 2.0 / 3.0 documents", () => {
       ).toBeVisible()
 
       await expect(page.locator(unifiedView)).toHaveCount(0)
+    })
+
+    test(`renders the unified view of an OpenAPI ${version} document with the option on`, async ({
+      page,
+    }) => {
+      await page.goto(
+        `/?url=/documents/features/json-schema-unified/${document}&unifiedJSONSchemaEnabled=true`
+      )
+
+      const section = page.locator("[data-json-schema-unified-models]")
+      await expect(section.locator("h4")).toHaveText(heading)
+      await expect(
+        section.locator(
+          '[data-json-schema-unified][data-json-schema-level="0"][data-schema-name="Pet"]'
+        )
+      ).toBeVisible()
+      expect(await unifiedOption(page)).toBe(true)
+
+      await page.locator("#operations-default-addPet").click()
+      await page
+        .locator(".opblock-body")
+        .getByRole("tab", { name: tab, exact: true })
+        .first()
+        .click()
+      await expect(
+        page
+          .locator(
+            ".opblock-body .model-example [data-json-schema-unified-model]"
+          )
+          .first()
+      ).toBeVisible()
+
+      await expect(page.locator("section.models")).toHaveCount(0)
+      await expect(page.locator(".model-box .model")).toHaveCount(0)
     })
   }
 })

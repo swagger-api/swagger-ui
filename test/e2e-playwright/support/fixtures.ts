@@ -3,6 +3,10 @@
  */
 import { test as base, expect } from "@playwright/test"
 import type { Locator, Page } from "@playwright/test"
+import {
+  VIRTUALIZE_JSON_SCHEMA_2020_12_ESTIMATE_SIZE,
+  VIRTUALIZE_MODELS_ESTIMATE_SIZE,
+} from "core/utils/virtualization"
 
 // Thin wrappers over selectors that 3+ specs repeat. Everything else stays
 // as plain `page.locator(...)` in the specs so DOM selectors remain visible.
@@ -41,13 +45,15 @@ type Scope = Page | Locator
 
 /**
  * Schema-view locators shared by the specs that also run in the
- * `unified-json-schema` project. Each entry is the classic json-schema-2020-12
- * selector (unchanged, used by the default project) or its unified-view
- * equivalent, which selects only through the view's automation hooks
- * (`data-json-schema-unified*`, `data-keyword`, `data-expanded`, ...), roles
- * and text. A scope argument defaults to the page.
+ * `unified-json-schema` project. Each entry is the classic selector
+ * (json-schema-2020-12 for 3.1/3.2, json-schema-5 for 2.0/3.0; unchanged, used
+ * by the default project) or its unified-view equivalent, which selects only
+ * through the view's automation hooks (`data-json-schema-unified*`,
+ * `data-keyword`, `data-expanded`, ...), roles and text. A scope argument
+ * defaults to the page.
  */
 export interface SchemaLocators {
+  readonly unified: boolean
   /** Every schema root: `.json-schema-2020-12`. */
   schema(scope?: Scope): Locator
   /** Schemas that are not nested in another schema. */
@@ -80,6 +86,8 @@ export interface SchemaLocators {
   jsonViewerChildren(scope?: Scope): Locator
   /** The extension keyword viewers: `.json-schema-2020-12-json-viewer-extension-keyword`. */
   extensionKeywordViewer(scope?: Scope): Locator
+  /** The Schemas section: `.models`. */
+  modelsSection(scope?: Scope): Locator
   /** The Schemas section's expand/collapse control: `.models h4 .models-control`. */
   modelsControl(scope?: Scope): Locator
   /** The scroll container of a virtualized Schemas section: `.models-scroll`. */
@@ -88,7 +96,85 @@ export interface SchemaLocators {
   expectModelsOpen(open: boolean): Promise<void>
   /** Asserts a schema's body is expanded (not `.json-schema-2020-12-body--collapsed`) or collapsed. */
   expectSchemaExpanded(schema: Locator, expanded: boolean): Promise<void>
+
+  // The json-schema-5 view of OpenAPI 2.0/3.0 documents. A `classic`
+  // argument is the json-schema-5 selector the spec applies inside the given
+  // scope; the unified view maps the concept to its hooks instead.
+
+  /**
+   * A model of the Models/Schemas section: `#model-<name>`. The unified view
+   * names a schema after its `title` when it has one, so pass that `title`.
+   */
+  model(name: string, title?: string, scope?: Scope): Locator
+  /** Every model of the Models/Schemas section: `.model-container`. */
+  modelContainer(scope?: Scope): Locator
+  /** The heading of the Models/Schemas section: `section.models > h4`. */
+  modelsHeading(): Locator
+  /** Every json-schema-5 model node: `.model` (unified: every schema). */
+  modelNode(scope?: Scope): Locator
+  /** The box around a model: `classic` inside `schema` (unified: the schema itself). */
+  modelBox(schema: Locator, classic: string): Locator
+  /** The expansion toggle of `schema` itself: `classic` inside it, e.g. `.model-box-control`. */
+  modelToggle(schema: Locator, classic: string): Locator
+  /** The expansion toggles inside `scope`: `classic` inside it (unified: every toggle). */
+  nestedModelToggle(scope: Scope, classic: string): Locator
+  /**
+   * Content that only an expanded model renders: `classic` inside `scope`,
+   * e.g. `span.inner-object` (unified: the bodies of the expanded schemas in
+   * `scope`, `scope` included).
+   */
+  modelContent(scope: Scope, classic: string): Locator
+  /**
+   * The model of the object property `name`: the cells next to the first
+   * `.property-row` cell containing `name` (unified: the property's schema).
+   */
+  propertyModel(name: string, scope?: Scope): Locator
+  /**
+   * The first name matching `text` in a model's nested models: in `classic`
+   * elements inside `scope` (unified: the titles and schema names of the
+   * properties nested in `scope`).
+   */
+  nestedModelName(scope: Scope, classic: string, text: RegExp): Locator
+  /**
+   * The control that expands the model `name` (from `nestedModelName`)
+   * belongs to: json-schema-5 names sit inside their model's toggle (unified:
+   * the toggle of the schema with that name).
+   */
+  nameToggle(name: Locator): Locator
+  /**
+   * The toggle of the model in the `index`-th (1-based) property row:
+   * `:nth-child(<index>) > :nth-child(2) > .model > :nth-child(1)`.
+   */
+  propertyRowToggle(index: number): Locator
+  /**
+   * The `example` of the model in the `index`-th property row:
+   * `... > .model > :nth-child(1) > .prop > .property` (unified: the value of
+   * its `example` keyword).
+   */
+  propertyRowExample(index: number): Locator
+  /** The first collapsed property: the first `.property-row` element containing `[...]`. */
+  collapsedPropertyToggle(scope?: Scope): Locator
+  /** Where a model shows `deprecated`: `classic` inside `schema` (unified: its `deprecated` keyword). */
+  deprecatedMarker(schema: Locator, classic: string): Locator
+  /**
+   * The rows of an expanded object model: `classic` inside `content`, the
+   * model's `modelContent` (unified: its properties).
+   */
+  modelProperty(content: Locator, classic: string): Locator
+  /** The link of a schema's external docs: `.external-docs a`. */
+  externalDocsLink(scope: Scope): Locator
+  /** The extension rows with matching text: the first `.extension` element containing `text`. */
+  extension(text: RegExp, scope?: Scope): Locator
+  /** Estimated height of one model in the virtualized section. */
+  readonly modelsEstimateSize: number
 }
+
+const cssIdentifier = /^-?[_a-zA-Z][\w-]*$/
+
+const classicModelId = (name: string): string =>
+  cssIdentifier.test(`model-${name}`)
+    ? `#model-${name}`
+    : `[id='model-${name}']`
 
 const classicKeywordClass = (name: string): string =>
   name === "extensionKeywords" ? "extension-keywords" : name
@@ -97,6 +183,7 @@ const isOpen = /(^|\s)is-open(\s|$)/
 const collapsedBody = /(^|\s)json-schema-2020-12-body--collapsed(\s|$)/
 
 const classicSchemaLocators = (page: Page): SchemaLocators => ({
+  unified: false,
   schema: (scope = page) => scope.locator(".json-schema-2020-12"),
   topLevelSchema: (scope = page) =>
     scope.locator(".json-schema-2020-12:not(.json-schema-2020-12--embedded)"),
@@ -136,6 +223,7 @@ const classicSchemaLocators = (page: Page): SchemaLocators => ({
     scope.locator(".json-schema-2020-12-json-viewer__children"),
   extensionKeywordViewer: (scope = page) =>
     scope.locator(".json-schema-2020-12-json-viewer-extension-keyword"),
+  modelsSection: (scope = page) => scope.locator(".models"),
   modelsControl: (scope = page) => scope.locator(".models h4 .models-control"),
   modelsScroll: (scope = page) => scope.locator(".models-scroll"),
   expectModelsOpen: async (open) => {
@@ -147,11 +235,48 @@ const classicSchemaLocators = (page: Page): SchemaLocators => ({
     if (expanded) await expect(body).not.toHaveClass(collapsedBody)
     else await expect(body).toHaveClass(collapsedBody)
   },
+  model: (name, _title, scope = page) => scope.locator(classicModelId(name)),
+  modelContainer: (scope = page) => scope.locator(".model-container"),
+  modelsHeading: () => page.locator("section.models > h4"),
+  modelNode: (scope = page) => scope.locator(".model"),
+  modelBox: (schema, classic) => schema.locator(classic),
+  modelToggle: (schema, classic) => schema.locator(classic),
+  nestedModelToggle: (scope, classic) => scope.locator(classic),
+  modelContent: (scope, classic) => scope.locator(classic),
+  propertyModel: (name, scope = page) =>
+    scope
+      .locator(".property-row")
+      .getByText(new RegExp(name))
+      .first()
+      .locator("xpath=preceding-sibling::* | following-sibling::*"),
+  nestedModelName: (scope, classic, text) =>
+    scope.locator(classic).getByText(text).first(),
+  nameToggle: (name) => name,
+  propertyRowToggle: (index) =>
+    page.locator(
+      `:nth-child(${index}) > :nth-child(2) > .model > :nth-child(1)`
+    ),
+  propertyRowExample: (index) =>
+    page.locator(
+      `:nth-child(${index}) > :nth-child(2) > .model > :nth-child(1) > .prop > .property`
+    ),
+  collapsedPropertyToggle: (scope = page) =>
+    scope
+      .locator(".property-row")
+      .getByText(/\[\.\.\.\]/)
+      .first(),
+  deprecatedMarker: (schema, classic) => schema.locator(classic),
+  modelProperty: (content, classic) => content.locator(classic),
+  externalDocsLink: (scope) => scope.locator(".external-docs a"),
+  extension: (text, scope = page) =>
+    scope.locator(".extension").getByText(text).first(),
+  modelsEstimateSize: VIRTUALIZE_MODELS_ESTIMATE_SIZE,
 })
 
 const UNIFIED_SCHEMA = "[data-json-schema-unified]"
 const UNIFIED_MODELS = "[data-json-schema-unified-models]"
 const UNIFIED_JSON_VIEWER = "[data-json-viewer-tone]"
+const OWN_TOGGLE = ":scope > div > button[data-expanded]"
 
 const unifiedSchemaLocators = (page: Page): SchemaLocators => {
   // Locator scopes match inside the scope only, so a page-wide lookup is
@@ -162,6 +287,7 @@ const unifiedSchemaLocators = (page: Page): SchemaLocators => {
     inSchemas(scope).getByText(text, { exact: true })
 
   return {
+    unified: true,
     schema: (scope = page) => scope.locator(UNIFIED_SCHEMA),
     topLevelSchema: (scope = page) =>
       scope.locator(`${UNIFIED_SCHEMA}[data-json-schema-level="0"]`),
@@ -192,8 +318,11 @@ const unifiedSchemaLocators = (page: Page): SchemaLocators => {
       scope.locator(
         '[data-keyword="extensionKeywords"] [data-json-viewer-tone="extension"]'
       ),
+    modelsSection: (scope = page) => scope.locator(UNIFIED_MODELS),
     modelsControl: (scope = page) =>
-      scope.locator(UNIFIED_MODELS).getByRole("button", { name: /^Schemas$/ }),
+      scope
+        .locator(UNIFIED_MODELS)
+        .getByRole("button", { name: /^(Schemas|Models)$/ }),
     modelsScroll: (scope = page) =>
       scope.locator(
         `${UNIFIED_MODELS} [data-json-schema-unified-models-scroll]`
@@ -210,6 +339,66 @@ const unifiedSchemaLocators = (page: Page): SchemaLocators => {
         expanded ? "true" : "false"
       )
     },
+    model: (name, title = name, scope = page) =>
+      (scope === page ? page.locator(UNIFIED_MODELS) : scope).locator(
+        `${UNIFIED_SCHEMA}[data-json-schema-level="0"][data-schema-name="${title}"]`
+      ),
+    modelContainer: (scope = page) =>
+      (scope === page ? page.locator(UNIFIED_MODELS) : scope).locator(
+        `${UNIFIED_SCHEMA}[data-json-schema-level="0"]`
+      ),
+    modelsHeading: () => page.locator(UNIFIED_MODELS).getByRole("heading"),
+    modelNode: (scope = page) => scope.locator(UNIFIED_SCHEMA),
+    modelBox: (schema) => schema,
+    modelToggle: (schema) => schema.locator(OWN_TOGGLE),
+    nestedModelToggle: (scope) => scope.locator("button[data-expanded]"),
+    modelContent: (scope) =>
+      scope.locator(
+        "xpath=descendant-or-self::*[@data-json-schema-unified][@data-expanded='true']/*[2]"
+      ),
+    propertyModel: (name, scope = page) =>
+      scope
+        .locator(
+          `[data-keyword="properties"] ${UNIFIED_SCHEMA}[data-schema-name="${name}"]`
+        )
+        .first(),
+    nestedModelName: (scope, _classic, text) =>
+      scope
+        .locator(
+          '[data-keyword="properties"] :is([data-json-schema-title], [data-keyword="schemaName"])'
+        )
+        .getByText(text)
+        .first(),
+    nameToggle: (name) =>
+      name
+        .locator("xpath=ancestor::*[@data-json-schema-unified][1]")
+        .locator(OWN_TOGGLE),
+    propertyRowToggle: (index) =>
+      page.locator(
+        `[data-keyword="properties"] > ul > li:nth-child(${index}) > ${UNIFIED_SCHEMA} > div > button[data-expanded]`
+      ),
+    propertyRowExample: (index) =>
+      page.locator(
+        `[data-keyword="properties"] > ul > li:nth-child(${index}) > ${UNIFIED_SCHEMA} > div > [data-keyword="example"] > [data-json-viewer-value]`
+      ),
+    collapsedPropertyToggle: (scope = page) =>
+      scope
+        .locator(
+          `[data-keyword="properties"] ${UNIFIED_SCHEMA} > div > button[data-expanded="false"]`
+        )
+        .first(),
+    deprecatedMarker: (schema) =>
+      schema.locator(':scope > div > [data-keyword="deprecated"]'),
+    modelProperty: (content) =>
+      content.locator(':scope > [data-keyword="properties"] > ul > li'),
+    externalDocsLink: (scope) =>
+      scope.locator('[data-keyword="externalDocs"] a'),
+    extension: (text, scope = page) =>
+      inSchemas(scope)
+        .locator('[data-json-viewer-tone="extension"]')
+        .getByText(text)
+        .first(),
+    modelsEstimateSize: VIRTUALIZE_JSON_SCHEMA_2020_12_ESTIMATE_SIZE,
   }
 }
 
@@ -224,10 +413,18 @@ interface UnifiedViewState {
   classicSchemaElements: number
 }
 
-// The classic schema view the option replaces for 3.1/3.2 documents:
-// json-schema-2020-12. The Schema tab's `.model-box` frame, the Example Value
-// tab and the parameter inputs are not switched, so they are not listed.
-const CLASSIC_SCHEMA_SELECTOR = ".json-schema-2020-12"
+// The classic schema views the option replaces: json-schema-2020-12 (3.1/3.2)
+// and json-schema-5's Models section and models (2.0/3.0). The Schema tab's
+// `.model-box` / `.model-container` frames, the Example Value tab and the
+// parameter inputs are not switched, so they are not listed.
+const CLASSIC_SCHEMA_SELECTOR = [
+  ".json-schema-2020-12",
+  "section.models",
+  ".model",
+  ".model-title",
+  ".model-toggle",
+  ".model-box-control",
+].join(", ")
 
 // Runs in the page: what the guard of the unified project checks.
 const readUnifiedViewState = (
@@ -243,7 +440,7 @@ const readUnifiedViewState = (
   return {
     hasSwaggerUi: typeof ui?.getConfigs === "function",
     optionValue: ui?.getConfigs?.().unifiedJSONSchemaEnabled,
-    hasUnifiedDialect: ["isOAS32", "isOAS31"].some(
+    hasUnifiedDialect: ["isOAS32", "isOAS31", "isOAS30", "isSwagger2"].some(
       (selector) => specSelectors?.[selector]?.() === true
     ),
     unifiedElements: document.querySelectorAll(
@@ -310,9 +507,10 @@ export const test = base.extend<SwaggerUiFixtures & SwaggerUiOptions>({
   },
   // Guard of the unified project against false passes: a test that passed
   // must have ended on a Swagger UI page where the option applied, the
-  // document's version (3.1 or 3.2) has a unified dialect, the unified view
-  // rendered and no classic json-schema-2020-12 view did. Pages without
-  // `window.ui`, or whose index ignores the query string, fail here.
+  // document's version (2.0, 3.0, 3.1 or 3.2) has a unified dialect, the
+  // unified view rendered and no classic schema view (json-schema-2020-12 or
+  // json-schema-5) did. Pages without `window.ui`, or whose
+  // index ignores the query string, fail here.
   page: async ({ page, unifiedJSONSchema }, use, testInfo) => {
     await use(page)
     if (!unifiedJSONSchema || testInfo.status !== "passed") return
