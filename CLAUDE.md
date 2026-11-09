@@ -793,7 +793,7 @@ dist/                            # Build output (generated)
 2. Use `.tsx` extension (TypeScript — required for all new files)
 3. Add `@prettier` pragma
 4. Follow React best practices (functional components, hooks)
-5. Add PropTypes validation
+5. Declare props as a TypeScript type, not with PropTypes (React 19 ignores `propTypes`; existing `.jsx` components keep theirs). Babel strips types without checking them, so run `npx tsc --noEmit -p tsconfig.json` yourself; CI doesn't
 6. Create corresponding test in `test/unit/`
 7. Export from plugin's `index.js` if needed
 

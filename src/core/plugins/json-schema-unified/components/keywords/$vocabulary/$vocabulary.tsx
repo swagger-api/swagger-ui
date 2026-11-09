@@ -3,7 +3,6 @@
  */
 import React, { useCallback } from "react"
 
-import { schema } from "../../../prop-types"
 import { useComponent, useIsExpanded, usePath } from "../../../hooks"
 import { JSONSchemaPathContext } from "../../../context"
 import { toSchemaObject } from "../../../fn"
@@ -65,10 +64,6 @@ const $vocabulary = ({ schema }: KeywordProps) => {
       </div>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-$vocabulary.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default $vocabulary

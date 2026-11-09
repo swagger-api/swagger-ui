@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
 import { useComponent, useFn } from "../../../hooks"
 import type { KeywordProps } from "../../../types"
 
@@ -21,10 +20,6 @@ const Const = ({ schema }: KeywordProps) => {
       keyword="const"
     />
   )
-}
-
-Const.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default Const

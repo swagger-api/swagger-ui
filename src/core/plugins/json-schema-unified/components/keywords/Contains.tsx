@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../prop-types"
 import { useFn, useComponent } from "../../hooks"
 import { KEYWORD, KEYWORD_NAME } from "../../styles"
 import type { KeywordProps } from "../../types"
@@ -24,10 +23,6 @@ const Contains = ({ schema }: KeywordProps) => {
       <JSONSchema name={name} schema={schema.contains} identifier="contains" />
     </div>
   )
-}
-
-Contains.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default Contains

@@ -2,7 +2,6 @@
  * @prettier
  */
 import React, { useCallback, useMemo } from "react"
-import PropTypes from "prop-types"
 import { List } from "immutable"
 
 import type { Schema } from "../../types"
@@ -89,23 +88,5 @@ const SchemaItem = React.memo(
 )
 
 SchemaItem.displayName = "JSONSchemaUnifiedSchemaItem"
-
-SchemaItem.propTypes = {
-  schemaName: PropTypes.string.isRequired,
-  schema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
-  name: PropTypes.string.isRequired,
-  schemasPath: PropTypes.arrayOf(PropTypes.string).isRequired,
-  specSelectors: PropTypes.shape({
-    specResolvedSubtree: PropTypes.func.isRequired,
-  }).isRequired,
-  specActions: PropTypes.shape({
-    requestResolvedSubtree: PropTypes.func.isRequired,
-  }).isRequired,
-  layoutActions: PropTypes.shape({
-    show: PropTypes.func.isRequired,
-    readyToScroll: PropTypes.func.isRequired,
-  }).isRequired,
-  getComponent: PropTypes.func.isRequired,
-}
 
 export default SchemaItem

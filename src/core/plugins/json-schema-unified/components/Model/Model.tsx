@@ -2,7 +2,6 @@
  * @prettier
  */
 import React, { useCallback } from "react"
-import PropTypes from "prop-types"
 import { isImmutable } from "immutable"
 
 import { toPlainSchema } from "../../schemas"
@@ -79,13 +78,6 @@ const Model = ({
       />
     </div>
   )
-}
-
-Model.propTypes = {
-  schema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
-  getComponent: PropTypes.func.isRequired,
-  onToggle: PropTypes.func,
-  specPath: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 }
 
 export default Model

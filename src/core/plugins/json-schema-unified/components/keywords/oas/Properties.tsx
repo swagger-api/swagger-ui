@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
 import { useConfig, useFn } from "../../../hooks"
 import { toSchemaObject } from "../../../fn"
 import { PropertiesList } from "../Properties/Properties"
@@ -22,10 +21,6 @@ const OASProperties = ({ schema }: KeywordProps) => {
     : toSchemaObject(schema).properties || {}
 
   return <PropertiesList schema={schema} properties={properties} />
-}
-
-OASProperties.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default OASProperties

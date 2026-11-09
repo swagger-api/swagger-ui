@@ -2,7 +2,6 @@
  * @prettier
  */
 import React, { useCallback } from "react"
-import PropTypes from "prop-types"
 
 /**
  * `.json-schema-2020-12-expand-deep-button` (text_headline font, then 12px and
@@ -33,11 +32,6 @@ const ExpandDeepButton = ({ expanded, onClick }: ExpandDeepButtonProps) => {
       {expanded ? "Collapse all" : "Expand all"}
     </button>
   )
-}
-
-ExpandDeepButton.propTypes = {
-  expanded: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
 }
 
 export default ExpandDeepButton

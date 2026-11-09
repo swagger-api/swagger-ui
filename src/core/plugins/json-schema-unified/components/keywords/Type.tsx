@@ -2,9 +2,7 @@
  * @prettier
  */
 import React from "react"
-import PropTypes from "prop-types"
 
-import { schema } from "../../prop-types"
 import { useFn } from "../../hooks"
 import { ATTRIBUTE } from "../../styles"
 import type { KeywordProps } from "../../types"
@@ -23,11 +21,6 @@ const Type = ({ schema, isCircular = false }: TypeProps) => {
       {`${type}${circularSuffix}`}
     </strong>
   )
-}
-
-Type.propTypes = {
-  schema: schema.isRequired,
-  isCircular: PropTypes.bool,
 }
 
 export default Type

@@ -4,7 +4,6 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 
-import { schema } from "../../../prop-types"
 import {
   useComponent,
   useIsExpanded,
@@ -99,10 +98,6 @@ const ExtensionKeywords = ({ schema }: KeywordProps) => {
       </JSONSchemaLevelContext.Provider>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-ExtensionKeywords.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default ExtensionKeywords

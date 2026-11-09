@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
 import { useComponent } from "../../../hooks"
 import Examples from "../Examples/Examples"
 import type { KeywordProps } from "../../../types"
@@ -31,10 +30,6 @@ const OASExamples = ({ schema }: KeywordProps) => {
       <KeywordExample schema={schema} />
     </>
   )
-}
-
-OASExamples.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default OASExamples

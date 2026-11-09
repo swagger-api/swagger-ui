@@ -4,7 +4,6 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 
-import { schema } from "../../prop-types"
 import {
   useFn,
   useComponent,
@@ -98,10 +97,6 @@ const PrefixItems = ({ schema }: KeywordProps) => {
       </JSONSchemaLevelContext.Provider>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-PrefixItems.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default PrefixItems

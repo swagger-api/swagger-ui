@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../prop-types"
 import { useFn, useComponent } from "../../hooks"
 import { KEYWORD, KEYWORD_NAME } from "../../styles"
 import type { KeywordProps } from "../../types"
@@ -28,10 +27,6 @@ const PropertyNames = ({ schema }: KeywordProps) => {
       />
     </div>
   )
-}
-
-PropertyNames.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default PropertyNames

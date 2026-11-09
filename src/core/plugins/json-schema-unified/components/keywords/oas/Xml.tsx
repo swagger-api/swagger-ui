@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../prop-types"
 import { toPlainObject, toSchemaObject } from "../../../fn"
 import { ATTRIBUTE, PROPERTY } from "../../../styles"
 import OASObject, { OASField } from "./OASObject"
@@ -50,10 +49,6 @@ const Xml = ({ schema }: KeywordProps) => {
       )}
     </OASObject>
   )
-}
-
-Xml.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default Xml
