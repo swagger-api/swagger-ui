@@ -447,6 +447,11 @@ describe("json-schema-document makeGetType", () => {
     const cyclic: Record<string, unknown> = { type: "object" }
     cyclic.properties = { self: cyclic }
     cyclic.items = cyclic
+    // no `type`, so the cycle is followed: through `items`, and through `oneOf`
+    const cyclicItems: Record<string, unknown> = {}
+    cyclicItems.items = cyclicItems
+    const cyclicOneOf: Record<string, unknown> = {}
+    cyclicOneOf.oneOf = [cyclicOneOf]
     const schemas: unknown[] = [
       undefined,
       null,
@@ -490,6 +495,8 @@ describe("json-schema-document makeGetType", () => {
       { allOf: [{ type: "object" }, { properties: {} }] },
       { type: "string", oneOf: [{ minLength: 1 }] },
       cyclic,
+      cyclicItems,
+      cyclicOneOf,
     ]
 
     for (const schema of schemas) {
@@ -498,6 +505,46 @@ describe("json-schema-document makeGetType", () => {
         getType202012(schema),
       ])
     }
+  })
+
+  it("follows a cycle once", () => {
+    const cyclicItems: Record<string, unknown> = {}
+    cyclicItems.items = cyclicItems
+    const cyclicOneOf: Record<string, unknown> = {}
+    cyclicOneOf.oneOf = [cyclicOneOf]
+
+    expect(getType(cyclicItems as never)).toBe("array<any>")
+    expect(getType(cyclicOneOf as never)).toBe("(any)")
+  })
+
+  it("makes a schema never only for a not that restricts nothing", () => {
+    for (const not of [
+      true,
+      {},
+      { format: "int32" },
+      { title: "T", description: "d", default: 1, "x-a": 1 },
+      { $defs: { a: { type: "string" } } },
+    ]) {
+      expect([not, getType({ type: "integer", not } as never)]).toEqual([
+        not,
+        "never",
+      ])
+    }
+    // it restricts: `1` is valid against these
+    for (const not of [
+      { format: "int32", enum: [0] },
+      { enum: [0] },
+      { required: ["a"] },
+      { $ref: "#/$defs/a" },
+      { type: "string" },
+      { not: {} },
+    ]) {
+      expect([not, getType({ type: "integer", not } as never)]).toEqual([
+        not,
+        "integer",
+      ])
+    }
+    expect(getType({ type: "integer", not: false } as never)).toBe("integer")
   })
 
   it("infers no type from the OpenAPI number formats", () => {

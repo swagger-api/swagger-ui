@@ -344,9 +344,12 @@ export const getDependentRequired = (
 /**
  * The `fn` of a json-schema-2020-12 renderer instance, as far as used here.
  */
-export interface InstanceFn {
+export interface IsExpandableFn {
   hasKeyword: (schema: Schema, keyword: string) => boolean
   getExtensionKeywords: (schema: Schema) => string[]
+}
+
+export interface InstanceFn extends IsExpandableFn {
   isBooleanJSONSchema: (schema: unknown) => schema is boolean
 }
 
@@ -358,7 +361,7 @@ export interface InstanceFn {
  * renderer instance, so `getExtensionKeywords` uses this instance's keywords.
  */
 export const makeIsExpandable =
-  (fnAccessor: () => InstanceFn) =>
+  (fnAccessor: () => IsExpandableFn) =>
   (schema: Schema): boolean => {
     const fn = fnAccessor()
     const s = typeof schema === "object" && schema !== null ? schema : {}
@@ -443,11 +446,50 @@ const SIMPLE_TYPES = [
 ]
 
 /**
+ * Keywords that restrict no instance: identifiers, definitions and
+ * annotations (`format` is an annotation by default).
+ */
+const NON_RESTRICTING_KEYWORDS = new Set([
+  "$schema",
+  "$id",
+  "$anchor",
+  "$dynamicAnchor",
+  "$vocabulary",
+  "$comment",
+  "$defs",
+  "definitions",
+  "title",
+  "description",
+  "default",
+  "deprecated",
+  "readOnly",
+  "writeOnly",
+  "examples",
+  "format",
+])
+
+/**
+ * Whether a schema is `true` or restricts nothing: every instance is valid
+ * against it, so an instance is never valid against its `not`. A schema with
+ * any other keyword (`enum`, `required`, `$ref`, ...) is not known to be
+ * unrestricted, whatever type label it gets.
+ */
+const isUnrestricted = (schema: unknown): boolean =>
+  schema === true ||
+  (isObject(schema) &&
+    Object.keys(schema).every(
+      (keyword) =>
+        NON_RESTRICTING_KEYWORDS.has(keyword) || keyword.startsWith("x-")
+    ))
+
+/**
  * The type label shown in a schema's head. A copy of `makeGetType` of the
  * json-schema-2020-12 renderer (plugins don't import each other; keep the two
  * in step), except that a schema without `type` infers no type from the
- * OpenAPI number formats (`OPENAPI_NUMBER_FORMATS`). `fnAccessor` returns the
- * `fn` of the renderer instance.
+ * OpenAPI number formats (`OPENAPI_NUMBER_FORMATS`), and that `not` makes a
+ * schema `never` only for a schema that restricts nothing (`isUnrestricted`),
+ * where the renderer takes any `not` whose type label is `any`.
+ * `fnAccessor` returns the `fn` of the renderer instance.
  */
 export const makeGetType = (fnAccessor: () => InstanceFn) => {
   const getType = (
@@ -541,7 +583,7 @@ export const makeGetType = (fnAccessor: () => InstanceFn) => {
       return null
     }
 
-    if (schema.not && getType(schema.not as Schema) === "any") {
+    if (isUnrestricted(schema.not)) {
       return "never"
     }
 

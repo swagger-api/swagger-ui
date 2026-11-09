@@ -72,6 +72,12 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     `src/core/plugins/json-schema-2020-12/` would show them as they are. It changes OAS 3.1/3.2
     rendering, so it needs its own PR; the json-schema-document plugin has the same limit for names that
     are not blank.
+13. **`getType` makes any `not` with an `any` type label `never`.** `makeGetType` in
+    `src/core/plugins/json-schema-2020-12/fn.js` returns `never` for `schema.not && getType(schema.not) === "any"`,
+    but a schema whose type label is `any` can still restrict instances: `{ type: "integer", not: { enum: [0] } }`
+    shows `never` although `1` is valid, and so does `not: { required: ["a"] }`. Only `true` or a schema
+    with no restricting keyword makes its `not` unsatisfiable. It changes OAS 3.1/3.2 labels, so it needs
+    its own PR; the json-schema-document plugin has its own narrower check (`isUnrestricted`).
 
 ## Open Work on the Skills
 
