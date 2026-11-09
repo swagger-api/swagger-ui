@@ -49,6 +49,14 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     about 0.6 s for 2000 × 2000). Build a reverse index once per schema object, as
     `getDependentRequired` of the json-schema-document plugin does. Low priority; it changes OAS
     3.1/3.2 rendering code, so it needs its own PR.
+11. **`usePath` matches sibling paths by string prefix.** `pathMutator` in
+    `src/core/plugins/json-schema-2020-12/hooks.js` selects the paths below the one it changes with
+    `key.startsWith(startPath)`, without a path separator, so "Collapse all" or "Expand all" on
+    `properties.a` also changes the saved expansion state of `properties.ab`. Compare whole segments
+    (`key === startPath || key.startsWith(startPath + ",")`) in both branches and add a regression
+    test for sibling names where one is a prefix of the other. It changes OAS 3.1/3.2 behavior, so it
+    needs its own PR. The json-schema-document `definitions` list meets it for definitions named `""`
+    and `"(empty name)"` in one document, which get the path tokens `(empty name)_` and `(empty name)`.
 
 ## Open Work on the Skills
 
