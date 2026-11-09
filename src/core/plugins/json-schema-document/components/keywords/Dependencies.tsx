@@ -5,9 +5,9 @@ import React, { useCallback } from "react"
 import classNames from "classnames"
 
 import {
-  getDisplayName,
   getEmptyNameIdentifier,
   getSchemaDependencies,
+  getTriggerName,
 } from "../../fn"
 import type { KeywordProps, Schema, System } from "./types"
 
@@ -29,8 +29,7 @@ const DependenciesList = ({
   getSystem,
 }: DependenciesListProps) => {
   const { fn, getComponent } = getSystem()
-  const { useComponent, useIsExpanded, usePath, useLevel, getTitle } =
-    fn.jsonSchema202012
+  const { useComponent, useIsExpanded, usePath, useLevel } = fn.jsonSchema202012
   const pathToken = "dependencies"
   const { path } = usePath(pathToken)
   const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(pathToken)
@@ -99,7 +98,7 @@ const DependenciesList = ({
               Object.entries(dependencies).map(([propertyName, subschema]) => (
                 <li key={propertyName} className="json-schema-2020-12-property">
                   <JSONSchema
-                    name={getDisplayName(propertyName, subschema, getTitle)}
+                    name={getTriggerName(propertyName)}
                     // the renderer's default token is the schema's `$id` before
                     // its name, which another entry's name can equal
                     identifier={

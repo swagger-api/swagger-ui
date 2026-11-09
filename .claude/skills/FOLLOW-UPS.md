@@ -37,8 +37,8 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
    an OAS regression check. The json-schema-document plugin copies `getDependentRequired` (and
    renders `dependencies` array entries the same way), so it follows once core changes. The core
    `DependentRequired` component also renders a trigger property named `""` (or only whitespace) as an
-   empty list item; the json-schema-document plugin lists such a name as `(empty name)` or
-   `(blank name)` instead.
+   empty list item; the json-schema-document plugin renders such a name as an emphasised
+   `(empty name)` or `(blank name)` with a component of its own.
 9. **`required` names without a `properties` entry are not rendered.** `Properties.jsx` returns
    `null` when a schema has no `properties`, and `required` only marks declared properties. A schema
    like `{ type: "object", required: ["carrier"] }` (for example as a `dependentSchemas` or legacy
@@ -60,7 +60,10 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     test for sibling names where one is a prefix of the other. It changes OAS 3.1/3.2 behavior, so it
     needs its own PR. The json-schema-document `definitions` list meets it for definitions named `""`
     and `"(empty name)"` in one document, which get the path tokens `(empty name)_` and `(empty name)`,
-    and the `dependencies` list for keys such as `card` and `cardNumber`.
+    and the `dependencies` list for keys such as `card` and `cardNumber`. The path is also built by
+    joining the segments with commas, so `dependencies.a` with a property `b` and a dependency named
+    `a,properties,b` share one key; the segments need an unambiguous encoding, not only a
+    whole-segment comparison.
 
 ## Open Work on the Skills
 

@@ -83,6 +83,7 @@ describe("json-schema-document renderer overrides", () => {
     expect(Object.keys(overrides.components)).toEqual([
       "Keyword$defs",
       "KeywordDependentSchemas",
+      "KeywordDependentRequired",
     ])
     expect(overrides.fn.getSchemaKeywords()).toEqual([
       ...getSchemaKeywords(),
@@ -380,18 +381,20 @@ describe("json-schema-document renderer overrides", () => {
       expect(useIsExpandedSpy).not.toHaveBeenCalled()
     })
 
-    it("labels an entry whose name or title is only whitespace", () => {
+    it("labels an entry with a blank name, whatever its title", () => {
       const root = render({
         dependencies: {
           "": { required: ["a"] },
-          " ": { required: ["b"] },
-          "\t": { title: "Tabbed", required: ["c"] },
+          " ": { title: "Gift", required: ["b"] },
+          "\t": { title: " ", required: ["c"] },
+          giftWrap: { title: "Gift", required: ["d"] },
         },
       }).getDOMNode()
 
+      // the name triggers the dependency, so it shows, as a name does before a title
       expect(
         titles(root.querySelector(".json-schema-2020-12-keyword--dependencies"))
-      ).toEqual(["(empty name)", "(blank name)", "Tabbed"])
+      ).toEqual(["(empty name)", "(blank name)", "(blank name)", "giftWrap"])
     })
 
     it("keeps the expansion of an entry apart from one whose $id is its name", () => {
@@ -419,20 +422,32 @@ describe("json-schema-document renderer overrides", () => {
       expect(expanded()).toEqual([false, true])
     })
 
-    it("lists a blank property name that makes another required", () => {
+    it("lists each blank property name that makes another required", () => {
       const root = render({
         type: "object",
         properties: { b: { type: "string" } },
-        dependencies: { "": ["b"], " ": ["b"] },
+        dependencies: { "": ["b"], " ": ["b"], "(empty name)": ["b"] },
         dependentRequired: { "\t": ["b"] },
       }).getDOMNode()
       const items = Array.from(
         root.querySelectorAll(
           ".json-schema-2020-12-keyword--dependentRequired li"
         )
-      ).map((item) => item.textContent)
+      )
 
-      expect(items).toEqual(["(blank name)", "(empty name)"])
+      // `dependentRequired` first; a blank name is emphasised, a literal one is not
+      expect(items.map((item) => item.textContent)).toEqual([
+        "(blank name)",
+        "(empty name)",
+        "(blank name)",
+        "(empty name)",
+      ])
+      expect(items.map((item) => item.querySelector("em") !== null)).toEqual([
+        true,
+        true,
+        true,
+        false,
+      ])
     })
 
     it("makes a schema expandable only with a schema entry", () => {

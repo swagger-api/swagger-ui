@@ -130,6 +130,7 @@ describe("<JSONSchemaDocument />", () => {
     expect(Object.keys(overrides.components as object)).toEqual([
       "Keyword$defs",
       "KeywordDependentSchemas",
+      "KeywordDependentRequired",
     ])
   })
 

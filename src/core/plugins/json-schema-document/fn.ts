@@ -163,10 +163,18 @@ export const makeGetSchemaKeywords = (
 export const EMPTY_NAME_LABEL = "(empty name)"
 export const BLANK_NAME_LABEL = "(blank name)"
 
-const isBlank = (value: string) => value.trim() === ""
+export const isBlank = (value: string) => value.trim() === ""
 
-const getBlankNameLabel = (name: string) =>
+export const getBlankNameLabel = (name: string) =>
   name === "" ? EMPTY_NAME_LABEL : BLANK_NAME_LABEL
+
+/**
+ * The name an entry shows when the name is what identifies it (the property
+ * that triggers a dependency): the name, or a label for a blank one, whatever
+ * the title of its schema.
+ */
+export const getTriggerName = (name: string) =>
+  isBlank(name) ? getBlankNameLabel(name) : name
 
 /**
  * The name the renderer shows for an entry of a keyword that lists
@@ -266,21 +274,14 @@ const getDependentRequiredIndex = (
  * renderer (plugins don't import each other; keep the two in step), plus
  * `dependencies`. It answers from an index built once per schema object, so a
  * schema with many properties and dependencies isn't scanned for each
- * property; a schema object isn't changed while it is rendered. A property
- * name that is blank is listed as a label (`getDisplayName`).
+ * property; a schema object isn't changed while it is rendered.
  */
 export const getDependentRequired = (
   propertyName: string,
   schema: Schema
 ): string[] =>
   isObject(schema)
-    ? Array.from(
-        new Set(
-          Array.from(
-            getDependentRequiredIndex(schema).get(propertyName) ?? []
-          ).map((name) => (isBlank(name) ? getBlankNameLabel(name) : name))
-        )
-      )
+    ? Array.from(getDependentRequiredIndex(schema).get(propertyName) ?? [])
     : []
 
 /**

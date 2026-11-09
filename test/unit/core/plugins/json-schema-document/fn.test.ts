@@ -314,13 +314,13 @@ describe("json-schema-document dependencies", () => {
     )
   })
 
-  it("lists a blank property name as a label, once", () => {
+  it("returns a blank property name as written, and each name once", () => {
     expect(
       getDependentRequired("b", {
-        dependentRequired: { "": ["b"], " ": ["b"], "\t": ["b"] },
-        dependencies: { "\n": ["b"], a: ["b"] },
+        dependentRequired: { "": ["b"], " ": ["b"] },
+        dependencies: { "(empty name)": ["b"], " ": ["b"] },
       })
-    ).toEqual(["(empty name)", "(blank name)", "a"])
+    ).toEqual(["", " ", "(empty name)"])
   })
 
   it("lists a property once when both keywords name it", () => {

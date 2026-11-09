@@ -5,6 +5,7 @@ import type React from "react"
 
 import Definitions from "./components/keywords/Definitions"
 import Dependencies from "./components/keywords/Dependencies"
+import DependentRequired from "./components/keywords/DependentRequired"
 import withKeyword from "./components/keywords/withKeyword"
 import type { System } from "./components/keywords/types"
 import {
@@ -51,6 +52,7 @@ export const makeJSONSchema202012Overrides = (
         Dependencies,
         getSystem
       ),
+      KeywordDependentRequired: DependentRequired,
     },
     fn: {
       getSchemaKeywords: makeGetSchemaKeywords(getSchemaKeywords),
