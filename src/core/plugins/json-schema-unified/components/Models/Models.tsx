@@ -12,7 +12,11 @@ import {
 } from "core/utils/virtualization"
 
 import { useFn } from "../../hooks"
-import { getSchemasPath, selectSchemaEntries } from "../../schemas"
+import {
+  getSchemasPath,
+  selectSchemaEntries,
+  SCHEMAS_HEADINGS,
+} from "../../schemas"
 import type { SchemasSpecSelectors } from "../../schemas"
 import type { OASDialect } from "../../dialects"
 import {
@@ -52,7 +56,9 @@ export interface ModelsProps {
  * virtualized scroll-to-schema): a collapsible section with one
  * `JSONSchemaUnified` per named schema, virtualized from
  * `VIRTUALIZE_MODELS_THRESHOLD` schemas on. Its layout key is the dialect's
- * schemas path (`["components", "schemas"]`), as in oas31's Models.
+ * schemas path (`["definitions"]` for 2.0, `["components", "schemas"]` for
+ * 3.x) and its heading "Models" (2.0) or "Schemas" (3.x), as in
+ * json-schema-5's Models.
  */
 const Models = ({
   dialect,
@@ -209,7 +215,9 @@ const Models = ({
           )}
           onClick={handleModelsExpand}
         >
-          <span className={MODELS_CONTROL_LABEL}>Schemas</span>
+          <span className={MODELS_CONTROL_LABEL}>
+            {SCHEMAS_HEADINGS[dialect]}
+          </span>
           {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </button>
       </h4>

@@ -82,3 +82,9 @@ specification. That process is owned by the `.claude/skills/add-oas-support` and
   ([core-runtime](../../SPEC.md)).
 - The core `VersionPragmaFilter` message mentions only 3.0.n. In the apis preset the oas32
   override hides this.
+- **The `Model`/`Models` wrappers of oas31 and oas32 cache their 2020-12 instance on a static
+  field keyed by `location.pathname`.** The first render's `includeReadOnly`/`includeWriteOnly`,
+  expand depth, and System are frozen, so a response Schema tab opened after a request one can
+  hide the wrong properties. This is inferred from the code and not yet reproduced (unconfirmed).
+  A separate fix is pending. [json-schema-unified](../json-schema-unified/SPEC.md)
+  avoids this pattern.

@@ -325,7 +325,8 @@ npm run e2e -- test/e2e-playwright/features/deep-linking.spec.ts
 
 **Projects:**
 - `chromium` - the full suite with default options
-- `unified-json-schema` - re-runs the schema specs listed in `playwright.config.ts` with `unifiedJSONSchemaEnabled=true`; its guard fails a test whose page didn't actually render the unified schema view. Specs in that list must select schema DOM through the `schemaLocators`/`schemaUi` helpers in `support/fixtures.ts`, never classic classes directly (`npm run e2e -- --project=unified-json-schema`)
+- `unified-json-schema` - re-runs the schema specs (OpenAPI 2.0 to 3.2) listed in `playwright.config.ts` with `unifiedJSONSchemaEnabled=true`; its guard fails a test whose page didn't actually render the unified schema view. Specs in that list must select schema DOM through the `schemaLocators`/`schemaUi` helpers in `support/fixtures.ts`, never classic classes directly (`npm run e2e -- --project=unified-json-schema`)
+- `webkit-unified` - the json-schema-unified plugin's own specs (`features/plugins/json-schema-unified/`) in WebKit (Desktop Safari), for the Tailwind v4 browser floor; needs `npx playwright install webkit` (`npm run e2e -- --project=webkit-unified`)
 
 **Test Categories:**
 - `a11y/**/*.spec.ts` - Accessibility tests
@@ -361,7 +362,7 @@ npm test  # Runs: lint-errors + test:unit + e2e
 
 **Two Jobs:**
 1. **build** - Lint, unit tests, build, artifact tests
-2. **e2e-tests** - Playwright tests (matrix strategy with 4 shards, HTML report and traces uploaded on failure)
+2. **e2e-tests** - Playwright tests (Chromium and WebKit, matrix strategy with 4 shards, HTML report and traces uploaded on failure)
 
 **Branches:** `main`, `next`
 

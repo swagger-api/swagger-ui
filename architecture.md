@@ -29,7 +29,7 @@ anything an earlier one provided.
 | [ui-shell](src/core/components/SPEC.md) | shared components, rendering, layout state, deep linking, filtering, error boundaries, sanitization |
 | [oas-versions](src/core/plugins/oas3/SPEC.md) | OpenAPI 3.0 / 3.1 / 3.2 detection and per-version behaviour |
 | [json-schema](src/core/plugins/json-schema-2020-12/SPEC.md) | the two schema renderers and their sample generators |
-| [json-schema-unified](src/core/plugins/json-schema-unified/SPEC.md) | the opt-in unified schema view for OpenAPI 3.1 / 3.2 (`unifiedJSONSchemaEnabled`) |
+| [json-schema-unified](src/core/plugins/json-schema-unified/SPEC.md) | the opt-in unified schema view for every OpenAPI version (`unifiedJSONSchemaEnabled`) |
 | [standalone](src/standalone/SPEC.md) | the standalone preset: top bar, URL picker, dark mode |
 | [react-flavor](flavors/swagger-ui-react/SPEC.md) | the `swagger-ui-react` component |
 | [docker-image](docker/SPEC.md) | the `swaggerapi/swagger-ui` image and its env-var config contract |

@@ -42,6 +42,16 @@ export const SCHEMA_BODY =
 /** `--collapsed` modifiers (`display: none`). */
 export const HIDDEN = "sui:hidden"
 
+/**
+ * json-schema-5's `.model-hint` (the reference path of a dereferenced model:
+ * light text on a translucent black chip, `src/style/_models.scss`). It is
+ * shown inline in the head of an expanded schema rather than as a hover
+ * tooltip above the title, which the schemas' horizontal scroll container
+ * would clip.
+ */
+export const REF_PATH =
+  "sui:inline-block sui:ml-[10px] sui:py-[0.1em] sui:px-[0.5em] sui:rounded-[4px] sui:bg-[rgb(0_0_0/70%)] sui:text-[#ebebeb] sui:whitespace-nowrap sui:align-middle sui:font-[family-name:monospace] sui:text-[12px] sui:font-semibold sui:leading-[normal]"
+
 /** `.json-schema-2020-12-keyword` and `.json-schema-2020-12-json-viewer`. */
 export const KEYWORD = "sui:mx-0 sui:my-[5px]"
 

@@ -33,6 +33,9 @@ from the same page.
   vendor extensions. The document's version is detected from its `swagger`/`openapi` field. A
   document with an unsupported or ambiguous version gets an explanatory message instead of
   being rendered.
+- **One schema view for every version (opt-in).** With `unifiedJSONSchemaEnabled`, the
+  schemas of 2.0 through 3.2 render in the same 2020-12-style view, with each keyword keeping
+  its version's meaning. It is off by default.
 - **Load definitions** from a URL, from an inline object, or from a list of named URLs the
   reader can pick from. External `$ref`s are resolved through `swagger-client`.
 - **Try it out**: build requests from parameter and body input, send them from the browser, and
