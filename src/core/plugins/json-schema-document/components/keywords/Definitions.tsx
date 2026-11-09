@@ -4,6 +4,7 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 
+import { getDefinitions } from "../../fn"
 import type { KeywordProps } from "./types"
 
 type Context<T> = () => React.Context<T>
@@ -18,8 +19,7 @@ type Context<T> = () => React.Context<T>
 const Definitions = ({ schema, getSystem }: KeywordProps) => {
   const { fn, getComponent } = getSystem()
   const { useComponent, useIsExpanded, usePath, useLevel } = fn.jsonSchema202012
-  const definitions =
-    schema !== null && typeof schema === "object" ? schema.definitions : null
+  const definitions = getDefinitions(schema)
   const pathToken = "definitions"
   const { path } = usePath(pathToken)
   const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(pathToken)
@@ -58,12 +58,7 @@ const Definitions = ({ schema, getSystem }: KeywordProps) => {
   /**
    * Rendering.
    */
-  if (
-    definitions === null ||
-    typeof definitions !== "object" ||
-    Array.isArray(definitions) ||
-    Object.keys(definitions).length === 0
-  ) {
+  if (definitions === null) {
     return null
   }
 

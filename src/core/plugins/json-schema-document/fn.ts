@@ -117,6 +117,25 @@ export const getRootSchemaKeyword = (spec: unknown): string => {
 export const DEFAULT_META_SCHEMA_KEYWORDS: readonly string[] = ["definitions"]
 
 /**
+ * The `definitions` of a schema when there is something to render: a nonempty
+ * object. `{}`, arrays and scalars are not rendered, so they don't make a
+ * schema expandable either.
+ */
+export const getDefinitions = (
+  schema: unknown
+): Record<string, unknown> | null => {
+  if (schema === null || typeof schema !== "object") return null
+
+  const { definitions } = schema as { definitions?: unknown }
+  return definitions !== null &&
+    typeof definitions === "object" &&
+    !Array.isArray(definitions) &&
+    Object.keys(definitions).length > 0
+    ? (definitions as Record<string, unknown>)
+    : null
+}
+
+/**
  * The 2020-12 keyword list, the keywords of the default meta-schema this
  * instance renders, and `$$ref`, the annotation swagger-client adds to every
  * schema it resolved, so that none of them is listed as an extension keyword.
@@ -187,7 +206,7 @@ export const makeIsExpandable =
         s.examples ||
         fn.getExtensionKeywords(schema).length > 0 ||
         // keywords of the default meta-schema
-        s.definitions
+        getDefinitions(schema) !== null
     )
   }
 

@@ -235,6 +235,12 @@ describe("json-schema-document makeIsExpandable", () => {
     expect(isExpandable({ type: "string" })).toBe(false)
   })
 
+  it("doesn't expand a schema whose definitions render nothing", () => {
+    for (const definitions of [{}, [], ["a"], "Product", 1, true, null]) {
+      expect(isExpandable({ type: "string", definitions })).toBe(false)
+    }
+  })
+
   it("expands a schema with an extension keyword of this instance", () => {
     expect(isExpandable({ type: "string", "x-internal": true })).toBe(true)
     expect(isExpandable({ type: "string", $$ref: "#/$defs/A" })).toBe(false)

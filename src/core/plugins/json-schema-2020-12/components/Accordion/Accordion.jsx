@@ -21,6 +21,7 @@ const Accordion = ({ expanded = false, children, onChange }) => {
     <button
       type="button"
       className="json-schema-2020-12-accordion"
+      aria-expanded={expanded}
       onClick={handleExpansion}
     >
       <div className="json-schema-2020-12-accordion__children">{children}</div>

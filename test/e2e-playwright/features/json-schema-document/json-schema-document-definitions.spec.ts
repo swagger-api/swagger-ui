@@ -60,7 +60,10 @@ test.describe("Standalone JSON Schema 2020-12: definitions", () => {
 
     // collapsed below the root (defaultModelExpandDepth 1), as $defs
     await expect(subschemaTitles(definitions)).toHaveCount(0)
-    await definitions.locator(".json-schema-2020-12-accordion").first().click()
+    const toggle = definitions.locator(".json-schema-2020-12-accordion").first()
+    await expect(toggle).toHaveAttribute("aria-expanded", "false")
+    await toggle.click()
+    await expect(toggle).toHaveAttribute("aria-expanded", "true")
     await expect(subschemaTitles(definitions)).toHaveText(["Product", "Price"])
 
     await $defs.locator(".json-schema-2020-12-accordion").first().click()

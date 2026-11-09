@@ -141,6 +141,32 @@ describe("json-schema-document renderer overrides", () => {
       ).toEqual(["Slug"])
     })
 
+    it("exposes whether the list is expanded", () => {
+      const wrapper = render({
+        type: "string",
+        definitions: { Slug: { type: "string" } },
+      })
+      const toggle = () =>
+        wrapper.find(".json-schema-2020-12-keyword--definitions button").first()
+
+      // expanded by `defaultExpandedLevels`
+      expect(toggle().prop("aria-expanded")).toBe(true)
+      toggle().simulate("click")
+      expect(toggle().prop("aria-expanded")).toBe(false)
+      toggle().simulate("click")
+      expect(toggle().prop("aria-expanded")).toBe(true)
+    })
+
+    it("offers no expand button for an empty or malformed value", () => {
+      for (const definitions of [{}, [], "Product"]) {
+        const root = render({ type: "string", definitions }).getDOMNode()
+
+        expect(
+          root.querySelectorAll(".json-schema-2020-12-accordion")
+        ).toHaveLength(0)
+      }
+    })
+
     it("renders nothing for an empty or malformed value", () => {
       for (const definitions of [{}, [], "Product", null]) {
         const wrapper = render({ title: "T", definitions })
