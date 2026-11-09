@@ -1,0 +1,12 @@
+charts:
+  post:
+    operationId: createChart
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/chart.yml#/ChartConfiguration"
+    responses:
+      "204":
+        description: Chart created
