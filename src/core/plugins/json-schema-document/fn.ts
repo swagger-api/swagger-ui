@@ -161,12 +161,25 @@ export const makeGetSchemaKeywords = (
  * item a requirement nobody can read.
  */
 export const EMPTY_NAME_LABEL = "(empty name)"
-export const BLANK_NAME_LABEL = "(blank name)"
 
 export const isBlank = (value: string) => value.trim() === ""
 
+/**
+ * The label of a blank name. Whitespace-only names are different names, so
+ * the label spells out their characters (`(blank name: U+0020)`).
+ */
 export const getBlankNameLabel = (name: string) =>
-  name === "" ? EMPTY_NAME_LABEL : BLANK_NAME_LABEL
+  name === ""
+    ? EMPTY_NAME_LABEL
+    : `(blank name: ${Array.from(name)
+        .map(
+          (char) =>
+            `U+${(char.codePointAt(0) as number)
+              .toString(16)
+              .toUpperCase()
+              .padStart(4, "0")}`
+        )
+        .join(" ")})`
 
 /**
  * The name an entry shows when the name is what identifies it (the property
@@ -175,6 +188,25 @@ export const getBlankNameLabel = (name: string) =>
  */
 export const getTriggerName = (name: string) =>
   isBlank(name) ? getBlankNameLabel(name) : name
+
+/**
+ * The property names of a "Required when defined" list as the renderer shows
+ * them: a blank name as its label. The label of a blank name is changed when a
+ * name of the list is the same, so every name is listed on its own.
+ */
+export const getDependentRequiredLabels = (names: string[]): string[] => {
+  const taken = new Set(names.filter((name) => !isBlank(name)))
+
+  return names.map((name) => {
+    if (!isBlank(name)) return name
+
+    let label = getBlankNameLabel(name)
+    while (taken.has(label)) label += "_"
+    taken.add(label)
+
+    return label
+  })
+}
 
 /**
  * The name the renderer shows for an entry of a keyword that lists

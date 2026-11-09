@@ -37,8 +37,9 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
    an OAS regression check. The json-schema-document plugin copies `getDependentRequired` (and
    renders `dependencies` array entries the same way), so it follows once core changes. The core
    `DependentRequired` component also renders a trigger property named `""` (or only whitespace) as an
-   empty list item; the json-schema-document plugin renders such a name as an emphasised
-   `(empty name)` or `(blank name)` with a component of its own.
+   empty list item; the json-schema-document plugin lists such a name as `(empty name)` or
+   `(blank name: U+0020)` (the characters of a whitespace-only name spelled out), through the
+   registered component.
 9. **`required` names without a `properties` entry are not rendered.** `Properties.jsx` returns
    `null` when a schema has no `properties`, and `required` only marks declared properties. A schema
    like `{ type: "object", required: ["carrier"] }` (for example as a `dependentSchemas` or legacy

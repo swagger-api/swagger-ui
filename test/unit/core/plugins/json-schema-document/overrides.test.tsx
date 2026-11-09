@@ -8,6 +8,7 @@ import { withJSONSchemaContext } from "core/plugins/json-schema-2020-12/hoc"
 import JSONSchema from "core/plugins/json-schema-2020-12/components/JSONSchema/JSONSchema"
 import Keyword$defs from "core/plugins/json-schema-2020-12/components/keywords/$defs"
 import KeywordDependentSchemas from "core/plugins/json-schema-2020-12/components/keywords/DependentSchemas"
+import KeywordDependentRequired from "core/plugins/json-schema-2020-12/components/keywords/DependentRequired/DependentRequired"
 import {
   getSchemaKeywords,
   makeGetTitle,
@@ -33,6 +34,7 @@ type Component = React.ComponentType<Record<string, unknown>>
 const systemComponents: Record<string, unknown> = {
   JSONSchema202012Keyword$defs: Keyword$defs,
   JSONSchema202012KeywordDependentSchemas: KeywordDependentSchemas,
+  JSONSchema202012KeywordDependentRequired: KeywordDependentRequired,
   JSONSchema202012PathContext: () => JSONSchemaPathContext,
   JSONSchema202012LevelContext: () => JSONSchemaLevelContext,
 }
@@ -229,7 +231,7 @@ describe("json-schema-document renderer overrides", () => {
 
       expect(
         titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
-      ).toEqual(["(blank name)", "(empty name)", "Tabbed"])
+      ).toEqual(["(blank name: U+0020)", "(empty name)", "Tabbed"])
     })
 
     it("keeps the expansion of a definition apart from one whose $id is its name", () => {
@@ -394,7 +396,12 @@ describe("json-schema-document renderer overrides", () => {
       // the name triggers the dependency, so it shows, as a name does before a title
       expect(
         titles(root.querySelector(".json-schema-2020-12-keyword--dependencies"))
-      ).toEqual(["(empty name)", "(blank name)", "(blank name)", "giftWrap"])
+      ).toEqual([
+        "(empty name)",
+        "(blank name: U+0020)",
+        "(blank name: U+0009)",
+        "giftWrap",
+      ])
     })
 
     it("keeps the expansion of an entry apart from one whose $id is its name", () => {
@@ -427,27 +434,60 @@ describe("json-schema-document renderer overrides", () => {
         type: "object",
         properties: { b: { type: "string" } },
         dependencies: { "": ["b"], " ": ["b"], "(empty name)": ["b"] },
-        dependentRequired: { "\t": ["b"] },
+        dependentRequired: { "\t": ["b"], "\u00a0\u00a0": ["b"] },
       }).getDOMNode()
       const items = Array.from(
         root.querySelectorAll(
           ".json-schema-2020-12-keyword--dependentRequired li"
         )
-      )
+      ).map((item) => item.textContent)
 
-      // `dependentRequired` first; a blank name is emphasised, a literal one is not
-      expect(items.map((item) => item.textContent)).toEqual([
-        "(blank name)",
-        "(empty name)",
-        "(blank name)",
+      // `dependentRequired` first; every trigger on its own, whitespace spelled out,
+      // and the label of "" is kept apart from a property named like it
+      expect(items).toEqual([
+        "(blank name: U+0009)",
+        "(blank name: U+00A0 U+00A0)",
+        "(empty name)_",
+        "(blank name: U+0020)",
         "(empty name)",
       ])
-      expect(items.map((item) => item.querySelector("em") !== null)).toEqual([
-        true,
-        true,
-        true,
-        false,
-      ])
+    })
+
+    it("lists them with the component the system has registered", () => {
+      const Custom = ({
+        dependentRequired,
+      }: {
+        dependentRequired: string[]
+      }) =>
+        dependentRequired.length === 0 ? null : (
+          <ol className="custom-required">
+            {dependentRequired.map((name) => (
+              <li key={name}>{name}</li>
+            ))}
+          </ol>
+        )
+      const registered =
+        systemComponents.JSONSchema202012KeywordDependentRequired
+      systemComponents.JSONSchema202012KeywordDependentRequired = Custom
+
+      try {
+        const root = render({
+          type: "object",
+          properties: { b: { type: "string" }, c: { type: "string" } },
+          dependencies: { "": ["b"], a: ["b"] },
+        }).getDOMNode()
+        const lists = Array.from(root.querySelectorAll(".custom-required")).map(
+          (list) =>
+            Array.from(list.querySelectorAll("li")).map((i) => i.textContent)
+        )
+
+        expect(lists).toEqual([["(empty name)", "a"]])
+        expect(
+          root.querySelector(".json-schema-2020-12-keyword--dependentRequired")
+        ).toBeNull()
+      } finally {
+        systemComponents.JSONSchema202012KeywordDependentRequired = registered
+      }
     })
 
     it("makes a schema expandable only with a schema entry", () => {

@@ -8,7 +8,9 @@ import {
   JSON_SCHEMA_2020_12,
   getJSONSchemaDialect,
   getRootSchemaKeyword,
+  getBlankNameLabel,
   getDependentRequired,
+  getDependentRequiredLabels,
   getSchemaDependencies,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
@@ -321,6 +323,28 @@ describe("json-schema-document dependencies", () => {
         dependencies: { "(empty name)": ["b"], " ": ["b"] },
       })
     ).toEqual(["", " ", "(empty name)"])
+  })
+
+  it("spells out the characters of a whitespace-only name in its label", () => {
+    expect(getBlankNameLabel("")).toBe("(empty name)")
+    expect(getBlankNameLabel(" ")).toBe("(blank name: U+0020)")
+    expect(getBlankNameLabel("\t")).toBe("(blank name: U+0009)")
+    expect(getBlankNameLabel(" \u00a0")).toBe("(blank name: U+0020 U+00A0)")
+  })
+
+  it("labels the blank names of a list, each on its own", () => {
+    expect(getDependentRequiredLabels(["a", "", " ", "\t", "b"])).toEqual([
+      "a",
+      "(empty name)",
+      "(blank name: U+0020)",
+      "(blank name: U+0009)",
+      "b",
+    ])
+    // a name that is the label of a blank one keeps its place
+    expect(getDependentRequiredLabels(["(empty name)", ""])).toEqual([
+      "(empty name)",
+      "(empty name)_",
+    ])
   })
 
   it("lists a property once when both keywords name it", () => {

@@ -52,6 +52,7 @@ const makeProps = (resolvedSubtree: unknown) => {
     JSONSchema202012: JSONSchema,
     JSONSchema202012Keyword$defs: Keyword$defs,
     JSONSchema202012KeywordDependentSchemas: Keyword$defs,
+    JSONSchema202012KeywordDependentRequired: Keyword$defs,
     withJSONSchema202012SystemContext: withContext,
     Row,
     Col: Row,
