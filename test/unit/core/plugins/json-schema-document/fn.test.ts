@@ -11,6 +11,7 @@ import {
   getBlankNameLabel,
   getDependentRequired,
   getDependentRequiredLabels,
+  getNameLabel,
   getSchemaDependencies,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
@@ -332,7 +333,7 @@ describe("json-schema-document dependencies", () => {
     expect(getBlankNameLabel(" \u00a0")).toBe("(blank name: U+0020 U+00A0)")
   })
 
-  it("labels the blank names of a list, each on its own", () => {
+  it("labels the blank names of a list, the same wherever they are listed", () => {
     expect(getDependentRequiredLabels(["a", "", " ", "\t", "b"])).toEqual([
       "a",
       "(empty name)",
@@ -340,11 +341,15 @@ describe("json-schema-document dependencies", () => {
       "(blank name: U+0009)",
       "b",
     ])
-    // a name that is the label of a blank one keeps its place
-    expect(getDependentRequiredLabels(["(empty name)", ""])).toEqual([
-      "(empty name)",
-      "(empty name)_",
-    ])
+    expect(getDependentRequiredLabels([""])).toEqual(["(empty name)"])
+  })
+
+  it("quotes a name that looks like the label of a blank one", () => {
+    expect(
+      getDependentRequiredLabels(["(empty name)", "", "(blank name: U+0020)"])
+    ).toEqual(['"(empty name)"', "(empty name)", '"(blank name: U+0020)"'])
+    expect(getNameLabel("(empty name) ")).toBe("(empty name) ")
+    expect(getNameLabel("empty name")).toBe("empty name")
   })
 
   it("lists a property once when both keywords name it", () => {

@@ -234,6 +234,19 @@ describe("json-schema-document renderer overrides", () => {
       ).toEqual(["(blank name: U+0020)", "(empty name)", "Tabbed"])
     })
 
+    it("shows a definition named like the label of the empty name apart from it", () => {
+      const root = render({
+        definitions: {
+          "": { type: "object", properties: { a: {} } },
+          "(empty name)": { type: "object", properties: { a: {} } },
+        },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
+      ).toEqual(["(empty name)", '"(empty name)"'])
+    })
+
     it("keeps the expansion of a definition apart from one whose $id is its name", () => {
       const schema = {
         definitions: {
@@ -443,14 +456,52 @@ describe("json-schema-document renderer overrides", () => {
       ).map((item) => item.textContent)
 
       // `dependentRequired` first; every trigger on its own, whitespace spelled out,
-      // and the label of "" is kept apart from a property named like it
+      // and a property named like the label of "" quoted
       expect(items).toEqual([
         "(blank name: U+0009)",
         "(blank name: U+00A0 U+00A0)",
-        "(empty name)_",
-        "(blank name: U+0020)",
         "(empty name)",
+        "(blank name: U+0020)",
+        '"(empty name)"',
       ])
+    })
+
+    it("shows the empty name the same in every list, apart from a name like its label", () => {
+      const root = render({
+        type: "object",
+        properties: { b: {}, c: {} },
+        dependencies: { "": ["b", "c"], "(empty name)": ["b"] },
+      }).getDOMNode()
+      const lists = Array.from(
+        root.querySelectorAll(
+          ":scope > .json-schema-2020-12-body > .json-schema-2020-12-keyword--properties > ul > li"
+        )
+      ).map((li) => [
+        li.querySelector(".json-schema-2020-12__title")?.textContent,
+        Array.from(
+          li.querySelectorAll(
+            ".json-schema-2020-12-keyword--dependentRequired li"
+          )
+        ).map((item) => item.textContent),
+      ])
+
+      expect(lists).toEqual([
+        ["b", ["(empty name)", '"(empty name)"']],
+        ["c", ["(empty name)"]],
+      ])
+    })
+
+    it("shows an entry named like the label of the empty name apart from it", () => {
+      const root = render({
+        dependencies: {
+          "": { required: ["a"] },
+          "(empty name)": { required: ["b"] },
+        },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--dependencies"))
+      ).toEqual(["(empty name)", '"(empty name)"'])
     })
 
     it("lists them with the component the system has registered", () => {

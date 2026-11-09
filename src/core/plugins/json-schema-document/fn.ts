@@ -181,47 +181,46 @@ export const getBlankNameLabel = (name: string) =>
         )
         .join(" ")})`
 
-/**
- * The name an entry shows when the name is what identifies it (the property
- * that triggers a dependency): the name, or a label for a blank one, whatever
- * the title of its schema.
- */
-export const getTriggerName = (name: string) =>
-  isBlank(name) ? getBlankNameLabel(name) : name
+// what the label of a blank name looks like
+const BLANK_NAME_LABEL_PATTERN = /^\((?:empty name|blank name: [^)]*)\)$/
 
 /**
- * The property names of a "Required when defined" list as the renderer shows
- * them: a blank name as its label. The label of a blank name is changed when a
- * name of the list is the same, so every name is listed on its own.
+ * The name an entry shows: the name, or its label when it is blank. A name
+ * that looks like such a label is quoted, so that a label always means a
+ * blank name and a name is never taken for one, wherever either is shown.
  */
-export const getDependentRequiredLabels = (names: string[]): string[] => {
-  const taken = new Set(names.filter((name) => !isBlank(name)))
+export const getNameLabel = (name: string) => {
+  if (isBlank(name)) return getBlankNameLabel(name)
 
-  return names.map((name) => {
-    if (!isBlank(name)) return name
-
-    let label = getBlankNameLabel(name)
-    while (taken.has(label)) label += "_"
-    taken.add(label)
-
-    return label
-  })
+  return BLANK_NAME_LABEL_PATTERN.test(name) ? JSON.stringify(name) : name
 }
 
 /**
+ * The name an entry shows when the name is what identifies it (the property
+ * that triggers a dependency): its label whatever the title of its schema.
+ */
+export const getTriggerName = getNameLabel
+
+/**
+ * The property names of a "Required when defined" list as the renderer shows
+ * them (`getNameLabel`), each on its own.
+ */
+export const getDependentRequiredLabels = (names: string[]): string[] =>
+  names.map(getNameLabel)
+
+/**
  * The name the renderer shows for an entry of a keyword that lists
- * subschemas by name: the name itself, nothing for a blank name when the
- * schema has a title to show, else a label.
+ * subschemas by name: its label, nothing for a blank name when the schema has
+ * a title to show.
  */
 export const getDisplayName = <S>(
   name: string,
   subschema: S,
   getTitle: (schema: S) => string
 ) => {
-  if (!isBlank(name)) return name
-  if (!isBlank(getTitle(subschema))) return ""
+  if (isBlank(name) && !isBlank(getTitle(subschema))) return ""
 
-  return getBlankNameLabel(name)
+  return getNameLabel(name)
 }
 
 /**
