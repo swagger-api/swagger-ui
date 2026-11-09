@@ -517,34 +517,56 @@ describe("json-schema-document makeGetType", () => {
     expect(getType(cyclicOneOf as never)).toBe("(any)")
   })
 
-  it("makes a schema never only for a not that restricts nothing", () => {
+  it("makes a schema never only for a not that has no restricting keyword", () => {
     for (const not of [
       true,
       {},
       { format: "int32" },
       { title: "T", description: "d", default: 1, "x-a": 1 },
       { $defs: { a: { type: "string" } } },
+      // unknown keywords are annotations, and so is what a resolved $ref leaves
+      { customAnnotation: 1 },
+      { $$ref: "#/$defs/Any" },
     ]) {
       expect([not, getType({ type: "integer", not } as never)]).toEqual([
         not,
         "never",
       ])
     }
-    // it restricts: `1` is valid against these
+    // it can restrict: `1` is valid against these
     for (const not of [
       { format: "int32", enum: [0] },
       { enum: [0] },
-      { required: ["a"] },
       { $ref: "#/$defs/a" },
       { type: "string" },
       { not: {} },
+      { $$ref: "#/$defs/Any", minimum: 5 },
     ]) {
       expect([not, getType({ type: "integer", not } as never)]).toEqual([
         not,
         "integer",
       ])
     }
+    // `required` constrains objects only: `{}` is valid against this schema
+    expect(getType({ type: "object", not: { required: ["a"] } } as never)).toBe(
+      "object"
+    )
     expect(getType({ type: "integer", not: false } as never)).toBe("integer")
+  })
+
+  it("labels a subschema the same each time it is used", () => {
+    const never = { not: { format: "int32" } }
+    const cyclic: Record<string, unknown> = { items: undefined }
+    cyclic.items = cyclic
+
+    expect(getType({ prefixItems: [never, never] } as never)).toBe(
+      "array<[never, never], any>"
+    )
+    expect(getType({ oneOf: [never, never] } as never)).toBe("(never | never)")
+    // a real cycle is still cut
+    expect(getType({ oneOf: [cyclic, cyclic] } as never)).toBe(
+      "(array<any> | array<any>)"
+    )
   })
 
   it("infers no type from the OpenAPI number formats", () => {

@@ -446,49 +446,78 @@ const SIMPLE_TYPES = [
 ]
 
 /**
- * Keywords that restrict no instance: identifiers, definitions and
- * annotations (`format` is an annotation by default).
+ * The keywords of JSON Schema 2020-12 (and the `$recursiveRef` and
+ * `dependencies` its default meta-schema keeps) that can make an instance
+ * invalid. Any other keyword is an annotation or unknown, and "implementations
+ * SHOULD treat unknown keywords as annotations"
+ * (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01.html#section-6.5),
+ * which includes `$$ref`, the annotation swagger-client adds to a schema it
+ * resolved.
  */
-const NON_RESTRICTING_KEYWORDS = new Set([
-  "$schema",
-  "$id",
-  "$anchor",
-  "$dynamicAnchor",
-  "$vocabulary",
-  "$comment",
-  "$defs",
-  "definitions",
-  "title",
-  "description",
-  "default",
-  "deprecated",
-  "readOnly",
-  "writeOnly",
-  "examples",
-  "format",
+const RESTRICTING_KEYWORDS = new Set([
+  "$ref",
+  "$dynamicRef",
+  "$recursiveRef",
+  "allOf",
+  "anyOf",
+  "oneOf",
+  "not",
+  "if",
+  "then",
+  "else",
+  "dependentSchemas",
+  "dependencies",
+  "prefixItems",
+  "items",
+  "contains",
+  "properties",
+  "patternProperties",
+  "additionalProperties",
+  "propertyNames",
+  "unevaluatedItems",
+  "unevaluatedProperties",
+  "type",
+  "enum",
+  "const",
+  "multipleOf",
+  "maximum",
+  "exclusiveMaximum",
+  "minimum",
+  "exclusiveMinimum",
+  "maxLength",
+  "minLength",
+  "pattern",
+  "maxItems",
+  "minItems",
+  "uniqueItems",
+  "maxContains",
+  "minContains",
+  "maxProperties",
+  "minProperties",
+  "required",
+  "dependentRequired",
 ])
 
 /**
- * Whether a schema is `true` or restricts nothing: every instance is valid
- * against it, so an instance is never valid against its `not`. A schema with
- * any other keyword (`enum`, `required`, `$ref`, ...) is not known to be
- * unrestricted, whatever type label it gets.
+ * Whether a schema is `true` or has no keyword that can restrict an instance:
+ * every instance is valid against it, so an instance is never valid against
+ * its `not`. It is conservative: a schema with a restricting keyword is not
+ * known to be unrestricted, whatever it accepts in the end.
  */
 const isUnrestricted = (schema: unknown): boolean =>
   schema === true ||
   (isObject(schema) &&
-    Object.keys(schema).every(
-      (keyword) =>
-        NON_RESTRICTING_KEYWORDS.has(keyword) || keyword.startsWith("x-")
-    ))
+    !Object.keys(schema).some((keyword) => RESTRICTING_KEYWORDS.has(keyword)))
 
 /**
  * The type label shown in a schema's head. A copy of `makeGetType` of the
  * json-schema-2020-12 renderer (plugins don't import each other; keep the two
  * in step), except that a schema without `type` infers no type from the
  * OpenAPI number formats (`OPENAPI_NUMBER_FORMATS`), and that `not` makes a
- * schema `never` only for a schema that restricts nothing (`isUnrestricted`),
- * where the renderer takes any `not` whose type label is `any`.
+ * schema `never` only for a schema that has no restricting keyword
+ * (`isUnrestricted`), where the renderer takes any `not` whose type label is
+ * `any` (and leaves such a schema marked as seen, so that a second use of it
+ * is taken for a cycle).
  * `fnAccessor` returns the `fn` of the renderer instance.
  */
 export const makeGetType = (fnAccessor: () => InstanceFn) => {
@@ -584,6 +613,8 @@ export const makeGetType = (fnAccessor: () => InstanceFn) => {
     }
 
     if (isUnrestricted(schema.not)) {
+      // not a cycle: the schema may be used again, so it isn't left marked
+      processedSchemas.delete(schema)
       return "never"
     }
 

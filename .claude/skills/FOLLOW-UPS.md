@@ -75,9 +75,12 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
 13. **`getType` makes any `not` with an `any` type label `never`.** `makeGetType` in
     `src/core/plugins/json-schema-2020-12/fn.js` returns `never` for `schema.not && getType(schema.not) === "any"`,
     but a schema whose type label is `any` can still restrict instances: `{ type: "integer", not: { enum: [0] } }`
-    shows `never` although `1` is valid, and so does `not: { required: ["a"] }`. Only `true` or a schema
-    with no restricting keyword makes its `not` unsatisfiable. It changes OAS 3.1/3.2 labels, so it needs
-    its own PR; the json-schema-document plugin has its own narrower check (`isUnrestricted`).
+    shows `never` although `1` is valid, and `{ type: "object", not: { required: ["a"] } }` although `{}` is
+    valid. Only `true` or a schema with no restricting keyword makes its `not` unsatisfiable. The same early
+    return skips the `processedSchemas.delete(schema)` at the end of the function, so a schema with such a
+    `not` that is used twice (`prefixItems: [s, s]`) is taken for a cycle the second time. It changes OAS
+    3.1/3.2 labels, so it needs its own PR; the json-schema-document plugin has its own narrower check
+    (`isUnrestricted`) and deletes the schema before it returns.
 
 ## Open Work on the Skills
 
