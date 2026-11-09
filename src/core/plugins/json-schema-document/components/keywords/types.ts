@@ -23,6 +23,7 @@ export interface System {
       }
       usePath: (name?: string) => { path: string[] }
       useLevel: () => [number, number]
+      getTitle: (schema: Schema) => string
     }
   }
   getComponent: (name: string) => unknown
