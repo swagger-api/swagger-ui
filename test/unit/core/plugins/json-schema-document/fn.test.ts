@@ -77,7 +77,6 @@ describe("json-schema-document detection", () => {
       const spec = withRootSchema($schema, { type: "object" })
 
       expect(getJSONSchemaDialect(spec)).toBeNull()
-      expect(getJSONSchemaDialect(spec)).toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(true)
       expect(getRootSchemaKeyword(spec)).toBe($schema)
     })
@@ -114,7 +113,6 @@ describe("json-schema-document detection", () => {
         })
 
         expect(getJSONSchemaDialect(spec)).toBeNull()
-        expect(getJSONSchemaDialect(spec)).toBeNull()
         expect(isUnsupportedJSONSchemaDocument(spec)).toBe(false)
       }
     )
@@ -139,6 +137,7 @@ describe("json-schema-document detection", () => {
     it("are not detected without $schema", () => {
       const spec = parse("type: object\n")
 
+      expect(getRootSchemaKeyword(spec)).toBe("")
       expect(getJSONSchemaDialect(spec)).toBeNull()
       expect(isUnsupportedJSONSchemaDocument(spec)).toBe(false)
     })

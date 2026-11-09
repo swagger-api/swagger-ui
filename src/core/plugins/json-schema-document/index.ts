@@ -1,11 +1,17 @@
 /**
  * @prettier
  */
+import { createSystemSelector } from "./fn"
 import JSONSchemaDocument from "./components/JSONSchemaDocument"
 import VersionPragmaFilterWrapper from "./wrap-components/VersionPragmaFilter"
 import SkipToOperationsWrapper from "./wrap-components/SkipToOperations"
 import OnlineValidatorBadgeWrapper from "./wrap-components/OnlineValidatorBadge"
-import { isJSONSchemaDocument, jsonSchemaDialect } from "./selectors"
+import {
+  isJSONSchemaDocument,
+  isUnsupportedJSONSchemaDocument,
+  jsonSchemaDialect,
+  rootSchemaKeyword,
+} from "./selectors"
 import { requestResolvedSubtree } from "./wrap-actions"
 
 /**
@@ -41,8 +47,12 @@ const JSONSchemaDocumentPlugin = () => ({
   statePlugins: {
     spec: {
       selectors: {
-        isJSONSchemaDocument,
-        jsonSchemaDialect,
+        isJSONSchemaDocument: createSystemSelector(isJSONSchemaDocument),
+        isUnsupportedJSONSchemaDocument: createSystemSelector(
+          isUnsupportedJSONSchemaDocument
+        ),
+        jsonSchemaDialect: createSystemSelector(jsonSchemaDialect),
+        rootSchemaKeyword: createSystemSelector(rootSchemaKeyword),
       },
       wrapActions: {
         requestResolvedSubtree,

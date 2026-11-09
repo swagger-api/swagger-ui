@@ -3,8 +3,12 @@
  */
 import React from "react"
 import { mount } from "enzyme"
-import { fromJS, Map } from "immutable"
+import { fromJS } from "immutable"
 
+import {
+  getRootSchemaKeyword,
+  isUnsupportedJSONSchemaDocument,
+} from "core/plugins/json-schema-document/fn"
 import VersionPragmaFilterWrapper from "core/plugins/json-schema-document/wrap-components/VersionPragmaFilter"
 
 type Component = React.ComponentType<Record<string, unknown>>
@@ -26,10 +30,13 @@ const makeSystem = (
     JSONSchemaDocument: JSONSchemaDocument as Component,
     ErrorBoundary: withErrorBoundary ? (ErrorBoundary as Component) : null,
   }
+  const specJson = fromJS(json)
   return {
     specSelectors: {
-      specJson: () => fromJS(json) as Map<string, unknown>,
       isJSONSchemaDocument: () => isJSONSchemaDocument,
+      isUnsupportedJSONSchemaDocument: () =>
+        isUnsupportedJSONSchemaDocument(specJson),
+      rootSchemaKeyword: () => getRootSchemaKeyword(specJson),
     },
     getComponent: jest.fn((name: string) => components[name] ?? null),
     fn: {},

@@ -2,10 +2,8 @@
  * @prettier
  */
 import React from "react"
-import { Map } from "immutable"
 
 import UnsupportedDialect from "../components/UnsupportedDialect"
-import { getRootSchemaKeyword, isUnsupportedJSONSchemaDocument } from "../fn"
 
 type Component = React.ComponentType<Record<string, unknown>>
 
@@ -17,8 +15,9 @@ export interface VersionPragmaFilterProps {
 
 export interface System {
   specSelectors: {
-    specJson: () => Map<string, unknown>
     isJSONSchemaDocument: () => boolean
+    isUnsupportedJSONSchemaDocument: () => boolean
+    rootSchemaKeyword: () => string
   }
   getComponent: (
     name: string,
@@ -71,11 +70,10 @@ const VersionPragmaFilterWrapper =
       )
     }
 
-    const specJson = specSelectors.specJson()
-    if (!bypass && isUnsupportedJSONSchemaDocument(specJson)) {
+    if (!bypass && specSelectors.isUnsupportedJSONSchemaDocument()) {
       return (
         <UnsupportedDialect
-          $schema={getRootSchemaKeyword(specJson)}
+          $schema={specSelectors.rootSchemaKeyword()}
           alsoShow={alsoShow}
         />
       )

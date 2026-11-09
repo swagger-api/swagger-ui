@@ -5,45 +5,58 @@ import { fromJS, Map } from "immutable"
 
 import {
   isJSONSchemaDocument,
+  isUnsupportedJSONSchemaDocument,
   jsonSchemaDialect,
+  rootSchemaKeyword,
 } from "core/plugins/json-schema-document/selectors"
 
-const stateWith = (json: Record<string, unknown>) => fromJS({ json })
+const dialect = "https://json-schema.org/draft/2020-12/schema"
+
+// the selectors read the document through the spec plugin's `specJson`
+const makeSystem = (json?: Record<string, unknown>) => {
+  const system = {
+    specSelectors: {
+      specJson: () => (json ? fromJS(json) : Map()) as Map<string, unknown>,
+      jsonSchemaDialect: () => jsonSchemaDialect(undefined, system),
+    },
+  }
+  return system
+}
 
 describe("json-schema-document selectors", () => {
   it("select the dialect of a JSON Schema 2020-12 document", () => {
-    const state = stateWith({
-      $schema: "https://json-schema.org/draft/2020-12/schema#",
-    })
+    const system = makeSystem({ $schema: `${dialect}#` })
 
-    expect(jsonSchemaDialect(state)).toBe(
-      "https://json-schema.org/draft/2020-12/schema"
-    )
-    expect(isJSONSchemaDocument(state)).toBe(true)
+    expect(jsonSchemaDialect(undefined, system)).toBe(dialect)
+    expect(isJSONSchemaDocument(undefined, system)).toBe(true)
+    expect(isUnsupportedJSONSchemaDocument(undefined, system)).toBe(false)
+    expect(rootSchemaKeyword(undefined, system)).toBe(`${dialect}#`)
   })
 
-  it("select nothing for an unsupported dialect", () => {
-    const state = stateWith({
-      $schema: "https://json-schema.org/draft/2019-09/schema",
-    })
+  it("select nothing for an unsupported dialect, and refuse it", () => {
+    const $schema = "https://json-schema.org/draft/2019-09/schema"
+    const system = makeSystem({ $schema })
 
-    expect(jsonSchemaDialect(state)).toBeNull()
-    expect(isJSONSchemaDocument(state)).toBe(false)
+    expect(jsonSchemaDialect(undefined, system)).toBeNull()
+    expect(isJSONSchemaDocument(undefined, system)).toBe(false)
+    expect(isUnsupportedJSONSchemaDocument(undefined, system)).toBe(true)
+    expect(rootSchemaKeyword(undefined, system)).toBe($schema)
   })
 
   it("select nothing for an OpenAPI document with a root $schema", () => {
-    const state = stateWith({
-      openapi: "3.1.0",
-      $schema: "https://json-schema.org/draft/2020-12/schema",
-    })
+    const system = makeSystem({ openapi: "3.1.0", $schema: dialect })
 
-    expect(jsonSchemaDialect(state)).toBeNull()
-    expect(isJSONSchemaDocument(state)).toBe(false)
+    expect(jsonSchemaDialect(undefined, system)).toBeNull()
+    expect(isJSONSchemaDocument(undefined, system)).toBe(false)
+    expect(isUnsupportedJSONSchemaDocument(undefined, system)).toBe(false)
   })
 
   it("select nothing before a document is loaded", () => {
-    expect(jsonSchemaDialect(Map())).toBeNull()
-    expect(isJSONSchemaDocument(Map())).toBe(false)
-    expect(isJSONSchemaDocument(undefined)).toBe(false)
+    const system = makeSystem()
+
+    expect(jsonSchemaDialect(undefined, system)).toBeNull()
+    expect(isJSONSchemaDocument(undefined, system)).toBe(false)
+    expect(isUnsupportedJSONSchemaDocument(undefined, system)).toBe(false)
+    expect(rootSchemaKeyword(undefined, system)).toBe("")
   })
 })

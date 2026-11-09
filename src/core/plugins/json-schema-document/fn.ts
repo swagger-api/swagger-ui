@@ -88,7 +88,7 @@ export const isUnsupportedJSONSchemaDocument = (spec: unknown): boolean =>
  * The root `$schema` as written, for messages.
  */
 export const getRootSchemaKeyword = (spec: unknown): string => {
-  if (!Map.isMap(spec)) return ""
+  if (!Map.isMap(spec) || !spec.has("$schema")) return ""
 
   const $schema = spec.get("$schema")
   if (typeof $schema === "string") return $schema
@@ -114,3 +114,16 @@ export const makeGetSchemaKeywords = (
 
   return () => keywords
 }
+
+/**
+ * Registered selectors are called as `selector(state, ...args)`. This hands
+ * the system to a selector that reads other selectors through it (a copy of
+ * the oas31 helper, so that the plugins stay independent).
+ */
+export const createSystemSelector =
+  <State, Args extends unknown[], System, Result>(
+    selector: (state: State, system: System, ...args: Args) => Result
+  ) =>
+  (state: State, ...args: Args) =>
+  (system: System): Result =>
+    selector(state, system, ...args)

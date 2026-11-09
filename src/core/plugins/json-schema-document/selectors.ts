@@ -4,10 +4,21 @@
 import { Map } from "immutable"
 import { createSelector } from "reselect"
 
-import { getJSONSchemaDialect } from "./fn"
+import {
+  getJSONSchemaDialect,
+  getRootSchemaKeyword,
+  isUnsupportedJSONSchemaDocument as isUnsupportedJSONSchemaDocumentFn,
+} from "./fn"
 
-const selectSpecJson = (state: Map<string, unknown> | undefined) =>
-  (state || Map()).get("json", Map())
+interface System {
+  specSelectors: {
+    specJson: () => Map<string, unknown>
+    jsonSchemaDialect: () => string | null
+  }
+}
+
+const selectSpecJson = (_state: unknown, system: System) =>
+  system.specSelectors.specJson()
 
 /**
  * The meta-schema identifier of the delivered JSON Schema dialect the document
@@ -23,6 +34,23 @@ export const jsonSchemaDialect = createSelector(
  * dialect, rendered by `JSONSchemaDocument` instead of the OpenAPI layout.
  */
 export const isJSONSchemaDocument = createSelector(
-  jsonSchemaDialect,
+  (_state: unknown, system: System) => system.specSelectors.jsonSchemaDialect(),
   (dialect) => dialect !== null
+)
+
+/**
+ * Whether the root declares a JSON Schema dialect that isn't delivered: the
+ * document is refused with a message instead of being rendered.
+ */
+export const isUnsupportedJSONSchemaDocument = createSelector(
+  selectSpecJson,
+  isUnsupportedJSONSchemaDocumentFn
+)
+
+/**
+ * The root `$schema` as written, for messages.
+ */
+export const rootSchemaKeyword = createSelector(
+  selectSpecJson,
+  getRootSchemaKeyword
 )
