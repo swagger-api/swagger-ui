@@ -2,7 +2,6 @@
  * @prettier
  */
 import React, { useCallback } from "react"
-import PropTypes from "prop-types"
 import classNames from "classnames"
 
 import {
@@ -41,11 +40,6 @@ export const OASField = ({ name, value }: OASFieldProps) => (
     </span>
   </div>
 )
-
-OASField.propTypes = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.node,
-}
 
 export interface OASObjectProps {
   /** Schema keyword holding the object; the path token and `data-keyword`. */
@@ -154,15 +148,6 @@ const OASObject = ({
       </JSONSchemaLevelContext.Provider>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-OASObject.propTypes = {
-  keyword: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  value: PropTypes.object.isRequired,
-  hasFields: PropTypes.bool.isRequired,
-  attributes: PropTypes.node,
-  children: PropTypes.node,
 }
 
 export default OASObject

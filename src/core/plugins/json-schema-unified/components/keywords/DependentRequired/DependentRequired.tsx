@@ -2,9 +2,7 @@
  * @prettier
  */
 import React from "react"
-import PropTypes from "prop-types"
 
-import * as propTypes from "../../../prop-types"
 import { KEYWORD, KEYWORD_NAME, KEYWORD_VALUE } from "../../../styles"
 import type { KeywordProps } from "../../../types"
 
@@ -33,11 +31,6 @@ const DependentRequired = ({ dependentRequired }: DependentRequiredProps) => {
       </ul>
     </div>
   )
-}
-
-DependentRequired.propTypes = {
-  schema: propTypes.schema.isRequired,
-  dependentRequired: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default DependentRequired

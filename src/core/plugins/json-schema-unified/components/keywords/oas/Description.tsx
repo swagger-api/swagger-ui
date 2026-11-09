@@ -4,7 +4,6 @@
 import React from "react"
 import classNames from "classnames"
 
-import { schema } from "../../../prop-types"
 import { useComponent } from "../../../hooks"
 import { toSchemaObject } from "../../../fn"
 import { DESCRIPTION, KEYWORD } from "../../../styles"
@@ -33,10 +32,6 @@ const OASDescription = ({ schema }: KeywordProps) => {
       </div>
     </div>
   )
-}
-
-OASDescription.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default OASDescription

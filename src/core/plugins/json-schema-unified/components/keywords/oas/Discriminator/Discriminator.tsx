@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../../../prop-types"
 import { toPlainObject, toSchemaObject } from "../../../../fn"
 import { ATTRIBUTE, PROPERTY } from "../../../../styles"
 import OASObject from "../OASObject"
@@ -36,10 +35,6 @@ const Discriminator = ({ schema }: KeywordProps) => {
       </li>
     </OASObject>
   )
-}
-
-Discriminator.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default Discriminator

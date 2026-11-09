@@ -5,7 +5,6 @@ import React from "react"
 
 import { sanitizeUrl } from "core/utils/url"
 
-import { schema } from "../../../prop-types"
 import { useComponent } from "../../../hooks"
 import { toPlainObject, toSchemaObject } from "../../../fn"
 import { PROPERTY } from "../../../styles"
@@ -56,10 +55,6 @@ const ExternalDocs = ({ schema }: KeywordProps) => {
       )}
     </OASObject>
   )
-}
-
-ExternalDocs.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default ExternalDocs

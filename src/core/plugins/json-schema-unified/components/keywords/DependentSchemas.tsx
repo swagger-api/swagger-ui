@@ -4,7 +4,6 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 
-import { schema } from "../../prop-types"
 import { useComponent, useIsExpanded, usePath, useLevel } from "../../hooks"
 import { JSONSchemaLevelContext, JSONSchemaPathContext } from "../../context"
 import { toSchemaObject } from "../../fn"
@@ -89,10 +88,6 @@ const DependentSchemas = ({ schema }: KeywordProps) => {
       </JSONSchemaLevelContext.Provider>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-DependentSchemas.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default DependentSchemas
