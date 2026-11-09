@@ -4,7 +4,6 @@
 import React from "react"
 import classNames from "classnames"
 
-import { schema } from "../../../prop-types"
 import { useComponent, usePath } from "../../../hooks"
 import { JSONSchemaPathContext } from "../../../context"
 import { toSchemaObject } from "../../../fn"
@@ -39,10 +38,6 @@ const PatternProperties = ({ schema }: KeywordProps) => {
       </div>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-PatternProperties.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default PatternProperties

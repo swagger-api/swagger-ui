@@ -2,9 +2,7 @@
  * @prettier
  */
 import React from "react"
-import PropTypes from "prop-types"
 
-import { schema } from "../../../prop-types"
 import { useFn } from "../../../hooks"
 import type { KeywordProps } from "../../../types"
 
@@ -33,11 +31,6 @@ const Title = ({ title = "", schema }: TitleProps) => {
       {renderedTitle}
     </strong>
   )
-}
-
-Title.propTypes = {
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  schema: schema.isRequired,
 }
 
 export default Title

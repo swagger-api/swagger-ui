@@ -2,7 +2,6 @@
  * @prettier
  */
 import React, { useCallback } from "react"
-import PropTypes from "prop-types"
 import classNames from "classnames"
 
 import {
@@ -168,14 +167,6 @@ const JSONViewer = ({
       </JSONSchemaLevelContext.Provider>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-JSONViewer.propTypes = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.any.isRequired,
-  className: PropTypes.string,
-  tone: PropTypes.oneOf(["primary", "secondary", "extension"]),
-  keyword: PropTypes.string,
 }
 
 export default JSONViewer

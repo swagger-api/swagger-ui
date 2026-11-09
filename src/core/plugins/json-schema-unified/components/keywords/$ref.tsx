@@ -4,7 +4,6 @@
 import React from "react"
 import classNames from "classnames"
 
-import { schema } from "../../prop-types"
 import { toSchemaObject } from "../../fn"
 import {
   KEYWORD,
@@ -27,10 +26,6 @@ const $ref = ({ schema }: KeywordProps) => {
       </span>
     </div>
   )
-}
-
-$ref.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default $ref

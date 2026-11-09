@@ -2,10 +2,8 @@
  * @prettier
  */
 import React from "react"
-import PropTypes from "prop-types"
 import classNames from "classnames"
 
-import { schema } from "../../../prop-types"
 import { useFn, useComponent, usePath } from "../../../hooks"
 import { JSONSchemaPathContext } from "../../../context"
 import { toSchemaObject } from "../../../fn"
@@ -75,20 +73,11 @@ export const PropertiesList = ({ schema, properties }: PropertiesListProps) => {
   )
 }
 
-PropertiesList.propTypes = {
-  schema: schema.isRequired,
-  properties: PropTypes.objectOf(schema).isRequired,
-}
-
 const Properties = ({ schema }: KeywordProps) => (
   <PropertiesList
     schema={schema}
     properties={toSchemaObject(schema).properties || {}}
   />
 )
-
-Properties.propTypes = {
-  schema: schema.isRequired,
-}
 
 export default Properties

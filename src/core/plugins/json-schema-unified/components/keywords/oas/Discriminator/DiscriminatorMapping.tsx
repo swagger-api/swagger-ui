@@ -2,7 +2,6 @@
  * @prettier
  */
 import React from "react"
-import PropTypes from "prop-types"
 
 import { stringify, toPlainObject } from "../../../../fn"
 import { OASField } from "../OASObject"
@@ -31,12 +30,6 @@ const DiscriminatorMapping = ({ discriminator }: DiscriminatorMappingProps) => {
       ))}
     </>
   )
-}
-
-DiscriminatorMapping.propTypes = {
-  discriminator: PropTypes.shape({
-    mapping: PropTypes.any,
-  }),
 }
 
 export default DiscriminatorMapping

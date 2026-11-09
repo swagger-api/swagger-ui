@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../prop-types"
 import { useFn, useComponent } from "../../hooks"
 import { KEYWORD, KEYWORD_NAME } from "../../styles"
 import type { KeywordProps } from "../../types"
@@ -30,10 +29,6 @@ const UnevaluatedProperties = ({ schema }: KeywordProps) => {
       />
     </div>
   )
-}
-
-UnevaluatedProperties.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default UnevaluatedProperties

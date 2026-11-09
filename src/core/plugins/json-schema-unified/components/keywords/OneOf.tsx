@@ -4,7 +4,6 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
 
-import { schema } from "../../prop-types"
 import {
   useFn,
   useComponent,
@@ -98,10 +97,6 @@ const OneOf = ({ schema }: KeywordProps) => {
       </JSONSchemaLevelContext.Provider>
     </JSONSchemaPathContext.Provider>
   )
-}
-
-OneOf.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default OneOf

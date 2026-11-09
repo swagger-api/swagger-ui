@@ -2,7 +2,6 @@
  * @prettier
  */
 import React from "react"
-import PropTypes from "prop-types"
 
 import { isPlainObject } from "../../../fn"
 import type { Constraint as ConstraintValue } from "../../../types"
@@ -49,13 +48,6 @@ const Constraint = ({ constraint }: ConstraintProps) => {
       {constraint.value}
     </span>
   )
-}
-
-Constraint.propTypes = {
-  constraint: PropTypes.shape({
-    scope: PropTypes.oneOf(["number", "string", "array", "object"]).isRequired,
-    value: PropTypes.string.isRequired,
-  }).isRequired,
 }
 
 export default React.memo(Constraint)

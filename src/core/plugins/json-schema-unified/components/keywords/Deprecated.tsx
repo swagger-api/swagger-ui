@@ -3,7 +3,6 @@
  */
 import React from "react"
 
-import { schema } from "../../prop-types"
 import { toSchemaObject } from "../../fn"
 import { ATTRIBUTE } from "../../styles"
 import type { KeywordProps } from "../../types"
@@ -16,10 +15,6 @@ const Deprecated = ({ schema }: KeywordProps) => {
       deprecated
     </span>
   )
-}
-
-Deprecated.propTypes = {
-  schema: schema.isRequired,
 }
 
 export default Deprecated

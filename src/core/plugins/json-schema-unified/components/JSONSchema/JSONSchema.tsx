@@ -2,10 +2,8 @@
  * @prettier
  */
 import React, { forwardRef, useCallback } from "react"
-import PropTypes from "prop-types"
 import classNames from "classnames"
 
-import * as propTypes from "../../prop-types"
 import {
   useComponent,
   useLevel,
@@ -243,14 +241,5 @@ const JSONSchema = forwardRef(
     )
   }
 )
-
-JSONSchema.propTypes = {
-  name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  schema: propTypes.schema.isRequired,
-  dependentRequired: PropTypes.arrayOf(PropTypes.string),
-  onExpand: PropTypes.func,
-  identifier: PropTypes.string,
-  titleAddon: PropTypes.node,
-}
 
 export default JSONSchema
