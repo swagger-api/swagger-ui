@@ -1,0 +1,40 @@
+openapi: 3.0.4
+info:
+  title: Request body schema contrast
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewPet"
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    NewPet:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          maxLength: 64
+          example: Rex
+        age:
+          type: integer
+          format: int32
+          minimum: 0
+          example: 3
+        tags:
+          type: array
+          minItems: 1
+          example:
+            - friendly
+          items:
+            type: string
