@@ -12,7 +12,11 @@ import {
   DescriptionSlot,
   ExamplesSlot,
   PropertiesSlot,
+  Swagger2DiscriminatorSlot,
 } from "./components/keywords/oas/slots"
+import Unsupported from "./components/keywords/Unsupported"
+import { isLegacyDialect, makeLegacyDialectFn } from "./legacy"
+import type { LegacyDialect, LegacyDialectInputs } from "./legacy"
 import type {
   ComponentMap,
   GetProperties,
@@ -29,26 +33,74 @@ import type {
  * mutations of `fn.jsonSchema202012`, and wrapComponents of the Description,
  * Examples and Properties keywords). Nothing here mutates shared state: every
  * call returns fresh objects for one renderer instance.
+ *
+ * `swagger2` and `oas30` (`./legacy`) have their own keyword lists and the
+ * keyword semantics of their draft-4-based Schema Objects.
  */
-export type OASDialect = "oas31" | "oas32"
+export type OASDialect = "oas31" | "oas32" | LegacyDialect
 
 export const OAS_DIALECTS: ReadonlyArray<OASDialect> = Object.freeze([
   "oas32",
   "oas31",
+  "oas30",
+  "swagger2",
 ])
 
 /**
  * `default$schema` per dialect. OAS 3.2 uses its published dialect id, not
  * the OAS 3.2 document-schema id (`.../oas/3.2/schema/2025-09-17`) that the
- * oas32 Model/Models wrappers pass to json-schema-2020-12.
+ * oas32 Model/Models wrappers pass to json-schema-2020-12. OAS 2.0 and 3.0
+ * define no dialect id for their Schema Objects, so those instances get
+ * none (`default$schema` is `undefined`; no renderer reads it).
  */
-export const OAS_DIALECT_SCHEMAS: Readonly<Record<OASDialect, string>> =
-  Object.freeze({
-    oas31: "https://spec.openapis.org/oas/3.1/dialect/base",
-    oas32: "https://spec.openapis.org/oas/3.2/dialect/2025-09-17",
-  })
+export const OAS_DIALECT_SCHEMAS: Readonly<
+  Partial<Record<OASDialect, string>>
+> = Object.freeze({
+  oas31: "https://spec.openapis.org/oas/3.1/dialect/base",
+  oas32: "https://spec.openapis.org/oas/3.2/dialect/2025-09-17",
+})
 
-export interface OASDialectOptions {
+/**
+ * The 2020-12 keyword components 2.0 and 3.0 have no keyword for. Their
+ * slots render nothing, so such keywords show as extension keywords.
+ */
+const NON_LEGACY_KEYWORD_COMPONENTS = [
+  "Keyword$schema",
+  "Keyword$vocabulary",
+  "Keyword$id",
+  "Keyword$anchor",
+  "Keyword$dynamicAnchor",
+  "Keyword$dynamicRef",
+  "Keyword$defs",
+  "Keyword$comment",
+  "KeywordIf",
+  "KeywordThen",
+  "KeywordElse",
+  "KeywordDependentSchemas",
+  "KeywordPrefixItems",
+  "KeywordContains",
+  "KeywordPatternProperties",
+  "KeywordPropertyNames",
+  "KeywordUnevaluatedItems",
+  "KeywordUnevaluatedProperties",
+  "KeywordConst",
+  "KeywordDependentRequired",
+  "KeywordContentSchema",
+]
+
+/** ... and the 3.0 keywords 2.0 lacks (`allOf` is its only combiner). */
+const NON_SWAGGER2_KEYWORD_COMPONENTS = [
+  "KeywordAnyOf",
+  "KeywordOneOf",
+  "KeywordNot",
+  "KeywordWriteOnly",
+  "KeywordDeprecated",
+]
+
+const unsupportedComponents = (names: string[]): ComponentMap =>
+  Object.fromEntries(names.map((name) => [name, Unsupported])) as ComponentMap
+
+export interface OASDialectOptions extends LegacyDialectInputs {
   /** Show `readOnly: true` properties; `undefined` hides them (as oas31's Model wrapper does). */
   includeReadOnly?: boolean
   /** Show `writeOnly: true` properties; `undefined` hides them (as oas31's Model wrapper does). */
@@ -138,7 +190,12 @@ export const isOASExpandable = (schema: Schema): boolean => {
  *   (markdown via the system `Markdown`), `KeywordOASExamples` (examples,
  *   discriminator, xml, externalDocs, example) and `KeywordOASProperties`.
  *
- * oas31 and oas32 differ only in `default$schema`.
+ * oas31 and oas32 differ only in `default$schema`. `swagger2` and `oas30` get
+ * their own `fn` (`./legacy#makeLegacyDialectFn`: keyword list, types,
+ * boolean exclusive bounds, nested names, lazily resolved `$ref`s, reference
+ * paths) and render nothing for the keywords they lack (2.0's `discriminator`
+ * is a property-name string). `findSchema` and `getDocumentUrl` feed their
+ * `$ref` lookup and reference paths.
  */
 export const getOASDialectOverrides = (
   dialect: OASDialect,
@@ -147,6 +204,8 @@ export const getOASDialectOverrides = (
     includeWriteOnly,
     defaultExpandedLevels,
     showExtensions,
+    findSchema,
+    getDocumentUrl,
   }: OASDialectOptions = {}
 ): OASDialectOverrides => {
   if (!OAS_DIALECTS.includes(dialect)) {
@@ -165,6 +224,33 @@ export const getOASDialectOverrides = (
     config.showExtensionKeywords = showExtensions
   }
 
+  const slots: ComponentMap = {
+    KeywordDescription: DescriptionSlot,
+    KeywordExamples: ExamplesSlot,
+    KeywordProperties: PropertiesSlot,
+  }
+
+  if (isLegacyDialect(dialect)) {
+    return {
+      config,
+      fn: makeLegacyDialectFn(dialect, { findSchema, getDocumentUrl }),
+      components: {
+        ...unsupportedComponents(
+          dialect === "swagger2"
+            ? [
+                ...NON_LEGACY_KEYWORD_COMPONENTS,
+                ...NON_SWAGGER2_KEYWORD_COMPONENTS,
+              ]
+            : NON_LEGACY_KEYWORD_COMPONENTS
+        ),
+        ...slots,
+        ...(dialect === "swagger2"
+          ? { KeywordDiscriminator: Swagger2DiscriminatorSlot }
+          : {}),
+      },
+    }
+  }
+
   return {
     config,
     fn: {
@@ -172,10 +258,6 @@ export const getOASDialectOverrides = (
       getProperties: getOASProperties,
       isExpandable: isOASExpandable,
     },
-    components: {
-      KeywordDescription: DescriptionSlot,
-      KeywordExamples: ExamplesSlot,
-      KeywordProperties: PropertiesSlot,
-    },
+    components: slots,
   }
 }

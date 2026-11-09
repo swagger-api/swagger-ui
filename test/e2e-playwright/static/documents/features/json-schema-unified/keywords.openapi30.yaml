@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Unified JSON Schema keywords (OpenAPI 3.0)
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+  /users:
+    post:
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /nodes:
+    get:
+      operationId: getNode
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Node"
+components:
+  schemas:
+    Pet:
+      type: object
+      description: A **pet** of the store.
+      required:
+        - name
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: "#/components/schemas/Dog"
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+        petType:
+          type: string
+        age:
+          type: integer
+          minimum: 0
+          maximum: 30
+          exclusiveMaximum: true
+        weight:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+        score:
+          type: number
+          minimum: 1
+          maximum: 10
+          exclusiveMinimum: true
+        status:
+          type: string
+          deprecated: true
+          enum:
+            - available
+            - sold
+        kind:
+          type: string
+          const: pet
+        category:
+          $ref: "#/components/schemas/Category"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+      xml:
+        name: pet
+      externalDocs:
+        description: More about pets
+        url: https://example.com/pets
+      example:
+        name: Rex
+      x-pet-extension: pet extension value
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Tag:
+      type: object
+      properties:
+        label:
+          type: string
+    Dog:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - type: object
+          properties:
+            barkVolume:
+              type: integer
+    Node:
+      type: object
+      properties:
+        name:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: "#/components/schemas/Node"
+    Contact:
+      oneOf:
+        - $ref: "#/components/schemas/Email"
+        - $ref: "#/components/schemas/Phone"
+        - $ref: "#/components/schemas/Weird~0Name~1Slash"
+    Email:
+      title: Email
+      type: string
+      format: email
+    Phone:
+      type: string
+      pattern: "^[0-9]+$"
+    Weird~Name/Slash:
+      type: object
+      properties:
+        odd:
+          type: boolean
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+        name:
+          type: string

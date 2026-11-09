@@ -9,12 +9,24 @@ import type { Schema } from "./types"
 /**
  * Where each dialect's documents keep their named schemas. This is also the
  * layout key of the Schemas section (expansion, scroll, deep links), as in
- * oas31's Models: `["components", "schemas"]` for 3.x.
+ * json-schema-5's Models: `["definitions"]` for 2.0, `["components",
+ * "schemas"]` for 3.x.
  */
 export const SCHEMAS_PATHS: Readonly<Record<OASDialect, readonly string[]>> =
   Object.freeze({
+    swagger2: Object.freeze(["definitions"]),
+    oas30: Object.freeze(["components", "schemas"]),
     oas31: Object.freeze(["components", "schemas"]),
     oas32: Object.freeze(["components", "schemas"]),
+  })
+
+/** The heading of the named-schemas section: "Models" for 2.0, "Schemas" for 3.x. */
+export const SCHEMAS_HEADINGS: Readonly<Record<OASDialect, string>> =
+  Object.freeze({
+    swagger2: "Models",
+    oas30: "Schemas",
+    oas31: "Schemas",
+    oas32: "Schemas",
   })
 
 export const getSchemasPath = (dialect: OASDialect): string[] => [
@@ -98,4 +110,26 @@ export const selectSchemaEntries = (
 
   entriesCache.set(rawSchemas, { resolved, entries })
   return entries
+}
+
+/**
+ * The named schema `name` of the current document (the 2.0 `definitions` or
+ * 3.x `components.schemas` entry), as json-schema-5's
+ * `specSelectors.findDefinition` reads it: its resolved subtree when it has
+ * been requested, its raw value otherwise; `null` when there is none.
+ */
+export const findSchemaDefinition = (
+  specSelectors: SchemasSpecSelectors,
+  dialect: OASDialect,
+  name: string
+): Schema | null => {
+  const path = [...getSchemasPath(dialect), name]
+  const resolved = specSelectors.specResolvedSubtree(path)
+  if (ImMap.isMap(resolved)) return toPlainSchema(resolved)
+
+  const specJson = specSelectors.specJson()
+  const raw = ImMap.isMap(specJson)
+    ? (specJson as ImMap<string, unknown>).getIn(path)
+    : undefined
+  return ImMap.isMap(raw) ? toPlainSchema(raw) : null
 }

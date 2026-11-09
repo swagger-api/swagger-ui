@@ -29,6 +29,7 @@ test.describe("Request body with complex schema properties", () => {
 
   test("should render schema for properties of type object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -44,7 +45,9 @@ test.describe("Request body with complex schema properties", () => {
       .filter({ hasText: /Schema/ })
       .click()
     // cy "exist" passes with one or more matches (several `.model` elements render)
-    await expect(page.locator(".model-example .model")).not.toHaveCount(0)
+    await expect(
+      schemaUi.modelNode(page.locator(".model-example"))
+    ).not.toHaveCount(0)
   })
 
   test("should render example for properties of type array of objects", async ({
@@ -66,6 +69,7 @@ test.describe("Request body with complex schema properties", () => {
 
   test("should render schema for properties of type array of objects", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -81,6 +85,8 @@ test.describe("Request body with complex schema properties", () => {
       .filter({ hasText: /Schema/ })
       .click()
     // cy "exist" passes with one or more matches (several `.model` elements render)
-    await expect(page.locator(".model-example .model")).not.toHaveCount(0)
+    await expect(
+      schemaUi.modelNode(page.locator(".model-example"))
+    ).not.toHaveCount(0)
   })
 })

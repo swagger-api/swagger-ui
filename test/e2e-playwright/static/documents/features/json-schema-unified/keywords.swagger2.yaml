@@ -1,0 +1,158 @@
+swagger: "2.0"
+info:
+  title: Unified JSON Schema keywords (OpenAPI 2.0)
+  version: 1.0.0
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: "#/definitions/Pet"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/Pet"
+  /users:
+    post:
+      operationId: createUser
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/User"
+  /files/{id}:
+    get:
+      operationId: getFile
+      produces:
+        - application/octet-stream
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+      responses:
+        "200":
+          description: The file
+          schema:
+            type: file
+  /odd:
+    post:
+      operationId: addOdd
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: "#/definitions/Weird~0Name~1Slash"
+      responses:
+        "200":
+          description: OK
+definitions:
+  Pet:
+    type: object
+    description: A **pet** of the store.
+    discriminator: petType
+    required:
+      - name
+      - petType
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+        example: Rex
+      petType:
+        type: string
+      age:
+        type: integer
+        minimum: 0
+        maximum: 30
+        exclusiveMaximum: true
+      weight:
+        type: number
+        minimum: 0
+        exclusiveMinimum: true
+      score:
+        type: number
+        minimum: 1
+        maximum: 10
+        exclusiveMinimum: true
+      category:
+        $ref: "#/definitions/Category"
+      tags:
+        type: array
+        items:
+          $ref: "#/definitions/Tag"
+    xml:
+      name: pet
+    externalDocs:
+      description: More about pets
+      url: https://example.com/pets
+    x-pet-extension: pet extension value
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Tag:
+    type: object
+    properties:
+      label:
+        type: string
+  Dog:
+    allOf:
+      - $ref: "#/definitions/Pet"
+      - type: object
+        properties:
+          packSize:
+            type: integer
+  Node:
+    type: object
+    properties:
+      name:
+        type: string
+      children:
+        type: array
+        items:
+          $ref: "#/definitions/Node"
+  Mixed:
+    type: object
+    properties:
+      kind:
+        type: string
+        const: mixed
+    oneOf:
+      - type: string
+      - type: integer
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        readOnly: true
+      password:
+        type: string
+        writeOnly: true
+      name:
+        type: string
+  Weird~Name/Slash:
+    type: object
+    properties:
+      odd:
+        type: boolean
