@@ -210,6 +210,45 @@ describe("json-schema-document renderer overrides", () => {
       expect(expanded()).toEqual([false, true])
     })
 
+    it("labels a definition whose name or title is only whitespace", () => {
+      const root = render({
+        definitions: {
+          " ": { type: "object", properties: { a: {} } },
+          "": { title: " ", type: "object", properties: { b: {} } },
+          "\t": { title: "Tabbed", type: "object" },
+        },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
+      ).toEqual(["(blank name)", "(empty name)", "Tabbed"])
+    })
+
+    it("keeps the expansion of a definition apart from one whose $id is its name", () => {
+      const schema = {
+        definitions: {
+          first: { $id: "second", type: "object", properties: { a: {} } },
+          second: { type: "object", properties: { b: {} } },
+        },
+      }
+      const wrapper = render(schema)
+      const toggles = () =>
+        wrapper
+          .find(
+            ".json-schema-2020-12-keyword--definitions button.json-schema-2020-12-accordion"
+          )
+          .slice(1)
+      const expanded = () =>
+        toggles().map((toggle) => toggle.prop("aria-expanded"))
+
+      expect(expanded()).toEqual([true, true])
+      toggles().at(0).simulate("click")
+      // the expansion state is shared by the entries that have one token, and only
+      // the clicked entry re-renders: render everything again to see it
+      wrapper.setProps({ schema: { ...schema } })
+      expect(expanded()).toEqual([false, true])
+    })
+
     it("mounts no hooks for a schema without definitions", () => {
       const useIsExpandedSpy = jest.fn(useIsExpanded)
       const system = getSystem()

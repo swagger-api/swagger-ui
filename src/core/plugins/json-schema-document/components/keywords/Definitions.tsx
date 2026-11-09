@@ -10,15 +10,35 @@ import type { KeywordProps, Schema, System } from "./types"
 type Context<T> = () => React.Context<T>
 
 /**
- * Label of a definition whose name is the empty string (a valid property
- * name) and that has no title, `$anchor` or `$id` to show instead.
+ * Labels of a definition whose name is the empty string, or only whitespace
+ * (both valid property names), and that has no title, `$anchor` or `$id` to
+ * show instead: a blank head would be an accordion without a name.
  */
 const EMPTY_NAME_LABEL = "(empty name)"
+const BLANK_NAME_LABEL = "(blank name)"
+
+const isBlank = (value: string) => value.trim() === ""
 
 /**
- * The expansion path token of a definition named "" (the renderer takes the
- * name as the token): one that no other definition's name is, so that the
- * entry keeps a path of its own whatever label it shows.
+ * The name the renderer shows for a definition: the name itself, nothing for
+ * a blank name when the schema has a title to show, else a label.
+ */
+const getDisplayName = (
+  schemaName: string,
+  subschema: Schema,
+  getTitle: (schema: Schema) => string
+) => {
+  if (!isBlank(schemaName)) return schemaName
+  if (!isBlank(getTitle(subschema))) return ""
+
+  return schemaName === "" ? EMPTY_NAME_LABEL : BLANK_NAME_LABEL
+}
+
+/**
+ * The expansion path token of a definition named "": one that no other
+ * definition's name is, so that the entry keeps a path of its own whatever
+ * label it shows. Every other definition's token is its name (see
+ * `identifier` below).
  */
 const getEmptyNameIdentifier = (definitions: Record<string, unknown>) => {
   let identifier = EMPTY_NAME_LABEL
@@ -109,13 +129,15 @@ const DefinitionsList = ({ definitions, getSystem }: DefinitionsListProps) => {
               Object.entries(definitions).map(([schemaName, subschema]) => (
                 <li key={schemaName} className="json-schema-2020-12-property">
                   <JSONSchema
-                    name={
-                      schemaName === "" && !getTitle(subschema as Schema)
-                        ? EMPTY_NAME_LABEL
-                        : schemaName
-                    }
+                    name={getDisplayName(
+                      schemaName,
+                      subschema as Schema,
+                      getTitle
+                    )}
+                    // the renderer's default token is the schema's `$id` before
+                    // its name, which another definition's name can equal
                     identifier={
-                      schemaName === "" ? emptyNameIdentifier : undefined
+                      schemaName === "" ? emptyNameIdentifier : schemaName
                     }
                     schema={subschema}
                   />
