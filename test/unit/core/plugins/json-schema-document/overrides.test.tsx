@@ -470,7 +470,11 @@ describe("json-schema-document renderer overrides", () => {
       const root = render({
         type: "object",
         properties: { b: {}, c: {} },
-        dependencies: { "": ["b", "c"], "(empty name)": ["b"] },
+        dependencies: {
+          "": ["b", "c"],
+          "(empty name)": ["b"],
+          '"(empty name)"': ["b"],
+        },
       }).getDOMNode()
       const lists = Array.from(
         root.querySelectorAll(
@@ -486,7 +490,7 @@ describe("json-schema-document renderer overrides", () => {
       ])
 
       expect(lists).toEqual([
-        ["b", ["(empty name)", '"(empty name)"']],
+        ["b", ["(empty name)", '"(empty name)"', '"\\"(empty name)\\""']],
         ["c", ["(empty name)"]],
       ])
     })

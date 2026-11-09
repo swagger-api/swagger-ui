@@ -65,6 +65,13 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     joining the segments with commas, so `dependencies.a` with a property `b` and a dependency named
     `a,properties,b` share one key; the segments need an unambiguous encoding, not only a
     whole-segment comparison.
+12. **Property names are shown as collapsing HTML text.** The json-schema-2020-12 renderer prints a
+    name (the title of a property, an item of `dependentRequired`) as plain inline text, so the browser
+    collapses its whitespace: `a b` and `a  b`, or `a` and ` a`, look alike although they are different
+    properties. A `white-space: pre-wrap` rule on the name elements (or visible escapes) in
+    `src/core/plugins/json-schema-2020-12/` would show them as they are. It changes OAS 3.1/3.2
+    rendering, so it needs its own PR; the json-schema-document plugin has the same limit for names that
+    are not blank.
 
 ## Open Work on the Skills
 

@@ -352,6 +352,25 @@ describe("json-schema-document dependencies", () => {
     expect(getNameLabel("empty name")).toBe("empty name")
   })
 
+  it("shows no two names alike, quoted ones included", () => {
+    const names = [
+      "",
+      " ",
+      "(empty name)",
+      '"(empty name)"',
+      '"\\"(empty name)\\""',
+      "(blank name: U+0020)",
+      '"(blank name: U+0020)"',
+      '"x"',
+      "x",
+      '"',
+    ]
+    const labels = getDependentRequiredLabels(names)
+
+    expect(new Set(labels).size).toBe(names.length)
+    expect(getNameLabel('"x"')).toBe('"\\"x\\""')
+  })
+
   it("lists a property once when both keywords name it", () => {
     expect(
       getDependentRequired("b", {

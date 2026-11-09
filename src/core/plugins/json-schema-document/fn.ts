@@ -186,13 +186,17 @@ const BLANK_NAME_LABEL_PATTERN = /^\((?:empty name|blank name: [^)]*)\)$/
 
 /**
  * The name an entry shows: the name, or its label when it is blank. A name
- * that looks like such a label is quoted, so that a label always means a
- * blank name and a name is never taken for one, wherever either is shown.
+ * that looks like such a label, or that starts with a quote, is quoted (as
+ * JSON, so that a quote in it is escaped): a label always means a blank name,
+ * a quoted name is a name, and no two names show alike, wherever either is
+ * shown.
  */
 export const getNameLabel = (name: string) => {
   if (isBlank(name)) return getBlankNameLabel(name)
 
-  return BLANK_NAME_LABEL_PATTERN.test(name) ? JSON.stringify(name) : name
+  return name.startsWith('"') || BLANK_NAME_LABEL_PATTERN.test(name)
+    ? JSON.stringify(name)
+    : name
 }
 
 /**
