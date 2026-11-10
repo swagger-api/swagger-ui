@@ -1,7 +1,10 @@
 /**
  * @prettier
  */
-import { makeIsFileUploadIntended } from "./oas3-extensions/fn"
+import {
+  makeIsFileUploadIntended,
+  getMediaTypeSchemaField,
+} from "./oas3-extensions/fn"
 import { wrapOAS32Fn } from "./fn"
 import { immutableToJS } from "core/utils"
 
@@ -43,6 +46,14 @@ function afterLoad({ fn, getSystem }) {
 
   this.fn.isFileUploadIntended = isFileUploadIntendedWrap
   this.fn.isFileUploadIntendedOAS32 = isFileUploadIntended
+
+  // Use `itemSchema` for sequential media types (OAS 3.2).
+  const { getMediaTypeSchemaField: getMediaTypeSchemaFieldWrap } = wrapOAS32Fn(
+    { getMediaTypeSchemaField },
+    getSystem()
+  )
+
+  this.fn.getMediaTypeSchemaField = getMediaTypeSchemaFieldWrap
 
   // Wrap hasSchemaType for OAS 3.2.
   if (fn.jsonSchema202012) {
