@@ -233,14 +233,12 @@ describe("<JSONSchemaDocument />", () => {
     expect(wrapper.find(".json-schema-document__definitions")).toHaveLength(0)
   })
 
-  it("remounts the definitions when the resolved document replaces the raw one", () => {
+  it("tells the definitions when the resolved document replaces the raw one", () => {
     const { props } = makeProps(Map())
     let resolvedSubtree: unknown = Map()
-    const mounts = jest.fn()
-    const Custom = () => {
-      React.useEffect(() => {
-        mounts()
-      }, [])
+    const keys: unknown[] = []
+    const Custom = ({ entriesKey }: { entriesKey?: string }) => {
+      keys.push(entriesKey)
       return null
     }
     const customProps = {
@@ -256,12 +254,35 @@ describe("<JSONSchemaDocument />", () => {
     }
     const wrapper = mount(<JSONSchemaDocument {...customProps} />)
 
-    expect(mounts).toHaveBeenCalledTimes(1)
     resolvedSubtree = fromJS(resolved)
     wrapper.setProps({})
-    expect(mounts).toHaveBeenCalledTimes(2)
+
+    expect(keys[0]).toBe("raw")
+    expect(keys[keys.length - 1]).toBe("resolved")
+  })
+
+  it("keeps the open state of the definitions section when the resolved document arrives", () => {
+    const { props } = makeProps(Map())
+    let resolvedSubtree: unknown = Map()
+    const customProps = {
+      ...props,
+      specSelectors: {
+        ...props.specSelectors,
+        specResolvedSubtree: () => resolvedSubtree,
+      },
+    }
+    const wrapper = mount(<JSONSchemaDocument {...customProps} />)
+
+    wrapper.find("button.models-control").simulate("click")
+    expect(wrapper.find("button.models-control").prop("aria-expanded")).toBe(
+      false
+    )
+    resolvedSubtree = fromJS(resolved)
     wrapper.setProps({})
-    expect(mounts).toHaveBeenCalledTimes(2)
+
+    expect(wrapper.find("button.models-control").prop("aria-expanded")).toBe(
+      false
+    )
   })
 
   it("renders a boolean root schema resolved from a $ref", () => {

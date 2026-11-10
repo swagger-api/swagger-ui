@@ -170,10 +170,11 @@ const JSONSchemaDocument = ({
       {definitions !== null && defaultModelsExpandDepth >= 0 && (
         <Row className="json-schema-document-definitions">
           <Col mobile={12}>
-            {/* remounted with the root: the expansion callbacks keep the paths
-                of the first render, which an `$id` from a resolved `$ref` changes */}
+            {/* the entries are remounted with the root: the expansion callbacks
+                keep the paths of the first render, which an `$id` from a
+                resolved `$ref` changes; the section keeps its open state */}
             <Definitions
-              key={isResolved ? "resolved" : "raw"}
+              entriesKey={isResolved ? "resolved" : "raw"}
               definitions={definitions}
               JSONSchema={DefinitionsInstance}
               getComponent={getComponent}

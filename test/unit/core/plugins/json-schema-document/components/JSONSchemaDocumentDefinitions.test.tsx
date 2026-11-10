@@ -18,6 +18,13 @@ const Stub = ({ name, identifier }: Record<string, unknown>) => (
     {String(name)}
   </div>
 )
+const mounted = jest.fn()
+const Counted = ({ name }: Record<string, unknown>) => {
+  React.useEffect(() => {
+    mounted(name)
+  }, [])
+  return null
+}
 const Collapse = ({
   isOpened,
   children,
@@ -73,7 +80,7 @@ describe("<JSONSchemaDocumentDefinitions />", () => {
     expect(wrapper.find("section").hasClass("is-open")).toBe(true)
   })
 
-  it('gives each entry its name as its path, and an entry named "" a path no name is', () => {
+  it("gives each entry its name as a JSON string for its path", () => {
     const stubs = (definitions: Record<string, unknown>) =>
       mount(
         <JSONSchemaDocumentDefinitions
@@ -86,18 +93,43 @@ describe("<JSONSchemaDocumentDefinitions />", () => {
         .find(".json-schema-stub")
         .map((n) => [n.prop("data-identifier"), n.text()])
 
-    expect(stubs({ "": {}, foo: {}, bar: { title: "T" } })).toEqual([
-      [EMPTY_NAME_LABEL, EMPTY_NAME_LABEL],
-      ["foo", "foo"],
-      ["bar", "bar"],
+    expect(
+      stubs({ "": {}, foo: {}, bar: { title: "T" }, constructor: {} })
+    ).toEqual([
+      ['""', EMPTY_NAME_LABEL],
+      ['"foo"', "foo"],
+      ['"bar"', "bar"],
+      ['"constructor"', "constructor"],
     ])
+    // a name that is the label of the empty name is another path than it
     expect(stubs({ "": {}, [EMPTY_NAME_LABEL]: {} })).toEqual([
-      [`${EMPTY_NAME_LABEL}_`, EMPTY_NAME_LABEL],
-      // a name equal to the label is quoted, to tell it from the label
-      [EMPTY_NAME_LABEL, `"${EMPTY_NAME_LABEL}"`],
+      ['""', EMPTY_NAME_LABEL],
+      [`"${EMPTY_NAME_LABEL}"`, `"${EMPTY_NAME_LABEL}"`],
     ])
     // a titled entry named "" shows its title, not the label
-    expect(stubs({ "": { title: "T" } })).toEqual([[EMPTY_NAME_LABEL, ""]])
+    expect(stubs({ "": { title: "T" } })).toEqual([['""', ""]])
+  })
+
+  it("remounts the entries, not the section, when the entries key changes", () => {
+    mounted.mockClear()
+    const wrapper = mount(
+      <JSONSchemaDocumentDefinitions
+        definitions={{ A: {}, B: {} }}
+        JSONSchema={Counted}
+        getComponent={getComponent}
+        getTitle={getTitle}
+        entriesKey="raw"
+      />
+    )
+
+    wrapper.find("button").simulate("click")
+    expect(wrapper.find("button").prop("aria-expanded")).toBe(false)
+    wrapper.setProps({ entriesKey: "raw" })
+    expect(mounted).toHaveBeenCalledTimes(2)
+    wrapper.setProps({ entriesKey: "resolved" })
+
+    expect(mounted).toHaveBeenCalledTimes(4)
+    expect(wrapper.find("button").prop("aria-expanded")).toBe(false)
   })
 
   describe("with the json-schema-2020-12 renderer", () => {
@@ -150,6 +182,36 @@ describe("<JSONSchemaDocumentDefinitions />", () => {
 
       wrapper
         .find("button.json-schema-2020-12-accordion")
+        .first()
+        .simulate("click")
+      rerender(wrapper)
+
+      expect(expanded(wrapper)).toEqual([false, true])
+    })
+
+    it("doesn't take a name inherited from Object.prototype for a state of the entry", () => {
+      // collapsed by default: no level is expanded
+      const Collapsed = withJSONSchemaContext(RealJSONSchema, {
+        config: { defaultExpandedLevels: 0 },
+        fn: { getTitle: makeGetTitle(() => ({ upperFirst })) },
+      }) as C
+      const wrapper = mount(
+        <JSONSchemaDocumentDefinitions
+          definitions={{ constructor: object, toString: object, plain: object }}
+          JSONSchema={Collapsed}
+          getComponent={getComponent}
+          getTitle={makeGetTitle(() => ({ upperFirst })) as typeof getTitle}
+        />
+      )
+
+      expect(expanded(wrapper)).toEqual([false, false, false])
+    })
+
+    it("doesn't let collapsing all of an entry collapse the entries whose names it starts", () => {
+      const wrapper = mountReal({ Person: object, PersonAddress: object })
+
+      wrapper
+        .find("button.json-schema-2020-12-expand-deep-button")
         .first()
         .simulate("click")
       rerender(wrapper)

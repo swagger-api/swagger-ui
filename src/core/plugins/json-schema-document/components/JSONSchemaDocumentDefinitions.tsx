@@ -4,7 +4,7 @@
 import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
-import { getDisplayName, getEmptyNameIdentifier } from "../fn"
+import { getDisplayName } from "../fn"
 
 type Component = React.ComponentType<Record<string, unknown>>
 
@@ -14,15 +14,23 @@ export interface JSONSchemaDocumentDefinitionsProps {
   getComponent: (name: string) => unknown
   getTitle: (schema: unknown) => string
   isOpenDefault?: boolean
+  /**
+   * Remounts the entries, not the section (it keeps its open state), when it
+   * changes: the expansion callbacks of an entry keep the paths of its first
+   * render, which a resolved `$ref` can change.
+   */
+  entriesKey?: string
 }
 
 /**
  * The `$defs` of the root schema in a collapsible section below it, like the
  * Schemas section of an OpenAPI document, each definition rendered by the
  * given instance of the JSON Schema renderer. Each entry has an expansion path
- * token of its own (its name, `getEmptyNameIdentifier` for the name ""), not
- * the renderer's default of the schema's `$id` before its name, which another
- * entry's name can equal.
+ * token of its own: its name as a JSON string, not the renderer's default of
+ * the schema's `$id` before its name, which another entry's name can equal.
+ * Quoted, no name is a key inherited from `Object.prototype` (`constructor`),
+ * nor the beginning of another entry's token (`Person`, `PersonAddress`), nor
+ * the empty token of the root.
  */
 const JSONSchemaDocumentDefinitions = ({
   definitions,
@@ -30,6 +38,7 @@ const JSONSchemaDocumentDefinitions = ({
   getComponent,
   getTitle,
   isOpenDefault = true,
+  entriesKey = "",
 }: JSONSchemaDocumentDefinitionsProps) => {
   const [isOpen, setIsOpen] = useState(isOpenDefault)
   const Collapse = getComponent("Collapse") as Component
@@ -39,8 +48,6 @@ const JSONSchemaDocumentDefinitions = ({
   const handleExpansion = useCallback(() => {
     setIsOpen((open) => !open)
   }, [])
-
-  const emptyNameIdentifier = getEmptyNameIdentifier(definitions)
 
   return (
     <section
@@ -62,9 +69,9 @@ const JSONSchemaDocumentDefinitions = ({
       <Collapse isOpened={isOpen}>
         {Object.entries(definitions).map(([name, schema]) => (
           <JSONSchema
-            key={name}
+            key={`${entriesKey}:${name}`}
             name={getDisplayName(name, schema, getTitle)}
-            identifier={name === "" ? emptyNameIdentifier : name}
+            identifier={JSON.stringify(name)}
             schema={schema}
           />
         ))}
