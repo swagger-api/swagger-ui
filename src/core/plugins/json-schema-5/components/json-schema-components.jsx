@@ -18,6 +18,7 @@ const JsonSchemaPropShape = {
   required: PropTypes.bool,
   dispatchInitialValue: PropTypes.bool,
   description: PropTypes.any,
+  ariaLabel: PropTypes.string,
   disabled: PropTypes.bool,
 }
 
@@ -78,7 +79,7 @@ export class JsonSchema_string extends Component {
   }
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, schema, errors, required, description, disabled } = this.props
+    let { getComponent, value, schema, errors, required, description, ariaLabel, disabled } = this.props
     const enumValue = schema && schema.get ? schema.get("enum") : null
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
@@ -123,6 +124,7 @@ export class JsonSchema_string extends Component {
           minLength={0}
           debounceTimeout={350}
           placeholder={description}
+          aria-label={ariaLabel || description}
           onChange={this.onChange}
           disabled={isDisabled} />
       )
