@@ -39,7 +39,7 @@
     }
 
     &--secondary {
-      color: #6b6b6b;
+      color: $text-body-default-font-color;
       font-style: italic;
     }
 
@@ -49,7 +49,7 @@
   }
 
   &__value {
-    color: #6b6b6b;
+    color: $text-body-default-font-color;
     font-style: italic;
     font-size: 12px;
     font-weight: normal;
@@ -59,7 +59,7 @@
     }
 
     &--secondary {
-      color: #6b6b6b;
+      color: $text-body-default-font-color;
       font-style: italic;
     }
 
@@ -75,8 +75,8 @@
       line-height: 1.5;
       padding: 1px 4px 1px 4px;
       border-radius: 4px;
-      color: red;
-      border: 1px dashed red;
+      color: $guardsman-red;
+      border: 1px dashed $guardsman-red;
     }
   }
 }

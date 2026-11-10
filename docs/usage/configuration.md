@@ -223,10 +223,10 @@ Parameter name | Docker variable | Description
         <td><a name="user-content-syntaxhighlight.theme"></a><code>syntaxHighlight.theme</code>
         </td>
         <td><em>Unavailable</em></td>
-        <td><code>String=["agate"*, "arta", "monokai", "nord", "obsidian",
+        <td><code>String=["a11y-dark"*, "a11y-light", "agate", "arta", "monokai", "nord", "obsidian",
             "tomorrow-night", "idea"]</code>. <a
                 href="https://highlightjs.org/demo/" rel="nofollow">Highlight.js</a>
-            syntax coloring theme to use. (Only these 7 styles are available.)
+            syntax coloring theme to use. (Only these 9 styles are available.)
         </td>
     </tr>
     <tr>

@@ -86,8 +86,9 @@ input,
 textarea,
 select {
   &[disabled] {
-    background-color: #fafafa;
-    color: #888;
+    filter: invert(0.08);
+    opacity: 0.5;
+    pointer-events: none;
     cursor: not-allowed;
   }
 }
@@ -140,6 +141,11 @@ textarea {
 
   &:focus {
     border: 2px solid $form-textarea-focus-border-color;
+  }
+
+  // keep the error color when an invalid textarea is focused
+  &.invalid:focus {
+    border-color: $color-delete;
   }
 
   &.curl {

@@ -1,3 +1,5 @@
+@use "./../../../../../../style/variables" as *;
+
 .json-schema-2020-12 {
   &-keyword--properties {
     & > ul {
@@ -16,7 +18,7 @@
         > .json-schema-2020-12-head
         .json-schema-2020-12__title:after {
         content: "*";
-        color: red;
+        color: $color-danger;
         font-weight: bold;
       }
     }
