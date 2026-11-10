@@ -412,6 +412,20 @@ export const sampleFromSchemaGeneric = (schema, config={}, exampleOverride = und
     // recover missing type
     if(!schema) {
       type = Array.isArray(sample) ? "array" : typeof sample
+    } else if(!type && (schema.oneOf?.length > 0 || schema.anyOf?.length > 0)) {
+      // type may only be declared by the oneOf/anyOf subschemas, so use the
+      // first one, as is done when generating a sample without an example
+      const subSchema = objectify(schema.oneOf?.length > 0
+        ? schema.oneOf[0]
+        : schema.anyOf[0]
+      )
+      if(subSchema.type) {
+        type = subSchema.type
+      } else if(subSchema.properties || subSchema.additionalProperties) {
+        type = "object"
+      } else if(subSchema.items) {
+        type = "array"
+      }
     }
 
     // generate xml sample recursively for array case

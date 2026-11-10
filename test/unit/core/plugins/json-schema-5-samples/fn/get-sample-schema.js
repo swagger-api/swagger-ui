@@ -194,4 +194,31 @@ describe("getSampleSchema", () => {
 
     expect(res).toEqual("test: 123")
   })
+
+  it("should return xml literal example as-is for oneOf schema if xml content-type", () => {
+    // Given
+    const expected = '<?xml version="1.0"?><Root><Data>Test</Data></Root>'
+    const res = getSampleSchema(
+      {
+        oneOf: [
+          {
+            $$ref: "#/components/schemas/Schema1",
+            type: "object",
+            properties: { data: { type: "string" } },
+          },
+          {
+            $$ref: "#/components/schemas/Schema2",
+            type: "object",
+            properties: { data: { type: "string" } },
+          },
+        ],
+      },
+      "application/xml",
+      { includeWriteOnly: true },
+      expected
+    )
+
+    // Then
+    expect(res).toEqual(expected)
+  })
 })
