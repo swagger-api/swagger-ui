@@ -6,6 +6,7 @@ Welcome to the Swagger UI documentation!
 
 - [Installation](usage/installation.md)
 - [Configuration](usage/configuration.md)
+- [Parameter placeholders](usage/parameter-placeholders.md)
 - [CORS](usage/cors.md)
 - [OAuth2](usage/oauth2.md)
 - [Deep Linking](usage/deep-linking.md)
