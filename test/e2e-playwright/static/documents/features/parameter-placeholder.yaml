@@ -1,0 +1,54 @@
+openapi: 3.0.4
+info:
+  title: Parameter placeholders
+  version: 1.0.0
+paths:
+  /placeholder-clients:
+    get:
+      operationId: listClients
+      parameters:
+        - name: clientId
+          in: query
+          description: Client code
+          required: false
+          schema:
+            type: integer
+          x-placeholder: "1"
+        - name: withExample
+          in: query
+          schema:
+            type: integer
+          example: 2
+          x-placeholder: Example hint
+        - name: withDefault
+          in: query
+          schema:
+            type: integer
+            default: 3
+          x-placeholder: Default hint
+        - name: ordinary
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, inactive]
+          x-placeholder: Status hint
+      responses:
+        '200':
+          description: OK
+  /placeholder-required:
+    get:
+      operationId: requiredClient
+      parameters:
+        - name: clientId
+          in: query
+          required: true
+          schema:
+            type: integer
+          x-placeholder: "1"
+      responses:
+        '200':
+          description: OK
