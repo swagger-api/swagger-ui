@@ -157,6 +157,7 @@ export default class Responses extends React.Component {
                                 code
                               )}
                               oas3Actions={oas3Actions}
+                              oas3Selectors={oas3Selectors}
                               getComponent={ getComponent }/>
                     )
                 }).toArray()

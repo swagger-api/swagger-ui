@@ -19,10 +19,24 @@ export default class ArrayModel extends Component {
     depth: PropTypes.number,
     includeReadOnly: PropTypes.bool,
     includeWriteOnly: PropTypes.bool,
+    layoutActions: PropTypes.shape({
+      show: PropTypes.func.isRequired,
+    }),
+    layoutSelectors: PropTypes.shape({
+      isShown: PropTypes.func.isRequired,
+    }),
+  }
+
+  handleToggle = (modelName, shown) => {
+    const { layoutActions, specPath } = this.props
+    layoutActions?.show(specPath.toJS(), shown)
   }
 
   render(){
-    let { getComponent, getConfigs, schema, depth, expandDepth, name, displayName, specPath } = this.props
+    let { getComponent, getConfigs, schema, depth, expandDepth, name, displayName, specPath, layoutSelectors } = this.props
+    const defaultExpanded = depth <= expandDepth
+    const isExpanded = layoutSelectors?.isShown(specPath.toJS(), defaultExpanded) ?? defaultExpanded
+
     let description = schema.get("description")
     let items = schema.get("items")
     let title = schema.get("title") || displayName || name
@@ -38,9 +52,9 @@ export default class ArrayModel extends Component {
     const Link = getComponent("Link")
 
     const titleEl = title &&
-      <span className="model-title">
+      <strong className="model-title">
         <span className="model-title__text">{ title }</span>
-      </span>
+      </strong>
 
     /*
     Note: we set `name={null}` in <Model> below because we don't want
@@ -48,7 +62,12 @@ export default class ArrayModel extends Component {
     */
 
     return <span className="model">
-      <ModelCollapse title={titleEl} expanded={ depth <= expandDepth } collapsedContent="[...]">
+      <ModelCollapse
+        title={titleEl}
+        onToggle={this.handleToggle}
+        expanded={isExpanded}
+        collapsedContent="[...]"
+      >
         [
           {
             properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null

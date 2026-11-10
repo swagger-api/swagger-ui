@@ -24,16 +24,22 @@ const onlyOAS3 =
     }
   }
 
+const pathMethodSpecPath = (specSelectors, path, method) => {
+  return specSelectors.operationSpecPath
+    ? specSelectors.operationSpecPath(path, method)
+    : ["paths", path, method]
+}
+
 function validateRequestBodyIsRequired(selector) {
   return (...args) =>
     (system) => {
-      const specJson = system.getSystem().specSelectors.specJson()
+      const specSelectors = system.getSystem().specSelectors
+      const specJson = specSelectors.specJsonWithResolvedSubtrees()
       const argsList = [...args]
       // expect argsList[0] = state
       let pathMethod = argsList[1] || []
       let isOas3RequestBodyRequired = specJson.getIn([
-        "paths",
-        ...pathMethod,
+        ...pathMethodSpecPath(specSelectors, ...pathMethod),
         "requestBody",
         "required",
       ])
@@ -84,9 +90,7 @@ export const selectDefaultRequestBodyValue =
       if (currentMediaType) {
         return getDefaultRequestBodyValue(
           specSelectors.specResolvedSubtree([
-            "paths",
-            path,
-            method,
+            ...pathMethodSpecPath(specSelectors, path, method),
             "requestBody",
           ]),
           currentMediaType,
@@ -110,9 +114,7 @@ export const hasUserEditedBody = onlyOAS3((state, path, method) => (system) => {
   const currentMediaType = oas3Selectors.requestContentType(path, method)
   let userEditedRequestBody = oas3Selectors.requestBodyValue(path, method)
   const requestBody = specSelectors.specResolvedSubtree([
-    "paths",
-    path,
-    method,
+    ...pathMethodSpecPath(specSelectors, path, method),
     "requestBody",
   ])
 
@@ -184,6 +186,18 @@ export const requestContentType = onlyOAS3((state, path, method) => {
 export const responseContentType = onlyOAS3((state, path, method) => {
   return (
     state.getIn(["requestData", path, method, "responseContentType"]) || null
+  )
+})
+
+export const responseCodeContentType = onlyOAS3((state, path, method, code) => {
+  return (
+    state.getIn([
+      "requestData",
+      path,
+      method,
+      "responseCodeContentType",
+      code,
+    ]) || null
   )
 })
 

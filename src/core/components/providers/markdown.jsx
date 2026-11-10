@@ -5,12 +5,10 @@ import { linkify } from "remarkable/linkify"
 import DomPurify from "dompurify"
 import cx from "classnames"
 
-if (DomPurify.addHook) {
-  DomPurify.addHook("beforeSanitizeElements", function (current, ) {
-    // Attach safe `rel` values to all elements that contain an `href`,
-    // i.e. all anchors that are links.
-    // We _could_ just look for elements that have a non-self target,
-    // but applying it more broadly shouldn't hurt anything, and is safer.
+const scopedDomPurify = typeof window !== "undefined" ? DomPurify(window) : DomPurify
+
+if (scopedDomPurify.addHook) {
+  scopedDomPurify.addHook("beforeSanitizeElements", function (current) {
     if (current.href) {
       current.setAttribute("rel", "noopener noreferrer")
     }
@@ -62,7 +60,7 @@ export function sanitizer(str, { useUnsafeMarkdown = false } = {}) {
     sanitizer.hasWarnedAboutDeprecation = true
   }
 
-  return DomPurify.sanitize(str, {
+  return scopedDomPurify.sanitize(str, {
     ADD_ATTR: ["target"],
     FORBID_TAGS: ["style", "form"],
     ALLOW_DATA_ATTR,

@@ -8,10 +8,6 @@ export default class Parameters extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      callbackVisible: false,
-      parametersVisible: true,
-    }
   }
 
   static propTypes = {
@@ -22,6 +18,8 @@ export default class Parameters extends Component {
     specSelectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
+    layoutActions: PropTypes.object.isRequired,
+    layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
@@ -63,17 +61,8 @@ export default class Parameters extends Component {
   }
 
   toggleTab = (tab) => {
-    if (tab === "parameters") {
-      return this.setState({
-        parametersVisible: true,
-        callbackVisible: false,
-      })
-    } else if (tab === "callbacks") {
-      return this.setState({
-        callbackVisible: true,
-        parametersVisible: false,
-      })
-    }
+    const { layoutActions, pathMethod } = this.props
+    layoutActions.show([...pathMethod, "callbacks-tab"], tab === "callbacks")
   }
   
   onChangeMediaType = ({ value, pathMethod }) => {
@@ -109,8 +98,12 @@ export default class Parameters extends Component {
       pathMethod,
       oas3Actions,
       oas3Selectors,
+      layoutSelectors,
       operation,
     } = this.props
+
+    const callbackVisible = layoutSelectors.isShown([...pathMethod, "callbacks-tab"], false)
+    const parametersVisible = !callbackVisible
 
     const ParameterRow = getComponent("parameterRow")
     const TryItOutButton = getComponent("TryItOutButton")
@@ -144,13 +137,13 @@ export default class Parameters extends Component {
           {isOAS3 ? (
             <div className="tab-header">
               <div onClick={() => this.toggleTab("parameters")}
-                   className={`tab-item ${this.state.parametersVisible && "active"}`}>
+                   className={`tab-item ${parametersVisible && "active"}`}>
                 <h4 className="opblock-title"><span>Parameters</span></h4>
               </div>
               {operation.get("callbacks") ?
                 (
                   <div onClick={() => this.toggleTab("callbacks")}
-                       className={`tab-item ${this.state.callbackVisible && "active"}`}>
+                       className={`tab-item ${callbackVisible && "active"}`}>
                     <h4 className="opblock-title"><span>Callbacks</span></h4>
                   </div>
                 ) : null
@@ -171,7 +164,7 @@ export default class Parameters extends Component {
               onResetClick={() => onResetClick(pathMethod)}/>
           ) : null}
         </div>
-        {this.state.parametersVisible ? <div className="parameters-container">
+        {parametersVisible ? <div className="parameters-container">
           {!groupedParametersArr.length ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
             <div className="table-container">
               <table className="parameters">
@@ -208,14 +201,14 @@ export default class Parameters extends Component {
           }
         </div> : null}
 
-        {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
+        {callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
           <Callbacks
             callbacks={Map(operation.get("callbacks"))}
             specPath={specPath.slice(0, -1).push("callbacks")}
           />
         </div> : null}
         {
-          isOAS3 && requestBody && this.state.parametersVisible &&
+          isOAS3 && requestBody && parametersVisible &&
           <div className="opblock-section opblock-section-request-body">
             <div className="opblock-section-header">
               <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request

@@ -156,7 +156,7 @@ class TopBar extends React.Component {
     }
 
     return (
-      <div className="topbar">
+      <header className="topbar" role="banner">
         <div className="wrapper">
           <div className="topbar-wrapper">
             <Link>
@@ -168,7 +168,7 @@ class TopBar extends React.Component {
             <DarkModeToggle />
           </div>
         </div>
-      </div>
+      </header>
     )
   }
 }

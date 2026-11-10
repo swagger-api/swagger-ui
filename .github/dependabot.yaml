@@ -22,7 +22,7 @@ updates:
       time: "23:00"
 
   - package-ecosystem: "github-actions"
-    target-branch: "master"
+    target-branch: "main"
     directory: "/"
     schedule:
       interval: "daily"

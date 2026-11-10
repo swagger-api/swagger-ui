@@ -1,11 +1,12 @@
 /**
  * @prettier
  */
-import React, { useMemo, useState, useEffect, useCallback, useRef } from "react"
+import React, { useMemo, useEffect, useCallback, useRef } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import randomBytes from "randombytes"
+import { immutableToJS } from "core/utils"
 
 const usePrevious = (value) => {
   const ref = useRef()
@@ -15,24 +16,52 @@ const usePrevious = (value) => {
   return ref.current
 }
 
-const useTabs = ({ initialTab, isExecute, schema, example }) => {
+const useTabs = ({
+  initialTab,
+  isExecute,
+  schema,
+  example,
+  specPath,
+  layoutActions,
+  layoutSelectors,
+}) => {
   const tabs = useMemo(() => ({ example: "example", model: "model" }), [])
-  const allowedTabs = useMemo(() => Object.keys(tabs), [tabs])
-  const tab =
-    !allowedTabs.includes(initialTab) || !schema || isExecute
-      ? tabs.example
-      : initialTab
+  const tabKey = useMemo(
+    () => [...immutableToJS(specPath), "show-model-tab"],
+    [specPath]
+  )
+
+  const showModelByDefault = !!(
+    initialTab === tabs.model &&
+    schema &&
+    !isExecute
+  )
+  const showModel = layoutSelectors.isShown(tabKey, showModelByDefault)
+  const activeTab = showModel ? tabs.model : tabs.example
+
   const prevIsExecute = usePrevious(isExecute)
-  const [activeTab, setActiveTab] = useState(tab)
-  const handleTabChange = useCallback((e) => {
-    setActiveTab(e.target.dataset.name)
-  }, [])
+  const isFirstRender = useRef(true)
+
+  const handleTabChange = useCallback(
+    (e) => {
+      layoutActions.show(tabKey, e.target.dataset.name === tabs.model)
+    },
+    [layoutActions, tabKey, tabs.model]
+  )
 
   useEffect(() => {
-    if (prevIsExecute && !isExecute && example) {
-      setActiveTab(tabs.example)
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
     }
-  }, [prevIsExecute, isExecute, example])
+
+    const enteredExecute = !prevIsExecute && isExecute
+    const leftExecuteWithExample = prevIsExecute && !isExecute && example
+
+    if (enteredExecute || leftExecuteWithExample) {
+      layoutActions.show(tabKey, false)
+    }
+  }, [prevIsExecute, isExecute, example, layoutActions, tabKey])
 
   return { activeTab, onTabChange: handleTabChange, tabs }
 }
@@ -47,6 +76,8 @@ const ModelExample = ({
   getComponent,
   getConfigs,
   specSelectors,
+  layoutActions,
+  layoutSelectors,
 }) => {
   const { defaultModelRendering, defaultModelExpandDepth } = getConfigs()
   const ModelWrapper = getComponent("ModelWrapper")
@@ -61,6 +92,9 @@ const ModelExample = ({
     isExecute,
     schema,
     example,
+    specPath,
+    layoutActions,
+    layoutSelectors,
   })
 
   return (
@@ -135,6 +169,9 @@ const ModelExample = ({
             specSelectors={specSelectors}
             expandDepth={defaultModelExpandDepth}
             specPath={specPath}
+            fullPath={immutableToJS(specPath)}
+            layoutActions={layoutActions}
+            layoutSelectors={layoutSelectors}
             includeReadOnly={includeReadOnly}
             includeWriteOnly={includeWriteOnly}
           />
@@ -148,6 +185,8 @@ ModelExample.propTypes = {
   getComponent: PropTypes.func.isRequired,
   specSelectors: PropTypes.shape({ isOAS3: PropTypes.func.isRequired })
     .isRequired,
+  layoutActions: PropTypes.object.isRequired,
+  layoutSelectors: PropTypes.object.isRequired,
   schema: PropTypes.object.isRequired,
   example: PropTypes.any.isRequired,
   isExecute: PropTypes.bool,

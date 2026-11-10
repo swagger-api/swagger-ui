@@ -1,5 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
+import { List } from "immutable"
 import ModelExample from "core/plugins/json-schema-5/components/model-example"
 import ModelComponent from "core/plugins/json-schema-5/components/model-wrapper"
 
@@ -30,6 +31,13 @@ describe("<ModelExample/>", function(){
       specSelectors: {
         isOAS3: () => false
       },
+      layoutActions: {
+        show: jest.fn()
+      },
+      layoutSelectors: {
+        isShown: (_key, defaultValue) => defaultValue
+      },
+      specPath: List(["definitions", "Example"]),
       schema: {},
       example: "{\"example\": \"value\"}",
       isExecute: false,

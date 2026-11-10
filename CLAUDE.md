@@ -88,7 +88,7 @@ Apache 2.0 - See LICENSE and NOTICE files for details.
 
 **Testing:**
 - Jest 29.7.0 - Unit testing
-- Cypress 14.2.0 - E2E testing
+- Playwright 1.63.0 - E2E testing
 - Enzyme 3.11.0 - React component testing
 
 **Development:**
@@ -142,8 +142,8 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 
 ### Prerequisites
 
-- **Node.js:** >=24.14.0 (Node 24.x recommended, as defined in `.nvmrc`)
-- **npm:** >=11.9.0
+- **Node.js:** >=24.22 (Node 24.x recommended, as defined in `.nvmrc`)
+- **npm:** >=11.19.1
 - **Git:** Any version
 - **JDK 7+:** Required for Nightwatch.js integration tests
 
@@ -286,43 +286,51 @@ npm run test:unit
 - `test/unit/jest-shim.js` - Polyfills and shims
 - `test/unit/setup.js` - Test environment setup
 
-### E2E Tests (Cypress)
+### E2E Tests (Playwright)
 
-**Configuration:** `cypress.config.js`
+**Configuration:** `playwright.config.ts`
 
-**Location:** `test/e2e-cypress/`
+**Location:** `test/e2e-playwright/`
 
-**Base URL:** http://localhost:3230/
+**Base URL:** http://localhost:3230
 
 **Commands:**
 ```bash
-# Run all E2E tests
-npm run cy:ci
+# Run all E2E tests (starts webpack dev server + mock API automatically)
+npm run e2e
 
-# Interactive Cypress runner
-npm run cy:dev
+# Interactive Playwright UI mode
+npm run e2e:ui
 
-# Headless run
-npm run cy:run
+# Headed browser
+npm run e2e:headed
 
-# Start servers and run tests
-npm run cy:start     # Starts webpack + mock API
+# Open the HTML report of the last run
+npm run e2e:report
+
+# Type-check the specs (Playwright itself does not; also runs in CI)
+npm run e2e:typecheck
+
+# Run one spec
+npm run e2e -- test/e2e-playwright/features/deep-linking.spec.ts
 ```
 
 **Structure:**
-- `test/e2e-cypress/e2e/` - Test specs (99 test files)
-- `test/e2e-cypress/static/` - Test fixtures and documents
-- `test/e2e-cypress/support/` - Test helpers and commands
+- `test/e2e-playwright/{a11y,bugs,features,security}/` - Test specs (`*.spec.ts`)
+- `test/e2e-playwright/static/` - Test fixtures and documents (served at `/` by `webpack/dev-e2e.js`)
+- `test/e2e-playwright/fixtures/` - Other fixtures
+- `test/e2e-playwright/support/` - Shared `test` fixture, helpers and the OAuth2 test server (port 3231, started by global setup)
+- `test/e2e-playwright/tsconfig.json` - strict TypeScript config for specs and `playwright.config.ts`
 
 **Test Categories:**
-- `a11y/**/*cy.js` - Accessibility tests
-- `security/**/*cy.js` - Security tests
-- `bugs/**/*cy.js` - Bug regression tests
-- `features/**/*cy.js` - Feature tests
+- `a11y/**/*.spec.ts` - Accessibility tests
+- `security/**/*.spec.ts` - Security tests
+- `bugs/**/*.spec.ts` - Bug regression tests
+- `features/**/*.spec.ts` - Feature tests
 
 **Mock API Server:**
 ```bash
-npm run cy:mock-api  # JSON Server on port 3204
+npm run e2e:mock-api  # JSON Server on port 3204
 ```
 
 ### Artifact Tests
@@ -339,7 +347,7 @@ npm run test:artifact
 ### Complete Test Suite
 
 ```bash
-npm test  # Runs: lint-errors + test:unit + cy:ci
+npm test  # Runs: lint-errors + test:unit + e2e
 ```
 
 ### CI/CD Testing
@@ -348,9 +356,9 @@ npm test  # Runs: lint-errors + test:unit + cy:ci
 
 **Two Jobs:**
 1. **build** - Lint, unit tests, build, artifact tests
-2. **e2e-tests** - Cypress tests (matrix strategy with 3 containers)
+2. **e2e-tests** - Playwright tests (matrix strategy with 4 shards, HTML report and traces uploaded on failure)
 
-**Branches:** `master`, `next`
+**Branches:** `main`, `next`
 
 ---
 
@@ -423,9 +431,14 @@ insertPragma: true       # Insert @prettier pragma
 
 ### File Structure Conventions
 
+**TypeScript (REQUIRED for all new files):**
+- All new source files must be written in TypeScript (`.ts` / `.tsx`)
+- Use `.tsx` for React components, `.ts` for all other modules
+- Existing `.js` / `.jsx` files are not required to be migrated, but new code must not be added in plain JavaScript
+
 **Components:**
 - Location: `src/core/components/`
-- Extension: `.jsx` (React components)
+- Extension: `.tsx` (React components — TypeScript)
 - Format: PascalCase for component names
 
 **Styles:**
@@ -436,8 +449,8 @@ insertPragma: true       # Insert @prettier pragma
 
 **Tests:**
 - Unit: `test/unit/` (mirrors source structure)
-- E2E: `test/e2e-cypress/e2e/`
-- Naming: `*.test.js`, `*.spec.js`, `*.cy.js` (Cypress)
+- E2E: `test/e2e-playwright/`
+- Naming: `*.test.ts`, `*.spec.ts` (Playwright) — use `.tsx` variants when JSX is involved
 
 ---
 
@@ -446,11 +459,11 @@ insertPragma: true       # Insert @prettier pragma
 ### Branch Strategy
 
 **Main Branches:**
-- `master` - Production releases
+- `main` - Production releases
 - `next` - Next version development
 
 **Feature Branches:**
-- Should branch from `master` or `next`
+- Should branch from `main` or `next`
 - Use descriptive names
 
 ### Commit Conventions
@@ -508,7 +521,7 @@ Fixes #12345
 - Unit tests (Jest)
 - Build verification
 - Artifact tests
-- E2E tests (Cypress)
+- E2E tests (Playwright)
 
 ### Release Process
 
@@ -652,7 +665,7 @@ src/
 ├── .browserslistrc              # Browser targets
 ├── .nvmrc                       # Node version (24.x)
 ├── .lintstagedrc                # Pre-commit linting
-└── cypress.config.js            # Cypress E2E config
+└── playwright.config.ts         # Playwright E2E config
 ```
 
 ### Build & Tooling
@@ -702,10 +715,10 @@ test/
 ├── unit/                        # Jest unit tests (37 files)
 │   ├── setup.js                # Test environment setup
 │   └── jest-shim.js           # Polyfills
-├── e2e-cypress/                 # Cypress E2E tests (99 files)
-│   ├── e2e/                    # Test specs
+├── e2e-playwright/              # Playwright E2E tests (*.spec.ts)
+│   ├── {a11y,bugs,features,security}/  # Test specs
 │   ├── static/                 # Fixtures
-│   └── support/                # Helpers
+│   └── support/                # Helpers, shared fixtures, OAuth2 server
 └── e2e-selenium/               # Legacy Selenium tests
 ```
 
@@ -756,7 +769,7 @@ dist/                            # Build output (generated)
 4. **Test your changes:**
    ```bash
    npm run test:unit     # Run unit tests
-   npm run cy:dev        # Interactive E2E testing
+   npm run e2e:ui        # Interactive E2E testing
    npm run build         # Verify build works
    npm run test:artifact # Verify artifacts
    ```
@@ -764,7 +777,7 @@ dist/                            # Build output (generated)
 ### Adding a New Component
 
 1. Create component in `src/core/components/` or appropriate plugin directory
-2. Use `.jsx` extension
+2. Use `.tsx` extension (TypeScript — required for all new files)
 3. Add `@prettier` pragma
 4. Follow React best practices (functional components, hooks)
 5. Add PropTypes validation
@@ -774,7 +787,7 @@ dist/                            # Build output (generated)
 ### Adding a New Plugin
 
 1. Create directory in `src/core/plugins/[plugin-name]/`
-2. Create `index.js` with plugin structure
+2. Create `index.ts` with plugin structure (TypeScript — required for all new files)
 3. Add actions, reducers, selectors as needed
 4. Register plugin in preset (e.g., `src/core/presets/base.js`)
 5. Add tests in `test/unit/core/plugins/[plugin-name]/`
@@ -783,7 +796,7 @@ dist/                            # Build output (generated)
 ### Fixing a Bug
 
 1. **Reproduce the bug:**
-   - Add a failing test in `test/unit/` or `test/e2e-cypress/`
+   - Add a failing test in `test/unit/` or `test/e2e-playwright/`
    - Document reproduction steps
 
 2. **Fix the issue:**
@@ -853,7 +866,7 @@ dist/                            # Build output (generated)
 - OAS 3.2.x: Use `src/core/plugins/oas32/`
 
 **Adding Test Specs:**
-- Add to `test/e2e-cypress/static/documents/`
+- Add to `test/e2e-playwright/static/documents/`
 - Reference in E2E tests
 
 ---
@@ -863,40 +876,42 @@ dist/                            # Build output (generated)
 ### DO's ✅
 
 1. **Always read files before modifying them**
-2. **Follow the no-semicolon convention**
-3. **Use double quotes for strings**
-4. **Add `@prettier` pragma to all new files**
-5. **Use `.jsx` extension for React components**
-6. **Write tests for new features and bug fixes**
-7. **Run linters before committing** (automatic via husky)
-8. **Use DOMPurify for HTML sanitization**
-9. **Follow conventional commit format**
-10. **Update documentation for user-facing changes**
-11. **Test with multiple OpenAPI spec versions**
-12. **Check browser compatibility** (see `.browserslistrc`)
-13. **Use the plugin architecture** - don't modify core unnecessarily
-14. **Preserve backward compatibility** unless explicitly breaking
-15. **Run full test suite before submitting PR**
-16. **Keep plugins self-contained** - avoid cross-plugin imports (see [Cross-Plugin Import Guidelines](#cross-plugin-import-guidelines))
+2. **Write all new files in TypeScript** - use `.ts` for modules, `.tsx` for React components
+3. **Follow the no-semicolon convention**
+4. **Use double quotes for strings**
+5. **Add `@prettier` pragma to all new files**
+6. **Use `.tsx` extension for new React components** (TypeScript JSX)
+7. **Write tests for new features and bug fixes**
+8. **Run linters before committing** (automatic via husky)
+9. **Use DOMPurify for HTML sanitization**
+10. **Follow conventional commit format**
+11. **Update documentation for user-facing changes**
+12. **Test with multiple OpenAPI spec versions**
+13. **Check browser compatibility** (see `.browserslistrc`)
+14. **Use the plugin architecture** - don't modify core unnecessarily
+15. **Preserve backward compatibility** unless explicitly breaking
+16. **Run full test suite before submitting PR**
+17. **Keep plugins self-contained** - avoid cross-plugin imports (see [Cross-Plugin Import Guidelines](#cross-plugin-import-guidelines))
 
 ### DON'Ts ❌
 
-1. **Don't use semicolons** - project convention
-2. **Don't use single quotes** - use double quotes
-3. **Don't skip the @prettier pragma** - required for formatting
-4. **Don't put React in `.js` files** - use `.jsx`
-5. **Don't commit files in `dev-helpers/`** (except core files)
-6. **Don't commit build artifacts** (`dist/` is gitignored)
-7. **Don't skip tests** - they run in CI
-8. **Don't bypass ESLint** - pre-commit hook enforces
-9. **Don't use `console.log`** - only `console.warn` and `console.error`
-10. **Don't render unsanitized HTML** - XSS vulnerability
-11. **Don't modify `package-lock.json` manually**
-12. **Don't push directly to `master` or `next`**
-13. **Don't ignore Cypress test failures**
-14. **Don't add dependencies without justification**
-15. **Don't break the build** - verify with `npm run build`
-16. **Don't import from other plugins** - create self-contained copies instead (e.g., don't import from `oas31` in `oas32`)
+1. **Don't write new files in plain JavaScript** - all new files must be TypeScript (`.ts` / `.tsx`)
+2. **Don't use semicolons** - project convention
+3. **Don't use single quotes** - use double quotes
+4. **Don't skip the @prettier pragma** - required for formatting
+5. **Don't put React in `.ts` files** - use `.tsx` for JSX
+6. **Don't commit files in `dev-helpers/`** (except core files)
+7. **Don't commit build artifacts** (`dist/` is gitignored)
+8. **Don't skip tests** - they run in CI
+9. **Don't bypass ESLint** - pre-commit hook enforces
+10. **Don't use `console.log`** - only `console.warn` and `console.error`
+11. **Don't render unsanitized HTML** - XSS vulnerability
+12. **Don't modify `package-lock.json` manually**
+13. **Don't push directly to `main` or `next`**
+14. **Don't ignore Playwright test failures**
+15. **Don't add dependencies without justification**
+16. **Don't break the build** - verify with `npm run build`
+17. **Don't import from other plugins** - create self-contained copies instead (e.g., don't import from `oas31` in `oas32`)
 
 ### When Working with AI Assistants
 
@@ -962,11 +977,11 @@ npm run dev
 - State inspection available
 - Time-travel debugging
 
-**Cypress Interactive Mode:**
+**Playwright UI Mode:**
 ```bash
-npm run cy:dev
+npm run e2e:ui
 # Visual test runner
-# Step-through debugging
+# Time-travel debugging with traces
 # Network inspection
 ```
 
@@ -1000,8 +1015,8 @@ npm run clean            # Remove dist/
 # Testing
 npm test                 # Full test suite (lint + unit + E2E)
 npm run test:unit        # Jest unit tests
-npm run cy:dev           # Cypress interactive
-npm run cy:ci            # Cypress CI mode
+npm run e2e              # Playwright E2E
+npm run e2e:ui           # Playwright interactive
 npm run test:artifact    # Artifact verification
 
 # Linting
@@ -1028,7 +1043,7 @@ Components:            src/core/components/
 Plugins:               src/core/plugins/
 Styles:                src/style/
 Tests (Unit):          test/unit/
-Tests (E2E):           test/e2e-cypress/e2e/
+Tests (E2E):           test/e2e-playwright/
 Build Output:          dist/
 ```
 
@@ -1050,6 +1065,7 @@ Build Output:          dist/
 - **Plugin API:** `docs/customization/plugin-api.md`
 - **Configuration:** `docs/usage/configuration.md`
 - **OAuth2 Setup:** `docs/usage/oauth2.md`
+- **Claude Code Skills:** `.claude/skills/README.md` (adding OpenAPI versions, standalone JSON Schema, spec reviews)
 
 ### External Links
 

@@ -63,7 +63,7 @@ export default class OperationSummary extends PureComponent {
     const securityIsOptional = hasSecurity && security.size === 1 && security.first().isEmpty()
     const allowAnonymous = !hasSecurity || securityIsOptional
     return (
-      <div className={`opblock-summary opblock-summary-${method}`} >
+      <div className="opblock-summary">
         <button
           aria-expanded={isShown}
           className="opblock-summary-control"

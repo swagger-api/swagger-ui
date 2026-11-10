@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { useCallback, useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 
 import {
   JSONSchemaContext,
@@ -10,6 +10,11 @@ import {
   JSONSchemaPathContext,
 } from "./context"
 import { JSONSchemaIsExpandedState } from "./enum"
+
+const COLLAPSED_STATES = [
+  JSONSchemaIsExpandedState.Collapsed,
+  JSONSchemaIsExpandedState.UserCollapsed,
+]
 
 export const useConfig = () => {
   const { config } = useContext(JSONSchemaContext)
@@ -61,13 +66,16 @@ export const usePath = (pathToken) => {
     const updateFn = (state) => {
       state.paths[startPath] = value
 
-      if (value === JSONSchemaIsExpandedState.Collapsed) {
+      if (COLLAPSED_STATES.includes(value)) {
         Object.keys(state.paths).forEach((key) => {
-          if (
-            key.startsWith(startPath) &&
-            state.paths[key] === JSONSchemaIsExpandedState.DeeplyExpanded
-          ) {
-            state.paths[key] = JSONSchemaIsExpandedState.Expanded
+          if (key.startsWith(startPath) && key !== startPath) {
+            if (state.paths[key] === JSONSchemaIsExpandedState.DeeplyExpanded) {
+              state.paths[key] = JSONSchemaIsExpandedState.Expanded
+            } else if (
+              state.paths[key] === JSONSchemaIsExpandedState.UserCollapsed
+            ) {
+              state.paths[key] = JSONSchemaIsExpandedState.Collapsed
+            }
           }
         })
       }
@@ -105,9 +113,20 @@ export const useIsExpanded = (name) => {
     (defaultExpandedLevels - level > 0
       ? JSONSchemaIsExpandedState.Expanded
       : JSONSchemaIsExpandedState.Collapsed)
-  const isExpanded = isExpandedState !== JSONSchemaIsExpandedState.Collapsed
+  const isExpanded = !COLLAPSED_STATES.includes(isExpandedState)
+  const prevParentState = useRef(parentState)
 
   useEffect(() => {
+    const hasParentStateChanged = prevParentState.current !== parentState
+    prevParentState.current = parentState
+
+    if (
+      !hasParentStateChanged &&
+      currentState === JSONSchemaIsExpandedState.UserCollapsed
+    ) {
+      return
+    }
+
     pathMutator(
       parentState === JSONSchemaIsExpandedState.DeeplyExpanded
         ? JSONSchemaIsExpandedState.DeeplyExpanded
@@ -124,7 +143,12 @@ export const useIsExpanded = (name) => {
   }, [])
 
   const setCollapsed = useCallback((options = { deep: false }) => {
-    pathMutator(JSONSchemaIsExpandedState.Collapsed, options)
+    pathMutator(
+      options.deep
+        ? JSONSchemaIsExpandedState.Collapsed
+        : JSONSchemaIsExpandedState.UserCollapsed,
+      options
+    )
   }, [])
 
   return { isExpanded, setExpanded, setCollapsed }

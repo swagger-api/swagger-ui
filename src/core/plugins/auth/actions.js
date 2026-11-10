@@ -230,7 +230,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   .catch(e => {
     let err = new Error(e)
     let message = err.message
-    // swagger-js wraps the response (if available) into the e.response property;
+    // swagger-client wraps the response (if available) into the e.response property;
     // investigate to check whether there are more details on why the authorization
     // request failed (according to RFC 6479).
     // See also https://github.com/swagger-api/swagger-ui/issues/4048

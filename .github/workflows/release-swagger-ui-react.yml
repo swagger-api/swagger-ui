@@ -5,23 +5,26 @@ on:
     workflows: ["Release SwaggerUI"]
     types:
       - completed
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   release-swagger-ui-react:
     if: github.event.workflow_run.conclusion == 'success'
     name: Release swagger-ui-react npm package
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: master
+          ref: main
 
       - name: Use Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm

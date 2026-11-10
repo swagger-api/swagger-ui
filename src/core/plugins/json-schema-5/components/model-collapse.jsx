@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import Im from "immutable"
+import { List, is } from "immutable"
 
 export default class ModelCollapse extends Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export default class ModelCollapse extends Component {
     title: null,
     onToggle: () => {},
     hideSelfOnExpand: false,
-    specPath: Im.List([]),
+    specPath: List([]),
   }
 
   constructor(props, context) {
@@ -68,7 +68,7 @@ export default class ModelCollapse extends Component {
     if (ref && this.props.layoutSelectors) {
       const scrollToKey = this.props.layoutSelectors.getScrollToKey()
 
-      if( Im.is(scrollToKey, this.props.specPath) ) this.toggleCollapsed()
+      if( is(scrollToKey, this.props.specPath) ) this.toggleCollapsed()
       this.props.layoutActions.readyToScroll(this.props.specPath, ref.parentElement)
     }
   }

@@ -4,7 +4,8 @@ import {
   selectedServer,
   serverVariableValue,
   serverVariables,
-  serverEffectiveValue
+  serverEffectiveValue,
+  validateBeforeExecute
 } from "core/plugins/oas3/selectors"
 
 import reducers from "core/plugins/oas3/reducers"
@@ -301,7 +302,51 @@ describe("OAS3 plugin - state", function() {
           expect(globalRes).toEqual("google.com/123")
         })
       })
+    describe("validateBeforeExecute", function() {
+      const pathMethod = ["/pets", "Search-Pets"]
+      const specPath = ["paths", "/pets", "additionalOperations", "Search-Pets"]
+      const withRequestBody = (requestBody) =>
+        fromJS({
+          paths: {
+            "/pets": {
+              additionalOperations: { "Search-Pets": { requestBody } },
+            },
+          },
+        })
 
+      const makeSystem = (resolvedRequestBody) => ({
+        getSystem() {
+          return {
+            specSelectors: {
+              operationSpecPath: () => specPath,
+              // raw document: requestBody is only a Reference Object
+              specJson: () =>
+                withRequestBody({ $ref: "#/components/requestBodies/Search" }),
+              specJsonWithResolvedSubtrees: () =>
+                withRequestBody(resolvedRequestBody),
+            },
+          }
+        },
+      })
+
+      const emptyBodyState = fromJS({
+        requestData: { "/pets": { "Search-Pets": { bodyValue: "" } } },
+      })
+
+      it("should fail when a $ref'd required request body is empty", function() {
+        const res = validateBeforeExecute(emptyBodyState, pathMethod)(
+          makeSystem({ required: true, content: {} })
+        )
+        expect(res).toEqual(false)
+      })
+
+      it("should pass when the resolved request body is optional", function() {
+        const res = validateBeforeExecute(emptyBodyState, pathMethod)(
+          makeSystem({ required: false, content: {} })
+        )
+        expect(res).toEqual(true)
+      })
+    })
   })
   describe("selectors", function() {
     describe("serverEffectiveValue", function() {

@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: oas40-no-stable-draft
+# fixture: ee02195f (main on 2026-10-22, before the rebuilt skills), checked out by checkout-fixture.sh
+context:
+  scaffold_script: checkout-fixture.sh
+expected_outcome: |
+  The run pins the version first: no OAS 4.0 release exists, and the 4.0 working draft (the
+  Moonwalk SIG repository) is a non-consensus skeleton without Fixed Fields tables that has not
+  changed since March 2025, so there is nothing to build a field map or code against. It creates
+  no plugin and no code, and reports what would have to happen first (a 4.0 release, an ApiDOM
+  namespace, a swagger-client strategy). It also finds which version is actually in development
+  (3.3, on the v3.3-dev branch) and offers or runs a Phase 1 preview of it, without opening PRs.
