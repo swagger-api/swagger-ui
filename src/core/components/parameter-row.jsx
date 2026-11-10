@@ -348,6 +348,7 @@ export default class ParameterRow extends Component {
         required={ required }
         disabled={!isExecute}
         description={hasPlaceholder ? placeholder : param.get("name")}
+        ariaLabel={param.get("name")}
         onChange={ this.onChangeWrapper }
         errors={ paramWithMeta.get("errors") }
         schema={ schema }
