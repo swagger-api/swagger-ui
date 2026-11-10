@@ -34,10 +34,10 @@
   }
 
   &--muted {
-    color: gray;
+    color: $mako-gray;
   }
 
   &--warning {
-    color: red;
+    color: $color-danger;
   }
 }

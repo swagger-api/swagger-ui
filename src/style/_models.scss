@@ -10,7 +10,7 @@
   .deprecated {
     span,
     td {
-      color: $model-deprecated-font-color !important;
+      color: $model-deprecated-font-color;
     }
 
     > td:first-of-type {
@@ -125,7 +125,7 @@
   }
 
   .external-docs {
-    color: #666;
+    color: $dark-grayish-brown;
     font-weight: normal;
   }
 }
@@ -133,7 +133,7 @@
 table.model {
   tr {
     &.description {
-      color: #666;
+      color: $dark-grayish-brown;
       font-weight: normal;
 
       td:first-child {

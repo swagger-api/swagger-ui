@@ -87,12 +87,11 @@ textarea,
 select {
   &[disabled] {
     filter: invert(0.08);
-    opacity: .5;
+    opacity: 0.5;
     pointer-events: none;
     cursor: not-allowed;
   }
 }
-
 
 select[disabled] {
   border-color: #888;

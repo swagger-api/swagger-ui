@@ -1,0 +1,1216 @@
+swagger: "2.0"
+info:
+  title: Comprehensive Pet Adoption API (Swagger 2.0)
+  version: 2.0.0
+  description: |
+    A fixture that exercises as much of the **Swagger 2.0** specification as Swagger UI can render.
+    Use it for accessibility, visual and regression checks.
+
+    ## What is covered
+
+    * All HTTP methods: `get`, `put`, `post`, `delete`, `options`, `head`, `patch`
+    * Parameters in `path`, `query`, `header`, `body` and `formData`, with every `collectionFormat`
+    * Global `parameters` and `responses`, response `headers` and `examples`
+    * Every security definition type: `basic`, `apiKey` (header and query) and all four OAuth2 flows
+    * Models with `allOf` inheritance, `discriminator`, `readOnly`, enums, constraints, `additionalProperties`,
+      circular references, XML hints and `x-` extensions
+    * Deprecated operations, operations without security, `consumes` and `produces` overrides
+
+    | Feature | Where |
+    |---|---|
+    | File upload | `POST /pets/{petId}/photos` |
+    | Form post | `POST /pets/{petId}/adoption` |
+    | Deprecated | `GET /legacy/ping` |
+
+    > Blockquote with `inline code` and a [link](https://swagger.io/specification/v2/).
+
+    ```json
+    { "hello": "world" }
+    ```
+  termsOfService: https://example.com/terms
+  contact:
+    name: API Support
+    url: https://example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-api-id: comprehensive-swagger-2
+  x-audience: test-fixture
+externalDocs:
+  description: Swagger 2.0 specification
+  url: https://swagger.io/specification/v2/
+host: api.example.com
+basePath: /v2
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: pets
+    description: Everything about your pets
+    externalDocs:
+      description: Find out more about pets
+      url: https://example.com/docs/pets
+  - name: orders
+    description: Access to pet adoption orders
+  - name: users
+    description: Operations about users
+  - name: files
+    description: Binary uploads and downloads
+  - name: admin
+    description: Administrative operations protected by an OAuth2 access code flow
+  - name: system
+    description: Health and legacy operations
+security:
+  - api_key_header: []
+securityDefinitions:
+  basic_auth:
+    type: basic
+    description: HTTP Basic authentication
+  api_key_header:
+    type: apiKey
+    name: X-API-Key
+    in: header
+    description: API key sent in a request header
+  api_key_query:
+    type: apiKey
+    name: api_key
+    in: query
+    description: API key sent in the query string
+  oauth_implicit:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: https://auth.example.com/oauth/authorize
+    scopes:
+      read:pets: Read your pets
+      write:pets: Modify pets in your account
+  oauth_password:
+    type: oauth2
+    flow: password
+    tokenUrl: https://auth.example.com/oauth/token
+    scopes:
+      read:pets: Read your pets
+      write:pets: Modify pets in your account
+  oauth_application:
+    type: oauth2
+    flow: application
+    tokenUrl: https://auth.example.com/oauth/token
+    scopes:
+      read:orders: Read orders
+      write:orders: Create and cancel orders
+  oauth_access_code:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://auth.example.com/oauth/authorize
+    tokenUrl: https://auth.example.com/oauth/token
+    scopes:
+      admin:read: Read administrative data
+      admin:write: Change administrative data
+parameters:
+  petId:
+    name: petId
+    in: path
+    description: ID of the pet
+    required: true
+    type: integer
+    format: int64
+    minimum: 1
+  limit:
+    name: limit
+    in: query
+    description: Maximum number of items to return
+    required: false
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 100
+    default: 20
+  offset:
+    name: offset
+    in: query
+    description: Number of items to skip
+    required: false
+    type: integer
+    format: int32
+    minimum: 0
+    default: 0
+  requestId:
+    name: X-Request-Id
+    in: header
+    description: Correlation id echoed back in the response
+    required: false
+    type: string
+    format: uuid
+responses:
+  BadRequest:
+    description: The request was malformed
+    schema:
+      $ref: '#/definitions/Error'
+    examples:
+      application/json:
+        code: 400
+        message: Validation failed
+  Unauthorized:
+    description: Authentication is missing or invalid
+    headers:
+      WWW-Authenticate:
+        type: string
+        description: Challenge for the client
+    schema:
+      $ref: '#/definitions/Error'
+  NotFound:
+    description: The resource does not exist
+    schema:
+      $ref: '#/definitions/Error'
+  TooManyRequests:
+    description: Rate limit exceeded
+    headers:
+      Retry-After:
+        type: integer
+        description: Seconds to wait before retrying
+    schema:
+      $ref: '#/definitions/Error'
+paths:
+  /pets:
+    get:
+      tags: [pets]
+      summary: List pets
+      description: |
+        Returns a paginated list of pets. Demonstrates **every `collectionFormat`** that applies to query parameters,
+        numeric and string constraints, date formats and header parameters.
+      operationId: listPets
+      parameters:
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/requestId'
+        - name: status
+          in: query
+          description: Filter by status (repeated parameter)
+          type: array
+          items:
+            type: string
+            enum: [available, pending, sold]
+            default: available
+          collectionFormat: multi
+        - name: tags
+          in: query
+          description: Comma separated tags
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+          minItems: 1
+          maxItems: 10
+          uniqueItems: true
+        - name: colors
+          in: query
+          description: Space separated colors
+          type: array
+          items:
+            type: string
+          collectionFormat: ssv
+        - name: sizes
+          in: query
+          description: Tab separated sizes
+          type: array
+          items:
+            type: string
+          collectionFormat: tsv
+        - name: breeds
+          in: query
+          description: Pipe separated breeds
+          type: array
+          items:
+            type: string
+          collectionFormat: pipes
+        - name: sort
+          in: query
+          description: Sort order
+          type: string
+          enum: [name, -name, price, -price, createdAt]
+          default: name
+        - name: minPrice
+          in: query
+          description: Minimum price (exclusive)
+          type: number
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+        - name: maxWeight
+          in: query
+          description: Maximum weight in kilograms
+          type: number
+          format: float
+          maximum: 150.5
+          multipleOf: 0.5
+        - name: bornAfter
+          in: query
+          description: Only pets born after this date
+          type: string
+          format: date
+        - name: createdAfter
+          in: query
+          description: Only pets created after this timestamp
+          type: string
+          format: date-time
+        - name: nameLike
+          in: query
+          description: Name pattern
+          type: string
+          minLength: 2
+          maxLength: 30
+          pattern: '^[A-Za-z ]+$'
+        - name: includeDeleted
+          in: query
+          description: Include soft-deleted pets
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: A page of pets
+          headers:
+            X-Total-Count:
+              type: integer
+              format: int64
+              description: Total number of pets
+            X-Rate-Limit-Remaining:
+              type: integer
+              description: Remaining calls in this period
+            Link:
+              type: string
+              description: RFC 8288 pagination links
+          schema:
+            $ref: '#/definitions/PetList'
+          examples:
+            application/json:
+              total: 1
+              items:
+                - id: 1
+                  name: Fluffy
+                  photoUrls: [https://example.com/fluffy.png]
+                  status: available
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '429':
+          $ref: '#/responses/TooManyRequests'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags: [pets]
+      summary: Add a pet
+      description: Creates a pet from a JSON or XML body.
+      operationId: addPet
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: body
+          in: body
+          description: Pet to add
+          required: true
+          schema:
+            $ref: '#/definitions/NewPet'
+      responses:
+        '201':
+          description: Pet created
+          headers:
+            Location:
+              type: string
+              format: uri
+              description: URL of the new pet
+          schema:
+            $ref: '#/definitions/Pet'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '409':
+          description: A pet with that name already exists
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Semantic validation failed
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+        - oauth_implicit:
+            - write:pets
+        - oauth_password:
+            - write:pets
+    options:
+      tags: [pets]
+      summary: Supported methods for the pet collection
+      operationId: petsOptions
+      responses:
+        '204':
+          description: No content
+          headers:
+            Allow:
+              type: string
+              description: Allowed HTTP methods
+  /pets/search:
+    get:
+      tags: [pets]
+      summary: Search pets by free text
+      operationId: searchPets
+      parameters:
+        - name: q
+          in: query
+          description: Search expression
+          required: true
+          type: string
+          minLength: 3
+          allowEmptyValue: false
+        - $ref: '#/parameters/limit'
+      responses:
+        '200':
+          description: Search results
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+        '400':
+          $ref: '#/responses/BadRequest'
+      security:
+        - api_key_query: []
+        - api_key_header: []
+  /pets/{petId}:
+    parameters:
+      - $ref: '#/parameters/petId'
+    get:
+      tags: [pets]
+      summary: Find a pet
+      operationId: getPetById
+      produces:
+        - application/json
+        - application/xml
+      responses:
+        '200':
+          description: The pet
+          headers:
+            ETag:
+              type: string
+              description: Entity tag for caching
+          schema:
+            $ref: '#/definitions/Pet'
+        '304':
+          description: Not modified
+        '404':
+          $ref: '#/responses/NotFound'
+    head:
+      tags: [pets]
+      summary: Check that a pet exists
+      operationId: headPet
+      responses:
+        '200':
+          description: The pet exists
+        '404':
+          description: The pet does not exist
+    put:
+      tags: [pets]
+      summary: Replace a pet
+      operationId: replacePet
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NewPet'
+      responses:
+        '200':
+          description: Pet replaced
+          schema:
+            $ref: '#/definitions/Pet'
+        '404':
+          $ref: '#/responses/NotFound'
+      security:
+        - oauth_password:
+            - write:pets
+    patch:
+      tags: [pets]
+      summary: Partially update a pet
+      operationId: patchPet
+      consumes:
+        - application/merge-patch+json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            minProperties: 1
+            properties:
+              name:
+                type: string
+              status:
+                type: string
+                enum: [available, pending, sold]
+      responses:
+        '200':
+          description: Pet updated
+          schema:
+            $ref: '#/definitions/Pet'
+        '404':
+          $ref: '#/responses/NotFound'
+      security:
+        - oauth_password:
+            - write:pets
+    delete:
+      tags: [pets]
+      summary: Delete a pet
+      operationId: deletePet
+      parameters:
+        - name: X-Delete-Reason
+          in: header
+          description: Why the pet is being removed
+          type: string
+          enum: [adopted, deceased, duplicate]
+      responses:
+        '204':
+          description: Pet deleted
+        '404':
+          $ref: '#/responses/NotFound'
+      security:
+        - oauth_implicit:
+            - write:pets
+        - basic_auth: []
+  /pets/{petId}/photos:
+    parameters:
+      - $ref: '#/parameters/petId'
+    post:
+      tags: [pets, files]
+      summary: Upload photos
+      description: Accepts a `multipart/form-data` body with a file part.
+      operationId: uploadPetPhoto
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: caption
+          in: formData
+          description: Photo caption
+          type: string
+          maxLength: 140
+        - name: photo
+          in: formData
+          description: Image file to upload
+          required: true
+          type: file
+        - name: extraPhotos
+          in: formData
+          description: More images
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: Upload accepted
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '413':
+          description: File too large
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+        - oauth_implicit:
+            - write:pets
+    get:
+      tags: [pets, files]
+      summary: Download the primary photo
+      operationId: getPetPhoto
+      produces:
+        - image/png
+        - image/jpeg
+      responses:
+        '200':
+          description: Photo bytes
+          schema:
+            type: file
+        '404':
+          $ref: '#/responses/NotFound'
+  /pets/{petId}/adoption:
+    parameters:
+      - $ref: '#/parameters/petId'
+    post:
+      tags: [pets, orders]
+      summary: Apply to adopt a pet
+      description: Posts an `application/x-www-form-urlencoded` form.
+      operationId: applyToAdopt
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: applicantName
+          in: formData
+          required: true
+          type: string
+        - name: email
+          in: formData
+          required: true
+          type: string
+          format: email
+        - name: password
+          in: formData
+          type: string
+          format: password
+        - name: householdSize
+          in: formData
+          type: integer
+          minimum: 1
+          maximum: 20
+        - name: hasGarden
+          in: formData
+          type: boolean
+          default: false
+        - name: preferredVisit
+          in: formData
+          type: string
+          format: date-time
+      responses:
+        '202':
+          description: Application received
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          $ref: '#/responses/BadRequest'
+  /orders:
+    get:
+      tags: [orders]
+      summary: List orders
+      operationId: listOrders
+      parameters:
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+      responses:
+        '200':
+          description: Orders
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Order'
+      security:
+        - oauth_application:
+            - read:orders
+    post:
+      tags: [orders]
+      summary: Place an order
+      operationId: placeOrder
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        '201':
+          description: Order placed
+          schema:
+            $ref: '#/definitions/Order'
+        '400':
+          $ref: '#/responses/BadRequest'
+      security:
+        - oauth_application:
+            - write:orders
+  /orders/inventory:
+    get:
+      tags: [orders]
+      summary: Inventory by status
+      description: Returns a map of status codes to quantities (`additionalProperties`).
+      operationId: getInventory
+      responses:
+        '200':
+          description: Inventory counts
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+  /orders/{orderId}:
+    parameters:
+      - name: orderId
+        in: path
+        required: true
+        type: string
+        format: uuid
+        description: Order identifier
+    get:
+      tags: [orders]
+      summary: Find an order
+      operationId: getOrderById
+      responses:
+        '200':
+          description: The order
+          schema:
+            $ref: '#/definitions/Order'
+        '404':
+          $ref: '#/responses/NotFound'
+    delete:
+      tags: [orders]
+      summary: Cancel an order
+      operationId: cancelOrder
+      responses:
+        '204':
+          description: Order cancelled
+        '404':
+          $ref: '#/responses/NotFound'
+      security:
+        - oauth_application:
+            - write:orders
+  /users:
+    post:
+      tags: [users]
+      summary: Create a user
+      operationId: createUser
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: User created
+          schema:
+            $ref: '#/definitions/User'
+      security: []
+  /users/batch:
+    post:
+      tags: [users]
+      summary: Create users from an array
+      operationId: createUsersBatch
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: array
+            minItems: 1
+            maxItems: 50
+            items:
+              $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Users created
+      security:
+        - basic_auth: []
+  /users/login:
+    get:
+      tags: [users]
+      summary: Log in
+      operationId: loginUser
+      produces:
+        - application/json
+        - text/plain
+      parameters:
+        - name: username
+          in: query
+          required: true
+          type: string
+        - name: password
+          in: query
+          required: true
+          type: string
+          format: password
+      responses:
+        '200':
+          description: Logged in
+          headers:
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: Calls per hour allowed
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: When the token expires
+          schema:
+            type: string
+            example: eyJhbGciOiJIUzI1NiJ9.e30.signature
+        '400':
+          description: Invalid username or password
+      security: []
+  /users/logout:
+    get:
+      tags: [users]
+      summary: Log out
+      operationId: logoutUser
+      responses:
+        default:
+          description: Logged out
+  /users/{username}:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        type: string
+        description: Username, for example `user1`
+        pattern: '^[a-z0-9_]{3,20}$'
+    get:
+      tags: [users]
+      summary: Get a user
+      operationId: getUserByName
+      produces:
+        - application/json
+        - application/xml
+      responses:
+        '200':
+          description: The user
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          $ref: '#/responses/NotFound'
+    put:
+      tags: [users]
+      summary: Update a user
+      operationId: updateUser
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: User updated
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          $ref: '#/responses/NotFound'
+    delete:
+      tags: [users]
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          $ref: '#/responses/NotFound'
+  /files:
+    post:
+      tags: [files]
+      summary: Upload raw bytes
+      description: The request body is an arbitrary binary stream.
+      operationId: uploadFile
+      consumes:
+        - application/octet-stream
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: string
+            format: binary
+      responses:
+        '201':
+          description: Stored
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /files/{fileId}/download:
+    get:
+      tags: [files]
+      summary: Download a file
+      operationId: downloadFile
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: File contents
+          headers:
+            Content-Disposition:
+              type: string
+              description: Suggested filename
+          schema:
+            type: file
+        '404':
+          $ref: '#/responses/NotFound'
+  /admin/reports:
+    get:
+      tags: [admin]
+      summary: Adoption reports
+      operationId: listReports
+      parameters:
+        - name: month
+          in: query
+          type: string
+          pattern: '^\d{4}-\d{2}$'
+          description: Reporting month, YYYY-MM
+      responses:
+        '200':
+          description: Reports
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                month:
+                  type: string
+                adoptions:
+                  type: integer
+      security:
+        - oauth_access_code:
+            - admin:read
+    delete:
+      tags: [admin]
+      summary: Purge all reports
+      operationId: purgeReports
+      responses:
+        '204':
+          description: Purged
+      security:
+        - oauth_access_code:
+            - admin:read
+            - admin:write
+  /health:
+    get:
+      tags: [system]
+      summary: Health check
+      description: Public endpoint, `security` is overridden with an empty array.
+      operationId: getHealth
+      responses:
+        '200':
+          description: Healthy
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [ok, degraded]
+      security: []
+  /legacy/ping:
+    get:
+      tags: [system]
+      summary: Legacy ping
+      description: Replaced by `GET /health`.
+      operationId: legacyPing
+      deprecated: true
+      responses:
+        '200':
+          description: pong
+          schema:
+            type: string
+            example: pong
+definitions:
+  Error:
+    type: object
+    required: [code, message]
+    properties:
+      code:
+        type: integer
+        format: int32
+        example: 400
+      message:
+        type: string
+        example: Validation failed
+      details:
+        type: array
+        items:
+          type: string
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+  Category:
+    type: object
+    description: A pet category
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: Category
+  Tag:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: Tag
+  NewPet:
+    type: object
+    required: [name, photoUrls]
+    description: Properties accepted when creating or replacing a pet.
+    properties:
+      name:
+        type: string
+        example: Fluffy
+        minLength: 1
+        maxLength: 50
+      category:
+        $ref: '#/definitions/Category'
+      photoUrls:
+        type: array
+        xml:
+          name: photoUrl
+          wrapped: true
+        items:
+          type: string
+          format: uri
+      tags:
+        type: array
+        xml:
+          name: tag
+          wrapped: true
+        items:
+          $ref: '#/definitions/Tag'
+      status:
+        type: string
+        description: Pet status in the store
+        enum: [available, pending, sold]
+        default: available
+      price:
+        type: number
+        format: double
+        minimum: 0
+        maximum: 99999.99
+        multipleOf: 0.01
+      weight:
+        type: number
+        format: float
+        x-nullable: true
+      birthDate:
+        type: string
+        format: date
+      attributes:
+        type: object
+        description: Free-form string attributes
+        additionalProperties:
+          type: string
+    xml:
+      name: Pet
+  Pet:
+    description: A pet as returned by the API (adds server generated fields).
+    allOf:
+      - $ref: '#/definitions/NewPet'
+      - type: object
+        required: [id]
+        properties:
+          id:
+            type: integer
+            format: int64
+            readOnly: true
+            example: 10
+          createdAt:
+            type: string
+            format: date-time
+            readOnly: true
+          vaccinated:
+            type: boolean
+            default: false
+    x-resource: pet
+  PetList:
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          items:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+  Pagination:
+    type: object
+    properties:
+      total:
+        type: integer
+        format: int64
+      limit:
+        type: integer
+      offset:
+        type: integer
+  Animal:
+    type: object
+    description: Polymorphic base type using `discriminator`.
+    discriminator: petType
+    required: [petType]
+    properties:
+      petType:
+        type: string
+      name:
+        type: string
+  Dog:
+    description: A dog
+    allOf:
+      - $ref: '#/definitions/Animal'
+      - type: object
+        properties:
+          packSize:
+            type: integer
+            format: int32
+            minimum: 0
+            default: 1
+  Cat:
+    description: A cat
+    allOf:
+      - $ref: '#/definitions/Animal'
+      - type: object
+        properties:
+          declawed:
+            type: boolean
+  Order:
+    type: object
+    required: [petId, quantity]
+    properties:
+      id:
+        type: string
+        format: uuid
+        readOnly: true
+      petId:
+        type: integer
+        format: int64
+      quantity:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 10
+        default: 1
+      shipDate:
+        type: string
+        format: date-time
+      status:
+        type: string
+        description: Order status
+        enum: [placed, approved, delivered, cancelled]
+      complete:
+        type: boolean
+        default: false
+      total:
+        $ref: '#/definitions/Money'
+    xml:
+      name: Order
+  Money:
+    type: object
+    required: [amount, currency]
+    properties:
+      amount:
+        type: string
+        pattern: '^\d+\.\d{2}$'
+        example: '12.50'
+      currency:
+        type: string
+        minLength: 3
+        maxLength: 3
+        example: USD
+  Address:
+    type: object
+    properties:
+      street:
+        type: string
+      city:
+        type: string
+      postalCode:
+        type: string
+      location:
+        type: object
+        description: Nested object
+        properties:
+          lat:
+            type: number
+            format: double
+            minimum: -90
+            maximum: 90
+          lng:
+            type: number
+            format: double
+            minimum: -180
+            maximum: 180
+  User:
+    type: object
+    required: [username, email]
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      username:
+        type: string
+        pattern: '^[a-z0-9_]{3,20}$'
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        format: password
+        minLength: 8
+      phone:
+        type: string
+      userStatus:
+        type: integer
+        format: int32
+        description: User status
+        enum: [0, 1, 2]
+      address:
+        $ref: '#/definitions/Address'
+      roles:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          enum: [customer, staff, admin]
+    xml:
+      name: User
+  TreeNode:
+    type: object
+    description: Self-referencing model (circular reference).
+    properties:
+      name:
+        type: string
+      children:
+        type: array
+        items:
+          $ref: '#/definitions/TreeNode'
+      parent:
+        $ref: '#/definitions/TreeNode'
+  Matrix:
+    type: array
+    description: Array of arrays
+    items:
+      type: array
+      items:
+        type: number
+  Inventory:
+    type: object
+    description: Map of status to count
+    additionalProperties:
+      type: integer
+  PetStatus:
+    type: string
+    description: Primitive model with an enum
+    enum: [available, pending, sold]
+    default: available
+  Anything:
+    description: A schema with no type accepts any value
+  EmptyObject:
+    type: object

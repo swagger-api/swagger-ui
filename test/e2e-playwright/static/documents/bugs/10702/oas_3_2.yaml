@@ -1,0 +1,1439 @@
+openapi: 3.2.0
+$self: https://example.com/openapi/comprehensive.openapi32.yaml
+info:
+  title: Comprehensive Pet Adoption API (OpenAPI 3.2)
+  summary: Exercises the OpenAPI 3.2 feature set that Swagger UI renders
+  version: 3.2.0
+  description: |
+    A fixture that exercises as much of the **OpenAPI 3.2** specification as Swagger UI can render.
+    Use it for accessibility, visual and regression checks. 3.2 is a superset of 3.1, so this file also keeps
+    the common 3.0 and 3.1 building blocks (parameters, bodies, links, webhooks, JSON Schema 2020-12).
+
+    ## What is new compared with 3.1
+
+    * `$self`, the document's own URI
+    * `query` operations and `additionalOperations` for other HTTP methods such as `COPY`
+    * `in: querystring` parameters that describe the whole query string
+    * Streaming and sequential media types through `itemSchema` (`text/event-stream`, `application/jsonl`,
+      `multipart/mixed`), plus `prefixEncoding` and `itemEncoding`
+    * Hierarchical tags with `summary`, `parent` and `kind`
+    * `dataValue` and `serializedValue` on examples, and `summary` on responses
+    * Discriminator `defaultMapping` and XML `nodeType`
+    * `Server.name`, `style: cookie`, `components.mediaTypes`
+    * Security: `deviceAuthorization` flow, `oauth2MetadataUrl` and `deprecated` on security schemes
+
+    | Feature | Where |
+    |---|---|
+    | QUERY | `QUERY /pets/search` |
+    | Additional operations | `COPY /pets/{petId}` |
+    | Streaming | `GET /events` |
+    | Querystring parameter | `GET /pets/find` |
+
+    > Blockquote with `inline code` and a [link](https://spec.openapis.org/oas/v3.2.0.html).
+
+    ```json
+    { "hello": "world" }
+    ```
+  termsOfService: https://example.com/terms
+  contact:
+    name: API Support
+    url: https://example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    identifier: Apache-2.0
+  x-api-id: comprehensive-openapi-3-2
+externalDocs:
+  description: OpenAPI 3.2.0 specification
+  url: https://spec.openapis.org/oas/v3.2.0.html
+servers:
+  - url: https://api.example.com/v3
+    name: production
+    description: Production
+  - url: https://staging.example.com/v3
+    name: staging
+    description: Staging
+  - url: http://localhost:8080/v3
+    name: local
+    description: Local development
+tags:
+  - name: pets
+    summary: Pets
+    description: Everything about your pets
+    kind: nav
+    externalDocs:
+      description: Find out more about pets
+      url: https://example.com/docs/pets
+  - name: dogs
+    summary: Dogs
+    description: Operations specific to dogs
+    parent: pets
+    kind: nav
+  - name: orders
+    summary: Orders
+    description: Access to pet adoption orders
+    kind: nav
+  - name: users
+    summary: Users
+    description: Operations about users
+    kind: nav
+  - name: streaming
+    summary: Streaming
+    description: Sequential media types described with `itemSchema`
+    kind: nav
+  - name: files
+    summary: Files
+    description: Binary uploads and downloads
+    kind: nav
+  - name: beta
+    summary: Beta
+    description: Operations that may change without notice
+    kind: badge
+  - name: partners
+    summary: Partners
+    description: Operations intended for partner integrations
+    kind: audience
+  - name: system
+    summary: System
+    description: Health and legacy operations
+    kind: nav
+security:
+  - apiKeyHeader: []
+paths:
+  /pets:
+    get:
+      tags: [pets]
+      summary: List pets
+      description: |
+        Returns a paginated list of pets. Uses the `cookie` parameter style that is new in 3.2, together with
+        the usual `form`, `deepObject` and header parameters.
+      operationId: listPets
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - name: status
+          in: query
+          description: Filter by status
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/PetStatus'
+        - name: maxAge
+          in: query
+          description: Either an integer number of years or `null` for no limit
+          schema:
+            type: [integer, 'null']
+            minimum: 0
+        - name: filter
+          in: query
+          style: deepObject
+          explode: true
+          description: Object serialized with `deepObject`
+          schema:
+            type: object
+            properties:
+              color:
+                type: string
+              minAge:
+                type: integer
+        - name: preferences
+          in: cookie
+          description: Cookie serialized with the RFC 6265 `cookie` style
+          style: cookie
+          explode: true
+          schema:
+            type: object
+            properties:
+              theme:
+                type: string
+                enum: [light, dark]
+              density:
+                type: string
+                enum: [compact, comfortable]
+        - name: X-Request-Id
+          in: header
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          summary: Page of pets
+          description: A page of pets
+          headers:
+            X-Total-Count:
+              description: Total number of pets
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetList'
+              examples:
+                single:
+                  summary: One pet
+                  dataValue:
+                    total: 1
+                    items:
+                      - id: 1
+                        name: Fluffy
+                        photoUrls: [https://example.com/fluffy.png]
+                        status: available
+                  serializedValue: '{"total":1,"items":[{"id":1,"name":"Fluffy","photoUrls":["https://example.com/fluffy.png"],"status":"available"}]}'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        default:
+          $ref: '#/components/responses/Error'
+    post:
+      tags: [pets]
+      summary: Add a pet
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPet'
+            examples:
+              minimal:
+                summary: Required fields only
+                dataValue:
+                  name: Fluffy
+                  photoUrls: [https://example.com/fluffy.png]
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NewPet'
+      responses:
+        '201':
+          summary: Pet created
+          description: Pet created
+          headers:
+            Location:
+              description: URL of the new pet
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          links:
+            GetPetById:
+              operationId: getPetById
+              parameters:
+                petId: $response.body#/id
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: A pet with that name already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - oauth2DeviceCode:
+            - write:pets
+        - oauth2AuthorizationCode:
+            - write:pets
+    options:
+      tags: [pets]
+      summary: Supported methods for the pet collection
+      operationId: petsOptions
+      responses:
+        '204':
+          description: No content
+          headers:
+            Allow:
+              description: Allowed HTTP methods
+              schema:
+                type: string
+  /pets/find:
+    get:
+      tags: [pets, beta]
+      summary: Find pets with a querystring parameter
+      description: |
+        `in: querystring` describes the **entire** query string as a single parameter with `content`.
+        It can't be combined with `in: query` parameters on the same operation.
+      operationId: findPets
+      parameters:
+        - name: criteria
+          in: querystring
+          description: The whole query string, for example `status=available&color=white`
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/PetStatus'
+                  color:
+                    type: string
+                  minAge:
+                    type: integer
+                    minimum: 0
+                required: [status]
+      responses:
+        '200':
+          description: Matching pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /pets/search:
+    query:
+      tags: [pets]
+      summary: Search pets with a request body
+      description: |
+        `QUERY` is a safe, idempotent method that carries its criteria in the request body.
+        It is a fixed field (`query`) of the Path Item Object in 3.2.
+      operationId: searchPets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  examples: ['fluffy']
+                filters:
+                  type: object
+                  properties:
+                    status:
+                      $ref: '#/components/schemas/PetStatus'
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                sort:
+                  enum: [name, -name, price, -price]
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /pets/polymorphic:
+    post:
+      tags: [pets]
+      summary: Add a dog, a cat or any other animal
+      description: |
+        Request body that uses `oneOf` with a `discriminator` and a `defaultMapping`
+        for payloads whose `petType` is missing or unknown.
+      operationId: addPolymorphicPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/Dog'
+                - $ref: '#/components/schemas/Cat'
+                - $ref: '#/components/schemas/OtherAnimal'
+              discriminator:
+                propertyName: petType
+                mapping:
+                  dog: '#/components/schemas/Dog'
+                  cat: '#/components/schemas/Cat'
+                defaultMapping: '#/components/schemas/OtherAnimal'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+  /pets/{petId}:
+    parameters:
+      - $ref: '#/components/parameters/PetId'
+    get:
+      tags: [pets]
+      summary: Find a pet
+      operationId: getPetById
+      responses:
+        '200':
+          description: The pet
+          headers:
+            ETag:
+              description: Entity tag for caching
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    head:
+      tags: [pets]
+      summary: Check that a pet exists
+      operationId: headPet
+      responses:
+        '200':
+          description: The pet exists
+        '404':
+          description: The pet does not exist
+    put:
+      tags: [pets]
+      summary: Replace a pet
+      operationId: replacePet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPet'
+      responses:
+        '200':
+          description: Pet replaced
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - oauth2AuthorizationCode:
+            - write:pets
+    patch:
+      tags: [pets]
+      summary: Partially update a pet
+      operationId: patchPet
+      requestBody:
+        required: true
+        content:
+          application/merge-patch+json:
+            schema:
+              type: object
+              minProperties: 1
+              properties:
+                name:
+                  type: string
+                status:
+                  $ref: '#/components/schemas/PetStatus'
+      responses:
+        '200':
+          description: Pet updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - oauth2AuthorizationCode:
+            - write:pets
+    delete:
+      tags: [pets]
+      summary: Delete a pet
+      operationId: deletePet
+      parameters:
+        - name: X-Delete-Reason
+          in: header
+          schema:
+            enum: [adopted, deceased, duplicate]
+      responses:
+        '204':
+          description: Pet deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - oauth2AuthorizationCode:
+            - write:pets
+        - basicAuth: []
+    trace:
+      tags: [pets]
+      summary: Echo the request
+      operationId: tracePet
+      responses:
+        '200':
+          description: The request as received
+          content:
+            message/http:
+              schema:
+                type: string
+    additionalOperations:
+      COPY:
+        tags: [pets, beta]
+        summary: Copy a pet
+        description: A WebDAV-style `COPY` described under `additionalOperations`.
+        operationId: copyPet
+        parameters:
+          - name: Destination
+            in: header
+            required: true
+            description: URI of the copy
+            schema:
+              type: string
+              format: uri
+          - name: Overwrite
+            in: header
+            schema:
+              type: string
+              enum: ['T', 'F']
+              default: 'F'
+        responses:
+          '201':
+            description: Copy created
+          '204':
+            description: Existing resource overwritten
+          '412':
+            description: Destination exists and `Overwrite` was `F`
+      PURGE:
+        tags: [pets, beta]
+        summary: Purge cached copies of a pet
+        operationId: purgePetCache
+        responses:
+          '202':
+            description: Purge scheduled
+  /dogs/{petId}/walks:
+    parameters:
+      - $ref: '#/components/parameters/PetId'
+    get:
+      tags: [dogs]
+      summary: List walks for a dog
+      description: Uses the child tag `dogs`, whose `parent` is `pets`.
+      operationId: listDogWalks
+      responses:
+        '200':
+          description: Walks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startedAt:
+                      type: string
+                      format: date-time
+                    distanceKm:
+                      type: number
+                      minimum: 0
+  /pets/{petId}/photos:
+    parameters:
+      - $ref: '#/components/parameters/PetId'
+    post:
+      tags: [pets, files]
+      summary: Upload photos
+      description: |
+        Uses `multipart/form-data` with the 3.1 `contentMediaType` and `contentEncoding` keywords.
+      operationId: uploadPetPhoto
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [photo]
+              properties:
+                caption:
+                  type: string
+                  maxLength: 140
+                photo:
+                  type: string
+                  contentMediaType: image/png
+                thumbnail:
+                  type: string
+                  contentMediaType: image/jpeg
+                  contentEncoding: base64
+                metadata:
+                  type: object
+                  contentMediaType: application/json
+                  properties:
+                    author:
+                      type: string
+            encoding:
+              photo:
+                contentType: image/png, image/jpeg
+      responses:
+        '200':
+          description: Upload accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - oauth2AuthorizationCode:
+            - write:pets
+  /pets/{petId}/report:
+    parameters:
+      - $ref: '#/components/parameters/PetId'
+    post:
+      tags: [pets, files]
+      summary: Submit a multi-part report
+      description: |
+        A `multipart/mixed` body whose parts are positional, described with `prefixEncoding`
+        and `itemEncoding` (3.2) instead of the property-keyed `encoding` map.
+      operationId: submitPetReport
+      requestBody:
+        required: true
+        content:
+          multipart/mixed:
+            schema:
+              type: array
+              prefixItems:
+                - type: object
+                  description: Report metadata
+                  properties:
+                    author:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: date-time
+                - type: string
+                  contentMediaType: application/pdf
+                  description: PDF summary
+              items:
+                type: string
+                contentMediaType: image/*
+                description: Any number of attached images
+            prefixEncoding:
+              - contentType: application/json
+              - contentType: application/pdf
+            itemEncoding:
+              contentType: image/png, image/jpeg
+      responses:
+        '202':
+          description: Report accepted
+  /events:
+    get:
+      tags: [streaming]
+      summary: Subscribe to events (Server-Sent Events)
+      description: |
+        `itemSchema` describes **each event** of a `text/event-stream` instead of the whole body.
+      operationId: streamEvents
+      parameters:
+        - name: Last-Event-ID
+          in: header
+          description: Resume after this event
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A stream of events
+          content:
+            text/event-stream:
+              itemSchema:
+                $ref: '#/components/schemas/ServerSentEvent'
+  /events/export:
+    get:
+      tags: [streaming]
+      summary: Export events as JSON Lines
+      operationId: exportEvents
+      responses:
+        '200':
+          description: One JSON document per line
+          content:
+            application/jsonl:
+              itemSchema:
+                $ref: '#/components/schemas/Event'
+            application/x-ndjson:
+              itemSchema:
+                $ref: '#/components/schemas/Event'
+            application/json-seq:
+              itemSchema:
+                $ref: '#/components/schemas/Event'
+    post:
+      tags: [streaming]
+      summary: Import events as JSON Lines
+      operationId: importEvents
+      requestBody:
+        required: true
+        content:
+          application/jsonl:
+            itemSchema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '202':
+          description: Import accepted
+  /sensors/{sensorId}/frames:
+    parameters:
+      - name: sensorId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [streaming]
+      summary: Stream camera frames
+      description: A `multipart/mixed` stream where every part is an image, described by `itemSchema` and `itemEncoding`.
+      operationId: streamFrames
+      responses:
+        '200':
+          description: Camera frames
+          content:
+            multipart/mixed:
+              itemSchema:
+                $comment: A single image from the camera
+                type: string
+                contentMediaType: image/jpeg
+              itemEncoding:
+                contentType: image/jpeg
+                headers:
+                  X-Frame-Timestamp:
+                    description: Capture time
+                    schema:
+                      type: string
+                      format: date-time
+  /orders:
+    get:
+      tags: [orders]
+      summary: List orders
+      operationId: listOrders
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+      security:
+        - oauth2ClientCredentials:
+            - read:orders
+    post:
+      tags: [orders, partners]
+      summary: Place an order
+      operationId: placeOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          summary: Order placed
+          description: Order placed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          links:
+            GetOrderById:
+              operationId: getOrderById
+              parameters:
+                orderId: $response.body#/id
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      security:
+        - oauth2ClientCredentials:
+            - write:orders
+  /orders/{orderId}:
+    parameters:
+      - name: orderId
+        in: path
+        required: true
+        description: Order identifier
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags: [orders]
+      summary: Find an order
+      operationId: getOrderById
+      responses:
+        '200':
+          description: The order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [orders]
+      summary: Cancel an order
+      operationId: cancelOrder
+      responses:
+        '204':
+          description: Order cancelled
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - oauth2ClientCredentials:
+            - write:orders
+  /users:
+    post:
+      tags: [users]
+      summary: Create a user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security: []
+  /users/login:
+    get:
+      tags: [users]
+      summary: Log in
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          required: true
+          schema:
+            type: string
+            format: password
+      responses:
+        '200':
+          description: Logged in
+          headers:
+            X-Rate-Limit:
+              description: Calls per hour allowed
+              schema:
+                type: integer
+            X-Expires-After:
+              description: When the token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                type: string
+                examples:
+                  - eyJhbGciOiJIUzI1NiJ9.e30.signature
+        '400':
+          description: Invalid username or password
+      security: []
+  /users/{username}:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        description: Username, for example `user1`
+        schema:
+          type: string
+          pattern: '^[a-z0-9_]{3,20}$'
+    get:
+      tags: [users]
+      summary: Get a user
+      operationId: getUserByName
+      responses:
+        '200':
+          description: The user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - bearerAuth: []
+        - openIdConnect:
+            - profile
+    put:
+      tags: [users]
+      summary: Update a user
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - bearerAuth: []
+    delete:
+      tags: [users]
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - bearerAuth: []
+  /legacy/session:
+    post:
+      tags: [users, system]
+      summary: Create a legacy session
+      description: "Uses `legacyBasic`, a security scheme marked `deprecated: true` (new in 3.2)."
+      operationId: createLegacySession
+      responses:
+        '204':
+          description: Session created
+      security:
+        - legacyBasic: []
+  /health:
+    get:
+      tags: [system]
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    enum: [ok, degraded]
+      security: []
+  /legacy/ping:
+    get:
+      tags: [system]
+      summary: Legacy ping
+      description: Replaced by `GET /health`.
+      operationId: legacyPing
+      deprecated: true
+      responses:
+        '200':
+          description: pong
+          content:
+            text/plain:
+              schema:
+                type: string
+                const: pong
+webhooks:
+  petAdopted:
+    post:
+      tags: [pets]
+      summary: A pet was adopted
+      description: Sent to subscribers when an adoption completes.
+      operationId: petAdoptedWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+            examples:
+              adopted:
+                summary: Adoption event
+                dataValue:
+                  id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                  type: adopted
+                  occurredAt: '2025-01-15T10:30:00Z'
+                  petId: 10
+      responses:
+        '200':
+          description: Notification accepted
+        '410':
+          description: Unsubscribe me
+  petReturned:
+    $ref: '#/components/pathItems/PetReturnedWebhook'
+components:
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: integer
+          format: int32
+          examples: [400]
+        message:
+          type: string
+          examples: [Validation failed]
+        details:
+          type: array
+          items:
+            type: string
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PetStatus:
+      type: string
+      description: Pet status in the store
+      enum: [available, pending, sold]
+      default: available
+    NewPet:
+      type: object
+      required: [name, photoUrls]
+      description: |
+        Properties accepted when creating or replacing a pet. The `xml` annotations use the 3.2 `nodeType`.
+      xml:
+        nodeType: element
+        name: pet
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Written as an XML attribute (`nodeType: attribute`)"
+          xml:
+            nodeType: attribute
+        name:
+          type: string
+          examples: [Fluffy, Rex]
+          minLength: 1
+          maxLength: 50
+        category:
+          $ref: '#/components/schemas/Category'
+        photoUrls:
+          type: array
+          xml:
+            nodeType: element
+            name: photoUrls
+          items:
+            type: string
+            format: uri
+            xml:
+              name: photoUrl
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        status:
+          $ref: '#/components/schemas/PetStatus'
+        price:
+          type: number
+          minimum: 0
+          maximum: 99999.99
+          multipleOf: 0.01
+        weight:
+          type: [number, 'null']
+          description: Weight in kilograms, `null` when unknown
+        nickname:
+          type: [string, 'null']
+        notes:
+          type: string
+          description: Free text written as a `cdata` section
+          xml:
+            nodeType: cdata
+        summary:
+          type: string
+          description: "Written as the element's text content (`nodeType: text`)"
+          xml:
+            nodeType: text
+        birthDate:
+          type: string
+          format: date
+        attributes:
+          type: object
+          description: Free-form string attributes
+          additionalProperties:
+            type: string
+    Pet:
+      description: A pet as returned by the API (adds server generated fields).
+      allOf:
+        - $ref: '#/components/schemas/NewPet'
+        - type: object
+          required: [id]
+          properties:
+            id:
+              type: integer
+              format: int64
+              readOnly: true
+              examples: [10]
+            createdAt:
+              type: string
+              format: date-time
+              readOnly: true
+            vaccinated:
+              type: boolean
+              default: false
+    PetList:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+    Animal:
+      type: object
+      description: Polymorphic base type, with a `defaultMapping` for unknown or missing `petType`.
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: '#/components/schemas/Dog'
+          cat: '#/components/schemas/Cat'
+        defaultMapping: '#/components/schemas/OtherAnimal'
+    Dog:
+      description: A dog
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          required: [petType]
+          properties:
+            packSize:
+              type: integer
+              minimum: 0
+              default: 1
+    Cat:
+      description: A cat
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          required: [petType]
+          properties:
+            declawed:
+              type: boolean
+    OtherAnimal:
+      description: Used when `petType` is absent or not in `mapping`
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            species:
+              type: string
+    Order:
+      type: object
+      required: [petId, quantity]
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        petId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 1
+        shipDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [placed, approved, delivered, cancelled]
+        complete:
+          type: boolean
+          default: false
+        total:
+          $ref: '#/components/schemas/Money'
+    Money:
+      type: object
+      required: [amount, currency]
+      properties:
+        amount:
+          type: string
+          pattern: '^\d+\.\d{2}$'
+          examples: ['12.50']
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          examples: [USD]
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        postalCode:
+          type: string
+        location:
+          type: object
+          description: Nested object
+          properties:
+            lat:
+              type: number
+              minimum: -90
+              maximum: 90
+            lng:
+              type: number
+              minimum: -180
+              maximum: 180
+    User:
+      type: object
+      required: [username, email]
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        username:
+          type: string
+          pattern: '^[a-z0-9_]{3,20}$'
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+          writeOnly: true
+        address:
+          $ref: '#/components/schemas/Address'
+        phone:
+          type: [string, 'null']
+        roles:
+          type: array
+          uniqueItems: true
+          items:
+            enum: [customer, staff, admin]
+    Event:
+      type: object
+      required: [id, type, occurredAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          enum: [adopted, returned, created]
+        occurredAt:
+          type: string
+          format: date-time
+        petId:
+          type: integer
+          format: int64
+    ServerSentEvent:
+      type: object
+      description: One Server-Sent Event, as modelled by the specification (`retry` is an integer of at least 0).
+      required: [data]
+      properties:
+        event:
+          type: string
+        data:
+          type: string
+          contentMediaType: application/json
+          contentSchema:
+            $ref: '#/components/schemas/Event'
+        id:
+          type: string
+        retry:
+          type: integer
+          minimum: 0
+    TreeNode:
+      type: object
+      description: Self-referencing model (circular reference).
+      properties:
+        name:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TreeNode'
+    NullableString:
+      type: [string, 'null']
+    Anything:
+      description: A schema with no type accepts any value
+  parameters:
+    PetId:
+      name: petId
+      in: path
+      description: ID of the pet
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    Limit:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    Offset:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  responses:
+    BadRequest:
+      summary: Bad request
+      description: The request was malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Validation failed
+    Unauthorized:
+      summary: Unauthorized
+      description: Authentication is missing or invalid
+      headers:
+        WWW-Authenticate:
+          description: Challenge for the client
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      summary: Not found
+      description: The resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  mediaTypes:
+    PetJson:
+      description: A reusable Media Type Object (`components.mediaTypes`, new in 3.2)
+      schema:
+        $ref: '#/components/schemas/Pet'
+      examples:
+        fluffy:
+          summary: Fluffy the cat
+          dataValue:
+            id: 1
+            name: Fluffy
+            photoUrls: [https://example.com/fluffy.png]
+  pathItems:
+    PetReturnedWebhook:
+      post:
+        tags: [pets]
+        summary: A pet was returned
+        operationId: petReturnedWebhook
+        requestBody:
+          required: true
+          content:
+            application/json:
+              $ref: '#/components/mediaTypes/PetJson'
+        responses:
+          '200':
+            description: Notification accepted
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+    legacyBasic:
+      type: http
+      scheme: basic
+      deprecated: true
+      description: "Replaced by `bearerAuth`. Marked `deprecated: true` (new in 3.2)."
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT bearer token
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key sent in a request header
+    apiKeyCookie:
+      type: apiKey
+      in: cookie
+      name: api_session
+    mutualTLS:
+      type: mutualTLS
+      description: The client must present a certificate trusted by the server
+    oauth2DeviceCode:
+      type: oauth2
+      description: OAuth2 device authorization flow (new in 3.2), with discovery through `oauth2MetadataUrl`
+      oauth2MetadataUrl: https://auth.example.com/.well-known/oauth-authorization-server
+      flows:
+        deviceAuthorization:
+          deviceAuthorizationUrl: https://auth.example.com/oauth/device/code
+          tokenUrl: https://auth.example.com/oauth/token
+          scopes:
+            read:pets: Read your pets
+            write:pets: Modify pets in your account
+    oauth2AuthorizationCode:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.example.com/oauth/authorize
+          tokenUrl: https://auth.example.com/oauth/token
+          refreshUrl: https://auth.example.com/oauth/refresh
+          scopes:
+            read:pets: Read your pets
+            write:pets: Modify pets in your account
+    oauth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.example.com/oauth/token
+          scopes:
+            read:orders: Read orders
+            write:orders: Create and cancel orders
+    openIdConnect:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.example.com/.well-known/openid-configuration

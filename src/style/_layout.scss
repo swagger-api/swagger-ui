@@ -436,9 +436,11 @@
     @include mixins.method($color-custom-method);
   }
 
-  &.opblock-deprecated {
-    //opacity: 0.6;
+  &.opblock-trace {
+    @include mixins.method($color-trace);
+  }
 
+  &.opblock-deprecated {
     @include mixins.method($color-disabled);
   }
 

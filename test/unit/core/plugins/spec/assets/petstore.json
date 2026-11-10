@@ -844,7 +844,7 @@
           },
           "items": {
             "type": "string"
-          },
+          }
         },
         "tags": {
           "type": "array",
