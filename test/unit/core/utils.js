@@ -396,6 +396,18 @@ describe("utils", () => {
       expect( result ).toEqual( [] )
     })
 
+    it("validates required OAS 3.1 type arrays containing null", () => {
+      param = {
+        required: true,
+        schema: { type: ["string", "null"], pattern: "^[A-Za-z0-9_-]{22}$" }
+      }
+      assertValidateOas3Param(param, "AAAAAAAAAAAAAAAAAAAAAA", [])
+      assertValidateOas3Param(param, "", ["Required field is not provided"])
+      assertValidateOas3Param(param, "short", [
+        "Value must follow pattern ^[A-Za-z0-9_-]{22}$",
+      ])
+    })
+
     it("validates required OAS3 objects", () => {
       // valid object
       param = {
