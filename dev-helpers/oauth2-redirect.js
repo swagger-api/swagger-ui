@@ -1,5 +1,9 @@
 "use strict"
 function run () {
+    if (!window.opener || !window.opener.swaggerUIRedirectOauth2) {
+        document.body.innerText = "OAuth redirect cannot complete because the window that started the flow is no longer reachable. Close this tab and start authorization again from Swagger UI."
+        return
+    }
     var oauth2 = window.opener.swaggerUIRedirectOauth2
     var sentState = oauth2.state
     var redirectUrl = oauth2.redirectUrl
