@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: test
+  description: example with 2 callbacks using the same URL template
+paths:
+  /subscribe:
+    post:
+      summary: Subscribe to a webhook
+      operationId: subscribe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                callbackUrl:
+                  type: string
+                  format: uri
+                  example: https://myserver.com/send/callback/here
+              required:
+                - callbackUrl
+      callbacks:
+        myEvent:
+          '{$request.body#/callbackUrl}':
+            post:
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          example: Some event happened
+                      required:
+                        - message
+              responses:
+                '200':
+                  description: Your server returns this code if it accepts the callback
+        otherEvent:
+          '{$request.body#/callbackUrl}':
+            post:
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          example: 42
+                      required:
+                        - id
+              responses:
+                '200':
+                  description: Your server returns this code if it accepts the callback
+      responses:
+        '201':
+          description: Webhook created
