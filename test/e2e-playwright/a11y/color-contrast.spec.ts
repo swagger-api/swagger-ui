@@ -82,10 +82,15 @@ const tryOutOAS32Operations = async (page: Page, path: string) => {
 }
 
 const runA11y = (page: Page) =>
-  new AxeBuilder({ page })
-    .options({ resultTypes: ["violations"] })
-    .withRules(["color-contrast"])
-    .analyze()
+  page
+    .waitForFunction(() => "completeCount" in window)
+    .then(() => expect(page.locator(".opblock").first()).toBeVisible())
+    .then(() =>
+      new AxeBuilder({ page })
+        .options({ resultTypes: ["violations"] })
+        .withRules(["color-contrast"])
+        .analyze()
+    )
     .then(({ violations }) => {
       if (violations.length > 0) {
         const conciseViolations = violations.reduce(
