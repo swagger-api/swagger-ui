@@ -20,7 +20,7 @@ RUN mkdir /etc/nginx/templates && \
     chown -R nginx:nginx /usr/share/nginx/html && \
     chmod a+rw /usr/share/nginx/html
 
-USER nginx
+USER 101
 
 LABEL maintainer="char0n"
 
