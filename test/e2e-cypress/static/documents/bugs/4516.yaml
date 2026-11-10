@@ -1,0 +1,35 @@
+swagger: "2.0"
+info:
+  description: "Swagger 2.0 spec exercising issue #4516"
+  version: "0.0.1"
+  title: "Swagger 4516 sample"
+paths:
+  /users:
+    get:
+      summary: "Search users by UUID"
+      operationId: "searchUsers"
+      parameters:
+        - in: "query"
+          name: "targetUserIds"
+          description: "List of user UUIDs to query for"
+          collectionFormat: "multi"
+          required: true
+          type: "array"
+          items:
+            type: "string"
+            format: "uuid"
+        - in: "query"
+          name: "limits"
+          description: "Pagination limits"
+          collectionFormat: "csv"
+          type: "array"
+          items:
+            type: "integer"
+            format: "int64"
+        - in: "query"
+          name: "tag"
+          description: "Plain string parameter, no format"
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
