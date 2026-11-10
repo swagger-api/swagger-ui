@@ -203,6 +203,7 @@ html.dark-mode {
     textarea.invalid {
       background: $neutral-98;
       border-color: $error-30;
+      border-width: 2px;
     }
 
     // ------ TOPBAR ------

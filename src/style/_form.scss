@@ -143,6 +143,11 @@ textarea {
     border: 2px solid $form-textarea-focus-border-color;
   }
 
+  // keep the error color when an invalid textarea is focused
+  &.invalid:focus {
+    border-color: $color-delete;
+  }
+
   &.curl {
     font-size: 12px;
 

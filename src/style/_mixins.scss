@@ -137,6 +137,7 @@ $browser-context: 16;
 @mixin invalidFormElement() {
   animation: shake 0.4s 1;
   border-color: $color-delete;
+  border-style: solid;
   border-width: 2px;
 }
 
