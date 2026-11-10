@@ -1,7 +1,6 @@
-import parseUrl from "url-parse"
 import { List } from "immutable"
 import { btoa, generateCodeVerifier, createCodeChallenge } from "core/utils"
-import { sanitizeUrl } from "core/utils/url"
+import { resolveUrl, sanitizeUrl } from "core/utils/url"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={}, currentServer } ) {
   let { schema, scopes, name, clientId } = auth
@@ -98,22 +97,22 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
 
   const authorizationUrl = schema.get("authorizationUrl")
-  let sanitizedAuthorizationUrl
-  if (currentServer) {
-    // OpenAPI 3
-    sanitizedAuthorizationUrl = parseUrl(
-      sanitizeUrl(authorizationUrl),
-      currentServer,
-      true
-    ).toString()
-  } else {
-    sanitizedAuthorizationUrl = sanitizeUrl(authorizationUrl)
+  let url
+  try {
+    const parsedUrl = resolveUrl(sanitizeUrl(authorizationUrl), currentServer)
+    // Keep encodeURIComponent's encoding for OAuth parameters, and insert the
+    // query before the fragment so it is sent to the authorization server.
+    parsedUrl.search += `${parsedUrl.search ? "&" : ""}${query.join("&")}`
+    url = parsedUrl.href
+  } catch (e) {
+    errActions.newAuthErr({
+      authId: name,
+      source: "auth",
+      level: "error",
+      message: e.message
+    })
+    return
   }
-  let url = [sanitizedAuthorizationUrl, query.join("&")].join(
-    typeof authorizationUrl === "string" && !authorizationUrl.includes("?")
-      ? "?"
-      : "&"
-  )
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2

@@ -1,10 +1,8 @@
 import React from "react"
-import URL from "url-parse"
 
 import PropTypes from "prop-types"
 import { requiresValidationURL } from "core/utils"
-import { sanitizeUrl } from "core/utils/url"
-import win from "core/window"
+import { resolveUrl, sanitizeUrl } from "core/utils/url"
 
 export default class OnlineValidatorBadge extends React.Component {
     static propTypes = {
@@ -24,11 +22,13 @@ export default class OnlineValidatorBadge extends React.Component {
     }
 
     getDefinitionUrl = () => {
-      // TODO: test this behavior by stubbing `window.location` in an Enzyme/JSDom env
       let { specSelectors } = this.props
 
-      const urlObject = new URL(specSelectors.url(), win.location)
-      return urlObject.toString()
+      try {
+        return resolveUrl(specSelectors.url()).href
+      } catch {
+        return ""
+      }
     }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
