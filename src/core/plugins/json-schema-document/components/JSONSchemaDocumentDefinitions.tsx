@@ -4,24 +4,31 @@
 import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
+import { getDisplayName, getEmptyNameIdentifier } from "../fn"
+
 type Component = React.ComponentType<Record<string, unknown>>
 
 export interface JSONSchemaDocumentDefinitionsProps {
   definitions: Record<string, unknown>
   JSONSchema: Component
   getComponent: (name: string) => unknown
+  getTitle: (schema: unknown) => string
   isOpenDefault?: boolean
 }
 
 /**
  * The `$defs` of the root schema in a collapsible section below it, like the
  * Schemas section of an OpenAPI document, each definition rendered by the
- * given instance of the JSON Schema renderer.
+ * given instance of the JSON Schema renderer. Each entry has an expansion path
+ * token of its own (its name, `getEmptyNameIdentifier` for the name ""), not
+ * the renderer's default of the schema's `$id` before its name, which another
+ * entry's name can equal.
  */
 const JSONSchemaDocumentDefinitions = ({
   definitions,
   JSONSchema,
   getComponent,
+  getTitle,
   isOpenDefault = true,
 }: JSONSchemaDocumentDefinitionsProps) => {
   const [isOpen, setIsOpen] = useState(isOpenDefault)
@@ -32,6 +39,8 @@ const JSONSchemaDocumentDefinitions = ({
   const handleExpansion = useCallback(() => {
     setIsOpen((open) => !open)
   }, [])
+
+  const emptyNameIdentifier = getEmptyNameIdentifier(definitions)
 
   return (
     <section
@@ -52,7 +61,12 @@ const JSONSchemaDocumentDefinitions = ({
       </h4>
       <Collapse isOpened={isOpen}>
         {Object.entries(definitions).map(([name, schema]) => (
-          <JSONSchema key={name} name={name} schema={schema} />
+          <JSONSchema
+            key={name}
+            name={getDisplayName(name, schema, getTitle)}
+            identifier={name === "" ? emptyNameIdentifier : name}
+            schema={schema}
+          />
         ))}
       </Collapse>
     </section>

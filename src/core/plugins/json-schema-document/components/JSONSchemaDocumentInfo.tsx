@@ -39,11 +39,16 @@ const JSONSchemaDocumentInfo = ({
     SUPPORTED_DIALECTS.find(({ identifier }) => identifier === dialect)?.name ??
     ""
   const dialectVersion = dialectName.replace(/^JSON Schema /, "")
-  const retrievalURI = getRetrievalURI(
-    specSelectors.url(),
+  const url = specSelectors.url()
+  // a document that wasn't retrieved (a `spec` object or string) is known by
+  // the page's URI only as the default base URI "an implementation may use"
+  // (core, 9.1.1), so there's no retrieval URI to show
+  const defaultURI = getRetrievalURI(
+    url,
     globalThis.document?.baseURI ?? globalThis.location?.href
   )
-  const baseURI = getBaseURI(specJson, retrievalURI)
+  const retrievalURI = typeof url === "string" && url !== "" ? defaultURI : null
+  const baseURI = getBaseURI(specJson, defaultURI)
 
   const description = specJson.get("description")
 

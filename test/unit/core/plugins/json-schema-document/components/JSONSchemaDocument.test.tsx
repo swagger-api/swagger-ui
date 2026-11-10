@@ -233,6 +233,37 @@ describe("<JSONSchemaDocument />", () => {
     expect(wrapper.find(".json-schema-document__definitions")).toHaveLength(0)
   })
 
+  it("remounts the definitions when the resolved document replaces the raw one", () => {
+    const { props } = makeProps(Map())
+    let resolvedSubtree: unknown = Map()
+    const mounts = jest.fn()
+    const Custom = () => {
+      React.useEffect(() => {
+        mounts()
+      }, [])
+      return null
+    }
+    const customProps = {
+      ...props,
+      specSelectors: {
+        ...props.specSelectors,
+        specResolvedSubtree: () => resolvedSubtree,
+      },
+      getComponent: (name: string) =>
+        name === "JSONSchemaDocumentDefinitions"
+          ? Custom
+          : props.getComponent(name),
+    }
+    const wrapper = mount(<JSONSchemaDocument {...customProps} />)
+
+    expect(mounts).toHaveBeenCalledTimes(1)
+    resolvedSubtree = fromJS(resolved)
+    wrapper.setProps({})
+    expect(mounts).toHaveBeenCalledTimes(2)
+    wrapper.setProps({})
+    expect(mounts).toHaveBeenCalledTimes(2)
+  })
+
   it("renders a boolean root schema resolved from a $ref", () => {
     const { props } = makeProps(false)
     const wrapper = mount(<JSONSchemaDocument {...props} />)

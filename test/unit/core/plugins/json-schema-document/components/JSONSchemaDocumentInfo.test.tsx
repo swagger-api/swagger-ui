@@ -118,7 +118,7 @@ describe("<JSONSchemaDocumentInfo />", () => {
     expect(uris(wrapper)).toEqual([["Retrieval URI", "https://e.com/s.json"]])
   })
 
-  it("knows a document without a URL by the URI of the page, without its fragment", () => {
+  it("knows a document without a URL by the URI of the page as its base URI, without its fragment", () => {
     const page = "https://e.com/docs/index.html#/Schemas/Person"
     const baseURI = jest
       .spyOn(globalThis.document, "baseURI", "get")
@@ -126,22 +126,23 @@ describe("<JSONSchemaDocumentInfo />", () => {
 
     try {
       expect(uris(render({ $schema: dialect }))).toEqual([
-        ["Retrieval URI", "https://e.com/docs/index.html"],
+        ["Base URI", "https://e.com/docs/index.html"],
       ])
     } finally {
       baseURI.mockRestore()
     }
   })
 
-  it("knows a document without a URL by the URI of the page", () => {
+  it("shows no retrieval URI for a document that wasn't retrieved", () => {
     const page = globalThis.document.baseURI
 
+    expect(uris(render({ $schema: dialect }))).toEqual([
+      ["Base URI", new URL(page).toString()],
+    ])
     expect(uris(render({ $schema: dialect, $id: "person" }))).toEqual([
-      ["Retrieval URI", page],
       ["Base URI", new URL("person", page).toString()],
     ])
     expect(uris(render({ $schema: dialect, $id: "https://e.com/p" }))).toEqual([
-      ["Retrieval URI", page],
       ["Base URI", "https://e.com/p"],
     ])
   })

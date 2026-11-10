@@ -678,9 +678,11 @@ export const getDocumentTitle = (
 
 /**
  * The URI the document was retrieved from, absolute, without the fragment of
- * the page (the resolver's base doesn't have it either). A document that
- * wasn't retrieved (loaded from a `spec` object or string) is known by the URI
- * of the page; `null` when no absolute URI can be built.
+ * the page (the resolver's base doesn't have it either). For a document that
+ * wasn't retrieved (loaded from a `spec` object or string) it is the URI of the
+ * page, the default base URI the resolver uses, not a retrieval URI: the
+ * caller shows it as one only for a non-empty `url`. `null` when no absolute
+ * URI can be built.
  */
 export const getRetrievalURI = (
   url: string | undefined,
