@@ -1,0 +1,14 @@
+swagger: "2.0"
+info:
+  title: with-schemes
+  version: 1.0.0
+host: example.com
+schemes:
+  - https
+paths:
+  /ping:
+    get:
+      operationId: getPing
+      responses:
+        "200":
+          description: OK
