@@ -39,13 +39,11 @@ export default class ParameterIncludeEmpty extends Component {
     return (
       <div>
         <label 
-          htmlFor="include_empty_value" 
           className={cx("parameter__empty_value_toggle", {
             "disabled": isDisabled
           })}
         >
           <input 
-            id="include_empty_value"
             type="checkbox" 
             disabled={isDisabled}
             checked={!isDisabled && isIncluded}
