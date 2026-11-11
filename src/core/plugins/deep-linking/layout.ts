@@ -189,9 +189,6 @@ export const parseDeepLinkHash =
         // If an `_` is present, trigger the legacy-escaping behavior to be safe
         // TODO: remove this in a future 5.x release, it is deprecated
         if (tagId.includes("_")) {
-          console.error(
-            "Deprecated: escaping deep link whitespace with `_` is unsupported and will be removed in a future 5.x release. Use `%20` instead."
-          )
           layoutActions.show(
             tagIsShownKey.map((val) => val.replace(/_/g, " ")),
             true
@@ -204,9 +201,6 @@ export const parseDeepLinkHash =
       // If an `_` is present, trigger the legacy-escaping behavior to be safe
       // TODO: remove this in a future 5.x release, it is deprecated
       if (tagId.includes("_") || maybeOperationId.includes("_")) {
-        console.error(
-          "Deprecated: escaping deep link whitespace with `_` is unsupported and will be removed in a future 5.x release. Use `%20` instead."
-        )
         layoutActions.show(
           isShownKey.map((val) => val.replace(/_/g, " ")),
           true
@@ -227,9 +221,37 @@ export const readyToScroll =
   (system: System): void => {
     const scrollToKey = system.layoutSelectors.getScrollToKey()
 
+    if (!scrollToKey) {
+      return
+    }
+
     if (is(scrollToKey, fromJS(showKey))) {
       system.layoutActions.scrollToElement(ref)
       system.layoutActions.clearScrollTo()
+      return
+    }
+
+    const scrollArray = scrollToKey.toJS()
+    if (
+      Array.isArray(scrollArray) &&
+      scrollArray.length === showKey.length &&
+      scrollArray[0] === showKey[0]
+    ) {
+      const isLegacyMatch = scrollArray.every(
+        (part: string, idx: number) =>
+          part === showKey[idx] ||
+          (typeof part === "string" &&
+            part.includes("_") &&
+            part.replace(/_/g, " ") === showKey[idx])
+      )
+
+      if (isLegacyMatch) {
+        console.warn(
+          "Deprecated: escaping deep link whitespace with `_` is unsupported and will be removed in a future 5.x release. Use `%20` instead."
+        )
+        system.layoutActions.scrollToElement(ref)
+        system.layoutActions.clearScrollTo()
+      }
     }
   }
 
