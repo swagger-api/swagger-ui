@@ -183,11 +183,76 @@ export const requestContentType = onlyOAS3((state, path, method) => {
   )
 })
 
-export const responseContentType = onlyOAS3((state, path, method) => {
-  return (
-    state.getIn(["requestData", path, method, "responseContentType"]) || null
-  )
-})
+export const responseContentType = onlyOAS3(
+  (state, path, method) => (system) => {
+    const explicitValue = state.getIn([
+      "requestData",
+      path,
+      method,
+      "responseContentType",
+    ])
+    if (explicitValue) {
+      return explicitValue
+    }
+
+    const specSelectors = system.getSystem().specSelectors
+    const spec = specSelectors.specJsonWithResolvedSubtrees()
+    const operationPath = pathMethodSpecPath(specSelectors, path, method)
+    const responses = spec.getIn([...operationPath, "responses"])
+
+    if (!Map.isMap(responses) && !OrderedMap.isOrderedMap(responses)) {
+      return null
+    }
+
+    const suitable2xxEntry = responses.findEntry((res, k) => {
+      const content = Map.isMap(res) && res.get("content")
+      return (
+        String(k).startsWith("2") &&
+        (Map.isMap(content)
+          ? content.size > 0
+          : Object.keys(content || {}).length > 0)
+      )
+    })
+
+    const suitableDefaultEntry = responses.findEntry((res, k) => {
+      const content = Map.isMap(res) && res.get("content")
+      return (
+        String(k) === "default" &&
+        (Map.isMap(content)
+          ? content.size > 0
+          : Object.keys(content || {}).length > 0)
+      )
+    })
+
+    const controllingEntry = suitable2xxEntry || suitableDefaultEntry
+    if (controllingEntry) {
+      const [code, res] = controllingEntry
+      const codeValue = state.getIn([
+        "requestData",
+        path,
+        method,
+        "responseCodeContentType",
+        code,
+      ])
+      if (codeValue) {
+        return codeValue
+      }
+
+      const content = Map.isMap(res) ? res.get("content") : null
+      if (Map.isMap(content) && content.size > 0) {
+        return content.keySeq().first()
+      }
+      if (content && typeof content === "object") {
+        const keys = Object.keys(content)
+        if (keys.length > 0) {
+          return keys[0]
+        }
+      }
+    }
+
+    return null
+  }
+)
 
 export const responseCodeContentType = onlyOAS3((state, path, method, code) => {
   return (
