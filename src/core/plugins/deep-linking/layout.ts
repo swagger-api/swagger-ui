@@ -74,9 +74,37 @@ interface LayoutActions {
 
 type GetConfigs = () => { deepLinking?: boolean }
 
+interface SpecItem {
+  get?: (key: string) => unknown
+  id?: string
+  name?: string
+  operationId?: string
+}
+
+interface SpecSelectors {
+  tags?: () => { some: (fn: (tag: SpecItem) => boolean) => boolean }
+  operationsWithTags?: () => {
+    has: (tag: string) => boolean
+    get: (
+      tag: string
+    ) => { some: (fn: (op: SpecItem) => boolean) => boolean } | undefined
+  }
+  taggedOperations?: () => {
+    get: (tag: string) =>
+      | {
+          get?: (
+            key: string
+          ) => { some: (fn: (op: SpecItem) => boolean) => boolean } | undefined
+          operations?: { some: (fn: (op: SpecItem) => boolean) => boolean }
+        }
+      | undefined
+  }
+}
+
 interface System {
   layoutSelectors: LayoutSelectors
   layoutActions: LayoutActions
+  specSelectors?: SpecSelectors
   fn: {
     getScrollParent: (element: Element, includeHidden?: boolean) => Element
   }
@@ -216,6 +244,72 @@ export const parseDeepLinkHash =
     }
   }
 
+const hasExactTarget = (system: System, scrollArray: string[]): boolean => {
+  const [type, tag, operationId] = scrollArray
+  const specSelectors = system.specSelectors
+
+  if (specSelectors) {
+    if (type === "operations-tag" && tag) {
+      if (typeof specSelectors.tags === "function") {
+        const tagsList = specSelectors.tags()
+        if (tagsList && typeof tagsList.some === "function") {
+          if (
+            tagsList.some(
+              (t: SpecItem) => (t?.get ? t.get("name") : t?.name) === tag
+            )
+          ) {
+            return true
+          }
+        }
+      }
+      if (typeof specSelectors.operationsWithTags === "function") {
+        const opTags = specSelectors.operationsWithTags()
+        if (opTags && typeof opTags.has === "function" && opTags.has(tag)) {
+          return true
+        }
+      }
+      return false
+    }
+
+    if (type === "operations" && tag && operationId) {
+      if (typeof specSelectors.operationsWithTags === "function") {
+        const opTags = specSelectors.operationsWithTags()
+        if (opTags && typeof opTags.get === "function") {
+          const tagOps = opTags.get(tag)
+          if (tagOps && typeof tagOps.some === "function") {
+            return tagOps.some((op: SpecItem) => {
+              const id = op?.get
+                ? op.get("id") || op.get("operationId")
+                : op?.id || op?.operationId
+              return id === operationId
+            })
+          }
+        }
+      }
+      if (typeof specSelectors.taggedOperations === "function") {
+        const tagged = specSelectors.taggedOperations()
+        if (tagged && typeof tagged.get === "function") {
+          const tagEntry = tagged.get(tag)
+          const ops = tagEntry?.get
+            ? tagEntry.get("operations")
+            : tagEntry?.operations
+          if (ops && typeof ops.some === "function") {
+            return ops.some((op: SpecItem) => {
+              const id = op?.get
+                ? op.get("id") || op.get("operationId")
+                : op?.id || op?.operationId
+              return id === operationId
+            })
+          }
+        }
+      }
+      return false
+    }
+  }
+
+  return false
+}
+
 export const readyToScroll =
   (showKey: ShowKey, ref: Element) =>
   (system: System): void => {
@@ -245,7 +339,7 @@ export const readyToScroll =
             part.replace(/_/g, " ") === showKey[idx])
       )
 
-      if (isLegacyMatch) {
+      if (isLegacyMatch && !hasExactTarget(system, scrollArray)) {
         console.warn(
           "Deprecated: escaping deep link whitespace with `_` is unsupported and will be removed in a future 5.x release. Use `%20` instead."
         )

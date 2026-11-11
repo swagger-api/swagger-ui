@@ -203,5 +203,85 @@ describe("deep-linking layout plugin", () => {
       expect(consoleErrorSpy).not.toHaveBeenCalled()
       expect(consoleWarnSpy).not.toHaveBeenCalled()
     })
+
+    it("should not let a legacy whitespace match consume an exact-underscore link when whitespace target renders first", () => {
+      const scrollToElementMock = jest.fn()
+      const clearScrollToMock = jest.fn()
+      const whitespaceRef = document.createElement("div")
+      const exactRef = document.createElement("div")
+
+      const system = {
+        layoutSelectors: {
+          getScrollToKey: jest
+            .fn()
+            .mockReturnValue(fromJS(["operations", "pets", "get_pets"])),
+        },
+        layoutActions: {
+          scrollToElement: scrollToElementMock,
+          clearScrollTo: clearScrollToMock,
+        },
+        specSelectors: {
+          operationsWithTags: () =>
+            fromJS({
+              pets: [
+                { id: "get pets", operation: { operationId: "get pets" } },
+                { id: "get_pets", operation: { operationId: "get_pets" } },
+              ],
+            }),
+        },
+      }
+
+      // 1. Whitespace target renders first
+      readyToScroll(["operations", "pets", "get pets"], whitespaceRef)(system)
+
+      expect(scrollToElementMock).not.toHaveBeenCalled()
+      expect(clearScrollToMock).not.toHaveBeenCalled()
+      expect(consoleWarnSpy).not.toHaveBeenCalled()
+
+      // 2. Exact target renders second
+      readyToScroll(["operations", "pets", "get_pets"], exactRef)(system)
+
+      expect(scrollToElementMock).toHaveBeenCalledWith(exactRef)
+      expect(clearScrollToMock).toHaveBeenCalled()
+      expect(consoleWarnSpy).not.toHaveBeenCalled()
+      expect(consoleErrorSpy).not.toHaveBeenCalled()
+    })
+
+    it("should not let a legacy whitespace tag match consume an exact-underscore tag link when whitespace tag renders first", () => {
+      const scrollToElementMock = jest.fn()
+      const clearScrollToMock = jest.fn()
+      const whitespaceTagRef = document.createElement("div")
+      const exactTagRef = document.createElement("div")
+
+      const system = {
+        layoutSelectors: {
+          getScrollToKey: jest
+            .fn()
+            .mockReturnValue(fromJS(["operations-tag", "pet_store"])),
+        },
+        layoutActions: {
+          scrollToElement: scrollToElementMock,
+          clearScrollTo: clearScrollToMock,
+        },
+        specSelectors: {
+          tags: () => fromJS([{ name: "pet store" }, { name: "pet_store" }]),
+        },
+      }
+
+      // 1. Whitespace tag renders first
+      readyToScroll(["operations-tag", "pet store"], whitespaceTagRef)(system)
+
+      expect(scrollToElementMock).not.toHaveBeenCalled()
+      expect(clearScrollToMock).not.toHaveBeenCalled()
+      expect(consoleWarnSpy).not.toHaveBeenCalled()
+
+      // 2. Exact tag renders second
+      readyToScroll(["operations-tag", "pet_store"], exactTagRef)(system)
+
+      expect(scrollToElementMock).toHaveBeenCalledWith(exactTagRef)
+      expect(clearScrollToMock).toHaveBeenCalled()
+      expect(consoleWarnSpy).not.toHaveBeenCalled()
+      expect(consoleErrorSpy).not.toHaveBeenCalled()
+    })
   })
 })
