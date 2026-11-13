@@ -8,12 +8,18 @@ import {
   JSON_SCHEMA_2020_12,
   getJSONSchemaDialect,
   getRootSchemaKeyword,
+  getBlankNameLabel,
+  getDependentRequired,
+  getDependentRequiredLabels,
+  getNameLabel,
+  getSchemaDependencies,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
   makeIsExpandable,
   normalizeDialectIdentifier,
 } from "core/plugins/json-schema-document/fn"
 import {
+  getDependentRequired as getJSONSchema202012DependentRequired,
   getSchemaKeywords as getJSONSchema202012Keywords,
   hasKeyword,
   makeIsExpandable as makeJSONSchema202012IsExpandable,
@@ -182,6 +188,7 @@ describe("json-schema-document makeGetSchemaKeywords", () => {
       "$ref",
       "type",
       "definitions",
+      "dependencies",
       "$$ref",
     ])
   })
@@ -241,8 +248,154 @@ describe("json-schema-document makeIsExpandable", () => {
     }
   })
 
+  it("expands a schema whose only body keyword is a schema dependency", () => {
+    expect(
+      isExpandable({ type: "object", dependencies: { a: { required: ["b"] } } })
+    ).toBe(true)
+    expect(isExpandable({ type: "object", dependencies: { a: true } })).toBe(
+      true
+    )
+    // the array form renders on the properties it makes required
+    expect(isExpandable({ type: "object", dependencies: { a: ["b"] } })).toBe(
+      false
+    )
+    expect(isExpandable({ type: "object", dependencies: {} })).toBe(false)
+  })
+
   it("expands a schema with an extension keyword of this instance", () => {
     expect(isExpandable({ type: "string", "x-internal": true })).toBe(true)
     expect(isExpandable({ type: "string", $$ref: "#/$defs/A" })).toBe(false)
+  })
+})
+
+describe("json-schema-document dependencies", () => {
+  const schema = {
+    properties: { a: {}, b: {}, c: {} },
+    dependencies: {
+      a: ["b"],
+      c: { required: ["a"] },
+      d: false,
+      e: ["b", "c"],
+    },
+    dependentRequired: { f: ["b"], a: ["c"] },
+  }
+
+  it("takes the schema entries of dependencies, like dependentSchemas", () => {
+    expect(getSchemaDependencies(schema)).toEqual({
+      c: { required: ["a"] },
+      d: false,
+    })
+    for (const value of [undefined, null, [], "a", true]) {
+      expect(getSchemaDependencies({ dependencies: value })).toEqual({})
+    }
+    expect(getSchemaDependencies(true)).toEqual({})
+  })
+
+  it("adds the array entries of dependencies to dependentRequired", () => {
+    expect(getDependentRequired("b", schema)).toEqual(["f", "a", "e"])
+    expect(getDependentRequired("c", schema)).toEqual(["a", "e"])
+    expect(getDependentRequired("a", schema)).toEqual([])
+    expect(getDependentRequired("b", { dependencies: { a: ["b"] } })).toEqual([
+      "a",
+    ])
+  })
+
+  it("answers every property of one schema alike, and each schema on its own", () => {
+    const first = { dependencies: { a: ["b", "c"], d: ["b"] } }
+    const second = { dependencies: { x: ["b"] } }
+
+    // asked in turn, as `Properties` does, and again
+    for (let i = 0; i < 2; i++) {
+      expect(getDependentRequired("b", first)).toEqual(["a", "d"])
+      expect(getDependentRequired("c", first)).toEqual(["a"])
+      expect(getDependentRequired("z", first)).toEqual([])
+    }
+    expect(getDependentRequired("b", second)).toEqual(["x"])
+    // a copy is another schema object
+    expect(getDependentRequired("b", { ...first, dependencies: {} })).toEqual(
+      []
+    )
+  })
+
+  it("returns a blank property name as written, and each name once", () => {
+    expect(
+      getDependentRequired("b", {
+        dependentRequired: { "": ["b"], " ": ["b"] },
+        dependencies: { "(empty name)": ["b"], " ": ["b"] },
+      })
+    ).toEqual(["", " ", "(empty name)"])
+  })
+
+  it("spells out the characters of a whitespace-only name in its label", () => {
+    expect(getBlankNameLabel("")).toBe("(empty name)")
+    expect(getBlankNameLabel(" ")).toBe("(blank name: U+0020)")
+    expect(getBlankNameLabel("\t")).toBe("(blank name: U+0009)")
+    expect(getBlankNameLabel(" \u00a0")).toBe("(blank name: U+0020 U+00A0)")
+  })
+
+  it("labels the blank names of a list, the same wherever they are listed", () => {
+    expect(getDependentRequiredLabels(["a", "", " ", "\t", "b"])).toEqual([
+      "a",
+      "(empty name)",
+      "(blank name: U+0020)",
+      "(blank name: U+0009)",
+      "b",
+    ])
+    expect(getDependentRequiredLabels([""])).toEqual(["(empty name)"])
+  })
+
+  it("quotes a name that looks like the label of a blank one", () => {
+    expect(
+      getDependentRequiredLabels(["(empty name)", "", "(blank name: U+0020)"])
+    ).toEqual(['"(empty name)"', "(empty name)", '"(blank name: U+0020)"'])
+    expect(getNameLabel("(empty name) ")).toBe("(empty name) ")
+    expect(getNameLabel("empty name")).toBe("empty name")
+  })
+
+  it("shows no two names alike, quoted ones included", () => {
+    const names = [
+      "",
+      " ",
+      "(empty name)",
+      '"(empty name)"',
+      '"\\"(empty name)\\""',
+      "(blank name: U+0020)",
+      '"(blank name: U+0020)"',
+      '"x"',
+      "x",
+      '"',
+    ]
+    const labels = getDependentRequiredLabels(names)
+
+    expect(new Set(labels).size).toBe(names.length)
+    expect(getNameLabel('"x"')).toBe('"\\"x\\""')
+  })
+
+  it("lists a property once when both keywords name it", () => {
+    expect(
+      getDependentRequired("b", {
+        dependentRequired: { a: ["b", "b"] },
+        dependencies: { a: ["b"], c: ["b"] },
+      })
+    ).toEqual(["a", "c"])
+  })
+
+  it("decides as the json-schema-2020-12 renderer without dependencies", () => {
+    const schemas = [
+      { dependentRequired: { f: ["b"], a: ["c", "b"] } },
+      { dependentRequired: { f: "b" } },
+      { dependentRequired: {} },
+      {},
+      true,
+      null,
+    ]
+
+    for (const s of schemas) {
+      for (const name of ["a", "b", "c"]) {
+        expect(getDependentRequired(name, s)).toEqual(
+          getJSONSchema202012DependentRequired(name, s)
+        )
+      }
+    }
   })
 })

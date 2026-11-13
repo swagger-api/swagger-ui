@@ -7,6 +7,8 @@ import { mount } from "enzyme"
 import { withJSONSchemaContext } from "core/plugins/json-schema-2020-12/hoc"
 import JSONSchema from "core/plugins/json-schema-2020-12/components/JSONSchema/JSONSchema"
 import Keyword$defs from "core/plugins/json-schema-2020-12/components/keywords/$defs"
+import KeywordDependentSchemas from "core/plugins/json-schema-2020-12/components/keywords/DependentSchemas"
+import KeywordDependentRequired from "core/plugins/json-schema-2020-12/components/keywords/DependentRequired/DependentRequired"
 import {
   getSchemaKeywords,
   makeGetTitle,
@@ -31,6 +33,8 @@ type Component = React.ComponentType<Record<string, unknown>>
 // the parts of the system the overrides take, as the json-schema-2020-12 plugin registers them
 const systemComponents: Record<string, unknown> = {
   JSONSchema202012Keyword$defs: Keyword$defs,
+  JSONSchema202012KeywordDependentSchemas: KeywordDependentSchemas,
+  JSONSchema202012KeywordDependentRequired: KeywordDependentRequired,
   JSONSchema202012PathContext: () => JSONSchemaPathContext,
   JSONSchema202012LevelContext: () => JSONSchemaLevelContext,
 }
@@ -74,13 +78,19 @@ describe("json-schema-document renderer overrides", () => {
 
     expect(Object.keys(overrides).sort()).toEqual(["components", "fn"])
     expect(Object.keys(overrides.fn).sort()).toEqual([
+      "getDependentRequired",
       "getSchemaKeywords",
       "isExpandable",
     ])
-    expect(Object.keys(overrides.components)).toEqual(["Keyword$defs"])
+    expect(Object.keys(overrides.components)).toEqual([
+      "Keyword$defs",
+      "KeywordDependentSchemas",
+      "KeywordDependentRequired",
+    ])
     expect(overrides.fn.getSchemaKeywords()).toEqual([
       ...getSchemaKeywords(),
       "definitions",
+      "dependencies",
       "$$ref",
     ])
   })
@@ -221,7 +231,20 @@ describe("json-schema-document renderer overrides", () => {
 
       expect(
         titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
-      ).toEqual(["(blank name)", "(empty name)", "Tabbed"])
+      ).toEqual(["(blank name: U+0020)", "(empty name)", "Tabbed"])
+    })
+
+    it("shows a definition named like the label of the empty name apart from it", () => {
+      const root = render({
+        definitions: {
+          "": { type: "object", properties: { a: {} } },
+          "(empty name)": { type: "object", properties: { a: {} } },
+        },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
+      ).toEqual(["(empty name)", '"(empty name)"'])
     })
 
     it("keeps the expansion of a definition apart from one whose $id is its name", () => {
@@ -282,6 +305,274 @@ describe("json-schema-document renderer overrides", () => {
           wrapper.find(".json-schema-2020-12-keyword--definitions")
         ).toHaveLength(0)
       }
+    })
+  })
+  describe("dependencies", () => {
+    const schema = {
+      title: "Order",
+      properties: {
+        name: { type: "string" },
+        creditCard: { type: "string" },
+        billingAddress: { type: "string" },
+      },
+      dependencies: {
+        creditCard: ["billingAddress"],
+        giftWrap: { required: ["giftMessage"], title: "Gift" },
+      },
+      dependentRequired: { name: ["billingAddress"] },
+      dependentSchemas: { name: { title: "Named" } },
+    }
+
+    it("renders the schema entries like dependentSchemas, right after it", () => {
+      const root = render(schema).getDOMNode()
+      const keywords = Array.from(
+        root.querySelector(":scope > .json-schema-2020-12-body").children
+      )
+        .map((child) => child.className)
+        .filter((className) =>
+          /json-schema-2020-12-keyword--(dependentSchemas|dependencies)\b/.test(
+            className
+          )
+        )
+      const dependencies = root.querySelector(
+        ".json-schema-2020-12-keyword--dependencies"
+      )
+
+      expect(keywords).toEqual([
+        "json-schema-2020-12-keyword json-schema-2020-12-keyword--dependentSchemas",
+        "json-schema-2020-12-keyword json-schema-2020-12-keyword--dependencies",
+      ])
+      expect(
+        dependencies.querySelector(".json-schema-2020-12-keyword__name")
+          .textContent
+      ).toBe("Dependencies")
+      expect(titles(dependencies)).toEqual(["giftWrap"])
+    })
+
+    it("renders the array entries like dependentRequired", () => {
+      const root = render(schema).getDOMNode()
+      const required = Array.from(
+        root.querySelectorAll(".json-schema-2020-12-property")
+      ).map((property) => [
+        property.querySelector(".json-schema-2020-12__title").textContent,
+        Array.from(
+          property.querySelectorAll(
+            ":scope > .json-schema-2020-12 > .json-schema-2020-12-body > .json-schema-2020-12-keyword--dependentRequired li"
+          )
+        ).map((item) => item.textContent),
+      ])
+
+      expect(required).toEqual(
+        expect.arrayContaining([
+          ["name", []],
+          ["creditCard", []],
+          ["billingAddress", ["name", "creditCard"]],
+        ])
+      )
+    })
+
+    it("isn't an extension keyword", () => {
+      const wrapper = render(schema)
+
+      expect(
+        wrapper.find(".json-schema-2020-12-keyword--extension-keywords")
+      ).toHaveLength(0)
+    })
+
+    it("mounts no hooks for a schema without a schema entry", () => {
+      const useIsExpandedSpy = jest.fn(useIsExpanded)
+      const system = getSystem()
+      system.fn.jsonSchema202012.useIsExpanded = useIsExpandedSpy
+      const Keyword = makeJSONSchema202012Overrides(() => system).components
+        .KeywordDependentSchemas as unknown as Component
+      const Instance = withJSONSchemaContext(Keyword as never, {
+        config: { defaultExpandedLevels: 5 },
+      }) as Component
+
+      for (const dependencies of [{}, { a: ["b"] }, [], "a", null]) {
+        mount(<Instance schema={{ type: "object", dependencies }} />)
+      }
+
+      expect(useIsExpandedSpy).not.toHaveBeenCalled()
+    })
+
+    it("labels an entry with a blank name, whatever its title", () => {
+      const root = render({
+        dependencies: {
+          "": { required: ["a"] },
+          " ": { title: "Gift", required: ["b"] },
+          "\t": { title: " ", required: ["c"] },
+          giftWrap: { title: "Gift", required: ["d"] },
+        },
+      }).getDOMNode()
+
+      // the name triggers the dependency, so it shows, as a name does before a title
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--dependencies"))
+      ).toEqual([
+        "(empty name)",
+        "(blank name: U+0020)",
+        "(blank name: U+0009)",
+        "giftWrap",
+      ])
+    })
+
+    it("keeps the expansion of an entry apart from one whose $id is its name", () => {
+      const schema = {
+        dependencies: {
+          first: { $id: "second", type: "object", properties: { a: {} } },
+          second: { type: "object", properties: { b: {} } },
+        },
+      }
+      const wrapper = render(schema)
+      const toggles = () =>
+        wrapper
+          .find(
+            ".json-schema-2020-12-keyword--dependencies button.json-schema-2020-12-accordion"
+          )
+          .slice(1)
+      const expanded = () =>
+        toggles().map((toggle) => toggle.prop("aria-expanded"))
+
+      expect(expanded()).toEqual([true, true])
+      toggles().at(0).simulate("click")
+      // the expansion state is shared by the entries that have one token, and only
+      // the clicked entry re-renders: render everything again to see it
+      wrapper.setProps({ schema: { ...schema } })
+      expect(expanded()).toEqual([false, true])
+    })
+
+    it("lists each blank property name that makes another required", () => {
+      const root = render({
+        type: "object",
+        properties: { b: { type: "string" } },
+        dependencies: { "": ["b"], " ": ["b"], "(empty name)": ["b"] },
+        dependentRequired: { "\t": ["b"], "\u00a0\u00a0": ["b"] },
+      }).getDOMNode()
+      const items = Array.from(
+        root.querySelectorAll(
+          ".json-schema-2020-12-keyword--dependentRequired li"
+        )
+      ).map((item) => item.textContent)
+
+      // `dependentRequired` first; every trigger on its own, whitespace spelled out,
+      // and a property named like the label of "" quoted
+      expect(items).toEqual([
+        "(blank name: U+0009)",
+        "(blank name: U+00A0 U+00A0)",
+        "(empty name)",
+        "(blank name: U+0020)",
+        '"(empty name)"',
+      ])
+    })
+
+    it("shows the empty name the same in every list, apart from a name like its label", () => {
+      const root = render({
+        type: "object",
+        properties: { b: {}, c: {} },
+        dependencies: {
+          "": ["b", "c"],
+          "(empty name)": ["b"],
+          '"(empty name)"': ["b"],
+        },
+      }).getDOMNode()
+      const lists = Array.from(
+        root.querySelectorAll(
+          ":scope > .json-schema-2020-12-body > .json-schema-2020-12-keyword--properties > ul > li"
+        )
+      ).map((li) => [
+        li.querySelector(".json-schema-2020-12__title")?.textContent,
+        Array.from(
+          li.querySelectorAll(
+            ".json-schema-2020-12-keyword--dependentRequired li"
+          )
+        ).map((item) => item.textContent),
+      ])
+
+      expect(lists).toEqual([
+        ["b", ["(empty name)", '"(empty name)"', '"\\"(empty name)\\""']],
+        ["c", ["(empty name)"]],
+      ])
+    })
+
+    it("shows an entry named like the label of the empty name apart from it", () => {
+      const root = render({
+        dependencies: {
+          "": { required: ["a"] },
+          "(empty name)": { required: ["b"] },
+        },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--dependencies"))
+      ).toEqual(["(empty name)", '"(empty name)"'])
+    })
+
+    it("lists them with the component the system has registered", () => {
+      const Custom = ({
+        dependentRequired,
+      }: {
+        dependentRequired: string[]
+      }) =>
+        dependentRequired.length === 0 ? null : (
+          <ol className="custom-required">
+            {dependentRequired.map((name) => (
+              <li key={name}>{name}</li>
+            ))}
+          </ol>
+        )
+      const registered =
+        systemComponents.JSONSchema202012KeywordDependentRequired
+      systemComponents.JSONSchema202012KeywordDependentRequired = Custom
+
+      try {
+        const root = render({
+          type: "object",
+          properties: { b: { type: "string" }, c: { type: "string" } },
+          dependencies: { "": ["b"], a: ["b"] },
+        }).getDOMNode()
+        const lists = Array.from(root.querySelectorAll(".custom-required")).map(
+          (list) =>
+            Array.from(list.querySelectorAll("li")).map((i) => i.textContent)
+        )
+
+        expect(lists).toEqual([["(empty name)", "a"]])
+        expect(
+          root.querySelector(".json-schema-2020-12-keyword--dependentRequired")
+        ).toBeNull()
+      } finally {
+        systemComponents.JSONSchema202012KeywordDependentRequired = registered
+      }
+    })
+
+    it("makes a schema expandable only with a schema entry", () => {
+      const withSchema = render({
+        type: "object",
+        dependencies: { express: { required: ["carrier"] } },
+      }).getDOMNode()
+      const withArray = render({
+        type: "object",
+        dependencies: { express: ["carrier"] },
+      }).getDOMNode()
+
+      expect(
+        withSchema.querySelectorAll(
+          ":scope > .json-schema-2020-12-head .json-schema-2020-12-accordion"
+        )
+      ).toHaveLength(1)
+      expect(
+        titles(
+          withSchema.querySelector(".json-schema-2020-12-keyword--dependencies")
+        )
+      ).toEqual(["express"])
+      expect(
+        withArray.querySelectorAll(
+          ":scope > .json-schema-2020-12-head .json-schema-2020-12-accordion"
+        )
+      ).toHaveLength(0)
+      expect(
+        withArray.querySelector(".json-schema-2020-12-keyword--dependencies")
+      ).toBeNull()
     })
   })
 })

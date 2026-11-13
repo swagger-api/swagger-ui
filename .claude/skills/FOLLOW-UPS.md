@@ -26,6 +26,52 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
    mirrors the oas31 spec; check that it has the oas31 "re-expand a collapsed nested property" test.
 7. **`CLAUDE.md` is stale on versions**: "OpenAPI Specification Compatibility" says support goes up
    to 3.1.x and v5.31.0, and the plugin count and file counts are out of date.
+8. **`dependentRequired` names without a `properties` entry are not rendered.** The
+   json-schema-2020-12 renderer shows "Required when defined" only on declared properties
+   (`components/keywords/Properties/Properties.jsx` calls `fn.getDependentRequired` per entry of
+   `properties`). With `properties: { creditCard }` and `dependentRequired: { creditCard: ["billingAddress"] }`
+   and no `billingAddress` property, nothing shows `billingAddress`. The spec requires each listed
+   name to be a property of the instance, not to have a schema
+   (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#section-6.5.4).
+   It affects OAS 3.1 and 3.2 Schema Objects too, so the fix is a change to the core renderer with
+   an OAS regression check. The json-schema-document plugin copies `getDependentRequired` (and
+   renders `dependencies` array entries the same way), so it follows once core changes. The core
+   `DependentRequired` component also renders a trigger property named `""` (or only whitespace) as an
+   empty list item; the json-schema-document plugin lists such a name as `(empty name)` or
+   `(blank name: U+0020)` (the characters of a whitespace-only name spelled out), through the
+   registered component.
+9. **`required` names without a `properties` entry are not rendered.** `Properties.jsx` returns
+   `null` when a schema has no `properties`, and `required` only marks declared properties. A schema
+   like `{ type: "object", required: ["carrier"] }` (for example as a `dependentSchemas` or legacy
+   `dependencies` entry) shows no trace of `carrier`. The spec requires every item of `required` to
+   name an instance property, independently of `properties`
+   (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#section-6.5.3).
+   Same scope as item 8: core renderer, OAS 3.1/3.2 affected, needs its own PR.
+10. **`getDependentRequired` scans `dependentRequired` once per property.**
+    `src/core/plugins/json-schema-2020-12/fn.js` is called by `Properties.jsx` for every declared
+    property, so rendering costs properties × `dependentRequired` entries (about 6 ms for 200 × 200,
+    about 0.6 s for 2000 × 2000). Build a reverse index once per schema object, as
+    `getDependentRequired` of the json-schema-document plugin does. Low priority; it changes OAS
+    3.1/3.2 rendering code, so it needs its own PR.
+11. **`usePath` matches sibling paths by string prefix.** `pathMutator` in
+    `src/core/plugins/json-schema-2020-12/hooks.js` selects the paths below the one it changes with
+    `key.startsWith(startPath)`, without a path separator, so "Collapse all" or "Expand all" on
+    `properties.a` also changes the saved expansion state of `properties.ab`. Compare whole segments
+    (`key === startPath || key.startsWith(startPath + ",")`) in both branches and add a regression
+    test for sibling names where one is a prefix of the other. It changes OAS 3.1/3.2 behavior, so it
+    needs its own PR. The json-schema-document `definitions` list meets it for definitions named `""`
+    and `"(empty name)"` in one document, which get the path tokens `(empty name)_` and `(empty name)`,
+    and the `dependencies` list for keys such as `card` and `cardNumber`. The path is also built by
+    joining the segments with commas, so `dependencies.a` with a property `b` and a dependency named
+    `a,properties,b` share one key; the segments need an unambiguous encoding, not only a
+    whole-segment comparison.
+12. **Property names are shown as collapsing HTML text.** The json-schema-2020-12 renderer prints a
+    name (the title of a property, an item of `dependentRequired`) as plain inline text, so the browser
+    collapses its whitespace: `a b` and `a  b`, or `a` and ` a`, look alike although they are different
+    properties. A `white-space: pre-wrap` rule on the name elements (or visible escapes) in
+    `src/core/plugins/json-schema-2020-12/` would show them as they are. It changes OAS 3.1/3.2
+    rendering, so it needs its own PR; the json-schema-document plugin has the same limit for names that
+    are not blank.
 
 ## Open Work on the Skills
 

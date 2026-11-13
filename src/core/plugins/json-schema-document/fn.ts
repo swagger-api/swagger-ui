@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import { Map } from "immutable"
+import { Map as ImmutableMap } from "immutable"
 
 /**
  * Id of the `<main>` landmark of a rendered JSON Schema document, the target
@@ -55,8 +55,8 @@ export const normalizeDialectIdentifier = (identifier: string): string =>
  */
 const isJSONSchemaDocumentCandidate = (
   spec: unknown
-): spec is Map<string, unknown> =>
-  Map.isMap(spec) &&
+): spec is ImmutableMap<string, unknown> =>
+  ImmutableMap.isMap(spec) &&
   spec.has("$schema") &&
   !API_DESCRIPTION_FIELDS.some((field) => spec.has(field))
 
@@ -88,7 +88,7 @@ export const isUnsupportedJSONSchemaDocument = (spec: unknown): boolean =>
  * The root `$schema` as written, for messages.
  */
 export const getRootSchemaKeyword = (spec: unknown): string => {
-  if (!Map.isMap(spec) || !spec.has("$schema")) return ""
+  if (!ImmutableMap.isMap(spec) || !spec.has("$schema")) return ""
 
   const $schema = spec.get("$schema")
   if (typeof $schema === "string") return $schema
@@ -113,8 +113,14 @@ export const getRootSchemaKeyword = (spec: unknown): string => {
  *   `definitions` have the same behavior when that meta-schema is used"
  *   (https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01.html#appendix-A),
  *   so it renders like `$defs`.
+ * - `dependencies`: split into `dependentSchemas` (its schema form) and
+ *   `dependentRequired` (its property name array form) by the same appendix,
+ *   so each entry renders like the keyword that took over its form.
  */
-export const DEFAULT_META_SCHEMA_KEYWORDS: readonly string[] = ["definitions"]
+export const DEFAULT_META_SCHEMA_KEYWORDS: readonly string[] = [
+  "definitions",
+  "dependencies",
+]
 
 /**
  * The `definitions` of a schema when there is something to render: a nonempty
@@ -148,7 +154,170 @@ export const makeGetSchemaKeywords = (
   return () => keywords
 }
 
+/**
+ * Labels of an entry whose name is the empty string, or only whitespace (both
+ * valid property names), and that has no title, `$anchor` or `$id` to show
+ * instead: a blank head would be an accordion without a name, a blank list
+ * item a requirement nobody can read.
+ */
+export const EMPTY_NAME_LABEL = "(empty name)"
+
+export const isBlank = (value: string) => value.trim() === ""
+
+/**
+ * The label of a blank name. Whitespace-only names are different names, so
+ * the label spells out their characters (`(blank name: U+0020)`).
+ */
+export const getBlankNameLabel = (name: string) =>
+  name === ""
+    ? EMPTY_NAME_LABEL
+    : `(blank name: ${Array.from(name)
+        .map(
+          (char) =>
+            `U+${(char.codePointAt(0) as number)
+              .toString(16)
+              .toUpperCase()
+              .padStart(4, "0")}`
+        )
+        .join(" ")})`
+
+// what the label of a blank name looks like
+const BLANK_NAME_LABEL_PATTERN = /^\((?:empty name|blank name: [^)]*)\)$/
+
+/**
+ * The name an entry shows: the name, or its label when it is blank. A name
+ * that looks like such a label, or that starts with a quote, is quoted (as
+ * JSON, so that a quote in it is escaped): a label always means a blank name,
+ * a quoted name is a name, and no two names show alike, wherever either is
+ * shown.
+ */
+export const getNameLabel = (name: string) => {
+  if (isBlank(name)) return getBlankNameLabel(name)
+
+  return name.startsWith('"') || BLANK_NAME_LABEL_PATTERN.test(name)
+    ? JSON.stringify(name)
+    : name
+}
+
+/**
+ * The name an entry shows when the name is what identifies it (the property
+ * that triggers a dependency): its label whatever the title of its schema.
+ */
+export const getTriggerName = getNameLabel
+
+/**
+ * The property names of a "Required when defined" list as the renderer shows
+ * them (`getNameLabel`), each on its own.
+ */
+export const getDependentRequiredLabels = (names: string[]): string[] =>
+  names.map(getNameLabel)
+
+/**
+ * The name the renderer shows for an entry of a keyword that lists
+ * subschemas by name: its label, nothing for a blank name when the schema has
+ * a title to show.
+ */
+export const getDisplayName = <S>(
+  name: string,
+  subschema: S,
+  getTitle: (schema: S) => string
+) => {
+  if (isBlank(name) && !isBlank(getTitle(subschema))) return ""
+
+  return getNameLabel(name)
+}
+
+/**
+ * The expansion path token of an entry named "": one that no other entry's
+ * name is, so that it keeps a path of its own whatever label it shows. Every
+ * other entry's token is its name.
+ */
+export const getEmptyNameIdentifier = (entries: Record<string, unknown>) => {
+  let identifier = EMPTY_NAME_LABEL
+  while (identifier in entries) identifier += "_"
+  return identifier
+}
+
 type Schema = Record<string, unknown> | boolean | null | undefined
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === "object" && !Array.isArray(value)
+
+const getDependencies = (schema: Schema): [string, unknown][] =>
+  isObject(schema) && isObject(schema.dependencies)
+    ? Object.entries(schema.dependencies)
+    : []
+
+/**
+ * The schema form of `dependencies`: the entries whose value is a schema (an
+ * object or a boolean), which apply to the whole instance when it has the
+ * property, as `dependentSchemas` does.
+ */
+export const getSchemaDependencies = (
+  schema: Schema
+): Record<string, Record<string, unknown> | boolean> =>
+  Object.fromEntries(
+    getDependencies(schema).filter(
+      (entry): entry is [string, Record<string, unknown> | boolean] =>
+        typeof entry[1] === "boolean" || isObject(entry[1])
+    )
+  )
+
+/**
+ * For each property name, the properties whose presence makes it required,
+ * in the order `dependentRequired` and then `dependencies` list them.
+ */
+type DependentRequiredIndex = Map<string, Set<string>>
+
+// `Properties` asks for every declared property of one schema in turn; the
+// index is built once per schema object instead of once per property
+const dependentRequiredIndexes = new WeakMap<object, DependentRequiredIndex>()
+
+const getDependentRequiredIndex = (
+  schema: Record<string, unknown>
+): DependentRequiredIndex => {
+  const cached = dependentRequiredIndexes.get(schema)
+  if (cached) return cached
+
+  const entries = [
+    ...(isObject(schema.dependentRequired)
+      ? Object.entries(schema.dependentRequired)
+      : []),
+    ...getDependencies(schema),
+  ]
+  const index: DependentRequiredIndex = new Map()
+
+  for (const [prop, list] of entries) {
+    if (!Array.isArray(list)) continue
+
+    for (const name of list) {
+      const props = index.get(name) ?? new Set<string>()
+      props.add(prop)
+      index.set(name, props)
+    }
+  }
+
+  dependentRequiredIndexes.set(schema, index)
+
+  return index
+}
+
+/**
+ * The properties whose presence makes `propertyName` required: from
+ * `dependentRequired` and from the property name array form of
+ * `dependencies`. A copy of `getDependentRequired` of the json-schema-2020-12
+ * renderer (plugins don't import each other; keep the two in step), plus
+ * `dependencies`. It answers from an index built once per schema object, so a
+ * schema with many properties and dependencies isn't scanned for each
+ * property; a schema object isn't changed while it is rendered.
+ */
+export const getDependentRequired = (
+  propertyName: string,
+  schema: Schema
+): string[] =>
+  isObject(schema)
+    ? Array.from(getDependentRequiredIndex(schema).get(propertyName) ?? [])
+    : []
 
 /**
  * The `fn` of a json-schema-2020-12 renderer instance, as far as used here.
@@ -206,7 +375,8 @@ export const makeIsExpandable =
         s.examples ||
         fn.getExtensionKeywords(schema).length > 0 ||
         // keywords of the default meta-schema
-        getDefinitions(schema) !== null
+        getDefinitions(schema) !== null ||
+        Object.keys(getSchemaDependencies(schema)).length > 0
     )
   }
 

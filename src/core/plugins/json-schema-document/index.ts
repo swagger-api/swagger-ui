@@ -27,10 +27,21 @@ import { requestResolvedSubtree } from "./wrap-actions"
  * swagger-client's `json-schema-2020-12-apidom` strategy (every `$dynamicRef`
  * stays as written). A root `$schema` naming any other dialect is refused with
  * a message. Of the keywords the 2020-12 default meta-schema keeps from earlier
- * drafts, `definitions` renders like `$defs` (a `$ref` into it is resolved, a
- * `$ref` inside it stays as written: swagger-client doesn't dereference there);
- * not yet rendered as keywords (extension keywords until then):
- * `dependencies`, `$recursiveAnchor`, `$recursiveRef`.
+ * drafts, `definitions` renders like `$defs`, and `dependencies` like
+ * `dependentSchemas` (schema entries) and `dependentRequired` (property name
+ * arrays); a `$ref` into them is resolved, a `$ref` inside them stays as
+ * written (swagger-client doesn't dereference there:
+ * https://github.com/swagger-api/apidom/issues/5303). Names that
+ * `dependentRequired`, `dependencies` or `required` list without a `properties`
+ * entry are not shown, as in the json-schema-2020-12 renderer (see
+ * `.claude/skills/FOLLOW-UPS.md`). A name that is empty or only whitespace is
+ * shown as a label (`(empty name)`, `(blank name: U+0020)`), and a name that
+ * looks like such a label, or starts with a quote, is quoted, in every
+ * listing of this renderer: the headings of `definitions` and `dependencies`
+ * and the "Required when defined" lists of `dependentRequired` and
+ * `dependencies`; the shared renderer of OpenAPI 3.1/3.2 shows them as
+ * written. Not yet rendered as keywords (extension keywords until then):
+ * `$recursiveAnchor`, `$recursiveRef`.
  * Limitation: an embedded resource (`$id` with its own `$schema`) or an external
  * file that declares another dialect is rendered with the 2020-12 meaning;
  * references that cross dialects are out of scope.
