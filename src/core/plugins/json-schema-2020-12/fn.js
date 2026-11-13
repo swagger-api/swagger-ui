@@ -143,10 +143,14 @@ export const makeGetType = (fnAccessor) => {
 
     const handleCombiningKeywords = (keyword, separator) => {
       if (Array.isArray(schema[keyword])) {
-        const combinedTypes = schema[keyword].map((subSchema) =>
-          getType(subSchema, processedSchemas)
-        )
-        return `(${combinedTypes.join(separator)})`
+        const combinedTypes = schema[keyword].map((subSchema) => {
+          let subType = getType(subSchema, processedSchemas)
+          if (subSchema?.format) {
+            subType = `${subType}($${subSchema.format})`
+          }
+          return subType
+        })
+        return combinedTypes.join(separator)
       }
       return null
     }
@@ -155,7 +159,8 @@ export const makeGetType = (fnAccessor) => {
     const anyOfString = handleCombiningKeywords("anyOf", " | ")
     const allOfString = handleCombiningKeywords("allOf", " & ")
 
-    const combinedStrings = [typeString, oneOfString, anyOfString, allOfString]
+    const hasUnionKeyword = oneOfString || anyOfString
+    const combinedStrings = [hasUnionKeyword ? null : typeString, oneOfString, anyOfString, allOfString]
       .filter(Boolean)
       .join(" | ")
 
