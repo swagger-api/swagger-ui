@@ -1,0 +1,3 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: JSON Schema Draft 7
+type: object

@@ -23,6 +23,13 @@ jest.mock("swagger-client/es/resolver/strategies/openapi-3-1-apidom", () =>
     "swagger-client/lib/resolver/strategies/openapi-3-1-apidom"
   )
 )
+jest.mock(
+  "swagger-client/es/resolver/strategies/json-schema-2020-12-apidom",
+  () =>
+    jest.requireActual(
+      "swagger-client/lib/resolver/strategies/json-schema-2020-12-apidom"
+    )
+)
 jest.mock("swagger-client/es/resolver", () =>
   jest.requireActual("swagger-client/lib/resolver")
 )
@@ -94,5 +101,31 @@ describe("swagger-client plugin resolveSubtree", () => {
     expect(
       spec.parameters.find((p: Param) => p.name === "q").description
     ).toEqual("override")
+  })
+
+  describe("standalone JSON Schema 2020-12 documents", () => {
+    const dialect = "https://json-schema.org/draft/2020-12/schema"
+
+    it("keeps allOf unmerged (strict mode)", async () => {
+      const allOf = [{ enum: ["red"] }, { enum: ["blue"] }]
+      const { spec, errors } = await fn.resolveSubtree(
+        { $schema: dialect, allOf },
+        []
+      )
+
+      expect(spec.allOf).toEqual(allOf)
+      expect(spec.enum).toBeUndefined()
+      expect(errors).toEqual([])
+    })
+
+    it("accepts a boolean subschema in allOf", async () => {
+      const { spec, errors } = await fn.resolveSubtree(
+        { $schema: dialect, allOf: [false] },
+        []
+      )
+
+      expect(spec.allOf).toEqual([false])
+      expect(errors).toEqual([])
+    })
   })
 })

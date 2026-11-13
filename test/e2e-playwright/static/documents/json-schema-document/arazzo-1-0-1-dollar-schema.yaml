@@ -1,0 +1,16 @@
+arazzo: 1.0.1
+$schema: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Arazzo 1.0.1 with a root $schema
+  version: 1.0.0
+sourceDescriptions:
+  - name: petStore
+    url: oas-3-1-dollar-schema.yaml
+    type: openapi
+workflows:
+  - workflowId: listPets
+    steps:
+      - stepId: list
+        operationId: listPets
+        successCriteria:
+          - condition: $statusCode == 200

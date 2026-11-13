@@ -1,0 +1,52 @@
+- /children: deep-equal
+- img
+- heading "Swagger 2.0 with $schema 1.0.0 OAS 2.0" [level=1]
+- link "/documents/json-schema-document/swagger-2-0-dollar-schema.yaml":
+  - /url: /documents/json-schema-document/swagger-2-0-dollar-schema.yaml
+- main:
+  - heading "default Collapse operation" [level=3]:
+    - text: ""
+    - button "Collapse operation" [expanded]
+  - button "GET /pets List pets" [expanded]
+  - button "Copy path to clipboard"
+  - button "get /pets" [expanded]
+  - heading "Parameters" [level=4]
+  - button "Try it out"
+  - paragraph: No parameters
+  - heading "Responses" [level=4]
+  - text: Response content type
+  - combobox "Response content type":
+    - option "application/json" [selected]
+  - region:
+    - rowgroup:
+      - row "Code Description":
+        - cell "Code"
+        - cell "Description"
+    - rowgroup:
+      - row /\d+ The pets Example Value/:
+        - cell /\d+/
+        - cell "The pets Example Value":
+          - paragraph: The pets
+          - tablist:
+            - tab "Example Value" [selected]
+            - tab "Model"
+          - tabpanel "Example Value":
+            - code: "[ { \"name\": \"string\", \"tag\": \"string\" } ]"
+  - heading "Models" [level=4]:
+    - button "Models" [expanded]
+  - button "Pet" [expanded]:
+    - strong: Pet
+  - text: "{"
+  - table:
+    - rowgroup:
+      - row "name* string":
+        - cell "name*"
+        - cell "string":
+          - button [expanded]
+          - text: ""
+      - row "tag string":
+        - cell "tag"
+        - cell "string":
+          - button [expanded]
+          - text: ""
+  - text: "}"
