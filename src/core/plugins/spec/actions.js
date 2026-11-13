@@ -4,6 +4,7 @@ import parseUrl from "url-parse"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
+import isPlainObject from "lodash/isPlainObject"
 import assocPath from "lodash/fp/assocPath"
 import constant from "lodash/constant"
 
@@ -171,6 +172,13 @@ const debResolveSubtrees = debounce(() => {
     } = system
     const getLineNumberForPath = AST.getLineNumberForPath ?? constant(undefined)
     const specStr = specSelectors.specStr()
+    // a batch that outlives its document (another one was loaded meanwhile)
+    // must not touch the resolved cache or the errors of the current one
+    const batchSpecJson = specSelectors.specJson()
+    const batchUrl = specSelectors.url()
+    const isStale = () =>
+      specSelectors.specJson() !== batchSpecJson ||
+      specSelectors.url() !== batchUrl
     const {
       modelPropertyMacro,
       parameterMacro,
@@ -180,7 +188,9 @@ const debResolveSubtrees = debounce(() => {
 
     try {
       const batchResult = await systemRequestBatch.reduce(async (prev, path) => {
-        let { resultMap, specWithCurrentSubtrees } = await prev
+        const previous = await prev
+        if (previous.stale) return previous
+        let { resultMap, specWithCurrentSubtrees } = previous
         const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
           baseDoc: String(new URL(specSelectors.url(), document.baseURI)),
           modelPropertyMacro,
@@ -188,6 +198,8 @@ const debResolveSubtrees = debounce(() => {
           requestInterceptor,
           responseInterceptor
         })
+
+        if (isStale()) return { resultMap, specWithCurrentSubtrees, stale: true }
 
         if(errSelectors.allErrors().size) {
           errActions.clearBy(err => {
@@ -234,17 +246,33 @@ const debResolveSubtrees = debounce(() => {
               }
             }))
         }
-        set(resultMap, path, spec)
-        specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
+        if (path.length === 0) {
+          // an empty path is the whole document: `set` and `assocPath` would ignore it
+          // a boolean is a valid root schema (`$ref` to `true` or `false`)
+          if (isPlainObject(spec) || typeof spec === "boolean") {
+            resultMap = spec
+            specWithCurrentSubtrees = spec
+          }
+        } else {
+          set(resultMap, path, spec)
+          specWithCurrentSubtrees = assocPath(path, spec, specWithCurrentSubtrees)
+        }
 
         return {
           resultMap,
           specWithCurrentSubtrees
         }
       }, Promise.resolve({
-        resultMap: (specSelectors.specResolvedSubtree([]) || ImmutableMap()).toJS(),
+        resultMap: (() => {
+          const resolvedRoot = specSelectors.specResolvedSubtree([])
+          // a boolean root schema is stored as is
+          if (typeof resolvedRoot === "boolean") return resolvedRoot
+          return (resolvedRoot || ImmutableMap()).toJS()
+        })(),
         specWithCurrentSubtrees: specSelectors.specJS()
       }))
+
+      if (batchResult.stale || isStale()) return
 
       specActions.updateResolvedSubtree([], batchResult.resultMap)
     } catch(e) {
