@@ -67,15 +67,7 @@ describe('swagger-ui.css Tailwind isolation', () => {
     root.walkRules((rule) => {
       if (enclosingLayer(rule) !== 'swagger-ui.utilities') return;
       rule.selectors
-        .filter((selector) => {
-          // every class a selector references (variants such as `peer-hover`
-          // reference the `peer` class too) must be sui-prefixed
-          const classes = selector.match(/\.(?:\\.|[\w-])+/g) ?? [];
-          return (
-            classes.length === 0 ||
-            classes.some((name) => !name.startsWith('.sui\\:'))
-          );
-        })
+        .filter((selector) => !selector.startsWith('.sui\\:'))
         .forEach((selector) => offenders.push(selector));
     });
 

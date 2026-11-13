@@ -495,48 +495,15 @@ describe("json-schema-unified OAS 2.0 / 3.0 dialects", () => {
     const refPath = (root: Element, name: string) =>
       head(property(root, name)).querySelector('[data-keyword="$$ref"]')
 
-    const classes = (element: Element) =>
-      element.getAttribute("class").split(" ")
-
     it.each(LEGACY)(
-      "%s renders it as a hidden tooltip in the title, collapsed or expanded",
+      "%s shows it on an expanded dereferenced schema",
       (dialect) => {
         const collapsed = render(schema, {
           dialect,
           config: { defaultExpandedLevels: 1 },
           options: { getDocumentUrl: () => "http://example.com/doc.yaml" },
         }).getDOMNode()
-        const tooltip = refPath(collapsed, "category")
-
-        expect(tooltip.textContent).toBe("#/definitions/Category")
-        expect(tooltip.getAttribute("role")).toBe("tooltip")
-        expect(classes(tooltip)).toEqual(
-          expect.arrayContaining([
-            "sui:hidden",
-            "sui:peer-hover/ref-title:block",
-            "sui:peer-focus-visible/ref-title:block",
-            "sui:absolute",
-            "sui:top-[-1.8em]",
-          ])
-        )
-        expect(
-          classes(tooltip).every((token) => token.startsWith("sui:"))
-        ).toBe(true)
-        // a direct child of the head, after the title toggle (its only peer)
-        const head = tooltip.parentElement
-        expect(classes(head)).toContain("sui:relative")
-        const siblings = Array.from(head.children)
-        const peers = siblings.filter((child) =>
-          classes(child).includes("sui:peer/ref-title")
-        )
-        expect(peers).toHaveLength(1)
-        expect(peers[0].tagName).toBe("BUTTON")
-        expect(
-          peers[0].querySelector("[data-json-schema-title]")
-        ).not.toBeNull()
-        expect(siblings.indexOf(peers[0])).toBeLessThan(
-          siblings.indexOf(tooltip)
-        )
+        expect(refPath(collapsed, "category")).toBeNull()
 
         const root = renderExpanded(schema, {
           dialect,
@@ -549,28 +516,12 @@ describe("json-schema-unified OAS 2.0 / 3.0 dialects", () => {
           "http://example.com/other.yaml#/definitions/Other"
         )
         expect(refPath(root, "plain")).toBeNull()
-      }
-    )
-
-    it.each(LEGACY)(
-      "%s places a top-level schema's tooltip closer to its title",
-      (dialect) => {
-        const root = render(
-          {
-            type: "object",
-            properties: { id: { type: "integer" } },
-            $$ref: "http://example.com/doc.yaml#/definitions/User",
-          },
-          {
-            dialect,
-            options: { getDocumentUrl: () => "http://example.com/doc.yaml" },
-          }
-        ).getDOMNode()
-        const tooltip = root.querySelector('[data-keyword="$$ref"]')
-
-        expect(tooltip.textContent).toBe("#/definitions/User")
-        expect(classes(tooltip)).toContain("sui:top-[-1.15em]")
-        expect(classes(tooltip)).not.toContain("sui:top-[-1.8em]")
+        expect(
+          refPath(root, "category")
+            .getAttribute("class")
+            .split(" ")
+            .every((token) => token.startsWith("sui:"))
+        ).toBe(true)
       }
     )
 
