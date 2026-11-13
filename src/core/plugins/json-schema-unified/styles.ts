@@ -22,6 +22,13 @@
 export const SCHEMA =
   "sui:mt-0 sui:mr-[20px] sui:mb-[15px] sui:ml-[20px] sui:first-of-type:m-[20px] sui:last-of-type:mx-[20px] sui:last-of-type:my-0 sui:rounded-[4px] sui:dark:bg-json-schema-dark-background sui:dark:[&_a]:text-json-schema-dark-link"
 
+/** The schema panel when it carries a Jump to definition (`JUMP_TO_PATH`). */
+export const SCHEMA_POSITIONED = "sui:relative"
+
+/** `.model-container .models-jump-to-path` (json-schema-5): top-right of the panel. */
+export const JUMP_TO_PATH =
+  "sui:absolute sui:top-[8px] sui:right-[5px] sui:opacity-[0.65]"
+
 /**
  * `.json-schema-2020-12` background and padding, and `--embedded`. The
  * embedded `padding: 0 inherit 0 inherit` is invalid as a shorthand, but the
@@ -42,15 +49,21 @@ export const SCHEMA_BODY =
 /** `--collapsed` modifiers (`display: none`). */
 export const HIDDEN = "sui:hidden"
 
+/** A schema's head: the positioning context of its reference tooltip. */
+export const SCHEMA_HEAD = "sui:relative"
+
 /**
- * json-schema-5's `.model-hint` (the reference path of a dereferenced model:
- * light text on a translucent black chip, `src/style/_models.scss`). It is
- * shown inline in the head of an expanded schema rather than as a hover
- * tooltip above the title, which the schemas' horizontal scroll container
- * would clip.
+ * json-schema-5's `.model-hint`: the reference path of a dereferenced schema
+ * in a translucent black tooltip above its title, shown while the title or
+ * its toggle (`sui:peer/ref-title`, a preceding sibling) is hovered or has
+ * keyboard focus (`src/style/_models.scss`; `-1.15em` for a top-level schema,
+ * `src/style/_layout.scss`).
  */
-export const REF_PATH =
-  "sui:inline-block sui:ml-[10px] sui:py-[0.1em] sui:px-[0.5em] sui:rounded-[4px] sui:bg-[rgb(0_0_0/70%)] sui:text-[#ebebeb] sui:whitespace-nowrap sui:align-middle sui:font-[family-name:monospace] sui:text-[12px] sui:font-semibold sui:leading-[normal]"
+export const REF_TOOLTIP = {
+  base: "sui:hidden sui:peer-hover/ref-title:block sui:peer-focus-visible/ref-title:block sui:absolute sui:left-0 sui:z-10 sui:py-[0.1em] sui:px-[0.5em] sui:rounded-[4px] sui:bg-[rgb(0_0_0/70%)] sui:text-[#ebebeb] sui:whitespace-nowrap sui:font-[family-name:sans-serif] sui:text-[12px] sui:font-semibold sui:leading-[normal]",
+  nested: "sui:top-[-1.8em]",
+  topLevel: "sui:top-[-1.15em]",
+} as const
 
 /** `.json-schema-2020-12-keyword` and `.json-schema-2020-12-json-viewer`. */
 export const KEYWORD = "sui:mx-0 sui:my-[5px]"

@@ -446,6 +446,38 @@ describe("json-schema-unified Model / Models wrappers", () => {
       ).toEqual(["components/schemas/Pet", "components/schemas/Tag"])
     })
 
+    it("places JumpToPath at the top-right of each schema panel, outside its head", () => {
+      const root = renderModels(
+        makeSystem("3.1", { unifiedJSONSchemaEnabled: true })
+      ).getDOMNode()
+      const panels = Array.from(
+        root.querySelectorAll(
+          '[data-json-schema-unified][data-json-schema-level="0"]'
+        )
+      )
+
+      expect(panels).toHaveLength(2)
+      panels.forEach((panel) => {
+        const jump = Array.from(panel.children).find((child) =>
+          child.hasAttribute("data-jump-to-path")
+        )
+        expect(jump).not.toBeNull()
+        expect(jump.querySelector("[data-test-jump-to-path]")).not.toBeNull()
+        expect(jump.getAttribute("class").split(" ")).toEqual(
+          expect.arrayContaining([
+            "sui:absolute",
+            "sui:top-[8px]",
+            "sui:right-[5px]",
+          ])
+        )
+        expect(panel.getAttribute("class").split(" ")).toContain("sui:relative")
+        const head = Array.from(panel.children).find(
+          (child) => child.tagName === "DIV"
+        )
+        expect(head.querySelector("[data-test-jump-to-path]")).toBeNull()
+      })
+    })
+
     it("collapses and expands the section through the layout state", () => {
       const system = makeSystem("3.1", { unifiedJSONSchemaEnabled: true })
       const wrapper = renderModels(system)
