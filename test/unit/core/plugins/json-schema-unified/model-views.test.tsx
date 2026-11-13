@@ -170,18 +170,30 @@ describe("json-schema-unified Model / Models wrappers", () => {
       expect(UNIFIED_DIALECTS.map(({ dialect }) => dialect)).toEqual([
         "oas32",
         "oas31",
+        "oas30",
+        "swagger2",
       ])
       expect(getUnifiedDialect({ isOAS32: () => true })).toBe("oas32")
       expect(
         getUnifiedDialect({ isOAS31: () => true, isOAS32: () => false })
       ).toBe("oas31")
+      expect(
+        getUnifiedDialect({
+          isOAS30: () => true,
+          isOAS31: () => false,
+          isSwagger2: () => false,
+        })
+      ).toBe("oas30")
+      expect(
+        getUnifiedDialect({ isOAS30: () => false, isSwagger2: () => true })
+      ).toBe("swagger2")
     })
 
     it.each([
       ["3.2", "oas32"],
       ["3.1", "oas31"],
-      ["3.0", null],
-      ["2.0", null],
+      ["3.0", "oas30"],
+      ["2.0", "swagger2"],
       ["undetected", null],
     ] as const)(
       "detects the %s document's dialect through the real selectors",
@@ -196,13 +208,9 @@ describe("json-schema-unified Model / Models wrappers", () => {
       expect(getUnifiedDialect({})).toBeNull()
       expect(getUnifiedDialect(undefined)).toBeNull()
       expect(
-        getUnifiedDialect({ isOAS31: () => false, isOAS32: () => false })
-      ).toBeNull()
-      // 2.0 and 3.0 have no unified dialect
-      expect(
         getUnifiedDialect({
-          isSwagger2: () => true,
-          isOAS30: () => true,
+          isSwagger2: () => false,
+          isOAS30: () => false,
           isOAS31: () => false,
           isOAS32: () => false,
         })
@@ -237,7 +245,7 @@ describe("json-schema-unified Model / Models wrappers", () => {
       expect(root.querySelector(".json-schema-2020-12")).not.toBeNull()
     })
 
-    it.each(["3.1", "3.2"] as const)(
+    it.each(["2.0", "3.0", "3.1", "3.2"] as const)(
       "renders the unified Model for %s when the option is on",
       (version) => {
         const wrapper = renderModel(
@@ -267,6 +275,8 @@ describe("json-schema-unified Model / Models wrappers", () => {
 
       expect(dialectOf("3.1")).toBe("oas31")
       expect(dialectOf("3.2")).toBe("oas32")
+      expect(dialectOf("3.0")).toBe("oas30")
+      expect(dialectOf("2.0")).toBe("swagger2")
     })
 
     it.each(["3.0", "2.0"] as const)(
@@ -281,9 +291,9 @@ describe("json-schema-unified Model / Models wrappers", () => {
       }
     )
 
-    it("names the Schema tab schema after its components/schemas $$ref", () => {
-      const nameOf = (schema: Record<string, unknown>) =>
-        renderModel(makeSystem("3.1", { unifiedJSONSchemaEnabled: true }), {
+    it("names the 2.0/3.0 Schema tab schema by title, then by $$ref", () => {
+      const nameOf = (version: Version, schema: Record<string, unknown>) =>
+        renderModel(makeSystem(version, { unifiedJSONSchemaEnabled: true }), {
           schema: fromJS(schema),
         })
           .getDOMNode()
@@ -291,16 +301,29 @@ describe("json-schema-unified Model / Models wrappers", () => {
           .getAttribute("data-schema-name")
 
       expect(
-        nameOf({
+        nameOf("2.0", { ...petSchema, $$ref: "#/definitions/Foo~1Bar" })
+      ).toBe("Foo/Bar")
+      expect(
+        nameOf("3.0", {
+          ...petSchema,
+          title: "Animal",
+          $$ref: "#/components/schemas/Pet",
+        })
+      ).toBe("Animal")
+      // 3.1 keeps naming by `#/components/schemas/` $$ref only
+      expect(
+        nameOf("3.1", {
           ...petSchema,
           title: "Animal",
           $$ref: "#/components/schemas/Pet",
         })
       ).toBe("Pet")
-      expect(nameOf({ ...petSchema, $$ref: "#/definitions/Pet" })).toBeNull()
+      expect(
+        nameOf("3.1", { ...petSchema, $$ref: "#/definitions/Pet" })
+      ).toBeNull()
     })
 
-    it.each(["3.0", "2.0", "undetected"] as const)(
+    it.each(["undetected"] as const)(
       "renders the original Model for %s when the option is on",
       (version) => {
         const root = renderModel(
@@ -311,9 +334,6 @@ describe("json-schema-unified Model / Models wrappers", () => {
           root.querySelector("[data-json-schema-unified-model]")
         ).toBeNull()
         expect(root.querySelector("[data-json-schema-unified]")).toBeNull()
-        if (version !== "undetected") {
-          expect(root.querySelector(".model-box, .model")).not.toBeNull()
-        }
       }
     )
   })
@@ -390,6 +410,8 @@ describe("json-schema-unified Model / Models wrappers", () => {
     it.each([
       ["3.1", "Schemas", ["Pet", "Tag"]],
       ["3.2", "Schemas", ["Pet", "Tag"]],
+      ["3.0", "Schemas", ["Pet"]],
+      ["2.0", "Models", ["Pet"]],
     ] as const)(
       "renders the unified Schemas section for %s",
       (version, heading, names) => {
@@ -451,42 +473,41 @@ describe("json-schema-unified Model / Models wrappers", () => {
       expect(wrapper.getDOMNode().innerHTML).toBe("")
     })
 
-    it("keys the section's layout state by the schemas path", () => {
-      const path = ["components", "schemas"]
-      const system = makeSystem("3.1", { unifiedJSONSchemaEnabled: true })
-      const root = renderModels(system).getDOMNode()
+    it.each([
+      ["3.0", ["components", "schemas"]],
+      ["2.0", ["definitions"]],
+    ] as const)(
+      "keys the %s section's layout state by its schemas path",
+      (version, path) => {
+        const system = makeSystem(version, { unifiedJSONSchemaEnabled: true })
+        const root = renderModels(system).getDOMNode()
 
-      const pet = root.querySelector(
-        '[data-json-schema-unified][data-schema-name="Pet"] button'
-      ) as HTMLButtonElement
-      pet.dispatchEvent(new MouseEvent("click", { bubbles: true }))
-      expect(system.getSystem().layoutSelectors.isShown([...path, "Pet"])).toBe(
-        true
-      )
-      ;(root.querySelector("h4 button") as HTMLButtonElement).dispatchEvent(
-        new MouseEvent("click", { bubbles: true })
-      )
-      expect(system.getSystem().layoutSelectors.isShown(path)).toBe(false)
-    })
+        expect(
+          root
+            .querySelector("[data-test-jump-to-path]")
+            .getAttribute("data-test-jump-to-path")
+        ).toBe([...path, "Pet"].join("/"))
+
+        const pet = root.querySelector(
+          '[data-json-schema-unified][data-schema-name="Pet"] button'
+        ) as HTMLButtonElement
+        pet.dispatchEvent(new MouseEvent("click", { bubbles: true }))
+        expect(
+          system.getSystem().layoutSelectors.isShown([...path, "Pet"])
+        ).toBe(true)
+        ;(root.querySelector("h4 button") as HTMLButtonElement).dispatchEvent(
+          new MouseEvent("click", { bubbles: true })
+        )
+        expect(system.getSystem().layoutSelectors.isShown([...path])).toBe(
+          false
+        )
+      }
+    )
 
     it.each(["3.0", "2.0"] as const)(
       "renders the original Models for %s when the option is off",
       (version) => {
         const root = renderModels(makeSystem(version)).getDOMNode()
-
-        expect(
-          root.querySelector("[data-json-schema-unified-models]")
-        ).toBeNull()
-        expect(root.querySelector("section.models")).not.toBeNull()
-      }
-    )
-
-    it.each(["3.0", "2.0"] as const)(
-      "renders the original Models for %s when the option is on",
-      (version) => {
-        const root = renderModels(
-          makeSystem(version, { unifiedJSONSchemaEnabled: true })
-        ).getDOMNode()
 
         expect(
           root.querySelector("[data-json-schema-unified-models]")

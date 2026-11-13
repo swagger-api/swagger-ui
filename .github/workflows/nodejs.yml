@@ -83,11 +83,12 @@ jobs:
         id: cache-playwright
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-playwright-chromium-webkit-${{ hashFiles('package-lock.json') }}
 
       # on a cache hit the browser download is skipped, system deps are still installed
+      # (webkit: the webkit-unified project)
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium webkit
 
       # Playwright starts the webpack dev server and the mock API itself (see playwright.config.ts)
       - name: Playwright Test

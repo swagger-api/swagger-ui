@@ -1,49 +1,43 @@
 /**
  * @prettier
  */
-import { VIRTUALIZE_MODELS_ESTIMATE_SIZE } from "core/utils/virtualization"
 import { test, expect } from "../../../support/fixtures"
 
 test.describe("OpenAPI 3.0 complex spec with allOf and nested references", () => {
-  test("should render nested references", async ({ page }) => {
+  test("should render nested references", async ({ page, schemaUi }) => {
     await page.goto("/?url=/documents/features/oas3-complex-spec.json")
 
     // Virtualized path - scroll the list to bring the target model into view.
-    await page
-      .locator(".models-scroll")
+    await schemaUi
+      .modelsScroll()
       .evaluate(
         (el, top) => el.scrollTo(0, top),
-        196 * VIRTUALIZE_MODELS_ESTIMATE_SIZE
+        196 * schemaUi.modelsEstimateSize
       )
-    await page
-      .locator(
-        "[id='model-com.sap.ctsm.backend.core.api.study.v1.StudyAPIv1.StudyTreatments-create'] button"
+    await schemaUi
+      .modelToggle(
+        schemaUi.model(
+          "com.sap.ctsm.backend.core.api.study.v1.StudyAPIv1.StudyTreatments-create",
+          "Study Treatments (for create)"
+        ),
+        "button"
       )
       .click()
     // cy `.siblings()` -> all other children of the parent; the alias is re-resolved on each use
-    const scenarioSiblings = page
-      .locator(".property-row")
-      .getByText(/scenario/)
-      .first()
-      .locator("xpath=preceding-sibling::* | following-sibling::*")
-    await scenarioSiblings.locator("button").click()
+    const scenarioSiblings = schemaUi.propertyModel("scenario")
+    await schemaUi.modelToggle(scenarioSiblings, "button").click()
     await expect(
-      scenarioSiblings
-        .locator("span")
-        .getByText(/scenarioID/)
-        .first()
+      schemaUi.nestedModelName(scenarioSiblings, "span", /scenarioID/)
     ).toBeAttached()
-    const studies = scenarioSiblings
-      .locator("span")
-      .getByText(/Studies \(for create\)/)
-      .first()
+    const studies = schemaUi.nestedModelName(
+      scenarioSiblings,
+      "span",
+      /Studies \(for create\)/
+    )
     await expect(studies).toBeAttached()
-    await studies.click()
+    await schemaUi.nameToggle(studies).click()
     await expect(
-      scenarioSiblings
-        .locator("span")
-        .getByText(/studyPhase/)
-        .first()
+      schemaUi.nestedModelName(scenarioSiblings, "span", /studyPhase/)
     ).toBeAttached()
   })
 })

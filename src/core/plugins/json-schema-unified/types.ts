@@ -106,6 +106,15 @@ export type GetProperties = (
   config: { includeReadOnly?: boolean; includeWriteOnly?: boolean }
 ) => Record<string, Schema>
 
+/**
+ * A local reference the resolver left in place (2.0/3.0 cycles) and the
+ * named schema it points to. `key` identifies the target (its name).
+ */
+export interface LazyRef {
+  key: string
+  definition: SchemaObject
+}
+
 export type GetType = (
   schema: Schema,
   processedSchemas?: WeakSet<object>
@@ -129,13 +138,22 @@ export interface JSONSchemaFn {
   getExtensionKeywords: (schema: Schema) => string[]
   /** Set by the OAS dialects (`./dialects`); absent means "all properties". */
   getProperties?: GetProperties
+  /**
+   * Set by the 2.0/3.0 dialects: the definition an unresolved local `$ref`
+   * points to, rendered in its place (see `./legacy`).
+   */
+  getLazyRef?: (schema: Schema) => LazyRef | null
+  /** Set by the 2.0/3.0 dialects: the reference path of a dereferenced schema. */
+  getRefPath?: (schema: Schema) => string
+  getSchemaName?: (schema: Schema) => string
   [name: string]: unknown
 }
 
 export type FnAccessor = () => JSONSchemaFn
 
 export interface JSONSchemaConfig {
-  default$schema: string
+  /** `undefined` in the 2.0/3.0 dialects, which have no dialect id. */
+  default$schema: string | undefined
   defaultExpandedLevels: number
   showExtensionKeywords: boolean
   /** OAS dialects: show `readOnly: true` properties. */

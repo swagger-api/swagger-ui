@@ -5,24 +5,29 @@
 import { test, expect } from "../support/fixtures"
 
 const expectedValue = "nullable: true"
+const expectedUnifiedValue = "object | null"
 
 test.describe("#5660: Nullable object", () => {
   test("should render `nullable` marker for object itself", async ({
     page,
+    schemaUi,
   }) => {
+    const model = schemaUi.model("SomeObject")
     await page.goto("/?url=/documents/bugs/5660-model.yaml")
-    await page.locator("#model-SomeObject .model-toggle").click()
-    await expect(page.locator("#model-SomeObject > .model-box")).toContainText(
-      expectedValue
+    await schemaUi.modelToggle(model, ".model-toggle").click()
+    await expect(schemaUi.modelBox(model, ":scope > .model-box")).toContainText(
+      schemaUi.unified ? expectedUnifiedValue : expectedValue
     )
   })
   test("should render `nullable` marker for next object in property", async ({
     page,
+    schemaUi,
   }) => {
+    const model = schemaUi.model("SomeObject")
     await page.goto("/?url=/documents/bugs/5660-property.yaml")
-    await page.locator("#model-SomeObject .model-toggle").click()
-    await expect(page.locator("#model-SomeObject > .model-box")).toContainText(
-      expectedValue
+    await schemaUi.modelToggle(model, ".model-toggle").click()
+    await expect(schemaUi.modelBox(model, ":scope > .model-box")).toContainText(
+      schemaUi.unified ? expectedUnifiedValue : expectedValue
     )
   })
 })
