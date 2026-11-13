@@ -142,60 +142,24 @@ for (const { version, url, heading, tab, schemasPointer } of documents) {
       await expect(schemaName(items(tags))).toHaveText("Tag")
     })
 
-    test("shows the reference path in a tooltip above the title on hover or keyboard focus", async ({
+    test("shows the reference path of an expanded nested schema", async ({
       page,
-      browserName,
     }) => {
       await open(page)
       const pet = topLevelSchema(page, "Pet")
       await toggle(pet).click()
 
       const category = property(pet, "category")
-      const tooltip = refPath(category)
-
-      // collapsed: hidden until the title is hovered, then above the title
-      await expect(tooltip).toBeHidden()
-      await toggle(category).hover()
-      await expect(tooltip).toBeVisible()
-      await expect(tooltip).toHaveText(`${schemasPointer}Category`)
-      const tipBox = await tooltip.boundingBox()
-      const titleBox = await toggle(category).boundingBox()
-      expect(tipBox).not.toBeNull()
-      expect(titleBox).not.toBeNull()
-      expect(tipBox!.y + tipBox!.height).toBeLessThanOrEqual(titleBox!.y + 2)
-      await page.mouse.move(0, 0)
-      await expect(tooltip).toBeHidden()
-
-      // keyboard focus on the title toggle shows it; moving focus on hides it
-      // (Safari's default Tab order skips buttons)
-      if (browserName !== "webkit") {
-        await head(category)
-          .getByRole("button", { name: /^(Expand|Collapse) all$/ })
-          .focus()
-        await page.keyboard.press("Shift+Tab")
-        await expect(toggle(category)).toBeFocused()
-        await expect(tooltip).toBeVisible()
-        await page.keyboard.press("Tab")
-        await expect(tooltip).toBeHidden()
-      }
-
-      // a mouse click does not leave it showing; expanded, hover shows it
+      await expect(refPath(category)).toHaveCount(0)
       await toggle(category).click()
+      await expect(refPath(category)).toHaveText(`${schemasPointer}Category`)
       await expect(property(category, "name")).toBeVisible()
-      await page.mouse.move(0, 0)
-      await expect(tooltip).toBeHidden()
-      await toggle(category).hover()
-      await expect(tooltip).toHaveText(`${schemasPointer}Category`)
-      await expect(tooltip).toBeVisible()
 
-      // a nested schema shows only its own tooltip
       const tags = property(pet, "tags")
       await toggle(tags).click()
       await expect(typeOf(tags)).toHaveText("array<object>")
-      await toggle(items(tags)).hover()
-      await expect(refPath(items(tags))).toBeVisible()
+      await toggle(items(tags)).click()
       await expect(refPath(items(tags))).toHaveText(`${schemasPointer}Tag`)
-      await expect(tooltip).toBeHidden()
     })
 
     test("keeps a recursive model expandable", async ({ page }) => {
