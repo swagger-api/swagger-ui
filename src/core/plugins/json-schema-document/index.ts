@@ -40,8 +40,8 @@ import { requestResolvedSubtree } from "./wrap-actions"
  * listing of this renderer: the headings of `definitions` and `dependencies`
  * and the "Required when defined" lists of `dependentRequired` and
  * `dependencies`; the shared renderer of OpenAPI 3.1/3.2 shows them as
- * written. Not yet rendered as keywords (extension keywords until then):
- * `$recursiveAnchor`, `$recursiveRef`.
+ * written. `$recursiveAnchor` and `$recursiveRef` are shown as written, like
+ * `$dynamicAnchor` and `$dynamicRef`, and not resolved.
  * Limitation: an embedded resource (`$id` with its own `$schema`) or an external
  * file that declares another dialect is rendered with the 2020-12 meaning;
  * references that cross dialects are out of scope.
