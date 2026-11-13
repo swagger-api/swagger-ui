@@ -1,0 +1,99 @@
+openapi: 3.1.0
+info:
+  title: Unified JSON Schema keywords
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      title: Pet
+      description: A **pet** of the [store](https://example.com/store).
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1000
+        name:
+          type: string
+          minLength: 1
+          maxLength: 64
+        petType:
+          type: string
+          enum:
+            - dog
+            - cat
+        status:
+          type: string
+          default: available
+        kind:
+          const: pet
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+          minItems: 1
+          maxItems: 10
+        owner:
+          $ref: "#/components/schemas/Owner"
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: "#/components/schemas/Dog"
+      xml:
+        name: pet
+        prefix: p
+      externalDocs:
+        description: More about pets
+        url: https://example.com/pets
+      example:
+        id: 1
+        name: Rex
+      x-pet-extension: pet extension value
+    Tag:
+      type: object
+      properties:
+        label:
+          type: string
+    Owner:
+      type: object
+      properties:
+        fullName:
+          type: string
+    Dog:
+      allOf:
+        - $ref: "#/components/schemas/Owner"
+        - type: object
+          properties:
+            barkVolume:
+              type: number
+    Node:
+      type: object
+      properties:
+        next:
+          $ref: "#/components/schemas/Node"
+    Contact:
+      oneOf:
+        - title: Email
+          type: string
+        - title: Phone
+          type: integer

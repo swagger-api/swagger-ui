@@ -26,6 +26,7 @@ test.describe("Operation parameters with schema and union type", () => {
 
   test("should render schema for parameters with union type including object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -37,7 +38,7 @@ test.describe("Operation parameters with schema and union type", () => {
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 
@@ -56,6 +57,7 @@ test.describe("Operation parameters with schema and union type", () => {
 
   test("should render schema for parameters with union type including array of objects", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -67,7 +69,7 @@ test.describe("Operation parameters with schema and union type", () => {
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 
@@ -86,6 +88,7 @@ test.describe("Operation parameters with schema and union type", () => {
 
   test("should render schema for parameters of type array with union type of items including object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -97,7 +100,7 @@ test.describe("Operation parameters with schema and union type", () => {
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 
@@ -117,6 +120,7 @@ test.describe("Operation parameters with schema and union type", () => {
   // The Cypress original titled this test "should render example ...", duplicating the previous test's title (Playwright rejects duplicate titles); renamed to match what it asserts.
   test("should render schema for parameters with union type including array and union type of items including object", async ({
     page,
+    schemaUi,
   }) => {
     await page
       .locator(".opblock-summary-path span")
@@ -128,7 +132,7 @@ test.describe("Operation parameters with schema and union type", () => {
       .filter({ hasText: "Schema" })
       .click()
     await expect(
-      page.locator(".model-example .json-schema-2020-12").first()
+      schemaUi.schema(page.locator(".model-example")).first()
     ).toBeAttached()
   })
 })
