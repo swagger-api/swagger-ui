@@ -6,6 +6,7 @@ import { mount } from "enzyme"
 import { fromJS, Map } from "immutable"
 
 import JSONSchemaDocument from "core/plugins/json-schema-document/components/JSONSchemaDocument"
+import JSONSchemaDocumentDefinitions from "core/plugins/json-schema-document/components/JSONSchemaDocumentDefinitions"
 import type { OverridesSystem } from "core/plugins/json-schema-document/overrides"
 
 type Component = React.ComponentType<Record<string, unknown>>
@@ -30,16 +31,33 @@ const JSONSchema = ({
   schema?: { title?: string } | boolean
   name?: string
 }) => (
-  <div className="json-schema-stub" data-name={name}>
-    {typeof schema === "object" ? schema.title : String(schema)}
+  <div
+    className="json-schema-stub"
+    data-name={name}
+    data-keys={
+      schema && typeof schema === "object"
+        ? Object.keys(schema).join()
+        : undefined
+    }
+  >
+    {typeof schema === "object" ? schema?.title : String(schema)}
   </div>
+)
+const Collapse = ({ children }: { children?: React.ReactNode }) => (
+  <div>{children}</div>
 )
 const Keyword$defs = () => null
 const Row = ({ children }: { children?: React.ReactNode }) => (
   <div className="row-stub">{children}</div>
 )
 
-const makeProps = (resolvedSubtree: unknown) => {
+const makeProps = (
+  resolvedSubtree: unknown,
+  config: Record<string, unknown> = {
+    defaultModelExpandDepth: 2,
+    showExtensions: true,
+  }
+) => {
   const withContext = jest.fn(
     (component: Component, overrides: Record<string, unknown>) => {
       const Instance = (props: Record<string, unknown>) =>
@@ -56,6 +74,11 @@ const makeProps = (resolvedSubtree: unknown) => {
     JSONSchema202012KeywordDependentSchemas: Keyword$defs,
     JSONSchema202012KeywordDependentRequired: Keyword$defs,
     withJSONSchema202012SystemContext: withContext,
+    JSONSchemaDocumentInfo: () => <div className="info-stub" />,
+    JSONSchemaDocumentDefinitions,
+    Collapse,
+    ArrowUpIcon: () => null,
+    ArrowDownIcon: () => null,
     Row,
     Col: Row,
   }
@@ -70,7 +93,7 @@ const makeProps = (resolvedSubtree: unknown) => {
       },
       specActions: { requestResolvedSubtree: jest.fn() },
       getComponent: (name: string) => components[name],
-      getConfigs: () => ({ defaultModelExpandDepth: 2, showExtensions: true }),
+      getConfigs: () => config,
       getSystem: () =>
         ({
           fn: {
@@ -97,7 +120,7 @@ describe("<JSONSchemaDocument />", () => {
 
     expect(props.specActions.requestResolvedSubtree).toHaveBeenCalledWith([])
     expect(props.specSelectors.specResolvedSubtree).toHaveBeenCalledWith([])
-    expect(wrapper.find(".json-schema-stub").text()).toBe("Raw")
+    expect(wrapper.find(".json-schema-stub").first().text()).toBe("Raw")
   })
 
   it("renders the resolved document without requesting it again", () => {
@@ -105,14 +128,15 @@ describe("<JSONSchemaDocument />", () => {
     const wrapper = mount(<JSONSchemaDocument {...props} />)
 
     expect(props.specActions.requestResolvedSubtree).not.toHaveBeenCalled()
-    expect(wrapper.find(".json-schema-stub").text()).toBe("Resolved")
+    expect(wrapper.find(".json-schema-stub").first().text()).toBe("Resolved")
   })
 
   it("configures a renderer instance for the dialect, without OpenAPI fn", () => {
     const { props, withContext } = makeProps(fromJS(resolved))
     mount(<JSONSchemaDocument {...props} />)
 
-    expect(withContext).toHaveBeenCalledTimes(1)
+    // the root, and the definitions section
+    expect(withContext).toHaveBeenCalledTimes(2)
     const [component, overrides] = withContext.mock.calls[0]
     expect(component).toBe(JSONSchema)
     expect(overrides.config).toEqual({
@@ -154,7 +178,111 @@ describe("<JSONSchemaDocument />", () => {
 
     wrapper.setProps({})
 
-    expect(withContext).toHaveBeenCalledTimes(1)
+    expect(withContext).toHaveBeenCalledTimes(2)
+  })
+
+  it("expands the definitions by defaultModelsExpandDepth, with an instance of their own", () => {
+    for (const [defaultModelsExpandDepth, levels] of [
+      [undefined, 0],
+      [1, 0],
+      [5, 4],
+    ] as const) {
+      const { props, withContext } = makeProps(fromJS(resolved), {
+        defaultModelExpandDepth: 2,
+        defaultModelsExpandDepth,
+      })
+      mount(<JSONSchemaDocument {...props} />)
+
+      expect(withContext).toHaveBeenCalledTimes(2)
+      const [root, definitions] = withContext.mock.calls.map(
+        ([, overrides]) => overrides.config
+      )
+      expect(root).toEqual({
+        default$schema: dialect,
+        defaultExpandedLevels: 2,
+      })
+      expect(definitions).toEqual({
+        default$schema: dialect,
+        defaultExpandedLevels: levels,
+      })
+      expect(withContext.mock.results[0].value).not.toBe(
+        withContext.mock.results[1].value
+      )
+    }
+  })
+
+  it("renders the definitions with the component the system has registered", () => {
+    const { props } = makeProps(fromJS(resolved))
+    const Custom = ({
+      definitions,
+    }: {
+      definitions: Record<string, unknown>
+    }) => (
+      <div className="custom-definitions">
+        {Object.keys(definitions).join()}
+      </div>
+    )
+    const getComponent = (name: string) =>
+      name === "JSONSchemaDocumentDefinitions"
+        ? Custom
+        : props.getComponent(name)
+    const customProps = { ...props, getComponent }
+    const wrapper = mount(<JSONSchemaDocument {...customProps} />)
+
+    expect(wrapper.find(".custom-definitions").text()).toBe("A")
+    expect(wrapper.find(".json-schema-document__definitions")).toHaveLength(0)
+  })
+
+  it("tells the definitions when the resolved document replaces the raw one", () => {
+    const { props } = makeProps(Map())
+    let resolvedSubtree: unknown = Map()
+    const keys: unknown[] = []
+    const Custom = ({ entriesKey }: { entriesKey?: string }) => {
+      keys.push(entriesKey)
+      return null
+    }
+    const customProps = {
+      ...props,
+      specSelectors: {
+        ...props.specSelectors,
+        specResolvedSubtree: () => resolvedSubtree,
+      },
+      getComponent: (name: string) =>
+        name === "JSONSchemaDocumentDefinitions"
+          ? Custom
+          : props.getComponent(name),
+    }
+    const wrapper = mount(<JSONSchemaDocument {...customProps} />)
+
+    resolvedSubtree = fromJS(resolved)
+    wrapper.setProps({})
+
+    expect(keys[0]).toBe("raw")
+    expect(keys[keys.length - 1]).toBe("resolved")
+  })
+
+  it("keeps the open state of the definitions section when the resolved document arrives", () => {
+    const { props } = makeProps(Map())
+    let resolvedSubtree: unknown = Map()
+    const customProps = {
+      ...props,
+      specSelectors: {
+        ...props.specSelectors,
+        specResolvedSubtree: () => resolvedSubtree,
+      },
+    }
+    const wrapper = mount(<JSONSchemaDocument {...customProps} />)
+
+    wrapper.find("button.models-control").simulate("click")
+    expect(wrapper.find("button.models-control").prop("aria-expanded")).toBe(
+      false
+    )
+    resolvedSubtree = fromJS(resolved)
+    wrapper.setProps({})
+
+    expect(wrapper.find("button.models-control").prop("aria-expanded")).toBe(
+      false
+    )
   })
 
   it("renders a boolean root schema resolved from a $ref", () => {
@@ -186,7 +314,9 @@ describe("<JSONSchemaDocument />", () => {
     const { props } = makeProps(fromJS(resolved))
     const wrapper = mount(<JSONSchemaDocument {...props} />)
 
-    expect(wrapper.find(".json-schema-stub").prop("data-name")).toBeUndefined()
+    expect(
+      wrapper.find(".json-schema-stub").first().prop("data-name")
+    ).toBeUndefined()
   })
 
   it("remounts the renderer when the resolved schema replaces the raw one", () => {
@@ -196,6 +326,12 @@ describe("<JSONSchemaDocument />", () => {
       return null
     }
     const { props } = makeProps(Map())
+    // no $defs: the definitions section would mount the instance as well
+    const specJson = fromJS({ $schema: dialect, title: "Raw" }) as Map<
+      string,
+      unknown
+    >
+    props.specSelectors.specJson = () => specJson
     const countingProps = {
       ...props,
       getComponent: (name: string) =>
@@ -205,10 +341,51 @@ describe("<JSONSchemaDocument />", () => {
     expect(mounts).toHaveBeenCalledTimes(1)
 
     props.specSelectors.specResolvedSubtree.mockImplementation(() =>
-      fromJS(resolved)
+      fromJS({ $schema: dialect, title: "Resolved" })
     )
     wrapper.setProps({})
 
     expect(mounts).toHaveBeenCalledTimes(2)
+  })
+
+  it("lists the root $defs in their own section, not in the root schema", () => {
+    const { props } = makeProps(fromJS(resolved))
+    const wrapper = mount(<JSONSchemaDocument {...props} />)
+    const stubs = wrapper.find(".json-schema-stub")
+
+    expect(wrapper.find(".info-stub")).toHaveLength(1)
+    expect(stubs).toHaveLength(2)
+    expect(stubs.at(0).prop("data-keys")).toBe("$schema,title,properties")
+    expect(stubs.at(1).prop("data-name")).toBe("A")
+    expect(wrapper.find("section.models").hasClass("is-open")).toBe(true)
+  })
+
+  it("renders no section for a document without $defs, and keeps an invalid $defs", () => {
+    const { props } = makeProps(Map())
+    const specJson = fromJS({ $schema: dialect, $defs: "nope" }) as Map<
+      string,
+      unknown
+    >
+    props.specSelectors.specJson = () => specJson
+    const wrapper = mount(<JSONSchemaDocument {...props} />)
+
+    expect(wrapper.find("section.models")).toHaveLength(0)
+    expect(wrapper.find(".json-schema-stub").prop("data-keys")).toBe(
+      "$schema,$defs"
+    )
+  })
+
+  it("starts the section closed when defaultModelsExpandDepth is 0, and hides it below 0", () => {
+    const closed = makeProps(fromJS(resolved), { defaultModelsExpandDepth: 0 })
+    expect(
+      mount(<JSONSchemaDocument {...closed.props} />)
+        .find("section.models")
+        .hasClass("is-open")
+    ).toBe(false)
+
+    const hidden = makeProps(fromJS(resolved), { defaultModelsExpandDepth: -1 })
+    expect(
+      mount(<JSONSchemaDocument {...hidden.props} />).find("section.models")
+    ).toHaveLength(0)
   })
 })

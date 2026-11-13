@@ -26,6 +26,8 @@ export interface JSONSchemaDocumentProps {
   getComponent: (name: string, container?: boolean) => unknown
   getConfigs: () => {
     defaultModelExpandDepth?: number
+    defaultModelsExpandDepth?: number
+    docExpansion?: string
     showExtensions?: boolean
   }
   getSystem: () => OverridesSystem
@@ -47,7 +49,12 @@ const JSONSchemaDocument = ({
   const specJson = specSelectors.specJson()
   const resolvedDocument = specSelectors.specResolvedSubtree([])
   const dialect = specSelectors.jsonSchemaDialect()
-  const { defaultModelExpandDepth, showExtensions } = getConfigs()
+  const {
+    defaultModelExpandDepth,
+    defaultModelsExpandDepth = 1,
+    docExpansion,
+    showExtensions,
+  } = getConfigs()
   // a boolean is a valid root schema, e.g. a `$ref` to `false`
   const isResolved =
     typeof resolvedDocument === "boolean" ||
@@ -61,11 +68,27 @@ const JSONSchemaDocument = ({
     // once per document: a failed resolution isn't retried on every re-render
   }, [specJson])
 
-  const schema = useMemo(() => {
-    if (typeof resolvedDocument === "boolean") return resolvedDocument
-    return (
+  // the root `$defs` are listed in their own section, not as a root keyword
+  const { schema, definitions } = useMemo(() => {
+    if (typeof resolvedDocument === "boolean") {
+      return { schema: resolvedDocument, definitions: null }
+    }
+
+    const { $defs, ...rest } = (
       isResolved ? (resolvedDocument as Map<string, unknown>) : specJson
     ).toJS()
+    const hasDefinitions =
+      $defs !== null &&
+      typeof $defs === "object" &&
+      !Array.isArray($defs) &&
+      Object.keys($defs).length > 0
+
+    return hasDefinitions
+      ? { schema: rest, definitions: $defs as Record<string, unknown> }
+      : {
+          schema: { ...rest, ...($defs === undefined ? {} : { $defs }) },
+          definitions: null,
+        }
   }, [isResolved, resolvedDocument, specJson])
 
   const JSONSchema = getComponent("JSONSchema202012") as Component
@@ -91,9 +114,31 @@ const JSONSchemaDocument = ({
       getSystem,
     ]
   )
+  // the definitions have an instance, and so an expansion state, of their own,
+  // expanded by `defaultModelsExpandDepth` as the schemas of an OpenAPI document
+  const DefinitionsInstance = useMemo(
+    () =>
+      withJSONSchemaSystemContext(JSONSchema, {
+        config: {
+          default$schema: dialect,
+          defaultExpandedLevels: defaultModelsExpandDepth - 1,
+        },
+        ...makeJSONSchema202012Overrides(getSystem),
+      }),
+    [
+      withJSONSchemaSystemContext,
+      JSONSchema,
+      dialect,
+      defaultModelsExpandDepth,
+      showExtensions,
+      getSystem,
+    ]
+  )
 
   const Row = getComponent("Row") as Component
   const Col = getComponent("Col") as Component
+  const Info = getComponent("JSONSchemaDocumentInfo", true) as Component
+  const Definitions = getComponent("JSONSchemaDocumentDefinitions") as Component
 
   // without a title, `$anchor` or `$id` the expand button would have no
   // accessible name; schema-provided titles are kept
@@ -106,6 +151,11 @@ const JSONSchemaDocument = ({
       tabIndex={-1}
       style={{ outline: "none" }}
     >
+      <Row className="information-container">
+        <Col mobile={12}>
+          <Info />
+        </Col>
+      </Row>
       <Row className="json-schema-document">
         <Col mobile={12}>
           {/* the paths of the expansion callbacks come from the first render:
@@ -117,6 +167,25 @@ const JSONSchemaDocument = ({
           />
         </Col>
       </Row>
+      {definitions !== null && defaultModelsExpandDepth >= 0 && (
+        <Row className="json-schema-document-definitions">
+          <Col mobile={12}>
+            {/* the entries are remounted with the root: the expansion callbacks
+                keep the paths of the first render, which an `$id` from a
+                resolved `$ref` changes; the section keeps its open state */}
+            <Definitions
+              entriesKey={isResolved ? "resolved" : "raw"}
+              definitions={definitions}
+              JSONSchema={DefinitionsInstance}
+              getComponent={getComponent}
+              getTitle={getTitle}
+              isOpenDefault={
+                defaultModelsExpandDepth > 0 && docExpansion !== "none"
+              }
+            />
+          </Col>
+        </Row>
+      )}
     </main>
   )
 }

@@ -3,6 +3,8 @@
  */
 import { createSystemSelector } from "./fn"
 import JSONSchemaDocument from "./components/JSONSchemaDocument"
+import JSONSchemaDocumentInfo from "./components/JSONSchemaDocumentInfo"
+import JSONSchemaDocumentDefinitions from "./components/JSONSchemaDocumentDefinitions"
 import VersionPragmaFilterWrapper from "./wrap-components/VersionPragmaFilter"
 import SkipToOperationsWrapper from "./wrap-components/SkipToOperations"
 import OnlineValidatorBadgeWrapper from "./wrap-components/OnlineValidatorBadge"
@@ -27,7 +29,9 @@ import { requestResolvedSubtree } from "./wrap-actions"
  * swagger-client's `json-schema-2020-12-apidom` strategy (every `$dynamicRef`
  * stays as written). A root `$schema` naming any other dialect is refused with
  * a message. Of the keywords the 2020-12 default meta-schema keeps from earlier
- * drafts, `definitions` renders like `$defs`, and `dependencies` like
+ * drafts, `definitions` renders like `$defs` (as a keyword, also at the root,
+ * where the `$defs` are listed in a section below the schema instead), and
+ * `dependencies` like
  * `dependentSchemas` (schema entries) and `dependentRequired` (property name
  * arrays); a `$ref` into them is resolved, a `$ref` inside them stays as
  * written (swagger-client doesn't dereference there:
@@ -54,6 +58,8 @@ import { requestResolvedSubtree } from "./wrap-actions"
 const JSONSchemaDocumentPlugin = () => ({
   components: {
     JSONSchemaDocument,
+    JSONSchemaDocumentInfo,
+    JSONSchemaDocumentDefinitions,
   },
   wrapComponents: {
     VersionPragmaFilter: VersionPragmaFilterWrapper,
