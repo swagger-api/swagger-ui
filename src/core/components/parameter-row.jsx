@@ -68,8 +68,12 @@ export default class ParameterRow extends Component {
     let { onChange, rawParam } = this.props
     let valueForUpstream
 
-    // Coerce empty strings and empty Immutable objects to null
-    if(value === "" || (value && value.size === 0)) {
+    // Coerce empty strings, empty Immutable objects, and empty arrays to null
+    if(
+      value === "" ||
+      (value && value.size === 0) ||
+      (Array.isArray(value) && value.length === 0)
+    ) {
       valueForUpstream = null
     } else {
       valueForUpstream = value
