@@ -142,8 +142,8 @@ Swagger UI uses a **sophisticated plugin system** powered by Redux. The core sys
 
 ### Prerequisites
 
-- **Node.js:** >=24.22 (Node 24.x recommended, as defined in `.nvmrc`)
-- **npm:** >=11.19.1
+- **Node.js:** >=26.13 (Node 26.x recommended, as defined in `.nvmrc`)
+- **npm:** >=11.20.0
 - **Git:** Any version
 - **JDK 7+:** Required for Nightwatch.js integration tests
 
@@ -213,7 +213,7 @@ Defined in `.browserslistrc`:
 - `[browser-development]` - Latest Chrome, Firefox, Safari
 - `[isomorphic-production]` - Browser + Node targets
 - `[node-production]` - Maintained Node versions
-- `[node-development]` - Node 24
+- `[node-development]` - Node 26
 
 ### Build Commands
 
@@ -663,7 +663,7 @@ src/
 ├── .prettierrc.yaml             # Prettier settings
 ├── stylelint.config.js          # Stylelint rules
 ├── .browserslistrc              # Browser targets
-├── .nvmrc                       # Node version (24.x)
+├── .nvmrc                       # Node version (26.x)
 ├── .lintstagedrc                # Pre-commit linting
 └── playwright.config.ts         # Playwright E2E config
 ```
