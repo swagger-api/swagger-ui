@@ -1,0 +1,287 @@
+/**
+ * @prettier
+ */
+import React from "react"
+import { mount } from "enzyme"
+
+import { withJSONSchemaContext } from "core/plugins/json-schema-2020-12/hoc"
+import JSONSchema from "core/plugins/json-schema-2020-12/components/JSONSchema/JSONSchema"
+import Keyword$defs from "core/plugins/json-schema-2020-12/components/keywords/$defs"
+import {
+  getSchemaKeywords,
+  makeGetTitle,
+  upperFirst,
+} from "core/plugins/json-schema-2020-12/fn"
+import {
+  useComponent,
+  useFn,
+  useIsExpanded,
+  useLevel,
+  usePath,
+} from "core/plugins/json-schema-2020-12/hooks"
+import {
+  JSONSchemaLevelContext,
+  JSONSchemaPathContext,
+} from "core/plugins/json-schema-2020-12/context"
+import { makeJSONSchema202012Overrides } from "core/plugins/json-schema-document/overrides"
+import type { OverridesSystem } from "core/plugins/json-schema-document/overrides"
+
+type Component = React.ComponentType<Record<string, unknown>>
+
+// the parts of the system the overrides take, as the json-schema-2020-12 plugin registers them
+const systemComponents: Record<string, unknown> = {
+  JSONSchema202012Keyword$defs: Keyword$defs,
+  JSONSchema202012PathContext: () => JSONSchemaPathContext,
+  JSONSchema202012LevelContext: () => JSONSchemaLevelContext,
+}
+const getSystem = () =>
+  ({
+    fn: {
+      jsonSchema202012: {
+        getSchemaKeywords,
+        getTitle: makeGetTitle(() => ({ upperFirst })),
+        useFn,
+        useComponent,
+        useIsExpanded,
+        usePath,
+        useLevel,
+      },
+    },
+    getComponent: (name: string) => systemComponents[name],
+  }) as unknown as OverridesSystem
+
+const render = (schema: Record<string, unknown>) => {
+  const overrides = makeJSONSchema202012Overrides(getSystem)
+  const Instance = withJSONSchemaContext(JSONSchema, {
+    ...overrides,
+    config: { defaultExpandedLevels: 5, showExtensionKeywords: true },
+  }) as Component
+
+  return mount(<Instance schema={schema} />)
+}
+
+// the head titles of the subschemas a keyword lists
+const titles = (keyword: Element | null) =>
+  Array.from(
+    keyword?.querySelectorAll(
+      ":scope > .json-schema-2020-12-keyword__children > .json-schema-2020-12-property > .json-schema-2020-12 > .json-schema-2020-12-head .json-schema-2020-12__title"
+    ) ?? []
+  ).map((title) => title.textContent)
+
+describe("json-schema-document renderer overrides", () => {
+  it("passes no OpenAPI fn and no config", () => {
+    const overrides = makeJSONSchema202012Overrides(getSystem)
+
+    expect(Object.keys(overrides).sort()).toEqual(["components", "fn"])
+    expect(Object.keys(overrides.fn).sort()).toEqual([
+      "getSchemaKeywords",
+      "isExpandable",
+    ])
+    expect(Object.keys(overrides.components)).toEqual(["Keyword$defs"])
+    expect(overrides.fn.getSchemaKeywords()).toEqual([
+      ...getSchemaKeywords(),
+      "definitions",
+      "$$ref",
+    ])
+  })
+
+  describe("definitions", () => {
+    const schema = {
+      title: "Catalog",
+      $defs: { Currency: { type: "string" } },
+      definitions: {
+        Product: { type: "object" },
+        Price: { type: "number" },
+      },
+    }
+
+    it("renders like $defs, right after it", () => {
+      const root = render(schema).getDOMNode()
+      const keywords = Array.from(
+        root.querySelector(":scope > .json-schema-2020-12-body").children
+      )
+        .map((child) => child.className)
+        .filter((className) =>
+          /json-schema-2020-12-keyword--(\$defs|definitions)\b/.test(className)
+        )
+      const definitions = root.querySelector(
+        ".json-schema-2020-12-keyword--definitions"
+      )
+
+      expect(keywords).toEqual([
+        "json-schema-2020-12-keyword json-schema-2020-12-keyword--$defs",
+        "json-schema-2020-12-keyword json-schema-2020-12-keyword--definitions",
+      ])
+      expect(
+        definitions.querySelector(".json-schema-2020-12-keyword__name")
+          .textContent
+      ).toBe("definitions")
+      expect(
+        definitions.querySelector(".json-schema-2020-12__attribute").textContent
+      ).toBe("object")
+      expect(titles(definitions)).toEqual(["Product", "Price"])
+    })
+
+    it("isn't an extension keyword", () => {
+      const wrapper = render(schema)
+
+      expect(
+        wrapper.find(".json-schema-2020-12-keyword--extension-keywords")
+      ).toHaveLength(0)
+    })
+
+    it("makes a schema expandable when nothing else would", () => {
+      const root = render({
+        type: "string",
+        definitions: { Slug: { type: "string" } },
+      }).getDOMNode()
+
+      expect(
+        root.querySelectorAll(
+          ":scope > .json-schema-2020-12-head .json-schema-2020-12-accordion"
+        )
+      ).toHaveLength(1)
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
+      ).toEqual(["Slug"])
+    })
+
+    it("exposes whether the list is expanded", () => {
+      const wrapper = render({
+        type: "string",
+        definitions: { Slug: { type: "string" } },
+      })
+      const toggle = () =>
+        wrapper.find(".json-schema-2020-12-keyword--definitions button").first()
+
+      // expanded by `defaultExpandedLevels`
+      expect(toggle().prop("aria-expanded")).toBe(true)
+      toggle().simulate("click")
+      expect(toggle().prop("aria-expanded")).toBe(false)
+      toggle().simulate("click")
+      expect(toggle().prop("aria-expanded")).toBe(true)
+    })
+
+    it("labels a definition with an empty name that has no title", () => {
+      const root = render({
+        definitions: { "": { type: "object", properties: { a: {} } } },
+      }).getDOMNode()
+      const entry = root.querySelector(
+        ".json-schema-2020-12-keyword--definitions .json-schema-2020-12-property"
+      )
+
+      expect(
+        entry?.querySelector(".json-schema-2020-12__title")?.textContent
+      ).toBe("(empty name)")
+      expect(
+        entry?.querySelector(".json-schema-2020-12-accordion")?.textContent
+      ).toContain("(empty name)")
+    })
+
+    it("keeps the title of a definition with an empty name", () => {
+      const root = render({
+        definitions: { "": { title: "Root", type: "object" } },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
+      ).toEqual(["Root"])
+    })
+
+    it("keeps the expansion of an empty name apart from a definition named like its label", () => {
+      const wrapper = render({
+        definitions: {
+          "": { type: "object", properties: { a: {} } },
+          "(empty name)": { type: "object", properties: { b: {} } },
+        },
+      })
+      // the toggle of the keyword itself comes first, then one per definition
+      const toggles = () =>
+        wrapper
+          .find(
+            ".json-schema-2020-12-keyword--definitions button.json-schema-2020-12-accordion"
+          )
+          .slice(1)
+      const expanded = () =>
+        toggles().map((toggle) => toggle.prop("aria-expanded"))
+
+      expect(expanded()).toEqual([true, true])
+      toggles().at(0).simulate("click")
+      expect(expanded()).toEqual([false, true])
+    })
+
+    it("labels a definition whose name or title is only whitespace", () => {
+      const root = render({
+        definitions: {
+          " ": { type: "object", properties: { a: {} } },
+          "": { title: " ", type: "object", properties: { b: {} } },
+          "\t": { title: "Tabbed", type: "object" },
+        },
+      }).getDOMNode()
+
+      expect(
+        titles(root.querySelector(".json-schema-2020-12-keyword--definitions"))
+      ).toEqual(["(blank name)", "(empty name)", "Tabbed"])
+    })
+
+    it("keeps the expansion of a definition apart from one whose $id is its name", () => {
+      const schema = {
+        definitions: {
+          first: { $id: "second", type: "object", properties: { a: {} } },
+          second: { type: "object", properties: { b: {} } },
+        },
+      }
+      const wrapper = render(schema)
+      const toggles = () =>
+        wrapper
+          .find(
+            ".json-schema-2020-12-keyword--definitions button.json-schema-2020-12-accordion"
+          )
+          .slice(1)
+      const expanded = () =>
+        toggles().map((toggle) => toggle.prop("aria-expanded"))
+
+      expect(expanded()).toEqual([true, true])
+      toggles().at(0).simulate("click")
+      // the expansion state is shared by the entries that have one token, and only
+      // the clicked entry re-renders: render everything again to see it
+      wrapper.setProps({ schema: { ...schema } })
+      expect(expanded()).toEqual([false, true])
+    })
+
+    it("mounts no hooks for a schema without definitions", () => {
+      const useIsExpandedSpy = jest.fn(useIsExpanded)
+      const system = getSystem()
+      system.fn.jsonSchema202012.useIsExpanded = useIsExpandedSpy
+      const Keyword = makeJSONSchema202012Overrides(() => system).components
+        .Keyword$defs as unknown as Component
+      const Instance = withJSONSchemaContext(Keyword as never, {
+        config: { defaultExpandedLevels: 5 },
+      }) as Component
+
+      mount(<Instance schema={{ type: "string", definitions: {} }} />)
+
+      expect(useIsExpandedSpy).not.toHaveBeenCalled()
+    })
+
+    it("offers no expand button for an empty or malformed value", () => {
+      for (const definitions of [{}, [], "Product"]) {
+        const root = render({ type: "string", definitions }).getDOMNode()
+
+        expect(
+          root.querySelectorAll(".json-schema-2020-12-accordion")
+        ).toHaveLength(0)
+      }
+    })
+
+    it("renders nothing for an empty or malformed value", () => {
+      for (const definitions of [{}, [], "Product", null]) {
+        const wrapper = render({ title: "T", definitions })
+
+        expect(
+          wrapper.find(".json-schema-2020-12-keyword--definitions")
+        ).toHaveLength(0)
+      }
+    })
+  })
+})

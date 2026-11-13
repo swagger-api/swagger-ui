@@ -32,6 +32,24 @@ test.describe("OpenAPI 3.1.0 schema expansion", () => {
     ).toHaveCount(0)
   })
 
+  test("should expose the expansion state of a schema accordion", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/?url=/documents/features/oas31-schema-expansion.yaml&defaultModelsExpandDepth=3"
+    )
+    const accordion = page
+      .locator("button.json-schema-2020-12-accordion")
+      .filter({ hasText: "Expansion" })
+      .first()
+
+    await expect(accordion).toHaveAttribute("aria-expanded", "true")
+    await accordion.click()
+    await expect(accordion).toHaveAttribute("aria-expanded", "false")
+    await accordion.click()
+    await expect(accordion).toHaveAttribute("aria-expanded", "true")
+  })
+
   test("should deeply expand nested collapsed keywords", async ({ page }) => {
     await page.goto(
       "/?url=/documents/features/oas31-schema-expansion.yaml&showExtensions=true"
