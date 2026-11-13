@@ -22,7 +22,15 @@ import {
   JSONSchemaLazyRefsContext,
 } from "../../context"
 import { toSchemaObject } from "../../fn"
-import { HIDDEN, SCHEMA, SCHEMA_BACKGROUND, SCHEMA_BODY } from "../../styles"
+import {
+  HIDDEN,
+  JUMP_TO_PATH,
+  SCHEMA,
+  SCHEMA_BACKGROUND,
+  SCHEMA_BODY,
+  SCHEMA_HEAD,
+  SCHEMA_POSITIONED,
+} from "../../styles"
 import type { Schema } from "../../types"
 
 export interface JSONSchemaProps {
@@ -32,10 +40,11 @@ export interface JSONSchemaProps {
   onExpand?: (event: unknown, expanded: boolean, deep: boolean) => void
   identifier?: string
   /**
-   * Rendered at the end of the schema's head, outside the expansion toggle
-   * (the Schemas section puts the `JumpToPath` of each schema here).
+   * Rendered at the top-right of the schema's panel, as json-schema-5's
+   * `.models-jump-to-path` (the Schemas section passes each schema's
+   * `JumpToPath`).
    */
-  titleAddon?: React.ReactNode
+  jumpToPath?: React.ReactNode
 }
 
 const JSONSchema = forwardRef(
@@ -46,7 +55,7 @@ const JSONSchema = forwardRef(
       dependentRequired = [],
       onExpand = () => {},
       identifier = "",
-      titleAddon = null,
+      jumpToPath = null,
     }: JSONSchemaProps,
     ref: React.Ref<HTMLElement>
   ) => {
@@ -172,12 +181,13 @@ const JSONSchema = forwardRef(
                 }
                 className={classNames(
                   SCHEMA,
+                  jumpToPath ? SCHEMA_POSITIONED : undefined,
                   isEmbedded
                     ? SCHEMA_BACKGROUND.embedded
                     : SCHEMA_BACKGROUND.root
                 )}
               >
-                <div>
+                <div className={SCHEMA_HEAD}>
                   {isExpandable && !isCircular ? (
                     <>
                       <Accordion
@@ -194,10 +204,8 @@ const JSONSchema = forwardRef(
                   ) : (
                     <KeywordTitle title={name} schema={schema} />
                   )}
+                  <KeywordRefPath schema={schema} isTopLevel={level === 0} />
                   <KeywordSchemaName schema={schema} name={name} />
-                  {isExpandable && !isCircular && isExpanded && (
-                    <KeywordRefPath schema={schema} />
-                  )}
                   <KeywordDeprecated schema={schema} />
                   <KeywordReadOnly schema={schema} />
                   <KeywordWriteOnly schema={schema} />
@@ -209,7 +217,6 @@ const JSONSchema = forwardRef(
                         constraint={constraint}
                       />
                     ))}
-                  {titleAddon}
                 </div>
                 <div className={classNames(SCHEMA_BODY, !isExpanded && HIDDEN)}>
                   {isExpanded && (
@@ -260,6 +267,11 @@ const JSONSchema = forwardRef(
                     </>
                   )}
                 </div>
+                {jumpToPath && (
+                  <span className={JUMP_TO_PATH} data-jump-to-path="">
+                    {jumpToPath}
+                  </span>
+                )}
               </article>
             </JSONSchemaLazyRefsContext.Provider>
           </JSONSchemaCyclesContext.Provider>
