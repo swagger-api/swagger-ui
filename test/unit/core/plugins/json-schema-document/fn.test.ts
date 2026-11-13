@@ -16,14 +16,18 @@ import {
   hasKeyword as hasDialectKeyword,
   isUnsupportedJSONSchemaDocument,
   makeGetSchemaKeywords,
+  makeGetType,
   makeIsExpandable,
   normalizeDialectIdentifier,
+  OPENAPI_NUMBER_FORMATS,
   stringifyAsWritten,
 } from "core/plugins/json-schema-document/fn"
 import {
   getDependentRequired as getJSONSchema202012DependentRequired,
   getSchemaKeywords as getJSONSchema202012Keywords,
   hasKeyword,
+  isBooleanJSONSchema,
+  makeGetType as makeJSONSchema202012GetType,
   makeIsExpandable as makeJSONSchema202012IsExpandable,
 } from "core/plugins/json-schema-2020-12/fn"
 
@@ -431,5 +435,170 @@ describe("json-schema-document keyword values", () => {
     expect(stringifyAsWritten(false)).toBe("false")
     expect(stringifyAsWritten(null)).toBe("null")
     expect(stringifyAsWritten({ a: 1 })).toBe('{"a":1}')
+  })
+})
+
+describe("json-schema-document makeGetType", () => {
+  const fn = { hasKeyword, getExtensionKeywords: () => [], isBooleanJSONSchema }
+  const getType = makeGetType(() => fn)
+  const getType202012 = makeJSONSchema202012GetType(() => fn)
+
+  it("decides as the json-schema-2020-12 renderer without OpenAPI number formats", () => {
+    const cyclic: Record<string, unknown> = { type: "object" }
+    cyclic.properties = { self: cyclic }
+    cyclic.items = cyclic
+    // no `type`, so the cycle is followed: through `items`, and through `oneOf`
+    const cyclicItems: Record<string, unknown> = {}
+    cyclicItems.items = cyclicItems
+    const cyclicOneOf: Record<string, unknown> = {}
+    cyclicOneOf.oneOf = [cyclicOneOf]
+    const schemas: unknown[] = [
+      undefined,
+      null,
+      true,
+      false,
+      "string",
+      {},
+      { type: "string" },
+      { type: ["string", "null"] },
+      { type: ["array", "null"], items: { type: "integer" } },
+      { type: "array", prefixItems: [{ type: "string" }], items: false },
+      { type: "unknown" },
+      { prefixItems: [{ type: "string" }, {}] },
+      { items: { format: "date" } },
+      { contains: { type: "number" } },
+      { properties: {} },
+      { additionalProperties: false },
+      { patternProperties: {} },
+      { minimum: 0 },
+      { exclusiveMaximum: 1 },
+      { multipleOf: 2 },
+      { pattern: "^a$" },
+      { format: "date-time" },
+      { format: "password" },
+      { format: "uuid", minimum: 0 },
+      { minLength: 1 },
+      { maxLength: 2 },
+      { contentEncoding: "base64" },
+      { contentMediaType: "text/plain" },
+      { const: null },
+      { const: true },
+      { const: 1 },
+      { const: 1.5 },
+      { const: "a" },
+      { const: [1] },
+      { const: { a: 1 } },
+      { not: {} },
+      { not: { type: "string" } },
+      { oneOf: [{ type: "string" }, { type: "integer" }] },
+      { anyOf: [{ type: "string" }, true] },
+      { allOf: [{ type: "object" }, { properties: {} }] },
+      { type: "string", oneOf: [{ minLength: 1 }] },
+      cyclic,
+      cyclicItems,
+      cyclicOneOf,
+    ]
+
+    for (const schema of schemas) {
+      expect([schema, getType(schema as never)]).toEqual([
+        schema,
+        getType202012(schema),
+      ])
+    }
+  })
+
+  it("follows a cycle once", () => {
+    const cyclicItems: Record<string, unknown> = {}
+    cyclicItems.items = cyclicItems
+    const cyclicOneOf: Record<string, unknown> = {}
+    cyclicOneOf.oneOf = [cyclicOneOf]
+
+    expect(getType(cyclicItems as never)).toBe("array<any>")
+    expect(getType(cyclicOneOf as never)).toBe("(any)")
+  })
+
+  it("makes a schema never only for a not that has no restricting keyword", () => {
+    for (const not of [
+      true,
+      {},
+      { format: "int32" },
+      { title: "T", description: "d", default: 1, "x-a": 1 },
+      { $defs: { a: { type: "string" } } },
+      // unknown keywords are annotations, and so is what a resolved $ref leaves
+      { customAnnotation: 1 },
+      { $$ref: "#/$defs/Any" },
+    ]) {
+      expect([not, getType({ type: "integer", not } as never)]).toEqual([
+        not,
+        "never",
+      ])
+    }
+    // it can restrict: `1` is valid against these
+    for (const not of [
+      { format: "int32", enum: [0] },
+      { enum: [0] },
+      { $ref: "#/$defs/a" },
+      { type: "string" },
+      { not: {} },
+      { $$ref: "#/$defs/Any", minimum: 5 },
+    ]) {
+      expect([not, getType({ type: "integer", not } as never)]).toEqual([
+        not,
+        "integer",
+      ])
+    }
+    // `required` constrains objects only: `{}` is valid against this schema
+    expect(getType({ type: "object", not: { required: ["a"] } } as never)).toBe(
+      "object"
+    )
+    expect(getType({ type: "integer", not: false } as never)).toBe("integer")
+  })
+
+  it("labels a subschema the same each time it is used", () => {
+    const never = { not: { format: "int32" } }
+    const cyclic: Record<string, unknown> = { items: undefined }
+    cyclic.items = cyclic
+
+    expect(getType({ prefixItems: [never, never] } as never)).toBe(
+      "array<[never, never], any>"
+    )
+    expect(getType({ oneOf: [never, never] } as never)).toBe("(never | never)")
+    // a real cycle is still cut
+    expect(getType({ oneOf: [cyclic, cyclic] } as never)).toBe(
+      "(array<any> | array<any>)"
+    )
+  })
+
+  it("infers no type from the OpenAPI number formats", () => {
+    expect(OPENAPI_NUMBER_FORMATS).toEqual([
+      "int32",
+      "int64",
+      "float",
+      "double",
+    ])
+
+    for (const format of OPENAPI_NUMBER_FORMATS) {
+      expect(getType({ format })).toBe("any")
+      expect(getType({ items: { format } })).toBe("array<any>")
+      expect(getType({ oneOf: [{ format }, { type: "null" }] })).toBe(
+        "(any | null)"
+      )
+      // other keywords still imply a type
+      expect(getType({ format, minimum: 0 })).toBe("number | integer")
+      expect(getType({ format, maxLength: 3 })).toBe("string")
+    }
+  })
+
+  it("keeps an explicit type", () => {
+    expect(getType({ type: "integer", format: "int32" })).toBe("integer")
+    expect(getType({ type: "number", format: "double" })).toBe("number")
+    expect(getType({ type: "string", format: "int64" })).toBe("string")
+  })
+
+  it("differs from the json-schema-2020-12 renderer only there", () => {
+    expect(getType202012({ format: "int32" })).toBe("integer")
+    expect(getType202012({ format: "double" })).toBe("number")
+    expect(getType({ format: "int32" })).toBe("any")
+    expect(getType({ format: "double" })).toBe("any")
   })
 })

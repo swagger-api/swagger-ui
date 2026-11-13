@@ -13,6 +13,7 @@ import type { System } from "./components/keywords/types"
 import {
   getDependentRequired,
   makeGetSchemaKeywords,
+  makeGetType,
   makeIsExpandable,
 } from "./fn"
 import type { InstanceFn } from "./fn"
@@ -33,8 +34,9 @@ export interface OverridesSystem extends System {
  * The components and `fn` of the json-schema-2020-12 renderer instance that
  * renders a JSON Schema 2020-12 document: the renderer's own, extended by the
  * keywords the default meta-schema keeps from earlier drafts
- * (`DEFAULT_META_SCHEMA_KEYWORDS`). None of the OpenAPI `fn` (`getProperties`,
- * the OpenAPI `isExpandable`) is passed. The registered "Required when
+ * (`DEFAULT_META_SCHEMA_KEYWORDS`), and a `getType` that infers no type from
+ * the OpenAPI number formats. None of the OpenAPI `fn` (`getProperties`, the
+ * OpenAPI `isExpandable`) is passed. The registered "Required when
  * defined" component is wrapped, so that it lists the labels of `getNameLabel`
  * (`fn.ts`) for blank and label-like names, in the lists of `dependentRequired`
  * as well as those of `dependencies`.
@@ -75,6 +77,7 @@ export const makeJSONSchema202012Overrides = (
       getSchemaKeywords: makeGetSchemaKeywords(getSchemaKeywords),
       isExpandable: makeIsExpandable(useFn),
       getDependentRequired,
+      getType: makeGetType(useFn),
     },
   }
 }
