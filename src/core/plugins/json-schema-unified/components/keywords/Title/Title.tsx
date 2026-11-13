@@ -14,7 +14,7 @@ import type { KeywordProps } from "../../../types"
  * through the `data-json-schema-title` hook (see `styles.ts`).
  */
 const TITLE =
-  "sui:peer/ref-title sui:inline-block sui:font-[family-name:sans-serif] sui:font-bold sui:text-[12px] sui:leading-[normal] sui:text-json-schema-title sui:dark:text-json-schema-dark-text sui:[&_span]:m-0"
+  "sui:inline-block sui:font-[family-name:sans-serif] sui:font-bold sui:text-[12px] sui:leading-[normal] sui:text-json-schema-title sui:dark:text-json-schema-dark-text sui:[&_span]:m-0"
 
 export interface TitleProps extends KeywordProps {
   title?: string | React.ReactElement

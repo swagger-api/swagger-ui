@@ -66,16 +66,10 @@ input widgets (`JsonSchemaForm`); and the OAS 2.0 scheme picker.
   root, combiner members). A property or `items` keeps its own label and shows the nested
   schema's name next to it, collapsed or expanded (`data-keyword="schemaName"`, json-schema-5's
   `category: Category`). 3.1/3.2 naming is unchanged.
-- **Reference path (2.0/3.0 only).** A dereferenced schema, collapsed or expanded, shows its
-  `$$ref` in a tooltip above its title, like json-schema-5's `.model-hint`
-  (`role="tooltip"`, `data-keyword="$$ref"`).
-  - **Placement:** `-1.8em` above the title, or `-1.15em` for a top-level schema.
-  - **Trigger:** it shows while the title toggle is hovered or has keyboard focus
-    (`:focus-visible`), not after a mouse click. Hover and focus were confirmed. It is a flat
-    sibling of the toggle, styled through Tailwind's `peer/ref-title`, so the head's DOM (and the
-    selectors relying on it) is unchanged.
-  - **Text:** same-document references show as `#/…`. The relative form was confirmed over
-    json-schema-5's absolute URL.
+- **Reference path (2.0/3.0 only).** An expanded dereferenced schema shows its `$$ref` in its
+  head (`data-keyword="$$ref"`), styled like json-schema-5's `.model-hint`. Same-document
+  references show as `#/…`. It is inline rather than a hover tooltip, which the schemas' scroll
+  container would clip.
 - **Schemas section.** Path and layout/expansion/scroll key `definitions` with the heading
   "Models" for 2.0, `components/schemas` with "Schemas" for 3.0; subtrees are requested on
   expand as for 3.x.
@@ -120,8 +114,7 @@ input widgets (`JsonSchemaForm`); and the OAS 2.0 scheme picker.
     `showExtensions` configs;
   - virtualization thresholds (`core/utils/virtualization`);
   - deep-link scroll, including into virtualized lists;
-  - `JumpToPath` at the top-right of each Schemas-section panel (json-schema-5's
-    `.models-jump-to-path`; `data-jump-to-path`). Nested references get none (confirmed).
+  - `JumpToPath` on schema titles.
 - **Error isolation.** Each view is wrapped in `fn.withErrorBoundary`. Its outermost wrapper
   bypasses safe-render's `Models`/`ModelWrapper` boundary.
 - **Parity is proven by tests.** The Playwright project `unified-json-schema` re-runs the schema
