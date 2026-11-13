@@ -656,6 +656,8 @@ export const makeGetType = (fnAccessor: () => InstanceFn) => {
   return getType
 }
 
+const TITLE_KEYS = ["title", "$anchor", "$id"] as const
+
 /**
  * The name of a document: its `title`, else `$anchor`, else `$id` (as the
  * json-schema-2020-12 renderer names a schema), else the name of the dialect.
@@ -664,14 +666,12 @@ export const getDocumentTitle = (
   spec: ImmutableMap<string, unknown>,
   dialectName: string
 ): string => {
-  const title = spec.get("title")
-  if (typeof title === "string" && title !== "") return title
-
-  const $anchor = spec.get("$anchor")
-  if (typeof $anchor === "string" && $anchor !== "") return $anchor
-
-  const $id = spec.get("$id")
-  if (typeof $id === "string" && $id !== "") return $id
+  for (const key of TITLE_KEYS) {
+    const value = spec.get(key)
+    if (typeof value === "string" && value !== "") {
+      return value
+    }
+  }
 
   return dialectName
 }
