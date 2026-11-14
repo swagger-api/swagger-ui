@@ -337,13 +337,18 @@ export default class ParameterRow extends Component {
       }
     }
 
+    const placeholder = param.get("x-placeholder")
+    const hasPlaceholder = ["string", "integer", "number"].includes(schemaObjectType)
+      && typeof placeholder === "string" && placeholder.trim().length > 0
+
     const jsonSchemaForm = bodyParam ? null
       : <JsonSchemaForm fn={fn}
         getComponent={getComponent}
         value={ value }
         required={ required }
         disabled={!isExecute}
-        description={param.get("name")}
+        description={hasPlaceholder ? placeholder : param.get("name")}
+        ariaLabel={param.get("name")}
         onChange={ this.onChangeWrapper }
         errors={ paramWithMeta.get("errors") }
         schema={ schema }
