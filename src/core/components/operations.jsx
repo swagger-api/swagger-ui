@@ -42,7 +42,7 @@ const Operations = ({
 }) => {
   const taggedOps = specSelectors.taggedOperations()
   const validOperationMethods = specSelectors.validOperationMethods()
-  const { docExpansion } = getConfigs()
+  const { docExpansion, disableVirtualization } = getConfigs()
 
   const tagDefaultOpen = docExpansion === "full" || docExpansion === "list"
 
@@ -94,7 +94,9 @@ const Operations = ({
     return items
   }, [taggedOps, validOperationMethods, tagDefaultOpen, expandedTagsState])
 
-  const isVirtualized = flatItems.length >= VIRTUALIZE_OPERATIONS_THRESHOLD
+  const isVirtualized =
+    !disableVirtualization &&
+    flatItems.length >= VIRTUALIZE_OPERATIONS_THRESHOLD
 
   const [containerEl, setContainerEl] = useState(null)
   const [scrollMargin, setScrollMargin] = useState(0)
