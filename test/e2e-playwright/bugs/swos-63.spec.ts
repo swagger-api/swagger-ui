@@ -7,11 +7,11 @@ test.describe("SWOS-63: Schema/Model labeling", () => {
   test.describe("SchemaS/Models section", () => {
     test("should render `Schemas` for OpenAPI 3", async ({ page }) => {
       await page.goto("/?url=/documents/petstore-expanded.openapi.yaml")
-      await expect(page.locator("section.models > h4")).toContainText("Schemas")
+      await expect(page.locator("section.models > h3")).toContainText("Schemas")
     })
     test("should render `Models` for OpenAPI 2", async ({ page }) => {
       await page.goto("/?url=/documents/petstore.swagger.yaml")
-      await expect(page.locator("section.models > h4")).toContainText("Models")
+      await expect(page.locator("section.models > h3")).toContainText("Models")
     })
   })
   test.describe("ModelExample within Operation", () => {
@@ -34,7 +34,7 @@ test.describe("SWOS-63: Schema/Model labeling", () => {
     }) => {
       await page.goto("/?url=/documents/petstore.swagger.yaml")
       // cy.get without assertion still fails when the element is missing
-      await expect(page.locator("section.models > h4")).toBeAttached()
+      await expect(page.locator("section.models > h3")).toBeAttached()
       await swaggerUi.toggleOperation("#operations-pet-addPet")
       await expect(
         page.locator("button.tablinks[data-name=model]")
