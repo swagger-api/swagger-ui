@@ -4,7 +4,7 @@
 - link "/documents/json-schema-document/swagger-2-0-dollar-schema.yaml":
   - /url: /documents/json-schema-document/swagger-2-0-dollar-schema.yaml
 - main:
-  - heading "default Collapse operation" [level=3]:
+  - heading "default Collapse operation" [level=2]:
     - text: ""
     - button "Collapse operation" [expanded]
   - button "GET /pets List pets" [expanded]
@@ -32,7 +32,7 @@
             - tab "Model"
           - tabpanel "Example Value":
             - code: "[ { \"name\": \"string\", \"tag\": \"string\" } ]"
-  - heading "Models" [level=4]:
+  - heading "Models" [level=3]:
     - button "Models" [expanded]
   - button "Pet" [expanded]:
     - strong: Pet

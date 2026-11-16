@@ -160,7 +160,7 @@ const Models = ({
       className={`${showModels ? "models is-open" : "models"}${isVirtualized ? " models--virtualized" : ""}`}
       ref={onLoadModels}
     >
-      <h4>
+      <h3>
         <button
           aria-expanded={showModels}
           className="models-control"
@@ -169,7 +169,7 @@ const Models = ({
           <span>{isOAS3 ? "Schemas" : "Models"}</span>
           {showModels ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </button>
-      </h4>
+      </h3>
       <Collapse isOpened={showModels}>
         {isVirtualized ? (
           <div ref={parentRef} className="models-scroll">

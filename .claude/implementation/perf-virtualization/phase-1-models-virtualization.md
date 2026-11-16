@@ -85,7 +85,7 @@ component renders instead of this one.
 - [x] Collapsing and expanding the "Schemas/Models" section works as before
 - [x] Existing `model-collapse.spec.ts` scenarios still pass **with no edits** — its fixtures have 3
       definitions each, so they take the legacy path. If any of its selectors needed changing
-      (`.models h4 .models-control`, `#model-User .model-box .model-box-control` at `:40`/`:44`,
+      (`.models h3 .models-control`, `#model-User .model-box .model-box-control` at `:40`/`:44`,
       `#model-Pet` / `#model-Order` at `:18`/`:28`/`:34`), that means the legacy path was altered —
       treat it as a regression, not a test to update
 - [x] `defaultModelsExpandDepth < 0` still short-circuits the whole section to `null`

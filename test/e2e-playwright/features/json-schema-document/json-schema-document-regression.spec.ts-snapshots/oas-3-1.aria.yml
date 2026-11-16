@@ -4,7 +4,7 @@
 - link "/documents/json-schema-document/oas-3-1-dollar-schema.yaml":
   - /url: /documents/json-schema-document/oas-3-1-dollar-schema.yaml
 - main:
-  - heading "default Collapse operation" [level=3]:
+  - heading "default Collapse operation" [level=2]:
     - text: ""
     - button "Collapse operation" [expanded]
   - button "GET /pets List pets" [expanded]
@@ -37,7 +37,7 @@
           - tabpanel "Example Value":
             - code: "[ { \"name\": \"Milo\", \"tag\": \"string\", \"owner\": { \"id\": 0 } } ]"
         - cell "No links"
-  - heading "Schemas" [level=4]:
+  - heading "Schemas" [level=3]:
     - button "Schemas" [expanded]
   - article:
     - button "Pet":

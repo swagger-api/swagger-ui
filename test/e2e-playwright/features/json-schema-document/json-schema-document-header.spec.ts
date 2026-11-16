@@ -50,8 +50,8 @@ test.describe("Standalone JSON Schema 2020-12: header and $defs section", () => 
       await page.goto(url)
       const section = page.locator(".json-schema-document__definitions")
 
-      await expect(section.locator("h4 button")).toHaveText("Schemas ($defs)")
-      await expect(section.locator("h4 button")).toHaveAttribute(
+      await expect(section.locator("h3 button")).toHaveText("Schemas ($defs)")
+      await expect(section.locator("h3 button")).toHaveAttribute(
         "aria-expanded",
         "true"
       )
@@ -71,7 +71,7 @@ test.describe("Standalone JSON Schema 2020-12: header and $defs section", () => 
     test("collapses and expands", async ({ page }) => {
       await page.goto(url)
       const section = page.locator(".json-schema-document__definitions")
-      const button = section.locator("h4 button")
+      const button = section.locator("h3 button")
 
       await button.click()
       await expect(button).toHaveAttribute("aria-expanded", "false")
@@ -88,7 +88,7 @@ test.describe("Standalone JSON Schema 2020-12: header and $defs section", () => 
       await page.goto(`${url}&defaultModelsExpandDepth=0`)
 
       await expect(
-        page.locator(".json-schema-document__definitions h4 button")
+        page.locator(".json-schema-document__definitions h3 button")
       ).toHaveAttribute("aria-expanded", "false")
     })
 
