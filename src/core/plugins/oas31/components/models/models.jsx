@@ -95,7 +95,7 @@ const Models = ({
       })}
       ref={handleModelsRef}
     >
-      <h4>
+      <h3>
         <button
           aria-expanded={isOpen}
           className="models-control"
@@ -104,7 +104,7 @@ const Models = ({
           <span>Schemas</span>
           {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </button>
-      </h4>
+      </h3>
       <Collapse isOpened={isOpen}>
         {isVirtualized ? (
           <div ref={parentRef} className="models-scroll">

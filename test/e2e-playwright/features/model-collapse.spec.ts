@@ -27,10 +27,10 @@ function ModelCollapseTest(baseUrl: string) {
     page,
   }) => {
     await page.goto(baseUrl)
-    await page.locator(".models h4 .models-control").click()
+    await page.locator(".models h3 .models-control").click()
     await expect(page.locator(".models")).not.toHaveClass(/(^|\s)is-open(\s|$)/)
     await expect(page.locator("#model-Order")).toHaveCount(0)
-    await page.locator(".models h4 .models-control").click()
+    await page.locator(".models h3 .models-control").click()
     await expect(page.locator(".models")).toHaveClass(/(^|\s)is-open(\s|$)/)
     await expect(page.locator("#model-Order")).toBeAttached()
   })

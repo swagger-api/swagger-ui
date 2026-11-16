@@ -55,7 +55,7 @@ const JSONSchemaDocumentDefinitions = ({
         "is-open": isOpen,
       })}
     >
-      <h4>
+      <h3>
         <button
           type="button"
           aria-expanded={isOpen}
@@ -65,7 +65,7 @@ const JSONSchemaDocumentDefinitions = ({
           <span>Schemas ($defs)</span>
           {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </button>
-      </h4>
+      </h3>
       <Collapse isOpened={isOpen}>
         {Object.entries(definitions).map(([name, schema]) => (
           <JSONSchema
