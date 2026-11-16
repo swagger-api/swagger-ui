@@ -81,7 +81,7 @@ const defaultOptions = Object.freeze({
 
   syntaxHighlight: {
     activated: true,
-    theme: "agate",
+    theme: "a11y-dark",
   },
   operationsSorter: null,
   tagsSorter: null,

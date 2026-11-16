@@ -92,7 +92,7 @@ describe("typeCast", () => {
     const expectedConfig = {
       deepLinking: false,
       urls: null,
-      syntaxHighlight: { activated: true, theme: "agate" },
+      syntaxHighlight: { activated: true, theme: "a11y-dark" },
       spec: {},
       maxDisplayedTags: -1,
       defaultModelExpandDepth: 1,
