@@ -69,7 +69,7 @@ export default class OperationTag extends React.Component {
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
     const header = (
-      <h3
+      <h2
         onClick={() => layoutActions.show(isShownKey, !showTag)}
         className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag"}
         id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}
@@ -108,7 +108,7 @@ export default class OperationTag extends React.Component {
 
           {showTag ? <ArrowUpIcon className="arrow" /> : <ArrowDownIcon className="arrow" />}
         </button>
-      </h3>
+      </h2>
     )
 
     // Virtualized path — render only the header
