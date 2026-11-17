@@ -8,13 +8,21 @@
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
+// A `--tw-` inside a string or a `url()` is content, not a variable, and stays as written.
+// Anywhere else it names a variable: in `var()`, and bare, as in `transition-property`.
+const TW_VARIABLE =
+  /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|url\((?:"[^"]*"|'[^']*'|[^)]*)\))|(?<![\w-])--tw-/gi
+
 // Namespaces Tailwind's global `--tw-*` variables and layers (see the ui-shell spec).
 const tailwindNamespace = () => ({
   postcssPlugin: "swagger-ui-tailwind-namespace",
   Declaration(decl) {
     if (decl.prop.startsWith("--tw-")) decl.prop = `--sui-${decl.prop.slice(2)}`
     if (decl.value.includes("--tw-"))
-      decl.value = decl.value.replaceAll("--tw-", "--sui-tw-")
+      decl.value = decl.value.replace(
+        TW_VARIABLE,
+        (match, literal) => literal ?? "--sui-tw-"
+      )
   },
   AtRule: {
     property(atRule) {
