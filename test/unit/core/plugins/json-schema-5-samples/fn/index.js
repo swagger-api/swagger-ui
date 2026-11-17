@@ -265,7 +265,7 @@ describe("sampleFromSchema", () => {
     expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
   })
 
-  it("returns object without any $$ref fields at the root schema level", function () {
+  it("unwraps a top-level schema example that references a components.examples entry", function () {
     let definition = {
     type: "object",
     properties: {
@@ -283,12 +283,49 @@ describe("sampleFromSchema", () => {
   }
 
     let expected = {
-      "value": {
-        "message": "Hello, World!"
-      }
+      message: "Hello, World!"
     }
 
     expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
+  })
+
+  it("preserves a top-level example object that has a `value` key but no $$ref", function () {
+    let definition = {
+      type: "object",
+      example: {
+        value: {
+          message: "Hello, World!"
+        }
+      }
+    }
+
+    let expected = {
+      value: {
+        message: "Hello, World!"
+      }
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("preserves a top-level example object whose $$ref does not point to components.examples", function () {
+    let definition = {
+      type: "object",
+      example: {
+        value: {
+          message: "Hello, World!"
+        },
+        $$ref: "#/components/schemas/SomethingElse"
+      }
+    }
+
+    let expected = {
+      value: {
+        message: "Hello, World!"
+      }
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns object without any $$ref fields at nested schema levels", function () {
