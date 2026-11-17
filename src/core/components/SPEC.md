@@ -59,7 +59,8 @@ Tailwind output is isolated. These rules are enforced on the built CSS by
 `test/build-artifacts/tailwind-isolation.ts`:
 
 - **No preflight.** Only the theme and utilities are imported, so element defaults on the host
-  page and in legacy Swagger UI markup are untouched.
+  page and in legacy Swagger UI markup are untouched. The test fails on preflight's signature
+  rules (the `*, ::before, ::after` reset and `::file-selector-button`).
 - **Prefix `sui`.** Classes are `sui:*` and theme variables are `--sui-*`, so a host using the
   common `tw` prefix cannot collide with us or restyle us.
 - **Namespaced layers.** Every cascade layer is `swagger-ui.*` (`properties`, `theme`,
@@ -70,6 +71,10 @@ Tailwind output is isolated. These rules are enforced on the built CSS by
     and `swagger-ui.properties`.
   - The Tailwind CSS has its own webpack rule, without postcss-preset-env, whose cascade-layers
     polyfill would flatten the layers.
+- **No global Tailwind keyframes.** The `animate-*` utilities emit global `@keyframes` (`spin`,
+  `ping`, `pulse`, `bounce`) that could collide with a host page's own animations. The test fails
+  if one is emitted, so using one means namespacing its keyframes first. Don't write a real
+  `sui:` class in this file: the scanner reads `src/` and would generate it.
 - **`important`.** Utilities are `!important`. Layered rules otherwise lose to any unlayered CSS,
   which includes Swagger UI's own SCSS (`.swagger-ui table`, `.swagger-ui button`, …) and host
   CSS. Styling through utilities is therefore not overridable by embedders' CSS. Customization of

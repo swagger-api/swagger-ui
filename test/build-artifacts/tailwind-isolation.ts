@@ -19,6 +19,29 @@ const enclosingLayer = (node: { parent?: unknown }): string | undefined => {
   return undefined;
 };
 
+// Same grammar as the namespace pass in webpack/stylesheets.js: a `--tw-` inside
+// a string or a `url()` is content, not a variable.
+const stripLiterals = (value: string): string =>
+  value.replace(
+    /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|url\((?:"[^"]*"|'[^']*'|[^)]*)\)/gi,
+    ''
+  );
+
+// Tailwind wraps some utility selectors, e.g. `:where(.sui\:space-x-2 > :not(:last-child))`.
+const SUI_UTILITY_SELECTOR = /^(?::(?:where|is)\()?\.sui\\:/;
+
+// The keyframes of Tailwind's default theme (`spin`, `ping`, ...): global names that
+// would collide with a host page's own animations.
+const tailwindKeyframeNames = (): string[] => {
+  const names: string[] = [];
+  postcss
+    .parse(fs.readFileSync(require.resolve('tailwindcss/theme.css'), 'utf8'))
+    .walkAtRules('keyframes', (atRule) => {
+      names.push(atRule.params);
+    });
+  return names;
+};
+
 describe('swagger-ui.css Tailwind isolation', () => {
   const root = loadCss();
 
@@ -51,7 +74,7 @@ describe('swagger-ui.css Tailwind isolation', () => {
   test('leaks no unprefixed Tailwind custom properties', () => {
     const leaks: string[] = [];
     root.walkDecls((decl) => {
-      if (/--tw-/.test(decl.prop) || /--tw-/.test(decl.value)) {
+      if (/--tw-/.test(decl.prop) || /--tw-/.test(stripLiterals(decl.value))) {
         leaks.push(`${decl.prop}: ${decl.value}`);
       }
     });
@@ -67,7 +90,7 @@ describe('swagger-ui.css Tailwind isolation', () => {
     root.walkRules((rule) => {
       if (enclosingLayer(rule) !== 'swagger-ui.utilities') return;
       rule.selectors
-        .filter((selector) => !selector.startsWith('.sui\\:'))
+        .filter((selector) => !SUI_UTILITY_SELECTOR.test(selector))
         .forEach((selector) => offenders.push(selector));
     });
 
@@ -79,6 +102,39 @@ describe('swagger-ui.css Tailwind isolation', () => {
     root.walkDecls((decl) => {
       if (enclosingLayer(decl) !== 'swagger-ui.theme') return;
       if (!decl.prop.startsWith('--sui-')) offenders.push(decl.prop);
+    });
+
+    expect(offenders).toEqual([]);
+  });
+
+  test('declares no unprefixed Tailwind keyframes', () => {
+    const tailwind = tailwindKeyframeNames();
+    const found: string[] = [];
+    root.walkAtRules('keyframes', (atRule) => {
+      if (tailwind.includes(atRule.params)) found.push(atRule.params);
+    });
+
+    expect(tailwind.length).toBeGreaterThan(0);
+    expect(found).toEqual([]);
+  });
+
+  test('includes no Tailwind preflight', () => {
+    const offenders: string[] = [];
+    root.walkRules((rule) => {
+      const { selectors } = rule;
+      // Tailwind's own `*, ::before, ::after, ::backdrop` rule initializes the
+      // `--sui-tw-*` variables, in the properties layer.
+      const isResetOfEveryElement =
+        selectors.includes('*') &&
+        selectors.includes('::before') &&
+        selectors.includes('::after') &&
+        enclosingLayer(rule) !== 'swagger-ui.properties';
+      if (
+        isResetOfEveryElement ||
+        selectors.some((selector) => selector.includes('::file-selector-button'))
+      ) {
+        offenders.push(rule.selector);
+      }
     });
 
     expect(offenders).toEqual([]);
