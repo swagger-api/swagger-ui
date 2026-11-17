@@ -4,7 +4,7 @@
 .swagger-ui {
   container-name: swagger-ui;
   container-type: inline-size;
-  
+
   @include type.text_body();
   @include meta.load-css("~tachyons-sass/tachyons.scss");
   @include meta.load-css("mixins");
