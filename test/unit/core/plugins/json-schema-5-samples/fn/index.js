@@ -2425,6 +2425,82 @@ describe("createXMLExample", function () {
     })
   })
 
+  describe("oneOf and anyOf", function () {
+    const literalExample = "<?xml version=\"1.0\"?><Root><Data>Test</Data></Root>"
+    const subSchemas = [
+      {
+        type: "object",
+        properties: {
+          data: {
+            type: "string"
+          }
+        }
+      },
+      {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          }
+        }
+      }
+    ]
+
+    it("should return literal example for oneOf", () => {
+      const definition = {
+        oneOf: subSchemas,
+        xml: {}
+      }
+
+      expect(sut(definition, {}, literalExample)).toEqual(literalExample)
+    })
+
+    it("should return literal example for anyOf", () => {
+      const definition = {
+        anyOf: subSchemas,
+        xml: {}
+      }
+
+      expect(sut(definition, {}, literalExample)).toEqual(literalExample)
+    })
+
+    it("should return literal example when first subschema has no explicit type", () => {
+      const definition = {
+        oneOf: [
+          {
+            properties: {
+              data: {
+                type: "string"
+              }
+            }
+          }
+        ],
+        xml: {}
+      }
+
+      expect(sut(definition, {}, literalExample)).toEqual(literalExample)
+    })
+
+    it("should wrap primitive example using first subschema type", () => {
+      const expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data>test</data>"
+      const definition = {
+        oneOf: [
+          {
+            type: "string"
+          },
+          {
+            type: "integer"
+          }
+        ],
+        xml: {
+          name: "data"
+        }
+      }
+
+      expect(sut(definition, {}, "test")).toEqual(expected)
+    })
+  })
+
   it("should handle handle maxProperties in conjunction with required", function () {
     const definition = {
       type: "object",
