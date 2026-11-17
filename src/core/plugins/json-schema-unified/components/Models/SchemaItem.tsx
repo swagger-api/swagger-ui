@@ -85,7 +85,7 @@ const SchemaItem = React.memo(
         name={name}
         identifier={schemaName}
         onExpand={handleExpand}
-        titleAddon={JumpToPath ? <JumpToPath path={specPath} /> : null}
+        jumpToPath={JumpToPath ? <JumpToPath path={specPath} /> : null}
       />
     )
   }

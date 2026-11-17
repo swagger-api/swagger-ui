@@ -10,7 +10,7 @@ import { useComponent } from "../../hooks"
  * rules, and the forced-colors rule for its icon (`src/style/_buttons.scss`).
  */
 const ACCORDION =
-  "sui:outline-none sui:border-none sui:pl-0 sui:dark:bg-json-schema-dark-background sui:dark:[&_svg]:text-json-schema-dark-text sui:forced-colors:[&_svg_path]:forced-color-adjust-none sui:forced-colors:[&_svg_path]:fill-[ButtonText]"
+  "sui:peer/ref-title sui:outline-none sui:border-none sui:pl-0 sui:dark:bg-json-schema-dark-background sui:dark:[&_svg]:text-json-schema-dark-text sui:forced-colors:[&_svg_path]:forced-color-adjust-none sui:forced-colors:[&_svg_path]:fill-[ButtonText]"
 
 /** `.json-schema-2020-12-accordion__children`. */
 const ACCORDION_CHILDREN = "sui:inline-block"
