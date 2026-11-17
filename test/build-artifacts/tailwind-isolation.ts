@@ -134,18 +134,23 @@ describe('swagger-ui.css Tailwind isolation', () => {
   test('includes no Tailwind preflight', () => {
     const offenders: string[] = [];
     root.walkRules((rule) => {
-      const { selectors } = rule;
+      // The minified CSS writes `:before` and `:after` for `::before` and `::after`.
+      const selectors = rule.selectors.map((selector) =>
+        selector.replace(/::(before|after)/g, ':$1')
+      );
       // Tailwind's own `*, ::before, ::after, ::backdrop` rule initializes the
       // `--sui-tw-*` variables, in the properties layer.
       const isResetOfEveryElement =
         selectors.includes('*') &&
-        selectors.includes('::before') &&
-        selectors.includes('::after') &&
+        selectors.includes(':before') &&
+        selectors.includes(':after') &&
         enclosingLayer(rule) !== 'swagger-ui.properties';
-      if (
-        isResetOfEveryElement ||
-        selectors.some((selector) => selector.includes('::file-selector-button'))
-      ) {
+      // `sui:file:` utilities style `::file-selector-button` of their own element.
+      const stylesEveryFileButton = rule.selectors.some(
+        (selector) =>
+          selector.includes('::file-selector-button') && !isSuiSelector(selector)
+      );
+      if (isResetOfEveryElement || stylesEveryFileButton) {
         offenders.push(rule.selector);
       }
     });
