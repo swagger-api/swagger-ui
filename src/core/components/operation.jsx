@@ -87,6 +87,19 @@ export default class Operation extends PureComponent {
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
+    const pathParameters = specSelectors.specJson().getIn(["paths", path, "parameters"], List())
+    if (List.isList(pathParameters) && pathParameters.size > 0) {
+      pathParameters.forEach((pathParam) => {
+        const alreadyExists = parameters.some(
+          (opParam) =>
+            opParam.get("name") === pathParam.get("name") &&
+            opParam.get("in") === pathParam.get("in")
+        )
+        if (!alreadyExists) {
+          parameters = parameters.push(pathParam)
+        }
+      })
+    }
     let operationScheme = specSelectors.operationScheme(path, method)
     const normalizedMethod = String(method).toLowerCase()
     const methodClassName = OPERATION_METHODS.includes(normalizedMethod)
