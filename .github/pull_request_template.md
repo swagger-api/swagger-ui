@@ -50,6 +50,6 @@
 ### Automated tests
 - [ ] My changes can not or do not need to be tested.
 - [ ] My changes can and should be tested by unit and/or integration tests.
-- [ ] If yes to above: I have added tests to cover my changes.
+- [ ] If yes to above: I have added / updated tests to cover my changes.
 - [ ] If yes to above: I have taken care to cover edge cases in my tests.
 - [ ] All new and existing tests passed.
