@@ -109,7 +109,7 @@ export default class Oauth2 extends React.Component {
 
   render() {
     let {
-      schema, getComponent, authSelectors, errSelectors, name, specSelectors
+      schema, getComponent, authSelectors, errSelectors, name, specSelectors, getConfigs
     } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
@@ -143,6 +143,7 @@ export default class Oauth2 extends React.Component {
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
     let isValid = !errors.filter( err => err.get("source") === "validation").size
     let description = schema.get("description")
+    let redirectUrl = getConfigs().oauth2RedirectUrl
 
     return (
       <div>
@@ -155,6 +156,7 @@ export default class Oauth2 extends React.Component {
         { oidcUrl && <p>OpenID Connect URL: <code>{ oidcUrl }</code></p> }
         { ( flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE ) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
         { ( flow === AUTH_FLOW_PASSWORD || flow === AUTH_FLOW_ACCESS_CODE || flow === AUTH_FLOW_APPLICATION ) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
+        { ( flow === AUTH_FLOW_IMPLICIT || flow === AUTH_FLOW_ACCESS_CODE ) && redirectUrl && <p>OAuth2 Redirect URL: <code>{ redirectUrl }</code></p> }
         <p className="flow">Flow: <code>{ flowToDisplay }</code></p>
 
         {
