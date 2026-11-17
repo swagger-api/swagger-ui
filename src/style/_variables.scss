@@ -200,9 +200,12 @@ $section-models-model-box-background-color: $black !default;
 
 $section-models-model-title-font-color: $gray-700 !default;
 
-$prop-type-font-color: $scampi-purple !default;
+$prop-type-font-color: color.adjust(
+  $scampi-purple,
+  $lightness: -5%
+) !default; // #4d4d99
 
-$prop-format-font-color: $gray-600 !default;
+$prop-format-font-color: $gray-650 !default;
 
 // Tables
 

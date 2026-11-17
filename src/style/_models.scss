@@ -102,12 +102,10 @@
   }
 
   .property {
-    color: #999;
+    color: $gray-650;
     font-style: italic;
 
     &.primitive {
-      color: #6b6b6b;
-
       &.extension {
         display: block;
 
