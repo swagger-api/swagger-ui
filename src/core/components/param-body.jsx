@@ -57,12 +57,38 @@ export default class ParamBody extends PureComponent {
       this.setState({ value: val })
       this.onChange(val, {isXml: isXml, isEditBox: isExecute})
     } else {
-      if (isXml) {
+      let xExampleValue = this.xExampleValue()
+      if (xExampleValue !== undefined) {
+        this.onChange(xExampleValue, {isXml: isXml, isEditBox: isExecute})
+      } else if (isXml) {
         this.onChange(this.sample("xml"), {isXml: isXml, isEditBox: isExecute})
       } else {
         this.onChange(this.sample(), {isEditBox: isExecute})
       }
     }
+  }
+
+  xExampleValue = () => {
+    const { param } = this.props
+    const xExamples = param.get("x-examples")
+    if (!xExamples || typeof xExamples.get !== "function" || xExamples.size === 0) {
+      return undefined
+    }
+    const defaultExample = xExamples.get("default")
+    const example = defaultExample !== undefined ? defaultExample : xExamples.first()
+    if (example === undefined) {
+      return undefined
+    }
+    if (typeof example === "string") {
+      return example
+    }
+    if (typeof example.toJS === "function") {
+      return JSON.stringify(example.toJS(), null, 2)
+    }
+    if (typeof example === "object") {
+      return JSON.stringify(example, null, 2)
+    }
+    return String(example)
   }
 
   sample = (xml) => {
