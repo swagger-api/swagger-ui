@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { fromJS, List } from "immutable"
+import debounce from "lodash/debounce"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 import createHtmlReadyId from "core/utils/create-html-ready-id"
 
@@ -36,6 +37,7 @@ export default class ParamBody extends PureComponent {
       value: ""
     }
 
+    this.debouncedReduxUpdate = debounce(this._onChange, 350)
   }
 
   componentDidMount() {
@@ -81,11 +83,16 @@ export default class ParamBody extends PureComponent {
 
   _onChange = (val, isXml) => { (this.props.onChange || NOOP)(val, isXml) }
 
+  componentWillUnmount() {
+    this.debouncedReduxUpdate.cancel()
+  }
+
   handleOnChange = e => {
     const {consumesValue} = this.props
     const isXml = /xml/i.test(consumesValue)
     const inputValue = e.target.value
-    this.onChange(inputValue, {isXml, isEditBox: this.state.isEditBox})
+    this.setState({ value: inputValue })
+    this.debouncedReduxUpdate(inputValue, isXml)
   }
 
   toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
