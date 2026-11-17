@@ -96,6 +96,10 @@ export const getComponent = (getSystem, getStore, getComponents) => (componentNa
     // getComponent has a config object as a third, optional parameter
     // using the config object requires the presence of the second parameter, container
     // e.g. getComponent("JsonSchema_string_whatever", false, { failSilently: true })
+
+  // Converting component name to LowerCase
+  componentName = componentName.toLowerCase();
+
   const component = getComponents(componentName)
 
   if (!component) {
