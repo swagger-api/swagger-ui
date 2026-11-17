@@ -81,6 +81,22 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     `not` that is used twice (`prefixItems: [s, s]`) is taken for a cycle the second time. It changes OAS
     3.1/3.2 labels, so it needs its own PR; the json-schema-document plugin has its own narrower check
     (`isUnrestricted`) and deletes the schema before it returns.
+14. **The unified schema view shows no ref-derived names for nested schemas in OAS 3.1/3.2.** The
+    Schema tab names its top-level schema from `$$ref` (`json-schema-unified/components/Model/Model.tsx`),
+    but nested property and `items` schemas, and the reference path (`components/keywords/oas/RefPath.tsx`,
+    which renders nothing unless `fn.getRefPath` is set), get no ref-derived name. The 2.0/3.0 dialects
+    do show them (`json-schema-unified/legacy.ts`: `getTitle`, `getRefPath`). With
+    `unifiedJSONSchemaEnabled` on, a nested `$ref`'d schema in a 3.1/3.2 document shows no name.
+15. **The unified schema view shows the reference path inline, not as the json-schema-5 hover tooltip.**
+    json-schema-5's `Model` shows it in a `.model-hint` tooltip, on object models only. The unified
+    view prints it inline for now (`legacy.ts#getRefPath`, rendered by `RefPath.tsx`). Decide whether
+    to match the tooltip.
+16. **2.0/3.0: an external `$ref` the resolver left in place resolves to the local schema of the same
+    name.** `json-schema-unified/legacy.ts#getLocalRefName` ignores the document part of the
+    reference, as json-schema-5's `getModelName` does. `other.yaml#/definitions/Foo` (2.0) or
+    `other.yaml#/components/schemas/Foo` (3.0) renders the local `Foo` when one exists. It only
+    happens when the resolver leaves an external ref in place (failed fetch, cycle, depth limit).
+    `getRefPath` already compares the document part to the document URL, so a fix is small.
 
 ## Open Work on the Skills
 
