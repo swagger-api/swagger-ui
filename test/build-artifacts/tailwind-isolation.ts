@@ -27,8 +27,21 @@ const stripLiterals = (value: string): string =>
     ''
   );
 
-// Tailwind wraps some utility selectors, e.g. `:where(.sui\:space-x-2 > :not(:last-child))`.
-const SUI_UTILITY_SELECTOR = /^(?::(?:where|is)\()?\.sui\\:/;
+// Tailwind wraps some utility selectors: `:where(.sui\:space-x-2 > :not(:last-child))`,
+// `:is(:where(.sui\:peer\/x):hover ~ .sui\:peer-hover\/x\:block)`. A selector is therefore
+// checked by the classes it references: at least one must be `sui:`-prefixed, and every one
+// must be, apart from the `.dark-mode` class the `dark:` variant adds (`tailwind.css`).
+const HOST_CLASSES = ['.dark-mode'];
+
+const isSuiSelector = (selector: string): boolean => {
+  const classes = selector.match(/\.(?:\\.|[\w-])+/g) ?? [];
+  return (
+    classes.some((name) => name.startsWith('.sui\\:')) &&
+    classes.every(
+      (name) => name.startsWith('.sui\\:') || HOST_CLASSES.includes(name)
+    )
+  );
+};
 
 // The keyframes of Tailwind's default theme (`spin`, `ping`, ...): global names that
 // would collide with a host page's own animations.
@@ -90,7 +103,7 @@ describe('swagger-ui.css Tailwind isolation', () => {
     root.walkRules((rule) => {
       if (enclosingLayer(rule) !== 'swagger-ui.utilities') return;
       rule.selectors
-        .filter((selector) => !SUI_UTILITY_SELECTOR.test(selector))
+        .filter((selector) => !isSuiSelector(selector))
         .forEach((selector) => offenders.push(selector));
     });
 
