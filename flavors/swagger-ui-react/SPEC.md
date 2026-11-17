@@ -17,8 +17,9 @@ React apps that already provide React. It is published as the npm package `swagg
 
 - **Props mirror options.** The props are a typed subset of the `SwaggerUI` options (`spec`,
   `url`, `layout`, interceptors, `onComplete`, `plugins`, `presets`, display and try-it-out
-  flags, `initialState`, `uncaughtExceptionHandler`, …). Each prop defaults to
-  `SwaggerUI.config.defaults`. `presets` is appended after the apis preset, never replacing it.
+  flags, `unifiedJSONSchemaEnabled`, `initialState`, `uncaughtExceptionHandler`, …). Each prop
+  defaults to `SwaggerUI.config.defaults`. `presets` is appended after the apis preset, never
+  replacing it.
 - **Lifecycle.** The component builds one `SwaggerUI` System on mount, with no `dom_id`, and
   renders `getComponent("App", "root")` itself, so React owns the DOM.
 - **Re-exports.** The package re-exports `System`, `presets`, `plugins`, and `config` from
@@ -31,4 +32,5 @@ React apps that already provide React. It is published as the npm package `swagg
 ## Known limitations
 
 - **Only `url` and `spec` react to prop changes.** Every other prop is read once, on mount.
-  Changing one later has no effect until the component remounts.
+  Changing one later has no effect until the component remounts. That includes
+  `unifiedJSONSchemaEnabled`, so toggling the unified schema view needs a remount.

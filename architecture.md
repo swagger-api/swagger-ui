@@ -66,11 +66,13 @@ document on its own (see Invariants).
 - **base** (`src/core/presets/base`): the version-agnostic plugins plus the shared component
   set and the JSON Schema 5 renderer.
 - **apis** (`src/core/presets/apis`, the default): base → oas3 → json-schema-2020-12 →
-  json-schema-2020-12-samples → oas31 → oas32 → json-schema-unified. The newest OpenAPI version
-  is always last *among the OpenAPI plugins*. json-schema-unified always comes after all of them,
-  so its `Model`/`Models` wrappers stay outermost and the opt-in unified schema view
-  (`unifiedJSONSchemaEnabled`) also covers versions added later. The add-oas-support
-  PRESET-ORDER check enforces both.
+  json-schema-2020-12-samples → oas31 → oas32 → json-schema-document → json-schema-unified. The
+  newest OpenAPI version is always last *among the OpenAPI plugins*. json-schema-document (standalone
+  JSON Schema documents) and json-schema-unified come after all of them. json-schema-unified
+  always comes after the OpenAPI plugins, so its `Model`/`Models` wrappers stay outermost and the
+  opt-in unified schema view (`unifiedJSONSchemaEnabled`) also covers versions added later. The two
+  wrap different components, so their order does not matter. The add-oas-support PRESET-ORDER check
+  enforces the OpenAPI ordering.
 - **standalone** (separate bundle): layered on top of apis by the user (`layout:
   "StandaloneLayout"`).
 
