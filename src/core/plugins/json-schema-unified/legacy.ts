@@ -368,11 +368,23 @@ export const makeLegacyDialectFn = (
     const { properties } = toSchemaObject(schema)
     if (!isPlainObject(properties)) return {}
 
+    // a `$ref` the resolver left in place has the annotations of its
+    // definition, unless the reference sets them itself (its siblings win)
+    const isAnnotated = (
+      value: Schema,
+      keyword: "readOnly" | "writeOnly"
+    ): boolean => {
+      const own = toSchemaObject(value)[keyword]
+      return own === undefined
+        ? getLazyRef(value)?.definition[keyword] === true
+        : own === true
+    }
+
     return Object.fromEntries(
       Object.entries(properties).filter(([, value]) => {
-        const isReadOnly = toSchemaObject(value).readOnly === true
+        const isReadOnly = isAnnotated(value, "readOnly")
         // honoured in 2.0 too, although not a 2.0 keyword, as json-schema-5 does
-        const isWriteOnly = toSchemaObject(value).writeOnly === true
+        const isWriteOnly = isAnnotated(value, "writeOnly")
 
         return (
           (!isReadOnly || includeReadOnly) && (!isWriteOnly || includeWriteOnly)
