@@ -527,6 +527,21 @@ describe("json-schema-unified Model / Models wrappers", () => {
       })
     })
 
+    it("keeps a resolved boolean schema", () => {
+      const specJson = fromJS({
+        ...documents["3.1"],
+        components: { schemas: { Never: { type: "string" } } },
+      })
+      const specSelectors = {
+        specJson: () => specJson,
+        specResolvedSubtree: () => fromJS({ Never: false }),
+      }
+
+      expect(selectSchemaEntries(specSelectors, "oas31")).toEqual([
+        ["Never", false],
+      ])
+    })
+
     it("returns no entries without schemas", () => {
       expect(
         selectSchemaEntries(

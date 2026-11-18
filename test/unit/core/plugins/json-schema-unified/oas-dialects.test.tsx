@@ -508,6 +508,36 @@ describe("json-schema-unified OAS dialects", () => {
       )
     })
 
+    it("exposes isOASExpandable outside a React render", () => {
+      const fn: Record<string, unknown> = {}
+      const { fn: registered } = JSONSchemaUnifiedPlugin({
+        getSystem: () => ({
+          getSystem: null,
+          getComponent: () => null,
+          getConfigs: () => ({}),
+        }),
+        fn,
+      })
+      fn.jsonSchemaUnified = registered.jsonSchemaUnified
+      const { isOASExpandable } = registered.jsonSchemaUnified
+
+      expect(isOASExpandable({ type: "string" })).toBe(false)
+      expect(isOASExpandable({ example: 1 })).toBe(true)
+      expect(isOASExpandable({ xml: { name: "pet" } })).toBe(true)
+      expect(isOASExpandable({ discriminator: { propertyName: "t" } })).toBe(
+        true
+      )
+      expect(isOASExpandable({ externalDocs: { url: "https://x.test" } })).toBe(
+        true
+      )
+      expect(isOASExpandable({ "x-extension": 1 })).toBe(true)
+      // `$$ref` is an OAS keyword, not an extension, as inside an instance
+      expect(isOASExpandable({ $$ref: "#/components/schemas/A" })).toBe(false)
+      expect(
+        render({ $$ref: "#/components/schemas/A" }).find("button")
+      ).toHaveLength(0)
+    })
+
     it("exposes the dialect helpers under fn.jsonSchemaUnified", () => {
       expect(plugin.fn.jsonSchemaUnified.getOASDialectOverrides).toBe(
         getOASDialectOverrides

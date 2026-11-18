@@ -68,7 +68,8 @@ export const withJSONSchemaContext = (
       getExtensionKeywords: makeGetExtensionKeywords(useFn),
       ...overrides.fn,
     },
-    state: { paths: {} },
+    // schema names are keys: `__proto__` or `constructor` must not find inherited members
+    state: { paths: Object.create(null) },
   } as JSONSchemaContextValue
 
   const HOC = (props: Record<string, unknown>) => (

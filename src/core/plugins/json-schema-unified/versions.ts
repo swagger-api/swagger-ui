@@ -23,7 +23,8 @@ export interface UnifiedDialectEntry {
  * Document version -> unified dialect, checked in order (newest first). A
  * document whose version has no entry (an undetected version) falls through
  * to the original Model/Models view. Supporting a new version is one entry
- * here (plus its dialect in `./dialects`).
+ * here, plus its dialect in `./dialects` and its schemas path in `./schemas`
+ * (`SCHEMAS_PATHS`).
  */
 export const UNIFIED_DIALECTS: ReadonlyArray<UnifiedDialectEntry> =
   Object.freeze([
