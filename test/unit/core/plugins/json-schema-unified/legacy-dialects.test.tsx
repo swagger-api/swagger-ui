@@ -235,7 +235,9 @@ describe("json-schema-unified OAS 2.0 / 3.0 dialects", () => {
       const values = (schema: Schema) =>
         stringifyLegacyConstraints(schema).map(({ value }) => value)
 
-      expect(values({ type: "number", ...bounds })).toEqual(expected)
+      expect(
+        values({ type: "number", ...bounds } as unknown as Schema)
+      ).toEqual(expected)
       for (const dialect of LEGACY) {
         expect(
           constraintsOf(
