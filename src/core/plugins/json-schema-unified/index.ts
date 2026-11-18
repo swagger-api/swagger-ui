@@ -17,7 +17,7 @@ import {
   getOASDialectOverrides,
   getOASSchemaKeywords,
   getOASProperties,
-  isOASExpandable,
+  makeIsOASExpandable,
 } from "./dialects"
 import { JSONSchemaPathContext, JSONSchemaLevelContext } from "./context"
 import {
@@ -53,6 +53,13 @@ const JSONSchemaUnifiedPlugin = ({ getSystem, fn }: PluginSystem) => {
     ({
       ...fn.jsonSchemaUnified,
     }) as JSONSchemaFn
+  // what an OAS instance's `useFn()` returns: the OAS keyword list decides
+  // which keywords are extensions
+  const oasFnAccessor = (): JSONSchemaFn => ({
+    ...fnAccessor(),
+    getSchemaKeywords: getOASSchemaKeywords,
+    getExtensionKeywords: makeGetExtensionKeywords(oasFnAccessor),
+  })
 
   const registeredComponents = Object.fromEntries(
     Object.entries(contextComponents).map(([contextName, component]) => [
@@ -96,7 +103,7 @@ const JSONSchemaUnifiedPlugin = ({ getSystem, fn }: PluginSystem) => {
         getOASDialectOverrides,
         getOASSchemaKeywords,
         getOASProperties,
-        isOASExpandable,
+        isOASExpandable: makeIsOASExpandable(oasFnAccessor),
       },
     },
   }

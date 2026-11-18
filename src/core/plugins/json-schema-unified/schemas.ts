@@ -91,7 +91,12 @@ export const selectSchemaEntries = (
       const resolvedSchema = resolved?.get(name)
       return [
         name,
-        toPlainSchema(ImMap.isMap(resolvedSchema) ? resolvedSchema : rawSchema),
+        toPlainSchema(
+          // a resolved boolean schema (`false`) is a value too
+          ImMap.isMap(resolvedSchema) || typeof resolvedSchema === "boolean"
+            ? resolvedSchema
+            : rawSchema
+        ),
       ]
     })
     .toArray()

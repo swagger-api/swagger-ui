@@ -15,6 +15,7 @@ import {
 } from "./components/keywords/oas/slots"
 import type {
   ComponentMap,
+  FnAccessor,
   GetProperties,
   JSONSchemaConfig,
   JSONSchemaFn,
@@ -104,24 +105,29 @@ export const getOASProperties: GetProperties = (
 }
 
 /**
- * 2020-12 `isExpandable` (computed with the instance's `fn`, so its keyword
- * list is the OAS one) or any OpenAPI keyword.
+ * 2020-12 `isExpandable` (computed with the `fn` the accessor returns, whose
+ * keyword list must be the OAS one) or any OpenAPI keyword.
  */
-const isExpandable2020 = makeIsExpandable(useFn)
+export const makeIsOASExpandable = (fnAccessor: FnAccessor) => {
+  const isExpandable2020 = makeIsExpandable(fnAccessor)
 
-export const isOASExpandable = (schema: Schema): boolean => {
-  const schemaObject = toSchemaObject(schema)
+  return (schema: Schema): boolean => {
+    const schemaObject = toSchemaObject(schema)
 
-  return (
-    isExpandable2020(schema) ||
-    hasKeyword(schema, "example") ||
-    Boolean(
-      schemaObject.xml ||
-        schemaObject.discriminator ||
-        schemaObject.externalDocs
+    return (
+      isExpandable2020(schema) ||
+      hasKeyword(schema, "example") ||
+      Boolean(
+        schemaObject.xml ||
+          schemaObject.discriminator ||
+          schemaObject.externalDocs
+      )
     )
-  )
+  }
 }
+
+/** For the instances: reads the instance's `fn` with a hook, so it renders only. */
+export const isOASExpandable = makeIsOASExpandable(useFn)
 
 /**
  * Returns the overrides for `withJSONSchemaUnifiedSystemContext(Component,

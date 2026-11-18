@@ -31,7 +31,10 @@ export interface SchemaItemProps {
  * it requests its resolved subtree and records the expansion in the layout
  * state at `[...schemasPath, schemaName]`; its element is the deep-link
  * scroll target of that key. The title carries `JumpToPath` with the schema's
- * spec path, as json-schema-5's model item does.
+ * spec path, as json-schema-5's model item does. The instance's own expansion
+ * state is keyed by the schema's name in the document (`identifier`), not by
+ * the name shown: that one changes when the resolved schema has a title, and
+ * two schemas can share a title.
  */
 const SchemaItem = React.memo(
   ({
@@ -80,6 +83,7 @@ const SchemaItem = React.memo(
         ref={handleRef}
         schema={schema}
         name={name}
+        identifier={schemaName}
         onExpand={handleExpand}
         titleAddon={JumpToPath ? <JumpToPath path={specPath} /> : null}
       />
