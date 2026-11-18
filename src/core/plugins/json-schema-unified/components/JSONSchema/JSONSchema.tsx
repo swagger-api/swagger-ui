@@ -40,6 +40,12 @@ export interface JSONSchemaProps {
   onExpand?: (event: unknown, expanded: boolean, deep: boolean) => void
   identifier?: string
   /**
+   * The `name` already holds the schema's title (a member of `allOf`,
+   * `oneOf`, ...: `#0 Base`), so the 2.0/3.0 dialects don't add it again next
+   * to the title.
+   */
+  nameHasTitle?: boolean
+  /**
    * Rendered at the top-right of the schema's panel, as json-schema-5's
    * `.models-jump-to-path` (the Schemas section passes each schema's
    * `JumpToPath`).
@@ -55,6 +61,7 @@ const JSONSchema = forwardRef(
       dependentRequired = [],
       onExpand = () => {},
       identifier = "",
+      nameHasTitle = false,
       jumpToPath = null,
     }: JSONSchemaProps,
     ref: React.Ref<HTMLElement>
@@ -205,7 +212,9 @@ const JSONSchema = forwardRef(
                     <KeywordTitle title={name} schema={schema} />
                   )}
                   <KeywordRefPath schema={schema} isTopLevel={level === 0} />
-                  <KeywordSchemaName schema={schema} name={name} />
+                  {!nameHasTitle && (
+                    <KeywordSchemaName schema={schema} name={name} />
+                  )}
                   <KeywordDeprecated schema={schema} />
                   <KeywordReadOnly schema={schema} />
                   <KeywordWriteOnly schema={schema} />

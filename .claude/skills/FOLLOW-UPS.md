@@ -80,7 +80,8 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     return skips the `processedSchemas.delete(schema)` at the end of the function, so a schema with such a
     `not` that is used twice (`prefixItems: [s, s]`) is taken for a cycle the second time. It changes OAS
     3.1/3.2 labels, so it needs its own PR; the json-schema-document plugin has its own narrower check
-    (`isUnrestricted`) and deletes the schema before it returns.
+    (`isUnrestricted`) and deletes the schema before it returns. The 2.0/3.0 copy
+    (`json-schema-unified/legacy.ts#getType`, 3.0 only, since 2.0 has no `not`) has the same early return.
 14. **The unified schema view shows no ref-derived names for nested schemas in OAS 3.1/3.2.** The
     Schema tab names its top-level schema from `$$ref` (`json-schema-unified/components/Model/Model.tsx`),
     but nested property and `items` schemas, and the reference path (`components/keywords/oas/RefPath.tsx`,
@@ -96,7 +97,9 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     reference, as json-schema-5's `getModelName` does. `other.yaml#/definitions/Foo` (2.0) or
     `other.yaml#/components/schemas/Foo` (3.0) renders the local `Foo` when one exists. It only
     happens when the resolver leaves an external ref in place (failed fetch, cycle, depth limit).
-    `getRefPath` already compares the document part to the document URL, so a fix is small.
+    `getRefPath` compares the document part to the document URL, but only to shorten what it shows.
+    Doing it for the lookup needs that URL to match the resolver's base in every setup (`url`, `spec`,
+    relative URLs, query strings); where it doesn't, recursive models would stop expanding.
 17. **Optional, only on client request: the unified schema view has no `JumpToPath` on nested `$ref`
     schemas.** Only each Schemas-section panel carries it (`json-schema-unified/components/Models/SchemaItem.tsx`).
     json-schema-5 also puts it on every nested `$ref` object (`json-schema-5/components/object-model.jsx`),
@@ -121,6 +124,14 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     `$$ref` is also set. The fix is `ori(...args.slice(1))` in a separate PR (it also makes the old
     renderer expand these refs in 2.0). Until then the unified view keeps its own lookup
     (`json-schema-unified/schemas.ts#findSchemaDefinition`); afterwards it could use `findDefinition`.
+19. **2.0/3.0: `nullable` shows a `| null` union even when the schema has no explicit `type`.**
+    `json-schema-unified/legacy.ts#getType` appends ` | null` to any composed or inferred type label when
+    `nullable` is `true`, so `{ oneOf: [{ type: string }], nullable: true }` reads `(string) | null`.
+    OAS 3.0.4 says `nullable` only takes effect when `type` is explicitly defined in the same Schema
+    Object. It stays lenient on purpose: json-schema-5 printed `nullable: true` for every schema
+    (`primitive-model.jsx`, `array-model.jsx`, `object-model.jsx`), and `allOf` with `nullable` is a
+    common idiom. Decide whether to follow the spec strictly, and if so how to show `nullable` on an
+    untyped schema.
 
 ## Open Work on the Skills
 

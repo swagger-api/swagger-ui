@@ -417,6 +417,90 @@ describe("json-schema-unified OAS 2.0 / 3.0 dialects", () => {
     })
   })
 
+  describe("readOnly / writeOnly through a reference left in place", () => {
+    const definitions: Record<string, Schema> = {
+      Secret: { type: "object", writeOnly: true },
+      Id: { type: "object", readOnly: true },
+      Plain: { type: "object" },
+    }
+    const findSchema = (name: string) => definitions[name] ?? null
+    const refs = {
+      swagger2: (name: string) => `#/definitions/${name}`,
+      oas30: (name: string) => `#/components/schemas/${name}`,
+    }
+    const names = (root: Element) =>
+      Array.from(
+        root.querySelectorAll(
+          '[data-keyword="properties"] > ul > li > [data-json-schema-unified]'
+        )
+      ).map((element) => element.getAttribute("data-schema-name"))
+    const schemaOf = (dialect: "swagger2" | "oas30") => ({
+      type: "object",
+      properties: {
+        id: { $ref: refs[dialect]("Id") },
+        secret: { $ref: refs[dialect]("Secret") },
+        plain: { $ref: refs[dialect]("Plain") },
+        missing: { $ref: refs[dialect]("Missing") },
+      },
+    })
+    const render = (
+      dialect: "swagger2" | "oas30",
+      options: OASDialectOptions
+    ) =>
+      renderExpanded(schemaOf(dialect), {
+        dialect,
+        options: { ...options, findSchema },
+      })
+
+    it.each(LEGACY)("%s hides what the definition marks", (dialect) => {
+      expect(
+        names(
+          render(dialect, { includeReadOnly: false, includeWriteOnly: false })
+        )
+      ).toEqual(["plain", "missing"])
+      expect(
+        names(
+          render(dialect, { includeReadOnly: false, includeWriteOnly: true })
+        )
+      ).toEqual(["secret", "plain", "missing"])
+      expect(
+        names(
+          render(dialect, { includeReadOnly: true, includeWriteOnly: false })
+        )
+      ).toEqual(["id", "plain", "missing"])
+      expect(
+        names(
+          render(dialect, { includeReadOnly: true, includeWriteOnly: true })
+        )
+      ).toEqual(["id", "secret", "plain", "missing"])
+    })
+
+    it.each(LEGACY)(
+      "%s lets the reference override the definition",
+      (dialect) => {
+        const root = renderExpanded(
+          {
+            type: "object",
+            properties: {
+              shown: { $ref: refs[dialect]("Id"), readOnly: false },
+              hidden: { $ref: refs[dialect]("Plain"), readOnly: true },
+            },
+          },
+          {
+            dialect,
+            options: {
+              includeReadOnly: false,
+              includeWriteOnly: true,
+              findSchema,
+            },
+          }
+        )
+
+        expect(names(root)).toEqual(["shown"])
+      }
+    )
+  })
+
   describe("nested schema names", () => {
     it.each([
       ["#/definitions/Category", "Category"],
@@ -479,6 +563,97 @@ describe("json-schema-unified OAS 2.0 / 3.0 dialects", () => {
         "#1 Extra",
       ])
     })
+
+    const memberHead = (root: Element, keywordName: string) =>
+      head(
+        keyword(root, keywordName).querySelector(
+          "li > [data-json-schema-unified]"
+        )
+      )
+
+    it.each([
+      ["swagger2", "allOf"],
+      ["oas30", "allOf"],
+      ["oas30", "oneOf"],
+      ["oas30", "anyOf"],
+    ] as const)("%s shows a %s member's title once", (dialect, keywordName) => {
+      const root = renderExpanded(
+        {
+          [keywordName]: [
+            { type: "object", $$ref: "#/components/schemas/Base" },
+          ],
+        },
+        { dialect }
+      )
+      const memberHeadElement = memberHead(root, keywordName)
+
+      expect(
+        memberHeadElement.querySelector("[data-json-schema-title]").textContent
+      ).toBe("#0 Base")
+      expect(
+        memberHeadElement.querySelector('[data-keyword="schemaName"]')
+      ).toBeNull()
+      expect(memberHeadElement.textContent).toBe(
+        "#0 Base#/components/schemas/Baseobject"
+      )
+    })
+
+    it("shows a member's own title once", () => {
+      const member = memberHead(
+        renderExpanded({
+          allOf: [
+            { type: "object", title: "extra", $$ref: "#/components/schemas/X" },
+          ],
+        }),
+        "allOf"
+      )
+
+      expect(member.querySelector("[data-json-schema-title]").textContent).toBe(
+        "#0 Extra"
+      )
+      expect(member.querySelector('[data-keyword="schemaName"]')).toBeNull()
+    })
+
+    it("adds nothing to a member without a title or a reference", () => {
+      const member = memberHead(
+        renderExpanded({ allOf: [{ type: "object" }] }),
+        "allOf"
+      )
+
+      expect(member.querySelector('[data-keyword="schemaName"]')).toBeNull()
+      expect(member.textContent).toBe("#0 object")
+    })
+
+    it("still names a property whose key only looks like a combiner member", () => {
+      const root = renderExpanded({
+        type: "object",
+        properties: {
+          "#01 Something": {
+            type: "object",
+            title: "something",
+            properties: { id: { type: "integer" } },
+          },
+        },
+      })
+
+      expect(
+        head(property(root, "#01 Something")).querySelector(
+          '[data-keyword="schemaName"]'
+        ).textContent
+      ).toBe("Something")
+    })
+
+    it.each(["oas31", "oas32"] as const)(
+      "%s shows no name next to a member",
+      (dialect) => {
+        const root = renderExpanded(
+          { allOf: [{ type: "object", $$ref: "#/components/schemas/Base" }] },
+          { dialect }
+        )
+
+        expect(root.querySelector('[data-keyword="schemaName"]')).toBeNull()
+      }
+    )
 
     it("keeps the 3.1 naming (title, $anchor, $id; no $$ref)", () => {
       expect(
