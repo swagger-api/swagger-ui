@@ -110,7 +110,7 @@ describe("json-schema-unified keywords", () => {
 
   describe("constraint", () => {
     const chips = (schema: unknown) =>
-      Array.from(
+      Array.from<Element>(
         render(schema)
           .getDOMNode()
           .querySelectorAll('[data-keyword="constraint"]')

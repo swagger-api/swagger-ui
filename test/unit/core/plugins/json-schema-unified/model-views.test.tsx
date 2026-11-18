@@ -415,7 +415,7 @@ describe("json-schema-unified Model / Models wrappers", () => {
     ] as const)(
       "renders the unified Schemas section for %s",
       (version, heading, names) => {
-        const root = renderModels(
+        const root: Element = renderModels(
           makeSystem(version, { unifiedJSONSchemaEnabled: true })
         )
           .getDOMNode()
@@ -435,7 +435,7 @@ describe("json-schema-unified Model / Models wrappers", () => {
     )
 
     it("renders JumpToPath with the spec path of every schema", () => {
-      const root = renderModels(
+      const root: HTMLElement = renderModels(
         makeSystem("3.1", { unifiedJSONSchemaEnabled: true })
       ).getDOMNode()
 
@@ -447,7 +447,7 @@ describe("json-schema-unified Model / Models wrappers", () => {
     })
 
     it("places JumpToPath at the top-right of each schema panel, outside its head", () => {
-      const root = renderModels(
+      const root: HTMLElement = renderModels(
         makeSystem("3.1", { unifiedJSONSchemaEnabled: true })
       ).getDOMNode()
       const panels = Array.from(
