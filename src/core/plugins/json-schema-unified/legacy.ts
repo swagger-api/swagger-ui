@@ -184,16 +184,21 @@ const getFragment = (ref: unknown): string | null => {
 }
 
 /**
- * The name a reference gives the schema it points to: the last token of its
- * JSON-pointer fragment, decoded (`#/definitions/Foo~1Bar` -> `Foo/Bar`).
- * Empty when the reference has no fragment or the pointer is empty.
+ * The name a reference gives the schema it points to, as json-schema-5 names
+ * models: what follows `#/definitions/` or `#/components/schemas/`, decoded
+ * (`#/definitions/Foo~1Bar` -> `Foo/Bar`; a pointer into a schema keeps its
+ * path: `#/definitions/A/properties/b` -> `A/properties/b`). Empty for any
+ * other reference, and when nothing follows the prefix.
  */
 export const getRefSchemaName = (ref: unknown): string => {
   const fragment = getFragment(ref)
-  if (!fragment) return ""
+  // Either prefix names a schema, whichever the dialect, as in json-schema-5.
+  const prefix = Object.values(LOCAL_REF_PREFIXES).find((candidate) =>
+    fragment?.startsWith(candidate)
+  )
+  if (!fragment || !prefix) return ""
 
-  const tokens = fragment.split("/")
-  return decodePointerToken(tokens[tokens.length - 1])
+  return decodePointerToken(fragment.slice(prefix.length))
 }
 
 /**

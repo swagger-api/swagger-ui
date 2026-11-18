@@ -49,8 +49,8 @@ export interface ModelProps {
 /**
  * The Schema tab's schema (copy of oas31's `OAS31Model`): the schema rendered
  * by `JSONSchemaUnified`, named after its `$$ref` (3.1/3.2) or, in the
- * 2.0/3.0 dialects, after its `title` or the last token of its `$$ref`, as
- * json-schema-5 names models; with an identifier derived from its spec path.
+ * 2.0/3.0 dialects, after its `title` or what follows the schemas prefix in
+ * its `$$ref`, as json-schema-5 names models; with an identifier derived from its spec path.
  * The enclosing instance (see `../../views`) carries the dialect,
  * readOnly/writeOnly flags and expansion depth.
  */

@@ -60,8 +60,10 @@ input widgets (`JsonSchemaForm`); and the OAS 2.0 scheme picker.
   2020-12 bounds do. A numeric `exclusive*` is ignored.
 - **Nullable.** 3.0 `nullable: true` appends ` | null` to the type, as a 2020-12
   `type: [X, "null"]` reads.
-- **Nested names (2.0/3.0 only).** `getTitle` falls back from `title` to the last token of
-  `$$ref` (then `$ref`), percent- and `~1`/`~0`-decoded, empty for an empty pointer, as
+- **Nested names (2.0/3.0 only).** `getTitle` falls back from `title` to what follows
+  `#/definitions/` or `#/components/schemas/` in `$$ref` (then `$ref`),
+  percent- and `~1`/`~0`-decoded, so `#/definitions/A/properties/b` is named `A/properties/b`.
+  A reference that points elsewhere, or has nothing after the prefix, gets no name, as
   json-schema-5 names models. It applies wherever the renderer titles a schema itself (Schema tab
   root, combiner members). A property or `items` keeps its own label and shows the nested
   schema's name next to it, collapsed or expanded (`data-keyword="schemaName"`, json-schema-5's
