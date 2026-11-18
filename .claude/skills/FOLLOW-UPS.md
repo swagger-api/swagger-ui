@@ -97,6 +97,30 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     `other.yaml#/components/schemas/Foo` (3.0) renders the local `Foo` when one exists. It only
     happens when the resolver leaves an external ref in place (failed fetch, cycle, depth limit).
     `getRefPath` already compares the document part to the document URL, so a fix is small.
+17. **Optional, only on client request: the unified schema view has no `JumpToPath` on nested `$ref`
+    schemas.** Only each Schemas-section panel carries it (`json-schema-unified/components/Models/SchemaItem.tsx`).
+    json-schema-5 also puts it on every nested `$ref` object (`json-schema-5/components/object-model.jsx`),
+    with the usage-site spec path (`properties,<key>`, `additionalProperties`, `allOf,<i>`, ...); the
+    3.1/3.2 renderers never had it. Core `JumpToPath` renders nothing, so only plugins that override
+    it notice (SwaggerEditor jumps to the line). No community request so far (swagger-ui #9380 is
+    maintainer-filed). If a client asks:
+    - A plugin can already add it without changes here: wrap `JSONSchemaUnified` and pass its
+      `jumpToPath` prop for a schema with a local `$$ref`/`$ref`, pointing at the referenced
+      definition. Document that prop as an extension point first.
+    - The usage-site path needs per-keyword spec-path tracking in the unified renderer (it only tracks
+      an expansion path), shared by all four dialects, plus 3.1/3.2 keywords (`prefixItems`,
+      `patternProperties`, `$defs`, ...).
+    - The `jumpToPath` slot is styled for the panel's top-right corner; nested schemas may need a
+      title-row slot.
+18. **Core: `specSelectors.findDefinition` returns `null` for a 2.0 document when the oas3 plugin is
+    loaded.** `onlyOAS3` (`oas3/spec-extensions/wrap-selectors.js`) falls back with `ori(...args)`, but
+    `args` still starts with the state while `ori` is already bound to it, so the original selector
+    receives the state as the schema name. 3.0 works, since it goes through `findSchema`;
+    `findDefinition` is the only affected `onlyOAS3`-wrapped selector. The old renderer shows a
+    left-in-place `$ref` in a 2.0 document as the raw `$ref` text, or as an empty expandable object when
+    `$$ref` is also set. The fix is `ori(...args.slice(1))` in a separate PR (it also makes the old
+    renderer expand these refs in 2.0). Until then the unified view keeps its own lookup
+    (`json-schema-unified/schemas.ts#findSchemaDefinition`); afterwards it could use `findDefinition`.
 
 ## Open Work on the Skills
 
