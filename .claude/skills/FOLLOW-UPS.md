@@ -132,6 +132,15 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     (`primitive-model.jsx`, `array-model.jsx`, `object-model.jsx`), and `allOf` with `nullable` is a
     common idiom. Decide whether to follow the spec strictly, and if so how to show `nullable` on an
     untyped schema.
+20. **2.0/3.0: in an operation's Schema tab, a `$ref` left in place that points at an alias schema shows a
+    reference row, not its properties.** The Schemas section is not affected: both renderers expand it
+    there. `json-schema-unified/legacy.ts#getLazyRef` looks up one level: the definition of the name. When
+    that definition is only another `$ref` (`Alias: { $ref: "#/components/schemas/Test1" }`), the merged
+    schema keeps that `$ref` and its properties never show. Example: a request body `$ref: Alias`, where
+    `Test1.b` refers to `Alias` again: `b` shows `Alias`, `object` and a `$ref` row to `Test1`.
+    json-schema-5 has the same gap in that tab and shows an empty `{ }`. A fix follows the chain with a
+    visited set (cycle guard), tracks every name of the chain in the expansion guard
+    (`hooks.ts#useLazyRef`, `lazyRefs`), and needs a recursive-alias test.
 
 ## Open Work on the Skills
 

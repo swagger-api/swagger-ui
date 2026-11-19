@@ -4,6 +4,7 @@
 import React from "react"
 import { mount } from "enzyme"
 import { fromJS } from "immutable"
+import isPlainObject from "lodash/isPlainObject"
 
 import Markdown from "core/components/providers/markdown"
 import JSONSchema from "core/plugins/json-schema-unified/components/JSONSchema/JSONSchema"
@@ -740,6 +741,71 @@ describe("json-schema-unified OAS 2.0 / 3.0 dialects", () => {
     )
 
     it.each(LEGACY)(
+      "%s describes the title button by the tooltip",
+      (dialect) => {
+        const root = renderExpanded(schema, {
+          dialect,
+          options: { getDocumentUrl: () => "http://example.com/doc.yaml" },
+        })
+        const describedBy = (name: string) => {
+          const tooltip = refPath(root, name)
+          const button = toggle(property(root, name))
+          return [
+            tooltip.getAttribute("id"),
+            button.getAttribute("aria-describedby"),
+          ]
+        }
+        const [categoryTooltip, categoryButton] = describedBy("category")
+        const [externalTooltip, externalButton] = describedBy("external")
+
+        expect(categoryTooltip).toMatch(/^sui-ref-/)
+        expect(categoryButton).toBe(categoryTooltip)
+        expect(externalButton).toBe(externalTooltip)
+        expect(externalTooltip).not.toBe(categoryTooltip)
+        // without a reference path there is nothing to describe it by
+        expect(
+          toggle(property(root, "plain")).hasAttribute("aria-describedby")
+        ).toBe(false)
+      }
+    )
+
+    it.each(LEGACY)(
+      "%s keeps the tooltip ids apart and free of spaces",
+      (dialect) => {
+        const named = (name: string) => ({
+          type: "object",
+          properties: { id: { type: "integer" } },
+          $$ref: `http://example.com/doc.yaml#/definitions/${name}`,
+        })
+        const root = renderExpanded(
+          {
+            type: "object",
+            properties: {
+              "a b": named("A"),
+              // eslint-disable-next-line camelcase
+              a_b: named("B"),
+              "a,b": named("C"),
+            },
+          },
+          { dialect }
+        )
+        const ids = ["a b", "a_b", "a,b"].map((name) =>
+          refPath(root, name).getAttribute("id")
+        )
+
+        expect(new Set(ids).size).toBe(3)
+        ids.forEach((id) => expect(id).not.toMatch(/\s/))
+        ids.forEach((id, index) =>
+          expect(
+            toggle(property(root, ["a b", "a_b", "a,b"][index])).getAttribute(
+              "aria-describedby"
+            )
+          ).toBe(id)
+        )
+      }
+    )
+
+    it.each(LEGACY)(
       "%s places a top-level schema's tooltip closer to its title",
       (dialect) => {
         const root = render(
@@ -884,6 +950,36 @@ describe("json-schema-unified OAS 2.0 / 3.0 dialects", () => {
       expect(
         mergeLazyRef({ type: "object" }, { $ref: "#/a", $$ref: "#/b" }).$$ref
       ).toBe("#/b")
+    })
+
+    it("keeps a __proto__ property when it merges the reference's siblings", () => {
+      const definition = {
+        type: "object",
+        properties: { a: { type: "string" } },
+      }
+      // JSON.parse makes `__proto__` an own key, as a parsed document does
+      const siblings = JSON.parse(
+        '{"$ref":"#/components/schemas/Base","properties":{"__proto__":{"type":"string"},"b":{}}}'
+      )
+      const merged = mergeLazyRef(definition, siblings) as {
+        properties: Record<string, unknown>
+      }
+
+      expect(Object.keys(merged.properties)).toEqual(["a", "__proto__", "b"])
+      expect(isPlainObject(merged.properties)).toBe(true)
+
+      const root = renderExpanded(siblings, {
+        options: {
+          findSchema: (name) => (name === "Base" ? definition : null),
+        },
+      })
+      const names = Array.from<Element>(
+        root.querySelectorAll(
+          '[data-keyword="properties"] > ul > li > [data-json-schema-unified]'
+        )
+      ).map((element) => element.getAttribute("data-schema-name"))
+
+      expect(names).toEqual(["a", "__proto__", "b"])
     })
 
     it("stays expandable level after level", () => {

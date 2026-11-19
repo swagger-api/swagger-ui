@@ -90,6 +90,13 @@ const JSONSchema = forwardRef(
       : renderedOnBranch
     const constraints = fn.stringifyConstraints(schema)
     const renderedTitle = name || fn.getTitle(schema)
+    // the tooltip exists only with a reference path; the title button is
+    // described by it. The path is unique within an instance (the expansion
+    // state relies on it) and encoded, as an id can't hold spaces.
+    const refTooltipId =
+      typeof fn.getRefPath === "function" && fn.getRefPath(schema)
+        ? `sui-ref-${encodeURIComponent(path.toString())}`
+        : undefined
     const Accordion = useComponent("Accordion")
     const Keyword$schema = useComponent("Keyword$schema")
     const Keyword$vocabulary = useComponent("Keyword$vocabulary")
@@ -200,6 +207,7 @@ const JSONSchema = forwardRef(
                       <Accordion
                         expanded={isExpanded}
                         onChange={handleExpansion}
+                        describedBy={refTooltipId}
                       >
                         <KeywordTitle title={name} schema={schema} />
                       </Accordion>
@@ -211,7 +219,11 @@ const JSONSchema = forwardRef(
                   ) : (
                     <KeywordTitle title={name} schema={schema} />
                   )}
-                  <KeywordRefPath schema={schema} isTopLevel={level === 0} />
+                  <KeywordRefPath
+                    schema={schema}
+                    isTopLevel={level === 0}
+                    id={refTooltipId}
+                  />
                   {!nameHasTitle && (
                     <KeywordSchemaName schema={schema} name={name} />
                   )}

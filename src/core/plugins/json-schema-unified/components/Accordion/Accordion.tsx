@@ -26,12 +26,14 @@ const ACCORDION_ICON = {
 export interface AccordionProps {
   expanded?: boolean
   children: React.ReactNode
+  describedBy?: string
   onChange: (event: unknown, expandedNew: boolean) => void
 }
 
 const Accordion = ({
   expanded = false,
   children,
+  describedBy,
   onChange,
 }: AccordionProps) => {
   const ChevronRightIcon = useComponent("ChevronRightIcon")
@@ -48,6 +50,7 @@ const Accordion = ({
       type="button"
       className={ACCORDION}
       aria-expanded={expanded}
+      aria-describedby={describedBy}
       data-expanded={expanded ? "true" : "false"}
       onClick={handleExpansion}
     >

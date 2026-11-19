@@ -11,6 +11,7 @@ import type { KeywordProps } from "../../../types"
 export interface RefPathProps extends KeywordProps {
   /** A top-level schema's tooltip sits closer to its title. */
   isTopLevel?: boolean
+  id?: string
 }
 
 /**
@@ -19,7 +20,7 @@ export interface RefPathProps extends KeywordProps {
  * collapsed or expanded, hidden until the title is hovered or focused. Only
  * the 2.0/3.0 dialects set `fn.getRefPath`; other instances render nothing.
  */
-const RefPath = ({ schema, isTopLevel = false }: RefPathProps) => {
+const RefPath = ({ schema, isTopLevel = false, id }: RefPathProps) => {
   const fn = useFn()
   const refPath =
     typeof fn.getRefPath === "function" ? fn.getRefPath(schema) : ""
@@ -28,6 +29,7 @@ const RefPath = ({ schema, isTopLevel = false }: RefPathProps) => {
 
   return (
     <span
+      id={id}
       role="tooltip"
       className={classNames(
         REF_TOOLTIP.base,
