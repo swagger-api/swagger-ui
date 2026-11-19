@@ -1,0 +1,14 @@
+openapi: 3.0.3
+info:
+  title: Editing an open schema (external reference)
+  version: "1"
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petName:
+          type: string
+        owner:
+          $ref: "edit-open-schema.owner.yaml#/Owner"

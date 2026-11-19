@@ -1,0 +1,19 @@
+openapi: 3.1.0
+info:
+  title: Editing an open schema
+  version: "1"
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petName:
+          type: string
+        owner:
+          $ref: "#/components/schemas/Owner"
+    Owner:
+      type: object
+      properties:
+        ownerName:
+          type: string

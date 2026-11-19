@@ -75,12 +75,14 @@ const SchemaItem = React.memo(
       [schemaPath, specSelectors, specActions, layoutActions]
     )
 
-    // shown from outside (`layoutActions.show`): the click path's request
+    // a schema that is shown but not resolved asks for its subtree: when it is
+    // shown from outside (`layoutActions.show`), and again when an edit of the
+    // spec replaces it (the resolved subtrees are cleared then)
     useEffect(() => {
       if (isShown && specSelectors.specResolvedSubtree(schemaPath) == null) {
         specActions.requestResolvedSubtree(schemaPath)
       }
-    }, [isShown, schemaPath, specSelectors, specActions])
+    }, [isShown, schema, schemaPath, specSelectors, specActions])
 
     const handleRef = useCallback(
       (node: HTMLElement) => {
