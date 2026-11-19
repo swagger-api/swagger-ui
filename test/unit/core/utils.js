@@ -1548,17 +1548,6 @@ describe("utils", () => {
   })
 
   describe("buildUrl", () => {
-    const { location } = window
-    beforeAll(() => {
-      delete window.location
-      window.location = {
-        href: "http://localhost/",
-      }
-    })
-    afterAll(() => {
-      window.location = location
-    })
-
     const specUrl = "https://petstore.swagger.io/v2/swagger.json"
 
     const noUrl = ""
@@ -1623,17 +1612,6 @@ describe("utils", () => {
   })
 
   describe("safeBuildUrl", () => {
-    const { location } = window
-    beforeAll(() => {
-      delete window.location
-      window.location = {
-        href: "http://localhost/",
-      }
-    })
-    afterAll(() => {
-      window.location = location
-    })
-
     const specUrl = "https://petstore.swagger.io/v2/swagger.json"
 
     const noUrl = ""
