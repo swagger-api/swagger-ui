@@ -178,6 +178,7 @@ const Models = ({
         schema={schema as SchemaItemProps["schema"]}
         name={name}
         schemasPath={schemasPath}
+        isShown={layoutSelectors.isShown([...schemasPath, schemaName])}
         specSelectors={specSelectors}
         specActions={specActions}
         layoutActions={layoutActions}
