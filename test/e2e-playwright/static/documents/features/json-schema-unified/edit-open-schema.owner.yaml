@@ -1,0 +1,5 @@
+Owner:
+  type: object
+  properties:
+    ownerName:
+      type: string

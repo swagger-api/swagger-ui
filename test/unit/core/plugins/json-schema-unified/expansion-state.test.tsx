@@ -244,6 +244,44 @@ describe("json-schema-unified expansion state", () => {
       expect(resolved.specActions.requestResolvedSubtree).not.toHaveBeenCalled()
     })
 
+    it("requests the resolved subtree again when an edit replaces the schema", () => {
+      const { specSelectors, specActions } = resolve()
+      const props = makeProps(makeInstance(), { specSelectors, specActions })
+      const wrapper = mount(
+        <SchemaItem
+          {...props}
+          schemaName="Pet"
+          name="Pet"
+          schema={schema}
+          isShown
+        />
+      )
+      expect(specActions.requestResolvedSubtree).toHaveBeenCalledTimes(1)
+
+      // same schema again: nothing to ask for
+      wrapper.setProps({ name: "Pet again" })
+      expect(specActions.requestResolvedSubtree).toHaveBeenCalledTimes(1)
+
+      wrapper.setProps({ schema: { ...schema, description: "edited" } })
+      expect(specActions.requestResolvedSubtree).toHaveBeenCalledTimes(2)
+
+      // a shown schema that is resolved does not ask again after an edit
+      const resolved = makeProps(makeInstance(), {
+        specActions: { requestResolvedSubtree: jest.fn() },
+      })
+      const other = mount(
+        <SchemaItem
+          {...resolved}
+          schemaName="Pet"
+          name="Pet"
+          schema={schema}
+          isShown
+        />
+      )
+      other.setProps({ schema: { ...schema, description: "edited" } })
+      expect(resolved.specActions.requestResolvedSubtree).not.toHaveBeenCalled()
+    })
+
     it("writes the layout on a click and stays consistent when it comes back", () => {
       const show = jest.fn()
       const props = makeProps(makeInstance(), {
