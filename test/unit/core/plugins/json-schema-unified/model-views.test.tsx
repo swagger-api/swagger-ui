@@ -3,6 +3,7 @@
  */
 import React from "react"
 import { mount } from "enzyme"
+import { act } from "react-dom/test-utils"
 import { Provider } from "react-redux"
 import { fromJS, List } from "immutable"
 import noop from "lodash/noop"
@@ -545,6 +546,41 @@ describe("json-schema-unified Model / Models wrappers", () => {
           root.querySelector("[data-json-schema-unified-models]")
         ).toBeNull()
         expect(root.querySelector("section.models")).not.toBeNull()
+      }
+    )
+  })
+
+  describe("a schema shown with layoutActions.show", () => {
+    it.each(["2.0", "3.0", "3.1", "3.2"] as const)(
+      "%s expands and collapses it, and gives its element its id",
+      (version) => {
+        const system = makeSystem(version, { unifiedJSONSchemaEnabled: true })
+        const wrapper = renderModels(system)
+        const { layoutActions } = system.getSystem()
+        const key = [
+          ...(version === "2.0" ? ["definitions"] : ["components", "schemas"]),
+          "Pet",
+        ]
+        const pet = () =>
+          wrapper
+            .update()
+            .getDOMNode()
+            .querySelector(
+              '[data-json-schema-unified][data-json-schema-level="0"][data-schema-name="Pet"]'
+            )
+
+        expect(pet().getAttribute("data-expanded")).toBe("false")
+        expect(pet().getAttribute("id")).toBe("model-Pet")
+
+        act(() => {
+          layoutActions.show(key, true)
+        })
+        expect(pet().getAttribute("data-expanded")).toBe("true")
+
+        act(() => {
+          layoutActions.show(key, false)
+        })
+        expect(pet().getAttribute("data-expanded")).toBe("false")
       }
     )
   })

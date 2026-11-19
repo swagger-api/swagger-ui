@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { forwardRef, useCallback } from "react"
+import React, { forwardRef, useCallback, useEffect } from "react"
 import classNames from "classnames"
 
 import {
@@ -46,6 +46,15 @@ export interface JSONSchemaProps {
    */
   nameHasTitle?: boolean
   /**
+   * The expansion the schema is driven to, when it changes or at mount (the
+   * Schemas section passes what `layoutActions.show` stored for it); undefined
+   * leaves the expansion to the config. A change made here does not call
+   * `onExpand`.
+   */
+  expanded?: boolean
+  /** The `id` of the schema's element. */
+  id?: string
+  /**
    * Rendered at the top-right of the schema's panel, as json-schema-5's
    * `.models-jump-to-path` (the Schemas section passes each schema's
    * `JumpToPath`).
@@ -62,6 +71,8 @@ const JSONSchema = forwardRef(
       onExpand = () => {},
       identifier = "",
       nameHasTitle = false,
+      expanded,
+      id,
       jumpToPath = null,
     }: JSONSchemaProps,
     ref: React.Ref<HTMLElement>
@@ -146,6 +157,15 @@ const JSONSchema = forwardRef(
     const ExtensionKeywords = useComponent("ExtensionKeywords")
     const ExpandDeepButton = useComponent("ExpandDeepButton")
 
+    useEffect(() => {
+      if (expanded === undefined || expanded === isExpanded) return
+      if (expanded) {
+        setExpanded()
+      } else {
+        setCollapsed()
+      }
+    }, [expanded])
+
     /**
      * Event handlers.
      */
@@ -179,6 +199,7 @@ const JSONSchema = forwardRef(
             <JSONSchemaLazyRefsContext.Provider value={lazyRef.lazyRefs}>
               <article
                 ref={ref}
+                id={id}
                 data-json-schema-unified=""
                 data-json-schema-level={level}
                 data-schema-name={

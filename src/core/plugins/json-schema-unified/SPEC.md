@@ -122,6 +122,10 @@ input widgets (`JsonSchemaForm`); and the OAS 2.0 scheme picker.
     `showExtensions` configs;
   - virtualization thresholds (`core/utils/virtualization`);
   - deep-link scroll, including into virtualized lists;
+  - a schema of the Schemas section follows `layoutActions.show` for its key (`["definitions", name]`
+    in 2.0, `["components", "schemas", name]` in 3.x), as in json-schema-5: the layout state is read
+    for the root of each item only, and `undefined` (nothing stored) leaves the config's depth
+    settings in charge. Its element has the id `model-<name>`, as json-schema-5's model item does;
   - `JumpToPath` at the top-right of each Schemas-section panel (json-schema-5's
     `.models-jump-to-path`; `data-jump-to-path`). Nested references get none (confirmed).
 - **Error isolation.** Each view is wrapped in `fn.withErrorBoundary`. Its outermost wrapper
