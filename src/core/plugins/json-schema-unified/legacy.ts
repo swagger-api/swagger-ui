@@ -228,7 +228,11 @@ export const getLocalRefName = (
 const mergeSchemas = (base: unknown, overlay: unknown): unknown => {
   if (!isPlainObject(base) || !isPlainObject(overlay)) return overlay
 
-  const merged: Record<string, unknown> = { ...base }
+  // prototype-free: a property named `__proto__` must stay a plain key
+  const merged: Record<string, unknown> = Object.assign(
+    Object.create(null),
+    base
+  )
   Object.entries(overlay).forEach(([key, value]) => {
     if (
       key === "required" &&

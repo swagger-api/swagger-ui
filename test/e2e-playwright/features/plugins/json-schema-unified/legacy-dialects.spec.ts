@@ -286,9 +286,7 @@ test.describe("Unified JSON Schema: OpenAPI 2.0 keywords", () => {
     await expect(discriminator).not.toHaveAttribute("data-expanded")
   })
 
-  test("does not render oneOf, const or nullable as keywords", async ({
-    page,
-  }) => {
+  test("does not render oneOf or const as keywords", async ({ page }) => {
     await page.goto(url)
     const mixed = topLevelSchema(page, "Mixed")
     await mixed.getByRole("button", { name: "Expand all" }).first().click()
