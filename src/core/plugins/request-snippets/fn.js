@@ -150,7 +150,7 @@ const curlify = (request, escape, newLine, ext = "") => {
   } else if (!body && request.get("method") === "POST") {
     addNewLine()
     addIndent()
-    addWordsWithoutLeadingSpace("-d ''")
+    addWordsWithoutLeadingSpace("-d", "")
   }
 
   return curlified
