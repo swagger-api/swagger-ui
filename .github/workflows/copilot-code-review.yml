@@ -1,0 +1,50 @@
+name: Copilot code review (codeowners only)
+
+# pull_request_target is used so the token can request reviewers on fork PRs.
+# This workflow never checks out or executes PR code.
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+
+permissions: {}
+
+jobs:
+  request-copilot-review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Request Copilot review if author is a codeowner
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        # Runs bash with -eo pipefail so a failed API call fails the job instead of silently skipping.
+        shell: bash
+        run: |
+          # Read CODEOWNERS from the base branch, not from the PR.
+          # ref is passed as a parameter so the branch name is URL-encoded by gh.
+          owners=$(gh api -X GET "repos/${REPO}/contents/.github/CODEOWNERS" -f ref="${BASE_REF}" --jq '.content' \
+            | base64 -d \
+            | sed 's/#.*//' \
+            | grep -oE '@[A-Za-z0-9_.-]+' \
+            | tr -d '@' \
+            | tr 'A-Z' 'a-z')
+
+          author=$(echo "${AUTHOR}" | tr 'A-Z' 'a-z')
+
+          # Here-string instead of a pipe: with pipefail, `grep -q` exiting early can SIGPIPE `echo`.
+          if grep -Fqx -- "${author}" <<< "${owners}"; then
+            echo "${AUTHOR} is a codeowner, requesting Copilot review"
+            gh api -X POST "repos/${REPO}/pulls/${PR_NUMBER}/requested_reviewers" \
+              -f 'reviewers[]=copilot-pull-request-reviewer[bot]'
+          else
+            echo "${AUTHOR} is not a codeowner, skipping Copilot review"
+          fi
