@@ -56,13 +56,13 @@ import afterLoad from "./after-load"
  * - query operation: QUERY HTTP method support
  * - additionalOperations: Custom HTTP methods support
  * - info.summary: Short summary field in Info Object
+ * - itemSchema: Media Type schema for each item of sequential media types
  *
  * Additional features (not yet implemented):
  * - $self: Self-referencing URI for base URI resolution
  * - mediaTypes in Components: Reusable Media Type Objects
  * - Tag enhancements (summary, kind, parent)
  * - querystring parameter location
- * - itemSchema for streaming responses
  */
 const OAS32Plugin = ({ fn }) => {
   const createSystemSelector = fn.createSystemSelector || createSystemSelectorFn
