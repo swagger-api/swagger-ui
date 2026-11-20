@@ -86,6 +86,7 @@ const OneOf = ({ schema }: KeywordProps) => {
                   <li key={`#${index}`} className={PROPERTY}>
                     <JSONSchema
                       name={`#${index} ${fn.getTitle(schema)}`}
+                      nameHasTitle
                       schema={schema}
                     />
                   </li>

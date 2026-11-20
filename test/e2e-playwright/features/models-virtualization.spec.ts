@@ -5,8 +5,6 @@ import { test, expect } from "../support/fixtures"
 import type { SchemaLocators } from "../support/fixtures"
 import type { Locator } from "@playwright/test"
 
-const isOpen = /(^|\s)is-open(\s|$)/
-
 // Real scrolling of the virtualized list: set scrollTop on the scroll
 // container (as the Cypress spec did), which fires native scroll events.
 async function scrollTo(scrollContainer: Locator, position: "bottom" | "top") {
@@ -26,10 +24,11 @@ test.describe("Models list virtualization", () => {
   test.describe("non-virtualized path — below threshold (OpenAPI 2.0)", () => {
     test("renders all model-container elements without a scroll wrapper", async ({
       page,
+      schemaUi,
     }) => {
       await page.goto("/?url=/documents/features/models.swagger.yaml")
-      await expect(page.locator(".models-scroll")).toHaveCount(0)
-      await expect(page.locator(".model-container")).toHaveCount(3)
+      await expect(schemaUi.modelsScroll()).toHaveCount(0)
+      await expect(schemaUi.modelContainer()).toHaveCount(3)
     })
   })
 
@@ -38,107 +37,108 @@ test.describe("Models list virtualization", () => {
 
     test("renders a scroll wrapper and mounts only a windowed subset", async ({
       page,
+      schemaUi,
     }) => {
       await page.goto(baseUrl)
-      await expect(page.locator(".models-scroll")).toBeAttached()
+      await expect(schemaUi.modelsScroll()).toBeAttached()
       await expect
-        .poll(() => page.locator(".model-container").count())
+        .poll(() => schemaUi.modelContainer().count())
         .toBeLessThan(240)
     })
 
-    test("section header collapse and expand still works", async ({ page }) => {
+    test("section header collapse and expand still works", async ({
+      page,
+      schemaUi,
+    }) => {
       await page.goto(baseUrl)
-      await expect(page.locator(".models")).toHaveClass(isOpen)
-      await page.locator(".models h4 .models-control").click()
-      await expect(page.locator(".models")).not.toHaveClass(isOpen)
-      await expect(page.locator(".models-scroll")).toHaveCount(0)
-      await page.locator(".models h4 .models-control").click()
-      await expect(page.locator(".models")).toHaveClass(isOpen)
-      await expect(page.locator(".models-scroll")).toBeAttached()
+      await schemaUi.expectModelsOpen(true)
+      await schemaUi.modelsControl().click()
+      await schemaUi.expectModelsOpen(false)
+      await expect(schemaUi.modelsScroll()).toHaveCount(0)
+      await schemaUi.modelsControl().click()
+      await schemaUi.expectModelsOpen(true)
+      await expect(schemaUi.modelsScroll()).toBeAttached()
     })
 
     test("scrolling renders new items and unmounts old ones", async ({
       page,
+      schemaUi,
     }) => {
       await page.goto(baseUrl)
-      await expect(page.locator(".models-scroll")).toBeAttached()
-      await expect(page.locator("#model-PerfModel001")).toBeAttached()
+      await expect(schemaUi.modelsScroll()).toBeAttached()
+      await expect(schemaUi.model("PerfModel001")).toBeAttached()
 
-      await scrollTo(page.locator(".models-scroll"), "bottom")
-      await expect(page.locator("#model-PerfModel001")).toHaveCount(0)
-      await expect(page.locator("#model-PerfModel240")).toBeAttached()
+      await scrollTo(schemaUi.modelsScroll(), "bottom")
+      await expect(schemaUi.model("PerfModel001")).toHaveCount(0)
+      await expect(schemaUi.model("PerfModel240")).toBeAttached()
       await expect
-        .poll(() => page.locator(".model-container").count())
+        .poll(() => schemaUi.modelContainer().count())
         .toBeLessThan(240)
     })
 
     test("expanded model state is preserved when scrolled out of view and back", async ({
       page,
+      schemaUi,
     }) => {
+      const model = schemaUi.model("PerfModel001")
       await page.goto(baseUrl)
       // expand first visible model
-      await expect(page.locator(".models-scroll")).toBeAttached()
+      await expect(schemaUi.modelsScroll()).toBeAttached()
       await expect(
-        page.locator("#model-PerfModel001 span.inner-object")
+        schemaUi.modelContent(model, "span.inner-object")
       ).toHaveCount(0)
-      await page.locator("#model-PerfModel001 .model-box-control").click()
+      await schemaUi.modelToggle(model, ".model-box-control").click()
       await expect(
-        page.locator("#model-PerfModel001 span.inner-object")
+        schemaUi.modelContent(model, "span.inner-object")
       ).toBeAttached()
 
-      await scrollTo(page.locator(".models-scroll"), "bottom")
+      await scrollTo(schemaUi.modelsScroll(), "bottom")
       // replaces cy.wait(200): wait until the first model is actually unmounted
-      await expect(page.locator("#model-PerfModel001")).toHaveCount(0)
-      await scrollTo(page.locator(".models-scroll"), "top")
-      await expect(page.locator("#model-PerfModel001")).toBeAttached()
+      await expect(model).toHaveCount(0)
+      await scrollTo(schemaUi.modelsScroll(), "top")
+      await expect(model).toBeAttached()
 
       await expect(
-        page.locator("#model-PerfModel001 span.inner-object")
+        schemaUi.modelContent(model, "span.inner-object")
       ).toBeAttached()
     })
 
     test("expanded nested property state is preserved when scrolled out of view and back", async ({
       page,
+      schemaUi,
     }) => {
+      const model = schemaUi.model("PerfModel001")
+      const innerObject = schemaUi.modelContent(model, "span.inner-object")
+      const expandedProperty = schemaUi.modelContent(innerObject, ".prop-type")
       await page.goto(baseUrl)
-      await page
-        .locator("#model-PerfModel001 .model-box-control")
+      await schemaUi.modelToggle(model, ".model-box-control").first().click()
+      await expect(innerObject).toBeAttached()
+      await expect(expandedProperty).toHaveCount(0)
+      await schemaUi
+        .nestedModelToggle(innerObject, ".model-box-control")
         .first()
         .click()
-      await expect(
-        page.locator("#model-PerfModel001 span.inner-object")
-      ).toBeAttached()
-      await expect(
-        page.locator("#model-PerfModel001 span.inner-object .prop-type")
-      ).toHaveCount(0)
-      await page
-        .locator("#model-PerfModel001 span.inner-object .model-box-control")
-        .first()
-        .click()
-      await expect(
-        page.locator("#model-PerfModel001 span.inner-object .prop-type")
-      ).toBeAttached()
+      await expect(expandedProperty).toBeAttached()
 
-      await scrollTo(page.locator(".models-scroll"), "bottom")
+      await scrollTo(schemaUi.modelsScroll(), "bottom")
       // replaces cy.wait(200): wait until the first model is actually unmounted
-      await expect(page.locator("#model-PerfModel001")).toHaveCount(0)
-      await scrollTo(page.locator(".models-scroll"), "top")
-      await expect(page.locator("#model-PerfModel001")).toBeAttached()
+      await expect(model).toHaveCount(0)
+      await scrollTo(schemaUi.modelsScroll(), "top")
+      await expect(model).toBeAttached()
 
-      await expect(
-        page.locator("#model-PerfModel001 span.inner-object .prop-type")
-      ).toBeAttached()
+      await expect(expandedProperty).toBeAttached()
     })
   })
 
   test.describe("virtualized path — above threshold (OpenAPI 3.0)", () => {
     test("renders a scroll wrapper and mounts only a windowed subset", async ({
       page,
+      schemaUi,
     }) => {
       await page.goto("/?url=/documents/perf/many-schemas.openapi.yaml")
-      await expect(page.locator(".models-scroll")).toBeAttached()
+      await expect(schemaUi.modelsScroll()).toBeAttached()
       await expect
-        .poll(() => page.locator(".model-container").count())
+        .poll(() => schemaUi.modelContainer().count())
         .toBeLessThan(240)
     })
   })

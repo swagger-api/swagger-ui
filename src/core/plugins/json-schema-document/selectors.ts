@@ -10,7 +10,7 @@ import {
   isUnsupportedJSONSchemaDocument as isUnsupportedJSONSchemaDocumentFn,
 } from "./fn"
 
-interface System {
+export interface System {
   specSelectors: {
     specJson: () => Map<string, unknown>
     jsonSchemaDialect: () => string | null

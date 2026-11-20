@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import { List } from "immutable"
 
 import type { Schema } from "../../types"
@@ -13,6 +13,8 @@ export interface SchemaItemProps {
   schema: Schema
   name: string
   schemasPath: string[]
+  /** What `layoutActions.show` stored for the schema; undefined when nothing did. */
+  isShown?: boolean
   specSelectors: {
     specResolvedSubtree: (path: string[]) => unknown
   }
@@ -30,11 +32,14 @@ export interface SchemaItemProps {
  * One schema of the Schemas section (copy of oas31's `SchemaItem`): expanding
  * it requests its resolved subtree and records the expansion in the layout
  * state at `[...schemasPath, schemaName]`; its element is the deep-link
- * scroll target of that key. The title carries `JumpToPath` with the schema's
- * spec path, as json-schema-5's model item does. The instance's own expansion
- * state is keyed by the schema's name in the document (`identifier`), not by
- * the name shown: that one changes when the resolved schema has a title, and
- * two schemas can share a title.
+ * scroll target of that key. The panel carries `JumpToPath` with the schema's
+ * spec path at its top-right, as json-schema-5's model item does. The
+ * instance's own expansion state is keyed by the schema's name in the document
+ * (`identifier`), not by the name shown: that one changes when the resolved
+ * schema has a title, and two schemas can share a title. What
+ * `layoutActions.show` stored for the schema (`isShown`) expands or collapses
+ * it, as in json-schema-5, and its element has the id `model-<schemaName>`
+ * that one has.
  */
 const SchemaItem = React.memo(
   ({
@@ -42,6 +47,7 @@ const SchemaItem = React.memo(
     schema,
     name,
     schemasPath,
+    isShown,
     specSelectors,
     specActions,
     layoutActions,
@@ -69,6 +75,15 @@ const SchemaItem = React.memo(
       [schemaPath, specSelectors, specActions, layoutActions]
     )
 
+    // a schema that is shown but not resolved asks for its subtree: when it is
+    // shown from outside (`layoutActions.show`), and again when an edit of the
+    // spec replaces it (the resolved subtrees are cleared then)
+    useEffect(() => {
+      if (isShown && specSelectors.specResolvedSubtree(schemaPath) == null) {
+        specActions.requestResolvedSubtree(schemaPath)
+      }
+    }, [isShown, schema, schemaPath, specSelectors, specActions])
+
     const handleRef = useCallback(
       (node: HTMLElement) => {
         if (node !== null) layoutActions.readyToScroll(schemaPath, node)
@@ -84,8 +99,10 @@ const SchemaItem = React.memo(
         schema={schema}
         name={name}
         identifier={schemaName}
+        id={`model-${schemaName}`}
+        expanded={isShown}
         onExpand={handleExpand}
-        titleAddon={JumpToPath ? <JumpToPath path={specPath} /> : null}
+        jumpToPath={JumpToPath ? <JumpToPath path={specPath} /> : null}
       />
     )
   }

@@ -80,7 +80,67 @@ and open work on the skills. Checked against `main` at `ee02195f` on 2026-10-22.
     return skips the `processedSchemas.delete(schema)` at the end of the function, so a schema with such a
     `not` that is used twice (`prefixItems: [s, s]`) is taken for a cycle the second time. It changes OAS
     3.1/3.2 labels, so it needs its own PR; the json-schema-document plugin has its own narrower check
-    (`isUnrestricted`) and deletes the schema before it returns.
+    (`isUnrestricted`) and deletes the schema before it returns. The 2.0/3.0 copy
+    (`json-schema-unified/legacy.ts#getType`, 3.0 only, since 2.0 has no `not`) has the same early return.
+14. **The unified schema view shows no ref-derived names for nested schemas in OAS 3.1/3.2.** The
+    Schema tab names its top-level schema from `$$ref` (`json-schema-unified/components/Model/Model.tsx`),
+    but nested property and `items` schemas, and the reference path (`components/keywords/oas/RefPath.tsx`,
+    which renders nothing unless `fn.getRefPath` is set), get no ref-derived name. The 2.0/3.0 dialects
+    do show them (`json-schema-unified/legacy.ts`: `getTitle`, `getRefPath`). With
+    `unifiedJSONSchemaEnabled` on, a nested `$ref`'d schema in a 3.1/3.2 document shows no name.
+15. **The unified schema view shows the reference path inline, not as the json-schema-5 hover tooltip.**
+    json-schema-5's `Model` shows it in a `.model-hint` tooltip, on object models only. The unified
+    view prints it inline for now (`legacy.ts#getRefPath`, rendered by `RefPath.tsx`). Decide whether
+    to match the tooltip.
+16. **2.0/3.0: an external `$ref` the resolver left in place resolves to the local schema of the same
+    name.** `json-schema-unified/legacy.ts#getLocalRefName` ignores the document part of the
+    reference, as json-schema-5's `getModelName` does. `other.yaml#/definitions/Foo` (2.0) or
+    `other.yaml#/components/schemas/Foo` (3.0) renders the local `Foo` when one exists. It only
+    happens when the resolver leaves an external ref in place (failed fetch, cycle, depth limit).
+    `getRefPath` compares the document part to the document URL, but only to shorten what it shows.
+    Doing it for the lookup needs that URL to match the resolver's base in every setup (`url`, `spec`,
+    relative URLs, query strings); where it doesn't, recursive models would stop expanding.
+17. **Optional, only on client request: the unified schema view has no `JumpToPath` on nested `$ref`
+    schemas.** Only each Schemas-section panel carries it (`json-schema-unified/components/Models/SchemaItem.tsx`).
+    json-schema-5 also puts it on every nested `$ref` object (`json-schema-5/components/object-model.jsx`),
+    with the usage-site spec path (`properties,<key>`, `additionalProperties`, `allOf,<i>`, ...); the
+    3.1/3.2 renderers never had it. Core `JumpToPath` renders nothing, so only plugins that override
+    it notice (SwaggerEditor jumps to the line). No community request so far (swagger-ui #9380 is
+    maintainer-filed). If a client asks:
+    - A plugin can already add it without changes here: wrap `JSONSchemaUnified` and pass its
+      `jumpToPath` prop for a schema with a local `$$ref`/`$ref`, pointing at the referenced
+      definition. Document that prop as an extension point first.
+    - The usage-site path needs per-keyword spec-path tracking in the unified renderer (it only tracks
+      an expansion path), shared by all four dialects, plus 3.1/3.2 keywords (`prefixItems`,
+      `patternProperties`, `$defs`, ...).
+    - The `jumpToPath` slot is styled for the panel's top-right corner; nested schemas may need a
+      title-row slot.
+18. **Core: `specSelectors.findDefinition` returns `null` for a 2.0 document when the oas3 plugin is
+    loaded.** `onlyOAS3` (`oas3/spec-extensions/wrap-selectors.js`) falls back with `ori(...args)`, but
+    `args` still starts with the state while `ori` is already bound to it, so the original selector
+    receives the state as the schema name. 3.0 works, since it goes through `findSchema`;
+    `findDefinition` is the only affected `onlyOAS3`-wrapped selector. The old renderer shows a
+    left-in-place `$ref` in a 2.0 document as the raw `$ref` text, or as an empty expandable object when
+    `$$ref` is also set. The fix is `ori(...args.slice(1))` in a separate PR (it also makes the old
+    renderer expand these refs in 2.0). Until then the unified view keeps its own lookup
+    (`json-schema-unified/schemas.ts#findSchemaDefinition`); afterwards it could use `findDefinition`.
+19. **2.0/3.0: `nullable` shows a `| null` union even when the schema has no explicit `type`.**
+    `json-schema-unified/legacy.ts#getType` appends ` | null` to any composed or inferred type label when
+    `nullable` is `true`, so `{ oneOf: [{ type: string }], nullable: true }` reads `(string) | null`.
+    OAS 3.0.4 says `nullable` only takes effect when `type` is explicitly defined in the same Schema
+    Object. It stays lenient on purpose: json-schema-5 printed `nullable: true` for every schema
+    (`primitive-model.jsx`, `array-model.jsx`, `object-model.jsx`), and `allOf` with `nullable` is a
+    common idiom. Decide whether to follow the spec strictly, and if so how to show `nullable` on an
+    untyped schema.
+20. **2.0/3.0: in an operation's Schema tab, a `$ref` left in place that points at an alias schema shows a
+    reference row, not its properties.** The Schemas section is not affected: both renderers expand it
+    there. `json-schema-unified/legacy.ts#getLazyRef` looks up one level: the definition of the name. When
+    that definition is only another `$ref` (`Alias: { $ref: "#/components/schemas/Test1" }`), the merged
+    schema keeps that `$ref` and its properties never show. Example: a request body `$ref: Alias`, where
+    `Test1.b` refers to `Alias` again: `b` shows `Alias`, `object` and a `$ref` row to `Test1`.
+    json-schema-5 has the same gap in that tab and shows an empty `{ }`. A fix follows the chain with a
+    visited set (cycle guard), tracks every name of the chain in the expansion guard
+    (`hooks.ts#useLazyRef`, `lazyRefs`), and needs a recursive-alias test.
 
 ## Open Work on the Skills
 

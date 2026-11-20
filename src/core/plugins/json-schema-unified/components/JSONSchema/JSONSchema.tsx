@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import React, { forwardRef, useCallback } from "react"
+import React, { forwardRef, useCallback, useEffect } from "react"
 import classNames from "classnames"
 
 import {
@@ -13,14 +13,24 @@ import {
   useIsCircular,
   useRenderedSchemas,
   usePath,
+  useLazyRef,
 } from "../../hooks"
 import {
   JSONSchemaLevelContext,
   JSONSchemaCyclesContext,
   JSONSchemaPathContext,
+  JSONSchemaLazyRefsContext,
 } from "../../context"
 import { toSchemaObject } from "../../fn"
-import { HIDDEN, SCHEMA, SCHEMA_BACKGROUND, SCHEMA_BODY } from "../../styles"
+import {
+  HIDDEN,
+  JUMP_TO_PATH,
+  SCHEMA,
+  SCHEMA_BACKGROUND,
+  SCHEMA_BODY,
+  SCHEMA_HEAD,
+  SCHEMA_POSITIONED,
+} from "../../styles"
 import type { Schema } from "../../types"
 
 export interface JSONSchemaProps {
@@ -30,36 +40,74 @@ export interface JSONSchemaProps {
   onExpand?: (event: unknown, expanded: boolean, deep: boolean) => void
   identifier?: string
   /**
-   * Rendered at the end of the schema's head, outside the expansion toggle
-   * (the Schemas section puts the `JumpToPath` of each schema here).
+   * The `name` already holds the schema's title (a member of `allOf`,
+   * `oneOf`, ...: `#0 Base`), so the 2.0/3.0 dialects don't add it again next
+   * to the title.
    */
-  titleAddon?: React.ReactNode
+  nameHasTitle?: boolean
+  /**
+   * The expansion the schema is driven to, when it changes or at mount (the
+   * Schemas section passes what `layoutActions.show` stored for it); undefined
+   * leaves the expansion to the config. A change made here does not call
+   * `onExpand`.
+   */
+  expanded?: boolean
+  /** The `id` of the schema's element. */
+  id?: string
+  /**
+   * Rendered at the top-right of the schema's panel, as json-schema-5's
+   * `.models-jump-to-path` (the Schemas section passes each schema's
+   * `JumpToPath`).
+   */
+  jumpToPath?: React.ReactNode
 }
 
 const JSONSchema = forwardRef(
   (
     {
-      schema,
+      schema: schemaProp,
       name = "",
       dependentRequired = [],
       onExpand = () => {},
       identifier = "",
-      titleAddon = null,
+      nameHasTitle = false,
+      expanded,
+      id,
+      jumpToPath = null,
     }: JSONSchemaProps,
     ref: React.Ref<HTMLElement>
   ) => {
     const fn = useFn()
+    // 2.0/3.0: a `$ref` the resolver left in place renders its definition
+    const lazyRef = useLazyRef(schemaProp)
+    const { schema } = lazyRef
     // this implementation assumes that $id is always non-relative URI
     const pathToken = identifier || toSchemaObject(schema).$id || name
     const { path } = usePath(pathToken)
-    const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(pathToken)
+    const { isExpanded, setExpanded, setCollapsed } = useIsExpanded(
+      pathToken,
+      // a recursive reference stops "Expand all"; the user expands it
+      { inheritDeep: !lazyRef.isRepeated }
+    )
     const [level, nextLevel] = useLevel()
     const isEmbedded = useIsEmbedded()
     const isExpandable = fn.isExpandable(schema) || dependentRequired.length > 0
-    const isCircular = useIsCircular(schema)
-    const renderedSchemas = useRenderedSchemas(schema)
+    const isRenderedOnBranch = useIsCircular(schema)
+    const renderedOnBranch = useRenderedSchemas(schema)
+    // a lazily resolved schema is a fresh object: it starts a new branch
+    const isCircular = !lazyRef.isLazyRef && isRenderedOnBranch
+    const renderedSchemas = lazyRef.isLazyRef
+      ? new Set([schema])
+      : renderedOnBranch
     const constraints = fn.stringifyConstraints(schema)
     const renderedTitle = name || fn.getTitle(schema)
+    // the tooltip exists only with a reference path; the title button is
+    // described by it. The path is unique within an instance (the expansion
+    // state relies on it) and encoded, as an id can't hold spaces.
+    const refTooltipId =
+      typeof fn.getRefPath === "function" && fn.getRefPath(schema)
+        ? `sui-ref-${encodeURIComponent(path.toString())}`
+        : undefined
     const Accordion = useComponent("Accordion")
     const Keyword$schema = useComponent("Keyword$schema")
     const Keyword$vocabulary = useComponent("Keyword$vocabulary")
@@ -104,8 +152,19 @@ const JSONSchema = forwardRef(
     const KeywordReadOnly = useComponent("KeywordReadOnly")
     const KeywordWriteOnly = useComponent("KeywordWriteOnly")
     const KeywordExamples = useComponent("KeywordExamples")
+    const KeywordRefPath = useComponent("KeywordRefPath")
+    const KeywordSchemaName = useComponent("KeywordSchemaName")
     const ExtensionKeywords = useComponent("ExtensionKeywords")
     const ExpandDeepButton = useComponent("ExpandDeepButton")
+
+    useEffect(() => {
+      if (expanded === undefined || expanded === isExpanded) return
+      if (expanded) {
+        setExpanded()
+      } else {
+        setCollapsed()
+      }
+    }, [expanded])
 
     /**
      * Event handlers.
@@ -137,104 +196,126 @@ const JSONSchema = forwardRef(
       <JSONSchemaPathContext.Provider value={path}>
         <JSONSchemaLevelContext.Provider value={nextLevel}>
           <JSONSchemaCyclesContext.Provider value={renderedSchemas}>
-            <article
-              ref={ref}
-              data-json-schema-unified=""
-              data-json-schema-level={level}
-              data-schema-name={
-                typeof renderedTitle === "string" && renderedTitle !== ""
-                  ? renderedTitle
-                  : undefined
-              }
-              data-expanded={
-                isExpandable && !isCircular
-                  ? isExpanded
-                    ? "true"
-                    : "false"
-                  : undefined
-              }
-              className={classNames(
-                SCHEMA,
-                isEmbedded ? SCHEMA_BACKGROUND.embedded : SCHEMA_BACKGROUND.root
-              )}
-            >
-              <div>
-                {isExpandable && !isCircular ? (
-                  <>
-                    <Accordion expanded={isExpanded} onChange={handleExpansion}>
-                      <KeywordTitle title={name} schema={schema} />
-                    </Accordion>
-                    <ExpandDeepButton
-                      expanded={isExpanded}
-                      onClick={handleExpansionDeep}
-                    />
-                  </>
-                ) : (
-                  <KeywordTitle title={name} schema={schema} />
+            <JSONSchemaLazyRefsContext.Provider value={lazyRef.lazyRefs}>
+              <article
+                ref={ref}
+                id={id}
+                data-json-schema-unified=""
+                data-json-schema-level={level}
+                data-schema-name={
+                  typeof renderedTitle === "string" && renderedTitle !== ""
+                    ? renderedTitle
+                    : undefined
+                }
+                data-expanded={
+                  isExpandable && !isCircular
+                    ? isExpanded
+                      ? "true"
+                      : "false"
+                    : undefined
+                }
+                className={classNames(
+                  SCHEMA,
+                  jumpToPath ? SCHEMA_POSITIONED : undefined,
+                  isEmbedded
+                    ? SCHEMA_BACKGROUND.embedded
+                    : SCHEMA_BACKGROUND.root
                 )}
-                <KeywordDeprecated schema={schema} />
-                <KeywordReadOnly schema={schema} />
-                <KeywordWriteOnly schema={schema} />
-                <KeywordType schema={schema} isCircular={isCircular} />
-                {constraints.length > 0 &&
-                  constraints.map((constraint) => (
-                    <KeywordConstraint
-                      key={`${constraint.scope}-${constraint.value}`}
-                      constraint={constraint}
-                    />
-                  ))}
-                {titleAddon}
-              </div>
-              <div className={classNames(SCHEMA_BODY, !isExpanded && HIDDEN)}>
-                {isExpanded && (
-                  <>
-                    <KeywordDescription schema={schema} />
-                    {!isCircular && isExpandable && (
-                      <>
-                        <KeywordProperties schema={schema} />
-                        <KeywordPatternProperties schema={schema} />
-                        <KeywordAdditionalProperties schema={schema} />
-                        <KeywordUnevaluatedProperties schema={schema} />
-                        <KeywordPropertyNames schema={schema} />
-                        <KeywordAllOf schema={schema} />
-                        <KeywordAnyOf schema={schema} />
-                        <KeywordOneOf schema={schema} />
-                        <KeywordNot schema={schema} />
-                        <KeywordIf schema={schema} />
-                        <KeywordThen schema={schema} />
-                        <KeywordElse schema={schema} />
-                        <KeywordDependentSchemas schema={schema} />
-                        <KeywordPrefixItems schema={schema} />
-                        <KeywordItems schema={schema} />
-                        <KeywordUnevaluatedItems schema={schema} />
-                        <KeywordContains schema={schema} />
-                        <KeywordContentSchema schema={schema} />
-                      </>
-                    )}
-                    <KeywordEnum schema={schema} />
-                    <KeywordConst schema={schema} />
-                    <KeywordDependentRequired
-                      schema={schema}
-                      dependentRequired={dependentRequired}
-                    />
-                    <KeywordDefault schema={schema} />
-                    <KeywordExamples schema={schema} />
-                    <Keyword$schema schema={schema} />
-                    <Keyword$vocabulary schema={schema} />
-                    <Keyword$id schema={schema} />
-                    <Keyword$anchor schema={schema} />
-                    <Keyword$dynamicAnchor schema={schema} />
-                    <Keyword$ref schema={schema} />
-                    {!isCircular && isExpandable && (
-                      <Keyword$defs schema={schema} />
-                    )}
-                    <Keyword$dynamicRef schema={schema} />
-                    <Keyword$comment schema={schema} />
-                    <ExtensionKeywords schema={schema} />
-                  </>
+              >
+                <div className={SCHEMA_HEAD}>
+                  {isExpandable && !isCircular ? (
+                    <>
+                      <Accordion
+                        expanded={isExpanded}
+                        onChange={handleExpansion}
+                        describedBy={refTooltipId}
+                      >
+                        <KeywordTitle title={name} schema={schema} />
+                      </Accordion>
+                      <ExpandDeepButton
+                        expanded={isExpanded}
+                        onClick={handleExpansionDeep}
+                      />
+                    </>
+                  ) : (
+                    <KeywordTitle title={name} schema={schema} />
+                  )}
+                  <KeywordRefPath
+                    schema={schema}
+                    isTopLevel={level === 0}
+                    id={refTooltipId}
+                  />
+                  {!nameHasTitle && (
+                    <KeywordSchemaName schema={schema} name={name} />
+                  )}
+                  <KeywordDeprecated schema={schema} />
+                  <KeywordReadOnly schema={schema} />
+                  <KeywordWriteOnly schema={schema} />
+                  <KeywordType schema={schema} isCircular={isCircular} />
+                  {constraints.length > 0 &&
+                    constraints.map((constraint) => (
+                      <KeywordConstraint
+                        key={`${constraint.scope}-${constraint.value}`}
+                        constraint={constraint}
+                      />
+                    ))}
+                </div>
+                <div className={classNames(SCHEMA_BODY, !isExpanded && HIDDEN)}>
+                  {isExpanded && (
+                    <>
+                      <KeywordDescription schema={schema} />
+                      {!isCircular && isExpandable && (
+                        <>
+                          <KeywordProperties schema={schema} />
+                          <KeywordPatternProperties schema={schema} />
+                          <KeywordAdditionalProperties schema={schema} />
+                          <KeywordUnevaluatedProperties schema={schema} />
+                          <KeywordPropertyNames schema={schema} />
+                          <KeywordAllOf schema={schema} />
+                          <KeywordAnyOf schema={schema} />
+                          <KeywordOneOf schema={schema} />
+                          <KeywordNot schema={schema} />
+                          <KeywordIf schema={schema} />
+                          <KeywordThen schema={schema} />
+                          <KeywordElse schema={schema} />
+                          <KeywordDependentSchemas schema={schema} />
+                          <KeywordPrefixItems schema={schema} />
+                          <KeywordItems schema={schema} />
+                          <KeywordUnevaluatedItems schema={schema} />
+                          <KeywordContains schema={schema} />
+                          <KeywordContentSchema schema={schema} />
+                        </>
+                      )}
+                      <KeywordEnum schema={schema} />
+                      <KeywordConst schema={schema} />
+                      <KeywordDependentRequired
+                        schema={schema}
+                        dependentRequired={dependentRequired}
+                      />
+                      <KeywordDefault schema={schema} />
+                      <KeywordExamples schema={schema} />
+                      <Keyword$schema schema={schema} />
+                      <Keyword$vocabulary schema={schema} />
+                      <Keyword$id schema={schema} />
+                      <Keyword$anchor schema={schema} />
+                      <Keyword$dynamicAnchor schema={schema} />
+                      <Keyword$ref schema={schema} />
+                      {!isCircular && isExpandable && (
+                        <Keyword$defs schema={schema} />
+                      )}
+                      <Keyword$dynamicRef schema={schema} />
+                      <Keyword$comment schema={schema} />
+                      <ExtensionKeywords schema={schema} />
+                    </>
+                  )}
+                </div>
+                {jumpToPath && (
+                  <span className={JUMP_TO_PATH} data-jump-to-path="">
+                    {jumpToPath}
+                  </span>
                 )}
-              </div>
-            </article>
+              </article>
+            </JSONSchemaLazyRefsContext.Provider>
           </JSONSchemaCyclesContext.Provider>
         </JSONSchemaLevelContext.Provider>
       </JSONSchemaPathContext.Provider>
