@@ -673,7 +673,7 @@ export function requiresValidationURL(uri) {
 
 
 export function getAcceptControllingResponse(responses) {
-  if(!OrderedMap.isOrderedMap(responses)) {
+  if(!OrderedMap.isOrderedMap(responses) && !Map.isMap(responses)) {
     // wrong type!
     return null
   }
@@ -684,13 +684,25 @@ export function getAcceptControllingResponse(responses) {
   }
 
   const suitable2xxResponse = responses.find((res, k) => {
-    return k.startsWith("2") && Object.keys(res.get("content") || {}).length > 0
+    const content = Map.isMap(res) && res.get("content")
+    return (
+      String(k).startsWith("2") &&
+      (Map.isMap(content)
+        ? content.size > 0
+        : Object.keys(content || {}).length > 0)
+    )
   })
 
   // try to find a suitable `default` responses
   const defaultResponse = responses.get("default") || OrderedMap()
-  const defaultResponseMediaTypes = (defaultResponse.get("content") || OrderedMap()).keySeq().toJS()
-  const suitableDefaultResponse = defaultResponseMediaTypes.length ? defaultResponse : null
+  const defaultContent =
+    Map.isMap(defaultResponse) && defaultResponse.get("content")
+  const defaultResponseMediaTypes = Map.isMap(defaultContent)
+    ? defaultContent.keySeq().toJS()
+    : Object.keys(defaultContent || {})
+  const suitableDefaultResponse = defaultResponseMediaTypes.length
+    ? defaultResponse
+    : null
 
   return suitable2xxResponse || suitableDefaultResponse
 }
