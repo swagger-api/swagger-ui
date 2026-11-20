@@ -98,7 +98,7 @@ Webpack builds the bundles in `dist/` from `src/` (configs in `webpack/`):
 | `swagger-ui-standalone-preset.js` | UMD | inlined |
 | `swagger-ui-es-bundle-core.js` | ESM | external |
 | `swagger-ui-es-bundle.js` | CommonJS2 (despite the name) | inlined |
-| `swagger-ui.css` | from `src/style/main.scss` | — |
+| `swagger-ui.css` | from `src/style/main.scss` (SCSS) plus `src/style/tailwind.css` (Tailwind v4, isolated per [ui-shell](src/core/components/SPEC.md)) | — |
 
 The root `package.json` `exports` map selects among them by environment (browser vs. node,
 import vs. require).
@@ -115,7 +115,7 @@ import vs. require).
 ## Quality gates
 
 CI (`.github/workflows/nodejs.yml`, on `main`/`next`) runs ESLint (errors), Playwright spec
-type-checking, Jest unit tests (jsdom, `test/unit`), the build, the artifact export tests
-(`test/build-artifacts`), and Playwright end-to-end tests (`test/e2e-playwright`, 4 shards). Code
+type-checking, Jest unit tests (jsdom, `test/unit`), the build, the artifact tests
+(`test/build-artifacts`: bundle exports and the Tailwind isolation of `swagger-ui.css`), and Playwright end-to-end tests (`test/e2e-playwright`, 4 shards). Code
 conventions (TypeScript for new files, no semicolons, `@prettier` pragma, Conventional Commits)
 live in `CLAUDE.md`.
