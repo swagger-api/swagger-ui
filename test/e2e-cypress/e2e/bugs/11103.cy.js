@@ -1,0 +1,16 @@
+describe("OAS 3.1 type array referenced via $ref in a required path parameter", () => {
+  it("does not report 'Required field is not provided' when a valid value is given", () => {
+    cy.visit("?url=/documents/bugs/11103.yaml")
+      .get("#operations-default-get_article__articleId_")
+      .click()
+      .get(".try-out__btn")
+      .click()
+      .get(`tr[data-param-name="articleId"] input`)
+      .clear()
+      .type("AAAAAAAAAAAAAAAAAAAAAA")
+      .get(".btn.execute")
+      .click()
+      .get(".validation-errors")
+      .should("not.exist")
+  })
+})
