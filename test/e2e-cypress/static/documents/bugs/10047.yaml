@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  title: Reproducer
+  version: "1.0"
+paths:
+  /test:
+    post:
+      operationId: testOp
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Example'
+      responses:
+        200:
+          description: "Success"
+          
+components:
+  schemas:
+    Example:
+      type: object
+      properties:
+        versionTag:
+          type: string
+          default: "1.0"
+
