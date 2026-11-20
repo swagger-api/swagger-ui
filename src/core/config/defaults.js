@@ -13,6 +13,7 @@ const defaultOptions = Object.freeze({
   layout: "BaseLayout",
   docExpansion: "list",
   maxDisplayedTags: -1,
+  disableVirtualization: false,
   filter: false,
   validatorUrl: "https://validator.swagger.io/validator",
   oauth2RedirectUrl: undefined,

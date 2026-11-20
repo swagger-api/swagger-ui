@@ -21,7 +21,8 @@ const Models = ({
   getConfigs,
 }) => {
   const definitions = specSelectors.definitions()
-  const { docExpansion, defaultModelsExpandDepth } = getConfigs()
+  const { docExpansion, defaultModelsExpandDepth, disableVirtualization } =
+    getConfigs()
 
   const isOAS3 = specSelectors.isOAS3()
   const specPathBase = useMemo(
@@ -80,7 +81,9 @@ const Models = ({
     },
   })
 
-  const isVirtualized = definitionEntries.length >= VIRTUALIZE_MODELS_THRESHOLD
+  const isVirtualized =
+    !disableVirtualization &&
+    definitionEntries.length >= VIRTUALIZE_MODELS_THRESHOLD
   const pendingVirtualizedSchemaScroll =
     layoutSelectors.getScrollToVirtualizedSchema()
 

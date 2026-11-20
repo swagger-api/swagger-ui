@@ -135,4 +135,27 @@ describe("<Models/> (oas31)", function () {
     // virtualizer mock returns no items, so no schema-item should be rendered
     expect(wrapper.find(".schema-item").length).toEqual(0)
   })
+
+  it("does not virtualize when disableVirtualization config is true", function () {
+    const schemas: Record<string, object> = {}
+    for (let i = 0; i < 100; i++) {
+      schemas[`Schema${i}`] = {}
+    }
+    const props = makeProps({
+      specSelectors: {
+        selectSchemas: () => schemas,
+        specResolvedSubtree: () => undefined,
+      },
+      getConfigs: () => ({
+        docExpansion: "list",
+        defaultModelsExpandDepth: 1,
+        disableVirtualization: true,
+      }),
+    })
+
+    const wrapper = mount(<Models {...props} />)
+
+    expect(wrapper.find(".models-scroll").length).toEqual(0)
+    expect(wrapper.find(".schema-item").length).toEqual(100)
+  })
 })
