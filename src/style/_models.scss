@@ -1,3 +1,4 @@
+@use "sass:string";
 @use "variables" as *;
 @use "type";
 
@@ -195,7 +196,7 @@ section.models {
     &.models--virtualized {
       padding-bottom: 0;
     }
-    
+
     h4 {
       margin: 0 0 5px 0;
 
@@ -273,7 +274,8 @@ section.models {
   }
 
   .models-scroll {
-    max-height: min(60vh, 800px);
+    // Keep LibSass-based CSS compressors from evaluating this native CSS function.
+    max-height: string.unquote("MIN(60vh, 800px)");
     overflow-y: auto;
     padding-top: 20px;
     padding-bottom: 5px;

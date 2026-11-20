@@ -188,6 +188,7 @@
     "rimraf": "^6.0.1",
     "sass-embedded": "=1.86.0",
     "sass-loader": "^16.0.4",
+    "sass.js": "0.11.1",
     "serve": "=14.2.6",
     "shx": "=0.4.0",
     "sinon": "21.0.1",
