@@ -27,7 +27,8 @@ Checks changed files only, so findings already on the base branch don't fail the
   DIALECT       default$schema points at an OpenAPI document schema (/schema/), not a dialect  error
 
 Checks the whole tree:
-  PRESET-ORDER  newest OpenAPI plugin is not the last OpenAPI plugin in presets/apis          error
+  PRESET-ORDER  newest OpenAPI plugin is not the last OpenAPI plugin in presets/apis, or     error
+                JSONSchemaUnifiedPlugin does not come after every OpenAPI plugin
   EXPORT        an OpenAPI plugin directory has no SwaggerUI.plugins entry in src/core/index.js note
   UNRELEASED    package.json takes a dependency from a tarball, path, git or URL (an       warning
                 unreleased upstream PR, references/unreleased-upstream.md): fine on a branch,
@@ -186,6 +187,16 @@ if (presetFile) {
       "error",
       "PRESET-ORDER",
       `${presetFile}: OpenAPI plugins load as ${order.join(", ")}; the newest must be last`
+    )
+  const lastOpenAPI = Math.max(
+    ...[...body.matchAll(/OpenAPI\d+Plugin/g)].map((match) => match.index)
+  )
+  const unified = body.indexOf("JSONSchemaUnifiedPlugin")
+  if (order.length && unified !== -1 && unified < lastOpenAPI)
+    report(
+      "error",
+      "PRESET-ORDER",
+      `${presetFile}: JSONSchemaUnifiedPlugin must come after every OpenAPI plugin (its Model/Models wrappers must stay outermost)`
     )
 }
 
