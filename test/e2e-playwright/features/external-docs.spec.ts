@@ -2,6 +2,7 @@
  * @prettier
  */
 import { test, expect } from "../support/fixtures"
+import type { SchemaLocators } from "../support/fixtures"
 
 test.describe("External docs feature", () => {
   test.describe("in Swagger 2", () => {
@@ -84,23 +85,49 @@ function ExternalDocsTest(baseUrl: string) {
 
   test.describe("for Schemas", () => {
     function SchemaTestFactory(type: string) {
+      const openExternalDocs = async (
+        schemaUi: SchemaLocators,
+        name: string
+      ) => {
+        const model = schemaUi.model(name, name, schemaUi.modelsSection())
+        await schemaUi.modelToggle(model, "button").click()
+        if (schemaUi.unified) {
+          await schemaUi
+            .accordion(schemaUi.keyword("externalDocs", model))
+            .click()
+        }
+        return model
+      }
+
       return () => {
-        test("should display link with description", async ({ page }) => {
+        test("should display link with description", async ({
+          page,
+          schemaUi,
+        }) => {
           await page.goto(baseUrl)
-          await page.locator(`.models #model-${type} button`).click()
-          const link = page.locator(`.models #model-${type} .external-docs a`)
-          await expect(link).toContainText(`${type} Docs`)
+          const model = await openExternalDocs(schemaUi, type)
+          const link = schemaUi.externalDocsLink(model)
+          if (schemaUi.unified) {
+            await expect(schemaUi.keyword("externalDocs", model)).toContainText(
+              `${type} Docs`
+            )
+            await expect(link).toContainText("http://swagger.io")
+          } else {
+            await expect(link).toContainText(`${type} Docs`)
+          }
           await expect(link).toHaveAttribute("href", "http://swagger.io/")
         })
 
-        test("should display link without description", async ({ page }) => {
+        test("should display link without description", async ({
+          page,
+          schemaUi,
+        }) => {
           await page.goto(baseUrl)
-          await page
-            .locator(`.models #model-${type}WithoutDescription button`)
-            .click()
-          const link = page.locator(
-            `.models #model-${type}WithoutDescription .external-docs a`
+          const model = await openExternalDocs(
+            schemaUi,
+            `${type}WithoutDescription`
           )
+          const link = schemaUi.externalDocsLink(model)
           await expect(link).toContainText("http://swagger.io")
           await expect(link).toHaveAttribute("href", "http://swagger.io/")
         })

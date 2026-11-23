@@ -174,12 +174,12 @@ Parameter name | Docker variable | Description
         <td><a name="user-content-unifiedjsonschemaenabled"></a><code>unifiedJSONSchemaEnabled</code>
         </td>
         <td><em>Unavailable</em></td>
-        <td><code>Boolean=false</code>. Opt-in preview: renders the Schemas
-            section and the Schema tab of OpenAPI 3.1 and 3.2 documents with the
-            unified JSON Schema renderer (OpenAPI 2.0 and 3.0 documents keep the
-            classic view). When enabled, CSS hooks of the classic schema view
-            (e.g. <code>.json-schema-2020-12__*</code>) and plugins wrapping its
-            components (e.g. <code>OAS31Model</code>,
+        <td><code>Boolean=false</code>. Opt-in preview: renders the Schemas/Models
+            section and the Schema tab of every OpenAPI version (2.0, 3.0, 3.1,
+            3.2) with the unified JSON Schema renderer. When enabled, CSS hooks of
+            the classic schema views (e.g. <code>.json-schema-2020-12__*</code>,
+            <code>.model-box</code>) and plugins wrapping their components (e.g.
+            <code>Model</code> internals, <code>OAS31Model</code>,
             <code>JSONSchema202012Keyword*</code>) no longer apply to schemas;
             customize the new view through plugins (<code>wrapComponents</code> on
             its <code>JSONSchemaUnified*</code> components). Its <code>data-*</code>

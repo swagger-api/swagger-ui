@@ -11,12 +11,20 @@ interface SwaggerUiWindow {
 }
 
 test.describe("Editor #1868: model changes break rendering", () => {
-  test("should render model content changes correctly", async ({ page }) => {
+  test("should render model content changes correctly", async ({
+    page,
+    schemaUi,
+  }) => {
+    const model = schemaUi.model("MyModel")
+    const expectProperty = (name: string) =>
+      schemaUi.unified
+        ? expect(schemaUi.propertyModel(name, model)).toBeAttached()
+        : expect(model).toContainText(name)
     await page.goto("/?url=/documents/bugs/editor-1868.yaml")
 
-    await page.locator(".model-toggle.collapsed").click()
+    await schemaUi.nestedModelToggle(page, ".model-toggle.collapsed").click()
 
-    await expect(page.locator("#model-MyModel")).toContainText("a")
+    await expectProperty("a")
 
     // Simulate Swagger Editor updating a model
     await page.evaluate(() => {
@@ -25,7 +33,7 @@ test.describe("Editor #1868: model changes break rendering", () => {
       ui.specActions.updateSpec(content + `\n      b:\n        type: string`)
     })
 
-    await expect(page.locator("#model-MyModel")).toContainText("a")
-    await expect(page.locator("#model-MyModel")).toContainText("b")
+    await expectProperty("a")
+    await expectProperty("b")
   })
 })

@@ -95,7 +95,7 @@ Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false`
 
 ##### Integration Tests
 
-End-to-end tests use [Playwright](https://playwright.dev/). Install the browser once with `npx playwright install chromium`, then run the full suite locally with `npm run e2e`. Playwright starts the required servers itself (and reuses them if they are already running) - be sure you aren't running a dev server on the same ports when testing, unless you want it reused!
+End-to-end tests use [Playwright](https://playwright.dev/). Install the browsers once with `npx playwright install chromium webkit` (add `--with-deps` on Linux), then run the full suite locally with `npm run e2e`. Playwright starts the required servers itself (and reuses them if they are already running) - be sure you aren't running a dev server on the same ports when testing, unless you want it reused!
 
 To debug or run individual specs interactively, use `npm run e2e:ui` (or `npm run e2e:headed`).
 
