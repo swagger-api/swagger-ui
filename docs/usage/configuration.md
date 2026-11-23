@@ -105,6 +105,21 @@ Parameter name | Docker variable | Description
         </td>
     </tr>
     <tr>
+        <td><a name="user-content-disablevirtualization"></a><code>disableVirtualization</code>
+        </td>
+        <td><code>DISABLE_VIRTUALIZATION</code></td>
+        <td><code>Boolean=false</code>. Disables virtualization of the
+            operations and schemas lists. By default, specs with a large
+            number of operations or schemas are rendered using
+            virtualization so that only the items currently in view are
+            present in the DOM, for performance. This also means the
+            browser's native find-in-page (Cmd/Ctrl+F) cannot match items
+            that have not been scrolled into view. Set this to
+            <code>true</code> to always render the full list, at the cost of
+            performance on very large specs.
+        </td>
+    </tr>
+    <tr>
         <td><a name="user-content-docexpansion"></a><code>docExpansion</code>
         </td>
         <td><code>DOC_EXPANSION</code></td>

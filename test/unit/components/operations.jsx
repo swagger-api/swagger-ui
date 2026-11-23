@@ -260,6 +260,29 @@ describe("<Operations/>", function () {
     expect(wrapper.find(".operations-virtual__list").length).toBeGreaterThan(0)
   })
 
+  it("does not virtualize when disableVirtualization config is true", function () {
+    const ops = Array.from({ length: 149 }, (_, i) => [
+      `/p${i}`,
+      "get",
+      `op${i}`,
+    ])
+    const props = makeProps({
+      specSelectors: {
+        taggedOperations: () => makeTaggedOps([["tag0", ops]]),
+        validOperationMethods: () => ["get"],
+        url: () => "",
+      },
+      getConfigs: () => ({
+        docExpansion: "list",
+        disableVirtualization: true,
+      }),
+    })
+
+    const wrapper = mount(<Operations {...props} />)
+
+    expect(wrapper.find(".operations-virtual__list").length).toEqual(0)
+  })
+
   it("renders OperationTag for each tag in the non-virtualized path", function () {
     const TagSpy = jest.fn(({ children }) => <div>{children}</div>)
     const props = makeProps({

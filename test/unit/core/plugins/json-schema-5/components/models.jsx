@@ -170,4 +170,31 @@ describe("<Models/>", function () {
     // virtualizer mock returns no items, so no .model-container should be in DOM
     expect(wrapper.find(".model-container").length).toEqual(0)
   })
+
+  it("does not virtualize when disableVirtualization config is true", function () {
+    const defs = {}
+
+    for (let i = 0; i < 100; i++) {
+      defs[`Schema${i}`] = {}
+    }
+
+    const props = makeProps({
+      specSelectors: {
+        isOAS3: () => false,
+        specJson: () => Map(),
+        definitions: () => fromJS(defs),
+        specResolvedSubtree: () => undefined,
+      },
+      getConfigs: () => ({
+        docExpansion: "list",
+        defaultModelsExpandDepth: 1,
+        disableVirtualization: true,
+      }),
+    })
+
+    const wrapper = mount(<Models {...props} />)
+
+    expect(wrapper.find(".models-scroll").length).toEqual(0)
+    expect(wrapper.find(".model-container").length).toEqual(100)
+  })
 })

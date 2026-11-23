@@ -24,7 +24,8 @@ const Models = ({
   fn,
 }) => {
   const schemas = specSelectors.selectSchemas()
-  const { docExpansion, defaultModelsExpandDepth } = getConfigs()
+  const { docExpansion, defaultModelsExpandDepth, disableVirtualization } =
+    getConfigs()
   const isOpenDefault = defaultModelsExpandDepth > 0 && docExpansion !== "none"
   const isOpen = layoutSelectors.isShown(SCHEMAS_PATH, isOpenDefault)
   const Collapse = getComponent("Collapse")
@@ -49,7 +50,9 @@ const Models = ({
     },
   })
 
-  const isVirtualized = schemaEntries.length >= VIRTUALIZE_MODELS_THRESHOLD
+  const isVirtualized =
+    !disableVirtualization &&
+    schemaEntries.length >= VIRTUALIZE_MODELS_THRESHOLD
 
   /**
    * Effects.
