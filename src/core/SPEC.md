@@ -50,6 +50,10 @@ itself. Features arrive as plugins.
 - **Factorization.** `presets` become the System's base plugins. `layout`, `filter`, `url`,
   `requestSnippets`, and `initialState` seed initial state, and an `initialState` key set to
   `undefined` deletes that slice. `fn` and `components` become a final inline plugin.
+- **Opt-in renderers.** `unifiedJSONSchemaEnabled` (default `false`, cast to a boolean in
+  `config/type-cast/mappings.js`) turns on the [json-schema-unified](plugins/json-schema-unified/SPEC.md)
+  schema view. The apis preset always loads that plugin, after every OpenAPI plugin, and the plugin
+  reads the option at render time, so the option decides what renders and not what loads.
 - The user-facing option reference is `docs/usage/configuration.md`.
 
 ## Public API
