@@ -189,7 +189,7 @@
     "rimraf": "^6.0.1",
     "sass-embedded": "=1.86.0",
     "sass-loader": "^16.0.4",
-    "serve": "=14.2.6",
+    "serve": "=14.2.8",
     "shx": "=0.4.0",
     "sinon": "21.0.1",
     "source-map-support": "^0.5.21",
