@@ -135,15 +135,20 @@ export default class Response extends React.Component {
     const activeContentType = this.getActiveContentType()
     const activeMediaType = this.getActiveMediaType()
     const examplesForMediaType = activeMediaType.get("examples", null)
+    // `itemSchema` (OAS 3.2) describes each item of a sequential media type
+    const mediaTypeSchemaField = isOAS3 && fn.getMediaTypeSchemaField
+      ? fn.getMediaTypeSchemaField(activeMediaType)
+      : "schema"
+    const isItemSchema = mediaTypeSchemaField === "itemSchema"
 
     // Goal: find a schema value for `schema`
     if(isOAS3) {
-      const oas3SchemaForContentType = activeMediaType.get("schema")
+      const oas3SchemaForContentType = activeMediaType.get(mediaTypeSchemaField)
       const hasSchemaForContentType = Map.isMap(oas3SchemaForContentType)
 
       schema = hasSchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
       specPathWithPossibleSchema = hasSchemaForContentType
-        ? specPath.push("content", activeContentType, "schema")
+        ? specPath.push("content", activeContentType, mediaTypeSchemaField)
         : specPath
     } else {
       schema = response.get("schema")
@@ -159,7 +164,7 @@ export default class Response extends React.Component {
 
     // Goal: find an example value for `sampleResponse`
     if(isOAS3) {
-      const activeMediaTypeSchema = activeMediaType.get("schema")
+      const activeMediaTypeSchema = activeMediaType.get(mediaTypeSchemaField)
       sampleSchema = Map.isMap(activeMediaTypeSchema) ? activeMediaTypeSchema.toJS() : undefined
       if(Map.isMap(examplesForMediaType) && !examplesForMediaType.isEmpty()) {
         const targetExamplesKey = this.getTargetExamplesKey()
@@ -257,6 +262,14 @@ export default class Response extends React.Component {
               ) : null}
             </section>
           ) : null}
+
+          { isItemSchema && (example || schema) ? (
+            <div className="response-item-schema-note">
+              <small>
+                Schema of each item in the <code>{ activeContentType }</code> sequence
+              </small>
+            </div>
+          ) : null }
 
           { example || schema ? (
             <ModelExample
