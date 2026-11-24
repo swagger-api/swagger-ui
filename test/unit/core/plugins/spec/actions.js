@@ -142,6 +142,56 @@ describe("spec plugin - actions", function(){
       expect(system.specActions.setMutatedRequest.mock.calls.length).toEqual(1)
       expect(system.specActions.setRequest.mock.calls.length).toEqual(1)
     })
+
+    it("should set responseContentType to the declared response content type for OAS3 operations", async () => {
+      let configs = {}
+      const system = {
+        fn: {
+          execute: jest.fn().mockImplementation(() => Promise.resolve({})),
+          buildRequest: jest.fn().mockImplementation((req) => req),
+          opId: jest.fn().mockReturnValue("ping"),
+        },
+        specActions: {
+          setRequest: jest.fn(),
+          setMutatedRequest: jest.fn(),
+          setResponse: jest.fn(),
+        },
+        specSelectors: {
+          isOAS3: () => true,
+          url: () => "http://localhost/",
+          spec: () => fromJS({}),
+          parameterInclusionSettingFor: () => false,
+        },
+        oas3Selectors: {
+          selectedServer: () => "http://localhost/",
+          serverVariables: () => fromJS({}),
+          requestContentType: () => null,
+          responseContentType: () => "application/json",
+          requestBodyValue: () => null,
+          requestBodyInclusionSetting: () => fromJS({}),
+        },
+        getConfigs: () => configs,
+      }
+
+      let executeFn = executeRequest({
+        pathName: "/ping",
+        method: "GET",
+        operation: fromJS({
+          responses: {
+            "200": {
+              content: {
+                "application/json": {},
+              },
+            },
+          },
+        }),
+      })
+
+      await executeFn(system)
+
+      expect(system.fn.execute.mock.calls.length).toEqual(1)
+      expect(system.fn.execute.mock.calls[0][0].responseContentType).toEqual("application/json")
+    })
   })
 
   xit("should call specActions.setResponse, when fn.execute resolves", function(){
