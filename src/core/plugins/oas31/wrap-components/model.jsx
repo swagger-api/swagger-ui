@@ -39,6 +39,7 @@ const ModelWrapper = createOnlyOAS31ComponentWrapper(
         fn: {
           getProperties: fn.jsonSchema202012.getProperties,
           isExpandable: fn.jsonSchema202012.isExpandable,
+          getTitle: fn.jsonSchema202012.getTitle,
           getSchemaKeywords: makeGetSchemaKeywords(
             fn.jsonSchema202012.getSchemaKeywords
           ),
