@@ -34,4 +34,21 @@ test.describe("Authorization popup", () => {
     await page.locator(".backdrop-ux").click({ position: { x: 5, y: 5 } })
     await expect(page.locator(".dialog-ux")).toHaveCount(0)
   })
+
+  test("gives the icon-only close button an accessible name", async ({
+    page,
+  }) => {
+    await page.goto("/?url=/documents/petstore.swagger.yaml")
+    await page.locator("button.btn.authorize").click()
+    await expect(page.locator(".dialog-ux")).toBeAttached()
+
+    const closeButton = page.getByRole("button", {
+      name: "Close dialog",
+      exact: true,
+    })
+    await expect(closeButton).toHaveClass(/close-modal/)
+
+    await closeButton.click()
+    await expect(page.locator(".dialog-ux")).toHaveCount(0)
+  })
 })
