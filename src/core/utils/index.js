@@ -416,6 +416,12 @@ function validateValueBySchema(value, schema, requiredByParam, bypassRequiredChe
   let maximum = schema.get("maximum")
   let minimum = schema.get("minimum")
   let type = schema.get("type")
+  if (List.isList(type) || Array.isArray(type)) {
+    // OpenAPI 3.1 type arrays, e.g. ["string", "null"]
+    const types = List(type)
+    if (types.includes("null")) nullable = true
+    type = types.find((t) => t !== "null")
+  }
   let format = schema.get("format")
   let maxLength = schema.get("maxLength")
   let minLength = schema.get("minLength")

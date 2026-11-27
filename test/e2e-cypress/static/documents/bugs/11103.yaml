@@ -1,0 +1,34 @@
+openapi: '3.1.0'
+info:
+  version: 0.0.1
+  description: Minimal OpenAPI doc to show a bug
+paths:
+  /article/{articleId}:
+    get:
+      parameters:
+        - in: path
+          name: articleId
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+components:
+  schemas:
+    Article:
+      type: [object, 'null']
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+      additionalProperties: false
+    Id:
+      type: [string, 'null']
+      description: ID of the entity. A 128-bit GUID (UUID) encoded in Base64-URL (RFC 4648 §5), without "+" or "/" (uses "-" and "_"), no padding, exactly 22 characters.
+      pattern: '^[A-Za-z0-9_-]{22}$'
