@@ -141,6 +141,8 @@ SwaggerUI.config = {
   typeCastMappings,
 }
 
+SwaggerUI.config.defaults.autoPromptAuthOn401 = false;
+
 SwaggerUI.presets = {
   base: BasePreset,
   apis: ApisPreset,
