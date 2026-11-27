@@ -6,6 +6,10 @@ import { List, fromJS } from "immutable"
 import { render } from "enzyme"
 
 import ParameterRow from "core/components/parameter-row"
+import {
+  JsonSchemaForm,
+  JsonSchema_string,
+} from "core/plugins/json-schema-5/components/json-schema-components"
 import { getSchemaObjectTypeLabel } from "core/plugins/json-schema-5/fn"
 import {
   memoizedSampleFromSchema,
@@ -49,6 +53,66 @@ describe("<ParameterRow/>", () => {
       pathMethod: [],
     }
   }
+
+  describe.each([false, true])("x-placeholder (isOAS3: %s)", (isOAS3) => {
+    const renderInput = (placeholder, type = "string") => {
+      const param = fromJS({
+        name: "clientId",
+        in: "query",
+        description: "Client code",
+        "x-placeholder": placeholder,
+        ...(isOAS3 ? { schema: { type } } : { type }),
+      })
+      const props = createProps({ param, isOAS3 })
+      const onChange = jest.fn()
+      const getComponent = (name) =>
+        ({ JsonSchemaForm, JsonSchema_string })[name] || "div"
+      // Numeric inputs use the same text control as string inputs.
+      const wrapper = render(
+        <ParameterRow
+          {...props}
+          isExecute={true}
+          onChange={onChange}
+          getComponent={(name) =>
+            name.startsWith("JsonSchema_")
+              ? JsonSchema_string
+              : getComponent(name)
+          }
+          fn={{ ...props.fn, isFileUploadIntended: () => false }}
+        />
+      )
+      return { wrapper, onChange }
+    }
+
+    it.each(["string", "integer", "number"])(
+      "renders a hint without setting a %s parameter value",
+      (type) => {
+        const { wrapper, onChange } = renderInput("1", type)
+
+        expect(wrapper.find("input").attr("placeholder")).toBe("1")
+        expect(wrapper.find("input").val()).toBe("")
+        expect(onChange).not.toHaveBeenCalled()
+      }
+    )
+
+    it.each([undefined, null, "", " \t ", 1, false, {}, []])(
+      "falls back to the parameter name for an invalid hint: %p",
+      (placeholder) => {
+        const { wrapper, onChange } = renderInput(placeholder)
+
+        expect(wrapper.find("input").attr("placeholder")).toBe("clientId")
+        expect(onChange).not.toHaveBeenCalled()
+      }
+    )
+
+    it("preserves literal text and whitespace", () => {
+      const { wrapper } = renderInput("  <client code>  ")
+
+      expect(wrapper.find("input").attr("placeholder")).toBe(
+        "  <client code>  "
+      )
+    })
+  })
 
   it("Can render Swagger 2 parameter type with format", () => {
     const param = fromJS({
