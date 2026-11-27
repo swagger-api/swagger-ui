@@ -132,6 +132,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     state: state,
     redirectUrl: redirectUrl,
     callback: callback,
-    errCb: errActions.newAuthErr
+    errCb: errActions.newAuthErr,
+    authConfigs: authConfigs
   })
 }
