@@ -112,7 +112,7 @@ table {
     font-weight: bold;
 
     span {
-      color: red;
+      color: $table-parameter-name-required-font-color;
     }
 
     &:after {
@@ -125,7 +125,7 @@ table {
 
       content: "required";
 
-      color: rgba($table-parameter-name-required-font-color, 0.6);
+      color: $table-parameter-name-required-font-color;
     }
   }
 }

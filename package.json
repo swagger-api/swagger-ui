@@ -112,6 +112,7 @@
     "zenscroll": "^4.0.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "=4.14.0",
     "@babel/cli": "=7.26.4",
     "@babel/core": "=7.29.6",
     "@babel/eslint-parser": "=7.26.10",

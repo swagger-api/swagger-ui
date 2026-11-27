@@ -14,7 +14,7 @@ $neutral-98: #1c2022;
 $neutral-100: #080a0b;
 
 $success-30: #4ac966;
-$error-30: #ff5f5f;
+$error-30: #ff9494;
 
 $authorize-button: #3ece90;
 $link: #51a8ff;
@@ -38,12 +38,12 @@ $opblock_colors: (
     #272c34,
     #495361,
     #262e36,
-    #6a6a6a,
+    #7a7a7a,
   ),
   put: (
     #27201e,
     #523524,
-    #9a5b3e,
+    #42291a,
     #ff7d35,
   ),
   get: (
@@ -88,6 +88,12 @@ $opblock_colors: (
     #201f0d,
     #dabe63,
   ),
+  trace: (
+    #1e1f20,
+    #3a3c3e,
+    #2a2c2d,
+    #ffffff,
+  ),
 );
 
 html.dark-mode {
@@ -109,10 +115,18 @@ html.dark-mode {
       color: $neutral-20;
     }
 
-    table thead tr {
-      td,
-      th {
-        color: $neutral-20;
+    table {
+      & thead tr {
+        td,
+        th {
+          color: $neutral-20;
+        }
+      }
+
+      &.headers {
+        .header-col {
+          color: $neutral-20;
+        }
       }
     }
 
@@ -189,6 +203,7 @@ html.dark-mode {
     textarea.invalid {
       background: $neutral-98;
       border-color: $error-30;
+      border-width: 2px;
     }
 
     // ------ TOPBAR ------
@@ -474,6 +489,11 @@ html.dark-mode {
         }
       }
 
+      .btn.cancel {
+        color: $error-30;
+        border-color: $error-30;
+      }
+
       .btn.json-schema-form-item-add,
       .btn.json-schema-form-item-remove {
         color: $neutral-20;
@@ -492,11 +512,6 @@ html.dark-mode {
 
       .opblock-summary-operation-id,
       .opblock-summary-path,
-      .opblock-summary-path__deprecated,
-      .opblock-summary-description,
-      .opblock-description-wrapper p,
-      .opblock-description-wrapper i,
-      .opblock-external-docs-wrapper,
       .opblock-title_normal,
       .parameter__name,
       .parameter__type,
@@ -504,8 +519,19 @@ html.dark-mode {
       .parameter__in,
       .response-col_status,
       .response-col_undocumented,
-      .response-col_links {
+      .response-col_links,
+      .response-undocumented {
         color: $neutral-20;
+      }
+
+      .opblock-summary-path__deprecated,
+      .opblock-summary-description,
+      .opblock-description-wrapper,
+      .opblock-description-wrapper p,
+      .opblock-external-docs-wrapper,
+      .external-docs,
+      .parameter__deprecated {
+        color: $neutral-40;
       }
 
       .opblock-external-docs a.link {
@@ -618,6 +644,17 @@ html.dark-mode {
       .property,
       .description {
         color: $neutral-20;
+      }
+
+      .deprecated {
+        td,
+        span {
+          color: $neutral-40;
+        }
+      }
+
+      .external-docs {
+        color: $neutral-40;
       }
 
       .property-row.required .star {
