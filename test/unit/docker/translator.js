@@ -341,5 +341,28 @@ describe("docker: env translator", function() {
       validatorUrl: "http://smartbear.com/",`
       ).trim())
     })
+
+    it("should emit `null` (not the string \"null\") for string-typed env vars set to \"null\"", function () {
+      // Regression test for https://github.com/swagger-api/swagger-ui/issues/5519
+      // Setting `VALIDATOR_URL=null` in Docker is documented as the way to
+      // disable the validator badge. Previously this was emitted as the
+      // string `"null"`, producing a broken link.
+      const input = {
+        VALIDATOR_URL: "null"
+      }
+
+      expect(translator(input)).toEqual(`validatorUrl: null,`)
+    })
+
+    it("should emit `null` for other string-typed env vars set to \"null\"", function () {
+      // The same fix should apply to any string-typed config variable,
+      // not just VALIDATOR_URL. e.g. URL, FILTER, OAUTH2_REDIRECT_URL.
+      const input = {
+        URL: "null",
+        FILTER: "null"
+      }
+
+      expect(translator(input)).toEqual(`url: null,\nfilter: null,`)
+    })
   })
 })
