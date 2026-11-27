@@ -94,3 +94,98 @@
 .scope-def {
   padding: 0 0 20px 0;
 }
+
+// Security requirements display in operation summary
+.opblock-auth-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  // Add left padding to scope display (replaces the auth button's padding)
+  .opblock-security-display:first-child {
+    padding-left: 10px;
+  }
+
+  // Remove left padding from auth button when preceded by scope display
+  .opblock-security-display + .authorization__btn {
+    padding-left: 0;
+  }
+}
+
+.opblock-security-display {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.opblock-security-requirement-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.opblock-security-requirement {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(#61affe, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(#61affe, 0.3);
+}
+
+.opblock-security-optional {
+  background-color: rgba(#73d13d, 0.1);
+  border-color: rgba(#73d13d, 0.3);
+  color: #52c41a;
+  font-style: italic;
+}
+
+.opblock-security-scheme-name {
+  font-weight: 600;
+  color: #1890ff;
+  margin-right: 2px;
+}
+
+.opblock-security-scope-list {
+  display: inline-flex;
+  align-items: center;
+  color: #595959;
+}
+
+.opblock-security-scope {
+  background-color: #f0f0f0;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 11px;
+  margin: 0 2px;
+  color: #333;
+  font-family: monospace;
+}
+
+.opblock-security-operator {
+  color: #8c8c8c;
+  font-weight: 600;
+  padding: 0 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+// Responsive design for mobile
+@media (max-width: 768px) {
+  .opblock-auth-wrapper {
+    display: block;
+    margin-top: 5px;
+  }
+
+  .opblock-security-display {
+    display: block;
+    margin-top: 5px;
+  }
+
+  .opblock-security-requirement-group {
+    display: block;
+    margin-bottom: 4px;
+  }
+}
