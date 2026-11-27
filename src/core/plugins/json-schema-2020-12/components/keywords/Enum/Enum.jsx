@@ -16,6 +16,7 @@ const Enum = ({ schema }) => {
       name="Enum"
       value={schema.enum}
       className="json-schema-2020-12-keyword json-schema-2020-12-keyword--enum"
+      hideArrayIndices={true}
     />
   )
 }
