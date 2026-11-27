@@ -1,0 +1,12 @@
+swagger: "2.0"
+info:
+  title: without-schemes
+  version: 1.0.0
+host: example.com
+paths:
+  /pong:
+    get:
+      operationId: getPong
+      responses:
+        "200":
+          description: OK
